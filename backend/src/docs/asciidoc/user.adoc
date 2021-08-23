@@ -48,6 +48,27 @@ include::{snippets}/user-signup/request-fields.adoc[]
 include::{snippets}/user-signup/http-response.adoc[]
 include::{snippets}/user-signup/response-fields.adoc[]
 
+=== refresh token으로 access token 재발급
+
+`POST /api/user/refreshtoken`
+
+요청 HTTP
+include::{snippets}/user-refresh-token/http-request.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/user-refresh-token/http-response.adoc[]
+include::{snippets}/user-refresh-token/response-fields.adoc[]
+
+=== 로그아웃
+
+`POST /api/user/logout`
+
+요청 HTTP
+include::{snippets}/user-logout/http-request.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/user-logout/http-response.adoc[]
+
 === 내 정보 조회
 
 `GET /api/user/me`

@@ -2,6 +2,7 @@ package com.minibeit.user.web;
 
 import com.minibeit.MvcTest;
 import com.minibeit.security.token.RefreshTokenService;
+import com.minibeit.security.token.Token;
 import com.minibeit.security.token.TokenProvider;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.User;
@@ -17,6 +18,8 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import javax.servlet.http.Cookie;
+import java.time.LocalDateTime;
 import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -25,6 +28,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(UserController.class)
@@ -112,5 +116,42 @@ class UserControllerTest extends MvcTest {
                                 fieldWithPath("age").type(JsonFieldType.NUMBER).description("나이")
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("refresh token 문서화")
+    public void refreshToken() throws Exception {
+        UserResponse.Login response = UserResponse.Login.build(1L, "테스터",
+                Token.builder().token("accessToken").expiredAt(LocalDateTime.now()).build(),
+                Token.builder().token("refreshToken").expiredAt(LocalDateTime.now().plusDays(10)).build());
+
+        Cookie cookie = new Cookie("refresh_token", "refreshToken");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(14 * 24 * 60 * 60);
+
+        given(refreshTokenService.createAccessToken(any())).willReturn(response);
+        given(tokenProvider.isValidToken(any())).willReturn(true);
+
+        ResultActions results = mvc.perform(post("/api/user/refreshtoken").cookie(cookie));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("user-refresh-token",
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("로그인한 유저 식별자"),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("로그인한 유저 이름"),
+                                fieldWithPath("accessToken").type(JsonFieldType.STRING).description("accessToken")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("logout 문서화")
+    public void logout() throws Exception {
+        ResultActions results = mvc.perform(post("/api/user/logout"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("user-logout"));
     }
 }

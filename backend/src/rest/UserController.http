@@ -1,0 +1,9 @@
+POST {{apiUrl}}/user/login
+Content-Type: application/json;charset=UTF-8
+
+{"id": "1"}
+
+> {%
+client.global.set("authorizationToken", "Bearer " + response.body.accessToken);
+client.log("Auth Token : " + client.global.get("authorizationToken"));
+%}

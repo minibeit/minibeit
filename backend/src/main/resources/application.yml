@@ -26,6 +26,11 @@ spring:
             client-secret: 비밀키
             scope: profile, email
 
+kakao:
+  client:
+    id: 클라이언트아이디
+    secret: 비밀키
+
 logging.level:
   org.hibernate.SQL: debug
 

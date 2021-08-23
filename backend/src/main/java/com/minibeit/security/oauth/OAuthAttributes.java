@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Getter
@@ -26,6 +27,9 @@ public class OAuthAttributes {
         if ("google".equals(registrationId)) {
             return ofGoogle(userNameAttributeName, attributes);
         }
+        if ("kakao".equals(registrationId)) {
+            return ofKakao(attributes);
+        }
         throw new IllegalArgumentException("올바르지 않은 소셜 로그인 방법입니다!");
     }
 
@@ -37,6 +41,18 @@ public class OAuthAttributes {
                 .signupProvider(SignupProvider.GOOGLE)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
+                .build();
+    }
+
+    private static OAuthAttributes ofKakao(Map<String, Object> attributes) {
+        Map<String, Object> response = (Map<String, Object>) attributes.get("kakao_account");
+        String nickname = (String) ((LinkedHashMap) response.get("profile")).get("nickname");
+        return OAuthAttributes.builder()
+                .id(String.valueOf(attributes.get("id")))
+                .name(nickname)
+                .signupProvider(SignupProvider.KAKAO)
+                .attributes(attributes)
+                .nameAttributeKey("id")
                 .build();
     }
 

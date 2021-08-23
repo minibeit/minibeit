@@ -20,9 +20,7 @@ public class UserRequest {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Login {
-        private String email;
-
-        private String password;
+        private String id;
     }
 
     @Getter

@@ -19,10 +19,8 @@ public class User extends BaseEntity {
 
     private String oauthId;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
     private String nickname;
 
     private Integer age;

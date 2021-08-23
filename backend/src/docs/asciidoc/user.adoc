@@ -1,0 +1,37 @@
+//= Minibeit API 문서 (User)
+//:doctype: book
+//:icons: font
+//:source-highlighter: highlightjs
+//:toc: left
+//:toclevels: 2
+//:sectlinks:
+//:snippets: ../../../build/generated-snippets
+//
+//= User
+//---
+//== 기본 API
+//
+//=== 카카오 로그인
+//
+//`Redirect /oauth2/authorization/kakao`
+//
+//성공 응답 HTTP
+//
+//[source]
+//----
+//{
+//  "id" : 1,
+//  "name" : "테스터",
+//  "accessToken" : "accessToken"
+//}
+//----
+//
+//[cols=2*]
+//|===
+//|id
+//|소셜 로그인 유저 식별자
+//|name
+//|이름 회원정보를 입력안했다면 null
+//|accessToken
+//|accessToken
+//|===

@@ -3,7 +3,6 @@ package com.minibeit.user.web;
 import com.minibeit.security.token.RefreshTokenService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
-import com.minibeit.user.domain.User;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.UserService;
@@ -13,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,6 +20,15 @@ public class UserController {
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
     private static final String REFRESH_TOKEN = "refresh_token";
+
+    //테스트용
+    @PostMapping("/login")
+    public ResponseEntity<UserResponse.Login> login(@RequestBody UserRequest.Login request, HttpServletResponse response) {
+        UserResponse.Login loginResponse = userService.login(request);
+        createCookie(response, loginResponse.getRefreshToken());
+
+        return ResponseEntity.ok().body(loginResponse);
+    }
 
     @PostMapping("/refreshtoken")
     public ResponseEntity<UserResponse.Login> refreshToken(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {

@@ -1,11 +1,8 @@
 package com.minibeit.user.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minibeit.security.token.Token;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 public class UserResponse {
     @Getter
@@ -26,8 +23,6 @@ public class UserResponse {
         private String accessToken;
         @JsonIgnore
         private String refreshToken;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-        private LocalDateTime accessTokenExpiredAt;
 
         public static Login build(Long id, String name, Token accessToken, Token refreshToken) {
             return Login.builder()
@@ -35,7 +30,6 @@ public class UserResponse {
                     .name(name)
                     .accessToken(accessToken.getToken())
                     .refreshToken(refreshToken.getToken())
-                    .accessTokenExpiredAt(accessToken.getExpiredAt())
                     .build();
         }
     }

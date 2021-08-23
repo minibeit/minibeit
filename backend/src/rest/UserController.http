@@ -1,9 +1,31 @@
 POST {{apiUrl}}/user/login
 Content-Type: application/json;charset=UTF-8
 
-{"id": "1"}
+{
+  "id": "1"
+}
 
 > {%
 client.global.set("authorizationToken", "Bearer " + response.body.accessToken);
 client.log("Auth Token : " + client.global.get("authorizationToken"));
 %}
+
+###
+POST {{apiUrl}}/user/signup
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "name": "테스터 실명",
+  "nickname": "테스터",
+  "gender": "MALE",
+  "phoneNum": "010-1234-1234",
+  "job": "개발자",
+  "age": "20",
+  "schoolIdList": [
+    1,
+    2,
+    3
+  ]
+}
+

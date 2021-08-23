@@ -19,7 +19,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (userRepository.findByOauthId(String.valueOf(1)).isEmpty()) {
-            User user = User.builder().oauthId(String.valueOf(1)).name("테스터").nickname("테스터").phoneNum("010-1234-1234").age(20).provider(SignupProvider.MINIBEIT).role(Role.USER).build();
+            User user = User.builder().oauthId(String.valueOf(1)).provider(SignupProvider.MINIBEIT).role(Role.USER).signupCheck(false).build();
             userRepository.save(user);
         }
     }

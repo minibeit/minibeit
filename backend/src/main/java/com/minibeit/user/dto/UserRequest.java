@@ -1,6 +1,9 @@
 package com.minibeit.user.dto;
 
+import com.minibeit.user.domain.Gender;
 import lombok.*;
+
+import java.util.List;
 
 public class UserRequest {
     @Getter
@@ -9,10 +12,12 @@ public class UserRequest {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Signup {
         private String name;
-
-        private String email;
-
-        private String password;
+        private String nickname;
+        private Gender gender;
+        private String phoneNum;
+        private String job;
+        private Integer age;
+        private List<Long> schoolIdList;
     }
 
     @Getter

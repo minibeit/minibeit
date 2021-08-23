@@ -47,3 +47,14 @@ include::{snippets}/user-signup/request-fields.adoc[]
 성공 응답 HTTP
 include::{snippets}/user-signup/http-response.adoc[]
 include::{snippets}/user-signup/response-fields.adoc[]
+
+=== 내 정보 조회
+
+`GET /api/user/me`
+
+요청 HTTP
+include::{snippets}/user-getMe/http-request.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/user-getMe/http-response.adoc[]
+include::{snippets}/user-getMe/response-fields.adoc[]

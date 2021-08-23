@@ -29,7 +29,6 @@ public class UserService {
     private final SchoolRepository schoolRepository;
     private final UserSchoolRepository userSchoolRepository;
 
-
     //테스트용
     public UserResponse.Login login(UserRequest.Login request) {
         User user = userRepository.findByOauthId(request.getId()).orElseThrow(UserNotFoundException::new);
@@ -45,6 +44,11 @@ public class UserService {
         userSchoolRepository.saveAll(userSchoolList);
         findUser.signup(request);
         return UserResponse.OnlyId.builder().id(findUser.getId()).build();
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse.GetOne getMe(User user) {
+        return UserResponse.GetOne.build(userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new));
     }
 
     public void logout(User user) {

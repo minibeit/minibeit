@@ -1,65 +1,25 @@
-import axios from 'axios';
-import { API_URLS } from '../constants';
+import { API_URLS } from "../constants";
+import { withoutAuthInstance, withAuthInstance } from "./common/Instance";
 
+const { LOGIN, LOGOUT, SIGNUP } = API_URLS;
 
-const { LOGIN,LOGOUT, SIGNUP} = API_URLS;
- 
+export const obtainToken = async (useremail, password) => {
+  const data = {
+    email: useremail,
+    password: password,
+  };
+  return await withoutAuthInstance.post(LOGIN, data);
+};
 
-  export const obtainToken = async (useremail, password) => {
+export const signUpfunc = async (username, useremail, password) => {
+  const data = {
+    name: username,
+    email: useremail,
+    password: password,
+  };
+  return await withoutAuthInstance.post(SIGNUP, data);
+};
 
-    const data= {
-      email: useremail,
-      password: password,
-    }
-    const result = await axios
-    .post(LOGIN,data)
-    .then((res)=>{
-      localStorage.setItem("accessToken", res.data.accessToken);
-      localStorage.setItem("accessTokenExpiredAt", res.data.accessTokenExpiredAt);
-      return res;
-    })
-    .catch((err)=>{
-      return false
-    });
-    return result;
-      };
-      
-
-  export const signUpfunc = async (username, useremail, password) => {
-    const data= {
-      name : username,
-      email: useremail,
-      password: password,
-    }
-  const result = await axios
-  .post(SIGNUP,data )
-  .then((res)=>{
-    return res;
-  })
-  .catch((err)=>{
-    return err
-  });
-  console.log(result)
-  return result;
-  
-  }
-
-  export const logoutFunc = async () => {
-  const accessToken = localStorage.getItem('accessToken');
-  console.log(accessToken)
-  const result = await axios
-  .post(LOGOUT,{}, {
-    headers: {
-        Authorization: `Bearer ${accessToken}`
-    }
-})
-  .then((res)=>{
-    return res;
-  })
-  .catch((err)=>{
-    return err
-  });
-  console.log(result)
-  return result;
-  
-  }
+export const logoutFunc = async () => {
+  return await withAuthInstance.post(LOGOUT).then((res) => res);
+};

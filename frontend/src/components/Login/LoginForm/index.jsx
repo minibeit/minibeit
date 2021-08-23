@@ -18,6 +18,8 @@ export default function LoginForm() {
           isLogin: true,
           name: data.name,
         });
+        localStorage.setItem("accessToken", data.accessToken);
+        localStorage.setItem("accessTokenExpiredAt", data.accessTokenExpiredAt);
         history.push("/");
       }
     } catch (e) {

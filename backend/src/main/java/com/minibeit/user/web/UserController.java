@@ -53,6 +53,13 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<UserResponse.GetOne> getMe(@CurrentUser CustomUserDetails customUserDetails) {
+        UserResponse.GetOne response = userService.getMe(customUserDetails.getUser());
+
+        return ResponseEntity.ok().body(response);
+    }
+
     private void createCookie(HttpServletResponse response, String refreshToken) {
         ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN, refreshToken)
                 .httpOnly(true)

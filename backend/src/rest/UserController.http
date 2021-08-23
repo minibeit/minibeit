@@ -29,3 +29,6 @@ Authorization: {{authorizationToken}}
   ]
 }
 
+###
+GET {{apiUrl}}/user/me
+Authorization: {{authorizationToken}}

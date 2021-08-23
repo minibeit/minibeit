@@ -1,0 +1,23 @@
+= Minibeit API 문서 (School)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:snippets: ../../../build/generated-snippets
+
+= School
+---
+== 기본 API
+
+=== 학교 전체 조회
+
+`GET /api/school/list`
+
+요청 HTTP
+include::{snippets}/school-list/http-request.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/school-list/http-response.adoc[]
+include::{snippets}/school-list/response-fields.adoc[]

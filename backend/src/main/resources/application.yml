@@ -1,0 +1,52 @@
+spring:
+  profiles:
+    group:
+      dev:
+        - dev
+        - aws
+      prod:
+        - prod
+        - aws
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 클라이언트 아이디
+            client-secret: 비밀키
+            scope: profile, email
+
+kakao:
+  client:
+    id: 클라이언트아이디
+    secret: 비밀키
+
+logging.level:
+  org.hibernate.SQL: debug
+
+---
+spring.config.activate.on-profile: dev
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: 'jdbc:mysql://127.0.0.1:3306/minibeit?serverTimezone=Asia/Seoul&charset=UTF-8'
+    username: root
+    password: pass
+
+jwt:
+  access-token-props:
+    secret: 'ZlLHyRf4Ru3CnpVVl6hk9InHkAcHG07x82PufcFR4S4pKnLn0WJgtu4VQERoJauKi2hNIgWCuQF9aFQM7VJGlw=='
+    expiration-time-milli-sec: 3600000
+  refresh-token-props:
+    secret: '3NuzNV3kkmNln/fqxyjqxKDA/1WaaS+V83KYTT8jmX1VpKsMskbqS+xFR3Cv1P9MmskDX3WdHcWka/dgvkGMQg=='
+    expiration-time-milli-sec: 864000000

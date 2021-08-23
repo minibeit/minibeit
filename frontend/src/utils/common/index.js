@@ -1,14 +1,13 @@
 import axios from "axios";
+import { setInterceptors } from "./interceptors";
 
 function withoutAuth() {
   return axios.create({});
 }
 
 function withAuth() {
-  const accessToken = localStorage.getItem("accessToken");
-  return axios.create({
-    headers: { Authorization: `Bearer ${accessToken}` },
-  });
+  const instance = axios.create({});
+  return setInterceptors(instance);
 }
 
 export const withoutAuthInstance = withoutAuth();

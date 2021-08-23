@@ -1,5 +1,5 @@
 import { API_URLS } from "../constants";
-import { withoutAuthInstance, withAuthInstance } from "./common/Instance";
+import { withoutAuthInstance, withAuthInstance } from "./common";
 
 const { LOGIN, LOGOUT, SIGNUP } = API_URLS;
 
@@ -21,5 +21,5 @@ export const signUpfunc = async (username, useremail, password) => {
 };
 
 export const logoutFunc = async () => {
-  return await withAuthInstance.post(LOGOUT).then((res) => res);
+  return await withAuthInstance.post(LOGOUT);
 };

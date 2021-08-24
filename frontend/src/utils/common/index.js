@@ -2,11 +2,15 @@ import axios from "axios";
 import { setInterceptors } from "./interceptors";
 
 function withoutAuth() {
-  return axios.create({});
+  return axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
 }
 
 function withAuth() {
-  const instance = axios.create({});
+  const instance = axios.create({
+    baseURL: process.env.REACT_APP_API_URL,
+  });
   return setInterceptors(instance);
 }
 

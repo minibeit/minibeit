@@ -5,6 +5,7 @@ import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
+import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,17 @@ public class BusinessProfileService {
         return BusinessProfileResponse.IdAndName.build(savedBusinessProfile);
     }
 
+    @Transactional(readOnly = true)
     public List<BusinessProfileResponse.IdAndName> getListIsMine(Long userId) {
         List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(userId);
+
         return businessProfileList.stream().map(BusinessProfileResponse.IdAndName::build).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public BusinessProfileResponse.GetOne getOne(Long businessProfileId) {
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+
+        return BusinessProfileResponse.GetOne.build(businessProfile);
     }
 }

@@ -13,3 +13,7 @@ Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/business/profile/list/2
 Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/business/profile/1
+Authorization: {{authorizationToken}}

@@ -31,4 +31,10 @@ public class BusinessProfileController {
         List<BusinessProfileResponse.IdAndName> response = businessProfileService.getListIsMine(userId);
         return ResponseEntity.ok().body(response);
     }
+
+    @GetMapping("/{businessProfileId}")
+    public ResponseEntity<BusinessProfileResponse.GetOne> getOne(@PathVariable Long businessProfileId) {
+        BusinessProfileResponse.GetOne response = businessProfileService.getOne(businessProfileId);
+        return ResponseEntity.ok().body(response);
+    }
 }

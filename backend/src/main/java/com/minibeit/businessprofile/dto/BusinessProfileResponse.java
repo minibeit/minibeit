@@ -16,4 +16,28 @@ public class BusinessProfileResponse {
             return IdAndName.builder().id(businessProfile.getId()).name(businessProfile.getName()).build();
         }
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetOne {
+        private Long id;
+        private String name;
+        private String category;
+        private String place;
+        private String introduce;
+        private String contact;
+
+        public static BusinessProfileResponse.GetOne build(BusinessProfile businessProfile) {
+            return GetOne.builder()
+                    .id(businessProfile.getId())
+                    .name(businessProfile.getName())
+                    .category(businessProfile.getCategory())
+                    .place(businessProfile.getPlace())
+                    .introduce(businessProfile.getIntroduce())
+                    .contact(businessProfile.getContact())
+                    .build();
+        }
+    }
 }

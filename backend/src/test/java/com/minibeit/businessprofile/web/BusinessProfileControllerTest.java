@@ -2,9 +2,11 @@ package com.minibeit.businessprofile.web;
 
 
 import com.minibeit.MvcTest;
+import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -31,6 +33,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class BusinessProfileControllerTest extends MvcTest {
     @MockBean
     private BusinessProfileService businessProfileService;
+
+    private BusinessProfile businessProfile;
+
+    @BeforeEach
+    public void setup() {
+        businessProfile = BusinessProfile.builder()
+                .id(1L)
+                .name("동그라미 실험실")
+                .category("실험실 분류")
+                .place("고려대")
+                .contact("010-1234-5786")
+                .introduce("고려대 동그라미 실험실 입니다.")
+                .build();
+    }
 
     @Test
     @DisplayName("비즈니스 프로필 생성 문서화")
@@ -82,7 +98,7 @@ class BusinessProfileControllerTest extends MvcTest {
 
         given(businessProfileService.getListIsMine(any())).willReturn(idAndNames);
 
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/list/{userId}",1));
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/list/{userId}", 1));
 
         results.andExpect(status().isOk())
                 .andDo(print())
@@ -93,6 +109,32 @@ class BusinessProfileControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
                                 fieldWithPath("[].name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("비즈니스 프로필 단건 조회 문서화")
+    public void getOne() throws Exception {
+        BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile);
+
+        given(businessProfileService.getOne(any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/{businessProfileId}", 1));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-profile-getOne",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("조회할 비즈니스 프로필 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
+                                fieldWithPath("category").type(JsonFieldType.STRING).description("비즈니스 프로필 분류"),
+                                fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
+                                fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
+                                fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처")
                         )
                 ));
     }

@@ -8,9 +8,9 @@ import { userState } from "../../../recoil/userState";
 export default function LoginForm() {
   const history = useHistory();
   const [loginState, setLoginState] = useRecoilState(userState);
-  const loginHandler = async (useremail, password) => {
+  const loginHandler = async (id) => {
     try {
-      const result = await obtainToken(useremail, password);
+      const result = await obtainToken(id);
       const data = result.data;
       if (data) {
         window.alert("로그인에 성공!");

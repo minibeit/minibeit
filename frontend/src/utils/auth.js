@@ -3,10 +3,9 @@ import { withoutAuthInstance, withAuthInstance } from "./common";
 
 const { LOGIN, LOGOUT, SIGNUP } = API_URLS;
 
-export const obtainToken = async (useremail, password) => {
+export const obtainToken = async (id) => {
   const data = {
-    email: useremail,
-    password: password,
+   id: id,
   };
   return await withoutAuthInstance.post(LOGIN, data);
 };

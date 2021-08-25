@@ -5,6 +5,8 @@ import App from "./App";
 import axios from "axios";
 import dotenv from "dotenv";
 dotenv.config();
+console.log(process.env.REACT_APP_API_URL) // 3000;
+
 
 axios.defaults.withCredentials = true;
 ReactDOM.render(

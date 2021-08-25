@@ -10,17 +10,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
 
-    public BusinessProfileResponse.OnlyId create(BusinessProfileRequest.Create request, User user) {
+    public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(user);
         BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
 
-        return BusinessProfileResponse.OnlyId.builder().id(savedBusinessProfile.getId()).build();
+        return BusinessProfileResponse.IdAndName.build(savedBusinessProfile);
+    }
+
+    public List<BusinessProfileResponse.IdAndName> getListIsMine(Long userId) {
+        List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(userId);
+        return businessProfileList.stream().map(BusinessProfileResponse.IdAndName::build).collect(Collectors.toList());
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +21,14 @@ public class BusinessProfileController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BusinessProfileResponse.OnlyId> create(@RequestBody BusinessProfileRequest.Create request, @CurrentUser CustomUserDetails customUserDetails) {
-        BusinessProfileResponse.OnlyId onlyId = businessProfileService.create(request, customUserDetails.getUser());
-        return ResponseEntity.created(URI.create("/api/business/profile/" + onlyId.getId())).body(onlyId);
+    public ResponseEntity<BusinessProfileResponse.IdAndName> create(@RequestBody BusinessProfileRequest.Create request, @CurrentUser CustomUserDetails customUserDetails) {
+        BusinessProfileResponse.IdAndName response = businessProfileService.create(request, customUserDetails.getUser());
+        return ResponseEntity.created(URI.create("/api/business/profile/" + response.getId())).body(response);
+    }
+
+    @GetMapping("/list/{userId}")
+    public ResponseEntity<List<BusinessProfileResponse.IdAndName>> getListIsMine(@PathVariable Long userId) {
+        List<BusinessProfileResponse.IdAndName> response = businessProfileService.getListIsMine(userId);
+        return ResponseEntity.ok().body(response);
     }
 }

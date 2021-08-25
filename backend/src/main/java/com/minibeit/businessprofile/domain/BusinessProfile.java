@@ -29,7 +29,6 @@ public class BusinessProfile extends BaseEntity {
 
     private String contact;
 
-
     @Builder.Default
     @OneToMany(mappedBy = "businessProfile", cascade = CascadeType.ALL)
     private List<UserBusinessProfile> userBusinessProfileList = new ArrayList<>();

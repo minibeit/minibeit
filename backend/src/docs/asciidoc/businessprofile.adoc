@@ -22,3 +22,15 @@ include::{snippets}/business-profile-create/request-fields.adoc[]
 성공 응답 HTTP
 include::{snippets}/business-profile-create/http-response.adoc[]
 include::{snippets}/business-profile-create/response-fields.adoc[]
+
+=== 자신의 비즈니스 프로필 전체 조회
+
+`GET /api/business/profile/list/{userId}`
+
+요청 HTTP
+include::{snippets}/business-profile-list-mine/http-request.adoc[]
+include::{snippets}/business-profile-list-mine/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-list-mine/http-response.adoc[]
+include::{snippets}/business-profile-list-mine/response-fields.adoc[]

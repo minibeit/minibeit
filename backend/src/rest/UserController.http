@@ -2,7 +2,7 @@ POST {{apiUrl}}/user/login
 Content-Type: application/json;charset=UTF-8
 
 {
-  "id": "1"
+  "id": "2"
 }
 
 > {%
@@ -16,12 +16,12 @@ Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 {
-  "name": "테스터 실명",
-  "nickname": "테스터",
-  "gender": "MALE",
+  "name": "테스터 실명2",
+  "nickname": "테스터2",
+  "gender": "FEMALE",
   "phoneNum": "010-1234-1234",
-  "job": "개발자",
-  "age": "20",
+  "job": "개발자2",
+  "age": "22",
   "schoolIdList": [
     1,
     2,

@@ -9,3 +9,7 @@ Authorization: {{authorizationToken}}
   "contact": "010-1234-1234",
   "introduce": "고려대 실험실 입니다."
 }
+
+###
+GET {{apiUrl}}/business/profile/list/2
+Authorization: {{authorizationToken}}

@@ -1,0 +1,11 @@
+POST {{apiUrl}}/business/profile
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "name": "실험실이름",
+  "category": "실험분야",
+  "place": "고려대학교",
+  "contact": "010-1234-1234",
+  "introduce": "고려대 실험실 입니다."
+}

@@ -1,0 +1,24 @@
+= Minibeit API 문서 (Business Profile)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:snippets: ../../../build/generated-snippets
+
+= Business Profile
+---
+== 기본 API
+
+=== 비즈니스 프로필 생성
+
+`POST /api/business/profile`
+
+요청 HTTP
+include::{snippets}/business-profile-create/http-request.adoc[]
+include::{snippets}/business-profile-create/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-create/http-response.adoc[]
+include::{snippets}/business-profile-create/response-fields.adoc[]

@@ -55,10 +55,10 @@ export default function NavBar() {
             </S.NavBarAuth>
           ) : (
             <S.NavBarAuth>
-              <a href="http://3.36.95.15:8080/oauth2/authorization/kakao">
-                카카오로 로그인
-              </a>
-              <Link to="signup">
+              <Link to="/login">
+                <p>로그인</p>
+              </Link>
+              <Link to="/signup">
                 <p>회원가입</p>
               </Link>
             </S.NavBarAuth>

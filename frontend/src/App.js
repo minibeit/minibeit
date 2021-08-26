@@ -25,7 +25,10 @@ function App() {
         <Switch>
           <Route path="/" exact component={Main} />
           <Route path="/login" component={Login} />
-          <Route path="/:token/:id" component={ProcessLogin} />
+          <Route
+            path="/callback/:id/:name/:token/:didSignup"
+            component={ProcessLogin}
+          />
           <Route path="/ProcessLogin" component={ProcessLogin} />
           <Route path="/signup" component={Signup} />
           <Route path="/signupInfo" component={SignupInfo} />

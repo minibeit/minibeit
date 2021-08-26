@@ -19,19 +19,15 @@
 
 [source]
 ----
-{
-  "id" : 1,
-  "name" : "테스터",
-  "accessToken" : "accessToken"
-}
+http://localhost:3000/callback/userId/nickname/accessToken 으로 redirect
 ----
 
 [cols=2*]
 |===
-|id
-|소셜 로그인 유저 식별자
-|name
-|이름 회원정보를 입력안했다면 null
+|userId
+|유저 식별자
+|nickname
+|닉네임 회원정보를 입력안했다면 null
 |accessToken
 |accessToken
 |===

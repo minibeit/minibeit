@@ -7,9 +7,10 @@ function PLoginForm({ loginHandler }) {
     <S.FormContainer>
       <S.LoginButton
         type="submit"
-        onClick={() => {
+        onClick={async () => {
           const id = "1867487118";
-          loginHandler(id);
+          await loginHandler(id);
+          window.location.replace("/signupInfo");
         }}
       >
         로그인

@@ -15,6 +15,7 @@ import ApplyDetail from './pages/ApplyDetail';
 import Recruit from './pages/Recruit';
 import RecruitEdit from './pages/RecruitEdit';
 import ManageApply from './pages/ManageApply'
+import Callback from './utils/Callback';
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
         <Route path="/recruit" exact component={Recruit} />
         <Route path="/recruit/:postId/edit" exact component={RecruitEdit} />
         <Route path="/manageApply/:postId" component={ManageApply} />
+        <Route path="/callback" component={Callback} />
         </Switch>
       </RecoilRoot>
     </>

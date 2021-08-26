@@ -29,9 +29,24 @@ export default function NavBar() {
       alert(e.response.data.error.msg);
     }
   };
+  const onclick = async (e) => {
+    alert("hi");
+    try {
+      window.location.replace(
+        "http://3.36.95.15:8080/oauth2/authorization/kakao"
+      );
+    } catch (e) {
+      alert(e);
+    }
+
+    alert("hi");
+    console.log(window.location);
+
+    console.log(e);
+  };
   const google = async (e) => {
     window.location.replace(
-      "http://taskagile.site/oauth2/authorization/google"
+      "http://3.36.95.15:8080/api/oauth2/authorization/kakao"
     );
     console.log(e);
   };
@@ -67,9 +82,8 @@ export default function NavBar() {
               <Link to="/login">
                 <p>로그인</p>
               </Link>
-              <a href="http://taskagile.site/oauth2/authorization/google">
-                구글 아이디로 로그인
-              </a>
+              <div onClick={onclick}>카카오아이디로 로그인</div>
+
               <p onClick={google}>구글로 로그인</p>
             </S.NavBarAuth>
           )}

@@ -19,7 +19,7 @@
 
 [source]
 ----
-http://localhost:3000/callback/userId/nickname/accessToken/signupCheck 으로 redirect
+http://localhost:3000/callback/userId/nickname/accessToken/schoolId/signupCheck 으로 redirect
 ----
 
 [cols=2*]
@@ -30,6 +30,8 @@ http://localhost:3000/callback/userId/nickname/accessToken/signupCheck 으로 re
 |닉네임 회원정보를 입력안했다면 null
 |accessToken
 |accessToken
+|schoolId
+|관심학교 default schooId 회원정보를 입력하지 않았다면 null
 |signupCheck
 |회원가입을 한 유저라면 true 안한 유저라면 false
 |===

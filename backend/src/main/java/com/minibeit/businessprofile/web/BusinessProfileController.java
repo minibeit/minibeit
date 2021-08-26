@@ -49,4 +49,10 @@ public class BusinessProfileController {
         businessProfileService.delete(businessProfileId);
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/{businessProfileId}/share")
+    public ResponseEntity<Void> shareBusinessProfile(@PathVariable Long businessProfileId, @RequestBody BusinessProfileRequest.Share request) {
+        businessProfileService.shareBusinessProfile(businessProfileId, request);
+        return ResponseEntity.ok().build();
+    }
 }

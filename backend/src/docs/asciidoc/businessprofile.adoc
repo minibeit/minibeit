@@ -70,3 +70,15 @@ include::{snippets}/business-profile-delete/path-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/business-profile-delete/http-response.adoc[]
+
+=== 비즈니스 프로필 공유하기(초대)
+
+`POST /api/business/profile/{businessProfileId}/share`
+
+요청 HTTP
+include::{snippets}/business-profile-share/http-request.adoc[]
+include::{snippets}/business-profile-share/path-parameters.adoc[]
+include::{snippets}/business-profile-share/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-share/http-response.adoc[]

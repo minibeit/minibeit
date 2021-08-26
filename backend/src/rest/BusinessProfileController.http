@@ -11,7 +11,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-GET {{apiUrl}}/business/profile/list/2
+GET {{apiUrl}}/business/profile/list/1
 Authorization: {{authorizationToken}}
 
 ###
@@ -35,3 +35,12 @@ Authorization: {{authorizationToken}}
 DELETE {{apiUrl}}/business/profile/3
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
+
+###
+POST {{apiUrl}}/business/profile/1/share
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "nickname": "테스터"
+}

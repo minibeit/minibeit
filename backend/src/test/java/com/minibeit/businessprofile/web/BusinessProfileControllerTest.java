@@ -193,4 +193,25 @@ class BusinessProfileControllerTest extends MvcTest {
                         )
                 ));
     }
+
+    @Test
+    @DisplayName("비즈니스 프로필 공유(초대) 문서화")
+    public void shareBusinessProfile() throws Exception {
+        BusinessProfileRequest.Share request = BusinessProfileRequest.Share.builder().nickname("세모").build();
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.post("/api/business/profile/{businessProfileId}/share", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(objectMapper.writeValueAsString(request)));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-profile-share",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
+                        ), requestFields(
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("비즈니스프로필을 공유하려는 유저 닉네임")
+                        )
+                ));
+    }
 }

@@ -14,4 +14,12 @@ public class BusinessProfileRequest {
         private String introduce;
         private String contact;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Share {
+        private String nickname;
+    }
 }

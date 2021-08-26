@@ -1,0 +1,46 @@
+POST {{apiUrl}}/business/profile
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "name": "실험실이름",
+  "category": "실험분야",
+  "place": "고려대학교",
+  "contact": "010-1234-1234",
+  "introduce": "고려대 실험실 입니다."
+}
+
+###
+GET {{apiUrl}}/business/profile/list/1
+Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/business/profile/1
+Authorization: {{authorizationToken}}
+
+###
+PUT {{apiUrl}}/business/profile/3
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "name": "실험실이름수정",
+  "category": "실험분야수정",
+  "place": "고려대학교수정",
+  "contact": "010-1234-5678",
+  "introduce": "고려대 실험실 입니다!!!"
+}
+
+###
+DELETE {{apiUrl}}/business/profile/3
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+###
+POST {{apiUrl}}/business/profile/1/share
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "nickname": "테스터"
+}

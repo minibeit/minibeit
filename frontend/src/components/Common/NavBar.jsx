@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/userState";
 import { logoutFunc } from "../../utils/auth";
@@ -9,7 +9,6 @@ export default function NavBar() {
   const data = useRecoilValue(userState);
   const [loginState, setloginState] = useState(data.isLogin);
   const username = data.name;
-  const history = useHistory();
 
   const logout = async () => {
     try {
@@ -28,27 +27,6 @@ export default function NavBar() {
       console.log(e.response.data.error.msg);
       alert(e.response.data.error.msg);
     }
-  };
-  const onclick = async (e) => {
-    alert("hi");
-    try {
-      window.location.replace(
-        "http://3.36.95.15:8080/oauth2/authorization/kakao"
-      );
-    } catch (e) {
-      alert(e);
-    }
-
-    alert("hi");
-    console.log(window.location);
-
-    console.log(e);
-  };
-  const google = async (e) => {
-    window.location.replace(
-      "http://3.36.95.15:8080/api/oauth2/authorization/kakao"
-    );
-    console.log(e);
   };
   return (
     <S.NavBarContainer>
@@ -76,15 +54,12 @@ export default function NavBar() {
             </S.NavBarAuth>
           ) : (
             <S.NavBarAuth>
-              <Link to="/signup">
-                <p>회원가입</p>
-              </Link>
               <Link to="/login">
                 <p>로그인</p>
               </Link>
-              <div onClick={onclick}>카카오아이디로 로그인</div>
-
-              <p onClick={google}>구글로 로그인</p>
+              <Link to="/signup">
+                <p>회원가입</p>
+              </Link>
             </S.NavBarAuth>
           )}
         </S.NavBarAuth>

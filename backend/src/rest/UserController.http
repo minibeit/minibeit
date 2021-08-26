@@ -21,7 +21,7 @@ Authorization: {{authorizationToken}}
   "gender": "MALE",
   "phoneNum": "010-1234-1234",
   "job": "개발자",
-  "age": "20",
+  "age": "28",
   "schoolIdList": [
     1,
     2,

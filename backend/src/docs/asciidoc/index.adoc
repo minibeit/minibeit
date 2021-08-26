@@ -2,3 +2,4 @@
 
 - link:/docs/user.html[회원가입 및 인증 API]
 - link:/docs/school.html[학교 API]
+- link:/docs/businessprofile.html[비즈니스 프로필 API]

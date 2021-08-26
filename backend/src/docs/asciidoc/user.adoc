@@ -19,7 +19,7 @@
 
 [source]
 ----
-http://localhost:3000/callback/userId/nickname/accessToken 으로 redirect
+http://localhost:3000/callback/userId/nickname/accessToken/signupCheck 으로 redirect
 ----
 
 [cols=2*]
@@ -30,6 +30,8 @@ http://localhost:3000/callback/userId/nickname/accessToken 으로 redirect
 |닉네임 회원정보를 입력안했다면 null
 |accessToken
 |accessToken
+|signupCheck
+|회원가입을 한 유저라면 true 안한 유저라면 false
 |===
 
 === 회원가입

@@ -13,14 +13,17 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Profile("dev")
 public class DataLoader implements CommandLineRunner {
-
     private final UserRepository userRepository;
 
     @Override
     public void run(String... args) {
         if (userRepository.findByOauthId(String.valueOf(1)).isEmpty()) {
-            User user = User.builder().oauthId(String.valueOf(1)).provider(SignupProvider.MINIBEIT).role(Role.USER).signupCheck(false).build();
-            userRepository.save(user);
+            User user1 = User.builder().oauthId(String.valueOf(1)).provider(SignupProvider.MINIBEIT).role(Role.USER).signupCheck(false).build();
+            userRepository.save(user1);
+        }
+        if (userRepository.findByOauthId(String.valueOf(2)).isEmpty()) {
+            User user2 = User.builder().oauthId(String.valueOf(2)).provider(SignupProvider.MINIBEIT).role(Role.USER).signupCheck(false).build();
+            userRepository.save(user2);
         }
     }
 }

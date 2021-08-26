@@ -42,6 +42,7 @@ public class UserService {
         List<School> schoolList = schoolRepository.findAllById(request.getSchoolIdList());
         List<UserSchool> userSchoolList = schoolList.stream().map(UserSchool::create).collect(Collectors.toList());
         userSchoolRepository.saveAll(userSchoolList);
+        //TODO nickname 중복 막는 로직 처리
         findUser.signup(request);
         return UserResponse.OnlyId.builder().id(findUser.getId()).build();
     }

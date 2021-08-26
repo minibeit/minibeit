@@ -21,7 +21,7 @@ public class BusinessProfileController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BusinessProfileResponse.IdAndName> create(@RequestBody BusinessProfileRequest.Create request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<BusinessProfileResponse.IdAndName> create(@RequestBody BusinessProfileRequest.CreateAndUpdate request, @CurrentUser CustomUserDetails customUserDetails) {
         BusinessProfileResponse.IdAndName response = businessProfileService.create(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/business/profile/" + response.getId())).body(response);
     }
@@ -35,6 +35,13 @@ public class BusinessProfileController {
     @GetMapping("/{businessProfileId}")
     public ResponseEntity<BusinessProfileResponse.GetOne> getOne(@PathVariable Long businessProfileId) {
         BusinessProfileResponse.GetOne response = businessProfileService.getOne(businessProfileId);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @PutMapping("/{businessProfileId}")
+    public ResponseEntity<BusinessProfileResponse.IdAndName> update(@PathVariable Long businessProfileId, @RequestBody BusinessProfileRequest.CreateAndUpdate request) {
+        BusinessProfileResponse.IdAndName response = businessProfileService.update(businessProfileId, request);
+        //TODO 기획이 확정되면 수정권한 처리 필요
         return ResponseEntity.ok().body(response);
     }
 }

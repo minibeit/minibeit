@@ -7,7 +7,7 @@ public class BusinessProfileRequest {
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class Create {
+    public static class CreateAndUpdate {
         private String name;
         private String category;
         private String place;

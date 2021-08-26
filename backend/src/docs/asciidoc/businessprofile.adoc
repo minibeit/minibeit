@@ -47,3 +47,16 @@ include::{snippets}/business-profile-list-mine/path-parameters.adoc[]
 include::{snippets}/business-profile-list-mine/http-response.adoc[]
 include::{snippets}/business-profile-list-mine/response-fields.adoc[]
 
+=== 비즈니스 프로필 수정
+
+`PUT /api/business/profile/{businessProfileId}`
+
+요청 HTTP
+include::{snippets}/business-profile-update/http-request.adoc[]
+include::{snippets}/business-profile-update/path-parameters.adoc[]
+include::{snippets}/business-profile-update/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-update/http-response.adoc[]
+include::{snippets}/business-profile-update/response-fields.adoc[]
+

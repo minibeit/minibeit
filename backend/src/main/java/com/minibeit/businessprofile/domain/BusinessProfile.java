@@ -38,7 +38,15 @@ public class BusinessProfile extends BaseEntity {
         userBusinessProfile.setBusinessProfile(this);
     }
 
-    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile) {
+    public void update(BusinessProfileRequest.CreateAndUpdate createAndUpdateRequest) {
+        this.name = createAndUpdateRequest.getName();
+        this.category = createAndUpdateRequest.getCategory();
+        this.place = createAndUpdateRequest.getPlace();
+        this.contact = createAndUpdateRequest.getContact();
+        this.introduce = createAndUpdateRequest.getIntroduce();
+    }
+
+    public static BusinessProfile create(BusinessProfileRequest.CreateAndUpdate request, UserBusinessProfile userBusinessProfile) {
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(request.getName())
                 .category(request.getCategory())

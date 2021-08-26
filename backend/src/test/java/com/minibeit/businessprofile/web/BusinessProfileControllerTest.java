@@ -51,7 +51,7 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 생성 문서화")
     public void create() throws Exception {
-        BusinessProfileRequest.Create request = BusinessProfileRequest.Create.builder()
+        BusinessProfileRequest.CreateAndUpdate request = BusinessProfileRequest.CreateAndUpdate.builder()
                 .name("실험실 이름")
                 .category("개발")
                 .place("고려대")
@@ -135,6 +135,47 @@ class BusinessProfileControllerTest extends MvcTest {
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
                                 fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("비즈니스 프로필 수정 문서화")
+    public void update() throws Exception {
+        BusinessProfileRequest.CreateAndUpdate request = BusinessProfileRequest.CreateAndUpdate.builder()
+                .name("수정된 실험실 이름")
+                .category("수정된 실험실 분야")
+                .place("고려대")
+                .contact("010-1234-7890")
+                .introduce("고려대 실험실 입니다!")
+                .build();
+        BusinessProfileResponse.IdAndName response = BusinessProfileResponse.IdAndName.builder().id(1L).name("수정된 실험실 이름").build();
+
+        given(businessProfileService.update(any(), any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.
+                put("/api/business/profile/{businessProfileId}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-profile-update",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("수정할 비즈니스 프로필 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
+                                fieldWithPath("category").type(JsonFieldType.STRING).description("분야"),
+                                fieldWithPath("place").type(JsonFieldType.STRING).description("장소"),
+                                fieldWithPath("contact").type(JsonFieldType.STRING).description("연락처"),
+                                fieldWithPath("introduce").type(JsonFieldType.STRING).description("소개")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("수정된 비즈니스 프로필 식별자"),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("수정된 비즈니스 프로필 이름")
                         )
                 ));
     }

@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
 
-    public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
+    public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.CreateAndUpdate request, User user) {
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(user);
         BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
@@ -40,5 +40,11 @@ public class BusinessProfileService {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
         return BusinessProfileResponse.GetOne.build(businessProfile);
+    }
+
+    public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.CreateAndUpdate request) {
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+        businessProfile.update(request);
+        return BusinessProfileResponse.IdAndName.build(businessProfile);
     }
 }

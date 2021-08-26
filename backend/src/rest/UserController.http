@@ -17,7 +17,8 @@ Authorization: {{authorizationToken}}
 
 {
   "name": "테스터 실명",
-  "nickname": "테스터",
+  "nickname": "테스터532",
+  "nicknameChanged": true,
   "gender": "MALE",
   "phoneNum": "010-1234-1234",
   "job": "개발자",

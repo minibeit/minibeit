@@ -36,7 +36,7 @@ http://localhost:3000/callback/userId/nickname/accessToken/schoolId/signupCheck 
 |회원가입을 한 유저라면 true 안한 유저라면 false
 |===
 
-=== 회원가입
+=== 회원가입(회원 정보 입력)
 
 `POST /api/user/signup`
 

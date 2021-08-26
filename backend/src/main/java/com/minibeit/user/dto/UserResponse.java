@@ -10,8 +10,18 @@ public class UserResponse {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class OnlyId {
+    public static class Create {
         private Long id;
+        private String nickname;
+        private Long schoolId;
+
+        public static UserResponse.Create build(User user, Long schoolId) {
+            return Create.builder()
+                    .id(user.getId())
+                    .nickname(user.getNickname())
+                    .schoolId(schoolId)
+                    .build();
+        }
     }
 
     @Getter
@@ -48,7 +58,7 @@ public class UserResponse {
         private String job;
         private String phoneNum;
 
-        public static UserResponse.GetOne build(User user){
+        public static UserResponse.GetOne build(User user) {
             return GetOne.builder()
                     .id(user.getId())
                     .name(user.getName())

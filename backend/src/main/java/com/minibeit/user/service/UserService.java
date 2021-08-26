@@ -11,6 +11,7 @@ import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.domain.repository.UserSchoolRepository;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
+import com.minibeit.user.service.exception.DuplicateNickNameException;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,14 +38,17 @@ public class UserService {
         return UserResponse.Login.build(user.getId(), user.getName(), tokenProvider.generateAccessToken(user), refreshToken);
     }
 
-    public UserResponse.OnlyId signup(UserRequest.Signup request, User user) {
+    public UserResponse.Create signup(UserRequest.Signup request, User user) {
+        if (request.isNicknameChanged() && userRepository.findByNickname(request.getNickname()).isPresent()) {
+            throw new DuplicateNickNameException();
+        }
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         List<School> schoolList = schoolRepository.findAllById(request.getSchoolIdList());
         List<UserSchool> userSchoolList = schoolList.stream().map(UserSchool::create).collect(Collectors.toList());
         userSchoolRepository.saveAll(userSchoolList);
-        //TODO nickname 중복 막는 로직 처리
-        findUser.signup(request);
-        return UserResponse.OnlyId.builder().id(findUser.getId()).build();
+
+        User updatedUser = findUser.signup(request);
+        return UserResponse.Create.build(updatedUser, schoolList.get(0).getId());
     }
 
     @Transactional(readOnly = true)

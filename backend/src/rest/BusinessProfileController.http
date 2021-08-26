@@ -30,3 +30,8 @@ Authorization: {{authorizationToken}}
   "contact": "010-1234-5678",
   "introduce": "고려대 실험실 입니다!!!"
 }
+
+###
+DELETE {{apiUrl}}/business/profile/3
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}

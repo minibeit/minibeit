@@ -44,7 +44,13 @@ public class BusinessProfileService {
 
     public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.CreateAndUpdate request) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+        //TODO 기획이 확정되면 수정권한 처리 필요
         businessProfile.update(request);
         return BusinessProfileResponse.IdAndName.build(businessProfile);
+    }
+
+    public void delete(Long businessProfileId) {
+        //TODO 기획이 확정되면 삭제권한 처리 필요
+        businessProfileRepository.deleteById(businessProfileId);
     }
 }

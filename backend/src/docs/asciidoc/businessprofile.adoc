@@ -60,3 +60,13 @@ include::{snippets}/business-profile-update/request-fields.adoc[]
 include::{snippets}/business-profile-update/http-response.adoc[]
 include::{snippets}/business-profile-update/response-fields.adoc[]
 
+=== 비즈니스 프로필 삭제
+
+`DELETE /api/business/profile/{businessProfileId}`
+
+요청 HTTP
+include::{snippets}/business-profile-delete/http-request.adoc[]
+include::{snippets}/business-profile-delete/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-delete/http-response.adoc[]

@@ -179,4 +179,18 @@ class BusinessProfileControllerTest extends MvcTest {
                         )
                 ));
     }
+
+    @Test
+    @DisplayName("비즈니스 프로필 삭제 문서화")
+    public void delete() throws Exception {
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.delete("/api/business/profile/{businessProfileId}", 1));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-profile-delete",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("삭제할 비즈니스 프로필 식별자")
+                        )
+                ));
+    }
 }

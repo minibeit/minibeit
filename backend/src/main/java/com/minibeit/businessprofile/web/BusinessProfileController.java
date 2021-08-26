@@ -41,7 +41,12 @@ public class BusinessProfileController {
     @PutMapping("/{businessProfileId}")
     public ResponseEntity<BusinessProfileResponse.IdAndName> update(@PathVariable Long businessProfileId, @RequestBody BusinessProfileRequest.CreateAndUpdate request) {
         BusinessProfileResponse.IdAndName response = businessProfileService.update(businessProfileId, request);
-        //TODO 기획이 확정되면 수정권한 처리 필요
         return ResponseEntity.ok().body(response);
+    }
+
+    @DeleteMapping("/{businessProfileId}")
+    public ResponseEntity<Void> delete(@PathVariable Long businessProfileId) {
+        businessProfileService.delete(businessProfileId);
+        return ResponseEntity.ok().build();
     }
 }

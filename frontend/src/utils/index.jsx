@@ -5,4 +5,4 @@ export {
   feedEditApi,
   feedlistApi,
 } from "./feedApi";
-export { obtainToken, signUpfunc, logoutFunc } from "./auth";
+export { obtainToken, signupInfoApi, logoutFunc } from "./auth";

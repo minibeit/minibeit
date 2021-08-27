@@ -26,7 +26,7 @@ function App() {
           <Route path="/" exact component={Main} />
           <Route path="/login" component={Login} />
           <Route
-            path="/callback/:id/:name/:token/:didSignup"
+            path="/callback/:id/:nickname/:accessToken/:schoolId/:signupCheck"
             component={ProcessLogin}
           />
           <Route path="/ProcessLogin" component={ProcessLogin} />

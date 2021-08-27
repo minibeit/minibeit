@@ -1,5 +1,8 @@
+import { API_URLS } from "../constants";
 import { withAuthInstance } from "./common";
 
+const {GET_SCHOOL} = API_URLS
+
 export const schoolGetApi = async () => {
-  return await withAuthInstance().get("http://3.36.95.15:8080/api/school/list");
+  return await withAuthInstance.get(GET_SCHOOL);
 };

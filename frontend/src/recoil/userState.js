@@ -8,6 +8,7 @@ export const userState = atom({
     name: null,
     id: null,
     didSignup: false,
+    schoolId:null,
   },
   effects_UNSTABLE: [persistAtom],
 });

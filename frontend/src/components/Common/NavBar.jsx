@@ -24,8 +24,7 @@ export default function NavBar() {
         });
       }
     } catch (e) {
-      console.log(e.response.data.error.msg);
-      alert(e.response.data.error.msg);
+      //error
     }
   };
   return (

@@ -5,7 +5,7 @@ const { LOGIN, LOGOUT, SIGNUP } = API_URLS;
 
 export const obtainToken = async (id) => {
   const data = {
-   id: id,
+    id: id,
   };
   return await withoutAuthInstance.post(LOGIN, data);
 };
@@ -15,12 +15,11 @@ export const signupInfoApi = async (inputs) => {
     name: inputs.name,
     nickname: inputs.nickname,
     gender: inputs.gender,
-    phoneNum : inputs.phoneNum,
-    job : inputs.job,
-    age: inputs.age,
-    schoolIdList : [ inputs.schoolId ],
+    phoneNum: inputs.phoneNum,
+    job: inputs.job,
+    age: parseInt(inputs.age),
+    schoolIdList: parseInt(inputs.schoolId),
   };
-  console.log(data);
   return await withAuthInstance.post(SIGNUP, data);
 };
 

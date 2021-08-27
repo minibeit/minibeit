@@ -41,7 +41,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private Role role;
 
-    public void signup(UserRequest.Signup request) {
+    public User signup(UserRequest.Signup request) {
         this.name = request.getName();
         this.nickname = request.getNickname();
         this.age = request.getAge();
@@ -49,5 +49,6 @@ public class User extends BaseEntity {
         this.job = request.getJob();
         this.phoneNum = request.getPhoneNum();
         this.signupCheck = true;
+        return this;
     }
 }

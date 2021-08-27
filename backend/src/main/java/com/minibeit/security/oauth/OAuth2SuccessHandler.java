@@ -4,7 +4,9 @@ import com.minibeit.security.token.RefreshTokenService;
 import com.minibeit.security.token.Token;
 import com.minibeit.security.token.TokenProvider;
 import com.minibeit.user.domain.User;
+import com.minibeit.user.domain.UserSchool;
 import com.minibeit.user.domain.repository.UserRepository;
+import com.minibeit.user.domain.repository.UserSchoolRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.IOException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @Component
 @Transactional
@@ -26,6 +31,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final TokenProvider tokenProvider;
     private final UserRepository userRepository;
     private final RefreshTokenService refreshTokenService;
+    private final UserSchoolRepository userSchoolRepository;
     @Value("${oauth2.success.redirect.url}")
     private String url;
 
@@ -39,7 +45,18 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             oAuthId = String.valueOf(oauth2User.getAttributes().get("id"));
         }
         User user = userRepository.findByOauthId(oAuthId).orElseThrow(UserNotFoundException::new);
-
+        //관심있는 학교 하나 default로 주기
+        List<UserSchool> userSchoolList = userSchoolRepository.findAllByCreatedBy(user);
+        Long schoolId = null;
+        if (!userSchoolList.isEmpty()) {
+            UserSchool userSchool = userSchoolList.get(0);
+            schoolId = userSchool.getSchool().getId();
+        }
+        //redirect url 한글깨짐 방지
+        String nickname = user.getNickname();
+        if (nickname != null) {
+            nickname = URLEncoder.encode(nickname, StandardCharsets.UTF_8);
+        }
         Token token = tokenProvider.generateAccessToken(user);
         Token refreshToken = refreshTokenService.createOrUpdateRefreshToken(user);
 
@@ -48,8 +65,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .path("/")
                 .maxAge(14 * 24 * 60 * 60)
                 .build();
-
         response.addHeader("Set-Cookie", cookie.toString());
-        response.sendRedirect(url + user.getId() + "/" + user.getNickname() + "/" + token.getToken() + "/" + user.isSignupCheck());
+        response.sendRedirect(url + user.getId() + "/" + nickname + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck());
     }
 }

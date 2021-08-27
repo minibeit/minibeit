@@ -36,8 +36,10 @@ export default function SignupForm() {
       if (data) {
         window.alert("회원가입에 성공!");
         setLoginState({
-          isLogin: true,
-          name: data.name,
+          ...loginState,
+          didSignup: true,
+          name: data.nickname,
+          schoolId: data.schoolId,
         });
         localStorage.setItem("userId", data.id);
         history.push("/");

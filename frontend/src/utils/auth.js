@@ -18,9 +18,10 @@ export const signupInfoApi = async (inputs) => {
     phoneNum : inputs.phoneNum,
     job : inputs.job,
     age: inputs.age,
-    schoolId : [ inputs.schoolId ],
+    schoolIdList : [ inputs.schoolId ],
   };
-  return await withoutAuthInstance.post(SIGNUP, data);
+  console.log(data);
+  return await withAuthInstance.post(SIGNUP, data);
 };
 
 export const logoutFunc = async () => {

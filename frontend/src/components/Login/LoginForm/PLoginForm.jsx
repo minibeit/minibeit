@@ -1,7 +1,7 @@
 import React from "react";
 import * as S from "../style";
 
-function PLoginForm({ loginHandler }) {
+function PLoginForm() {
   const kakaoLogin = () => {
     window.location.replace(
       `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`

@@ -3,17 +3,20 @@ import { Redirect } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../../recoil/userState";
 
-export default function ProcessLogin({ match }) {
-  localStorage.setItem("accessToken", match.params.token);
+function ProcessLogin({ match }) {
+  console.log("hehe");
+  localStorage.setItem("accessToken", match.params.accessToken);
   const [user, setUser] = useRecoilState(userState);
   useEffect(() => {
     setUser({
       isLogin: true,
       id: parseInt(match.params.id),
-      name: match.params.name,
-      didSignup: JSON.parse(match.params.didSignup),
+      name: match.params.nickname,
+      didSignup: match.params.signupCheck === "true",
+      schoolId: parseInt(match.params.schoolId),
     });
   }, []);
+  console.log(user);
   return (
     <>
       {user.didSignup === "true" ? (
@@ -24,3 +27,4 @@ export default function ProcessLogin({ match }) {
     </>
   );
 }
+export default ProcessLogin;

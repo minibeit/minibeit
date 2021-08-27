@@ -20,7 +20,6 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import javax.servlet.http.Cookie;
 import java.time.LocalDateTime;
-import java.util.Collections;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -61,12 +60,11 @@ class UserControllerTest extends MvcTest {
         UserRequest.Signup request = UserRequest.Signup.builder()
                 .name("test@test.com")
                 .nickname("테스터")
-                .nicknameChanged(true)
                 .gender(Gender.MALE)
                 .phoneNum("010-1234-7890")
                 .job("개발자")
                 .age(28)
-                .schoolIdList(Collections.singletonList(1L))
+                .schoolId(1L)
                 .build();
         UserResponse.Create response = UserResponse.Create.builder().id(1L).nickname("동그라미").schoolId(1L).build();
 
@@ -84,12 +82,11 @@ class UserControllerTest extends MvcTest {
                         requestFields(
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("실명"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
-                                fieldWithPath("nicknameChanged").type(JsonFieldType.BOOLEAN).description("기존 닉네임과 다르다면 true, 닉네임이 수정되지 않았다면 false"),
                                 fieldWithPath("gender").type(JsonFieldType.STRING).description("성별(MALE or FEMALE)"),
                                 fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
                                 fieldWithPath("job").type(JsonFieldType.STRING).description("직업"),
                                 fieldWithPath("age").type(JsonFieldType.NUMBER).description("나이"),
-                                fieldWithPath("schoolIdList").type(JsonFieldType.ARRAY).description("관심있는 학교 식별자 배열")
+                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심있는 학교 식별자")
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원가입한 유저 식별자"),

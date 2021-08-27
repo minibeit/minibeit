@@ -3,8 +3,6 @@ package com.minibeit.user.dto;
 import com.minibeit.user.domain.Gender;
 import lombok.*;
 
-import java.util.List;
-
 public class UserRequest {
     @Getter
     @Builder
@@ -13,12 +11,11 @@ public class UserRequest {
     public static class Signup {
         private String name;
         private String nickname;
-        private boolean nicknameChanged;
         private Gender gender;
         private String phoneNum;
         private String job;
         private Integer age;
-        private List<Long> schoolIdList;
+        private Long schoolId;
     }
 
     @Getter

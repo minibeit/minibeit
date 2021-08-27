@@ -1,6 +1,7 @@
 package com.minibeit.user.domain;
 
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.school.domain.School;
 import com.minibeit.user.dto.UserRequest;
 import lombok.*;
 
@@ -41,7 +42,11 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private Role role;
 
-    public User signup(UserRequest.Signup request) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "school_id")
+    private School school;
+
+    public User signup(UserRequest.Signup request, School school) {
         this.name = request.getName();
         this.nickname = request.getNickname();
         this.age = request.getAge();
@@ -49,6 +54,7 @@ public class User extends BaseEntity {
         this.job = request.getJob();
         this.phoneNum = request.getPhoneNum();
         this.signupCheck = true;
+        this.school = school;
         return this;
     }
 }

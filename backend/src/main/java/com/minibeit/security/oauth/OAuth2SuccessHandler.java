@@ -1,12 +1,11 @@
 package com.minibeit.security.oauth;
 
+import com.minibeit.school.domain.School;
 import com.minibeit.security.token.RefreshTokenService;
 import com.minibeit.security.token.Token;
 import com.minibeit.security.token.TokenProvider;
 import com.minibeit.user.domain.User;
-import com.minibeit.user.domain.UserSchool;
 import com.minibeit.user.domain.repository.UserRepository;
-import com.minibeit.user.domain.repository.UserSchoolRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,7 +21,6 @@ import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 @Component
 @Transactional
@@ -31,7 +29,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final TokenProvider tokenProvider;
     private final UserRepository userRepository;
     private final RefreshTokenService refreshTokenService;
-    private final UserSchoolRepository userSchoolRepository;
     @Value("${oauth2.success.redirect.url}")
     private String url;
 
@@ -46,11 +43,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         }
         User user = userRepository.findByOauthId(oAuthId).orElseThrow(UserNotFoundException::new);
         //관심있는 학교 하나 default로 주기
-        List<UserSchool> userSchoolList = userSchoolRepository.findAllByCreatedBy(user);
         Long schoolId = null;
-        if (!userSchoolList.isEmpty()) {
-            UserSchool userSchool = userSchoolList.get(0);
-            schoolId = userSchool.getSchool().getId();
+        School school = user.getSchool();
+        if (school != null) {
+            schoolId = school.getId();
         }
         //redirect url 한글깨짐 방지
         String nickname = user.getNickname();

@@ -9,5 +9,6 @@ const API_URLS = {
   TOKEN_OBTAIN: "/account/token/obtain/",
   TOKEN_BLACKLIST: "/account/token/blacklist/",
   FEED_NEW: "/api/board",
+  GET_SCHOOL : '/api/school/list',
 };
 export default API_URLS;

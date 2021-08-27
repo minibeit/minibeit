@@ -10,13 +10,18 @@ export const obtainToken = async (id) => {
   return await withoutAuthInstance.post(LOGIN, data);
 };
 
-export const signUpfunc = async (username, useremail, password) => {
+export const signupInfoApi = async (inputs) => {
   const data = {
-    name: username,
-    email: useremail,
-    password: password,
+    name: inputs.name,
+    nickname: inputs.nickname,
+    gender: inputs.gender,
+    phoneNum : inputs.phoneNum,
+    job : inputs.job,
+    age: inputs.age,
+    schoolIdList : [ inputs.schoolId ],
   };
-  return await withoutAuthInstance.post(SIGNUP, data);
+  console.log(data);
+  return await withAuthInstance.post(SIGNUP, data);
 };
 
 export const logoutFunc = async () => {

@@ -28,7 +28,6 @@ export default function NavBar() {
       alert(e.response.data.error.msg);
     }
   };
-
   return (
     <S.NavBarContainer>
       <S.NavBarLogoContainer>

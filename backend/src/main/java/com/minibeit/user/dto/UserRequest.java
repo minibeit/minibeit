@@ -13,6 +13,7 @@ public class UserRequest {
     public static class Signup {
         private String name;
         private String nickname;
+        private boolean nicknameChanged;
         private Gender gender;
         private String phoneNum;
         private String job;

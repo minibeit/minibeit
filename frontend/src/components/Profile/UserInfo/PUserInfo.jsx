@@ -1,8 +1,19 @@
 import React from "react";
 import * as S from "../style";
+import PropTypes from "prop-types";
 
-export default function PUserInfo(props) {
-  const { userData } = props;
+PUserInfo.propTypes = {
+  userData: PropTypes.shape({
+    name: PropTypes.string,
+    nickname: PropTypes.string,
+    gender: PropTypes.string,
+    age: PropTypes.number,
+    job: PropTypes.string,
+    phoneNum: PropTypes.string,
+  }),
+};
+
+export default function PUserInfo({ userData }) {
   return (
     <S.UserInfoContainer>
       <S.UserName>이름 : {userData.name}</S.UserName>

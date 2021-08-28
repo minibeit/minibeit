@@ -1,11 +1,15 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { bprofileNew } from "../../utils";
+import PropTypes from "prop-types";
 
 import * as S from "./style";
 
-function BProfileNewModal(props) {
-  const { closeModal } = props;
+BProfileNewModal.propTypes = {
+  closeModal: PropTypes.func.isRequired,
+};
+
+function BProfileNewModal({ closeModal }) {
   const [inputs, setInputs] = useState({
     name: "",
     category: "",

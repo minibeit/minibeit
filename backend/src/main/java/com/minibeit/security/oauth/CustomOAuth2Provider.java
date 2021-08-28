@@ -9,7 +9,6 @@ public enum CustomOAuth2Provider {
         @Override
         public ClientRegistration.Builder getBuilder() {
             return getBuilder("kakao", ClientAuthenticationMethod.POST)
-                    .scope("profile_nickname")
                     .authorizationUri("https://kauth.kakao.com/oauth/authorize")
                     .tokenUri("https://kauth.kakao.com/oauth/token")
                     .userInfoUri("https://kapi.kakao.com/v2/user/me")

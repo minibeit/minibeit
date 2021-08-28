@@ -12,6 +12,7 @@ CREATE TABLE `user`
     `phone_num`    VARCHAR(50),
     `signup_check` TINYINT(1)   NOT NULL,
     `role`         VARCHAR(50)  NOT NULL,
+    `school_id`    BIGINT,
     `created_at`   DATETIME     NOT NULL,
     `updated_at`   DATETIME DEFAULT NULL,
     `deleted_at`   DATETIME DEFAULT NULL,

@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Getter
@@ -18,9 +17,7 @@ import java.util.Map;
 public class OAuthAttributes {
     private Map<String, Object> attributes;
     private String nameAttributeKey;
-    private String id;
-    private String name;
-    private String email;
+    private String oauthId;
     private SignupProvider signupProvider;
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
@@ -35,9 +32,7 @@ public class OAuthAttributes {
 
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
-                .id((String) attributes.get(userNameAttributeName))
-                .name((String) attributes.get("name"))
-                .email((String) attributes.get("email"))
+                .oauthId((String) attributes.get(userNameAttributeName))
                 .signupProvider(SignupProvider.GOOGLE)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
@@ -45,11 +40,8 @@ public class OAuthAttributes {
     }
 
     private static OAuthAttributes ofKakao(Map<String, Object> attributes) {
-        Map<String, Object> response = (Map<String, Object>) attributes.get("kakao_account");
-        String nickname = (String) ((LinkedHashMap) response.get("profile")).get("nickname");
         return OAuthAttributes.builder()
-                .id(String.valueOf(attributes.get("id")))
-                .name(nickname)
+                .oauthId(String.valueOf(attributes.get("id")))
                 .signupProvider(SignupProvider.KAKAO)
                 .attributes(attributes)
                 .nameAttributeKey("id")
@@ -58,7 +50,7 @@ public class OAuthAttributes {
 
     public User toEntity() {
         return User.builder()
-                .oauthId(id)
+                .oauthId(oauthId)
                 .role(Role.USER)
                 .provider(signupProvider)
                 .build();

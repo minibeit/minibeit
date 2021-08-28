@@ -4,7 +4,6 @@ import { userState } from "../../../recoil/userState";
 import * as S from "../style";
 
 function PFNContainer({ schoolList, FNHandler }) {
-  console.log(schoolList);
   const author = useRecoilValue(userState).name;
   const [inputs, setInputs] = useState({
     title: "",

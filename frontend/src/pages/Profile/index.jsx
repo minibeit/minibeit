@@ -1,13 +1,14 @@
 import React from "react";
 
 import NavBar from "../../components/Common/NavBar";
-import UserInfo from "../../components/Profile/UserInfo";
+import { BProfileSection, UserInfo } from "../../components/Profile";
 
 export default function Profile() {
   return (
     <>
       <NavBar />
       <UserInfo />
+      <BProfileSection />
     </>
   );
 }

@@ -14,7 +14,7 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
   const { name, nickname, phoneNum, job, age } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
-    console.log(name, value);
+
     setInputs({
       ...inputs,
       [name]: value,

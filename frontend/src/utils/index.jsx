@@ -5,4 +5,5 @@ export {
   feedEditApi,
   feedlistApi,
 } from "./feedApi";
-export { obtainToken, signupInfoApi, logoutFunc } from "./auth";
+export { signupInfoApi, logoutFunc } from "./auth";
+export { bprofileNew, bprofileListGet } from "./bprofileApi";

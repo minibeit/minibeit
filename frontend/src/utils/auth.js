@@ -1,14 +1,7 @@
 import { API_URLS } from "../constants";
-import { withoutAuthInstance, withAuthInstance } from "./common";
+import {withAuthInstance } from "./common";
 
-const { LOGIN, LOGOUT, SIGNUP } = API_URLS;
-
-export const obtainToken = async (id) => {
-  const data = {
-    id: id,
-  };
-  return await withoutAuthInstance.post(LOGIN, data);
-};
+const { LOGOUT, SIGNUP } = API_URLS;
 
 export const signupInfoApi = async (inputs) => {
   const data = {
@@ -20,7 +13,6 @@ export const signupInfoApi = async (inputs) => {
     age: parseInt(inputs.age),
     schoolId: parseInt(inputs.schoolId),
   };
-  console.log(data);
   return await withAuthInstance.post(SIGNUP, data);
 };
 

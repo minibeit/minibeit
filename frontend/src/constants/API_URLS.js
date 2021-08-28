@@ -10,5 +10,7 @@ const API_URLS = {
   TOKEN_BLACKLIST: "/account/token/blacklist/",
   FEED_NEW: "/api/board",
   GET_SCHOOL: "/api/school/list",
+  BPROFILE_NEW: "/api/business/profile",
+  BPROFILELIST: '/api/business/profile/list/',
 };
 export default API_URLS;

@@ -1,7 +1,7 @@
 import { withAuthInstance } from "./common";
 import { API_URLS } from "../constants";
 
-const { BPROFILE_NEW,BPROFILELIST } = API_URLS;
+const { BPROFILE_NEW,BPROFILELIST,BPROFILE_GET ,BPROFILE_DELETE} = API_URLS;
 
 // getuserinfo 완료되면 api주소 입력 후 사용
 export const bprofileNew= async (inputs) => {
@@ -16,4 +16,11 @@ export const bprofileNew= async (inputs) => {
 };
 export const bprofileListGet= async (UserId) => {
 return await withAuthInstance.get(BPROFILELIST+UserId);
+};
+
+export const getBprofileInfo = async (businessId) => {
+  return await withAuthInstance.get(BPROFILE_GET+businessId);
+};
+export const deleteBprofile = async (businessId) => {
+  return await withAuthInstance.delete(BPROFILE_DELETE+businessId);
 };

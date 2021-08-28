@@ -39,6 +39,7 @@ public class OAuth2Config {
             return CommonOAuth2Provider.GOOGLE.getBuilder(client)
                     .clientId(registration.getClientId())
                     .clientSecret(registration.getClientSecret())
+                    .scope("email", "profile")
                     .build();
         }
         return null;

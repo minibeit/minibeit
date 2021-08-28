@@ -3,24 +3,11 @@ import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { bprofileListGet } from "../../../utils";
-import BProfileNew from "../BProfileNew";
+import BProfileNewModal from "../BProfileNewModal";
 import * as S from "../style";
 
 export default function PBProfileSection() {
-  const [bprofiles, setbprofiles] = useState([
-    {
-      id: 1,
-      name: "동그라미 실험실",
-    },
-    {
-      id: 2,
-      name: "세모 실험실",
-    },
-    {
-      id: 3,
-      name: "네모 실험실",
-    },
-  ]);
+  const [bprofiles, setbprofiles] = useState([]);
   const [isShowing, setIsShowing] = useState(false);
   const UserId = useRecoilValue(userState).id;
   const openModal = () => {
@@ -63,7 +50,7 @@ export default function PBProfileSection() {
           <div>{bprofile.name}</div>
         </Link>
       ))}
-      <div>{isShowing && <BProfileNew closeModal={closeModal} />}</div>
+      <div>{isShowing && <BProfileNewModal closeModal={closeModal} />}</div>
     </S.BPContainer>
   );
 }

@@ -4,7 +4,7 @@ import { bprofileNew } from "../../utils";
 
 import * as S from "./style";
 
-function BProfileNew(props) {
+function BProfileNewModal(props) {
   const { closeModal } = props;
   const [inputs, setInputs] = useState({
     name: "",
@@ -87,4 +87,4 @@ function BProfileNew(props) {
   );
 }
 
-export default BProfileNew;
+export default BProfileNewModal;

@@ -6,7 +6,7 @@ import * as S from "./style";
 import { schoolGetApi } from "../../utils/schoolApi";
 
 function SchoolModal(props) {
-  const { message, closeModal } = props;
+  const { closeModal } = props;
   const [search, setSearch] = useState(null);
   const [school, setSchool] = useRecoilState(filterState);
   const [schoollist, setSchoolList] = useState([]);

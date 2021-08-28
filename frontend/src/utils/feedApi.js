@@ -1,4 +1,4 @@
-import axios from "axios";
+
 import { API_URLS } from "../constants";
 import { withAuthInstance } from "./common";
 

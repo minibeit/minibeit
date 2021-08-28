@@ -12,5 +12,7 @@ const API_URLS = {
   GET_SCHOOL: "/api/school/list",
   BPROFILE_NEW: "/api/business/profile",
   BPROFILELIST: '/api/business/profile/list/',
+  BPROFILE_GET: '/api/business/profile/',
+  BPROFILE_DELETE: '/api/business/profile/',
 };
 export default API_URLS;

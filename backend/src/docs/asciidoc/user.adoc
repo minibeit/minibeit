@@ -11,9 +11,11 @@
 ---
 == 기본 API
 
-=== 카카오 로그인
+=== 카카오,구글 로그인
 
 `Redirect /oauth2/authorization/kakao`
+
+`Redirect /oauth2/authorization/google`
 
 성공 응답 HTTP
 

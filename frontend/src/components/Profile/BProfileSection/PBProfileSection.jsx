@@ -58,9 +58,9 @@ export default function PBProfileSection() {
     <S.BPContainer>
       <S.BPbtn onClick={openModal}>비즈니스 프로필 생성하기</S.BPbtn>
       {bprofiles.map((bprofile) => (
-        <Link to={"/business/" + bprofile.id}>
+        <Link key={bprofile.id} to={"/business/" + bprofile.id}>
           {" "}
-          <p key={bprofile.id}>{bprofile.name}</p>
+          <div>{bprofile.name}</div>
         </Link>
       ))}
       <div>{isShowing && <BProfileNew closeModal={closeModal} />}</div>

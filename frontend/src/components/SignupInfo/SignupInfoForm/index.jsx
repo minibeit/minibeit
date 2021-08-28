@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { obtainToken, signUpfunc } from "../../../utils";
+
 import { useRecoilState } from "recoil";
 import { userState } from "../../../recoil/userState";
 import PSignupInfoForm from "./PSignupInfoForm";

@@ -9,14 +9,12 @@ function PFEContainer({ post, FEHandler }) {
     content,
     doDate,
     dueDate,
-    id,
-    isMine,
+
     contact,
     pay,
     place,
     time,
     title,
-    images,
   } = post;
   console.log(post, title);
   const [inputs, setInputs] = useState({

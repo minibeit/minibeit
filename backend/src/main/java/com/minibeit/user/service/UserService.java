@@ -1,5 +1,7 @@
 package com.minibeit.user.service;
 
+import com.minibeit.file.domain.File;
+import com.minibeit.file.service.FileService;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.security.token.RefreshTokenService;
@@ -24,6 +26,7 @@ public class UserService {
     private final RefreshTokenService refreshTokenService;
     private final TokenProvider tokenProvider;
     private final SchoolRepository schoolRepository;
+    private final FileService fileService;
 
     //테스트용
     public UserResponse.Login login(UserRequest.Login request) {
@@ -39,7 +42,8 @@ public class UserService {
         }
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
-        User updatedUser = findUser.signup(request, school);
+        File avatar = fileService.upload(request.getAvatar());
+        User updatedUser = findUser.signup(request, school, avatar);
 
         return UserResponse.Create.build(updatedUser, request.getSchoolId());
     }

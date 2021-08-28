@@ -1,6 +1,7 @@
 package com.minibeit.user.domain;
 
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.file.domain.File;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.dto.UserRequest;
 import lombok.*;
@@ -46,7 +47,11 @@ public class User extends BaseEntity {
     @JoinColumn(name = "school_id")
     private School school;
 
-    public User signup(UserRequest.Signup request, School school) {
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "file_id")
+    private File avatar;
+
+    public User signup(UserRequest.Signup request, School school, File avatar) {
         this.name = request.getName();
         this.nickname = request.getNickname();
         this.age = request.getAge();
@@ -55,6 +60,7 @@ public class User extends BaseEntity {
         this.phoneNum = request.getPhoneNum();
         this.signupCheck = true;
         this.school = school;
+        this.avatar = avatar;
         return this;
     }
 }

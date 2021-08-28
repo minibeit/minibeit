@@ -2,8 +2,10 @@ package com.minibeit.user.dto;
 
 import com.minibeit.user.domain.Gender;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 public class UserRequest {
+    @Setter
     @Getter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -16,6 +18,7 @@ public class UserRequest {
         private String job;
         private Integer age;
         private Long schoolId;
+        private MultipartFile avatar;
     }
 
     @Getter

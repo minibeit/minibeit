@@ -14,19 +14,22 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import javax.servlet.http.Cookie;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -57,36 +60,40 @@ class UserControllerTest extends MvcTest {
     @Test
     @DisplayName("회원가입 문서화")
     public void signup() throws Exception {
-        UserRequest.Signup request = UserRequest.Signup.builder()
-                .name("test@test.com")
-                .nickname("테스터")
-                .gender(Gender.MALE)
-                .phoneNum("010-1234-7890")
-                .job("개발자")
-                .age(28)
-                .schoolId(1L)
-                .build();
+        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
+
         UserResponse.Create response = UserResponse.Create.builder().id(1L).nickname("동그라미").schoolId(1L).build();
 
         given(userService.signup(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(
-                post("/api/user/signup")
-                        .contentType(MediaType.APPLICATION_JSON)
+                multipart("/api/user/signup")
+                        .file(avatar)
+                        .param("name", "실명")
+                        .param("nickname", "동그라미")
+                        .param("gender", "MALE")
+                        .param("phoneNum", "010-1234-5678")
+                        .param("job", "대학생")
+                        .param("age", "23")
+                        .param("schoolId", "1")
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
                         .characterEncoding("UTF-8")
-                        .content(objectMapper.writeValueAsString(request))
         );
 
         results.andExpect(status().isOk())
                 .andDo(document("user-signup",
-                        requestFields(
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("실명"),
-                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
-                                fieldWithPath("gender").type(JsonFieldType.STRING).description("성별(MALE or FEMALE)"),
-                                fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
-                                fieldWithPath("job").type(JsonFieldType.STRING).description("직업"),
-                                fieldWithPath("age").type(JsonFieldType.NUMBER).description("나이"),
-                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심있는 학교 식별자")
+                        requestParameters(
+                                parameterWithName("name").description("실명"),
+                                parameterWithName("nickname").description("닉네임"),
+                                parameterWithName("gender").description("성별(MALE or FEMALE)"),
+                                parameterWithName("phoneNum").description("전화번호"),
+                                parameterWithName("job").description("직업"),
+                                parameterWithName("age").description("나이"),
+                                parameterWithName("schoolId").description("관심있는 학교 식별자")
+                        ),
+                        requestParts(
+                                partWithName("avatar").description("사용자 프로필 이미지")
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원가입한 유저 식별자"),

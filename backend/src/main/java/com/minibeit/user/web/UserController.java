@@ -31,9 +31,8 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserResponse.Create> signup(@RequestBody UserRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<UserResponse.Create> signup(UserRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
         UserResponse.Create response = userService.signup(request, customUserDetails.getUser());
-
         return ResponseEntity.ok().body(response);
     }
 

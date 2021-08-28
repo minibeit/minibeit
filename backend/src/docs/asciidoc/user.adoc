@@ -43,8 +43,8 @@ http://localhost:3000/callback/userId/nickname/accessToken/schoolId/signupCheck 
 `POST /api/user/signup`
 
 요청 HTTP
-include::{snippets}/user-signup/http-request.adoc[]
-include::{snippets}/user-signup/request-fields.adoc[]
+include::{snippets}/user-signup/request-parameters.adoc[]
+include::{snippets}/user-signup/request-parts.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/user-signup/http-response.adoc[]

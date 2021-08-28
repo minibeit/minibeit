@@ -24,7 +24,7 @@ export default function NavBar() {
         });
       }
     } catch (e) {
-      //error
+      console.log(e);
     }
   };
   return (
@@ -47,9 +47,9 @@ export default function NavBar() {
         </S.NavBarMenu>
         <S.NavBarAuth>
           {loginState === true ? (
-            <S.NavBarAuth onClick={logout}>
-              <p>{username} 님 안녕하세요</p>
-              <p>로그아웃</p>
+            <S.NavBarAuth>
+              <Link to={`/user/${username}`}>{username}님 안녕하세요</Link>
+              <p onClick={logout}>로그아웃</p>
             </S.NavBarAuth>
           ) : (
             <S.NavBarAuth>

@@ -8,7 +8,9 @@ export const NavBarLogoContainer = styled.div``;
 export const NavBarMenuContainer = styled.div`
   display: flex;
 `;
-export const NavBarMenu = styled.div``;
+export const NavBarMenu = styled.div`
+  margin-right: 0.5rem;
+`;
 export const NavBarAuth = styled.div``;
 export const ModalWrapper = styled.div`
   display: flex;

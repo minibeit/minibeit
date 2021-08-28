@@ -18,8 +18,9 @@ export const signupInfoApi = async (inputs) => {
     phoneNum: inputs.phoneNum,
     job: inputs.job,
     age: parseInt(inputs.age),
-    schoolIdList: parseInt(inputs.schoolId),
+    schoolId: parseInt(inputs.schoolId),
   };
+  console.log(data);
   return await withAuthInstance.post(SIGNUP, data);
 };
 

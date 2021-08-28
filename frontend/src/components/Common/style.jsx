@@ -34,3 +34,8 @@ export const ModalContent = styled.div`
 `;
 export const ModalInput = styled.input``;
 export const ModalBottom = styled.div``;
+export const LoadingBox = styled.div`
+  font-weight: bold;
+  font-size: 2rem;
+  text-align: center;
+`;

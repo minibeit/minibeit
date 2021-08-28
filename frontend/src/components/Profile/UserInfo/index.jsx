@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import PUserInfo from "./PUserInfo";
 import { getMyInfo } from "../../../utils/userInfo";
+import { LoadingSpinner } from "../../Common";
 
 export default function UserInfo() {
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState();
   useEffect(() => {
     getMyInfo()
       .then((res) => {
@@ -13,5 +14,7 @@ export default function UserInfo() {
         console.log(err);
       });
   }, []);
-  return <PUserInfo userData={userData} />;
+  return (
+    <>{userData ? <PUserInfo userData={userData} /> : <LoadingSpinner />}</>
+  );
 }

@@ -16,6 +16,9 @@ export const UserInfo = styled.p``;
 export const UserImg = styled.img`
   width: 100px;
 `;
+export const BPJoinBtn = styled.div``;
+export const JoinContainer = styled.div``;
+export const BPNewNickname = styled.input``;
 
 export const BPContainer = styled.div``;
 export const BPbtn = styled.div``;

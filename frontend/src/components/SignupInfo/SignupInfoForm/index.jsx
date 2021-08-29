@@ -28,9 +28,9 @@ export default function SignupForm() {
     getSchoolInfo();
   }, []);
 
-  const signupHandler = async (inputs) => {
+  const signupHandler = async (inputs, img) => {
     try {
-      const result = await signupInfoApi(inputs);
+      const result = await signupInfoApi(inputs, img);
       console.log(result);
       const data = result.data;
       if (data) {

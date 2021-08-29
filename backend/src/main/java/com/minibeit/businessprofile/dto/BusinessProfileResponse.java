@@ -31,15 +31,17 @@ public class BusinessProfileResponse {
         private String avatar;
 
         public static BusinessProfileResponse.GetOne build(BusinessProfile businessProfile) {
-            return GetOne.builder()
+            GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(businessProfile.getId())
                     .name(businessProfile.getName())
                     .category(businessProfile.getCategory())
                     .place(businessProfile.getPlace())
                     .introduce(businessProfile.getIntroduce())
-                    .contact(businessProfile.getContact())
-                    .avatar(businessProfile.getAvatar().getUrl())
-                    .build();
+                    .contact(businessProfile.getContact());
+            if (businessProfile.getAvatar() != null) {
+                return getOneBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
+            }
+            return getOneBuilder.build();
         }
     }
 }

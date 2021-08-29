@@ -13,6 +13,9 @@ export const BProfileDelete = styled.div``;
 export const BProfileEdit = styled.div``;
 export const UserName = styled.h3``;
 export const UserInfo = styled.p``;
+export const UserImg = styled.img`
+  width: 100px;
+`;
 
 export const BPContainer = styled.div``;
 export const BPbtn = styled.div``;

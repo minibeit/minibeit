@@ -12,20 +12,86 @@ client.log("Auth Token : " + client.global.get("authorizationToken"));
 
 ###
 POST {{apiUrl}}/user/signup
-Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
+Content-Type: multipart/form-data; boundary=boundary
 
-{
-  "name": "테스터 실명",
-  "nickname": "테스터532",
-  "nicknameChanged": true,
-  "gender": "MALE",
-  "phoneNum": "010-1234-1234",
-  "job": "개발자",
-  "age": "28",
-  "schoolId": 1
-}
+--boundary
+Content-Disposition: form-data; name="name";
+
+동그라미
+--boundary
+Content-Disposition: form-data; name="nickname";
+
+동그라미
+--boundary
+Content-Disposition: form-data; name="gender";
+
+MALE
+--boundary
+Content-Disposition: form-data; name="phoneNum";
+
+010-1234-5678
+--boundary
+Content-Disposition: form-data; name="job";
+
+대학생
+--boundary
+Content-Disposition: form-data; name="age";
+
+21
+--boundary
+Content-Disposition: form-data; name="schoolId";
+
+1
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
+
+< ./../main/resources/mock/images/enjoy.png
 
 ###
 GET {{apiUrl}}/user/me
 Authorization: {{authorizationToken}}
+
+###
+POST {{apiUrl}}/user/update
+Authorization: {{authorizationToken}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="name";
+
+네모
+--boundary
+Content-Disposition: form-data; name="nickname";
+
+세모
+--boundary
+Content-Disposition: form-data; name="nicknameChanged";
+
+false
+--boundary
+Content-Disposition: form-data; name="gender";
+
+FEMALE
+--boundary
+Content-Disposition: form-data; name="phoneNum";
+
+010-1111-2222
+--boundary
+Content-Disposition: form-data; name="job";
+
+개발자
+--boundary
+Content-Disposition: form-data; name="age";
+
+30
+--boundary
+Content-Disposition: form-data; name="schoolId";
+
+2
+
+--boundary
+Content-Disposition: form-data; name="avatarChanged";
+
+true
+

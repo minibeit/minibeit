@@ -31,10 +31,14 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserResponse.Create> signup(@RequestBody UserRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
-        UserResponse.Create response = userService.signup(request, customUserDetails.getUser());
-
+    public ResponseEntity<UserResponse.CreateOrUpdate> signup(UserRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
+        UserResponse.CreateOrUpdate response = userService.signup(request, customUserDetails.getUser());
         return ResponseEntity.ok().body(response);
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<UserResponse.CreateOrUpdate> update(UserRequest.Update request, @CurrentUser CustomUserDetails customUserDetails) {
+        return ResponseEntity.ok().body(userService.update(request, customUserDetails.getUser()));
     }
 
     @PostMapping("/refreshtoken")

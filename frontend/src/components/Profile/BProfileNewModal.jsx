@@ -17,6 +17,7 @@ function BProfileNewModal({ closeModal }) {
     introduce: "",
     contact: "",
   });
+  const [imgBase64, setImgBase64] = useState("");
   const [img, setImg] = useState();
   const { name, category, place, introduce, contact } = inputs;
   const onChange = (e) => {
@@ -27,6 +28,15 @@ function BProfileNewModal({ closeModal }) {
     });
   };
   const fileChange = (e) => {
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      // 2. 읽기가 완료되면 아래코드가 실행됩니다.
+      const base64 = reader.result;
+      if (base64) {
+        setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
     setImg(e.target.files[0]);
   };
   const setBProfile = async (inputs, img) => {
@@ -81,6 +91,8 @@ function BProfileNewModal({ closeModal }) {
           placeholder="연락처"
           onChange={onChange}
         />
+        {imgBase64 !== "" ? <S.BPNewImg src={imgBase64} /> : <S.BPNewImgBox />}
+
         <S.BPNewInput name="img" type="file" onChange={fileChange} />
         <S.BPSubmitBtn
           onClick={async (e) => {

@@ -3,9 +3,10 @@ import { getBprofileInfo } from "../../../utils";
 import * as S from "../style";
 
 export default function PBProfileEditCont({ businessId, bpEditHandler }) {
+  const [imgBase64, setImgBase64] = useState("");
   const [inputs, setInputs] = useState({});
   const [img, setImg] = useState();
-  const [prevsrc, setprevsrc] = useState("");
+  const [prevsrc, setprevsrc] = useState();
   const getProfile = async () => {
     try {
       const result = await getBprofileInfo(businessId);
@@ -20,14 +21,16 @@ export default function PBProfileEditCont({ businessId, bpEditHandler }) {
           avatarChanged: false,
         });
         setprevsrc(data.avatar);
-        console.log(prevsrc);
+        console.log(data.avatar, prevsrc);
       }
     } catch (e) {
       console.log(e.response.data.error.msg);
       alert(e.response.data.error.msg);
     }
   };
-  console.log(inputs);
+  console.log(prevsrc);
+
+  console.log(prevsrc === null);
   console.log(inputs);
   useEffect(() => {
     getProfile();
@@ -44,7 +47,15 @@ export default function PBProfileEditCont({ businessId, bpEditHandler }) {
     });
   };
   const fileChange = (e) => {
-    console.log(inputs);
+    let reader = new FileReader();
+    reader.onloadend = () => {
+      // 2. 읽기가 완료되면 아래코드가 실행됩니다.
+      const base64 = reader.result;
+      if (base64) {
+        setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
+      }
+    };
+    reader.readAsDataURL(e.target.files[0]);
     setInputs({
       ...inputs,
       avatarChanged: true,
@@ -91,7 +102,15 @@ export default function PBProfileEditCont({ businessId, bpEditHandler }) {
           placeholder="연락처"
           onChange={onChange}
         />
-        {prevsrc !== "" ? <S.BPEditImg src={prevsrc} /> : null}
+        {prevsrc !== null ? (
+          imgBase64 !== "" ? (
+            <S.BPEditNewImg src={imgBase64} />
+          ) : (
+            <S.BPEditImg src={prevsrc} />
+          )
+        ) : (
+          <S.BPEditImgBox />
+        )}
         <S.BPEditInput name="img" type="file" onChange={fileChange} />
         <S.BPEditButton
           type="submit"

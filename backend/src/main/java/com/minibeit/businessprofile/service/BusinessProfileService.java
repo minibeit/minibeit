@@ -39,10 +39,10 @@ public class BusinessProfileService {
     }
 
     @Transactional(readOnly = true)
-    public List<BusinessProfileResponse.IdAndName> getListIsMine(Long userId) {
+    public List<BusinessProfileResponse.GetList> getListIsMine(Long userId) {
         List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(userId);
 
-        return businessProfileList.stream().map(BusinessProfileResponse.IdAndName::build).collect(Collectors.toList());
+        return businessProfileList.stream().map(BusinessProfileResponse.GetList::build).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

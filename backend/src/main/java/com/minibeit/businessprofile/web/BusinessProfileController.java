@@ -27,8 +27,8 @@ public class BusinessProfileController {
     }
 
     @GetMapping("/list/{userId}")
-    public ResponseEntity<List<BusinessProfileResponse.IdAndName>> getListIsMine(@PathVariable Long userId) {
-        List<BusinessProfileResponse.IdAndName> response = businessProfileService.getListIsMine(userId);
+    public ResponseEntity<List<BusinessProfileResponse.GetList>> getListIsMine(@PathVariable Long userId) {
+        List<BusinessProfileResponse.GetList> response = businessProfileService.getListIsMine(userId);
         return ResponseEntity.ok().body(response);
     }
 

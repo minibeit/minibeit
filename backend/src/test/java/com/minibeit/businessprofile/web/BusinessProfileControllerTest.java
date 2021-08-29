@@ -95,15 +95,15 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 userId로 전체조회 문서화")
     public void getListIsMine() throws Exception {
-        List<BusinessProfileResponse.IdAndName> idAndNames = new ArrayList<>();
-        BusinessProfileResponse.IdAndName idAndName1 = BusinessProfileResponse.IdAndName.builder().id(1L).name("동그라미 실험실").build();
-        BusinessProfileResponse.IdAndName idAndName2 = BusinessProfileResponse.IdAndName.builder().id(2L).name("세모 실험실").build();
-        BusinessProfileResponse.IdAndName idAndName3 = BusinessProfileResponse.IdAndName.builder().id(3L).name("네모 실험실").build();
-        idAndNames.add(idAndName1);
-        idAndNames.add(idAndName2);
-        idAndNames.add(idAndName3);
+        List<BusinessProfileResponse.GetList> getLists = new ArrayList<>();
+        BusinessProfileResponse.GetList idAndName1 = BusinessProfileResponse.GetList.builder().id(1L).name("동그라미 실험실").avatar("profile image url").build();
+        BusinessProfileResponse.GetList idAndName2 = BusinessProfileResponse.GetList.builder().id(2L).name("세모 실험실").avatar("profile image url").build();
+        BusinessProfileResponse.GetList idAndName3 = BusinessProfileResponse.GetList.builder().id(3L).name("네모 실험실").avatar("profile image url").build();
+        getLists.add(idAndName1);
+        getLists.add(idAndName2);
+        getLists.add(idAndName3);
 
-        given(businessProfileService.getListIsMine(any())).willReturn(idAndNames);
+        given(businessProfileService.getListIsMine(any())).willReturn(getLists);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/list/{userId}", 1));
 
@@ -115,7 +115,8 @@ class BusinessProfileControllerTest extends MvcTest {
                         ),
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
-                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름")
+                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
+                                fieldWithPath("[].avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url")
                         )
                 ));
     }

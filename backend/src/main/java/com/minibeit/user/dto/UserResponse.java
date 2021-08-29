@@ -57,6 +57,7 @@ public class UserResponse {
         private Integer age;
         private String job;
         private String phoneNum;
+        private Long schoolId;
         private String avatar;
 
         public static UserResponse.GetOne build(User user) {
@@ -64,10 +65,11 @@ public class UserResponse {
                     .id(user.getId())
                     .name(user.getName())
                     .nickname(user.getNickname())
-                    .gender(user.getJob())
+                    .gender(user.getGender().name())
                     .age(user.getAge())
                     .job(user.getJob())
-                    .phoneNum(user.getPhoneNum());
+                    .phoneNum(user.getPhoneNum())
+                    .schoolId(user.getSchool().getId());
             if(user.getAvatar()!=null){
                 return getOneBuilder.avatar(user.getAvatar().getUrl()).build();
             }

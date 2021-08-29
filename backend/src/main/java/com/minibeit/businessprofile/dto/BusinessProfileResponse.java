@@ -44,4 +44,22 @@ public class BusinessProfileResponse {
             return getOneBuilder.build();
         }
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetList {
+        private Long id;
+        private String name;
+        private String avatar;
+
+        public static BusinessProfileResponse.GetList build(BusinessProfile businessProfile) {
+            GetListBuilder getListBuilder = GetList.builder().id(businessProfile.getId()).name(businessProfile.getName());
+            if (businessProfile.getAvatar() != null) {
+                getListBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
+            }
+            return getListBuilder.build();
+        }
+    }
 }

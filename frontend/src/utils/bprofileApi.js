@@ -29,5 +29,6 @@ export const editBprofile = async (businessId,inputs,img) => {
   if (img !== undefined) {
     formData.append("avatar", img);
   }
+  console.log(formData)
   return await withAuthInstance.post(BPROFILE_EDIT+businessId,formData);
 };

@@ -39,20 +39,25 @@ public class BusinessProfileController {
     }
 
     @PostMapping("/{businessProfileId}")
-    public ResponseEntity<BusinessProfileResponse.IdAndName> update(@PathVariable Long businessProfileId, BusinessProfileRequest.Update request) {
-        BusinessProfileResponse.IdAndName response = businessProfileService.update(businessProfileId, request);
+    public ResponseEntity<BusinessProfileResponse.IdAndName> update(@PathVariable Long businessProfileId,
+                                                                    BusinessProfileRequest.Update request,
+                                                                    @CurrentUser CustomUserDetails customUserDetails) {
+        BusinessProfileResponse.IdAndName response = businessProfileService.update(businessProfileId, request, customUserDetails.getUser());
         return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("/{businessProfileId}")
-    public ResponseEntity<Void> delete(@PathVariable Long businessProfileId) {
-        businessProfileService.delete(businessProfileId);
+    public ResponseEntity<Void> delete(@PathVariable Long businessProfileId,
+                                       @CurrentUser CustomUserDetails customUserDetails) {
+        businessProfileService.delete(businessProfileId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{businessProfileId}/share")
-    public ResponseEntity<Void> shareBusinessProfile(@PathVariable Long businessProfileId, @RequestBody BusinessProfileRequest.Share request) {
-        businessProfileService.shareBusinessProfile(businessProfileId, request);
+    public ResponseEntity<Void> shareBusinessProfile(@PathVariable Long businessProfileId,
+                                                     @RequestBody BusinessProfileRequest.Share request,
+                                                     @CurrentUser CustomUserDetails customUserDetails) {
+        businessProfileService.shareBusinessProfile(businessProfileId, request, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 }

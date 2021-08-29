@@ -7,6 +7,7 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
+import com.minibeit.common.exception.PermissionException;
 import com.minibeit.file.domain.File;
 import com.minibeit.file.service.FileService;
 import com.minibeit.user.domain.User;
@@ -51,9 +52,11 @@ public class BusinessProfileService {
         return BusinessProfileResponse.GetOne.build(businessProfile);
     }
 
-    public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request) {
+    public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-        //TODO 기획이 확정되면 수정권한 처리 필요
+
+        permissionCheck(user, businessProfile);
+
         if (request.isAvatarChanged()) {
             fileService.deleteOne(businessProfile.getAvatar());
             File file = fileService.upload(request.getAvatar());
@@ -63,16 +66,30 @@ public class BusinessProfileService {
         return BusinessProfileResponse.IdAndName.build(businessProfile);
     }
 
-    public void delete(Long businessProfileId) {
-        //TODO 기획이 확정되면 삭제권한 처리 필요
+    public void delete(Long businessProfileId, User user) {
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+
+
+        permissionCheck(user, businessProfile);
+
         businessProfileRepository.deleteById(businessProfileId);
+
     }
 
-    public void shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.Share request) {
-        //TODO 비즈니스프로필을 만든사람만 초대할 수 있는지 , 비즈니스 프로필을 가지고 있는 사람 모두가 초대할 수 있는지 정해지면 초대권한 처리 필요
-        User user = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
+    public void shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.Share request,User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(user, businessProfile);
+
+
+        permissionCheck(user, businessProfile);
+
+        User userToShare = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
         userBusinessProfileRepository.save(userBusinessProfile);
+    }
+
+    private void permissionCheck(User user, BusinessProfile businessProfile) {
+        if (!businessProfile.getCreatedBy().getId().equals(user.getId())) {
+            throw new PermissionException();
+        }
     }
 }

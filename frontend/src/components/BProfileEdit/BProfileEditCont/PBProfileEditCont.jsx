@@ -3,10 +3,11 @@ import { getBprofileInfo } from "../../../utils";
 import * as S from "../style";
 
 export default function PBProfileEditCont({ businessId, bpEditHandler }) {
-  const [imgBase64, setImgBase64] = useState("");
+  const [imgBase64, setImgBase64] = useState();
   const [inputs, setInputs] = useState({});
   const [img, setImg] = useState();
   const [prevsrc, setprevsrc] = useState();
+  const [iscancel, setiscancel] = useState(false);
   const getProfile = async () => {
     try {
       const result = await getBprofileInfo(businessId);
@@ -47,23 +48,36 @@ export default function PBProfileEditCont({ businessId, bpEditHandler }) {
     });
   };
   const fileChange = (e) => {
-    let reader = new FileReader();
-    reader.onloadend = () => {
-      // 2. 읽기가 완료되면 아래코드가 실행됩니다.
-      const base64 = reader.result;
-      if (base64) {
-        setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
+    if (e.target.files.length !== 0) {
+      setiscancel(false);
+      let reader = new FileReader();
+      reader.onloadend = () => {
+        // 2. 읽기가 완료되면 아래코드가 실행됩니다.
+        const base64 = reader.result;
+        if (base64) {
+          setImgBase64(base64.toString()); // 파일 base64 상태 업데이트
+        }
+      };
+      if (e.target.files[0]) {
+        reader.readAsDataURL(e.target.files[0]);
+        setInputs({
+          ...inputs,
+          avatarChanged: true,
+          avatar: e.target.files[0],
+        });
+        setImg(e.target.files[0]);
       }
-    };
-    reader.readAsDataURL(e.target.files[0]);
-    setInputs({
-      ...inputs,
-      avatarChanged: true,
-      avatar: e.target.files[0],
-    });
-    setprevsrc("");
-    setImg(e.target.files[0]);
+    } else {
+      setInputs({
+        ...inputs,
+        avatarChanged: false,
+        avatar: undefined,
+      });
+      console.log("hwt");
+      setiscancel(true);
+    }
   };
+
   return (
     <>
       <S.BPEditCont>
@@ -103,8 +117,12 @@ export default function PBProfileEditCont({ businessId, bpEditHandler }) {
           onChange={onChange}
         />
         {prevsrc !== null ? (
-          imgBase64 !== "" ? (
-            <S.BPEditNewImg src={imgBase64} />
+          imgBase64 !== undefined ? (
+            iscancel === false ? (
+              <S.BPEditNewImg src={imgBase64} />
+            ) : (
+              <S.BPEditImg src={prevsrc} />
+            )
           ) : (
             <S.BPEditImg src={prevsrc} />
           )

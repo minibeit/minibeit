@@ -10,12 +10,14 @@ PUserInfo.propTypes = {
     age: PropTypes.number.isRequired,
     job: PropTypes.string.isRequired,
     phoneNum: PropTypes.string.isRequired,
+    avatar: PropTypes.string,
   }),
 };
 
 export default function PUserInfo({ userData }) {
   return (
     <S.UserInfoContainer>
+      <S.UserImg src={userData.avatar} />
       <S.UserName>이름 : {userData.name}</S.UserName>
       <S.UserInfo>닉네임 : {userData.nickname}</S.UserInfo>
       <S.UserInfo>성별 : {userData.gender}</S.UserInfo>

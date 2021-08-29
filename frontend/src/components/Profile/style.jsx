@@ -3,6 +3,9 @@ import styled from "styled-components";
 export const UserInfoContainer = styled.div`
   text-align: center;
 `;
+export const UserImg = styled.img`
+  width: 20rem;
+`;
 export const UserName = styled.h3``;
 export const UserInfo = styled.p``;
 

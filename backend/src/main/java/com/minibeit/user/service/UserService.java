@@ -36,7 +36,7 @@ public class UserService {
         return UserResponse.Login.build(user.getId(), user.getName(), tokenProvider.generateAccessToken(user), refreshToken);
     }
 
-    public UserResponse.Create signup(UserRequest.Signup request, User user) {
+    public UserResponse.CreateOrUpdate signup(UserRequest.Signup request, User user) {
         if (userRepository.findByNickname(request.getNickname()).isPresent()) {
             throw new DuplicateNickNameException();
         }
@@ -45,7 +45,7 @@ public class UserService {
         File avatar = fileService.upload(request.getAvatar());
         User updatedUser = findUser.signup(request, school, avatar);
 
-        return UserResponse.Create.build(updatedUser, request.getSchoolId());
+        return UserResponse.CreateOrUpdate.build(updatedUser, request.getSchoolId());
     }
 
     @Transactional(readOnly = true)
@@ -55,5 +55,24 @@ public class UserService {
 
     public void logout(User user) {
         refreshTokenService.deleteRefreshTokenByUser(user);
+    }
+
+    public UserResponse.CreateOrUpdate update(UserRequest.Update request, User user) {
+        User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
+        School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
+        findUser.nicknameDuplicateCheck(request.isNicknameChanged(), request.getNickname());
+
+        User updatedUser = findUser.update(request, school);
+        updateAvatar(request, user, findUser);
+
+        return UserResponse.CreateOrUpdate.build(updatedUser, school.getId());
+    }
+
+    private void updateAvatar(UserRequest.Update request, User user, User findUser) {
+        if (request.isAvatarChanged()) {
+            fileService.deleteOne(user.getAvatar());
+            File file = fileService.upload(request.getAvatar());
+            findUser.updateAvatar(file);
+        }
     }
 }

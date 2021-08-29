@@ -52,3 +52,47 @@ Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
 ###
 GET {{apiUrl}}/user/me
 Authorization: {{authorizationToken}}
+
+###
+POST {{apiUrl}}/user/update
+Authorization: {{authorizationToken}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="name";
+
+네모
+--boundary
+Content-Disposition: form-data; name="nickname";
+
+세모
+--boundary
+Content-Disposition: form-data; name="nicknameChanged";
+
+false
+--boundary
+Content-Disposition: form-data; name="gender";
+
+FEMALE
+--boundary
+Content-Disposition: form-data; name="phoneNum";
+
+010-1111-2222
+--boundary
+Content-Disposition: form-data; name="job";
+
+개발자
+--boundary
+Content-Disposition: form-data; name="age";
+
+30
+--boundary
+Content-Disposition: form-data; name="schoolId";
+
+2
+
+--boundary
+Content-Disposition: form-data; name="avatarChanged";
+
+true
+

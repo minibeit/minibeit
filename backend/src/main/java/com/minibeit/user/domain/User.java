@@ -4,6 +4,7 @@ import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.file.domain.File;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.dto.UserRequest;
+import com.minibeit.user.service.exception.DuplicateNickNameException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -62,5 +63,26 @@ public class User extends BaseEntity {
         this.school = school;
         this.avatar = avatar;
         return this;
+    }
+
+    public User update(UserRequest.Update request, School school) {
+        this.name = request.getName();
+        this.nickname = request.getNickname();
+        this.gender = request.getGender();
+        this.age = request.getAge();
+        this.job = request.getJob();
+        this.phoneNum = request.getPhoneNum();
+        this.school = school;
+        return this;
+    }
+
+    public void updateAvatar(File avatar) {
+        this.avatar = avatar;
+    }
+
+    public void nicknameDuplicateCheck(boolean nicknameChanged, String nickname) {
+        if (nicknameChanged && this.nickname.equals(nickname)) {
+            throw new DuplicateNickNameException();
+        }
     }
 }

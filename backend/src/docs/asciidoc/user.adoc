@@ -81,3 +81,15 @@ include::{snippets}/user-getMe/http-request.adoc[]
 성공 응답 HTTP
 include::{snippets}/user-getMe/http-response.adoc[]
 include::{snippets}/user-getMe/response-fields.adoc[]
+
+=== 내 정보 수정
+
+`POST /api/user/update`
+
+요청 HTTP
+include::{snippets}/user-update/request-parameters.adoc[]
+include::{snippets}/user-update/request-parts.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/user-update/http-response.adoc[]
+include::{snippets}/user-update/response-fields.adoc[]

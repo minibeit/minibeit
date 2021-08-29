@@ -6,7 +6,6 @@ import com.minibeit.security.token.Token;
 import com.minibeit.security.token.TokenProvider;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.User;
-import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -63,7 +62,7 @@ class UserControllerTest extends MvcTest {
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
 
-        UserResponse.Create response = UserResponse.Create.builder().id(1L).nickname("동그라미").schoolId(1L).build();
+        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.builder().id(1L).nickname("동그라미").schoolId(1L).build();
 
         given(userService.signup(any(), any())).willReturn(response);
 
@@ -161,5 +160,55 @@ class UserControllerTest extends MvcTest {
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("user-logout"));
+    }
+
+    @Test
+    @DisplayName("내 정보 수정 문서화")
+    public void update() throws Exception {
+        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
+
+        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.builder().id(1L).nickname("별").schoolId(2L).build();
+
+        given(userService.update(any(), any())).willReturn(response);
+
+        ResultActions results = mvc.perform(
+                multipart("/api/user/update")
+                        .file(avatar)
+                        .param("name", "수정된이름")
+                        .param("nickname", "별")
+                        .param("nicknameChanged", "true")
+                        .param("gender", "MALE")
+                        .param("phoneNum", "010-1234-5678")
+                        .param("job", "개발자")
+                        .param("age", "30")
+                        .param("schoolId", "2")
+                        .param("avatarChanged", "true")
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
+                        .characterEncoding("UTF-8")
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(document("user-update",
+                        requestParameters(
+                                parameterWithName("name").description("실명"),
+                                parameterWithName("nicknameChanged").description("닉네임 수정여부(수정했다면 true 안했다면 false)"),
+                                parameterWithName("nickname").description("닉네임"),
+                                parameterWithName("gender").description("성별(MALE or FEMALE)"),
+                                parameterWithName("phoneNum").description("전화번호"),
+                                parameterWithName("job").description("직업"),
+                                parameterWithName("age").description("나이"),
+                                parameterWithName("schoolId").description("관심있는 학교 식별자"),
+                                parameterWithName("avatarChanged").description("개인 프로필 이미지 수정여부(수정했다면 true 안했다면 false)")
+                        ),
+                        requestParts(
+                                partWithName("avatar").description("사용자 프로필 이미지")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("유저 식별자"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자")
+                        )
+                ));
     }
 }

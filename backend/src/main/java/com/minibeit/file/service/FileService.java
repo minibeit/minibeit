@@ -35,7 +35,9 @@ public class FileService {
         return fileRepository.saveAll(savedFiles.stream().map(File::create).collect(Collectors.toList()));
     }
 
-    public void deleteById(Long fileId) {
-        fileRepository.deleteById(fileId);
+    public void deleteOne(File file) {
+        if (file != null) {
+            fileRepository.delete(file);
+        }
     }
 }

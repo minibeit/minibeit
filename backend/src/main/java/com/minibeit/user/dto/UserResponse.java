@@ -10,13 +10,13 @@ public class UserResponse {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class Create {
+    public static class CreateOrUpdate {
         private Long id;
         private String nickname;
         private Long schoolId;
 
-        public static UserResponse.Create build(User user, Long schoolId) {
-            return Create.builder()
+        public static CreateOrUpdate build(User user, Long schoolId) {
+            return CreateOrUpdate.builder()
                     .id(user.getId())
                     .nickname(user.getNickname())
                     .schoolId(schoolId)

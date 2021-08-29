@@ -29,6 +29,24 @@ public class UserRequest {
         private String id;
     }
 
+    @Setter
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Update {
+        private String name;
+        private String nickname;
+        private boolean nicknameChanged;
+        private Gender gender;
+        private String phoneNum;
+        private String job;
+        private Integer age;
+        private Long schoolId;
+        private MultipartFile avatar;
+        private boolean avatarChanged;
+    }
+
     @Getter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

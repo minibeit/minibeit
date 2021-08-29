@@ -17,6 +17,7 @@ function BProfileNewModal({ closeModal }) {
     introduce: "",
     contact: "",
   });
+  const [img, setImg] = useState();
   const { name, category, place, introduce, contact } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -25,9 +26,12 @@ function BProfileNewModal({ closeModal }) {
       [name]: value,
     });
   };
-  const setBProfile = async (inputs) => {
+  const fileChange = (e) => {
+    setImg(e.target.files[0]);
+  };
+  const setBProfile = async (inputs, img) => {
     try {
-      const result = await bprofileNew(inputs);
+      const result = await bprofileNew(inputs, img);
       const data = result.data;
       if (data) {
         closeModal(data);
@@ -77,10 +81,11 @@ function BProfileNewModal({ closeModal }) {
           placeholder="연락처"
           onChange={onChange}
         />
+        <S.BPNewInput name="img" type="file" onChange={fileChange} />
         <S.BPSubmitBtn
           onClick={async (e) => {
             e.preventDefault();
-            await setBProfile(inputs);
+            await setBProfile(inputs, img);
           }}
         >
           생성하기

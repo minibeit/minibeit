@@ -14,6 +14,7 @@ PBProfile.propTypes = {
     introduce: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     place: PropTypes.string.isRequired,
+    avatar: PropTypes.string,
   }),
 };
 
@@ -25,10 +26,14 @@ export default function PBProfile({ buserData }) {
     alert("삭제되었습니다.");
     window.location.replace("/user/" + nickname);
   };
+
   return (
     <S.UserInfoContainer>
       <S.BUserInfoContainer1>
         {" "}
+        {buserData.avatar !== null ? (
+          <S.UserImg src={buserData.avatar} />
+        ) : null}
         <S.UserName>이름 : {buserData.name}</S.UserName>
         <S.UserInfo>카테고리 : {buserData.category}</S.UserInfo>
         <S.UserInfo>장소 : {buserData.place}</S.UserInfo>
@@ -40,13 +45,6 @@ export default function PBProfile({ buserData }) {
           onClick={() =>
             history.push({
               pathname: `/business/${buserData.id}/edit`,
-              BPInfo: {
-                name: buserData.name,
-                category: buserData.category,
-                place: buserData.place,
-                introduce: buserData.introduce,
-                contact: buserData.contact,
-              },
             })
           }
         >

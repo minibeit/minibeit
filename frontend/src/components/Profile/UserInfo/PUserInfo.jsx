@@ -17,7 +17,7 @@ PUserInfo.propTypes = {
 export default function PUserInfo({ userData }) {
   return (
     <S.UserInfoContainer>
-      <S.UserImg src={userData.avatar} />
+      {userData.avatar !== null ? <S.UserImg src={userData.avatar} /> : null}
       <S.UserName>이름 : {userData.name}</S.UserName>
       <S.UserInfo>닉네임 : {userData.nickname}</S.UserInfo>
       <S.UserInfo>성별 : {userData.gender}</S.UserInfo>

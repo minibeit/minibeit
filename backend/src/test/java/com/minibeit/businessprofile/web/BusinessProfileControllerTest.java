@@ -155,7 +155,7 @@ class BusinessProfileControllerTest extends MvcTest {
 
         BusinessProfileResponse.IdAndName response = BusinessProfileResponse.IdAndName.builder().id(1L).name("네모 실험실").build();
 
-        given(businessProfileService.update(any(), any())).willReturn(response);
+        given(businessProfileService.update(any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .fileUpload("/api/business/profile/{businessProfileId}", 1)

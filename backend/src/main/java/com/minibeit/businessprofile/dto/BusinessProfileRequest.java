@@ -9,13 +9,28 @@ public class BusinessProfileRequest {
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class CreateAndUpdate {
+    public static class Create {
         private String name;
         private String category;
         private String place;
         private String introduce;
         private String contact;
         private MultipartFile avatar;
+    }
+
+    @Setter
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Update {
+        private String name;
+        private String category;
+        private String place;
+        private String introduce;
+        private String contact;
+        private MultipartFile avatar;
+        private boolean avatarChanged;
     }
 
     @Getter

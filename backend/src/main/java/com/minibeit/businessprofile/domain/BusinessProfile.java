@@ -43,15 +43,15 @@ public class BusinessProfile extends BaseEntity {
         userBusinessProfile.setBusinessProfile(this);
     }
 
-    public void update(BusinessProfileRequest.CreateAndUpdate createAndUpdateRequest) {
-        this.name = createAndUpdateRequest.getName();
-        this.category = createAndUpdateRequest.getCategory();
-        this.place = createAndUpdateRequest.getPlace();
-        this.contact = createAndUpdateRequest.getContact();
-        this.introduce = createAndUpdateRequest.getIntroduce();
+    public void update(BusinessProfileRequest.Update createRequest) {
+        this.name = createRequest.getName();
+        this.category = createRequest.getCategory();
+        this.place = createRequest.getPlace();
+        this.contact = createRequest.getContact();
+        this.introduce = createRequest.getIntroduce();
     }
 
-    public static BusinessProfile create(BusinessProfileRequest.CreateAndUpdate request, UserBusinessProfile userBusinessProfile, File avatar) {
+    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, File avatar) {
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(request.getName())
                 .category(request.getCategory())
@@ -62,5 +62,9 @@ public class BusinessProfile extends BaseEntity {
                 .build();
         businessProfile.addUser(userBusinessProfile);
         return businessProfile;
+    }
+
+    public void updateAvatar(File avatar) {
+        this.avatar = avatar;
     }
 }

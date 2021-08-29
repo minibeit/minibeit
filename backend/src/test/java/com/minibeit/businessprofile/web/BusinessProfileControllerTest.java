@@ -144,46 +144,52 @@ class BusinessProfileControllerTest extends MvcTest {
                 ));
     }
 
-//    @Test
-//    @DisplayName("비즈니스 프로필 수정 문서화")
-//    public void update() throws Exception {
-//        BusinessProfileRequest.CreateAndUpdate request = BusinessProfileRequest.CreateAndUpdate.builder()
-//                .name("수정된 실험실 이름")
-//                .category("수정된 실험실 분야")
-//                .place("고려대")
-//                .contact("010-1234-7890")
-//                .introduce("고려대 실험실 입니다!")
-//                .build();
-//        BusinessProfileResponse.IdAndName response = BusinessProfileResponse.IdAndName.builder().id(1L).name("수정된 실험실 이름").build();
-//
-//        given(businessProfileService.update(any(), any())).willReturn(response);
-//
-//        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.
-//                put("/api/business/profile/{businessProfileId}", 1)
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .characterEncoding("UTF-8")
-//                .content(objectMapper.writeValueAsString(request))
-//        );
-//
-//        results.andExpect(status().isOk())
-//                .andDo(print())
-//                .andDo(document("business-profile-update",
-//                        pathParameters(
-//                                parameterWithName("businessProfileId").description("수정할 비즈니스 프로필 식별자")
-//                        ),
-//                        requestFields(
-//                                fieldWithPath("name").type(JsonFieldType.STRING).description("이름"),
-//                                fieldWithPath("category").type(JsonFieldType.STRING).description("분야"),
-//                                fieldWithPath("place").type(JsonFieldType.STRING).description("장소"),
-//                                fieldWithPath("contact").type(JsonFieldType.STRING).description("연락처"),
-//                                fieldWithPath("introduce").type(JsonFieldType.STRING).description("소개")
-//                        ),
-//                        responseFields(
-//                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("수정된 비즈니스 프로필 식별자"),
-//                                fieldWithPath("name").type(JsonFieldType.STRING).description("수정된 비즈니스 프로필 이름")
-//                        )
-//                ));
-//    }
+    @Test
+    @DisplayName("비즈니스 프로필 수정 문서화")
+    public void update() throws Exception {
+        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
+
+        BusinessProfileResponse.IdAndName response = BusinessProfileResponse.IdAndName.builder().id(1L).name("네모 실험실").build();
+
+        given(businessProfileService.update(any(), any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .fileUpload("/api/business/profile/{businessProfileId}", 1)
+                .file(avatar)
+                .param("name", "네모 실험실")
+                .param("category", "실험실 분류")
+                .param("place", "네모 대학교")
+                .param("introduce", "네모 대학교 네모 실험실입니다!!")
+                .param("contact", "010-1234-5678")
+                .param("avatarChanged", "true")
+                .contentType(MediaType.MULTIPART_FORM_DATA)
+                .characterEncoding("UTF-8")
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-profile-update",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("수정할 비즈니스 프로필 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("name").description("실험실 이름"),
+                                parameterWithName("category").description("실험실 분류"),
+                                parameterWithName("place").description("실험실 장소"),
+                                parameterWithName("introduce").description("실험실 소개"),
+                                parameterWithName("contact").description("실험실 연락처"),
+                                parameterWithName("avatarChanged").description("비즈니스 프로필 이미지 수정되었다면 true 아니면 false")
+                        ),
+                        requestParts(
+                                partWithName("avatar").description("비즈니스 프로필 이미지")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("수정된 비즈니스 프로필 식별자"),
+                                fieldWithPath("name").type(JsonFieldType.STRING).description("수정된 비즈니스 프로필 이름")
+                        )
+                ));
+    }
 
     @Test
     @DisplayName("비즈니스 프로필 삭제 문서화")

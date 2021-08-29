@@ -28,7 +28,7 @@ public class BusinessProfileService {
     private final UserRepository userRepository;
     private final FileService fileService;
 
-    public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.CreateAndUpdate request, User user) {
+    public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
         File avatar = fileService.upload(request.getAvatar());
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(user);
         BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar);
@@ -51,9 +51,14 @@ public class BusinessProfileService {
         return BusinessProfileResponse.GetOne.build(businessProfile);
     }
 
-    public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.CreateAndUpdate request) {
+    public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         //TODO 기획이 확정되면 수정권한 처리 필요
+        if (request.isAvatarChanged()) {
+            fileService.deleteOne(businessProfile.getAvatar());
+            File file = fileService.upload(request.getAvatar());
+            businessProfile.updateAvatar(file);
+        }
         businessProfile.update(request);
         return BusinessProfileResponse.IdAndName.build(businessProfile);
     }

@@ -4,12 +4,12 @@ import PropTypes from "prop-types";
 
 PUserInfo.propTypes = {
   userData: PropTypes.shape({
-    name: PropTypes.string,
-    nickname: PropTypes.string,
-    gender: PropTypes.string,
-    age: PropTypes.number,
-    job: PropTypes.string,
-    phoneNum: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    nickname: PropTypes.string.isRequired,
+    gender: PropTypes.string.isRequired,
+    age: PropTypes.number.isRequired,
+    job: PropTypes.string.isRequired,
+    phoneNum: PropTypes.string.isRequired,
   }),
 };
 

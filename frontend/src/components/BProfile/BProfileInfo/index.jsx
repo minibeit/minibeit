@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
+import PropTypes from "prop-types";
 import { LoadingSpinner } from "../../Common";
 import { getBprofileInfo } from "../../../utils/bprofileApi";
 import PBProfile from "./PBProfile";
+
+BProfileInfo.propTypes = {
+  businessId: PropTypes.number.isRequired,
+};
 
 export default function BProfileInfo({ businessId }) {
   const [buserData, setBUserData] = useState();
@@ -15,12 +20,6 @@ export default function BProfileInfo({ businessId }) {
       });
   }, []);
   return (
-    <>
-      {buserData ? (
-        <PBProfile buserData={buserData} businessId={businessId} />
-      ) : (
-        <LoadingSpinner />
-      )}
-    </>
+    <>{buserData ? <PBProfile buserData={buserData} /> : <LoadingSpinner />}</>
   );
 }

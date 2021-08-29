@@ -1,5 +1,15 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
+
 import * as S from "../style";
+
+PSignupInfoForm.propTypes = {
+  schoollist: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string.isRequired,
+  }),
+  signupHandler: PropTypes.func.isRequired,
+};
 
 function PSignupInfoForm({ schoollist, signupHandler }) {
   const [inputs, setInputs] = useState({

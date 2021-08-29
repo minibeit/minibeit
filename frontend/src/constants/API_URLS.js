@@ -14,5 +14,6 @@ const API_URLS = {
   BPROFILELIST: '/api/business/profile/list/',
   BPROFILE_GET: '/api/business/profile/',
   BPROFILE_DELETE: '/api/business/profile/',
+  BPROFILE_EDIT: '/api/business/profile/',
 };
 export default API_URLS;

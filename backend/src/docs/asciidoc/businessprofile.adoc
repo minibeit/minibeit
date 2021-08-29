@@ -49,7 +49,7 @@ include::{snippets}/business-profile-list-mine/response-fields.adoc[]
 
 === 비즈니스 프로필 수정
 
-`PUT /api/business/profile/{businessProfileId}`
+`POST /api/business/profile/{businessProfileId}`
 
 요청 HTTP
 include::{snippets}/business-profile-update/path-parameters.adoc[]

@@ -5,7 +5,7 @@ export default function BProfile({ match }) {
   const { businessId } = match.params;
   return (
     <>
-      <BProfileInfo businessId={businessId} />
+      <BProfileInfo businessId={parseInt(businessId)} />
     </>
   );
 }

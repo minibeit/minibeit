@@ -3,24 +3,6 @@ import { editBprofile, getBprofileInfo } from "../../../utils/bprofileApi";
 import PBProfileEditCont from "./PBProfileEditCont";
 
 export default function BProfileEditCont({ businessId }) {
-  const [buserData, setBUserData] = useState({
-    name: "",
-    category: "",
-    place: "",
-    introduce: "",
-    contact: "",
-  });
-  useEffect(() => {
-    getBprofileInfo(businessId)
-      .then((res) => {
-        console.log(res.data);
-        setBUserData(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-  console.log(buserData);
   const bpEditHandler = async (inputs) => {
     try {
       const result = await editBprofile(businessId, inputs);
@@ -37,20 +19,11 @@ export default function BProfileEditCont({ businessId }) {
       }
     }
   };
-  const name = buserData.name;
-  const category = buserData.category;
-  const place = buserData.place;
-  const introduce = buserData.introduce;
-  const contact = buserData.contact;
 
   return (
     <>
       <PBProfileEditCont
-        name={name}
-        category={category}
-        place={place}
-        introduce={introduce}
-        category={category}
+        businessId={businessId}
         bpEditHandler={bpEditHandler}
       />
     </>

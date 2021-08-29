@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { userState } from "../../../recoil/userState";
 import { deleteBprofile } from "../../../utils/bprofileApi";
 import * as S from "../style";
+import { useHistory } from "react-router";
 
 PBProfile.propTypes = {
   buserData: PropTypes.shape({
@@ -17,6 +18,7 @@ PBProfile.propTypes = {
 };
 
 export default function PBProfile({ buserData }) {
+  const history = useHistory();
   const nickname = useRecoilValue(userState).name;
   const doDelete = async () => {
     await deleteBprofile(buserData.id);
@@ -36,7 +38,16 @@ export default function PBProfile({ buserData }) {
       <S.BUserInfoContainer2>
         <S.BProfileEdit
           onClick={() =>
-            window.location.replace(`/business/${businessId}/edit`)
+            history.push({
+              pathname: `/business/${buserData.id}/edit`,
+              BPInfo: {
+                name: buserData.name,
+                category: buserData.category,
+                place: buserData.place,
+                introduce: buserData.introduce,
+                contact: buserData.contact,
+              },
+            })
           }
         >
           수정하기

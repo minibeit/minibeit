@@ -6,4 +6,10 @@ export {
   feedlistApi,
 } from "./feedApi";
 export { signupInfoApi, logoutFunc } from "./auth";
-export { bprofileNew, bprofileListGet } from "./bprofileApi";
+export {
+  bprofileNew,
+  bprofileListGet,
+  getBprofileInfo,
+  deleteBprofile,
+  editBprofile,
+} from "./bprofileApi";

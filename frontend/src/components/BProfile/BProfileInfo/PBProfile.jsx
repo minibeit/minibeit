@@ -23,7 +23,13 @@ export default function PBProfile(props) {
         <S.UserInfo>전화번호 : {buserData.contact}</S.UserInfo>
       </S.BUserInfoContainer1>
       <S.BUserInfoContainer2>
-        <S.BProfileEdit>수정하기</S.BProfileEdit>
+        <S.BProfileEdit
+          onClick={() =>
+            window.location.replace(`/business/${businessId}/edit`)
+          }
+        >
+          수정하기
+        </S.BProfileEdit>
         <S.BProfileDelete onClick={doDelete}>삭제하기</S.BProfileDelete>
       </S.BUserInfoContainer2>
     </S.UserInfoContainer>

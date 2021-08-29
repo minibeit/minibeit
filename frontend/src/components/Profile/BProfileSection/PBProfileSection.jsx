@@ -15,7 +15,7 @@ export default function PBProfileSection() {
   };
 
   const closeModal = (data) => {
-    if (data.type != "click") {
+    if (data.type !== "click") {
       getBprofile();
     }
 

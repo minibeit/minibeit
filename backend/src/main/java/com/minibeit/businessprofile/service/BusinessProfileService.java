@@ -55,9 +55,7 @@ public class BusinessProfileService {
     public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
-        if(!businessProfile.getCreatedBy().getId().equals(user.getId())){
-            throw new PermissionException();
-        }
+        permissionCheck(user, businessProfile);
         if (request.isAvatarChanged()) {
             fileService.deleteOne(businessProfile.getAvatar());
             File file = fileService.upload(request.getAvatar());
@@ -70,9 +68,7 @@ public class BusinessProfileService {
     public void delete(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
-        if(!businessProfile.getCreatedBy().getId().equals(user.getId())){
-            throw new PermissionException();
-        }
+        permissionCheck(user, businessProfile);
         businessProfileRepository.deleteById(businessProfileId);
 
     }
@@ -80,11 +76,15 @@ public class BusinessProfileService {
     public void shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.Share request,User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
-        if(!businessProfile.getCreatedBy().getId().equals(user.getId())){
-            throw new PermissionException();
-        }
+        permissionCheck(user, businessProfile);
         User userToShare = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
         userBusinessProfileRepository.save(userBusinessProfile);
+    }
+
+    private void permissionCheck(User user, BusinessProfile businessProfile) {
+        if (!businessProfile.getCreatedBy().getId().equals(user.getId())) {
+            throw new PermissionException();
+        }
     }
 }

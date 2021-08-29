@@ -2,6 +2,8 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
     `id`           BIGINT       NOT NULL AUTO_INCREMENT,
+    `school_id`    BIGINT,
+    `file_id`      BIGINT,
     `oauth_id`     VARCHAR(100) NOT NULL,
     `name`         VARCHAR(100),
     `nickname`     VARCHAR(100),
@@ -12,8 +14,6 @@ CREATE TABLE `user`
     `phone_num`    VARCHAR(50),
     `signup_check` TINYINT(1) NOT NULL,
     `role`         VARCHAR(50)  NOT NULL,
-    `school_id`    BIGINT,
-    `file_id`      BIGINT,
     `created_at`   DATETIME     NOT NULL,
     `updated_at`   DATETIME DEFAULT NULL,
     `deleted_at`   DATETIME DEFAULT NULL,

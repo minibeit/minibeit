@@ -7,6 +7,8 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
+import com.minibeit.file.domain.File;
+import com.minibeit.file.service.FileService;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
@@ -24,10 +26,12 @@ public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final UserRepository userRepository;
+    private final FileService fileService;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.CreateAndUpdate request, User user) {
+        File avatar = fileService.upload(request.getAvatar());
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(user);
-        BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile);
+        BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
 
         return BusinessProfileResponse.IdAndName.build(savedBusinessProfile);

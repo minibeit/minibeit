@@ -48,7 +48,6 @@ Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
 
 < ./../main/resources/mock/images/enjoy.png
 
-
 ###
 GET {{apiUrl}}/user/me
 Authorization: {{authorizationToken}}

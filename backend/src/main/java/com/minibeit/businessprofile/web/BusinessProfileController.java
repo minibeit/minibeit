@@ -21,7 +21,7 @@ public class BusinessProfileController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BusinessProfileResponse.IdAndName> create(@RequestBody BusinessProfileRequest.CreateAndUpdate request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<BusinessProfileResponse.IdAndName> create(BusinessProfileRequest.CreateAndUpdate request, @CurrentUser CustomUserDetails customUserDetails) {
         BusinessProfileResponse.IdAndName response = businessProfileService.create(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/business/profile/" + response.getId())).body(response);
     }

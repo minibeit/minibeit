@@ -16,8 +16,8 @@
 `POST /api/business/profile`
 
 요청 HTTP
-include::{snippets}/business-profile-create/http-request.adoc[]
-include::{snippets}/business-profile-create/request-fields.adoc[]
+include::{snippets}/business-profile-create/request-parameters.adoc[]
+include::{snippets}/business-profile-create/request-parts.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/business-profile-create/http-response.adoc[]

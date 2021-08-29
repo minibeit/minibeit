@@ -1,6 +1,7 @@
 package com.minibeit.user.web;
 
 import com.minibeit.MvcTest;
+import com.minibeit.file.domain.File;
 import com.minibeit.security.token.RefreshTokenService;
 import com.minibeit.security.token.Token;
 import com.minibeit.security.token.TokenProvider;
@@ -53,6 +54,7 @@ class UserControllerTest extends MvcTest {
                 .age(30)
                 .job("개발자")
                 .phoneNum("010-1234-1234")
+                .avatar(File.builder().id(1L).url("profile image url").build())
                 .build();
     }
 
@@ -112,6 +114,7 @@ class UserControllerTest extends MvcTest {
         ResultActions results = mvc.perform(get("/api/user/me"));
 
         results.andExpect(status().isOk())
+                .andDo(print())
                 .andDo(document("user-getMe",
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원가입한 유저 식별자"),
@@ -120,7 +123,8 @@ class UserControllerTest extends MvcTest {
                                 fieldWithPath("gender").type(JsonFieldType.STRING).description("성별(MALE or FEMALE)"),
                                 fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
                                 fieldWithPath("job").type(JsonFieldType.STRING).description("직업"),
-                                fieldWithPath("age").type(JsonFieldType.NUMBER).description("나이")
+                                fieldWithPath("age").type(JsonFieldType.NUMBER).description("나이"),
+                                fieldWithPath("avatar").type(JsonFieldType.STRING).description("프로필 이미지 url")
                         )
                 ));
     }

@@ -57,6 +57,7 @@ public class UserResponse {
         private Integer age;
         private String job;
         private String phoneNum;
+        private String avatar;
 
         public static UserResponse.GetOne build(User user) {
             return GetOne.builder()
@@ -67,6 +68,7 @@ public class UserResponse {
                     .age(user.getAge())
                     .job(user.getJob())
                     .phoneNum(user.getPhoneNum())
+                    .avatar(user.getAvatar().getUrl())
                     .build();
         }
     }

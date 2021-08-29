@@ -32,8 +32,7 @@ export default function PBProfileSection() {
         setbprofiles(data);
       }
     } catch (e) {
-      console.log(e.response.data.error.msg);
-      alert(e.response.data.error.msg);
+      console.log(e);
     }
   };
 

@@ -6,6 +6,7 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
+import com.minibeit.file.domain.File;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -47,6 +48,7 @@ class BusinessProfileControllerTest extends MvcTest {
                 .place("고려대")
                 .contact("010-1234-5786")
                 .introduce("고려대 동그라미 실험실 입니다.")
+                .avatar(File.builder().id(1L).url("profile image url").build())
                 .build();
     }
 
@@ -139,7 +141,8 @@ class BusinessProfileControllerTest extends MvcTest {
                                 fieldWithPath("category").type(JsonFieldType.STRING).description("비즈니스 프로필 분류"),
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
                                 fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
-                                fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처")
+                                fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
+                                fieldWithPath("avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url")
                         )
                 ));
     }

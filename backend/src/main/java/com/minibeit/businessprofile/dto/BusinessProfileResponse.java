@@ -28,6 +28,7 @@ public class BusinessProfileResponse {
         private String place;
         private String introduce;
         private String contact;
+        private String avatar;
 
         public static BusinessProfileResponse.GetOne build(BusinessProfile businessProfile) {
             return GetOne.builder()
@@ -37,6 +38,7 @@ public class BusinessProfileResponse {
                     .place(businessProfile.getPlace())
                     .introduce(businessProfile.getIntroduce())
                     .contact(businessProfile.getContact())
+                    .avatar(businessProfile.getAvatar().getUrl())
                     .build();
         }
     }

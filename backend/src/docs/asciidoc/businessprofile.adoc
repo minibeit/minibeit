@@ -16,8 +16,8 @@
 `POST /api/business/profile`
 
 요청 HTTP
-include::{snippets}/business-profile-create/http-request.adoc[]
-include::{snippets}/business-profile-create/request-fields.adoc[]
+include::{snippets}/business-profile-create/request-parameters.adoc[]
+include::{snippets}/business-profile-create/request-parts.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/business-profile-create/http-response.adoc[]
@@ -52,9 +52,9 @@ include::{snippets}/business-profile-list-mine/response-fields.adoc[]
 `PUT /api/business/profile/{businessProfileId}`
 
 요청 HTTP
-include::{snippets}/business-profile-update/http-request.adoc[]
 include::{snippets}/business-profile-update/path-parameters.adoc[]
-include::{snippets}/business-profile-update/request-fields.adoc[]
+include::{snippets}/business-profile-update/request-parameters.adoc[]
+include::{snippets}/business-profile-update/request-parts.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/business-profile-update/http-response.adoc[]

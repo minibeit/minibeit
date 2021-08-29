@@ -2,6 +2,7 @@ package com.minibeit.businessprofile.domain;
 
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.file.domain.File;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,6 +30,10 @@ public class BusinessProfile extends BaseEntity {
 
     private String contact;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "file_id")
+    private File avatar;
+
     @Builder.Default
     @OneToMany(mappedBy = "businessProfile", cascade = CascadeType.ALL)
     private List<UserBusinessProfile> userBusinessProfileList = new ArrayList<>();
@@ -38,23 +43,28 @@ public class BusinessProfile extends BaseEntity {
         userBusinessProfile.setBusinessProfile(this);
     }
 
-    public void update(BusinessProfileRequest.CreateAndUpdate createAndUpdateRequest) {
-        this.name = createAndUpdateRequest.getName();
-        this.category = createAndUpdateRequest.getCategory();
-        this.place = createAndUpdateRequest.getPlace();
-        this.contact = createAndUpdateRequest.getContact();
-        this.introduce = createAndUpdateRequest.getIntroduce();
+    public void update(BusinessProfileRequest.Update createRequest) {
+        this.name = createRequest.getName();
+        this.category = createRequest.getCategory();
+        this.place = createRequest.getPlace();
+        this.contact = createRequest.getContact();
+        this.introduce = createRequest.getIntroduce();
     }
 
-    public static BusinessProfile create(BusinessProfileRequest.CreateAndUpdate request, UserBusinessProfile userBusinessProfile) {
+    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, File avatar) {
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(request.getName())
                 .category(request.getCategory())
                 .place(request.getPlace())
                 .introduce(request.getIntroduce())
                 .contact(request.getContact())
+                .avatar(avatar)
                 .build();
         businessProfile.addUser(userBusinessProfile);
         return businessProfile;
+    }
+
+    public void updateAvatar(File avatar) {
+        this.avatar = avatar;
     }
 }

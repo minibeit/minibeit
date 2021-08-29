@@ -1,12 +1,12 @@
 package com.minibeit.user.web;
 
 import com.minibeit.MvcTest;
+import com.minibeit.file.domain.File;
 import com.minibeit.security.token.RefreshTokenService;
 import com.minibeit.security.token.Token;
 import com.minibeit.security.token.TokenProvider;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.User;
-import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,19 +14,22 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import javax.servlet.http.Cookie;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -51,42 +54,47 @@ class UserControllerTest extends MvcTest {
                 .age(30)
                 .job("개발자")
                 .phoneNum("010-1234-1234")
+                .avatar(File.builder().id(1L).url("profile image url").build())
                 .build();
     }
 
     @Test
     @DisplayName("회원가입 문서화")
     public void signup() throws Exception {
-        UserRequest.Signup request = UserRequest.Signup.builder()
-                .name("test@test.com")
-                .nickname("테스터")
-                .gender(Gender.MALE)
-                .phoneNum("010-1234-7890")
-                .job("개발자")
-                .age(28)
-                .schoolId(1L)
-                .build();
-        UserResponse.Create response = UserResponse.Create.builder().id(1L).nickname("동그라미").schoolId(1L).build();
+        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
+
+        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.builder().id(1L).nickname("동그라미").schoolId(1L).build();
 
         given(userService.signup(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(
-                post("/api/user/signup")
-                        .contentType(MediaType.APPLICATION_JSON)
+                multipart("/api/user/signup")
+                        .file(avatar)
+                        .param("name", "실명")
+                        .param("nickname", "동그라미")
+                        .param("gender", "MALE")
+                        .param("phoneNum", "010-1234-5678")
+                        .param("job", "대학생")
+                        .param("age", "23")
+                        .param("schoolId", "1")
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
                         .characterEncoding("UTF-8")
-                        .content(objectMapper.writeValueAsString(request))
         );
 
         results.andExpect(status().isOk())
                 .andDo(document("user-signup",
-                        requestFields(
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("실명"),
-                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
-                                fieldWithPath("gender").type(JsonFieldType.STRING).description("성별(MALE or FEMALE)"),
-                                fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
-                                fieldWithPath("job").type(JsonFieldType.STRING).description("직업"),
-                                fieldWithPath("age").type(JsonFieldType.NUMBER).description("나이"),
-                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심있는 학교 식별자")
+                        requestParameters(
+                                parameterWithName("name").description("실명"),
+                                parameterWithName("nickname").description("닉네임"),
+                                parameterWithName("gender").description("성별(MALE or FEMALE)"),
+                                parameterWithName("phoneNum").description("전화번호"),
+                                parameterWithName("job").description("직업"),
+                                parameterWithName("age").description("나이"),
+                                parameterWithName("schoolId").description("관심있는 학교 식별자")
+                        ),
+                        requestParts(
+                                partWithName("avatar").description("사용자 프로필 이미지")
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원가입한 유저 식별자"),
@@ -106,6 +114,7 @@ class UserControllerTest extends MvcTest {
         ResultActions results = mvc.perform(get("/api/user/me"));
 
         results.andExpect(status().isOk())
+                .andDo(print())
                 .andDo(document("user-getMe",
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원가입한 유저 식별자"),
@@ -114,7 +123,8 @@ class UserControllerTest extends MvcTest {
                                 fieldWithPath("gender").type(JsonFieldType.STRING).description("성별(MALE or FEMALE)"),
                                 fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
                                 fieldWithPath("job").type(JsonFieldType.STRING).description("직업"),
-                                fieldWithPath("age").type(JsonFieldType.NUMBER).description("나이")
+                                fieldWithPath("age").type(JsonFieldType.NUMBER).description("나이"),
+                                fieldWithPath("avatar").type(JsonFieldType.STRING).description("프로필 이미지 url")
                         )
                 ));
     }
@@ -154,5 +164,55 @@ class UserControllerTest extends MvcTest {
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("user-logout"));
+    }
+
+    @Test
+    @DisplayName("내 정보 수정 문서화")
+    public void update() throws Exception {
+        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
+
+        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.builder().id(1L).nickname("별").schoolId(2L).build();
+
+        given(userService.update(any(), any())).willReturn(response);
+
+        ResultActions results = mvc.perform(
+                multipart("/api/user/update")
+                        .file(avatar)
+                        .param("name", "수정된이름")
+                        .param("nickname", "별")
+                        .param("nicknameChanged", "true")
+                        .param("gender", "MALE")
+                        .param("phoneNum", "010-1234-5678")
+                        .param("job", "개발자")
+                        .param("age", "30")
+                        .param("schoolId", "2")
+                        .param("avatarChanged", "true")
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
+                        .characterEncoding("UTF-8")
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(document("user-update",
+                        requestParameters(
+                                parameterWithName("name").description("실명"),
+                                parameterWithName("nicknameChanged").description("닉네임 수정여부(수정했다면 true 안했다면 false)"),
+                                parameterWithName("nickname").description("닉네임"),
+                                parameterWithName("gender").description("성별(MALE or FEMALE)"),
+                                parameterWithName("phoneNum").description("전화번호"),
+                                parameterWithName("job").description("직업"),
+                                parameterWithName("age").description("나이"),
+                                parameterWithName("schoolId").description("관심있는 학교 식별자"),
+                                parameterWithName("avatarChanged").description("개인 프로필 이미지 수정여부(수정했다면 true 안했다면 false)")
+                        ),
+                        requestParts(
+                                partWithName("avatar").description("사용자 프로필 이미지")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("유저 식별자"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자")
+                        )
+                ));
     }
 }

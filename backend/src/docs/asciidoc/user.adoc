@@ -43,8 +43,8 @@ http://localhost:3000/callback/userId/nickname/accessToken/schoolId/signupCheck 
 `POST /api/user/signup`
 
 요청 HTTP
-include::{snippets}/user-signup/http-request.adoc[]
-include::{snippets}/user-signup/request-fields.adoc[]
+include::{snippets}/user-signup/request-parameters.adoc[]
+include::{snippets}/user-signup/request-parts.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/user-signup/http-response.adoc[]
@@ -81,3 +81,15 @@ include::{snippets}/user-getMe/http-request.adoc[]
 성공 응답 HTTP
 include::{snippets}/user-getMe/http-response.adoc[]
 include::{snippets}/user-getMe/response-fields.adoc[]
+
+=== 내 정보 수정
+
+`POST /api/user/update`
+
+요청 HTTP
+include::{snippets}/user-update/request-parameters.adoc[]
+include::{snippets}/user-update/request-parts.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/user-update/http-response.adoc[]
+include::{snippets}/user-update/response-fields.adoc[]

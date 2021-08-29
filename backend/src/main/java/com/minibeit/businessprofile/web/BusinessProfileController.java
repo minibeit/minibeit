@@ -21,7 +21,7 @@ public class BusinessProfileController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BusinessProfileResponse.IdAndName> create(@RequestBody BusinessProfileRequest.CreateAndUpdate request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<BusinessProfileResponse.IdAndName> create(BusinessProfileRequest.Create request, @CurrentUser CustomUserDetails customUserDetails) {
         BusinessProfileResponse.IdAndName response = businessProfileService.create(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/business/profile/" + response.getId())).body(response);
     }
@@ -38,8 +38,8 @@ public class BusinessProfileController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PutMapping("/{businessProfileId}")
-    public ResponseEntity<BusinessProfileResponse.IdAndName> update(@PathVariable Long businessProfileId, @RequestBody BusinessProfileRequest.CreateAndUpdate request) {
+    @PostMapping("/{businessProfileId}")
+    public ResponseEntity<BusinessProfileResponse.IdAndName> update(@PathVariable Long businessProfileId, BusinessProfileRequest.Update request) {
         BusinessProfileResponse.IdAndName response = businessProfileService.update(businessProfileId, request);
         return ResponseEntity.ok().body(response);
     }

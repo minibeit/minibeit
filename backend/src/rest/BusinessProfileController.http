@@ -1,14 +1,31 @@
 POST {{apiUrl}}/business/profile
-Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
+Content-Type: multipart/form-data; boundary=boundary
 
-{
-  "name": "실험실이름",
-  "category": "실험분야",
-  "place": "고려대학교",
-  "contact": "010-1234-1234",
-  "introduce": "고려대 실험실 입니다."
-}
+--boundary
+Content-Disposition: form-data; name="name";
+
+동그라미 실험실
+--boundary
+Content-Disposition: form-data; name="category";
+
+개발
+--boundary
+Content-Disposition: form-data; name="place";
+
+고려대
+--boundary
+Content-Disposition: form-data; name="introduce";
+
+고려대 실험실 입니다!
+--boundary
+Content-Disposition: form-data; name="contact";
+
+010-1234-1234
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
+
+< ./../main/resources/mock/images/enjoy.png
 
 ###
 GET {{apiUrl}}/business/profile/list/1
@@ -19,17 +36,36 @@ GET {{apiUrl}}/business/profile/1
 Authorization: {{authorizationToken}}
 
 ###
-PUT {{apiUrl}}/business/profile/3
-Content-Type: application/json;charset=UTF-8
+POST {{apiUrl}}/business/profile/1
+Content-Type: multipart/form-data; boundary=boundary
 Authorization: {{authorizationToken}}
 
-{
-  "name": "실험실이름수정",
-  "category": "실험분야수정",
-  "place": "고려대학교수정",
-  "contact": "010-1234-5678",
-  "introduce": "고려대 실험실 입니다!!!"
-}
+--boundary
+Content-Disposition: form-data; name="name";
+
+네모 실험실22
+--boundary
+Content-Disposition: form-data; name="category";
+
+공부
+--boundary
+Content-Disposition: form-data; name="place";
+
+고려대 신공학관
+--boundary
+Content-Disposition: form-data; name="introduce";
+
+고려대 실험실 입니다 수정 테스트!
+--boundary
+Content-Disposition: form-data; name="contact";
+
+010-1234-1111
+--boundary
+
+--boundary
+Content-Disposition: form-data; name="avatarChanged";
+
+false
 
 ###
 DELETE {{apiUrl}}/business/profile/3

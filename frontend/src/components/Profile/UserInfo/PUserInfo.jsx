@@ -19,7 +19,7 @@ export default function PUserInfo({ userData }) {
   const history = useHistory();
   return (
     <S.UserInfoContainer>
-      <S.UserImg src={userData.avatar} />
+      {userData.avatar !== null ? <S.UserImg src={userData.avatar} /> : null}
       <br />
       <button
         onClick={() => {

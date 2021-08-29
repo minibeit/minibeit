@@ -60,16 +60,18 @@ public class UserResponse {
         private String avatar;
 
         public static UserResponse.GetOne build(User user) {
-            return GetOne.builder()
+            GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(user.getId())
                     .name(user.getName())
                     .nickname(user.getNickname())
                     .gender(user.getJob())
                     .age(user.getAge())
                     .job(user.getJob())
-                    .phoneNum(user.getPhoneNum())
-                    .avatar(user.getAvatar().getUrl())
-                    .build();
+                    .phoneNum(user.getPhoneNum());
+            if(user.getAvatar()!=null){
+                return getOneBuilder.avatar(user.getAvatar().getUrl()).build();
+            }
+            return getOneBuilder.build();
         }
     }
 }

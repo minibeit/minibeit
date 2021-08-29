@@ -4,10 +4,12 @@ import PropTypes from "prop-types";
 import * as S from "../style";
 
 PSignupInfoForm.propTypes = {
-  schoollist: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  }),
+  schoollist: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    })
+  ),
   signupHandler: PropTypes.func.isRequired,
 };
 
@@ -21,14 +23,14 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
     age: "",
     schoolId: "",
   });
+  const [img, setImg] = useState();
   const { name, nickname, phoneNum, job, age } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
-
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
+    setInputs({ ...inputs, [name]: value });
+  };
+  const fileChange = (e) => {
+    setImg(e.target.files[0]);
   };
   return (
     <S.FormsignupContainer>
@@ -39,6 +41,7 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
         placeholder="이름"
         onChange={onChange}
       />
+      <br />
       <S.SignupInput
         value={nickname}
         name="nickname"
@@ -46,6 +49,7 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
         placeholder="닉네임"
         onChange={onChange}
       />
+      <br />
       <S.SignupSelect
         onChange={onChange}
         defaultValue={"DEFAULT"}
@@ -61,6 +65,9 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
           여자
         </option>
       </S.SignupSelect>
+      <br />
+      <S.SignupInput name="img" type="file" onChange={fileChange} />
+      <br />
       <S.SignupInput
         value={phoneNum}
         name="phoneNum"
@@ -68,6 +75,7 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
         placeholder="전화번호"
         onChange={onChange}
       />
+      <br />
       <S.SignupInput
         value={job}
         name="job"
@@ -75,6 +83,7 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
         placeholder="직업"
         onChange={onChange}
       />
+      <br />
       <S.SignupInput
         value={age}
         name="age"
@@ -82,6 +91,7 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
         placeholder="나이"
         onChange={onChange}
       />
+      <br />
       <S.SignupSelect
         name="schoolId"
         onChange={onChange}
@@ -97,12 +107,12 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
           </option>
         ))}
       </S.SignupSelect>
-
+      <br />
       <S.SignupButton
         type="submit"
         onClick={async (e) => {
           e.preventDefault();
-          await signupHandler(inputs);
+          await signupHandler(inputs, img);
         }}
       >
         회원가입

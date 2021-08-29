@@ -3,9 +3,9 @@ import { editBprofile, getBprofileInfo } from "../../../utils/bprofileApi";
 import PBProfileEditCont from "./PBProfileEditCont";
 
 export default function BProfileEditCont({ businessId }) {
-  const bpEditHandler = async (inputs) => {
+  const bpEditHandler = async (inputs, img) => {
     try {
-      const result = await editBprofile(businessId, inputs);
+      const result = await editBprofile(businessId, inputs, img);
       console.log(result);
       const data = result.data;
       if (data) {

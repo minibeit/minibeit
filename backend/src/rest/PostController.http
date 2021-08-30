@@ -1,0 +1,60 @@
+POST {{apiUrl}}/post
+Authorization: {{authorizationToken}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="title";
+
+실험자 모집합니다.
+--boundary
+Content-Disposition: form-data; name="content";
+
+아무나 오세요~
+--boundary
+Content-Disposition: form-data; name="place";
+
+고려대 신공학관
+--boundary
+Content-Disposition: form-data; name="contact";
+
+010-1234-5623
+--boundary
+Content-Disposition: form-data; name="payment";
+
+GOODS
+--boundary
+Content-Disposition: form-data; name="goods";
+
+상품
+--boundary
+Content-Disposition: form-data; name="condition";
+
+false
+--boundary
+Content-Disposition: form-data; name="doTime";
+
+60
+--boundary
+Content-Disposition: form-data; name="businessProfileId";
+
+1
+--boundary
+Content-Disposition: form-data; name="schoolId";
+
+1
+--boundary
+Content-Disposition: form-data; name="startDate";
+
+2021-08-30T09:30
+--boundary
+Content-Disposition: form-data; name="endDate";
+
+2021-09-08T09:30
+--boundary
+Content-Disposition: form-data; name="doDateList";
+
+2021-09-08T09:30
+--boundary
+Content-Disposition: form-data; name="doDateList";
+
+2021-09-09T09:30

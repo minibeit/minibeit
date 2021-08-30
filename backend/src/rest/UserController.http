@@ -2,7 +2,7 @@ POST {{apiUrl}}/user/login
 Content-Type: application/json;charset=UTF-8
 
 {
-  "id": "2"
+  "id": "1"
 }
 
 > {%
@@ -43,10 +43,6 @@ Content-Disposition: form-data; name="age";
 Content-Disposition: form-data; name="schoolId";
 
 1
---boundary
-Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
-
-< ./../main/resources/mock/images/enjoy.png
 
 ###
 GET {{apiUrl}}/user/me

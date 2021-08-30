@@ -1,20 +1,20 @@
-package com.minibeit.file.domain;
-
-import javax.persistence.Enumerated;
+package com.minibeit.post.domain;
 
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.file.domain.FileServer;
+import com.minibeit.file.domain.FileType;
 import com.minibeit.file.dto.SavedFile;
 import lombok.*;
-import javax.persistence.*;
 
+import javax.persistence.*;
 
 @Getter
 @Builder
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "file")
-public class File extends BaseEntity {
+@Table(name = "post_file")
+public class PostFile extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,8 +33,16 @@ public class File extends BaseEntity {
     private Integer width;
     private Integer height;
 
-    public static File create(SavedFile file) {
-        return File.builder()
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id")
+    private Post post;
+
+    public void setPost(Post post) {
+        this.post = post;
+    }
+
+    public static PostFile create(SavedFile file) {
+        return PostFile.builder()
                 .name(file.getName())
                 .type(file.getFileType())
                 .server(file.getFileServer())

@@ -1,7 +1,7 @@
 import { withAuthInstance } from "./common";
 import { API_URLS } from "../constants";
 
-const { BPROFILE_NEW,BPROFILELIST,BPROFILE_GET ,BPROFILE_DELETE,BPROFILE_EDIT} = API_URLS;
+const { BPROFILE_NEW,BPROFILELIST,BPROFILE_GET ,BPROFILE_DELETE,BPROFILE_EDIT,BPROFILE_JOIN} = API_URLS;
 
 // getuserinfo 완료되면 api주소 입력 후 사용
 export const bprofileNew= async (inputs,img) => {
@@ -32,3 +32,10 @@ export const editBprofile = async (businessId,inputs,img) => {
   console.log(formData)
   return await withAuthInstance.post(BPROFILE_EDIT+businessId,formData);
 };
+
+export const bprofileJoin= async (businessId,nickname) => {
+  const data = {
+    nickname : nickname
+  }
+  return await withAuthInstance.post(BPROFILE_JOIN+businessId+'/share',data);
+  };

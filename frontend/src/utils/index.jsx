@@ -12,4 +12,5 @@ export {
   getBprofileInfo,
   deleteBprofile,
   editBprofile,
+  bprofileJoin,
 } from "./bprofileApi";

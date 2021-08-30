@@ -1,7 +1,7 @@
 import React from "react";
 
 const style = {
-  objectFit: "cover",
+  objectFit: "fill",
   width: "100%",
   height: "100%",
 };

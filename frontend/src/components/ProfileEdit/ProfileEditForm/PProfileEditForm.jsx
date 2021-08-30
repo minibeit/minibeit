@@ -1,18 +1,54 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
+import PropTypes from "prop-types";
 
 import * as S from "../style";
 
-export default function PProfileEditForm({ schoollist, userData }) {
-  const [inputs, setInputs] = useState(userData);
-  const [img, setImg] = useState();
-  console.log(inputs);
-  const { name, nickname, phoneNum, job, age } = inputs;
+PProfileEditForm.propTypes = {
+  schoollist: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+    })
+  ),
+  userData: PropTypes.shape({
+    age: PropTypes.number.isRequired,
+    avatar: PropTypes.string.isRequired,
+    gender: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    job: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    nickname: PropTypes.string.isRequired,
+    phoneNum: PropTypes.string.isRequired,
+    schoolId: PropTypes.number.isRequired,
+  }),
+  editUserDataHandler: PropTypes.func.isRequired,
+};
+
+export default function PProfileEditForm({
+  schoollist,
+  userData,
+  editUserDataHandler,
+}) {
+  const history = useHistory();
+  const [inputs, setInputs] = useState({
+    name: userData.name,
+    pre_nickname: userData.nickname,
+    new_nickname: userData.nickname,
+    gender: userData.gender,
+    phoneNum: userData.phoneNum,
+    job: userData.job,
+    age: userData.age,
+    schoolId: userData.schoolId,
+  });
+  const [newImg, setNewImg] = useState();
+  const { name, pre_nickname, new_nickname, phoneNum, job, age } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
     setInputs({ ...inputs, [name]: value });
   };
   const fileChange = (e) => {
-    setImg(e.target.files[0]);
+    setNewImg(e.target.files[0]);
   };
   return (
     <S.EditContainer>
@@ -24,9 +60,10 @@ export default function PProfileEditForm({ schoollist, userData }) {
         onChange={onChange}
       />
       <br />
+      <S.EditInput value={pre_nickname} type="hidden" />
       <S.EditInput
-        value={nickname}
-        name="nickname"
+        value={new_nickname}
+        name="new_nickname"
         type="text"
         placeholder="닉네임"
         onChange={onChange}
@@ -34,7 +71,7 @@ export default function PProfileEditForm({ schoollist, userData }) {
       <br />
       <S.EditSelect onChange={onChange} defaultValue={"DEFAULT"} name="gender">
         <option value="DEFAULT" disabled>
-          성별을 선택하세요
+          {userData.gender === "MALE" ? "남자" : "여자"}
         </option>
         <option value="MALE" key={0}>
           남자
@@ -44,7 +81,7 @@ export default function PProfileEditForm({ schoollist, userData }) {
         </option>
       </S.EditSelect>
       <br />
-      {img ? null : <S.OriginalImg src={userData.avatar} />}
+      {newImg ? null : <S.OriginalImg src={userData.avatar} />}
       <br />
       <S.EditInput name="img" type="file" onChange={fileChange} />
       <br />
@@ -75,13 +112,14 @@ export default function PProfileEditForm({ schoollist, userData }) {
       <S.EditSelect
         name="schoolId"
         onChange={onChange}
-        defaultValue={"DEFAULT"}
+        defaultValue={userData.schoolId}
       >
-        <option value="DEFAULT" disabled>
-          학교를 선택하세요
+        <option value={userData.schoolId} disabled>
+          {schoollist.find((ele) => ele.id === userData.schoolId) === undefined
+            ? null
+            : schoollist.find((ele) => ele.id === userData.schoolId).name}
         </option>
         {schoollist.map(({ id, name }) => (
-          // eslint-disable-next-line react/no-array-index-key
           <option value={id} key={id}>
             {name}
           </option>
@@ -92,12 +130,18 @@ export default function PProfileEditForm({ schoollist, userData }) {
         type="submit"
         onClick={async (e) => {
           e.preventDefault();
-          console.log(inputs, img);
+          editUserDataHandler(inputs, newImg);
         }}
       >
         수정
       </S.EditButton>
-      <S.EditButton>수정 취소</S.EditButton>
+      <S.EditButton
+        onClick={() => {
+          history.push(`/user/${pre_nickname}`);
+        }}
+      >
+        수정 취소
+      </S.EditButton>
     </S.EditContainer>
   );
 }

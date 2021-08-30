@@ -1,7 +1,11 @@
 package com.minibeit.businessprofile.dto;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.user.domain.User;
 import lombok.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class BusinessProfileResponse {
     @Getter
@@ -28,16 +32,18 @@ public class BusinessProfileResponse {
         private String place;
         private String introduce;
         private String contact;
+        private boolean isMine;
         private String avatar;
 
-        public static BusinessProfileResponse.GetOne build(BusinessProfile businessProfile) {
+        public static BusinessProfileResponse.GetOne build(BusinessProfile businessProfile, User user) {
             GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(businessProfile.getId())
                     .name(businessProfile.getName())
                     .category(businessProfile.getCategory())
                     .place(businessProfile.getPlace())
                     .introduce(businessProfile.getIntroduce())
-                    .contact(businessProfile.getContact());
+                    .contact(businessProfile.getContact())
+                    .isMine(businessProfile.getCreatedBy().getId().equals(user.getId()));
             if (businessProfile.getAvatar() != null) {
                 return getOneBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
             }
@@ -61,5 +67,23 @@ public class BusinessProfileResponse {
             }
             return getListBuilder.build();
         }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class IdAndNickname{
+        private Long id;
+        private String nickname;
+        public static List<BusinessProfileResponse.IdAndNickname> build(BusinessProfile businessProfile){
+
+            return businessProfile.getUserBusinessProfileList().stream()
+                    .map(userBusinessProfile -> IdAndNickname.builder()
+                            .id(userBusinessProfile.getUser().getId())
+                            .nickname(userBusinessProfile.getUser().getNickname()).build())
+                    .collect(Collectors.toList());
+        }
+
     }
 }

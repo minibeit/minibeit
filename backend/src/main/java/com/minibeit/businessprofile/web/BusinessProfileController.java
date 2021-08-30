@@ -33,8 +33,8 @@ public class BusinessProfileController {
     }
 
     @GetMapping("/{businessProfileId}")
-    public ResponseEntity<BusinessProfileResponse.GetOne> getOne(@PathVariable Long businessProfileId) {
-        BusinessProfileResponse.GetOne response = businessProfileService.getOne(businessProfileId);
+    public ResponseEntity<BusinessProfileResponse.GetOne> getOne(@PathVariable Long businessProfileId, @CurrentUser CustomUserDetails customUserDetails) {
+        BusinessProfileResponse.GetOne response = businessProfileService.getOne(businessProfileId, customUserDetails.getUser());
         return ResponseEntity.ok().body(response);
     }
 
@@ -54,10 +54,10 @@ public class BusinessProfileController {
     }
 
     @PostMapping("/{businessProfileId}/share")
-    public ResponseEntity<Void> shareBusinessProfile(@PathVariable Long businessProfileId,
+    public ResponseEntity<List<BusinessProfileResponse.IdAndNickname>> shareBusinessProfile(@PathVariable Long businessProfileId,
                                                      @RequestBody BusinessProfileRequest.Share request,
                                                      @CurrentUser CustomUserDetails customUserDetails) {
-        businessProfileService.shareBusinessProfile(businessProfileId, request, customUserDetails.getUser());
-        return ResponseEntity.ok().build();
+        List<BusinessProfileResponse.IdAndNickname> response = businessProfileService.shareBusinessProfile(businessProfileId, request, customUserDetails.getUser());
+        return ResponseEntity.ok().body(response);
     }
 }

@@ -7,6 +7,7 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
+import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.file.domain.File;
 import com.minibeit.file.service.FileService;
@@ -46,17 +47,16 @@ public class BusinessProfileService {
     }
 
     @Transactional(readOnly = true)
-    public BusinessProfileResponse.GetOne getOne(Long businessProfileId) {
+    public BusinessProfileResponse.GetOne getOne(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
-        return BusinessProfileResponse.GetOne.build(businessProfile);
+        return BusinessProfileResponse.GetOne.build(businessProfile, user);
     }
 
     public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
         permissionCheck(user, businessProfile);
-
         if (request.isAvatarChanged()) {
             fileService.deleteOne(businessProfile.getAvatar());
             File file = fileService.upload(request.getAvatar());
@@ -76,15 +76,20 @@ public class BusinessProfileService {
 
     }
 
-    public void shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.Share request,User user) {
+    public List<BusinessProfileResponse.IdAndNickname> shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.Share request,User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-
 
         permissionCheck(user, businessProfile);
 
         User userToShare = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
+
+        if(businessProfile.getUserBusinessProfileList().stream().
+                anyMatch(userBusinessProfile -> userBusinessProfile.getUser().getNickname().equals(request.getNickname()))){
+            throw new DuplicateShareException();
+        }
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
         userBusinessProfileRepository.save(userBusinessProfile);
+        return BusinessProfileResponse.IdAndNickname.build(businessProfile);
     }
 
     private void permissionCheck(User user, BusinessProfile businessProfile) {
@@ -92,4 +97,6 @@ public class BusinessProfileService {
             throw new PermissionException();
         }
     }
+
+
 }

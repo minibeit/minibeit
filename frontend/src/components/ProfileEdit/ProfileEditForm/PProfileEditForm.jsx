@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
+import { PVImg } from "../../Common";
 
 import * as S from "../style";
 
@@ -81,7 +82,9 @@ export default function PProfileEditForm({
         </option>
       </S.EditSelect>
       <br />
-      {newImg ? null : <S.OriginalImg src={userData.avatar} />}
+      <S.ImgBox>
+        {newImg ? <PVImg img={newImg} /> : <S.NewImg src={userData.avatar} />}
+      </S.ImgBox>
       <br />
       <S.EditInput name="img" type="file" onChange={fileChange} />
       <br />

@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface UserBusinessProfileRepository extends JpaRepository<UserBusinessProfile, Long> {
 
-    Optional<UserBusinessProfile> findByBusinessProfileIdAndUserId(Long businessProfileId, Long UserId);
+    boolean existsByUserIdAndBusinessProfileId(Long userId, Long businessProfileId);
 }

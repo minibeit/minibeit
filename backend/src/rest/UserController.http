@@ -2,7 +2,7 @@ POST {{apiUrl}}/user/login
 Content-Type: application/json;charset=UTF-8
 
 {
-  "id": "2"
+  "id": "1"
 }
 
 > {%
@@ -18,11 +18,12 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="name";
 
-동그라미
+네모
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-테스터
+
+네모
 --boundary
 Content-Disposition: form-data; name="gender";
 
@@ -43,10 +44,6 @@ Content-Disposition: form-data; name="age";
 Content-Disposition: form-data; name="schoolId";
 
 1
---boundary
-Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
-
-< ./../main/resources/mock/images/enjoy.png
 
 ###
 GET {{apiUrl}}/user/me

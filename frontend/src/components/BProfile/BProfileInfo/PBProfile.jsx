@@ -5,6 +5,7 @@ import { userState } from "../../../recoil/userState";
 import { deleteBprofile } from "../../../utils/bprofileApi";
 import * as S from "../style";
 import { useHistory } from "react-router";
+import BProfileJoin from "../BProfileJoin";
 
 PBProfile.propTypes = {
   buserData: PropTypes.shape({
@@ -51,6 +52,7 @@ export default function PBProfile({ buserData }) {
           수정하기
         </S.BProfileEdit>
         <S.BProfileDelete onClick={doDelete}>삭제하기</S.BProfileDelete>
+        <BProfileJoin businessId={buserData.id} />
       </S.BUserInfoContainer2>
     </S.UserInfoContainer>
   );

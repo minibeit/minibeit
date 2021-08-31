@@ -1,4 +1,4 @@
-package com.minibeit.file.component;
+package com.minibeit.common.component.file;
 
 import java.util.SplittableRandom;
 import java.util.stream.Collectors;

@@ -2,6 +2,7 @@ package com.minibeit.user.domain;
 
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.file.domain.File;
+import com.minibeit.post.domain.Post;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.service.exception.DuplicateNickNameException;
@@ -84,5 +85,9 @@ public class User extends BaseEntity {
         if (nicknameChanged && this.nickname.equals(nickname)) {
             throw new DuplicateNickNameException();
         }
+    }
+
+    public boolean postIsMine(Post post) {
+        return post.getCreatedBy().getId().equals(this.id);
     }
 }

@@ -4,4 +4,5 @@ import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserBusinessProfileRepository extends JpaRepository<UserBusinessProfile, Long> {
+    boolean existsByUserIdAndBusinessProfileId(Long userId, Long businessProfileId);
 }

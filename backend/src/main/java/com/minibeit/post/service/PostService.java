@@ -12,6 +12,7 @@ import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.User;
@@ -35,7 +36,9 @@ public class PostService {
     private final PostDoDateRepository postDoDateRepository;
 
     public PostResponse.OnlyId create(PostRequest.Create request, User user) {
-        userBusinessProfileRepository.findByUserIdAndBusinessProfileId(user.getId(), request.getBusinessProfileId()).orElseThrow(PermissionException::new);
+        if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), request.getBusinessProfileId())) {
+            throw new PermissionException();
+        }
 
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         BusinessProfile businessProfile = businessProfileRepository.findById(request.getBusinessProfileId()).orElseThrow(BusinessProfileNotFoundException::new);
@@ -48,5 +51,11 @@ public class PostService {
         postDoDateRepository.saveAll(postDoDateList);
 
         return PostResponse.OnlyId.build(savedPost);
+    }
+
+
+    public PostResponse.GetOne getOne(Long postId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        return PostResponse.GetOne.build(post, user);
     }
 }

@@ -58,3 +58,16 @@ Content-Disposition: form-data; name="doDateList";
 Content-Disposition: form-data; name="doDateList";
 
 2021-09-09T09:30
+--boundary
+Content-Disposition: form-data; name="files"; filename="enjoy.png"
+
+< ./../main/resources/mock/images/enjoy.png
+--boundary
+Content-Disposition: form-data; name="files"; filename="enjoy2.png"
+
+< ./../main/resources/mock/images/enjoy2.png
+
+
+###
+GET {{apiUrl}}/post/3
+Authorization: {{authorizationToken}}

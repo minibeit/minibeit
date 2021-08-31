@@ -18,11 +18,11 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="name";
 
-동그라미
+네모
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-동그라미
+네모
 --boundary
 Content-Disposition: form-data; name="gender";
 

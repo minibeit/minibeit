@@ -22,3 +22,15 @@ include::{snippets}/post-create/request-parts.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-create/http-response.adoc[]
 include::{snippets}/post-create/response-fields.adoc[]
+
+=== 게시물 단건 조회
+
+`GET /api/post/{postId}`
+
+요청 HTTP
+
+include::{snippets}/post-getOne/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-getOne/http-response.adoc[]
+include::{snippets}/post-getOne/response-fields.adoc[]

@@ -8,10 +8,7 @@ import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -26,5 +23,11 @@ public class PostController {
     public ResponseEntity<PostResponse.OnlyId> create(PostRequest.Create request, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.OnlyId response = postService.create(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(response);
+    }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostResponse.GetOne> getOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.GetOne response = postService.getOne(postId, customUserDetails.getUser());
+        return ResponseEntity.ok().body(response);
     }
 }

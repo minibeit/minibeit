@@ -51,6 +51,10 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostFile> postFileList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "post")
+    private List<PostDoDate> postDoDateList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "business_profile_id")
     private BusinessProfile businessProfile;

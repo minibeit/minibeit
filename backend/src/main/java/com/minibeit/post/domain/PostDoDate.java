@@ -23,7 +23,14 @@ public class PostDoDate extends BaseEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    private void setPost(Post post) {
+        this.post = post;
+        post.getPostDoDateList().add(this);
+    }
+
     public static PostDoDate create(LocalDateTime doDate, Post post) {
-        return PostDoDate.builder().doDate(doDate).post(post).build();
+        PostDoDate postDoDate = PostDoDate.builder().doDate(doDate).build();
+        postDoDate.setPost(post);
+        return postDoDate;
     }
 }

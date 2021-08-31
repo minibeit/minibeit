@@ -53,9 +53,15 @@ public class PostService {
         return PostResponse.OnlyId.build(savedPost);
     }
 
-
+    @Transactional(readOnly = true)
     public PostResponse.GetOne getOne(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         return PostResponse.GetOne.build(post, user);
+    }
+
+    public void deleteOne(Long postId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        post.checkPermission(user);
+        postRepository.deleteById(postId);
     }
 }

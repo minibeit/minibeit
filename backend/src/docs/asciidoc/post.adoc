@@ -34,3 +34,14 @@ include::{snippets}/post-getOne/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-getOne/http-response.adoc[]
 include::{snippets}/post-getOne/response-fields.adoc[]
+
+=== 게시물 삭제
+
+`DELETE /api/post/{postId}`
+
+요청 HTTP
+
+include::{snippets}/post-deleteOne/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-deleteOne/http-response.adoc[]

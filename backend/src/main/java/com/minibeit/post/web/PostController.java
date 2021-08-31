@@ -30,4 +30,10 @@ public class PostController {
         PostResponse.GetOne response = postService.getOne(postId, customUserDetails.getUser());
         return ResponseEntity.ok().body(response);
     }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
+        postService.deleteOne(postId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
 }

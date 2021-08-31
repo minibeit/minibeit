@@ -2,8 +2,10 @@ package com.minibeit.post.domain;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.school.domain.School;
+import com.minibeit.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -52,7 +54,7 @@ public class Post extends BaseEntity {
     private List<PostFile> postFileList = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<PostDoDate> postDoDateList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -89,5 +91,11 @@ public class Post extends BaseEntity {
                 .build();
         post.addPostFiles(postFileList);
         return post;
+    }
+
+    public void checkPermission(User user) {
+        if (!this.getCreatedBy().getId().equals(user.getId())) {
+            throw new PermissionException();
+        }
     }
 }

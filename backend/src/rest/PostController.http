@@ -71,3 +71,7 @@ Content-Disposition: form-data; name="files"; filename="enjoy2.png"
 ###
 GET {{apiUrl}}/post/3
 Authorization: {{authorizationToken}}
+
+###
+DELETE {{apiUrl}}/post/1
+Authorization: {{authorizationToken}}

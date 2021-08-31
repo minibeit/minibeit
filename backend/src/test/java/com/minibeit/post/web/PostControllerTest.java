@@ -165,4 +165,18 @@ class PostControllerTest extends MvcTest {
                         )
                 ));
     }
+
+    @Test
+    @DisplayName("게시물 삭제 문서화")
+    public void deleteOne() throws Exception {
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.delete("/api/post/{postId}", 1));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-deleteOne",
+                        pathParameters(
+                                parameterWithName("postId").description("삭제할 게시물 프로필 식별자")
+                        )
+                ));
+    }
 }

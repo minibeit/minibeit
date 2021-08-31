@@ -83,7 +83,7 @@ export default function PProfileEditForm({
       </S.EditSelect>
       <br />
       <S.ImgBox>
-        {newImg ? <PVImg img={newImg} /> : <S.NewImg src={userData.avatar} />}
+        {newImg ? <PVImg img={newImg} /> : <S.Img src={userData.avatar} />}
       </S.ImgBox>
       <br />
       <S.EditInput name="img" type="file" onChange={fileChange} />

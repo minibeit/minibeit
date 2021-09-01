@@ -57,8 +57,6 @@ Content-Disposition: form-data; name="contact";
 
 010-1234-1111
 --boundary
-
---boundary
 Content-Disposition: form-data; name="avatarChanged";
 
 false

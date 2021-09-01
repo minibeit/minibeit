@@ -58,15 +58,6 @@ Content-Disposition: form-data; name="doDateList";
 Content-Disposition: form-data; name="doDateList";
 
 2021-09-09T09:30
---boundary
-Content-Disposition: form-data; name="files"; filename="enjoy.png"
-
-< ./../main/resources/mock/images/enjoy.png
---boundary
-Content-Disposition: form-data; name="files"; filename="enjoy2.png"
-
-< ./../main/resources/mock/images/enjoy2.png
-
 
 ###
 GET {{apiUrl}}/post/3
@@ -75,3 +66,21 @@ Authorization: {{authorizationToken}}
 ###
 DELETE {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
+
+###
+POST {{apiUrl}}/post/1/apply
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+{
+  "doDate": "2021-09-09T09:30"
+}
+
+###
+POST {{apiUrl}}/post/1/apply/check/2
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+{
+  "approve": "APPROVE"
+}

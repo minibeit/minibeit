@@ -1,5 +1,6 @@
 package com.minibeit.post.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minibeit.post.domain.Payment;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,5 +35,15 @@ public class PostRequest {
         private LocalDateTime endDate;
         @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
         private List<LocalDateTime> doDateList;
+    }
+
+    @Setter
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Apply {
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime doDate;
     }
 }

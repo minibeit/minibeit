@@ -6,8 +6,10 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.PostFile;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostRequest;
@@ -34,6 +36,7 @@ public class PostService {
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final PostDoDateRepository postDoDateRepository;
+    private final PostApplicantRepository postApplicantRepository;
 
     public PostResponse.OnlyId create(PostRequest.Create request, User user) {
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), request.getBusinessProfileId())) {
@@ -63,5 +66,12 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         post.checkPermission(user);
         postRepository.deleteById(postId);
+    }
+
+    public void apply(Long postId, PostRequest.Apply request, User user) {
+        //TODO 게시물에 실험 시작 날짜에 request로 온 날짜가 포함되는지 확인 필요
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        PostApplicant postApplicant = PostApplicant.create(post, request, user);
+        postApplicantRepository.save(postApplicant);
     }
 }

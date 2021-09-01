@@ -166,7 +166,6 @@ class BusinessProfileControllerTest extends MvcTest {
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
                                 fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
-                                // GetOne Dto에 isMine으로 반환했는데 왜 여기선 mine으로 받을까요...???ㅋㅋㅋ....
                                 fieldWithPath("mine").type(JsonFieldType.BOOLEAN).description("비즈니스 프로필 자신의 것인지 확인"),
                                 fieldWithPath("avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url(프로필 이미지가 없다면 null)")
                         )

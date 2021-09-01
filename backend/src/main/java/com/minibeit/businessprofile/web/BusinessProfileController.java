@@ -5,6 +5,7 @@ import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
+import com.sun.mail.iap.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,5 +60,13 @@ public class BusinessProfileController {
                                                      @CurrentUser CustomUserDetails customUserDetails) {
         List<BusinessProfileResponse.IdAndNickname> response = businessProfileService.shareBusinessProfile(businessProfileId, request, customUserDetails.getUser());
         return ResponseEntity.ok().body(response);
+    }
+
+    @DeleteMapping("/{businessProfileId}/share")
+    public ResponseEntity<Void> cancelShare(@PathVariable Long businessProfileId,
+                                       @RequestBody BusinessProfileRequest.Share request,
+                                       @CurrentUser CustomUserDetails customUserDetails){
+        businessProfileService.cancelShare(businessProfileId, request, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
     }
 }

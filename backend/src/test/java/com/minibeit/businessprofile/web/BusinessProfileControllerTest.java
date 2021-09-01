@@ -254,4 +254,25 @@ class BusinessProfileControllerTest extends MvcTest {
                         )
                 ));
     }
+
+    @Test
+    @DisplayName("비즈니스 프로필 공유 삭제 문서화")
+    public void cancelShare() throws Exception {
+        BusinessProfileRequest.Share request = BusinessProfileRequest.Share.builder().nickname("세모").build();
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.delete("/api/business/profile/{businessProfileId}/share", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(objectMapper.writeValueAsString(request)));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-profile-share-cancel",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
+                        ), requestFields(
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("비즈니스프로필에서 공유 삭제하려는 유저 닉네임")
+                        )
+                ));
+    }
 }

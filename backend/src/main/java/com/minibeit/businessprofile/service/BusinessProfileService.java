@@ -92,6 +92,20 @@ public class BusinessProfileService {
         return BusinessProfileResponse.IdAndNickname.build(businessProfile);
     }
 
+    public void cancelShare(Long businessProfileId, BusinessProfileRequest.Share request,User user){
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+
+        permissionCheck(user, businessProfile);
+
+        //조건 추가 비지느스 아이디도 같은지?????????
+        UserBusinessProfile userBusinessProfile = businessProfile.getUserBusinessProfileList().stream()
+                .filter(userBusinessProfile1 -> userBusinessProfile1.getUser().getNickname().equals(request.getNickname()))
+                .findAny().orElseThrow(UserNotFoundException::new);
+
+        //왜 delete가 안될까.???
+        userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
+    }
+
     private void permissionCheck(User user, BusinessProfile businessProfile) {
         if (!businessProfile.getCreatedBy().getId().equals(user.getId())) {
             throw new PermissionException();

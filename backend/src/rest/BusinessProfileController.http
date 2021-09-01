@@ -69,10 +69,19 @@ Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business/profile/7/share
+POST {{apiUrl}}/business/profile/6/share
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 {
   "nickname": "테스터"
+}
+
+###
+DELETE {{apiUrl}}/business/profile/6/share
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "nickname": "테스터2"
 }

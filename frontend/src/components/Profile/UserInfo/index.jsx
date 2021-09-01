@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PUserInfo from "./PUserInfo";
-import { getMyInfo } from "../../../utils/userInfo";
+import { getMyInfo } from "../../../utils/profileApi";
 import { LoadingSpinner } from "../../Common";
 
 export default function UserInfo() {

@@ -1,16 +1,17 @@
 import styled from "styled-components";
 
-export const BPEditCont = styled.div``;
-export const BPEditInput = styled.input``;
-export const BPEditButton = styled.button``;
+export const EditContainer = styled.div``;
 export const ImgBox = styled.div`
   background-color: gray;
   overflow: hidden;
-  width: 4rem;
-  height: 4rem;
+  width: 10rem;
+  height: 10rem;
 `;
 export const Img = styled.img`
   object-fit: fill;
   width: 100%;
   height: 100%;
 `;
+export const EditInput = styled.input``;
+export const EditButton = styled.button``;
+export const EditSelect = styled.select``;

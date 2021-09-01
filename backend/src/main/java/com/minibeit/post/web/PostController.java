@@ -42,4 +42,10 @@ public class PostController {
         postService.apply(postId, request, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/{postId}/apply/check/{userId}")
+    public ResponseEntity<Void> applyCheck(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId, @RequestBody PostRequest.ApplyCheck request) {
+        postService.applyCheck(postId, userId, request);
+        return ResponseEntity.ok().build();
+    }
 }

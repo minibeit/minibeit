@@ -34,6 +34,10 @@ public class PostApplicant extends BaseEntity {
 
     private boolean finish;
 
+    public void updateStatus(PostStatus postStatus) {
+        this.postStatus = postStatus;
+    }
+
     public static PostApplicant create(Post post, PostRequest.Apply request, User user) {
         return PostApplicant.builder()
                 .post(post)

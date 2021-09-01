@@ -82,3 +82,17 @@ include::{snippets}/business-profile-share/request-fields.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/business-profile-share/http-response.adoc[]
+
+== 게시물 관련 API
+
+=== 지원자 참여 결정하기
+
+`POST /api/post/{postId}/apply/check/{userId}`
+
+요청 HTTP
+include::{snippets}/post-approve/http-request.adoc[]
+include::{snippets}/post-approve/path-parameters.adoc[]
+include::{snippets}/post-approve/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-approve/http-response.adoc[]

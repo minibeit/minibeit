@@ -14,6 +14,7 @@ import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
@@ -73,5 +74,11 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         PostApplicant postApplicant = PostApplicant.create(post, request, user);
         postApplicantRepository.save(postApplicant);
+    }
+
+    public void applyCheck(Long postId, Long userId, PostRequest.ApplyCheck request) {
+        //TODO 해당 게시물 비즈니스 프로필의 관리자인지 체크해야함
+        PostApplicant postApplicant = postApplicantRepository.findByPostIdAndUserId(postId, userId).orElseThrow(PostApplicantNotFoundException::new);
+        postApplicant.updateStatus(request.getApprove());
     }
 }

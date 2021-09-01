@@ -97,7 +97,6 @@ public class BusinessProfileService {
 
         permissionCheck(user, businessProfile);
 
-        //조건 추가 비지느스 아이디도 같은지?????????
         UserBusinessProfile userBusinessProfile = businessProfile.getUserBusinessProfileList().stream()
                 .filter(userBusinessProfile1 -> userBusinessProfile1.getUser().getNickname().equals(request.getNickname()))
                 .findAny().orElseThrow(UserNotFoundException::new);

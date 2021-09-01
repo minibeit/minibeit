@@ -1,6 +1,7 @@
 package com.minibeit.businessprofile.dto;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
@@ -43,7 +44,7 @@ public class BusinessProfileResponse {
                     .place(businessProfile.getPlace())
                     .introduce(businessProfile.getIntroduce())
                     .contact(businessProfile.getContact())
-                    .isMine(businessProfile.getCreatedBy().getId().equals(user.getId()));
+                    .isMine(businessProfile.isMine(user));
             if (businessProfile.getAvatar() != null) {
                 return getOneBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
             }
@@ -76,14 +77,13 @@ public class BusinessProfileResponse {
     public static class IdAndNickname{
         private Long id;
         private String nickname;
-        public static List<BusinessProfileResponse.IdAndNickname> build(BusinessProfile businessProfile){
+        public static BusinessProfileResponse.IdAndNickname build(UserBusinessProfile userbusinessProfile) {
 
-            return businessProfile.getUserBusinessProfileList().stream()
-                    .map(userBusinessProfile -> IdAndNickname.builder()
-                            .id(userBusinessProfile.getUser().getId())
-                            .nickname(userBusinessProfile.getUser().getNickname()).build())
-                    .collect(Collectors.toList());
+            return IdAndNickname.builder()
+                    .id(userbusinessProfile.getUser().getId())
+                    .nickname(userbusinessProfile.getUser().getNickname())
+                    .build();
+
         }
-
     }
 }

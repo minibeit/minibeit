@@ -8,6 +8,7 @@ import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
+import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.file.domain.File;
 import com.minibeit.file.service.FileService;
@@ -83,13 +84,19 @@ public class BusinessProfileService {
 
         User userToShare = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
 
+        duplicationCheck(request, businessProfile);
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
+        userBusinessProfileRepository.save(userBusinessProfile);
+        businessProfile.getUserBusinessProfileList().add(userBusinessProfile);
+
+        return businessProfile.getUserBusinessProfileList().stream().map(BusinessProfileResponse.IdAndNickname::build).collect(Collectors.toList());
+    }
+
+    private void duplicationCheck(BusinessProfileRequest.Share request, BusinessProfile businessProfile) {
         if(businessProfile.getUserBusinessProfileList().stream().
                 anyMatch(userBusinessProfile -> userBusinessProfile.getUser().getNickname().equals(request.getNickname()))){
             throw new DuplicateShareException();
         }
-        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
-        userBusinessProfileRepository.save(userBusinessProfile);
-        return BusinessProfileResponse.IdAndNickname.build(businessProfile);
     }
 
     public void cancelShare(Long businessProfileId, BusinessProfileRequest.Share request,User user){
@@ -97,11 +104,8 @@ public class BusinessProfileService {
 
         permissionCheck(user, businessProfile);
 
-        UserBusinessProfile userBusinessProfile = businessProfile.getUserBusinessProfileList().stream()
-                .filter(userBusinessProfile1 -> userBusinessProfile1.getUser().getNickname().equals(request.getNickname()))
-                .findAny().orElseThrow(UserNotFoundException::new);
-
-        //왜 delete가 안될까.???
+        User sharingUser = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
+        UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(sharingUser.getId(), businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
     }
 

@@ -62,11 +62,4 @@ public class BusinessProfileController {
         return ResponseEntity.ok().body(response);
     }
 
-    @DeleteMapping("/{businessProfileId}/share")
-    public ResponseEntity<Void> cancelShare(@PathVariable Long businessProfileId,
-                                       @RequestBody BusinessProfileRequest.Share request,
-                                       @CurrentUser CustomUserDetails customUserDetails){
-        businessProfileService.cancelShare(businessProfileId, request, customUserDetails.getUser());
-        return ResponseEntity.ok().build();
-    }
 }

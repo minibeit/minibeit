@@ -114,6 +114,4 @@ public class BusinessProfileService {
             throw new PermissionException();
         }
     }
-
-
 }

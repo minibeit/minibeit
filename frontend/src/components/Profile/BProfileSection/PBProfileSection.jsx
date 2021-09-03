@@ -2,27 +2,20 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
-import { bprofileListGet } from "../../../utils";
-import BProfileNewModal from "../BProfileNewModal";
+import { bprofileListGet, bprofileNew } from "../../../utils";
+import CreateBProfileModal from "../../Common/Modal/CreateBProfileModal";
+
 import * as S from "../style";
 
 export default function PBProfileSection() {
   const [bprofiles, setbprofiles] = useState([]);
-  const [isShowing, setIsShowing] = useState(false);
+  const [modalSwitch, setModalSwitch] = useState(false);
   const UserId = useRecoilValue(userState).id;
-  const openModal = () => {
-    setIsShowing(true);
+  const onClick = () => {
+    setModalSwitch(true);
   };
 
-  const closeModal = (data) => {
-    if (data.type !== "click") {
-      getBprofile();
-    }
-
-    setIsShowing(false);
-  };
-
-  const getBprofile = async () => {
+  const getBprofileList = async () => {
     try {
       const result = await bprofileListGet(UserId);
 
@@ -35,21 +28,36 @@ export default function PBProfileSection() {
       console.log(e);
     }
   };
+  const CreateBProfile = (inputs, img) => {
+    bprofileNew(inputs, img)
+      .then((res) => {
+        getBprofileList();
+        setModalSwitch(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
-    getBprofile();
+    getBprofileList();
   }, []);
 
   return (
     <S.BPContainer>
-      <S.BPbtn onClick={openModal}>비즈니스 프로필 생성하기</S.BPbtn>
+      <S.BPbtn onClick={onClick}>비즈니스 프로필 생성하기</S.BPbtn>
+      {modalSwitch ? (
+        <CreateBProfileModal
+          setModalSwitch={setModalSwitch}
+          CreateBProfile={CreateBProfile}
+        />
+      ) : null}
       {bprofiles.map((bprofile) => (
         <Link key={bprofile.id} to={"/business/" + bprofile.id}>
           {" "}
           <div>{bprofile.name}</div>
         </Link>
       ))}
-      <div>{isShowing && <BProfileNewModal closeModal={closeModal} />}</div>
     </S.BPContainer>
   );
 }

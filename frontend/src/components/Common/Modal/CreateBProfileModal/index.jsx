@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Portal from "../Portal";
 import { PVImg } from "../..";
 import PropTypes from "prop-types";
+import { handleCompressImg } from "../../../../utils/imgCompress";
 import * as S from "./style";
 
 CreateBProfileModal.propTypes = {
@@ -29,11 +30,11 @@ export default function CreateBProfileModal({
       [name]: value,
     });
   };
-  const fileChange = (e) => {
-    setImg(e.target.files[0]);
-  };
   const closeModal = () => {
     setModalSwitch(false);
+  };
+  const fileChange = (e) => {
+    handleCompressImg(e.target.files[0]).then((res) => setImg(res));
   };
   return (
     <Portal>
@@ -78,7 +79,13 @@ export default function CreateBProfileModal({
               placeholder="연락처"
               onChange={onChange}
             />
-            <S.ImgBox>{img ? <PVImg img={img} /> : null}</S.ImgBox>
+            <S.ImgBox>
+              {img ? (
+                <PVImg img={img} />
+              ) : (
+                <S.Img src="/기본비즈니스프로필.jpeg" />
+              )}
+            </S.ImgBox>
             <S.BPNewInput name="img" type="file" onChange={fileChange} />
             <S.BPSubmitBtn
               onClick={async (e) => {

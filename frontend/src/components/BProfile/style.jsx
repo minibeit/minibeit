@@ -15,8 +15,17 @@ export const BPuser = styled.div``;
 export const BPuserdelete = styled.div``;
 export const UserName = styled.h3``;
 export const UserInfo = styled.p``;
+export const ImgBox = styled.div`
+  display: inline-block;
+  background-color: gray;
+  overflow: hidden;
+  width: 10rem;
+  height: 10rem;
+`;
 export const UserImg = styled.img`
-  width: 100px;
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
 `;
 export const BPJoinBtn = styled.div``;
 export const JoinContainer = styled.div``;
@@ -26,14 +35,3 @@ export const BPContainer = styled.div``;
 export const BPbtn = styled.div``;
 export const BPNewInput = styled.input``;
 export const BPSubmitBtn = styled.div``;
-export const ModalClose = styled.div``;
-export const ModalWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed;
-  bottom: 30%;
-  left: 0;
-  width: 100%;
-  height: 50%;
-`;

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { PVImg } from "../../Common";
 
 import * as S from "../style";
 
@@ -66,6 +67,7 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
         </option>
       </S.SignupSelect>
       <br />
+      <S.ImgBox>{img ? <PVImg img={img} /> : null}</S.ImgBox>
       <S.SignupInput name="img" type="file" onChange={fileChange} />
       <br />
       <S.SignupInput

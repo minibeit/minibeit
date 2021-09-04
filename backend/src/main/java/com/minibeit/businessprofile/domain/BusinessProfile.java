@@ -3,6 +3,7 @@ package com.minibeit.businessprofile.domain;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.file.domain.File;
+import com.minibeit.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -67,4 +68,5 @@ public class BusinessProfile extends BaseEntity {
     public void updateAvatar(File avatar) {
         this.avatar = avatar;
     }
+
 }

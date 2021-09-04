@@ -3,14 +3,14 @@ import styled from "styled-components";
 export const BPEditCont = styled.div``;
 export const BPEditInput = styled.input``;
 export const BPEditButton = styled.button``;
-export const BPEditImg = styled.img`
-  width: 100px;
+export const ImgBox = styled.div`
+  background-color: gray;
+  overflow: hidden;
+  width: 4rem;
+  height: 4rem;
 `;
-export const BPEditNewImg = styled.img`
-  width: 100px;
-`;
-export const BPEditImgBox = styled.div`
-  width: 100px;
-  height: 100px;
-  background: gray;
+export const Img = styled.img`
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
 `;

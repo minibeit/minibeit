@@ -7,6 +7,11 @@ import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
 import com.minibeit.file.domain.File;
+import com.minibeit.school.domain.School;
+import com.minibeit.user.domain.Gender;
+import com.minibeit.user.domain.Role;
+import com.minibeit.user.domain.SignupProvider;
+import com.minibeit.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,6 +43,7 @@ class BusinessProfileControllerTest extends MvcTest {
     private BusinessProfileService businessProfileService;
 
     private BusinessProfile businessProfile;
+    private User user1;
 
     @BeforeEach
     public void setup() {
@@ -50,6 +56,21 @@ class BusinessProfileControllerTest extends MvcTest {
                 .introduce("고려대 동그라미 실험실 입니다.")
                 .avatar(File.builder().id(1L).url("profile image url").build())
                 .build();
+        user1 = User.builder()
+                .id(1L)
+                .name("홍길동")
+                .nickname("테스트")
+                .age(20)
+                .avatar(File.builder().id(2L).url("profile image url").build())
+                .gender(Gender.MALE)
+                .job("학생")
+                .oauthId("1")
+                .phoneNum("010-1234-4567")
+                .provider(SignupProvider.MINIBEIT)
+                .role(Role.USER)
+                .school(School.builder().id(1L).name("고려대").build())
+                .build();
+
     }
 
     @Test
@@ -124,9 +145,11 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 단건 조회 문서화")
     public void getOne() throws Exception {
-        BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile);
 
-        given(businessProfileService.getOne(any())).willReturn(response);
+        businessProfile.setCreatedBy(user1);
+        BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile, user1);
+
+        given(businessProfileService.getOne(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/{businessProfileId}", 1));
 
@@ -143,6 +166,7 @@ class BusinessProfileControllerTest extends MvcTest {
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
                                 fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
+                                fieldWithPath("mine").type(JsonFieldType.BOOLEAN).description("비즈니스 프로필 자신의 것인지 확인"),
                                 fieldWithPath("avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url(프로필 이미지가 없다면 null)")
                         )
                 ));
@@ -229,4 +253,6 @@ class BusinessProfileControllerTest extends MvcTest {
                         )
                 ));
     }
+
+
 }

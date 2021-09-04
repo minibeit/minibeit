@@ -13,4 +13,5 @@ export {
   deleteBprofile,
   editBprofile,
   bprofileJoin,
+  bprofileJoinDel,
 } from "./bprofileApi";

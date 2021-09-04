@@ -8,6 +8,7 @@ const {
   BPROFILE_DELETE,
   BPROFILE_EDIT,
   BPROFILE_JOIN,
+  BPROFILE_JOIN_DEL
 } = API_URLS;
 
 // getuserinfo 완료되면 api주소 입력 후 사용
@@ -49,5 +50,10 @@ export const bprofileJoin = async (businessId, nickname) => {
   return await withAuthInstance.post(
     BPROFILE_JOIN + businessId + "/share",
     data
+  );
+};
+export const bprofileJoinDel = async (businessId ,userId) => {
+  return await withAuthInstance.delete(
+    BPROFILE_JOIN_DEL + businessId + "/share"
   );
 };

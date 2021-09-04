@@ -3,9 +3,8 @@ import { Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { RecoilRoot } from "recoil";
 import Main from "./pages/Main";
-import Login from "./pages/Login";
 import ProcessLogin from "./pages/ProcessLogin";
-import Signup from "./pages/Signup";
+
 import SignupInfo from "./pages/SignupInfo";
 import Profile from "./pages/Profile";
 import ProfileEdit from "./pages/ProfileEdit";
@@ -24,13 +23,11 @@ function App() {
         <GlobalStyle />
         <Switch>
           <Route path="/" exact component={Main} />
-          <Route path="/login" component={Login} />
           <Route
             path="/callback/:id/:nickname/:accessToken/:schoolId/:signupCheck"
             component={ProcessLogin}
           />
           <Route path="/ProcessLogin" component={ProcessLogin} />
-          <Route path="/signup" component={Signup} />
           <Route path="/signupInfo" component={SignupInfo} />
           <Route path="/user/:userId" exact component={Profile} />
           <Route path="/user/:userId/edit" exact component={ProfileEdit} />

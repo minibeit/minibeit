@@ -87,10 +87,10 @@ public class BusinessProfileService {
         if (userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(userToShare.getId(), businessProfileId)) {
             throw new DuplicateShareException();
         }
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(userToShare);
+        userBusinessProfile.createWithBusinessProfile(businessProfile);
 
-        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
         userBusinessProfileRepository.save(userBusinessProfile);
-        businessProfile.getUserBusinessProfileList().add(userBusinessProfile);
 
     }
 

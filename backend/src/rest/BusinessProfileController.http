@@ -76,7 +76,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-DELETE {{apiUrl}}/business/profile/1/share
+DELETE {{apiUrl}}/business/profile/4/share
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 

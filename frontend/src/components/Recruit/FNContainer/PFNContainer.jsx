@@ -46,6 +46,11 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
   const fileChange = (e) => {
     setFiles(e.target.files[0]);
   };
+  window.addEventListener("beforeunload", function (e) {
+    let confirmationMessage = "정말 닫으시겠습니까?";
+    e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
+    return confirmationMessage; // Gecko, WebKit, Chrome < 34
+  });
   return (
     <>
       <S.FNBottomWrapper>

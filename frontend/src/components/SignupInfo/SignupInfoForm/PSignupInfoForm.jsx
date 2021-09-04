@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { PVImg } from "../../Common";
-
 import * as S from "../style";
 
 PSignupInfoForm.propTypes = {
@@ -15,6 +14,12 @@ PSignupInfoForm.propTypes = {
 };
 
 function PSignupInfoForm({ schoollist, signupHandler }) {
+  window.addEventListener("beforeunload", function (e) {
+    let confirmationMessage = "정말 닫으시겠습니까?";
+    e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
+    return confirmationMessage; // Gecko, WebKit, Chrome < 34
+  });
+
   const [inputs, setInputs] = useState({
     name: "",
     nickname: "",

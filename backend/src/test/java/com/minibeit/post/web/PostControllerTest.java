@@ -5,6 +5,8 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostFile;
+import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.PostService;
 import com.minibeit.school.domain.School;
@@ -28,8 +30,7 @@ import java.util.Collections;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -176,6 +177,51 @@ class PostControllerTest extends MvcTest {
                 .andDo(document("post-deleteOne",
                         pathParameters(
                                 parameterWithName("postId").description("삭제할 게시물 프로필 식별자")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("게시물 지원 문서화")
+    public void applyPost() throws Exception {
+        PostRequest.Apply request = PostRequest.Apply.builder().doDate(LocalDateTime.of(2021, 9, 1, 9, 30)).build();
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/{postId}/apply", 1)
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-apply",
+                        pathParameters(
+                                parameterWithName("postId").description("참여할 게시물 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("doDate").type(JsonFieldType.STRING).description("실험 참가 날짜")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("비즈니스쪽에서 해당 지원자 게시물 참여 결정 문서화")
+    public void applyCheck() throws Exception {
+        PostRequest.ApplyCheck request = PostRequest.ApplyCheck.builder().approve(PostStatus.APPROVE).build();
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/{postId}/apply/check/{userId}", 1, 2)
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-approve",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자"),
+                                parameterWithName("userId").description("유저(지원자) 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("approve").type(JsonFieldType.STRING).description("승인이라면 APPROVE 거절이라면 REJECT")
                         )
                 ));
     }

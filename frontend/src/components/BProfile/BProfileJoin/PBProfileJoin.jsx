@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as S from "../style";
 
-export default function PBProfileJoin({ handleJoin }) {
+export default function PBProfileJoin({ handleJoin, handleDelete, usergroup }) {
   const [nickname, setNickname] = useState("");
   const onChange = (e) => {
     const { value } = e.target;
@@ -27,6 +27,23 @@ export default function PBProfileJoin({ handleJoin }) {
         >
           초대하기
         </S.BPJoinBtn>
+        {usergroup.length >= 1
+          ? usergroup.map((user) => (
+              <div>
+                {" "}
+                <S.BPuser key={user.id}>{user.nickname}</S.BPuser>
+                <S.BPuserdelete
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await handleDelete(user.id);
+                    setNickname("");
+                  }}
+                >
+                  x
+                </S.BPuserdelete>
+              </div>
+            ))
+          : null}
       </S.JoinContainer>
     </>
   );

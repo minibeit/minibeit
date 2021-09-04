@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { PVImg } from "../../Common";
 
 import * as S from "../style";
+import { handleCompressImg } from "../../../utils/imgCompress";
 
 PSignupInfoForm.propTypes = {
   schoollist: PropTypes.arrayOf(
@@ -31,7 +32,7 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
     setInputs({ ...inputs, [name]: value });
   };
   const fileChange = (e) => {
-    setImg(e.target.files[0]);
+    handleCompressImg(e.target.files[0]).then((res) => setImg(res));
   };
   return (
     <S.FormsignupContainer>

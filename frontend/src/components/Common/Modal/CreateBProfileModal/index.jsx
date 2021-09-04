@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Portal from "../Portal";
 import { PVImg } from "../..";
 import PropTypes from "prop-types";
+import { handleCompressImg } from "../../../../utils/imgCompress";
 import * as S from "./style";
 
 CreateBProfileModal.propTypes = {
@@ -29,11 +30,11 @@ export default function CreateBProfileModal({
       [name]: value,
     });
   };
-  const fileChange = (e) => {
-    setImg(e.target.files[0]);
-  };
   const closeModal = () => {
     setModalSwitch(false);
+  };
+  const fileChange = (e) => {
+    handleCompressImg(e.target.files[0]).then((res) => setImg(res));
   };
   return (
     <Portal>

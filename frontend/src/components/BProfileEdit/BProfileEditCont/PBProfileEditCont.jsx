@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { PVImg } from "../../Common";
 
 import * as S from "../style";
+import { handleCompressImg } from "../../../utils/imgCompress";
 
 PBProfileEditCont.propTypes = {
   bpEditHandler: PropTypes.func.isRequired,
@@ -33,7 +34,7 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
     setInputs({ ...inputs, [name]: value });
   };
   const fileChange = (e) => {
-    setNewImg(e.target.files[0]);
+    handleCompressImg(e.target.files[0]).then((res) => setNewImg(res));
   };
   return (
     <>
@@ -76,8 +77,10 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
         <S.ImgBox>
           {newImg ? (
             <PVImg img={newImg} />
-          ) : (
+          ) : BProfileData.avatar ? (
             <S.Img src={BProfileData.avatar} />
+          ) : (
+            <S.Img src="/기본비즈니스프로필.jpeg" />
           )}
         </S.ImgBox>
         <S.BPEditInput name="img" type="file" onChange={fileChange} />

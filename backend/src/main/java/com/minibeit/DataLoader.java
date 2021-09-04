@@ -18,11 +18,11 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
         if (userRepository.findByOauthId(String.valueOf(1)).isEmpty()) {
-            User user1 = User.builder().oauthId(String.valueOf(1)).provider(SignupProvider.MINIBEIT).role(Role.USER).signupCheck(false).build();
+            User user1 = User.builder().oauthId(String.valueOf(1)).provider(SignupProvider.MINIBEIT).nickname("테스터").role(Role.USER).signupCheck(false).build();
             userRepository.save(user1);
         }
         if (userRepository.findByOauthId(String.valueOf(2)).isEmpty()) {
-            User user2 = User.builder().oauthId(String.valueOf(2)).provider(SignupProvider.MINIBEIT).role(Role.USER).signupCheck(false).build();
+            User user2 = User.builder().oauthId(String.valueOf(2)).provider(SignupProvider.MINIBEIT).nickname("테스터2").role(Role.USER).signupCheck(false).build();
             userRepository.save(user2);
         }
     }

@@ -7,6 +7,8 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
+import com.minibeit.businessprofile.service.exception.DuplicateShareException;
+import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.file.domain.File;
 import com.minibeit.file.service.FileService;
@@ -39,24 +41,23 @@ public class BusinessProfileService {
     }
 
     @Transactional(readOnly = true)
-    public List<BusinessProfileResponse.IdAndName> getListIsMine(Long userId) {
+    public List<BusinessProfileResponse.GetList> getListIsMine(Long userId) {
         List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(userId);
 
-        return businessProfileList.stream().map(BusinessProfileResponse.IdAndName::build).collect(Collectors.toList());
+        return businessProfileList.stream().map(BusinessProfileResponse.GetList::build).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public BusinessProfileResponse.GetOne getOne(Long businessProfileId) {
+    public BusinessProfileResponse.GetOne getOne(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
-        return BusinessProfileResponse.GetOne.build(businessProfile);
+        return BusinessProfileResponse.GetOne.build(businessProfile, user);
     }
 
     public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
         permissionCheck(user, businessProfile);
-
         if (request.isAvatarChanged()) {
             fileService.deleteOne(businessProfile.getAvatar());
             File file = fileService.upload(request.getAvatar());
@@ -79,12 +80,30 @@ public class BusinessProfileService {
     public void shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.Share request,User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
-
         permissionCheck(user, businessProfile);
 
         User userToShare = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
-        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
+
+        if (userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(userToShare.getId(), businessProfileId)) {
+            throw new DuplicateShareException();
+        }
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(userToShare);
+        userBusinessProfile.createWithBusinessProfile(businessProfile);
+
         userBusinessProfileRepository.save(userBusinessProfile);
+
+    }
+
+
+
+    public void cancelShare(Long businessProfileId, BusinessProfileRequest.Share request,User user){
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+
+        permissionCheck(user, businessProfile);
+
+        User sharingUser = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
+        UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(sharingUser.getId(), businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
+        userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
     }
 
     private void permissionCheck(User user, BusinessProfile businessProfile) {

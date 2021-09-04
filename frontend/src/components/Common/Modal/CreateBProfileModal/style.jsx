@@ -37,3 +37,8 @@ export const ImgBox = styled.div`
   width: 10rem;
   height: 10rem;
 `;
+export const Img = styled.img`
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+`;

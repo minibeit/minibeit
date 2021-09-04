@@ -44,7 +44,7 @@ public class BusinessProfileResponse {
                     .place(businessProfile.getPlace())
                     .introduce(businessProfile.getIntroduce())
                     .contact(businessProfile.getContact())
-                    .isMine(businessProfile.isMine(user));
+                    .isMine(user.businessProfileIsMine(businessProfile));
             if (businessProfile.getAvatar() != null) {
                 return getOneBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
             }

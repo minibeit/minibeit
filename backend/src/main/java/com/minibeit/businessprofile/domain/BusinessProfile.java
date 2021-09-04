@@ -69,7 +69,4 @@ public class BusinessProfile extends BaseEntity {
         this.avatar = avatar;
     }
 
-    public boolean isMine(User user){
-        return this.getCreatedBy().getId().equals(user.getId());
-    }
 }

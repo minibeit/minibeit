@@ -1,18 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { feedCreateApi } from "../../../utils";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../../recoil/userState";
+import { bprofileListGet, feedCreateApi } from "../../../utils";
 import { schoolGetApi } from "../../../utils/schoolApi";
 import PFNContainer from "./PFNContainer";
 
 function FNContainer() {
+  const userId = useRecoilValue(userState).id;
   const history = useHistory();
   const [schoolList, setSchoolList] = useState([]);
+  const [bpList, setbpList] = useState([]);
   const getSchoolList = async () => {
     try {
       const result = await schoolGetApi();
       if (result) {
         console.log(result);
-        setSchoolList(result);
+        setSchoolList(result.data);
+      }
+    } catch (e) {
+      console.log(e.response.data.error.msg);
+      alert(e.response.data.error.msg);
+    }
+  };
+  const getbpList = async () => {
+    try {
+      const result = await bprofileListGet(userId);
+      if (result) {
+        setbpList(result.data);
       }
     } catch (e) {
       console.log(e.response.data.error.msg);
@@ -22,31 +37,40 @@ function FNContainer() {
 
   useEffect(() => {
     getSchoolList();
+    getbpList();
   }, []);
   const FNHandler = async (
     title,
     dueDate,
     doDate,
-    pay,
-    time,
+    payment,
+    doTime,
     place,
     content,
-    phoneNum,
+    contact,
     files,
-    school
+    schoolId,
+    cache,
+    goods,
+    condition,
+    conditionDetail
   ) => {
     try {
       const result = await feedCreateApi(
         title,
         dueDate,
         doDate,
-        pay,
-        time,
+        payment,
+        doTime,
         place,
         content,
-        phoneNum,
+        contact,
         files,
-        school
+        schoolId,
+        cache,
+        goods,
+        condition,
+        conditionDetail
       );
       console.log(result);
       if (result.id) {
@@ -58,6 +82,12 @@ function FNContainer() {
       alert(e);
     }
   };
-  return <PFNContainer schoolList={schoolList} FNHandler={FNHandler} />;
+  return (
+    <PFNContainer
+      bpList={bpList}
+      schoolList={schoolList}
+      FNHandler={FNHandler}
+    />
+  );
 }
 export default FNContainer;

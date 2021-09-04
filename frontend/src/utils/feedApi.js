@@ -8,24 +8,37 @@ export const feedCreateApi = async (
   title,
   dueDate,
   doDate,
-  pay,
+  payment,
   time,
   place,
   content,
-  phoneNum,
+  contact,
   files,
-  school
+  school,
+  cache,
+  goods,
+  condition,
+  conditionDetail,
 ) => {
   const formData = new FormData();
   formData.append("title", title);
   formData.append("content", content);
   formData.append("place", place);
-  formData.append("pay", pay);
+  formData.append("payment", payment);
+  if (payment ==="CACHE") {
+    formData.append("cache", cache);
+  }else{
+    formData.append("goods", goods);
+  }
+  formData.append("condition", condition);
+  if (condition === "true") {
+    formData.append("conditionDetail", conditionDetail);
+  }
   formData.append("time", time);
   if (files) {
     formData.append("files", files);
   }
-  formData.append("phoneNum", phoneNum);
+  formData.append("contact", contact);
   formData.append("dueDate", dueDate);
   formData.append("doDate", doDate);
   formData.append("schoolId", school);

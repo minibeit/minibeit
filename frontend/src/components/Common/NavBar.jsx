@@ -3,12 +3,17 @@ import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/userState";
 import { logoutFunc } from "../../utils/auth";
+import CreateAuthModal from "./Modal/CreateAuthModal";
 import * as S from "./style";
 
 export default function NavBar() {
   const data = useRecoilValue(userState);
+  const [modalSwitch, setModalSwitch] = useState(false);
   const [loginState, setloginState] = useState(data.isLogin);
   const username = data.name;
+  const onClick = () => {
+    setModalSwitch(true);
+  };
 
   const logout = async () => {
     try {
@@ -27,6 +32,7 @@ export default function NavBar() {
       console.log(e);
     }
   };
+
   return (
     <S.NavBarContainer>
       <S.NavBarLogoContainer>
@@ -53,12 +59,10 @@ export default function NavBar() {
             </S.NavBarAuth>
           ) : (
             <S.NavBarAuth>
-              <Link to="/login">
-                <p>로그인</p>
-              </Link>
-              <Link to="/signup">
-                <p>회원가입</p>
-              </Link>
+              <p onClick={onClick}>시작하기</p>
+              {modalSwitch ? (
+                <CreateAuthModal setModalSwitch={setModalSwitch} />
+              ) : null}
             </S.NavBarAuth>
           )}
         </S.NavBarAuth>

@@ -11,6 +11,8 @@ export const BUserInfoContainer2 = styled.div`
 `;
 export const BProfileDelete = styled.div``;
 export const BProfileEdit = styled.div``;
+export const BPuser = styled.div``;
+export const BPuserdelete = styled.div``;
 export const UserName = styled.h3``;
 export const UserInfo = styled.p``;
 export const ImgBox = styled.div`

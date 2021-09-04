@@ -14,7 +14,7 @@ PProfileEditForm.propTypes = {
   ),
   userData: PropTypes.shape({
     age: PropTypes.number.isRequired,
-    avatar: PropTypes.string.isRequired,
+    avatar: PropTypes.string,
     gender: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     job: PropTypes.string.isRequired,
@@ -83,7 +83,13 @@ export default function PProfileEditForm({
       </S.EditSelect>
       <br />
       <S.ImgBox>
-        {newImg ? <PVImg img={newImg} /> : <S.Img src={userData.avatar} />}
+        {newImg ? (
+          <PVImg img={newImg} />
+        ) : userData.avatar ? (
+          <S.Img src={userData.avatar} />
+        ) : (
+          <S.Img src="/기본프로필.png" />
+        )}
       </S.ImgBox>
       <br />
       <S.EditInput name="img" type="file" onChange={fileChange} />

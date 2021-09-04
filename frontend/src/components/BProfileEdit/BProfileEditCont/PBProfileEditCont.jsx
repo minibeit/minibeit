@@ -76,8 +76,10 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
         <S.ImgBox>
           {newImg ? (
             <PVImg img={newImg} />
-          ) : (
+          ) : BProfileData.avatar ? (
             <S.Img src={BProfileData.avatar} />
+          ) : (
+            <S.Img src="/기본비즈니스프로필.jpeg" />
           )}
         </S.ImgBox>
         <S.BPEditInput name="img" type="file" onChange={fileChange} />

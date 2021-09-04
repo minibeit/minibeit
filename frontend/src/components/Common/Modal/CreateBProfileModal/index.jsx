@@ -78,7 +78,13 @@ export default function CreateBProfileModal({
               placeholder="연락처"
               onChange={onChange}
             />
-            <S.ImgBox>{img ? <PVImg img={img} /> : null}</S.ImgBox>
+            <S.ImgBox>
+              {img ? (
+                <PVImg img={img} />
+              ) : (
+                <S.Img src="/기본비즈니스프로필.jpeg" />
+              )}
+            </S.ImgBox>
             <S.BPNewInput name="img" type="file" onChange={fileChange} />
             <S.BPSubmitBtn
               onClick={async (e) => {

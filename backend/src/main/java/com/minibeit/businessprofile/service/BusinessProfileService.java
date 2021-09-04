@@ -84,19 +84,17 @@ public class BusinessProfileService {
 
         User userToShare = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
 
-        duplicationCheck(request, businessProfile);
+        if (userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(userToShare.getId(), businessProfileId)) {
+            throw new DuplicateShareException();
+        }
+
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
         userBusinessProfileRepository.save(userBusinessProfile);
         businessProfile.getUserBusinessProfileList().add(userBusinessProfile);
 
     }
 
-    private void duplicationCheck(BusinessProfileRequest.Share request, BusinessProfile businessProfile) {
-        if(businessProfile.getUserBusinessProfileList().stream().
-                anyMatch(userBusinessProfile -> userBusinessProfile.getUser().getNickname().equals(request.getNickname()))){
-            throw new DuplicateShareException();
-        }
-    }
+
 
     public void cancelShare(Long businessProfileId, BusinessProfileRequest.Share request,User user){
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);

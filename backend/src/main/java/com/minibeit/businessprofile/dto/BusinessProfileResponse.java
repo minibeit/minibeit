@@ -70,4 +70,21 @@ public class BusinessProfileResponse {
         }
     }
 
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class IdAndNickname{
+        private Long id;
+        private String nickname;
+        public static BusinessProfileResponse.IdAndNickname build(UserBusinessProfile userbusinessProfile) {
+
+            return IdAndNickname.builder()
+                    .id(userbusinessProfile.getUser().getId())
+                    .nickname(userbusinessProfile.getUser().getNickname())
+                    .build();
+
+        }
+    }
+
 }

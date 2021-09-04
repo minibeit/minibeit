@@ -83,3 +83,8 @@ Authorization: {{authorizationToken}}
 {
   "nickname": "테스터2"
 }
+
+###
+GET {{apiUrl}}/business/profile/4/share
+Authorization: {{authorizationToken}}
+

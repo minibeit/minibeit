@@ -94,8 +94,18 @@ include::{snippets}/business-profile-share-cancel/path-parameters.adoc[]
 include::{snippets}/business-profile-share-cancel/request-fields.adoc[]
 
 성공 응답 HTTP
-
 include::{snippets}/business-profile-share-cancel/http-response.adoc[]
+
+=== 비즈니스 프로필 공유 조회
+
+`GET /api/business/profile/{businessProfileId}/share`
+
+요청 HTTP
+include::{snippets}/business-profile-share-list/http-request.adoc[]
+include::{snippets}/business-profile-share-list/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-share-list/http-response.adoc[]
 
 == 게시물 관련 API
 

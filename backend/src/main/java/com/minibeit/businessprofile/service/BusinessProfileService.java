@@ -106,6 +106,14 @@ public class BusinessProfileService {
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
     }
 
+    public List<BusinessProfileResponse.IdAndNickname> getSharingList(Long businessProfileId){
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+
+        return businessProfile.getUserBusinessProfileList().stream()
+                .filter(userBusinessProfile -> !userBusinessProfile.getUser().getId().equals(userBusinessProfile.getCreatedBy().getId()))
+                .map(BusinessProfileResponse.IdAndNickname::build).collect(Collectors.toList());
+    }
+
     private void permissionCheck(User user, BusinessProfile businessProfile) {
         if (!businessProfile.getCreatedBy().getId().equals(user.getId())) {
             throw new PermissionException();

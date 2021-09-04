@@ -55,11 +55,11 @@ public class BusinessProfileController {
     }
 
     @PostMapping("/{businessProfileId}/share")
-    public ResponseEntity<List<BusinessProfileResponse.IdAndNickname>> shareBusinessProfile(@PathVariable Long businessProfileId,
+    public ResponseEntity<Void> shareBusinessProfile(@PathVariable Long businessProfileId,
                                                      @RequestBody BusinessProfileRequest.Share request,
                                                      @CurrentUser CustomUserDetails customUserDetails) {
-        List<BusinessProfileResponse.IdAndNickname> response = businessProfileService.shareBusinessProfile(businessProfileId, request, customUserDetails.getUser());
-        return ResponseEntity.ok().body(response);
+        businessProfileService.shareBusinessProfile(businessProfileId, request, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
     }
 
 }

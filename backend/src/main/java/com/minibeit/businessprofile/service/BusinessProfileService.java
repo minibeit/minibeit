@@ -77,7 +77,7 @@ public class BusinessProfileService {
 
     }
 
-    public List<BusinessProfileResponse.IdAndNickname> shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.Share request,User user) {
+    public void shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.Share request,User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
         permissionCheck(user, businessProfile);
@@ -89,7 +89,6 @@ public class BusinessProfileService {
         userBusinessProfileRepository.save(userBusinessProfile);
         businessProfile.getUserBusinessProfileList().add(userBusinessProfile);
 
-        return businessProfile.getUserBusinessProfileList().stream().map(BusinessProfileResponse.IdAndNickname::build).collect(Collectors.toList());
     }
 
     private void duplicationCheck(BusinessProfileRequest.Share request, BusinessProfile businessProfile) {

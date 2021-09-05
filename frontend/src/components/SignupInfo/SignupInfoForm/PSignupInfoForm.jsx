@@ -39,6 +39,9 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
   const fileChange = (e) => {
     handleCompressImg(e.target.files[0]).then((res) => setImg(res));
   };
+  const imgDel = () => {
+    setImg(undefined);
+  };
   return (
     <S.FormsignupContainer>
       <S.SignupInput
@@ -76,6 +79,7 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
       <S.ImgBox>
         {img ? <PVImg img={img} /> : <S.Img src="/기본프로필.png" />}
       </S.ImgBox>
+      <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
       <S.SignupInput name="img" type="file" onChange={fileChange} />
       <br />
       <S.SignupInput

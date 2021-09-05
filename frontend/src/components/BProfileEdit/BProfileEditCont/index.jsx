@@ -5,8 +5,8 @@ import { LoadingSpinner } from "../../Common";
 
 export default function BProfileEditCont({ businessId }) {
   const [BProfileData, setBProfileData] = useState();
-  const bpEditHandler = async (inputs, img) => {
-    editBprofile(businessId, inputs, img)
+  const bpEditHandler = async (inputs, img, basicImg) => {
+    editBprofile(businessId, inputs, img, basicImg)
       .then((res) => {
         window.location.replace("/business/" + businessId);
       })

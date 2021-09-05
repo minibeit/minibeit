@@ -44,13 +44,19 @@ export default function PProfileEditForm({
     schoolId: userData.schoolId,
   });
   const [newImg, setNewImg] = useState();
+  const [basicImg, setBasicImg] = useState(false);
   const { name, pre_nickname, new_nickname, phoneNum, job, age } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
     setInputs({ ...inputs, [name]: value });
   };
   const fileChange = (e) => {
+    setBasicImg(false);
     handleCompressImg(e.target.files[0]).then((res) => setNewImg(res));
+  };
+  const imgDel = () => {
+    setBasicImg(true);
+    setNewImg(undefined);
   };
   return (
     <S.EditContainer>
@@ -84,14 +90,19 @@ export default function PProfileEditForm({
       </S.EditSelect>
       <br />
       <S.ImgBox>
-        {newImg ? (
-          <PVImg img={newImg} />
-        ) : userData.avatar ? (
-          <S.Img src={userData.avatar} />
+        {basicImg === false ? (
+          newImg ? (
+            <PVImg img={newImg} />
+          ) : userData.avatar ? (
+            <S.Img src={userData.avatar} />
+          ) : (
+            <S.Img src="/기본프로필.png" />
+          )
         ) : (
           <S.Img src="/기본프로필.png" />
         )}
       </S.ImgBox>
+      <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
       <br />
       <S.EditInput name="img" type="file" onChange={fileChange} />
       <br />
@@ -140,7 +151,7 @@ export default function PProfileEditForm({
         type="submit"
         onClick={async (e) => {
           e.preventDefault();
-          editUserDataHandler(inputs, newImg);
+          editUserDataHandler(inputs, newImg, basicImg);
         }}
       >
         수정

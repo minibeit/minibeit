@@ -14,4 +14,5 @@ export const Img = styled.img`
 `;
 export const SignupInput = styled.input``;
 export const SignupButton = styled.button``;
+export const ImgDel = styled.button``;
 export const SignupSelect = styled.select``;

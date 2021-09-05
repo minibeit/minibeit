@@ -31,15 +31,21 @@ export const deleteBprofile = async (businessId) => {
   return await withAuthInstance.delete(BPROFILE_DELETE + businessId);
 };
 
-export const editBprofile = async (businessId, inputs, newImg) => {
+export const editBprofile = async (businessId, inputs, newImg,basicImg) => {
   const formData = new FormData();
   Object.keys(inputs).map((key) => formData.append(key, inputs[key]));
   if (newImg === undefined) {
-    formData.append("avatarChanged", false);
-  } else {
+    if(basicImg){
+      formData.append("avatarChanged", true);
+    }else{
+      formData.append("avatarChanged", false);
+    }
+    
+  }else {
     formData.append("avatarChanged", true);
     formData.append("avatar", newImg);
   }
+
   return await withAuthInstance.post(BPROFILE_EDIT + businessId, formData);
 };
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router";
 import * as S from "../style";
 import PropTypes from "prop-types";
 
@@ -15,9 +16,24 @@ PUserInfo.propTypes = {
 };
 
 export default function PUserInfo({ userData }) {
+  const history = useHistory();
   return (
     <S.UserInfoContainer>
-      {userData.avatar !== null ? <S.UserImg src={userData.avatar} /> : null}
+      <S.ImgBox>
+        {userData.avatar !== null ? (
+          <S.UserImg src={userData.avatar} />
+        ) : (
+          <S.UserImg src="/기본프로필.png" />
+        )}
+      </S.ImgBox>
+      <br />
+      <button
+        onClick={() => {
+          history.push(`/user/${userData.id}/edit`);
+        }}
+      >
+        프로필 수정
+      </button>
       <S.UserName>이름 : {userData.name}</S.UserName>
       <S.UserInfo>닉네임 : {userData.nickname}</S.UserInfo>
       <S.UserInfo>성별 : {userData.gender}</S.UserInfo>

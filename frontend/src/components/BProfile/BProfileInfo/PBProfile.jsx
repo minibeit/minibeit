@@ -31,10 +31,13 @@ export default function PBProfile({ buserData }) {
   return (
     <S.UserInfoContainer>
       <S.BUserInfoContainer1>
-        {" "}
-        {buserData.avatar !== null ? (
-          <S.UserImg src={buserData.avatar} />
-        ) : null}
+        <S.ImgBox>
+          {buserData.avatar !== null ? (
+            <S.UserImg src={buserData.avatar} />
+          ) : (
+            <S.UserImg src="/기본비즈니스프로필.jpeg" />
+          )}
+        </S.ImgBox>
         <S.UserName>이름 : {buserData.name}</S.UserName>
         <S.UserInfo>카테고리 : {buserData.category}</S.UserInfo>
         <S.UserInfo>장소 : {buserData.place}</S.UserInfo>

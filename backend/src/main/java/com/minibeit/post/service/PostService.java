@@ -6,12 +6,15 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.PostFile;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
@@ -34,6 +37,7 @@ public class PostService {
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final PostDoDateRepository postDoDateRepository;
+    private final PostApplicantRepository postApplicantRepository;
 
     public PostResponse.OnlyId create(PostRequest.Create request, User user) {
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), request.getBusinessProfileId())) {
@@ -63,5 +67,18 @@ public class PostService {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         post.checkPermission(user);
         postRepository.deleteById(postId);
+    }
+
+    public void apply(Long postId, PostRequest.Apply request, User user) {
+        //TODO 게시물에 실험 시작 날짜에 request로 온 날짜가 포함되는지 확인 필요
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        PostApplicant postApplicant = PostApplicant.create(post, request, user);
+        postApplicantRepository.save(postApplicant);
+    }
+
+    public void applyCheck(Long postId, Long userId, PostRequest.ApplyCheck request) {
+        //TODO 해당 게시물 비즈니스 프로필의 관리자인지 체크해야함
+        PostApplicant postApplicant = postApplicantRepository.findByPostIdAndUserId(postId, userId).orElseThrow(PostApplicantNotFoundException::new);
+        postApplicant.updateStatus(request.getApprove());
     }
 }

@@ -18,17 +18,21 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import javax.servlet.http.Cookie;
 import java.io.InputStream;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -215,6 +219,28 @@ class UserControllerTest extends MvcTest {
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("유저 식별자"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
                                 fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("비즈니스 프로필을 가지고 있는 유저 목록 조회")
+    public void getListInBusinessProfile() throws Exception {
+        List<UserResponse.IdAndNickname> response = new ArrayList<>();
+        response.add(UserResponse.IdAndNickname.builder().id(1L).nickname("테스터").build());
+        given(userService.getListInBusinessProfile(any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/user/list/business/profile/{businessProfileId}", 1));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("user-list-in-businessprofile",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("공유된 유저의 식별자"),
+                                fieldWithPath("[].nickname").type(JsonFieldType.STRING).description("공유된 유저의 닉네임")
                         )
                 ));
     }

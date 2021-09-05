@@ -69,5 +69,4 @@ public class BusinessProfileResponse {
             return getListBuilder.build();
         }
     }
-
 }

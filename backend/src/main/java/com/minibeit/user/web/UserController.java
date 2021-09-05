@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -61,6 +62,12 @@ public class UserController {
     public ResponseEntity<UserResponse.GetOne> getMe(@CurrentUser CustomUserDetails customUserDetails) {
         UserResponse.GetOne response = userService.getMe(customUserDetails.getUser());
 
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/list/business/profile/{businessProfileId}")
+    public ResponseEntity<List<UserResponse.IdAndNickname>> getListInBusinessProfile(@PathVariable Long businessProfileId){
+        List<UserResponse.IdAndNickname> response = userService.getListInBusinessProfile(businessProfileId);
         return ResponseEntity.ok().body(response);
     }
 

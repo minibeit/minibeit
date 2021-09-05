@@ -4,6 +4,7 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
+import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostApplicant;
@@ -21,9 +22,12 @@ import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.service.exception.SchoolNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,5 +84,10 @@ public class PostService {
         //TODO 해당 게시물 비즈니스 프로필의 관리자인지 체크해야함
         PostApplicant postApplicant = postApplicantRepository.findByPostIdAndUserId(postId, userId).orElseThrow(PostApplicantNotFoundException::new);
         postApplicant.updateStatus(request.getApprove());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Post> getList(Long schoolId, LocalDate doDate, PageDto pageDto) {
+      return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, pageDto.of());
     }
 }

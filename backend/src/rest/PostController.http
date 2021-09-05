@@ -49,15 +49,15 @@ Content-Disposition: form-data; name="startDate";
 --boundary
 Content-Disposition: form-data; name="endDate";
 
-2021-09-08T09:30
+2021-09-10T09:30
 --boundary
 Content-Disposition: form-data; name="doDateList";
 
-2021-09-08T09:30
+2021-09-01T09:30
 --boundary
 Content-Disposition: form-data; name="doDateList";
 
-2021-09-09T09:30
+2021-09-02T09:30
 
 ###
 GET {{apiUrl}}/post/3
@@ -84,3 +84,7 @@ Content-Type: application/json;charset=UTF-8
 {
   "approve": "APPROVE"
 }
+
+###
+GET {{apiUrl}}/post/list/1?doDate=2021-09-08&page=1&size=10
+Authorization: {{authorizationToken}}

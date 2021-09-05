@@ -62,4 +62,12 @@ public class BusinessProfileController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{businessProfileId}/change/{userId}")
+    public ResponseEntity<Void> changeAdmin(@PathVariable Long businessProfileId,
+                                            @PathVariable Long userId,
+                                            @CurrentUser CustomUserDetails customUserDetails){
+        businessProfileService.transferOfAuthority(businessProfileId, userId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
+
 }

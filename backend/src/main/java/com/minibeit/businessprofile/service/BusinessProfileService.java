@@ -94,11 +94,18 @@ public class BusinessProfileService {
 
     public void cancelShare(Long businessProfileId, Long userId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-
         permissionCheck(user, businessProfile);
 
         UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userId, businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
+    }
+
+    //권한 양도 기능
+    public void transferOfAuthority(Long businessProfileId, Long userId, User user){
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+        permissionCheck(user, businessProfile);
+        User changeUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        businessProfile.changeAdmin(changeUser);
     }
 
     private void permissionCheck(User user, BusinessProfile businessProfile) {

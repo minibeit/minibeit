@@ -39,6 +39,13 @@ public class BusinessProfile extends BaseEntity {
     @OneToMany(mappedBy = "businessProfile", cascade = CascadeType.ALL)
     private List<UserBusinessProfile> userBusinessProfileList = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id")
+    private User user;
+
+    public void changeAdmin(User user){
+        this.user = user;
+    }
     private void addUser(UserBusinessProfile userBusinessProfile) {
         this.userBusinessProfileList.add(userBusinessProfile);
         userBusinessProfile.setBusinessProfile(this);

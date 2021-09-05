@@ -84,3 +84,9 @@ Authorization: {{authorizationToken}}
   "nickname": "테스터2"
 }
 
+###
+POST {{apiUrl}}/business/profile/1/change/2
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+

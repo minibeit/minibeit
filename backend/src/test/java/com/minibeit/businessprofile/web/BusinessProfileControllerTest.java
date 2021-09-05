@@ -254,5 +254,21 @@ class BusinessProfileControllerTest extends MvcTest {
                 ));
     }
 
+    @Test
+    @DisplayName("권한 양도 문서화")
+    public void transferOfAuthority() throws Exception {
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.post("/api/business/profile/{businessProfileId}/change/{userId}", 1, 1));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-profile-change-admin",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
+                                parameterWithName("userId").description("권한을 받을 유저의 식별자")
+                        )
+                ));
+    }
+
 
 }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
 import { PVImg } from "../../Common";
@@ -50,6 +50,27 @@ export default function PProfileEditForm({
     const { value, name } = e.target;
     setInputs({ ...inputs, [name]: value });
   };
+  const onNumChange = (e) => {
+    const regex = /^[0-9\b -]{0,13}$/;
+    if (regex.test(e.target.value)) {
+      const { value, name } = e.target;
+      setInputs({ ...inputs, [name]: value });
+    }
+  };
+  useEffect(() => {
+    if (phoneNum.length === 10) {
+      setInputs({
+        ...inputs,
+        ["phoneNum"]: phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"),
+      });
+    }
+    if (phoneNum.length === 13) {
+      setInputs({
+        ...inputs,
+        ["phoneNum"]: phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"),
+      });
+    }
+  }, [phoneNum]);
   const fileChange = (e) => {
     setBasicImg(false);
     handleCompressImg(e.target.files[0]).then((res) => setNewImg(res));
@@ -111,7 +132,7 @@ export default function PProfileEditForm({
         name="phoneNum"
         type="text"
         placeholder="전화번호"
-        onChange={onChange}
+        onChange={onNumChange}
       />
       <br />
       <S.EditInput

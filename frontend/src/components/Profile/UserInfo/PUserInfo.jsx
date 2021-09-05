@@ -36,7 +36,14 @@ export default function PUserInfo({ userData }) {
       </button>
       <S.UserName>이름 : {userData.name}</S.UserName>
       <S.UserInfo>닉네임 : {userData.nickname}</S.UserInfo>
-      <S.UserInfo>성별 : {userData.gender}</S.UserInfo>
+      <S.UserInfo>
+        성별 :{" "}
+        {userData.gender === "FEMALE"
+          ? "여자"
+          : userData.gender === "MALE"
+          ? "남자"
+          : null}
+      </S.UserInfo>
       <S.UserInfo>나이 : {userData.age}</S.UserInfo>
       <S.UserInfo>직업 : {userData.job}</S.UserInfo>
       <S.UserInfo>전화번호 : {userData.phoneNum}</S.UserInfo>

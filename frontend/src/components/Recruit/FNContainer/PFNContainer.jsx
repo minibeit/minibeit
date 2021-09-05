@@ -4,7 +4,8 @@ import * as S from "../style";
 function PFNContainer({ bpList, schoolList, FNHandler }) {
   const [inputs, setInputs] = useState({
     title: "",
-    dueDate: "",
+    startDate: "",
+    endDate: "",
     doDate: "",
     payment: "",
     doTime: "",
@@ -21,7 +22,6 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
   const [files, setFiles] = useState();
   const {
     title,
-    dueDate,
     doDate,
     payment,
     doTime,
@@ -34,6 +34,8 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
     condition,
     conditionDetail,
     businessProfileId,
+    startDate,
+    endDate,
   } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -65,6 +67,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             onChange={onChange}
           />
         </S.FNLabel>
+        <br />
         <S.FNLabel>
           {" "}
           학교선택
@@ -84,6 +87,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             ))}
           </S.FNSchool>
         </S.FNLabel>
+        <br />
         <S.FNLabel>
           {" "}
           작성자
@@ -103,15 +107,27 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             ))}
           </S.FNauthor>
         </S.FNLabel>
+        <br />
         <S.FNLabel>
-          모집기간
+          모집시작 날짜
           <S.FNdueDate
             type="date"
-            name="dueDate"
-            value={dueDate}
+            name="startDate"
+            value={startDate}
             onChange={onChange}
           />
         </S.FNLabel>
+        <br />
+        <S.FNLabel>
+          모집마감 날짜
+          <S.FNdueDate
+            type="date"
+            name="endDate"
+            value={endDate}
+            onChange={onChange}
+          />
+        </S.FNLabel>
+        <br />
         <S.FNLabel>
           실험/설문날짜
           <S.FNdoDate
@@ -121,6 +137,8 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             onChange={onChange}
           />
         </S.FNLabel>
+
+        <br />
         <S.FNLabel>
           지급방법
           <S.FNpayment
@@ -139,7 +157,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             </option>
           </S.FNpayment>
         </S.FNLabel>
-
+        <br />
         {payment === "CACHE" ? (
           <S.FNLabel>
             현금 액수
@@ -161,7 +179,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             />
           </S.FNLabel>
         ) : null}
-
+        <br />
         <S.FNLabel>
           구인조건
           <S.FNcondition
@@ -180,7 +198,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             </option>
           </S.FNcondition>
         </S.FNLabel>
-
+        <br />
         {condition === "true" ? (
           <S.FNLabel>
             구인조건 상세설명{" "}
@@ -192,6 +210,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             />
           </S.FNLabel>
         ) : null}
+        <br />
         <S.FNLabel>
           소요시간{" "}
           <S.FNdoTime
@@ -222,6 +241,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             </option>
           </S.FNdoTime>
         </S.FNLabel>
+        <br />
         <S.FNLabel>
           {" "}
           장소
@@ -233,10 +253,13 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             onChange={onChange}
           />
         </S.FNLabel>
+
+        <br />
         <S.FNLabel>
           연락처
           <S.FNcontact name="contact" value={contact} onChange={onChange} />
         </S.FNLabel>
+        <br />
         <S.FNLabel>
           추가정보
           <S.FNdetailInfo
@@ -254,20 +277,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
           type="submit"
           onClick={async (e) => {
             e.preventDefault();
-            await FNHandler(
-              title,
-              dueDate,
-              doDate,
-              payment,
-              doTime,
-              place,
-              content,
-              contact,
-              files,
-              schoolId,
-              cache,
-              goods
-            );
+            await FNHandler(inputs);
           }}
         >
           게시물 생성

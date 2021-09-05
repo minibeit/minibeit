@@ -39,39 +39,9 @@ function FNContainer() {
     getSchoolList();
     getbpList();
   }, []);
-  const FNHandler = async (
-    title,
-    dueDate,
-    doDate,
-    payment,
-    doTime,
-    place,
-    content,
-    contact,
-    files,
-    schoolId,
-    cache,
-    goods,
-    condition,
-    conditionDetail
-  ) => {
+  const FNHandler = async (inputs) => {
     try {
-      const result = await feedCreateApi(
-        title,
-        dueDate,
-        doDate,
-        payment,
-        doTime,
-        place,
-        content,
-        contact,
-        files,
-        schoolId,
-        cache,
-        goods,
-        condition,
-        conditionDetail
-      );
+      const result = await feedCreateApi(inputs);
       console.log(result);
       if (result.id) {
         window.alert("게시물 생성에 성공!");

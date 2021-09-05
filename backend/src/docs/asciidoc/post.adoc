@@ -58,3 +58,14 @@ include::{snippets}/post-apply/request-fields.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-apply/http-response.adoc[]
 
+=== 게시물 목록 조회
+
+`GET /api/post/list/{schoolId}`
+
+요청 HTTP
+include::{snippets}/post-getList/http-request.adoc[]
+include::{snippets}/post-getList/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-getList/http-response.adoc[]
+

@@ -86,12 +86,11 @@ include::{snippets}/business-profile-share/http-response.adoc[]
 
 === 비즈니스 프로필 공유 취소
 
-`DELETE /api/business/profile/{businessProfileId}/share`
+`DELETE /api/business/profile/{businessProfileId}/expel/{userId}`
 
 요청 HTTP
 include::{snippets}/business-profile-share-cancel/http-request.adoc[]
 include::{snippets}/business-profile-share-cancel/path-parameters.adoc[]
-include::{snippets}/business-profile-share-cancel/request-fields.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/business-profile-share-cancel/http-response.adoc[]

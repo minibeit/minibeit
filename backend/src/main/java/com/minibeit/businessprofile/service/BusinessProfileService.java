@@ -92,13 +92,12 @@ public class BusinessProfileService {
 
     }
 
-    public void cancelShare(Long businessProfileId, BusinessProfileRequest.Share request, User user) {
+    public void cancelShare(Long businessProfileId, Long userId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
         permissionCheck(user, businessProfile);
 
-        User sharingUser = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
-        UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(sharingUser.getId(), businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
+        UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userId, businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
     }
 

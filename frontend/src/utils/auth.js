@@ -10,14 +10,16 @@ export const signupInfoApi = async (inputs, img, accessToken) => {
   if (img !== undefined) {
     formData.append("avatar", img);
   }
-  await axios({
+  return await axios({
     method: "POST",
     url: process.env.REACT_APP_API_URL + SIGNUP,
     data: formData,
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
-  });
+  })
+    .then((res) => res)
+    .catch((err) => err);
 };
 
 export const logoutFunc = async () => {

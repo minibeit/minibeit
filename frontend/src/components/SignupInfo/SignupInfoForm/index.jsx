@@ -29,24 +29,21 @@ export default function SignupForm() {
   }, []);
 
   const signupHandler = async (inputs, img) => {
-    try {
-      const result = await signupInfoApi(inputs, img, guest.accessToken);
-      const data = await result.data;
-      if (data) {
+    await signupInfoApi(inputs, img, guest.accessToken)
+      .then((res) => {
         window.alert("회원가입에 성공!");
         const guest_cp = { ...guest };
         localStorage.setItem("accessToken", guest.accessToken);
         delete guest_cp.accessToken;
         guest_cp.didSignup = true;
-        guest_cp.name = data.nickname;
-        guest_cp.schoolId = data.schoolId;
+        guest_cp.name = res.data.nickname;
+        guest_cp.schoolId = res.data.schoolId;
         setLoginState(guest_cp);
-        localStorage.setItem("userId", data.id);
         history.push("/");
-      }
-    } catch (e) {
-      console.log(e);
-    }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <PSignupInfoForm schoollist={schoollist} signupHandler={signupHandler} />

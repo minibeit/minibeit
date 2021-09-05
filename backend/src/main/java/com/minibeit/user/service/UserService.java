@@ -18,6 +18,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -66,6 +69,11 @@ public class UserService {
         updateAvatar(request, user, findUser);
 
         return UserResponse.CreateOrUpdate.build(updatedUser, school.getId());
+    }
+
+    public List<UserResponse.IdAndNickname> getListInBusinessProfile(Long businessProfileId){
+        List<User> users = userRepository.findAllInBusinessProfile(businessProfileId);
+        return users.stream().map(UserResponse.IdAndNickname::build).collect(Collectors.toList());
     }
 
     private void updateAvatar(UserRequest.Update request, User user, User findUser) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/userState";
@@ -9,7 +9,7 @@ import * as S from "./style";
 export default function NavBar() {
   const data = useRecoilValue(userState);
   const [modalSwitch, setModalSwitch] = useState(false);
-  const [loginState, setloginState] = useState(data.isLogin);
+  const [loginState, setloginState] = useState(data.didSignup);
   const username = data.name;
   const onClick = () => {
     setModalSwitch(true);
@@ -32,7 +32,13 @@ export default function NavBar() {
       console.log(e);
     }
   };
-
+  useEffect(() => {
+    console.log(data);
+    if (data.didSignup === false && localStorage.getItem("accessToken")) {
+      localStorage.clear();
+      window.location.replace("/");
+    }
+  }, []);
   return (
     <S.NavBarContainer>
       <S.NavBarLogoContainer>

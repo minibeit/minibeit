@@ -29,13 +29,13 @@ export default function PBProfileJoin({ handleJoin, handleDelete, usergroup }) {
         </S.BPJoinBtn>
         {usergroup.length >= 1
           ? usergroup.map((user) => (
-              <div>
+              <div key={user.id}>
                 {" "}
-                <S.BPuser key={user.id}>{user.nickname}</S.BPuser>
+                <S.BPuser>{user.nickname}</S.BPuser>
                 <S.BPuserdelete
                   onClick={async (e) => {
                     e.preventDefault();
-                    await handleDelete(user.id);
+                    await handleDelete(user.id, user.nickname);
                     setNickname("");
                   }}
                 >

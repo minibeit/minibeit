@@ -1,16 +1,24 @@
 package com.minibeit.post.web;
 
+import com.minibeit.common.dto.PageDto;
+import com.minibeit.post.domain.Post;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.PostService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -47,5 +55,14 @@ public class PostController {
     public ResponseEntity<Void> applyCheck(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId, @RequestBody PostRequest.ApplyCheck request) {
         postService.applyCheck(postId, userId, request);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/list/{schoolId}")
+    public ResponseEntity<Page<PostResponse.GetList>> getList(@PathVariable Long schoolId,
+                                                              @RequestParam(name = "doDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate,
+                                                              PageDto pageDto) {
+        Page<Post> posts = postService.getList(schoolId, doDate, pageDto);
+        List<PostResponse.GetList> response = posts.stream().map(post -> PostResponse.GetList.build(post, doDate)).collect(Collectors.toList());
+        return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
     }
 }

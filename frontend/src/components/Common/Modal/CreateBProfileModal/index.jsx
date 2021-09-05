@@ -22,6 +22,7 @@ export default function CreateBProfileModal({
     contact: "",
   });
   const [img, setImg] = useState();
+
   const { name, category, place, introduce, contact } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -35,6 +36,9 @@ export default function CreateBProfileModal({
   };
   const fileChange = (e) => {
     handleCompressImg(e.target.files[0]).then((res) => setImg(res));
+  };
+  const imgDel = () => {
+    setImg(undefined);
   };
   return (
     <Portal>
@@ -86,6 +90,7 @@ export default function CreateBProfileModal({
                 <S.Img src="/기본비즈니스프로필.jpeg" />
               )}
             </S.ImgBox>
+            <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
             <S.BPNewInput name="img" type="file" onChange={fileChange} />
             <S.BPSubmitBtn
               onClick={async (e) => {

@@ -7,7 +7,7 @@ export const getMyInfo = async () => {
   return await withAuthInstance.get(MY_USERINFO);
 };
 
-export const editMyInfo = async (inputs, newImg) => {
+export const editMyInfo = async (inputs, newImg,basicImg) => {
   const formData = new FormData();
   formData.append("name", inputs.name);
   formData.append("gender", inputs.gender);
@@ -20,11 +20,18 @@ export const editMyInfo = async (inputs, newImg) => {
     "nicknameChanged",
     inputs.new_nickname !== inputs.pre_nickname
   );
+  
   if (newImg === undefined) {
-    formData.append("avatarChanged", false);
-  } else {
+    if(basicImg){
+      formData.append("avatarChanged", true);
+    }else{
+      formData.append("avatarChanged", false);
+    }
+    
+  }else {
     formData.append("avatarChanged", true);
     formData.append("avatar", newImg);
   }
+
   return await withAuthInstance.post(EDIT_MY_USERINFO, formData);
 };

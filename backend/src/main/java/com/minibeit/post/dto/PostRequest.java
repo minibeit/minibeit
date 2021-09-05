@@ -16,7 +16,7 @@ public class PostRequest {
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class Create {
+    public static class CreateInfo {
         private String title;
         private String content;
         private String place;
@@ -30,11 +30,18 @@ public class PostRequest {
         private Long schoolId;
         private Long businessProfileId;
         private List<MultipartFile> files;
-        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class CreateDateRule {
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime startDate;
-        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime endDate;
-        @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
         private List<LocalDateTime> doDateList;
     }
 

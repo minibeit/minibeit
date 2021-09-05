@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -195,44 +196,44 @@ class PostControllerTest extends MvcTest {
                 ));
     }
 
-//    @Test
-//    @DisplayName("게시물 목록 조회 문서화(학교 id,실험날짜 기준)")
-//    public void getList() throws Exception {
-//        Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
-//        given(postService.getList(any(), any(), any())).willReturn(postPage);
-//
-//        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-//                .get("/api/post/list/{schoolId}", 1)
-//                .param("page", "1")
-//                .param("size", "10")
-//                .param("doDate", "2021-09-04"));
-//
-//        results.andExpect(status().isOk())
-//                .andDo(print())
-//                .andDo(document("post-getList",
-//                        pathParameters(
-//                                parameterWithName("schoolId").description("학교 식별자")),
-//                        requestParameters(
-//                                parameterWithName("page").description("조회할 페이지"),
-//                                parameterWithName("size").description("조회할 사이즈"),
-//                                parameterWithName("doDate").description("조회할 게시물 실험 날짜(doDate)")
-//                        ),
-//                        relaxedResponseFields(
-//                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
-//                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("제목"),
-//                                fieldWithPath("content[].payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
-//                                fieldWithPath("content[].goods").description("지급 수단이 GOODS 인 경우 물품 보상"),
-//                                fieldWithPath("content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상"),
-//                                fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
-//                                fieldWithPath("content[].recruitConditionDetail").description("구인조건이 있다면 구인조건 세부사항(없다면 null)"),
-//                                fieldWithPath("content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
-//                                fieldWithPath("content[].startTimeList[]").type(JsonFieldType.STRING).description("실험 참여 가능 시간"),
-//                                fieldWithPath("totalElements").description("전체 개수"),
-//                                fieldWithPath("last").description("마지막 페이지인지 식별"),
-//                                fieldWithPath("totalPages").description("전체 페이지")
-//                        )
-//                ));
-//    }
+    @Test
+    @DisplayName("게시물 목록 조회 문서화(학교 id,실험날짜 기준)")
+    public void getList() throws Exception {
+        Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
+        given(postService.getList(any(), any(), any())).willReturn(postPage);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/post/list/{schoolId}", 1)
+                .param("page", "1")
+                .param("size", "10")
+                .param("doDate", "2021-09-04"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-getList",
+                        pathParameters(
+                                parameterWithName("schoolId").description("학교 식별자")),
+                        requestParameters(
+                                parameterWithName("page").description("조회할 페이지"),
+                                parameterWithName("size").description("조회할 사이즈"),
+                                parameterWithName("doDate").description("조회할 게시물 실험 날짜(doDate)")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("content[].payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
+                                fieldWithPath("content[].goods").description("지급 수단이 GOODS 인 경우 물품 보상").optional(),
+                                fieldWithPath("content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
+                                fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
+                                fieldWithPath("content[].recruitConditionDetail").description("구인조건이 있다면 구인조건 세부사항(없다면 null)").optional(),
+                                fieldWithPath("content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
+                                fieldWithPath("content[].startTimeList[]").type(JsonFieldType.ARRAY).description("실험 참여 가능 시간"),
+                                fieldWithPath("totalElements").description("전체 개수"),
+                                fieldWithPath("last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("totalPages").description("전체 페이지")
+                        )
+                ));
+    }
 
     @Test
     @DisplayName("게시물 삭제 문서화")

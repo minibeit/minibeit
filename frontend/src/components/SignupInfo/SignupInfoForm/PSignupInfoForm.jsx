@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { PVImg } from "../../Common";
-
 import * as S from "../style";
 import { handleCompressImg } from "../../../utils/imgCompress";
 
@@ -16,6 +15,12 @@ PSignupInfoForm.propTypes = {
 };
 
 function PSignupInfoForm({ schoollist, signupHandler }) {
+  window.addEventListener("beforeunload", function (e) {
+    let confirmationMessage = "정말 닫으시겠습니까?";
+    e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
+    return confirmationMessage; // Gecko, WebKit, Chrome < 34
+  });
+
   const [inputs, setInputs] = useState({
     name: "",
     nickname: "",
@@ -33,6 +38,9 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
   };
   const fileChange = (e) => {
     handleCompressImg(e.target.files[0]).then((res) => setImg(res));
+  };
+  const imgDel = () => {
+    setImg(undefined);
   };
   return (
     <S.FormsignupContainer>
@@ -71,6 +79,7 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
       <S.ImgBox>
         {img ? <PVImg img={img} /> : <S.Img src="/기본프로필.png" />}
       </S.ImgBox>
+      <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
       <S.SignupInput name="img" type="file" onChange={fileChange} />
       <br />
       <S.SignupInput

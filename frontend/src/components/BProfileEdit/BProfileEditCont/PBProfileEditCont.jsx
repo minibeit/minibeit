@@ -26,6 +26,7 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
     introduce: BProfileData.introduce,
     contact: BProfileData.contact,
   });
+  const [basicImg, setBasicImg] = useState(false);
   const [newImg, setNewImg] = useState();
 
   const { name, category, place, introduce, contact } = inputs;
@@ -34,7 +35,12 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
     setInputs({ ...inputs, [name]: value });
   };
   const fileChange = (e) => {
+    setBasicImg(false);
     handleCompressImg(e.target.files[0]).then((res) => setNewImg(res));
+  };
+  const imgDel = () => {
+    setBasicImg(true);
+    setNewImg(undefined);
   };
   return (
     <>
@@ -75,20 +81,25 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
           onChange={onChange}
         />
         <S.ImgBox>
-          {newImg ? (
-            <PVImg img={newImg} />
-          ) : BProfileData.avatar ? (
-            <S.Img src={BProfileData.avatar} />
+          {basicImg === false ? (
+            newImg ? (
+              <PVImg img={newImg} />
+            ) : BProfileData.avatar ? (
+              <S.Img src={BProfileData.avatar} />
+            ) : (
+              <S.Img src="/기본비즈니스프로필.jpeg" />
+            )
           ) : (
             <S.Img src="/기본비즈니스프로필.jpeg" />
           )}
         </S.ImgBox>
+        <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
         <S.BPEditInput name="img" type="file" onChange={fileChange} />
         <S.BPEditButton
           type="submit"
           onClick={async (e) => {
             e.preventDefault();
-            bpEditHandler(inputs, newImg);
+            bpEditHandler(inputs, newImg, basicImg);
           }}
         >
           수정하기

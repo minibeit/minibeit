@@ -30,6 +30,7 @@ export const CloseModalBtn = styled.button`
 `;
 export const ModalContent = styled.div``;
 export const BPSubmitBtn = styled.button``;
+export const ImgDel = styled.button``;
 export const BPNewInput = styled.input``;
 export const ImgBox = styled.div`
   background-color: gray;

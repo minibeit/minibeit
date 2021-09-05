@@ -8,7 +8,8 @@ const {
   BPROFILE_DELETE,
   BPROFILE_EDIT,
   BPROFILE_JOIN,
-  BPROFILE_JOIN_DEL
+  BPROFILE_JOIN_DEL,
+  GET_BP_USERGROUP
 } = API_URLS;
 
 // getuserinfo 완료되면 api주소 입력 후 사용
@@ -31,15 +32,21 @@ export const deleteBprofile = async (businessId) => {
   return await withAuthInstance.delete(BPROFILE_DELETE + businessId);
 };
 
-export const editBprofile = async (businessId, inputs, newImg) => {
+export const editBprofile = async (businessId, inputs, newImg,basicImg) => {
   const formData = new FormData();
   Object.keys(inputs).map((key) => formData.append(key, inputs[key]));
   if (newImg === undefined) {
-    formData.append("avatarChanged", false);
-  } else {
+    if(basicImg){
+      formData.append("avatarChanged", true);
+    }else{
+      formData.append("avatarChanged", false);
+    }
+    
+  }else {
     formData.append("avatarChanged", true);
     formData.append("avatar", newImg);
   }
+
   return await withAuthInstance.post(BPROFILE_EDIT + businessId, formData);
 };
 
@@ -54,6 +61,9 @@ export const bprofileJoin = async (businessId, nickname) => {
 };
 export const bprofileJoinDel = async (businessId ,userId) => {
   return await withAuthInstance.delete(
-    BPROFILE_JOIN_DEL + businessId + "/share"
+    BPROFILE_JOIN_DEL + businessId + "/expel/"+userId
   );
+};
+export const getBPusergroup = async (businessId) => {
+  return await withAuthInstance.get(GET_BP_USERGROUP+ businessId);
 };

@@ -14,4 +14,5 @@ export {
   editBprofile,
   bprofileJoin,
   bprofileJoinDel,
+  getBPusergroup,
 } from "./bprofileApi";

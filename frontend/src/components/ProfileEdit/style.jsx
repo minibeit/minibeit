@@ -12,6 +12,7 @@ export const Img = styled.img`
   width: 100%;
   height: 100%;
 `;
+export const ImgDel = styled.button``;
 export const EditInput = styled.input``;
 export const EditButton = styled.button``;
 export const EditSelect = styled.select``;

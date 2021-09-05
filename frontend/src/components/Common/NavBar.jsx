@@ -52,7 +52,7 @@ export default function NavBar() {
           </Link>
         </S.NavBarMenu>
         <S.NavBarAuth>
-          {loginState === true ? (
+          {data.didSignup === true ? (
             <S.NavBarAuth>
               <Link to={`/user/${username}`}>{username}님 안녕하세요</Link>
               <p onClick={logout}>로그아웃</p>

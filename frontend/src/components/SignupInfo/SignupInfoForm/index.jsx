@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
-import { useRecoilState } from "recoil";
-import { userState } from "../../../recoil/userState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { geustState, userState } from "../../../recoil/userState";
 import PSignupInfoForm from "./PSignupInfoForm";
 import { schoolGetApi } from "../../../utils/schoolApi";
 import { signupInfoApi } from "../../../utils/auth";
@@ -10,6 +10,7 @@ import { signupInfoApi } from "../../../utils/auth";
 export default function SignupForm() {
   const history = useHistory();
   const [loginState, setLoginState] = useRecoilState(userState);
+  const guest = useRecoilValue(geustState);
   const [schoollist, setSchoolList] = useState([]);
 
   const getSchoolInfo = async () => {
@@ -19,8 +20,7 @@ export default function SignupForm() {
         setSchoolList(result.data);
       }
     } catch (e) {
-      console.log(e.response.data.error.msg);
-      alert(e.response.data.error.msg);
+      console.log(e);
     }
   };
 
@@ -30,25 +30,22 @@ export default function SignupForm() {
 
   const signupHandler = async (inputs, img) => {
     try {
-      const result = await signupInfoApi(inputs, img);
-      console.log(result);
-      const data = result.data;
+      const result = await signupInfoApi(inputs, img, guest.accessToken);
+      const data = await result.data;
       if (data) {
         window.alert("회원가입에 성공!");
-        setLoginState({
-          ...loginState,
-          didSignup: true,
-          name: data.nickname,
-          schoolId: data.schoolId,
-        });
+        const guest_cp = { ...guest };
+        localStorage.setItem("accessToken", guest.accessToken);
+        delete guest_cp.accessToken;
+        guest_cp.didSignup = true;
+        guest_cp.name = data.nickname;
+        guest_cp.schoolId = data.schoolId;
+        setLoginState(guest_cp);
         localStorage.setItem("userId", data.id);
         history.push("/");
       }
     } catch (e) {
-      // 아이디 중복확인 api 만들어지면 수정!!
-      if (e.response.data.error) {
-        alert("아이디가 중복되었습니다.");
-      }
+      console.log(e);
     }
   };
   return (

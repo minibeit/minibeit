@@ -1,11 +1,11 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import { userState } from "../../recoil/userState";
+import { geustState, userState } from "../../recoil/userState";
 
 function ProcessLogin({ match }) {
-  localStorage.setItem("accessToken", match.params.accessToken);
   const [user, setUser] = useRecoilState(userState);
+  const [guest, setGuest] = useRecoilState(geustState);
 
   const data = {
     isLogin: true,
@@ -14,7 +14,13 @@ function ProcessLogin({ match }) {
     didSignup: JSON.parse(match.params.signupCheck),
     schoolId: parseInt(match.params.schoolId),
   };
-  setUser(data);
+  if (data.didSignup) {
+    localStorage.setItem("accessToken", match.params.accessToken);
+    setUser(data);
+  } else {
+    data.accessToken = match.params.accessToken;
+    setGuest(data);
+  }
   return (
     <>
       {data.didSignup ? (

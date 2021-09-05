@@ -18,11 +18,11 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="name";
 
-세모
+동그라미
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-세모
+동그라미
 --boundary
 Content-Disposition: form-data; name="gender";
 
@@ -90,4 +90,6 @@ Content-Disposition: form-data; name="schoolId";
 Content-Disposition: form-data; name="avatarChanged";
 
 true
-
+###
+GET {{apiUrl}}/user/list/1
+Authorization: {{authorizationToken}}

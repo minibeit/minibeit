@@ -67,12 +67,12 @@ Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business/profile/4/share
+POST {{apiUrl}}/business/profile/1/share
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 {
-  "nickname": "테스터2"
+  "nickname": "동그라미"
 }
 
 ###
@@ -83,3 +83,4 @@ Authorization: {{authorizationToken}}
 {
   "nickname": "테스터2"
 }
+

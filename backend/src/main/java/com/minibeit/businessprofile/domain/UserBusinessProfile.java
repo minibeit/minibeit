@@ -29,13 +29,19 @@ public class UserBusinessProfile extends BaseEntity {
         this.businessProfile = businessProfile;
     }
 
+    private void addUser(User user) {
+        user.getUserBusinessProfileList().add(this);
+        this.user = user;
+    }
+
     public static UserBusinessProfile create(User user) {
-        return UserBusinessProfile.builder().user(user).build();
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.builder().build();
+        userBusinessProfile.addUser(user);
+        return userBusinessProfile;
     }
 
     public void createWithBusinessProfile(BusinessProfile businessProfile) {
         this.setBusinessProfile(businessProfile);
         businessProfile.getUserBusinessProfileList().add(this);
-
     }
 }

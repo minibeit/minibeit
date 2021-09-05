@@ -1,8 +1,8 @@
 import { API_URLS } from "../constants";
-import { withAuthInstance } from "./common";
+import { withoutAuthInstance } from "./common";
 
-const {GET_SCHOOL} = API_URLS
+const { GET_SCHOOL } = API_URLS;
 
 export const schoolGetApi = async () => {
-  return await withAuthInstance.get(GET_SCHOOL);
+  return await withoutAuthInstance.get(GET_SCHOOL);
 };

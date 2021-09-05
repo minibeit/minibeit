@@ -23,7 +23,6 @@ import com.minibeit.user.domain.User;
 import com.minibeit.user.service.exception.SchoolNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -43,10 +42,8 @@ public class PostService {
     private final PostDoDateRepository postDoDateRepository;
     private final PostApplicantRepository postApplicantRepository;
 
-    public PostResponse.OnlyId create(PostRequest.Create request, User user) {
-        if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), request.getBusinessProfileId())) {
-            throw new PermissionException();
-        }
+    public PostResponse.OnlyId createInfo(PostRequest.CreateInfo request, User user) {
+        permissionCheck(request.getBusinessProfileId(), user);
 
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         BusinessProfile businessProfile = businessProfileRepository.findById(request.getBusinessProfileId()).orElseThrow(BusinessProfileNotFoundException::new);
@@ -55,10 +52,16 @@ public class PostService {
         Post post = Post.create(request, school, businessProfile, postFiles);
         Post savedPost = postRepository.save(post);
 
-        List<PostDoDate> postDoDateList = request.getDoDateList().stream().map(date -> PostDoDate.create(date, savedPost)).collect(Collectors.toList());
-        postDoDateRepository.saveAll(postDoDateList);
-
         return PostResponse.OnlyId.build(savedPost);
+    }
+
+    public PostResponse.OnlyId createDateRule(Long postId, PostRequest.CreateDateRule request, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        permissionCheck(post.getBusinessProfile().getId(), user);
+        post.updateDate(request);
+        List<PostDoDate> postDoDateList = request.getDoDateList().stream().map(doDate -> PostDoDate.create(doDate, post)).collect(Collectors.toList());
+        postDoDateRepository.saveAll(postDoDateList);
+        return PostResponse.OnlyId.build(post);
     }
 
     @Transactional(readOnly = true)
@@ -69,7 +72,7 @@ public class PostService {
 
     public void deleteOne(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        post.checkPermission(user);
+        permissionCheck(post.getBusinessProfile().getId(), user);
         postRepository.deleteById(postId);
     }
 
@@ -88,6 +91,12 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public Page<Post> getList(Long schoolId, LocalDate doDate, PageDto pageDto) {
-      return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, pageDto.of());
+        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, pageDto.of());
+    }
+
+    private void permissionCheck(Long businessProfileId, User user) {
+        if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
+            throw new PermissionException();
+        }
     }
 }

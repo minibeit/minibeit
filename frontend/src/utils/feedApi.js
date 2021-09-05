@@ -5,30 +5,31 @@ import { withAuthInstance } from "./common";
 const { FEED_NEW } = API_URLS;
 
 export const feedCreateApi = async (
-  title,
-  dueDate,
-  doDate,
-  pay,
-  time,
-  place,
-  content,
-  phoneNum,
-  files,
-  school
+  inputs
 ) => {
   const formData = new FormData();
-  formData.append("title", title);
-  formData.append("content", content);
-  formData.append("place", place);
-  formData.append("pay", pay);
-  formData.append("time", time);
-  if (files) {
-    formData.append("files", files);
+  formData.append("title", inputs.title);
+  formData.append("content", inputs.content);
+  formData.append("place", inputs.place);
+  formData.append("payment", inputs.payment);
+  if (inputs.payment ==="CACHE") {
+    formData.append("cache", inputs.cache);
+  }else{
+    formData.append("goods", inputs.goods);
   }
-  formData.append("phoneNum", phoneNum);
-  formData.append("dueDate", dueDate);
-  formData.append("doDate", doDate);
-  formData.append("schoolId", school);
+  formData.append("condition", inputs.condition);
+  if (inputs.condition === "true") {
+    formData.append("conditionDetail", inputs.conditionDetail);
+  }
+  formData.append("time", inputs.time);
+  if (inputs.files) {
+    formData.append("files", inputs.files);
+  }
+  formData.append("contact", inputs.contact);
+  formData.append("startDate", inputs.startDate);
+  formData.append("endDate", inputs.endDate);
+  formData.append("doDate", inputs.doDate);
+  formData.append("schoolId", inputs.school);
   return await withAuthInstance().post(FEED_NEW, formData);
 };
 

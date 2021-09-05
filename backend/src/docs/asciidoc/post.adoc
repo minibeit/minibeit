@@ -11,17 +11,30 @@
 ---
 == 기본 API
 
-=== 게시물 생성
+=== 게시물 기본 정보 입력(생성)
 
-`POST /api/post`
+`POST /api/post/info`
 
 요청 HTTP
-include::{snippets}/post-create/request-parameters.adoc[]
-include::{snippets}/post-create/request-parts.adoc[]
+include::{snippets}/post-create-info/request-parameters.adoc[]
+include::{snippets}/post-create-info/request-parts.adoc[]
 
 성공 응답 HTTP
-include::{snippets}/post-create/http-response.adoc[]
-include::{snippets}/post-create/response-fields.adoc[]
+include::{snippets}/post-create-info/http-response.adoc[]
+include::{snippets}/post-create-info/response-fields.adoc[]
+
+=== 게시물 날짜 정보 입력(생성)
+
+`POST /api/post/{postId}/info/date`
+
+요청 HTTP
+include::{snippets}/post-create-date/http-request.adoc[]
+include::{snippets}/post-create-date/path-parameters.adoc[]
+include::{snippets}/post-create-date/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-create-date/http-response.adoc[]
+include::{snippets}/post-create-date/response-fields.adoc[]
 
 === 게시물 단건 조회
 
@@ -57,4 +70,15 @@ include::{snippets}/post-apply/request-fields.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/post-apply/http-response.adoc[]
+
+=== 게시물 목록 조회
+
+`GET /api/post/list/{schoolId}`
+
+요청 HTTP
+include::{snippets}/post-getList/http-request.adoc[]
+include::{snippets}/post-getList/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-getList/http-response.adoc[]
 

@@ -22,8 +22,8 @@ export default function ProfileEditForm() {
       setSchoolList(res.data);
     });
   };
-  const editUserDataHandler = async (inputs, newImg) => {
-    await editMyInfo(inputs, newImg).then(async (res) => {
+  const editUserDataHandler = async (inputs, newImg, basicImg) => {
+    await editMyInfo(inputs, newImg, basicImg).then(async (res) => {
       const user_cp = { ...user };
       user_cp["schoolId"] = parseInt(inputs.schoolId);
       user_cp["name"] = inputs.new_nickname;

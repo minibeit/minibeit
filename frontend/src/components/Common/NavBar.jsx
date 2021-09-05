@@ -9,7 +9,6 @@ import * as S from "./style";
 export default function NavBar() {
   const data = useRecoilValue(userState);
   const [modalSwitch, setModalSwitch] = useState(false);
-  const [loginState, setloginState] = useState(data.isLogin);
   const username = data.name;
   const onClick = () => {
     setModalSwitch(true);
@@ -23,10 +22,6 @@ export default function NavBar() {
         window.alert("로그아웃이 되었습니다!");
         window.location.replace("/");
         localStorage.clear();
-        setloginState({
-          ...loginState,
-          isLogin: false,
-        });
       }
     } catch (e) {
       console.log(e);
@@ -52,7 +47,7 @@ export default function NavBar() {
           </Link>
         </S.NavBarMenu>
         <S.NavBarAuth>
-          {loginState === true ? (
+          {data.didSignup === true ? (
             <S.NavBarAuth>
               <Link to={`/user/${username}`}>{username}님 안녕하세요</Link>
               <p onClick={logout}>로그아웃</p>

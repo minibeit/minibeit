@@ -15,11 +15,11 @@ PSignupInfoForm.propTypes = {
 };
 
 function PSignupInfoForm({ schoollist, signupHandler }) {
-  window.addEventListener("beforeunload", function (e) {
-    let confirmationMessage = "정말 닫으시겠습니까?";
-    e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
-    return confirmationMessage; // Gecko, WebKit, Chrome < 34
-  });
+  // window.addEventListener("beforeunload", function (e) {
+  //   let confirmationMessage = "정말 닫으시겠습니까?";
+  //   e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+
+  //   return confirmationMessage; // Gecko, WebKit, Chrome < 34
+  // });
 
   const [inputs, setInputs] = useState({
     name: "",
@@ -124,9 +124,9 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
       <br />
       <S.SignupButton
         type="submit"
-        onClick={async (e) => {
+        onClick={(e) => {
           e.preventDefault();
-          await signupHandler(inputs, img);
+          signupHandler(inputs, img);
         }}
       >
         회원가입

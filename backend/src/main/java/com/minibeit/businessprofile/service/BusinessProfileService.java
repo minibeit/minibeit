@@ -70,14 +70,12 @@ public class BusinessProfileService {
     public void delete(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
-
         permissionCheck(user, businessProfile);
 
         businessProfileRepository.deleteById(businessProfileId);
-
     }
 
-    public void shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.Share request,User user) {
+    public void shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.Share request, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
         permissionCheck(user, businessProfile);
@@ -94,9 +92,7 @@ public class BusinessProfileService {
 
     }
 
-
-
-    public void cancelShare(Long businessProfileId, BusinessProfileRequest.Share request,User user){
+    public void cancelShare(Long businessProfileId, BusinessProfileRequest.Share request, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
         permissionCheck(user, businessProfile);
@@ -104,14 +100,6 @@ public class BusinessProfileService {
         User sharingUser = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
         UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(sharingUser.getId(), businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
-    }
-
-    public List<BusinessProfileResponse.IdAndNickname> getSharingList(Long businessProfileId){
-        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-
-        return businessProfile.getUserBusinessProfileList().stream()
-                .filter(userBusinessProfile -> !userBusinessProfile.getUser().getId().equals(userBusinessProfile.getCreatedBy().getId()))
-                .map(BusinessProfileResponse.IdAndNickname::build).collect(Collectors.toList());
     }
 
     private void permissionCheck(User user, BusinessProfile businessProfile) {

@@ -1,6 +1,7 @@
 package com.minibeit.user.domain;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.file.domain.File;
 import com.minibeit.post.domain.Post;
@@ -10,6 +11,8 @@ import com.minibeit.user.service.exception.DuplicateNickNameException;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -54,6 +57,10 @@ public class User extends BaseEntity {
     @JoinColumn(name = "file_id")
     private File avatar;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    private List<UserBusinessProfile> userBusinessProfileList = new ArrayList<>();
+
     public User signup(UserRequest.Signup request, School school, File avatar) {
         this.name = request.getName();
         this.nickname = request.getNickname();
@@ -91,7 +98,8 @@ public class User extends BaseEntity {
     public boolean postIsMine(Post post) {
         return post.getCreatedBy().getId().equals(this.id);
     }
-    public boolean businessProfileIsMine(BusinessProfile businessProfile){
+
+    public boolean businessProfileIsMine(BusinessProfile businessProfile) {
         return businessProfile.getCreatedBy().getId().equals(this.getId());
     }
 }

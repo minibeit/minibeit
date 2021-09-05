@@ -3,7 +3,6 @@ package com.minibeit.businessprofile.web;
 import com.minibeit.MvcTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
-import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
 import com.minibeit.file.domain.File;
 import com.minibeit.school.domain.School;
@@ -21,13 +20,9 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -87,28 +82,6 @@ public class UserBusinessProfileControllerTest extends MvcTest {
                                 parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
                         ), requestFields(
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("비즈니스프로필에서 공유 삭제하려는 유저 닉네임")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("비즈니스 프로필 공유 조회 문서화")
-    public void getSharingList() throws Exception {
-
-        List<BusinessProfileResponse.IdAndNickname> response = new ArrayList<>();
-        response.add(BusinessProfileResponse.IdAndNickname.builder().id(1L).nickname("테스터").build());
-        given(businessProfileService.getSharingList(any())).willReturn(response);
-
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/{businessProfileId}/share", 1));
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("business-profile-share-list",
-                        pathParameters(
-                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
-                        ), responseFields(
-                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("공유된 유저의 식별자"),
-                                fieldWithPath("[].nickname").type(JsonFieldType.STRING).description("공유된 유저의 닉네임")
                         )
                 ));
     }

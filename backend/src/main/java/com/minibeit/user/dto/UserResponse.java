@@ -28,6 +28,22 @@ public class UserResponse {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class IdAndNickname {
+        private Long id;
+        private String nickname;
+
+        public static IdAndNickname build(User user) {
+            return IdAndNickname.builder()
+                    .id(user.getId())
+                    .nickname(user.getNickname())
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Login {
         private Long id;
         private String name;

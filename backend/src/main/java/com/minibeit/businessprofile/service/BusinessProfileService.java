@@ -32,8 +32,9 @@ public class BusinessProfileService {
     private final FileService fileService;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
+        User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         File avatar = fileService.upload(request.getAvatar());
-        UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(user);
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(findUser);
         BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
 

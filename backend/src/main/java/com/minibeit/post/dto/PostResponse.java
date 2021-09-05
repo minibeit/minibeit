@@ -5,6 +5,7 @@ import com.minibeit.post.domain.Post;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -66,6 +67,39 @@ public class PostResponse {
                     .endDate(post.getEndDate())
                     .files(post.getPostFileList().stream().map(PostFileDto.Image::build).collect(Collectors.toList()))
                     .isMine(user.postIsMine(post))
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetList {
+        private Long id;
+        private String title;
+        private String payment;
+        private String goods;
+        private Integer cache;
+        private boolean recruitCondition;
+        private String recruitConditionDetail;
+        private Integer doTime;
+        private List<String> startTimeList;
+
+        public static PostResponse.GetList build(Post post, LocalDate doDate) {
+            return GetList.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .payment(post.getPayment().name())
+                    .goods(post.getPaymentGoods())
+                    .cache(post.getPaymentCache())
+                    .recruitCondition(post.isRecruitCondition())
+                    .recruitConditionDetail(post.getRecruitConditionDetail())
+                    .doTime(post.getDoTime())
+                    .startTimeList(post.getPostDoDateList().stream()
+                            .filter(postDoDate -> postDoDate.getDoDate().toLocalDate().equals(doDate))
+                            .map(postDoDate -> postDoDate.getDoDate().getHour() + ":" + postDoDate.getDoDate().getMinute())
+                            .collect(Collectors.toList()))
                     .build();
         }
     }

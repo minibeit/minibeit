@@ -2,10 +2,7 @@ package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.post.domain.Payment;
-import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostFile;
-import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.domain.*;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.PostService;
@@ -17,6 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -24,10 +24,14 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -41,16 +45,18 @@ class PostControllerTest extends MvcTest {
     @MockBean
     private PostService postService;
 
-    private Post post;
+    private Post post1;
+    private Post post2;
+    private List<Post> postList=new ArrayList<>();
     private User user;
 
     @BeforeEach
     public void setup() {
         user = User.builder().id(1L).name("동그라미").build();
-        post = Post.builder()
+        post1 = Post.builder()
                 .id(1L)
                 .title("동그라미 실험실")
-                .content("실험실 분류")
+                .content("실험실 세부사항")
                 .place("고려대")
                 .contact("010-1234-5786")
                 .payment(Payment.CACHE)
@@ -62,9 +68,32 @@ class PostControllerTest extends MvcTest {
                 .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
                 .school(School.builder().id(1L).name("고려대학교").build())
                 .businessProfile(BusinessProfile.builder().id(1L).name("동그라미실험실").build())
+                .postDoDateList(Collections.singletonList(PostDoDate.builder().id(1L).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build()))
                 .postFileList(Collections.singletonList(PostFile.builder().id(1L).url("profile image url").build()))
                 .build();
-        post.setCreatedBy(user);
+        post1.setCreatedBy(user);
+
+        post2 = Post.builder()
+                .id(2L)
+                .title("세모 실험실")
+                .content("실험실 세부사항")
+                .place("고려대")
+                .contact("010-1234-5786")
+                .payment(Payment.GOODS)
+                .paymentGoods("커피 기프티콘")
+                .recruitCondition(false)
+                .doTime(120)
+                .startDate(LocalDateTime.of(2021, 9, 3, 9, 30))
+                .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
+                .school(School.builder().id(1L).name("고려대학교").build())
+                .businessProfile(BusinessProfile.builder().id(1L).name("세모실험실").build())
+                .postDoDateList(Collections.singletonList(PostDoDate.builder().id(1L).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build()))
+                .postFileList(Collections.singletonList(PostFile.builder().id(1L).url("profile image url").build()))
+                .build();
+        post2.setCreatedBy(user);
+
+        postList.add(post1);
+        postList.add(post2);
     }
 
 
@@ -134,7 +163,7 @@ class PostControllerTest extends MvcTest {
     @Test
     @DisplayName("게시물 단건 조회 문서화")
     public void getOne() throws Exception {
-        PostResponse.GetOne response = PostResponse.GetOne.build(post, user);
+        PostResponse.GetOne response = PostResponse.GetOne.build(post1, user);
 
         given(postService.getOne(any(), any())).willReturn(response);
 
@@ -163,6 +192,45 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("endDate").type(JsonFieldType.STRING).description("모집 마감 날짜"),
                                 fieldWithPath("files[].url").type(JsonFieldType.STRING).description("파일"),
                                 fieldWithPath("mine").type(JsonFieldType.BOOLEAN).description("게시물이 자신이 것인지")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("게시물 목록 조회 문서화(학교 id,실험날짜 기준)")
+    public void getList() throws Exception {
+        Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
+        given(postService.getList(any(), any(), any())).willReturn(postPage);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/post/list/{schoolId}", 1)
+                .param("page", "1")
+                .param("size", "10")
+                .param("doDate", "2021-09-04"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-getList",
+                        pathParameters(
+                                parameterWithName("schoolId").description("학교 식별자")),
+                        requestParameters(
+                                parameterWithName("page").description("조회할 페이지"),
+                                parameterWithName("size").description("조회할 사이즈"),
+                                parameterWithName("doDate").description("조회할 게시물 실험 날짜(doDate)")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("content[].payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
+                                fieldWithPath("content[].goods").description("지급 수단이 GOODS 인 경우 물품 보상").optional(),
+                                fieldWithPath("content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
+                                fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
+                                fieldWithPath("content[].recruitConditionDetail").description("구인조건이 있다면 구인조건 세부사항(없다면 null)").optional(),
+                                fieldWithPath("content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
+                                fieldWithPath("content[].startTimeList[]").type(JsonFieldType.ARRAY).description("실험 참여 가능 시간"),
+                                fieldWithPath("totalElements").description("전체 개수"),
+                                fieldWithPath("last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("totalPages").description("전체 페이지")
                         )
                 ));
     }

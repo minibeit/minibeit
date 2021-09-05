@@ -72,7 +72,7 @@ public class Post extends BaseEntity {
         }
     }
 
-    public static Post create(PostRequest.Create request, School school, BusinessProfile businessProfile, List<PostFile> postFileList) {
+    public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile, List<PostFile> postFileList) {
         Post post = Post.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
@@ -84,8 +84,6 @@ public class Post extends BaseEntity {
                 .recruitCondition(request.isCondition())
                 .recruitConditionDetail(request.getConditionDetail())
                 .doTime(request.getDoTime())
-                .startDate(request.getStartDate())
-                .endDate(request.getEndDate())
                 .businessProfile(businessProfile)
                 .school(school)
                 .build();
@@ -93,9 +91,8 @@ public class Post extends BaseEntity {
         return post;
     }
 
-    public void checkPermission(User user) {
-        if (!this.getCreatedBy().getId().equals(user.getId())) {
-            throw new PermissionException();
-        }
+    public void updateDate(PostRequest.CreateDateRule request) {
+        this.startDate=request.getStartDate();
+        this.endDate=request.getEndDate();
     }
 }

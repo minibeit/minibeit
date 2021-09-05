@@ -26,11 +26,17 @@ import java.util.stream.Collectors;
 public class PostController {
     private final PostService postService;
 
-    @PostMapping
+    @PostMapping("/info")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<PostResponse.OnlyId> create(PostRequest.Create request, @CurrentUser CustomUserDetails customUserDetails) {
-        PostResponse.OnlyId response = postService.create(request, customUserDetails.getUser());
+    public ResponseEntity<PostResponse.OnlyId> createInfo(PostRequest.CreateInfo request, @CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.OnlyId response = postService.createInfo(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(response);
+    }
+
+    @PostMapping("/{postId}/info/date")
+    public ResponseEntity<PostResponse.OnlyId> createDateRule(@PathVariable Long postId, @RequestBody PostRequest.CreateDateRule request, @CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.OnlyId response = postService.createDateRule(postId, request, customUserDetails.getUser());
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/{postId}")

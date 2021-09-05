@@ -70,7 +70,7 @@ class BusinessProfileControllerTest extends MvcTest {
                 .role(Role.USER)
                 .school(School.builder().id(1L).name("고려대").build())
                 .build();
-
+        businessProfile.setCreatedBy(user1);
     }
 
     @Test
@@ -145,8 +145,6 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 단건 조회 문서화")
     public void getOne() throws Exception {
-
-        businessProfile.setCreatedBy(user1);
         BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile, user1);
 
         given(businessProfileService.getOne(any(), any())).willReturn(response);

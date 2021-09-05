@@ -68,7 +68,6 @@ public class UserBusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 삭제 문서화")
     public void cancelShare() throws Exception {
-
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.delete("/api/business/profile/{businessProfileId}/expel/{userId}", 1,2));
 
         results.andExpect(status().isOk())

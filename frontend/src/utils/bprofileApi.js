@@ -59,14 +59,9 @@ export const bprofileJoin = async (businessId, nickname) => {
     data
   );
 };
-export const bprofileJoinDel = async (businessId ,userNickname) => {
-  const data = {
-    nickname: userNickname,
-  };
-  console.log(data)
+export const bprofileJoinDel = async (businessId ,userId) => {
   return await withAuthInstance.delete(
-    BPROFILE_JOIN_DEL + businessId + "/share",
-    data
+    BPROFILE_JOIN_DEL + businessId + "/expel/"+userId
   );
 };
 export const getBPusergroup = async (businessId) => {

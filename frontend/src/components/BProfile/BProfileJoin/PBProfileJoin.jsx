@@ -35,7 +35,7 @@ export default function PBProfileJoin({ handleJoin, handleDelete, usergroup }) {
                 <S.BPuserdelete
                   onClick={async (e) => {
                     e.preventDefault();
-                    await handleDelete(user.nickname);
+                    await handleDelete(user.id, user.nickname);
                     setNickname("");
                   }}
                 >

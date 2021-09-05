@@ -16,9 +16,9 @@ export default function BProfileJoin({ businessId }) {
       console.log(e);
     }
   };
-  const handleDelete = async (userNickname) => {
+  const handleDelete = async (userId, userNickname) => {
     try {
-      const result = await bprofileJoinDel(businessId, userNickname);
+      const result = await bprofileJoinDel(businessId, userId);
       if (result) {
         alert(userNickname + "님의 초대가 취소되었습니다");
         getUsergroup();

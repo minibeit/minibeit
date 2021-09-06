@@ -5,82 +5,40 @@ import { withAuthInstance } from "./common";
 const { FEED_NEW,FEED_DATE_NEW } = API_URLS;
 
 export const feedCreateApi = async (
-        title,
-        payment,
-        doTime,
-        place,
-        content,
-        contact,
-        schoolId,
-        cache,
-        goods,
-        condition,
-        conditionDetail,
-        businessProfileId,
+        infoinputs,
         files
 ) => {
-  console.log( title,
-    payment,
-    doTime,
-    place,
-    content,
-    contact,
-    schoolId,
-    cache,
-    goods,
-    condition,
-    conditionDetail,
-    businessProfileId,
-    files)
   const formData = new FormData();
-  formData.append("title", title);
-  formData.append("content", content);
-  formData.append("place", place);
-  formData.append("payment", payment);
-  if (payment ==="CACHE") {
-    formData.append("cache", cache);
+  formData.append("title", infoinputs.title);
+  formData.append("content", infoinputs.content);
+  formData.append("place", infoinputs.place);
+  formData.append("payment",  infoinputs.payment);
+  if (infoinputs.payment ==="CACHE") {
+    formData.append("cache", infoinputs.cache);
   }else{
-    formData.append("goods", goods);
+    formData.append("goods",infoinputs. goods);
   }
-  formData.append("condition", condition);
-  if (condition === "true") {
-    formData.append("conditionDetail", conditionDetail);
+  formData.append("condition", infoinputs.condition);
+  if (infoinputs.condition === "true") {
+    formData.append("conditionDetail", infoinputs.conditionDetail);
   }
-  formData.append("doTime", doTime);
+  formData.append("doTime", infoinputs.doTime);
   if (files) {
     formData.append("files", files);
   }
-  formData.append("contact", contact);
-  formData.append("schoolId", schoolId);
-  formData.append("businessProfileId", businessProfileId);
-  
-    for (var key of formData.keys()) {
-
-      console.log(key);
-
-    }
-
-    for (var value of formData.values()) {
-
-      console.log(value);
-
-    }
-    console.log(FEED_NEW)
+  formData.append("contact", infoinputs.contact);
+  formData.append("schoolId", infoinputs.schoolId);
+  formData.append("businessProfileId", infoinputs.businessProfileId);
 
   return await withAuthInstance.post(FEED_NEW, formData);
 };
 
-export const feedDateCreateApi = async (postId, startDay,
-  endDay,
-  startTime,
-  endTime) => {
+export const feedDateCreateApi = async (postId, dateinputs) => {
   const data = {
-    startDate : startDay+"T"+startTime,
-    endDate: endDay+"T"+endTime,
+    startDate : dateinputs.startDay+"T"+ dateinputs.startTime,
+    endDate:  dateinputs.endDay+"T"+ dateinputs.endTime,
     doDateList:[ "2021-09-02T03:30" ],
   };
-  console.log(data)
-  console.log(FEED_DATE_NEW + postId + "/info/date")
   return await withAuthInstance.post(
     FEED_DATE_NEW + postId + "/info/date",
     data

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import * as S from "../style";
 
 function PFNContainer({ bpList, schoolList, FNHandler }) {
-  const [inputs, setInputs] = useState({
+  const [infoinputs, setInfoInputs] = useState({
     title: "",
     payment: "",
     doTime: "",
@@ -15,6 +15,8 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
     condition: "",
     conditionDetail: "",
     businessProfileId: "",
+  });
+  const [dateinputs, setDateInputs] = useState({
     startDay: "",
     endDay: "",
     startTime: "",
@@ -34,16 +36,19 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
     condition,
     conditionDetail,
     businessProfileId,
-    startDay,
-    endDay,
-    startTime,
-    endTime,
-  } = inputs;
-  const onChange = (e) => {
+  } = infoinputs;
+  const { startDay, endDay, startTime, endTime } = dateinputs;
+  const onInfoChange = (e) => {
     const { value, name } = e.target;
-    console.log(name, value);
-    setInputs({
-      ...inputs,
+    setInfoInputs({
+      ...infoinputs,
+      [name]: value,
+    });
+  };
+  const onDateChange = (e) => {
+    const { value, name } = e.target;
+    setDateInputs({
+      ...dateinputs,
       [name]: value,
     });
   };
@@ -66,7 +71,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             name="title"
             type="text"
             value={title || ""}
-            onChange={onChange}
+            onChange={onInfoChange}
           />
         </S.FNLabel>
         <br />
@@ -76,7 +81,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
           <S.FNSchool
             name="schoolId"
             defaultValue={"DEFAULT"}
-            onChange={onChange}
+            onChange={onInfoChange}
           >
             <option value="DEFAULT" disabled>
               학교를 선택하세요
@@ -96,7 +101,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
           <S.FNauthor
             name="businessProfileId"
             defaultValue={"DEFAULT"}
-            onChange={onChange}
+            onChange={onInfoChange}
           >
             <option value="DEFAULT" disabled>
               작성할 비즈니스 프로필을 선택하세요
@@ -116,7 +121,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             type="date"
             name="startDay"
             value={startDay}
-            onChange={onChange}
+            onChange={onDateChange}
           />
         </S.FNLabel>
         <br />
@@ -126,7 +131,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             type="date"
             name="endDay"
             value={endDay}
-            onChange={onChange}
+            onChange={onDateChange}
           />
         </S.FNLabel>
         <S.FNLabel>
@@ -134,8 +139,8 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
           <S.FNdueDate
             type="time"
             name="startTime"
-            value={startTime}
-            onChange={onChange}
+            value={startTime || ""}
+            onChange={onDateChange}
           />
         </S.FNLabel>
         <br />
@@ -146,7 +151,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             name="endTime"
             value={endTime}
             step="900"
-            onChange={onChange}
+            onChange={onDateChange}
           />
         </S.FNLabel>
         <br />
@@ -155,7 +160,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
           <S.FNpayment
             defaultValue={"DEFAULT"}
             name="payment"
-            onChange={onChange}
+            onChange={onInfoChange}
           >
             <option value="DEFAULT" disabled>
               지급 방법 선택하세요
@@ -176,7 +181,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
               type="number"
               name="cache"
               value={cache}
-              onChange={onChange}
+              onChange={onInfoChange}
             />
           </S.FNLabel>
         ) : payment === "GOODS" ? (
@@ -186,7 +191,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
               type="text"
               name="goods"
               value={goods}
-              onChange={onChange}
+              onChange={onInfoChange}
             />
           </S.FNLabel>
         ) : null}
@@ -196,7 +201,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
           <S.FNcondition
             defaultValue={"DEFAULT"}
             name="condition"
-            onChange={onChange}
+            onChange={onInfoChange}
           >
             <option value="DEFAULT" disabled>
               구인조건이 있습니까?
@@ -217,7 +222,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
               type="text"
               name="conditionDetail"
               value={conditionDetail}
-              onChange={onChange}
+              onChange={onInfoChange}
             />
           </S.FNLabel>
         ) : null}
@@ -227,7 +232,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
           <S.FNdoTime
             defaultValue={"DEFAULT"}
             name="doTime"
-            onChange={onChange}
+            onChange={onInfoChange}
           >
             <option value="DEFAULT" disabled>
               소요되는 실험 시간 단위를 고르세요 (단, 분 단위 계산)
@@ -261,14 +266,14 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             type="text"
             name="place"
             value={place}
-            onChange={onChange}
+            onChange={onInfoChange}
           />
         </S.FNLabel>
 
         <br />
         <S.FNLabel>
           연락처
-          <S.FNcontact name="contact" value={contact} onChange={onChange} />
+          <S.FNcontact name="contact" value={contact} onChange={onInfoChange} />
         </S.FNLabel>
         <br />
         <S.FNLabel>
@@ -279,7 +284,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             rows="5"
             cols="33"
             value={content}
-            onChange={onChange}
+            onChange={onInfoChange}
           />
         </S.FNLabel>
         <S.FNFile type="file" name="files" onChange={fileChange} />
@@ -288,25 +293,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
           type="submit"
           onClick={async (e) => {
             e.preventDefault();
-            await FNHandler(
-              title,
-              payment,
-              doTime,
-              place,
-              content,
-              contact,
-              schoolId,
-              cache,
-              goods,
-              condition,
-              conditionDetail,
-              businessProfileId,
-              startDay,
-              endDay,
-              startTime,
-              endTime,
-              files
-            );
+            await FNHandler(infoinputs, dateinputs, files);
           }}
         >
           게시물 생성

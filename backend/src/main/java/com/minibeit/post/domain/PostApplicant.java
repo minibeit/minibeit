@@ -34,6 +34,10 @@ public class PostApplicant extends BaseEntity {
         this.postStatus = PostStatus.APPROVE;
     }
 
+    public void updateStatusReject() {
+        this.postStatus = PostStatus.REJECT;
+    }
+
     public static PostApplicant create(PostDoDate postDoDate, User user) {
         return PostApplicant.builder()
                 .user(user)

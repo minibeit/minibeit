@@ -39,17 +39,28 @@ public class PostApplicantService {
     }
 
     public void applyApprove(Long postId, Long postDoDateId, Long userId, User user) {
-        //TODO post fetchjoin으로 businessProfile 같이 가져오기
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), post.getBusinessProfile().getId())) {
-            throw new PermissionException();
-        }
+        permissionCheck(user, post);
         PostDoDate postDoDate = postDoDateRepository.findById(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
         postDoDateFullCheck(post, postDoDate);
 
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
         postApplicant.updateStatusApprove();
+    }
+
+    public void applyReject(Long postId, Long postDoDateId, Long userId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        permissionCheck(user, post);
+        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
+
+        postApplicant.updateStatusReject();
+    }
+
+    private void permissionCheck(User user, Post post) {
+        if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), post.getBusinessProfile().getId())) {
+            throw new PermissionException();
+        }
     }
 
     private void postDoDateFullCheck(Post post, PostDoDate postDoDate) {

@@ -50,7 +50,7 @@ include::{snippets}/post-getOne/response-fields.adoc[]
 
 === 게시물 삭제
 
-`POST /api/post/{postId}`
+`DELETE /api/post/{postId}`
 
 요청 HTTP
 

@@ -25,4 +25,10 @@ public class PostApplicantController {
         postApplicantService.applyApprove(postId, postDoDateId, userId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/{postId}/date/{postDoDateId}/apply/reject/{userId}")
+    public ResponseEntity<Void> applyReject(@PathVariable Long postId, @PathVariable Long postDoDateId, @PathVariable Long userId, @CurrentUser CustomUserDetails customUserDetails) {
+        postApplicantService.applyReject(postId, postDoDateId, userId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
 }

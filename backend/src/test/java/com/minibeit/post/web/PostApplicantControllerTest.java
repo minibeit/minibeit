@@ -59,7 +59,26 @@ class PostApplicantControllerTest extends MvcTest {
 
         results.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("post-approve",
+                .andDo(document("post-apply-approve",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자"),
+                                parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자"),
+                                parameterWithName("userId").description("유저(지원자) 식별자")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("비즈니스쪽에서 해당 지원자 게시물 참여 거절 문서화")
+    public void applyReject() throws Exception {
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/{postId}/date/{postDoDateId}/apply/reject/{userId}", 1, 1, 2)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-apply-reject",
                         pathParameters(
                                 parameterWithName("postId").description("게시물 식별자"),
                                 parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자"),

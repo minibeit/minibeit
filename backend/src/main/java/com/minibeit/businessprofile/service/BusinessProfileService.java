@@ -35,7 +35,7 @@ public class BusinessProfileService {
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         File avatar = fileService.upload(request.getAvatar());
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(findUser);
-        BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar);
+        BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar, findUser);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
 
         return BusinessProfileResponse.IdAndName.build(savedBusinessProfile);
@@ -101,7 +101,6 @@ public class BusinessProfileService {
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
     }
 
-    //권한 양도 기능
     public void transferOfAuthority(Long businessProfileId, Long userId, User user){
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         permissionCheck(user, businessProfile);
@@ -110,7 +109,7 @@ public class BusinessProfileService {
     }
 
     private void permissionCheck(User user, BusinessProfile businessProfile) {
-        if (!businessProfile.getCreatedBy().getId().equals(user.getId())) {
+        if (!businessProfile.getUser().getId().equals(user.getId())) {
             throw new PermissionException();
         }
     }

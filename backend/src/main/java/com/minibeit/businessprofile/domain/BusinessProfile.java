@@ -59,7 +59,7 @@ public class BusinessProfile extends BaseEntity {
         this.introduce = createRequest.getIntroduce();
     }
 
-    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, File avatar) {
+    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, File avatar, User user) {
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(request.getName())
                 .category(request.getCategory())
@@ -67,6 +67,7 @@ public class BusinessProfile extends BaseEntity {
                 .introduce(request.getIntroduce())
                 .contact(request.getContact())
                 .avatar(avatar)
+                .user(user)
                 .build();
         businessProfile.addUser(userBusinessProfile);
         return businessProfile;

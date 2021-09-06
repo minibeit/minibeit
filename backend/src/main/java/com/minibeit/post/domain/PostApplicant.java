@@ -1,7 +1,6 @@
 package com.minibeit.post.domain;
 
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.post.dto.PostRequest;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
@@ -31,8 +30,8 @@ public class PostApplicant extends BaseEntity {
 
     private boolean finish;
 
-    public void updateStatus(PostStatus postStatus) {
-        this.postStatus = postStatus;
+    public void updateStatusApprove() {
+        this.postStatus = PostStatus.APPROVE;
     }
 
     public static PostApplicant create(PostDoDate postDoDate, User user) {

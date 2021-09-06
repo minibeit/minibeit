@@ -20,9 +20,9 @@ public class PostApplicantController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{postId}/apply/check/{userId}")
-    public ResponseEntity<Void> applyCheck(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId, @RequestBody PostRequest.ApplyCheck request) {
-        postApplicantService.applyCheck(postId, userId, request);
+    @PostMapping("/{postId}/date/{postDoDateId}/apply/approve/{userId}")
+    public ResponseEntity<Void> applyApprove(@PathVariable Long postId, @PathVariable Long postDoDateId, @PathVariable Long userId, @CurrentUser CustomUserDetails customUserDetails) {
+        postApplicantService.applyApprove(postId, postDoDateId, userId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 }

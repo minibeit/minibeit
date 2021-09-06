@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -48,25 +49,22 @@ class PostApplicantControllerTest extends MvcTest {
                 ));
     }
 
-//    @Test
-//    @DisplayName("비즈니스쪽에서 해당 지원자 게시물 참여 결정 문서화")
-//    public void applyCheck() throws Exception {
-//        PostRequest.ApplyCheck request = PostRequest.ApplyCheck.builder().approve(PostStatus.APPROVE).build();
-//        ResultActions results = mvc.perform(post("/api/post/{postId}/apply/check/{userId}", 1, 2)
-//                .content(objectMapper.writeValueAsString(request))
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .characterEncoding("UTF-8"));
-//
-//        results.andExpect(status().isOk())
-//                .andDo(print())
-//                .andDo(document("post-approve",
-//                        pathParameters(
-//                                parameterWithName("postId").description("게시물 식별자"),
-//                                parameterWithName("userId").description("유저(지원자) 식별자")
-//                        ),
-//                        requestFields(
-//                                fieldWithPath("approve").type(JsonFieldType.STRING).description("승인이라면 APPROVE 거절이라면 REJECT")
-//                        )
-//                ));
-//    }
+    @Test
+    @DisplayName("비즈니스쪽에서 해당 지원자 게시물 참여 허가 문서화")
+    public void applyApprove() throws Exception {
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/{postId}/date/{postDoDateId}/apply/approve/{userId}", 1, 1, 2)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-approve",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자"),
+                                parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자"),
+                                parameterWithName("userId").description("유저(지원자) 식별자")
+                        )
+                ));
+    }
 }

@@ -70,4 +70,11 @@ public class BusinessProfileController {
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/{businessProfileId}/expel/{userId}")
+    public ResponseEntity<Void> cancelShare(@PathVariable Long businessProfileId,
+                                            @PathVariable Long userId,
+                                            @CurrentUser CustomUserDetails customUserDetails) {
+        businessProfileService.cancelShare(businessProfileId, userId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
 }

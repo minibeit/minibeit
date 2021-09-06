@@ -23,8 +23,6 @@ public class BusinessProfile extends BaseEntity {
 
     private String name;
 
-    private String category;
-
     private String place;
 
     private String introduce;
@@ -53,28 +51,25 @@ public class BusinessProfile extends BaseEntity {
 
     public void update(BusinessProfileRequest.Update createRequest) {
         this.name = createRequest.getName();
-        this.category = createRequest.getCategory();
         this.place = createRequest.getPlace();
         this.contact = createRequest.getContact();
         this.introduce = createRequest.getIntroduce();
     }
 
+    public void updateAvatar(File avatar) {
+        this.avatar = avatar;
+    }
     public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, File avatar, User user) {
+
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(request.getName())
-                .category(request.getCategory())
                 .place(request.getPlace())
                 .introduce(request.getIntroduce())
                 .contact(request.getContact())
                 .avatar(avatar)
                 .user(user)
                 .build();
-        businessProfile.addUser(userBusinessProfile);
+        userBusinessProfile.setBusinessProfile(businessProfile);
         return businessProfile;
     }
-
-    public void updateAvatar(File avatar) {
-        this.avatar = avatar;
-    }
-
 }

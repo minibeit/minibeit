@@ -50,7 +50,6 @@ class BusinessProfileControllerTest extends MvcTest {
         businessProfile = BusinessProfile.builder()
                 .id(1L)
                 .name("동그라미 실험실")
-                .category("실험실 분류")
                 .place("고려대")
                 .contact("010-1234-5786")
                 .introduce("고려대 동그라미 실험실 입니다.")
@@ -86,7 +85,6 @@ class BusinessProfileControllerTest extends MvcTest {
                 multipart("/api/business/profile")
                         .file(avatar)
                         .param("name", "동그라미 실험실")
-                        .param("category", "개발")
                         .param("place", "고려대 신공학관")
                         .param("introduce", "고려대 동그라미 실험실입니다!!")
                         .param("contact", "010-1234-1234")
@@ -98,7 +96,6 @@ class BusinessProfileControllerTest extends MvcTest {
                 .andDo(document("business-profile-create",
                         requestParameters(
                                 parameterWithName("name").description("실험실 이름"),
-                                parameterWithName("category").description("실험실 분류"),
                                 parameterWithName("place").description("실험실 장소"),
                                 parameterWithName("introduce").description("실험실 소개"),
                                 parameterWithName("contact").description("실험실 연락처")
@@ -160,7 +157,6 @@ class BusinessProfileControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
-                                fieldWithPath("category").type(JsonFieldType.STRING).description("비즈니스 프로필 분류"),
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
                                 fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
@@ -184,7 +180,6 @@ class BusinessProfileControllerTest extends MvcTest {
                 .fileUpload("/api/business/profile/{businessProfileId}", 1)
                 .file(avatar)
                 .param("name", "네모 실험실")
-                .param("category", "실험실 분류")
                 .param("place", "네모 대학교")
                 .param("introduce", "네모 대학교 네모 실험실입니다!!")
                 .param("contact", "010-1234-5678")
@@ -201,7 +196,6 @@ class BusinessProfileControllerTest extends MvcTest {
                         ),
                         requestParameters(
                                 parameterWithName("name").description("실험실 이름"),
-                                parameterWithName("category").description("실험실 분류"),
                                 parameterWithName("place").description("실험실 장소"),
                                 parameterWithName("introduce").description("실험실 소개"),
                                 parameterWithName("contact").description("실험실 연락처"),
@@ -268,5 +262,17 @@ class BusinessProfileControllerTest extends MvcTest {
                 ));
     }
 
-
+    @Test
+    @DisplayName("비즈니스 프로필 공유 삭제 문서화")
+    public void cancelShare() throws Exception {
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.delete("/api/business/profile/{businessProfileId}/expel/{userId}", 1,2));
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-profile-share-cancel",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
+                                parameterWithName("userId").description("삭제할 유저의 식별자")
+                        )
+                ));
+    }
 }

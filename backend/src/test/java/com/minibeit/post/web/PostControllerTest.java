@@ -58,6 +58,7 @@ class PostControllerTest extends MvcTest {
                 .content("실험실 세부사항")
                 .place("고려대")
                 .contact("010-1234-5786")
+                .recruitPeople(10)
                 .payment(Payment.CACHE)
                 .paymentCache(50000)
                 .recruitCondition(true)
@@ -78,6 +79,7 @@ class PostControllerTest extends MvcTest {
                 .content("실험실 세부사항")
                 .place("고려대")
                 .contact("010-1234-5786")
+                .recruitPeople(10)
                 .payment(Payment.GOODS)
                 .paymentGoods("커피 기프티콘")
                 .recruitCondition(false)
@@ -112,6 +114,7 @@ class PostControllerTest extends MvcTest {
                         .param("content", "아무나 올 수 있는 실험입니다.")
                         .param("place", "고려대 신공학관")
                         .param("contact", "010-1234-1234")
+                        .param("headcount", "10")
                         .param("payment", "CACHE")
                         .param("cache", "10000")
                         .param("goods", "보상")
@@ -132,6 +135,7 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("content").description("세부사항"),
                                 parameterWithName("place").description("장소"),
                                 parameterWithName("contact").description("연락처"),
+                                parameterWithName("headcount").description("모집인원수"),
                                 parameterWithName("payment").description("지급 방법 (CACHE or GOODS) 지급 방법이 CACHE 인경우 cache만 보내고 goods는 안보내면 됩니다!"),
                                 parameterWithName("cache").description("지급 방법이 CACHE인 경우 현금"),
                                 parameterWithName("goods").description("지급 방법이 GOODS인 경우 보상"),
@@ -269,49 +273,6 @@ class PostControllerTest extends MvcTest {
                 .andDo(document("post-deleteOne",
                         pathParameters(
                                 parameterWithName("postId").description("삭제할 게시물 프로필 식별자")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("게시물 지원 문서화")
-    public void applyPost() throws Exception {
-        PostRequest.Apply request = PostRequest.Apply.builder().doDate(LocalDateTime.of(2021, 9, 1, 9, 30)).build();
-        ResultActions results = mvc.perform(post("/api/post/{postId}/apply", 1)
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8"));
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("post-apply",
-                        pathParameters(
-                                parameterWithName("postId").description("참여할 게시물 식별자")
-                        ),
-                        requestFields(
-                                fieldWithPath("doDate").type(JsonFieldType.STRING).description("실험 참가 날짜")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("비즈니스쪽에서 해당 지원자 게시물 참여 결정 문서화")
-    public void applyCheck() throws Exception {
-        PostRequest.ApplyCheck request = PostRequest.ApplyCheck.builder().approve(PostStatus.APPROVE).build();
-        ResultActions results = mvc.perform(post("/api/post/{postId}/apply/check/{userId}", 1, 2)
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8"));
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("post-approve",
-                        pathParameters(
-                                parameterWithName("postId").description("게시물 식별자"),
-                                parameterWithName("userId").description("유저(지원자) 식별자")
-                        ),
-                        requestFields(
-                                fieldWithPath("approve").type(JsonFieldType.STRING).description("승인이라면 APPROVE 거절이라면 REJECT")
                         )
                 ));
     }

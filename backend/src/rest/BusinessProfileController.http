@@ -7,10 +7,6 @@ Content-Disposition: form-data; name="name";
 
 동그라미 실험실
 --boundary
-Content-Disposition: form-data; name="category";
-
-개발
---boundary
 Content-Disposition: form-data; name="place";
 
 고려대

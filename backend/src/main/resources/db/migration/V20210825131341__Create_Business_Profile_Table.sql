@@ -5,7 +5,6 @@ CREATE TABLE `business_profile`
     `file_id`    BIGINT,
     `admin_id`   BIGINT,
     `name`       VARCHAR(100),
-    `category`   VARCHAR(100),
     `place`      VARCHAR(100),
     `introduce`  VARCHAR(255),
     `contact`    VARCHAR(50),

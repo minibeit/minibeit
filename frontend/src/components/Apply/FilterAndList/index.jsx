@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 import PFilterContainer from "./PFilterContainer";
+import PListContainer from "./PListContainer";
 import SchoolSelectModal from "../../Common/Modal/SchoolSelectModal";
-import { filterState } from "../../../recoil/filterState";
 import { schoolGetApi } from "../../../utils/schoolApi";
+import { feedlistApi } from "../../../utils/feedApi";
 
-export default function FilterContainer() {
+export default function FilterAndList() {
   const [schoolList, setSchoolList] = useState();
   const [modalSwitch, setModalSwitch] = useState(false);
-  const filter = useRecoilValue(filterState);
   const getSchoolList = () => {
     schoolGetApi()
       .then((res) => {
         setSchoolList(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const getFeedList = async (schoolId, date) => {
+    await feedlistApi(schoolId, date)
+      .then((res) => {
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -26,6 +34,7 @@ export default function FilterContainer() {
       <PFilterContainer
         setModalSwitch={setModalSwitch}
         schoolList={schoolList}
+        getFeedList={getFeedList}
       />
       {modalSwitch ? (
         <SchoolSelectModal
@@ -33,6 +42,7 @@ export default function FilterContainer() {
           schoolList={schoolList}
         />
       ) : null}
+      <PListContainer />
     </>
   );
 }

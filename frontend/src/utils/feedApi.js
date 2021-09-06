@@ -1,20 +1,17 @@
-
 import { API_URLS } from "../constants";
-import { withAuthInstance } from "./common";
+import { withAuthInstance, withoutAuthInstance } from "./common";
 
-const { FEED_NEW } = API_URLS;
+const { FEED_NEW, GET_FEEDLIST } = API_URLS;
 
-export const feedCreateApi = async (
-  inputs
-) => {
+export const feedCreateApi = async (inputs) => {
   const formData = new FormData();
   formData.append("title", inputs.title);
   formData.append("content", inputs.content);
   formData.append("place", inputs.place);
   formData.append("payment", inputs.payment);
-  if (inputs.payment ==="CACHE") {
+  if (inputs.payment === "CACHE") {
     formData.append("cache", inputs.cache);
-  }else{
+  } else {
     formData.append("goods", inputs.goods);
   }
   formData.append("condition", inputs.condition);
@@ -73,15 +70,12 @@ export const feedEditApi = async (
   );
 };
 
-export const feedlistApi = async (school, date, page, size) => {
-  const result = await withAuthInstance().get(
-    `http://3.36.95.15:8080/api/board/school/${school}/list?date=${date}&page=${page}&size=${size}`
+export const feedlistApi = async (schoolId, date) => {
+  // 일단 페이지와 사이즈 고정으로 해놓음
+  const doDate = `${date.getFullYear()}-${
+    date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1
+  }-${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
+  return await withAuthInstance.get(
+    GET_FEEDLIST + `${schoolId}?page=1&size=10&doDate=${doDate}`
   );
-  const data = {
-    post: result.data.content,
-    endpage: result.data.totalPages,
-    totalElement: result.data.totalElements,
-  };
-
-  return data;
 };

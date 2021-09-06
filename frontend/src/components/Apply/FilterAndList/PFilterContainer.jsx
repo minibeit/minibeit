@@ -18,12 +18,24 @@ PFilterContainer.propTypes = {
   ),
 };
 
-export default function PFilterContainer({ setModalSwitch, schoolList }) {
+export default function PFilterContainer({
+  setModalSwitch,
+  schoolList,
+  getFeedList,
+}) {
   const [filter, setFilter] = useRecoilState(filterState);
   const openModal = () => {
     setModalSwitch(true);
   };
-  console.log(filter);
+  const search = () => {
+    if (user.schoolId) {
+      getFeedList(user.schoolId, filter.date);
+    } else if (filter.schoolId) {
+      getFeedList(filter.schoolId, filter.date);
+    } else {
+      alert("학교를 선택해주세요");
+    }
+  };
   const user = useRecoilValue(userState);
   return (
     <>
@@ -50,7 +62,7 @@ export default function PFilterContainer({ setModalSwitch, schoolList }) {
             setFilter(filter_cp);
           }}
         />
-        <S.FilterSubmitBtn>검색</S.FilterSubmitBtn>
+        <S.FilterSubmitBtn onClick={search}>검색</S.FilterSubmitBtn>
       </S.FilterBox>
     </>
   );

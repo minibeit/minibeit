@@ -11,6 +11,8 @@ const API_URLS = {
   TOKEN_BLACKLIST: "/account/token/blacklist/",
   FEED_NEW: "/api/board",
   GET_SCHOOL: "/api/school/list",
+  GET_FEEDLIST: "/api/post/list/",
+  GET_FEEDDETAIL: "/api/post/",
   BPROFILE_NEW: "/api/business/profile",
   BPROFILELIST: "/api/business/profile/list/",
   BPROFILE_GET: "/api/business/profile/",
@@ -18,6 +20,6 @@ const API_URLS = {
   BPROFILE_EDIT: "/api/business/profile/",
   BPROFILE_JOIN: "/api/business/profile/",
   BPROFILE_JOIN_DEL: "/api/business/profile/",
-  GET_BP_USERGROUP : "/api/user/list/business/profile/",
+  GET_BP_USERGROUP: "/api/user/list/business/profile/",
 };
 export default API_URLS;

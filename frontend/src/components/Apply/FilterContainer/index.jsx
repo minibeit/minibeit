@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { userState } from "../../../recoil/userState";
-import { schoolGetApi } from "../../../utils/schoolApi";
 import PFilterContainer from "./PFilterContainer";
-import { LoadingSpinner } from "../../Common";
+import SchoolSelectModal from "../../Common/Modal/SchoolSelectModal";
+import { filterState } from "../../../recoil/filterState";
+import { schoolGetApi } from "../../../utils/schoolApi";
 
 export default function FilterContainer() {
   const [schoolList, setSchoolList] = useState();
-  const userSchoolId = useRecoilValue(userState).schoolId;
-
+  const [modalSwitch, setModalSwitch] = useState(false);
+  const filter = useRecoilValue(filterState);
   const getSchoolList = () => {
     schoolGetApi()
       .then((res) => {
@@ -18,17 +18,21 @@ export default function FilterContainer() {
         console.log(err);
       });
   };
-
   useEffect(() => {
     getSchoolList();
   }, []);
   return (
     <>
-      {schoolList ? (
-        <PFilterContainer schoolList={schoolList} userSchoolId={userSchoolId} />
-      ) : (
-        <LoadingSpinner />
-      )}
+      <PFilterContainer
+        setModalSwitch={setModalSwitch}
+        schoolList={schoolList}
+      />
+      {modalSwitch ? (
+        <SchoolSelectModal
+          setModalSwitch={setModalSwitch}
+          schoolList={schoolList}
+        />
+      ) : null}
     </>
   );
 }

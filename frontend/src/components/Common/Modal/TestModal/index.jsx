@@ -8,7 +8,7 @@ export default function TestModal({ setModalSwitch }) {
   };
   return (
     <Portal>
-      <S.ModalBackground onClick={closeModal}>
+      <S.ModalBackground>
         <S.ModalBox>
           <S.ModalHeader>
             <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>

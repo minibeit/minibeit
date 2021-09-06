@@ -43,18 +43,10 @@ export default function PFilterContainer({ setModalSwitch, schoolList }) {
         </S.ViewSelect>
         <S.SelectBtn onClick={openModal}>학교선택</S.SelectBtn>
         <DatePicker
-          selected={filter["startDate"]}
+          selected={filter["date"]}
           onChange={(date) => {
             const filter_cp = { ...filter };
-            filter_cp["startDate"] = date;
-            setFilter(filter_cp);
-          }}
-        />
-        <DatePicker
-          selected={filter["endDate"]}
-          onChange={(date) => {
-            const filter_cp = { ...filter };
-            filter_cp["endDate"] = date;
+            filter_cp["date"] = date;
             setFilter(filter_cp);
           }}
         />

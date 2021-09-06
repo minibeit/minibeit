@@ -12,4 +12,6 @@ public interface PostApplicantRepository extends JpaRepository<PostApplicant, Lo
     List<PostApplicant> findAllByPostDoDateIdAndStatusIsApprove(Long postDoDateId);
 
     Optional<PostApplicant> findByPostDoDateIdAndUserId(Long postDoDateId, Long userId);
+
+    void deleteByPostDoDateIdAndUserId(Long postDoDateId, Long id);
 }

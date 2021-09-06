@@ -1,11 +1,7 @@
 ###
-POST {{apiUrl}}/post/1/apply
+POST {{apiUrl}}/post/1/date/2/apply
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
-
-{
-  "doDate": "2021-09-05T09:30"
-}
 
 ###
 POST {{apiUrl}}/post/1/date/1/apply/approve/7
@@ -14,5 +10,10 @@ Content-Type: application/json;charset=UTF-8
 
 ###
 POST {{apiUrl}}/post/1/date/1/apply/reject/6
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+###
+POST {{apiUrl}}/post/date/2/apply/cancel
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8

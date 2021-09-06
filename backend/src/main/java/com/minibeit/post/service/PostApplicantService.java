@@ -8,7 +8,6 @@ import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
-import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.service.exception.*;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -26,8 +25,8 @@ public class PostApplicantService {
     private final PostApplicantRepository postApplicantRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
 
-    public void apply(Long postId, PostRequest.Apply request, User user) {
-        PostDoDate postDoDate = postDoDateRepository.findByPostIdAndDoDate(postId, request.getDoDate()).orElseThrow(PostDoDateNotFoundException::new);
+    public void apply(Long postId, Long postDoDateId, User user) {
+        PostDoDate postDoDate = postDoDateRepository.findByIdAndPostId(postDoDateId, postId).orElseThrow(PostDoDateNotFoundException::new);
         if (postApplicantRepository.findByPostDoDateIdAndUserId(postDoDate.getId(), user.getId()).isPresent()) {
             throw new DuplicateApplyException();
         }
@@ -55,6 +54,10 @@ public class PostApplicantService {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
         postApplicant.updateStatusReject();
+    }
+
+    public void applyCancel(Long postDoDateId, User user) {
+        postApplicantRepository.deleteByPostDoDateIdAndUserId(postDoDateId, user.getId());
     }
 
     private void permissionCheck(User user, Post post) {

@@ -17,7 +17,6 @@ SchoolSelectModal.propTypes = {
 };
 
 export default function SchoolSelectModal({ setModalSwitch, schoolList }) {
-  console.log(schoolList);
   const [filter, setFilter] = useRecoilState(filterState);
   const closeModal = () => {
     setModalSwitch(false);

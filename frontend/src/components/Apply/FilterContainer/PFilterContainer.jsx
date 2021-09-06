@@ -1,7 +1,9 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { filterState } from "../../../recoil/filterState";
 import { userState } from "../../../recoil/userState";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 
 import * as S from "../style";
@@ -17,11 +19,12 @@ PFilterContainer.propTypes = {
 };
 
 export default function PFilterContainer({ setModalSwitch, schoolList }) {
+  const [filter, setFilter] = useRecoilState(filterState);
   const openModal = () => {
     setModalSwitch(true);
   };
+  console.log(filter);
   const user = useRecoilValue(userState);
-  const filter = useRecoilValue(filterState);
   return (
     <>
       <S.FilterBox>
@@ -39,10 +42,22 @@ export default function PFilterContainer({ setModalSwitch, schoolList }) {
           )}
         </S.ViewSelect>
         <S.SelectBtn onClick={openModal}>학교선택</S.SelectBtn>
-        <S.ViewSelect>0000-00-00</S.ViewSelect>
-        <S.SelectBtn>시작날짜 선택</S.SelectBtn>
-        <S.ViewSelect>0000-00-00</S.ViewSelect>
-        <S.SelectBtn>마감날짜 선택</S.SelectBtn>
+        <DatePicker
+          selected={filter["startDate"]}
+          onChange={(date) => {
+            const filter_cp = { ...filter };
+            filter_cp["startDate"] = date;
+            setFilter(filter_cp);
+          }}
+        />
+        <DatePicker
+          selected={filter["endDate"]}
+          onChange={(date) => {
+            const filter_cp = { ...filter };
+            filter_cp["endDate"] = date;
+            setFilter(filter_cp);
+          }}
+        />
         <S.FilterSubmitBtn>검색</S.FilterSubmitBtn>
       </S.FilterBox>
     </>

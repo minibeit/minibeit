@@ -44,10 +44,6 @@ public class BusinessProfile extends BaseEntity {
     public void changeAdmin(User user){
         this.user = user;
     }
-    private void addUser(UserBusinessProfile userBusinessProfile) {
-        this.userBusinessProfileList.add(userBusinessProfile);
-        userBusinessProfile.setBusinessProfile(this);
-    }
 
     public void update(BusinessProfileRequest.Update createRequest) {
         this.name = createRequest.getName();

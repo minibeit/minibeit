@@ -4,9 +4,6 @@ import * as S from "../style";
 function PFNContainer({ bpList, schoolList, FNHandler }) {
   const [inputs, setInputs] = useState({
     title: "",
-    startDate: "",
-    endDate: "",
-    doDate: "",
     payment: "",
     doTime: "",
     place: "",
@@ -18,11 +15,14 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
     condition: "",
     conditionDetail: "",
     businessProfileId: "",
+    startDay: "",
+    endDay: "",
+    startTime: "",
+    endTime: "",
   });
   const [files, setFiles] = useState();
   const {
     title,
-    doDate,
     payment,
     doTime,
     place,
@@ -34,8 +34,10 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
     condition,
     conditionDetail,
     businessProfileId,
-    startDate,
-    endDate,
+    startDay,
+    endDay,
+    startTime,
+    endTime,
   } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -92,7 +94,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
           {" "}
           작성자
           <S.FNauthor
-            name="businessProfiledId"
+            name="businessProfileId"
             defaultValue={"DEFAULT"}
             onChange={onChange}
           >
@@ -112,8 +114,8 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
           모집시작 날짜
           <S.FNdueDate
             type="date"
-            name="startDate"
-            value={startDate}
+            name="startDay"
+            value={startDay}
             onChange={onChange}
           />
         </S.FNLabel>
@@ -122,22 +124,31 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
           모집마감 날짜
           <S.FNdueDate
             type="date"
-            name="endDate"
-            value={endDate}
+            name="endDay"
+            value={endDay}
+            onChange={onChange}
+          />
+        </S.FNLabel>
+        <S.FNLabel>
+          모집시작 시간
+          <S.FNdueDate
+            type="time"
+            name="startTime"
+            value={startTime}
             onChange={onChange}
           />
         </S.FNLabel>
         <br />
         <S.FNLabel>
-          실험/설문날짜
-          <S.FNdoDate
-            type="datedoTime-local"
-            name="doDate"
-            value={doDate}
+          모집마감 시간
+          <S.FNdueDate
+            type="time"
+            name="endTime"
+            value={endTime}
+            step="900"
             onChange={onChange}
           />
         </S.FNLabel>
-
         <br />
         <S.FNLabel>
           지급방법
@@ -277,7 +288,25 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
           type="submit"
           onClick={async (e) => {
             e.preventDefault();
-            await FNHandler(inputs);
+            await FNHandler(
+              title,
+              payment,
+              doTime,
+              place,
+              content,
+              contact,
+              schoolId,
+              cache,
+              goods,
+              condition,
+              conditionDetail,
+              businessProfileId,
+              startDay,
+              endDay,
+              startTime,
+              endTime,
+              files
+            );
           }}
         >
           게시물 생성

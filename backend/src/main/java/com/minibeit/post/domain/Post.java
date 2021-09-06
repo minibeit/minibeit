@@ -2,10 +2,8 @@ package com.minibeit.post.domain;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.school.domain.School;
-import com.minibeit.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -95,7 +93,11 @@ public class Post extends BaseEntity {
     }
 
     public void updateDate(PostRequest.CreateDateRule request) {
-        this.startDate=request.getStartDate();
-        this.endDate=request.getEndDate();
+        this.startDate = request.getStartDate();
+        this.endDate = request.getEndDate();
+    }
+
+    public boolean applyPossible(List<PostApplicant> postApplicants) {
+        return postApplicants.size() < this.recruitPeople;
     }
 }

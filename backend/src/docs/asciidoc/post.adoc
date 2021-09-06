@@ -50,7 +50,7 @@ include::{snippets}/post-getOne/response-fields.adoc[]
 
 === 게시물 삭제
 
-`POST /api/post/{postId}`
+`DELETE /api/post/{postId}`
 
 요청 HTTP
 
@@ -58,18 +58,6 @@ include::{snippets}/post-deleteOne/path-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/post-deleteOne/http-response.adoc[]
-
-=== 게시물 지원하기
-
-`DELETE /api/post/{postId}/apply`
-
-요청 HTTP
-include::{snippets}/post-apply/http-request.adoc[]
-include::{snippets}/post-apply/path-parameters.adoc[]
-include::{snippets}/post-apply/request-fields.adoc[]
-
-성공 응답 HTTP
-include::{snippets}/post-apply/http-response.adoc[]
 
 === 게시물 목록 조회
 

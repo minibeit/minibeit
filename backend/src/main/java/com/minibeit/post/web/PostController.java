@@ -45,24 +45,6 @@ public class PostController {
         return ResponseEntity.ok().body(response);
     }
 
-    @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
-        postService.deleteOne(postId, customUserDetails.getUser());
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/{postId}/apply")
-    public ResponseEntity<Void> applyPost(@PathVariable Long postId, @RequestBody PostRequest.Apply request, @CurrentUser CustomUserDetails customUserDetails) {
-        postService.apply(postId, request, customUserDetails.getUser());
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/{postId}/apply/check/{userId}")
-    public ResponseEntity<Void> applyCheck(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId, @RequestBody PostRequest.ApplyCheck request) {
-        postService.applyCheck(postId, userId, request);
-        return ResponseEntity.ok().build();
-    }
-
     @GetMapping("/list/{schoolId}")
     public ResponseEntity<Page<PostResponse.GetList>> getList(@PathVariable Long schoolId,
                                                               @RequestParam(name = "doDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate,
@@ -70,5 +52,11 @@ public class PostController {
         Page<Post> posts = postService.getList(schoolId, doDate, pageDto);
         List<PostResponse.GetList> response = posts.stream().map(post -> PostResponse.GetList.build(post, doDate)).collect(Collectors.toList());
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
+        postService.deleteOne(postId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
     }
 }

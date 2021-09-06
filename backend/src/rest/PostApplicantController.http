@@ -1,0 +1,19 @@
+###
+POST {{apiUrl}}/post/1/date/2/apply
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+###
+POST {{apiUrl}}/post/1/date/1/apply/approve/7
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+###
+POST {{apiUrl}}/post/1/date/1/apply/reject/6
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+###
+POST {{apiUrl}}/post/date/2/apply/cancel
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8

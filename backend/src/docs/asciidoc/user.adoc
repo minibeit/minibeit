@@ -93,3 +93,26 @@ include::{snippets}/user-update/request-parts.adoc[]
 성공 응답 HTTP
 include::{snippets}/user-update/http-response.adoc[]
 include::{snippets}/user-update/response-fields.adoc[]
+
+== 게시물 관련 API
+=== 게시물 참여 신청하기
+
+`DELETE /api/post/{postId}/date/{postDoDateId}/apply`
+
+요청 HTTP
+include::{snippets}/post-apply/http-request.adoc[]
+include::{snippets}/post-apply/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-apply/http-response.adoc[]
+
+=== 게시물 참여 취소하기
+
+`POST /api/post/date/{postDoDateId}/apply/cancel`
+
+요청 HTTP
+include::{snippets}/post-apply-cancel/http-request.adoc[]
+include::{snippets}/post-apply-cancel/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-apply-cancel/http-response.adoc[]

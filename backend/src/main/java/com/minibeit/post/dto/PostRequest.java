@@ -2,9 +2,7 @@ package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minibeit.post.domain.Payment;
-import com.minibeit.post.domain.PostStatus;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
@@ -22,6 +20,7 @@ public class PostRequest {
         private String place;
         private String contact;
         private Payment payment;
+        private Integer headcount;
         private Integer cache;
         private String goods;
         private boolean condition;
@@ -43,22 +42,5 @@ public class PostRequest {
         private LocalDateTime endDate;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
         private List<LocalDateTime> doDateList;
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class Apply {
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
-        private LocalDateTime doDate;
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class ApplyCheck {
-        private PostStatus approve;
     }
 }

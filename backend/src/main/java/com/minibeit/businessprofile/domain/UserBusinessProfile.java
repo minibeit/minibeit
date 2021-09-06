@@ -27,6 +27,7 @@ public class UserBusinessProfile extends BaseEntity {
 
     public void setBusinessProfile(BusinessProfile businessProfile) {
         this.businessProfile = businessProfile;
+        businessProfile.getUserBusinessProfileList().add(this);
     }
 
     private void addUser(User user) {
@@ -40,8 +41,10 @@ public class UserBusinessProfile extends BaseEntity {
         return userBusinessProfile;
     }
 
-    public void createWithBusinessProfile(BusinessProfile businessProfile) {
-        this.setBusinessProfile(businessProfile);
-        businessProfile.getUserBusinessProfileList().add(this);
+    public static UserBusinessProfile createWithBusinessProfile(User user, BusinessProfile businessProfile) {
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.builder().build();
+        userBusinessProfile.addUser(user);
+        userBusinessProfile.setBusinessProfile(businessProfile);
+        return userBusinessProfile;
     }
 }

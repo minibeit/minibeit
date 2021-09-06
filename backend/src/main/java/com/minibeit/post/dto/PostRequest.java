@@ -22,6 +22,7 @@ public class PostRequest {
         private String place;
         private String contact;
         private Payment payment;
+        private Integer headcount;
         private Integer cache;
         private String goods;
         private boolean condition;

@@ -19,6 +19,10 @@ Content-Disposition: form-data; name="contact";
 
 010-1234-5623
 --boundary
+Content-Disposition: form-data; name="headcount";
+
+10
+--boundary
 Content-Disposition: form-data; name="payment";
 
 GOODS
@@ -44,7 +48,7 @@ Content-Disposition: form-data; name="schoolId";
 1
 
 ###
-POST {{apiUrl}}/post/2/info/date
+POST {{apiUrl}}/post/1/info/date
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 

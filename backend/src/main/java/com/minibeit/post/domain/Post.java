@@ -32,6 +32,8 @@ public class Post extends BaseEntity {
 
     private String contact;
 
+    private Integer recruitPeople;
+
     @Enumerated(EnumType.STRING)
     private Payment payment;
 
@@ -78,6 +80,7 @@ public class Post extends BaseEntity {
                 .content(request.getContent())
                 .place(request.getPlace())
                 .contact(request.getContact())
+                .recruitPeople(request.getHeadcount())
                 .payment(request.getPayment())
                 .paymentCache(request.getCache())
                 .paymentGoods(request.getGoods())

@@ -4,6 +4,7 @@ export {
   feedDetailApi,
   feedEditApi,
   feedlistApi,
+  feedDateCreateApi,
 } from "./feedApi";
 export { signupInfoApi, logoutFunc } from "./auth";
 export {

@@ -11,7 +11,6 @@ public class BusinessProfileRequest {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Create {
         private String name;
-        private String category;
         private String place;
         private String introduce;
         private String contact;
@@ -25,7 +24,6 @@ public class BusinessProfileRequest {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Update {
         private String name;
-        private String category;
         private String place;
         private String introduce;
         private String contact;

@@ -32,8 +32,9 @@ public class BusinessProfileService {
     private final FileService fileService;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
+        User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         File avatar = fileService.upload(request.getAvatar());
-        UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(user);
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(findUser);
         BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
 
@@ -85,11 +86,9 @@ public class BusinessProfileService {
         if (userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(userToShare.getId(), businessProfileId)) {
             throw new DuplicateShareException();
         }
-        UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(userToShare);
-        userBusinessProfile.createWithBusinessProfile(businessProfile);
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
 
         userBusinessProfileRepository.save(userBusinessProfile);
-
     }
 
     public void cancelShare(Long businessProfileId, Long userId, User user) {

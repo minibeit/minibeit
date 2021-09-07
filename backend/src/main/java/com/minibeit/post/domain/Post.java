@@ -2,10 +2,8 @@ package com.minibeit.post.domain;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.school.domain.School;
-import com.minibeit.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,6 +29,8 @@ public class Post extends BaseEntity {
     private String place;
 
     private String contact;
+
+    private Integer recruitPeople;
 
     @Enumerated(EnumType.STRING)
     private Payment payment;
@@ -72,20 +72,19 @@ public class Post extends BaseEntity {
         }
     }
 
-    public static Post create(PostRequest.Create request, School school, BusinessProfile businessProfile, List<PostFile> postFileList) {
+    public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile, List<PostFile> postFileList) {
         Post post = Post.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .place(request.getPlace())
                 .contact(request.getContact())
+                .recruitPeople(request.getHeadcount())
                 .payment(request.getPayment())
                 .paymentCache(request.getCache())
                 .paymentGoods(request.getGoods())
                 .recruitCondition(request.isCondition())
                 .recruitConditionDetail(request.getConditionDetail())
                 .doTime(request.getDoTime())
-                .startDate(request.getStartDate())
-                .endDate(request.getEndDate())
                 .businessProfile(businessProfile)
                 .school(school)
                 .build();
@@ -93,9 +92,12 @@ public class Post extends BaseEntity {
         return post;
     }
 
-    public void checkPermission(User user) {
-        if (!this.getCreatedBy().getId().equals(user.getId())) {
-            throw new PermissionException();
-        }
+    public void updateDate(PostRequest.CreateDateRule request) {
+        this.startDate = request.getStartDate();
+        this.endDate = request.getEndDate();
+    }
+
+    public boolean applyPossible(List<PostApplicant> postApplicants) {
+        return postApplicants.size() < this.recruitPeople;
     }
 }

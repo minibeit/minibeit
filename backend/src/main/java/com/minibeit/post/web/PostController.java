@@ -26,35 +26,23 @@ import java.util.stream.Collectors;
 public class PostController {
     private final PostService postService;
 
-    @PostMapping
+    @PostMapping("/info")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<PostResponse.OnlyId> create(PostRequest.Create request, @CurrentUser CustomUserDetails customUserDetails) {
-        PostResponse.OnlyId response = postService.create(request, customUserDetails.getUser());
+    public ResponseEntity<PostResponse.OnlyId> createInfo(PostRequest.CreateInfo request, @CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.OnlyId response = postService.createInfo(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(response);
+    }
+
+    @PostMapping("/{postId}/info/date")
+    public ResponseEntity<PostResponse.OnlyId> createDateRule(@PathVariable Long postId, @RequestBody PostRequest.CreateDateRule request, @CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.OnlyId response = postService.createDateRule(postId, request, customUserDetails.getUser());
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponse.GetOne> getOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.GetOne response = postService.getOne(postId, customUserDetails.getUser());
         return ResponseEntity.ok().body(response);
-    }
-
-    @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
-        postService.deleteOne(postId, customUserDetails.getUser());
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/{postId}/apply")
-    public ResponseEntity<Void> applyPost(@PathVariable Long postId, @RequestBody PostRequest.Apply request, @CurrentUser CustomUserDetails customUserDetails) {
-        postService.apply(postId, request, customUserDetails.getUser());
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/{postId}/apply/check/{userId}")
-    public ResponseEntity<Void> applyCheck(@PathVariable("postId") Long postId, @PathVariable("userId") Long userId, @RequestBody PostRequest.ApplyCheck request) {
-        postService.applyCheck(postId, userId, request);
-        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/list/{schoolId}")
@@ -64,5 +52,11 @@ public class PostController {
         Page<Post> posts = postService.getList(schoolId, doDate, pageDto);
         List<PostResponse.GetList> response = posts.stream().map(post -> PostResponse.GetList.build(post, doDate)).collect(Collectors.toList());
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
+    }
+
+    @DeleteMapping("/{postId}")
+    public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
+        postService.deleteOne(postId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
     }
 }

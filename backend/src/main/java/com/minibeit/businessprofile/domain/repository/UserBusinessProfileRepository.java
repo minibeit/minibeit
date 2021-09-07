@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface UserBusinessProfileRepository extends JpaRepository<UserBusinessProfile, Long> {
-
     boolean existsByUserIdAndBusinessProfileId(Long userId, Long businessProfileId);
 
     Optional<UserBusinessProfile> findByUserIdAndBusinessProfileId(Long userId, Long businessProfileId);

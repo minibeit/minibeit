@@ -4,7 +4,6 @@ CREATE TABLE `business_profile`
     `id`         BIGINT   NOT NULL AUTO_INCREMENT,
     `file_id`    BIGINT,
     `name`       VARCHAR(100),
-    `category`   VARCHAR(100),
     `place`      VARCHAR(100),
     `introduce`  VARCHAR(255),
     `contact`    VARCHAR(50),

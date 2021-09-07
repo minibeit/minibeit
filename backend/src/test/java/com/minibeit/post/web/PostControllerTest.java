@@ -24,16 +24,15 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.nullable;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -47,7 +46,7 @@ class PostControllerTest extends MvcTest {
 
     private Post post1;
     private Post post2;
-    private List<Post> postList=new ArrayList<>();
+    private List<Post> postList = new ArrayList<>();
     private User user;
 
     @BeforeEach
@@ -59,6 +58,7 @@ class PostControllerTest extends MvcTest {
                 .content("실험실 세부사항")
                 .place("고려대")
                 .contact("010-1234-5786")
+                .recruitPeople(10)
                 .payment(Payment.CACHE)
                 .paymentCache(50000)
                 .recruitCondition(true)
@@ -79,6 +79,7 @@ class PostControllerTest extends MvcTest {
                 .content("실험실 세부사항")
                 .place("고려대")
                 .contact("010-1234-5786")
+                .recruitPeople(10)
                 .payment(Payment.GOODS)
                 .paymentGoods("커피 기프티콘")
                 .recruitCondition(false)
@@ -98,21 +99,22 @@ class PostControllerTest extends MvcTest {
 
 
     @Test
-    @DisplayName("게시물 생성 문서화")
+    @DisplayName("게시물 정보입력(생성) 문서화")
     public void create() throws Exception {
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MockMultipartFile files = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is.readAllBytes());
         PostResponse.OnlyId response = PostResponse.OnlyId.builder().id(1L).build();
 
-        given(postService.create(any(), any())).willReturn(response);
+        given(postService.createInfo(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(
-                multipart("/api/post")
+                multipart("/api/post/info")
                         .file(files)
                         .param("title", "실험 제목")
                         .param("content", "아무나 올 수 있는 실험입니다.")
                         .param("place", "고려대 신공학관")
                         .param("contact", "010-1234-1234")
+                        .param("headcount", "10")
                         .param("payment", "CACHE")
                         .param("cache", "10000")
                         .param("goods", "보상")
@@ -121,24 +123,19 @@ class PostControllerTest extends MvcTest {
                         .param("doTime", "60")
                         .param("schoolId", "1")
                         .param("businessProfileId", "1")
-                        .param("startDate", "2021-08-30T09:30")
-                        .param("endDate", "2021-09-10T09:30")
-                        .param("doDateList", "2021-09-02T09:30")
-                        .param("doDateList", "2021-09-03T09:30")
-                        .param("doDateList", "2021-09-04T09:30")
-                        .param("doDateList", "2021-09-05T09:30")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .characterEncoding("UTF-8")
         );
 
         results.andExpect(status().isCreated())
                 .andDo(print())
-                .andDo(document("post-create",
+                .andDo(document("post-create-info",
                         requestParameters(
                                 parameterWithName("title").description("제목"),
                                 parameterWithName("content").description("세부사항"),
                                 parameterWithName("place").description("장소"),
                                 parameterWithName("contact").description("연락처"),
+                                parameterWithName("headcount").description("모집인원수"),
                                 parameterWithName("payment").description("지급 방법 (CACHE or GOODS) 지급 방법이 CACHE 인경우 cache만 보내고 goods는 안보내면 됩니다!"),
                                 parameterWithName("cache").description("지급 방법이 CACHE인 경우 현금"),
                                 parameterWithName("goods").description("지급 방법이 GOODS인 경우 보상"),
@@ -146,16 +143,47 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("conditionDetail").description("구인 조건이 true인 경우 구인 조건 세부내용"),
                                 parameterWithName("doTime").description("실험 소요 시간"),
                                 parameterWithName("schoolId").description("학교 식별자"),
-                                parameterWithName("businessProfileId").description("게시물을 만드는 비즈니스 프로필 식별자"),
-                                parameterWithName("startDate").description("모집 시작 날짜"),
-                                parameterWithName("endDate").description("모집 마감 날짜"),
-                                parameterWithName("doDateList").description("실험 가능 날짜")
+                                parameterWithName("businessProfileId").description("게시물을 만드는 비즈니스 프로필 식별자")
                         ),
                         requestParts(
                                 partWithName("files").description("게시물 첨부파일")
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("생성된 게시물 식별자")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("게시물 날짜 정보입력 문서화")
+    public void createDateRule() throws Exception {
+        PostResponse.OnlyId response = PostResponse.OnlyId.build(post1);
+        PostRequest.CreateDateRule request = PostRequest.CreateDateRule.builder()
+                .startDate(LocalDateTime.of(2021, 9, 1, 3, 30))
+                .endDate(LocalDateTime.of(2021, 9, 10, 3, 30))
+                .doDateList(Collections.singletonList(LocalDateTime.of(2021, 9, 2, 3, 30)))
+                .build();
+        given(postService.createDateRule(any(), any(), any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/{postId}/info/date", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(document("post-create-date",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("startDate").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간"),
+                                fieldWithPath("endDate").type(JsonFieldType.STRING).description("모집 마감 날짜 및 시간"),
+                                fieldWithPath("doDateList[]").type(JsonFieldType.ARRAY).description("참여 가능 날짜(시간포함)")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시물 식별자")
                         )
                 ));
     }
@@ -173,7 +201,7 @@ class PostControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("post-getOne",
                         pathParameters(
-                                parameterWithName("postId").description("조회할 게시물 프로필 식별자")
+                                parameterWithName("postId").description("조회할 게시물 식별자")
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
@@ -245,51 +273,6 @@ class PostControllerTest extends MvcTest {
                 .andDo(document("post-deleteOne",
                         pathParameters(
                                 parameterWithName("postId").description("삭제할 게시물 프로필 식별자")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("게시물 지원 문서화")
-    public void applyPost() throws Exception {
-        PostRequest.Apply request = PostRequest.Apply.builder().doDate(LocalDateTime.of(2021, 9, 1, 9, 30)).build();
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/post/{postId}/apply", 1)
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8"));
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("post-apply",
-                        pathParameters(
-                                parameterWithName("postId").description("참여할 게시물 식별자")
-                        ),
-                        requestFields(
-                                fieldWithPath("doDate").type(JsonFieldType.STRING).description("실험 참가 날짜")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("비즈니스쪽에서 해당 지원자 게시물 참여 결정 문서화")
-    public void applyCheck() throws Exception {
-        PostRequest.ApplyCheck request = PostRequest.ApplyCheck.builder().approve(PostStatus.APPROVE).build();
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/post/{postId}/apply/check/{userId}", 1, 2)
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8"));
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("post-approve",
-                        pathParameters(
-                                parameterWithName("postId").description("게시물 식별자"),
-                                parameterWithName("userId").description("유저(지원자) 식별자")
-                        ),
-                        requestFields(
-                                fieldWithPath("approve").type(JsonFieldType.STRING).description("승인이라면 APPROVE 거절이라면 REJECT")
                         )
                 ));
     }

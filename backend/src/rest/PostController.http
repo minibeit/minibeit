@@ -1,4 +1,4 @@
-POST {{apiUrl}}/post
+POST {{apiUrl}}/post/info
 Authorization: {{authorizationToken}}
 Content-Type: multipart/form-data; boundary=boundary
 
@@ -18,6 +18,10 @@ Content-Disposition: form-data; name="place";
 Content-Disposition: form-data; name="contact";
 
 010-1234-5623
+--boundary
+Content-Disposition: form-data; name="headcount";
+
+5
 --boundary
 Content-Disposition: form-data; name="payment";
 
@@ -42,23 +46,21 @@ Content-Disposition: form-data; name="businessProfileId";
 Content-Disposition: form-data; name="schoolId";
 
 1
---boundary
-Content-Disposition: form-data; name="startDate";
 
-2021-08-30T09:30
---boundary
-Content-Disposition: form-data; name="endDate";
+###
+POST {{apiUrl}}/post/1/info/date
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
 
-2021-09-10T09:30
---boundary
-Content-Disposition: form-data; name="doDateList";
-
-2021-09-01T09:30
---boundary
-Content-Disposition: form-data; name="doDateList";
-
-2021-09-02T09:30
-
+{
+  "startDate": "2021-09-01T09:30",
+  "endDate": "2021-09-09T09:30",
+  "doDateList": [
+    "2021-09-03T09:30",
+    "2021-09-04T09:30",
+    "2021-09-05T09:30"
+  ]
+}
 ###
 GET {{apiUrl}}/post/3
 Authorization: {{authorizationToken}}
@@ -66,24 +68,6 @@ Authorization: {{authorizationToken}}
 ###
 DELETE {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
-
-###
-POST {{apiUrl}}/post/1/apply
-Authorization: {{authorizationToken}}
-Content-Type: application/json;charset=UTF-8
-
-{
-  "doDate": "2021-09-09T09:30"
-}
-
-###
-POST {{apiUrl}}/post/1/apply/check/2
-Authorization: {{authorizationToken}}
-Content-Type: application/json;charset=UTF-8
-
-{
-  "approve": "APPROVE"
-}
 
 ###
 GET {{apiUrl}}/post/list/1?doDate=2021-09-08&page=1&size=10

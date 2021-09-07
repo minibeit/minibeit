@@ -16,14 +16,13 @@ export default function CreateBProfileModal({
 }) {
   const [inputs, setInputs] = useState({
     name: "",
-    category: "",
     place: "",
     introduce: "",
     contact: "",
   });
   const [img, setImg] = useState();
 
-  const { name, category, place, introduce, contact } = inputs;
+  const { name, place, introduce, contact } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
     setInputs({
@@ -53,13 +52,6 @@ export default function CreateBProfileModal({
               name="name"
               type="text"
               placeholder="이름"
-              onChange={onChange}
-            />
-            <S.BPNewInput
-              value={category}
-              name="category"
-              type="text"
-              placeholder="카테고리"
               onChange={onChange}
             />
             <S.BPNewInput

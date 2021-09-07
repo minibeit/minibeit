@@ -39,6 +39,12 @@ public class PostController {
         return ResponseEntity.ok().body(response);
     }
 
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<Void> like(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
+        postService.createOrDeletePostLike(postId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponse.GetOne> getOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.GetOne response = postService.getOne(postId, customUserDetails.getUser());

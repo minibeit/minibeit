@@ -116,3 +116,14 @@ include::{snippets}/post-apply-cancel/path-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/post-apply-cancel/http-response.adoc[]
+
+=== 게시물 즐겨찾기에 추가 or 삭제하기
+
+`POST /api/post/{postId}/like`
+
+요청 HTTP
+include::{snippets}/post-like/http-request.adoc[]
+include::{snippets}/post-like/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-like/http-response.adoc[]

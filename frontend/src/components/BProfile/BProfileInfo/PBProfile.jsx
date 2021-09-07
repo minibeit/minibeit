@@ -9,7 +9,6 @@ import BProfileJoin from "../BProfileJoin";
 
 PBProfile.propTypes = {
   buserData: PropTypes.shape({
-    category: PropTypes.string.isRequired,
     contact: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     introduce: PropTypes.string.isRequired,
@@ -39,7 +38,6 @@ export default function PBProfile({ buserData }) {
           )}
         </S.ImgBox>
         <S.UserName>이름 : {buserData.name}</S.UserName>
-        <S.UserInfo>카테고리 : {buserData.category}</S.UserInfo>
         <S.UserInfo>장소 : {buserData.place}</S.UserInfo>
         <S.UserInfo>실험실 소개 : {buserData.introduce}</S.UserInfo>
         <S.UserInfo>전화번호 : {buserData.contact}</S.UserInfo>

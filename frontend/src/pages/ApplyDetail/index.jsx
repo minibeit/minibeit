@@ -1,17 +1,13 @@
 import React from "react";
-import {
-  FDBottomContainer,
-  FDTopContainer,
-} from "../../components/ApplyDetail";
 import NavBar from "../../components/Common/NavBar";
+import { FeedInfoContainer } from "../../components/ApplyDetail";
 
 function ApplyDetail({ match }) {
-  const { postId } = match.params;
+  const feedId = parseInt(match.params.postId);
   return (
     <>
       <NavBar />
-      <FDTopContainer />
-      <FDBottomContainer postId={postId} />
+      <FeedInfoContainer feedId={feedId} />
     </>
   );
 }

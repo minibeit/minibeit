@@ -1,5 +1,5 @@
 import { API_URLS } from "../constants";
-import { withAuthInstance, withoutAuthInstance } from "./common";
+import { withAuthInstance } from "./common";
 
 const { FEED_NEW, FEED_DATE_NEW, GET_FEEDLIST } = API_URLS;
 

@@ -28,10 +28,10 @@ export default function PFilterContainer({
     setModalSwitch(true);
   };
   const search = () => {
-    if (user.schoolId) {
-      getFeedList(user.schoolId, filter.date);
-    } else if (filter.schoolId) {
+    if (filter.schoolId) {
       getFeedList(filter.schoolId, filter.date);
+    } else if (user.schoolId) {
+      getFeedList(user.schoolId, filter.date);
     } else {
       alert("학교를 선택해주세요");
     }

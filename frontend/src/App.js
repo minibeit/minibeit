@@ -37,8 +37,8 @@ function App() {
             exact
             component={BProfileEdit}
           />
-          <Route path="/apply" component={Apply} />
           <Route path="/apply/:postId" exact component={ApplyDetail} />
+          <Route path="/apply" component={Apply} />
           <Route path="/recruit" exact component={Recruit} />
           <Route path="/recruit/:postId/edit" exact component={RecruitEdit} />
           <Route path="/manageApply/:postId" component={ManageApply} />

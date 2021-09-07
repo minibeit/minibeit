@@ -7,6 +7,7 @@ import { feedlistApi } from "../../../utils/feedApi";
 
 export default function FilterAndList() {
   const [schoolList, setSchoolList] = useState();
+  const [feedList, setFeedList] = useState();
   const [modalSwitch, setModalSwitch] = useState(false);
   const getSchoolList = () => {
     schoolGetApi()
@@ -20,7 +21,7 @@ export default function FilterAndList() {
   const getFeedList = async (schoolId, date) => {
     await feedlistApi(schoolId, date)
       .then((res) => {
-        console.log(res);
+        setFeedList(res.data.content);
       })
       .catch((err) => {
         console.log(err);
@@ -42,7 +43,7 @@ export default function FilterAndList() {
           schoolList={schoolList}
         />
       ) : null}
-      <PListContainer />
+      {feedList ? <PListContainer feedList={feedList} /> : null}
     </>
   );
 }

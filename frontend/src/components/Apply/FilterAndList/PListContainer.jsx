@@ -25,6 +25,7 @@ export default function PListContainer({ feedList }) {
   const goToDetailPage = (e) => {
     history.push(`/apply/${e.target.id}`);
   };
+  console.log(feedList);
   return (
     <>
       {feedList.map((a) => {
@@ -34,7 +35,7 @@ export default function PListContainer({ feedList }) {
               {a.title}
             </S.FeedTitle>
             <S.FeedDoTime>소요시간: {a.doTime}분</S.FeedDoTime>
-            {a.goods === null ? (
+            {a.payment === "CACHE" ? (
               <S.FeedPay>보상: {a.cache}원</S.FeedPay>
             ) : (
               <S.FeedPay>보상: 상품</S.FeedPay>

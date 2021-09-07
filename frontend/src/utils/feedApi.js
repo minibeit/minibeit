@@ -1,7 +1,7 @@
 import { API_URLS } from "../constants";
 import { withAuthInstance } from "./common";
 
-const { FEED_NEW, FEED_DATE_NEW, GET_FEEDLIST } = API_URLS;
+const { FEED_NEW, FEED_DATE_NEW, GET_FEEDLIST, GET_FEEDDETAIL } = API_URLS;
 
 export const feedCreateApi = async (infoinputs, files) => {
   const formData = new FormData();
@@ -47,10 +47,8 @@ export const feedDeleteApi = async (postId) => {
   );
 };
 
-export const feedDetailApi = async (postId) => {
-  return await withAuthInstance.get(
-    `http://3.36.95.15:8080/api/board/${postId}`
-  );
+export const feedDetailApi = async (feedId) => {
+  return await withAuthInstance.get(GET_FEEDDETAIL + feedId);
 };
 
 export const feedEditApi = async (

@@ -2,45 +2,57 @@
 import { API_URLS } from "../constants";
 import { withAuthInstance } from "./common";
 
-const { FEED_NEW } = API_URLS;
+const { FEED_NEW,FEED_DATE_NEW } = API_URLS;
 
 export const feedCreateApi = async (
-  inputs
+        infoinputs,
+        files
 ) => {
   const formData = new FormData();
-  formData.append("title", inputs.title);
-  formData.append("content", inputs.content);
-  formData.append("place", inputs.place);
-  formData.append("payment", inputs.payment);
-  if (inputs.payment ==="CACHE") {
-    formData.append("cache", inputs.cache);
+  formData.append("title", infoinputs.title);
+  formData.append("content", infoinputs.content);
+  formData.append("place", infoinputs.place);
+  formData.append("payment",  infoinputs.payment);
+  if (infoinputs.payment ==="CACHE") {
+    formData.append("cache", infoinputs.cache);
   }else{
-    formData.append("goods", inputs.goods);
+    formData.append("goods",infoinputs. goods);
   }
-  formData.append("condition", inputs.condition);
-  if (inputs.condition === "true") {
-    formData.append("conditionDetail", inputs.conditionDetail);
+  formData.append("condition", infoinputs.condition);
+  if (infoinputs.condition === "true") {
+    formData.append("conditionDetail", infoinputs.conditionDetail);
   }
-  formData.append("time", inputs.time);
-  if (inputs.files) {
-    formData.append("files", inputs.files);
+  formData.append("doTime", infoinputs.doTime);
+  if (files) {
+    formData.append("files", files);
   }
-  formData.append("contact", inputs.contact);
-  formData.append("startDate", inputs.startDate);
-  formData.append("endDate", inputs.endDate);
-  formData.append("doDate", inputs.doDate);
-  formData.append("schoolId", inputs.school);
-  return await withAuthInstance().post(FEED_NEW, formData);
+  formData.append("contact", infoinputs.contact);
+  formData.append("schoolId", infoinputs.schoolId);
+  formData.append("businessProfileId", infoinputs.businessProfileId);
+
+  return await withAuthInstance.post(FEED_NEW, formData);
+};
+
+export const feedDateCreateApi = async (postId, dateinputs) => {
+  const data = {
+    startDate : dateinputs.startDay+"T"+ dateinputs.startTime,
+    endDate:  dateinputs.endDay+"T"+ dateinputs.endTime,
+    doDateList:[ "2021-09-02T03:30" ],
+  };
+  return await withAuthInstance.post(
+    FEED_DATE_NEW + postId + "/info/date",
+    data
+  );
 };
 
 export const feedDeleteApi = async (postId) => {
-  return await withAuthInstance().delete(
+  return await withAuthInstance.delete(
     `http://3.36.95.15:8080/api/board/${postId}`
   );
 };
 
 export const feedDetailApi = async (postId) => {
-  return await withAuthInstance().get(
+  return await withAuthInstance.get(
     `http://3.36.95.15:8080/api/board/${postId}`
   );
 };
@@ -67,14 +79,14 @@ export const feedEditApi = async (
   formData.append("phoneNum", phoneNum);
   formData.append("dueDate", dueDate);
   formData.append("doDate", doDate);
-  return await withAuthInstance().post(
+  return await withAuthInstance.post(
     `http://3.36.95.15:8080/api/board/${postId}`,
     formData
   );
 };
 
 export const feedlistApi = async (school, date, page, size) => {
-  const result = await withAuthInstance().get(
+  const result = await withAuthInstance.get(
     `http://3.36.95.15:8080/api/board/school/${school}/list?date=${date}&page=${page}&size=${size}`
   );
   const data = {

@@ -39,6 +39,18 @@ public class PostController {
         return ResponseEntity.ok().body(response);
     }
 
+    @PostMapping("/{postId}/like")
+    public ResponseEntity<Void> like(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
+        postService.createOrDeletePostLike(postId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{postId}/review")
+    public ResponseEntity<PostResponse.PostReviewId> createReview(@PathVariable Long postId, @RequestBody PostRequest.CreateReview request) {
+        PostResponse.PostReviewId response = postService.createReview(postId, request);
+        return ResponseEntity.ok().body(response);
+    }
+
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponse.GetOne> getOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.GetOne response = postService.getOne(postId, customUserDetails.getUser());

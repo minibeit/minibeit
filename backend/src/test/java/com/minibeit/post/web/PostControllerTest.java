@@ -2,7 +2,10 @@ package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.post.domain.*;
+import com.minibeit.post.domain.Payment;
+import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.PostFile;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.PostService;
@@ -32,7 +35,6 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -184,6 +186,53 @@ class PostControllerTest extends MvcTest {
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시물 식별자")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("게시글 즐겨찾기 문서화")
+    public void like() throws Exception {
+        ResultActions result = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/{postId}/like", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        );
+
+        result.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-like",
+                        pathParameters(
+                                parameterWithName("postId").description("즐겨찾기 할 게시물 식별자")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("게시물 후기 작성 문서화")
+    public void createReview() throws Exception {
+        PostRequest.CreateReview request = PostRequest.CreateReview.builder().content("게시물 후기 내용").build();
+        PostResponse.PostReviewId response = PostResponse.PostReviewId.builder().id(1L).build();
+        given(postService.createReview(any(), any())).willReturn(response);
+
+        ResultActions result = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/{postId}/review", 1)
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        );
+
+        result.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-review-create",
+                        pathParameters(
+                                parameterWithName("postId").description("후기 작성할 게시물 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("후기 내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("작성한 게시물 후기 식별자")
                         )
                 ));
     }

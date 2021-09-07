@@ -1,0 +1,72 @@
+= Minibeit API 문서 (Auth)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:snippets: ../../../build/generated-snippets
+
+= Auth
+---
+== 기본 API
+
+=== 카카오,구글 로그인
+
+`Redirect /oauth2/authorization/kakao`
+
+`Redirect /oauth2/authorization/google`
+
+성공 응답 HTTP
+
+[source]
+----
+http://localhost:3000/callback/userId/nickname/accessToken/schoolId/signupCheck 으로 redirect
+----
+
+[cols=2*]
+|===
+|userId
+|유저 식별자
+|nickname
+|닉네임 회원정보를 입력안했다면 null
+|accessToken
+|accessToken
+|schoolId
+|관심학교 default schooId 회원정보를 입력하지 않았다면 null
+|signupCheck
+|회원가입을 한 유저라면 true 안한 유저라면 false
+|===
+
+=== 회원가입(회원 정보 입력)
+
+`POST /api/user/signup`
+
+요청 HTTP
+include::{snippets}/auth-signup/request-parameters.adoc[]
+include::{snippets}/auth-signup/request-parts.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/auth-signup/http-response.adoc[]
+include::{snippets}/auth-signup/response-fields.adoc[]
+
+=== refresh token으로 access token 재발급
+
+`POST /api/user/refreshtoken`
+
+요청 HTTP
+include::{snippets}/auth-refresh-token/http-request.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/auth-refresh-token/http-response.adoc[]
+include::{snippets}/auth-refresh-token/response-fields.adoc[]
+
+=== 로그아웃
+
+`POST /api/user/logout`
+
+요청 HTTP
+include::{snippets}/auth-logout/http-request.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/auth-logout/http-response.adoc[]

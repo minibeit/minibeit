@@ -1,6 +1,7 @@
 = Minibeit API 문서
 
-- link:/docs/user.html[회원가입 및 인증 API]
+- link:/docs/auth.html[회원가입 및 인증 API]
+- link:/docs/user.html[사용자(User) API]
 - link:/docs/school.html[학교 API]
 - link:/docs/businessprofile.html[비즈니스 프로필 API]
 - link:/docs/post.html[게시물 API]

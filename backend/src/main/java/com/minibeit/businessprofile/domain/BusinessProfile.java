@@ -37,6 +37,14 @@ public class BusinessProfile extends BaseEntity {
     @OneToMany(mappedBy = "businessProfile", cascade = CascadeType.ALL)
     private List<UserBusinessProfile> userBusinessProfileList = new ArrayList<>();
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "admin_id")
+    private User user;
+
+    public void changeAdmin(User user){
+        this.user = user;
+    }
+
     public void update(BusinessProfileRequest.Update createRequest) {
         this.name = createRequest.getName();
         this.place = createRequest.getPlace();
@@ -47,14 +55,15 @@ public class BusinessProfile extends BaseEntity {
     public void updateAvatar(File avatar) {
         this.avatar = avatar;
     }
+    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, File avatar, User user) {
 
-    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, File avatar) {
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(request.getName())
                 .place(request.getPlace())
                 .introduce(request.getIntroduce())
                 .contact(request.getContact())
                 .avatar(avatar)
+                .user(user)
                 .build();
         userBusinessProfile.setBusinessProfile(businessProfile);
         return businessProfile;

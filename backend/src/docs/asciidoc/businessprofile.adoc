@@ -95,6 +95,17 @@ include::{snippets}/business-profile-share-cancel/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/business-profile-share-cancel/http-response.adoc[]
 
+=== 비즈니스 프로필 권한 변경
+
+`POST /api/business/profile/{businessProfileId}/change/{userId}`
+
+요청 HTTP
+include::{snippets}/business-profile-change-admin/http-request.adoc[]
+include::{snippets}/business-profile-change-admin/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-change-admin/http-response.adoc[]
+
 == User 관련 API
 === 해당 비즈니스 프로필을 가지고 있는 유저 조회
 

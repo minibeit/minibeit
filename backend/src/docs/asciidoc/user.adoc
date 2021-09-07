@@ -95,6 +95,7 @@ include::{snippets}/user-update/http-response.adoc[]
 include::{snippets}/user-update/response-fields.adoc[]
 
 == 게시물 관련 API
+
 === 게시물 참여 신청하기
 
 `DELETE /api/post/{postId}/date/{postDoDateId}/apply`
@@ -127,3 +128,16 @@ include::{snippets}/post-like/path-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/post-like/http-response.adoc[]
+
+=== 게시물 후기 작성하기
+
+`POST /api/post/{postId}/review`
+
+요청 HTTP
+include::{snippets}/post-review-create/http-request.adoc[]
+include::{snippets}/post-review-create/path-parameters.adoc[]
+include::{snippets}/post-review-create/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-review-create/http-response.adoc[]
+include::{snippets}/post-review-create/response-fields.adoc[]

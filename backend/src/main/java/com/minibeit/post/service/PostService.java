@@ -6,13 +6,11 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.post.domain.PostFile;
-import com.minibeit.post.domain.PostLike;
+import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.domain.repository.PostReviewRepository;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
@@ -41,6 +39,7 @@ public class PostService {
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final PostDoDateRepository postDoDateRepository;
     private final PostLikeRepository postLikeRepository;
+    private final PostReviewRepository postReviewRepository;
 
     public PostResponse.OnlyId createInfo(PostRequest.CreateInfo request, User user) {
         permissionCheck(request.getBusinessProfileId(), user);
@@ -73,6 +72,14 @@ public class PostService {
         } else {
             postLikeRepository.delete(findPostLike.get());
         }
+    }
+
+    public PostResponse.PostReviewId createReview(Long postId, PostRequest.CreateReview request) {
+        //TODO 해당 게시물에 참여한 사람인지 확인 필요
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        PostReview postReview = PostReview.create(post, request);
+        PostReview savedPostReview = postReviewRepository.save(postReview);
+        return PostResponse.PostReviewId.build(savedPostReview);
     }
 
     @Transactional(readOnly = true)

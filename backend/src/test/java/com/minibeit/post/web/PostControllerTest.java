@@ -209,6 +209,35 @@ class PostControllerTest extends MvcTest {
     }
 
     @Test
+    @DisplayName("게시물 후기 작성 문서화")
+    public void createReview() throws Exception {
+        PostRequest.CreateReview request = PostRequest.CreateReview.builder().content("게시물 후기 내용").build();
+        PostResponse.PostReviewId response = PostResponse.PostReviewId.builder().id(1L).build();
+        given(postService.createReview(any(), any())).willReturn(response);
+
+        ResultActions result = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/{postId}/review", 1)
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        );
+
+        result.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-review-create",
+                        pathParameters(
+                                parameterWithName("postId").description("후기 작성할 게시물 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("후기 내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("작성한 게시물 후기 식별자")
+                        )
+                ));
+    }
+
+    @Test
     @DisplayName("게시물 단건 조회 문서화")
     public void getOne() throws Exception {
         PostResponse.GetOne response = PostResponse.GetOne.build(post1, user);

@@ -107,7 +107,7 @@ public class BusinessProfileService {
     }
 
     private void permissionCheck(User user, BusinessProfile businessProfile) {
-        if (!businessProfile.getUser().getId().equals(user.getId())) {
+        if (!businessProfile.getAdmin().getId().equals(user.getId())) {
             throw new PermissionException();
         }
     }

@@ -2,6 +2,7 @@ package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostReview;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
@@ -21,6 +22,20 @@ public class PostResponse {
         public static PostResponse.OnlyId build(Post post) {
             return PostResponse.OnlyId.builder()
                     .id(post.getId())
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class PostReviewId {
+        private Long id;
+
+        public static PostResponse.PostReviewId build(PostReview postReview) {
+            return PostResponse.PostReviewId.builder()
+                    .id(postReview.getId())
                     .build();
         }
     }

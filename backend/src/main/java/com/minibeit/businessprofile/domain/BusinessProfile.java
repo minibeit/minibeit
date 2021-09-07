@@ -39,10 +39,10 @@ public class BusinessProfile extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "admin_id")
-    private User user;
+    private User admin;
 
-    public void changeAdmin(User user){
-        this.user = user;
+    public void changeAdmin(User changedAdmin){
+        this.admin = changedAdmin;
     }
 
     public void update(BusinessProfileRequest.Update createRequest) {
@@ -55,7 +55,7 @@ public class BusinessProfile extends BaseEntity {
     public void updateAvatar(File avatar) {
         this.avatar = avatar;
     }
-    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, File avatar, User user) {
+    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, File avatar, User admin) {
 
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(request.getName())
@@ -63,7 +63,7 @@ public class BusinessProfile extends BaseEntity {
                 .introduce(request.getIntroduce())
                 .contact(request.getContact())
                 .avatar(avatar)
-                .user(user)
+                .admin(admin)
                 .build();
         userBusinessProfile.setBusinessProfile(businessProfile);
         return businessProfile;

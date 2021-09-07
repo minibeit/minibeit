@@ -76,3 +76,12 @@ Authorization: {{authorizationToken}}
 ###
 POST {{apiUrl}}/post/1/like
 Authorization: {{authorizationToken}}
+
+###
+POST {{apiUrl}}/post/1/review
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+{
+  "content": "게시물 후기 내용~~"
+}

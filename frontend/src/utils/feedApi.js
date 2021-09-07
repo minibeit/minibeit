@@ -10,6 +10,7 @@ export const feedCreateApi = async (
 ) => {
   const formData = new FormData();
   formData.append("title", infoinputs.title);
+  formData.append("headcount", infoinputs.headcount);
   formData.append("content", infoinputs.content);
   formData.append("place", infoinputs.place);
   formData.append("payment",  infoinputs.payment);

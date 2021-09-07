@@ -15,6 +15,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
     condition: "",
     conditionDetail: "",
     businessProfileId: "",
+    headcount: "",
   });
   const [dateinputs, setDateInputs] = useState({
     startDay: "",
@@ -36,6 +37,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
     condition,
     conditionDetail,
     businessProfileId,
+    headcount,
   } = infoinputs;
   const { startDay, endDay, startTime, endTime } = dateinputs;
   const onInfoChange = (e) => {
@@ -113,6 +115,15 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
               </option>
             ))}
           </S.FNauthor>
+        </S.FNLabel>
+        <S.FNLabel>
+          모집 인원수
+          <S.FNcache
+            type="number"
+            name="headcount"
+            value={headcount}
+            onChange={onInfoChange}
+          />
         </S.FNLabel>
         <br />
         <S.FNLabel>

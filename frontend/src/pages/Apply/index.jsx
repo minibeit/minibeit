@@ -1,16 +1,12 @@
 import React from "react";
 import NavBar from "../../components/Common/NavBar";
-import { FLCalendar } from "../../components/Apply";
-import FeedListSection from "../../components/Apply/FeedListSection";
-import FeedListTopContainer from "../../components/Apply/FeedListTopContainer";
+import FilterAndList from "../../components/Apply/FilterAndList";
 
 export default function Apply() {
   return (
     <>
       <NavBar />
-      <FLCalendar />
-      <FeedListTopContainer />
-      <FeedListSection />
+      <FilterAndList />
     </>
   );
 }

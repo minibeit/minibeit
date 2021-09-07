@@ -1,13 +1,11 @@
-import { atom } from "recoil"
-import { persistAtom } from "./common"
+import { atom } from "recoil";
+
+const today = new Date();
 
 export const filterState = atom({
-    key: 'filterState',
-    default: {
-        school: null,
-        schoolId: null,
-        date: null,
-        dateApi: null,
-    },
-    effects_UNSTABLE: [persistAtom],
-})
+  key: "filterState",
+  default: {
+    schoolId: null,
+    date: today,
+  },
+});

@@ -1,23 +1,19 @@
-
 import { API_URLS } from "../constants";
 import { withAuthInstance } from "./common";
 
-const { FEED_NEW,FEED_DATE_NEW } = API_URLS;
+const { FEED_NEW, FEED_DATE_NEW, GET_FEEDLIST, GET_FEEDDETAIL } = API_URLS;
 
-export const feedCreateApi = async (
-        infoinputs,
-        files
-) => {
+export const feedCreateApi = async (infoinputs, files) => {
   const formData = new FormData();
   formData.append("title", infoinputs.title);
   formData.append("headcount", infoinputs.headcount);
   formData.append("content", infoinputs.content);
   formData.append("place", infoinputs.place);
-  formData.append("payment",  infoinputs.payment);
-  if (infoinputs.payment ==="CACHE") {
+  formData.append("payment", infoinputs.payment);
+  if (infoinputs.payment === "CACHE") {
     formData.append("cache", infoinputs.cache);
-  }else{
-    formData.append("goods",infoinputs. goods);
+  } else {
+    formData.append("goods", infoinputs.goods);
   }
   formData.append("condition", infoinputs.condition);
   if (infoinputs.condition === "true") {
@@ -36,9 +32,9 @@ export const feedCreateApi = async (
 
 export const feedDateCreateApi = async (postId, dateinputs) => {
   const data = {
-    startDate : dateinputs.startDay+"T"+ dateinputs.startTime,
-    endDate:  dateinputs.endDay+"T"+ dateinputs.endTime,
-    doDateList:[ "2021-09-02T03:30" ],
+    startDate: dateinputs.startDay + "T" + dateinputs.startTime,
+    endDate: dateinputs.endDay + "T" + dateinputs.endTime,
+    doDateList: ["2021-09-02T03:30"],
   };
   return await withAuthInstance.post(
     FEED_DATE_NEW + postId + "/info/date",
@@ -52,10 +48,8 @@ export const feedDeleteApi = async (postId) => {
   );
 };
 
-export const feedDetailApi = async (postId) => {
-  return await withAuthInstance.get(
-    `http://3.36.95.15:8080/api/board/${postId}`
-  );
+export const feedDetailApi = async (feedId) => {
+  return await withAuthInstance.get(GET_FEEDDETAIL + feedId);
 };
 
 export const feedEditApi = async (
@@ -86,15 +80,12 @@ export const feedEditApi = async (
   );
 };
 
-export const feedlistApi = async (school, date, page, size) => {
-  const result = await withAuthInstance.get(
-    `http://3.36.95.15:8080/api/board/school/${school}/list?date=${date}&page=${page}&size=${size}`
+export const feedlistApi = async (schoolId, date) => {
+  // 일단 페이지와 사이즈 고정으로 해놓음
+  const doDate = `${date.getFullYear()}-${
+    date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1
+  }-${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
+  return await withAuthInstance.get(
+    GET_FEEDLIST + `${schoolId}?page=1&size=10&doDate=${doDate}`
   );
-  const data = {
-    post: result.data.content,
-    endpage: result.data.totalPages,
-    totalElement: result.data.totalElements,
-  };
-
-  return data;
 };

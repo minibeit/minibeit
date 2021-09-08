@@ -38,9 +38,10 @@ export default function PListContainer({ feedList }) {
       return ele;
     }
   });
+
   return (
     <>
-      {feedListOfFilter &&
+      {feedListOfFilter.length !== 0 ? (
         feedListOfFilter.map((a) => {
           return (
             <S.FeedBox key={a.id}>
@@ -55,7 +56,10 @@ export default function PListContainer({ feedList }) {
               )}
             </S.FeedBox>
           );
-        })}
+        })
+      ) : (
+        <p>실험이 없습니다</p>
+      )}
     </>
   );
 }

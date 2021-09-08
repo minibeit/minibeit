@@ -36,6 +36,11 @@ export default function PFilterContainer({
       alert("학교를 선택해주세요");
     }
   };
+  const changePayment = (e) => {
+    const filter_cp = { ...filter };
+    filter_cp["payment"] = e.target.value;
+    setFilter(filter_cp);
+  };
   const user = useRecoilValue(userState);
   return (
     <>
@@ -63,6 +68,14 @@ export default function PFilterContainer({
           }}
         />
         <S.FilterSubmitBtn onClick={search}>검색</S.FilterSubmitBtn>
+        <S.PaymentSelect
+          defaultValue={filter["payment"]}
+          onChange={changePayment}
+        >
+          <option value="ALL">전체</option>
+          <option value="CACHE">현금</option>
+          <option value="GOODS">물품</option>
+        </S.PaymentSelect>
       </S.FilterBox>
     </>
   );

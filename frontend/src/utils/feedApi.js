@@ -1,5 +1,5 @@
 import { API_URLS } from "../constants";
-import { withAuthInstance } from "./common";
+import { withAuthInstance, withoutAuthInstance } from "./common";
 
 const { FEED_NEW, FEED_DATE_NEW, GET_FEEDLIST, GET_FEEDDETAIL } = API_URLS;
 
@@ -49,7 +49,7 @@ export const feedDeleteApi = async (postId) => {
 };
 
 export const feedDetailApi = async (feedId) => {
-  return await withAuthInstance.get(GET_FEEDDETAIL + feedId);
+  return await withoutAuthInstance.get(GET_FEEDDETAIL + feedId);
 };
 
 export const feedEditApi = async (
@@ -85,7 +85,7 @@ export const feedlistApi = async (schoolId, date) => {
   const doDate = `${date.getFullYear()}-${
     date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1
   }-${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
-  return await withAuthInstance.get(
+  return await withoutAuthInstance.get(
     GET_FEEDLIST + `${schoolId}?page=1&size=10&doDate=${doDate}`
   );
 };

@@ -1,4 +1,3 @@
-export { default as NavBar } from "./NavBar";
-export { default as SchoolModal } from "./SchoolModal";
-export { default as LoadingSpinner } from "./LoadingSpinner";
-export { default as PVImg } from "./PVImg";
+export { default as NavBar } from "./NavBar/index";
+export { default as LoadingSpinner } from "./LoadingSpinner/index";
+export { default as PVImg } from "./PVImg/index";

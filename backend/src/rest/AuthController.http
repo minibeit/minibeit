@@ -1,57 +1,45 @@
-POST {{apiUrl}}/user/nickname/check
-Authorization: {{authorizationToken}}
+POST {{apiUrl}}/user/login
 Content-Type: application/json;charset=UTF-8
 
 {
-  "nickname": "테스터1"
+  "id": "1"
 }
 
-###
-GET {{apiUrl}}/user/me
-Authorization: {{authorizationToken}}
+> {%
+client.global.set("authorizationToken", "Bearer " + response.body.accessToken);
+client.log("Auth Token : " + client.global.get("authorizationToken"));
+%}
 
 ###
-POST {{apiUrl}}/user/update
+POST {{apiUrl}}/user/signup
 Authorization: {{authorizationToken}}
 Content-Type: multipart/form-data; boundary=boundary
 
 --boundary
 Content-Disposition: form-data; name="name";
 
-네모
+테스터1
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-세모
---boundary
-Content-Disposition: form-data; name="nicknameChanged";
-
-false
+테스터1
 --boundary
 Content-Disposition: form-data; name="gender";
 
-FEMALE
+MALE
 --boundary
 Content-Disposition: form-data; name="phoneNum";
 
-010-1111-2222
+010-1234-5678
 --boundary
 Content-Disposition: form-data; name="job";
 
-개발자
+대학생
 --boundary
 Content-Disposition: form-data; name="age";
 
-30
+21
 --boundary
 Content-Disposition: form-data; name="schoolId";
 
-2
-
---boundary
-Content-Disposition: form-data; name="avatarChanged";
-
-true
-###
-GET {{apiUrl}}/user/list/1
-Authorization: {{authorizationToken}}
+1

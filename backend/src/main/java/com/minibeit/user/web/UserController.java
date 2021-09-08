@@ -22,6 +22,12 @@ public class UserController {
         return ResponseEntity.ok().body(userService.update(request, customUserDetails.getUser()));
     }
 
+    @PostMapping("/nickname/check")
+    public ResponseEntity<Void> nicknameCheck(@RequestBody UserRequest.Nickname request) {
+        userService.nicknameCheck(request);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/me")
     public ResponseEntity<UserResponse.GetOne> getMe(@CurrentUser CustomUserDetails customUserDetails) {
         UserResponse.GetOne response = userService.getMe(customUserDetails.getUser());

@@ -8,6 +8,7 @@ import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
+import com.minibeit.user.service.exception.DuplicateNickNameException;
 import com.minibeit.user.service.exception.SchoolNotFoundException;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,11 @@ public class UserService {
     private final SchoolRepository schoolRepository;
     private final FileService fileService;
 
+    public void nicknameCheck(UserRequest.Nickname request) {
+        if (userRepository.findByNickname(request.getNickname()).isPresent()) {
+            throw new DuplicateNickNameException();
+        }
+    }
 
     @Transactional(readOnly = true)
     public UserResponse.GetOne getMe(User user) {

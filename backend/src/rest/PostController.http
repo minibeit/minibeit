@@ -48,7 +48,7 @@ Content-Disposition: form-data; name="schoolId";
 1
 
 ###
-POST {{apiUrl}}/post/1/info/date
+POST {{apiUrl}}/post/5/info/date
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -73,7 +73,7 @@ DELETE {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/list/1?doDate=2021-09-03&page=1&size=10
+GET {{apiUrl}}/post/list/1?doDate=2021-09-03&page=1&size=10&paymentType=GOODS
 Authorization: {{authorizationToken}}
 
 ###

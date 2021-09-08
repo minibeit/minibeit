@@ -320,12 +320,13 @@ class PostControllerTest extends MvcTest {
     @DisplayName("게시물 목록 조회 문서화(학교 id,실험날짜 기준)")
     public void getList() throws Exception {
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
-        given(postService.getList(any(), any(), any())).willReturn(postPage);
+        given(postService.getList(any(), any(), any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/list/{schoolId}", 1)
                 .param("page", "1")
                 .param("size", "10")
+                .param("paymentType", "CACHE")
                 .param("doDate", "2021-09-04"));
 
         results.andExpect(status().isOk())
@@ -336,7 +337,8 @@ class PostControllerTest extends MvcTest {
                         requestParameters(
                                 parameterWithName("page").description("조회할 페이지"),
                                 parameterWithName("size").description("조회할 사이즈"),
-                                parameterWithName("doDate").description("조회할 게시물 실험 날짜(doDate)")
+                                parameterWithName("doDate").description("조회할 게시물 실험 날짜(doDate)"),
+                                parameterWithName("paymentType").description("CACHE or GOODS (보내지 않을 경우 전체 조회가 됩니다!)")
                         ),
                         relaxedResponseFields(
                                 fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),

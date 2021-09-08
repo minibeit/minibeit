@@ -1,6 +1,7 @@
 package com.minibeit.post.web;
 
 import com.minibeit.common.dto.PageDto;
+import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
@@ -66,9 +67,10 @@ public class PostController {
 
     @GetMapping("/list/{schoolId}")
     public ResponseEntity<Page<PostResponse.GetList>> getList(@PathVariable Long schoolId,
+                                                              @RequestParam(defaultValue = "ALL") Payment paymentType,
                                                               @RequestParam(name = "doDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate,
                                                               PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
-        Page<Post> posts = postService.getList(schoolId, doDate, pageDto);
+        Page<Post> posts = postService.getList(schoolId, doDate, pageDto, paymentType);
         List<PostResponse.GetList> response = posts.stream().map(post -> PostResponse.GetList.build(post, customUserDetails)).collect(Collectors.toList());
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
     }

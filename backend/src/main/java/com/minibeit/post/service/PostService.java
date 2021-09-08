@@ -7,7 +7,10 @@ import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundExc
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.*;
+import com.minibeit.post.domain.repository.PostDoDateRepository;
+import com.minibeit.post.domain.repository.PostLikeRepository;
+import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.domain.repository.PostReviewRepository;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
@@ -93,8 +96,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Post> getList(Long schoolId, LocalDate doDate, PageDto pageDto) {
-        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, pageDto.of());
+    public Page<Post> getList(Long schoolId, LocalDate doDate, PageDto pageDto, Payment paymentType) {
+        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, pageDto.of());
     }
 
     public void deleteOne(Long postId, User user) {

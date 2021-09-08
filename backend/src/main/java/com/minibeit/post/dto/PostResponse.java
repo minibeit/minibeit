@@ -64,6 +64,7 @@ public class PostResponse {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime endDate;
         private List<PostFileDto.Image> files;
+        private PostDto.BusinessProfileInfo businessProfileInfo;
 
         public static PostResponse.GetOne build(Post post, User user) {
             return GetOne.builder()
@@ -83,6 +84,7 @@ public class PostResponse {
                     .endDate(post.getEndDate())
                     .files(post.getPostFileList().stream().map(PostFileDto.Image::build).collect(Collectors.toList()))
                     .isMine(user.postIsMine(post))
+                    .businessProfileInfo(PostDto.BusinessProfileInfo.build(post.getBusinessProfile()))
                     .build();
         }
     }

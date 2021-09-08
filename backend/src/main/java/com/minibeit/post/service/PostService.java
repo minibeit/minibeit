@@ -81,7 +81,7 @@ public class PostService {
 
     @Transactional(readOnly = true)
     public PostResponse.GetOne getOne(Long postId, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
         return PostResponse.GetOne.build(post, user);
     }
 
@@ -102,7 +102,6 @@ public class PostService {
         permissionCheck(post.getBusinessProfile().getId(), user);
         postRepository.deleteById(postId);
     }
-
 
     private void permissionCheck(Long businessProfileId, User user) {
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {

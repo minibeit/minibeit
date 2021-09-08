@@ -10,7 +10,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
+import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
 import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
 
@@ -33,5 +35,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         QueryResults<Post> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    @Override
+    public Optional<Post> findByIdWithBusinessProfile(Long postId) {
+        return Optional.ofNullable(queryFactory.selectFrom(post)
+                .join(post.school).fetchJoin()
+                .join(post.businessProfile, businessProfile).fetchJoin()
+                .join(businessProfile.avatar).fetchJoin()
+                .where(post.id.eq(postId))
+                .fetchOne());
     }
 }

@@ -2,6 +2,7 @@ package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.file.domain.File;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
@@ -46,6 +47,7 @@ class PostControllerTest extends MvcTest {
     @MockBean
     private PostService postService;
 
+    private BusinessProfile businessProfile;
     private Post post1;
     private Post post2;
     private List<Post> postList = new ArrayList<>();
@@ -55,6 +57,7 @@ class PostControllerTest extends MvcTest {
 
     @BeforeEach
     public void setup() {
+        businessProfile = BusinessProfile.builder().id(1L).name("동그라미 실험실").contact("010-1234-1234").introduce("동그라미 실험실입니다.").place("고려대").avatar(File.builder().id(1L).url("avatar url").build()).build();
         user = User.builder().id(1L).name("동그라미").build();
         post1 = Post.builder()
                 .id(1L)
@@ -71,7 +74,7 @@ class PostControllerTest extends MvcTest {
                 .startDate(LocalDateTime.of(2021, 9, 3, 9, 30))
                 .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
                 .school(School.builder().id(1L).name("고려대학교").build())
-                .businessProfile(BusinessProfile.builder().id(1L).name("동그라미실험실").build())
+                .businessProfile(businessProfile)
                 .postDoDateList(Collections.singletonList(PostDoDate.builder().id(1L).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build()))
                 .postFileList(Collections.singletonList(PostFile.builder().id(1L).url("profile image url").build()))
                 .build();
@@ -91,7 +94,7 @@ class PostControllerTest extends MvcTest {
                 .startDate(LocalDateTime.of(2021, 9, 3, 9, 30))
                 .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
                 .school(School.builder().id(1L).name("고려대학교").build())
-                .businessProfile(BusinessProfile.builder().id(1L).name("세모실험실").build())
+                .businessProfile(businessProfile)
                 .postDoDateList(Collections.singletonList(PostDoDate.builder().id(1L).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build()))
                 .postFileList(Collections.singletonList(PostFile.builder().id(1L).url("profile image url").build()))
                 .build();
@@ -272,6 +275,12 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("startDate").type(JsonFieldType.STRING).description("모집 시작 날짜"),
                                 fieldWithPath("endDate").type(JsonFieldType.STRING).description("모집 마감 날짜"),
                                 fieldWithPath("files[].url").type(JsonFieldType.STRING).description("파일"),
+                                fieldWithPath("businessProfileInfo.id").type(JsonFieldType.NUMBER).description("게시물을 작성한 비즈니스 프로필 식별자"),
+                                fieldWithPath("businessProfileInfo.name").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 이름"),
+                                fieldWithPath("businessProfileInfo.avatar").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 이미지"),
+                                fieldWithPath("businessProfileInfo.contact").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 연락처"),
+                                fieldWithPath("businessProfileInfo.address").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 주소"),
+                                fieldWithPath("businessProfileInfo.introduce").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 소개"),
                                 fieldWithPath("mine").type(JsonFieldType.BOOLEAN).description("게시물이 자신이 것인지")
                         )
                 ));

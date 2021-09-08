@@ -20,7 +20,14 @@ public class PostLike extends BaseEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    private void setPost(Post post) {
+        post.getPostLikeList().add(this);
+        this.post = post;
+    }
+
     public static PostLike create(Post post) {
-        return PostLike.builder().post(post).build();
+        PostLike postLike = PostLike.builder().build();
+        postLike.setPost(post);
+        return postLike;
     }
 }

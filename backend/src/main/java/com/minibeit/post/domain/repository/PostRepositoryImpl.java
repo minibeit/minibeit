@@ -24,6 +24,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(post.postDoDateList, postDoDate).on(postDoDate.doDate.year().eq(doDate.getYear())
                         .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                         .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
+                .join(post.businessProfile).fetchJoin()
                 .where(post.school.id.eq(schoolId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());

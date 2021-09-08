@@ -13,6 +13,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        default_batch_fetch_size: 50
   servlet:
     multipart:
       max-file-size: 10MB

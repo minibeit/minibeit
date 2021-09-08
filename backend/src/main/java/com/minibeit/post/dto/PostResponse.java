@@ -2,11 +2,12 @@ package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.PostReview;
+import com.minibeit.security.userdetails.CustomUserDetails;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -90,6 +91,24 @@ public class PostResponse {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetPostStartTime {
+        private Long id;
+        private String startTime;
+        private boolean isFull;
+
+        public static GetPostStartTime build(PostDoDate postDoDate) {
+            return GetPostStartTime.builder()
+                    .id(postDoDate.getId())
+                    .startTime(postDoDate.getDoDate().getHour() + ":" + postDoDate.getDoDate().getMinute())
+                    .isFull(postDoDate.isFull())
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetList {
         private Long id;
         private String title;
@@ -99,9 +118,10 @@ public class PostResponse {
         private boolean recruitCondition;
         private String recruitConditionDetail;
         private Integer doTime;
-        private List<String> startTimeList;
+        private String businessProfileName;
+        private boolean isLike;
 
-        public static PostResponse.GetList build(Post post, LocalDate doDate) {
+        public static PostResponse.GetList build(Post post, CustomUserDetails customUserDetails) {
             return GetList.builder()
                     .id(post.getId())
                     .title(post.getTitle())
@@ -111,10 +131,8 @@ public class PostResponse {
                     .recruitCondition(post.isRecruitCondition())
                     .recruitConditionDetail(post.getRecruitConditionDetail())
                     .doTime(post.getDoTime())
-                    .startTimeList(post.getPostDoDateList().stream()
-                            .filter(postDoDate -> postDoDate.getDoDate().toLocalDate().equals(doDate))
-                            .map(postDoDate -> postDoDate.getDoDate().getHour() + ":" + postDoDate.getDoDate().getMinute())
-                            .collect(Collectors.toList()))
+                    .businessProfileName(post.getBusinessProfile().getName())
+                    .isLike(post.isLike(customUserDetails))
                     .build();
         }
     }

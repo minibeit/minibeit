@@ -50,6 +50,8 @@ class PostControllerTest extends MvcTest {
     private Post post2;
     private List<Post> postList = new ArrayList<>();
     private User user;
+    private PostDoDate postDoDate1;
+    private PostDoDate postDoDate2;
 
     @BeforeEach
     public void setup() {
@@ -97,6 +99,8 @@ class PostControllerTest extends MvcTest {
 
         postList.add(post1);
         postList.add(post2);
+        postDoDate1 = PostDoDate.builder().id(1L).full(false).post(post1).doDate(LocalDateTime.of(2021, 9, 5, 9, 30)).build();
+        postDoDate2 = PostDoDate.builder().id(2L).full(true).post(post1).doDate(LocalDateTime.of(2021, 9, 5, 10, 30)).build();
     }
 
 
@@ -274,6 +278,36 @@ class PostControllerTest extends MvcTest {
     }
 
     @Test
+    @DisplayName("게시물 시작 시간 리스트 조회 문서화")
+    public void getPostStartTimeList() throws Exception {
+        List<PostResponse.GetPostStartTime> postStartTimeList = new ArrayList<>();
+        PostResponse.GetPostStartTime startTime1 = PostResponse.GetPostStartTime.build(postDoDate1);
+        PostResponse.GetPostStartTime startTime2 = PostResponse.GetPostStartTime.build(postDoDate2);
+        postStartTimeList.add(startTime1);
+        postStartTimeList.add(startTime2);
+        given(postService.getPostStartTimeList(any(), any())).willReturn(postStartTimeList);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/post/{postId}/start", 1)
+                .param("doDate", "2021-09-04"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-getStartTime-list",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자")),
+                        requestParameters(
+                                parameterWithName("doDate").description("게시물 실험 날짜")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("실험 시작 시간 식별자"),
+                                fieldWithPath("[].startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
+                                fieldWithPath("[].full").type(JsonFieldType.BOOLEAN).description("모집인원이 꽉찼다면 true 아니면 false")
+                        )
+                ));
+    }
+
+    @Test
     @DisplayName("게시물 목록 조회 문서화(학교 id,실험날짜 기준)")
     public void getList() throws Exception {
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
@@ -304,7 +338,6 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
                                 fieldWithPath("content[].recruitConditionDetail").description("구인조건이 있다면 구인조건 세부사항(없다면 null)").optional(),
                                 fieldWithPath("content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
-                                fieldWithPath("content[].startTimeList[]").type(JsonFieldType.ARRAY).description("실험 참여 가능 시간"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")

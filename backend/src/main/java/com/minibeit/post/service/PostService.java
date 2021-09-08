@@ -7,10 +7,7 @@ import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundExc
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.PostDoDateRepository;
-import com.minibeit.post.domain.repository.PostLikeRepository;
-import com.minibeit.post.domain.repository.PostRepository;
-import com.minibeit.post.domain.repository.PostReviewRepository;
+import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
@@ -88,16 +85,24 @@ public class PostService {
         return PostResponse.GetOne.build(post, user);
     }
 
-    public void deleteOne(Long postId, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        permissionCheck(post.getBusinessProfile().getId(), user);
-        postRepository.deleteById(postId);
+    @Transactional(readOnly = true)
+    public List<PostResponse.GetPostStartTime> getPostStartTimeList(Long postId, LocalDate doDate) {
+        List<PostDoDate> postDoDateList = postDoDateRepository.findAllByPostIdAndDoDate(postId, doDate);
+
+        return postDoDateList.stream().map(PostResponse.GetPostStartTime::build).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public Page<Post> getList(Long schoolId, LocalDate doDate, PageDto pageDto) {
         return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, pageDto.of());
     }
+
+    public void deleteOne(Long postId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        permissionCheck(post.getBusinessProfile().getId(), user);
+        postRepository.deleteById(postId);
+    }
+
 
     private void permissionCheck(Long businessProfileId, User user) {
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {

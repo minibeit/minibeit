@@ -57,12 +57,19 @@ public class PostController {
         return ResponseEntity.ok().body(response);
     }
 
+    @GetMapping("/{postId}/start")
+    public ResponseEntity<List<PostResponse.GetPostStartTime>> getPostStartTimeList(@PathVariable Long postId,
+                                                                                    @RequestParam(name = "doDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate) {
+        List<PostResponse.GetPostStartTime> response = postService.getPostStartTimeList(postId, doDate);
+        return ResponseEntity.ok().body(response);
+    }
+
     @GetMapping("/list/{schoolId}")
     public ResponseEntity<Page<PostResponse.GetList>> getList(@PathVariable Long schoolId,
                                                               @RequestParam(name = "doDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate,
-                                                              PageDto pageDto) {
+                                                              PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
         Page<Post> posts = postService.getList(schoolId, doDate, pageDto);
-        List<PostResponse.GetList> response = posts.stream().map(post -> PostResponse.GetList.build(post, doDate)).collect(Collectors.toList());
+        List<PostResponse.GetList> response = posts.stream().map(post -> PostResponse.GetList.build(post, customUserDetails)).collect(Collectors.toList());
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
     }
 

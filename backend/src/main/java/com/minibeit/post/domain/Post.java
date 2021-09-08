@@ -4,6 +4,7 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.school.domain.School;
+import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.*;
 
 import javax.persistence.*;
@@ -57,6 +58,10 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<PostDoDate> postDoDateList = new ArrayList<>();
 
+    @Builder.Default
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    private List<PostLike> postLikeList = new ArrayList<>();
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "business_profile_id")
     private BusinessProfile businessProfile;
@@ -70,6 +75,10 @@ public class Post extends BaseEntity {
             postFile.setPost(this);
             this.postFileList.add(postFile);
         }
+    }
+
+    public boolean isLike(CustomUserDetails customUserDetails) {
+        return customUserDetails != null && this.postLikeList.stream().anyMatch(postLike -> postLike.getCreatedBy().getId().equals(customUserDetails.getUser().getId()));
     }
 
     public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile, List<PostFile> postFileList) {

@@ -55,8 +55,8 @@ public class BusinessProfile extends BaseEntity {
     public void updateAvatar(File avatar) {
         this.avatar = avatar;
     }
-    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, File avatar, User admin) {
 
+    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, File avatar, User admin) {
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(request.getName())
                 .place(request.getPlace())

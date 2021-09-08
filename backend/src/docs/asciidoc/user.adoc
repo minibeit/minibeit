@@ -11,6 +11,17 @@
 ---
 == 기본 API
 
+=== 닉네임 중복체크
+
+`POST /api/user/nickname/check`
+
+요청 HTTP
+include::{snippets}/user-nickname-check/http-request.adoc[]
+include::{snippets}/user-nickname-check/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/user-nickname-check/http-response.adoc[]
+
 === 내 정보 조회
 
 `GET /api/user/me`

@@ -4,6 +4,7 @@ CREATE TABLE `post_do_date`
     `id`         BIGINT   NOT NULL AUTO_INCREMENT,
     `post_id`    BIGINT   NOT NULL,
     `do_date`    DATETIME NOT NULL,
+    `full`       TINYINT(1)  NOT NULL,
     `created_at` DATETIME NOT NULL,
     `updated_at` DATETIME DEFAULT NULL,
     `deleted_at` DATETIME DEFAULT NULL,

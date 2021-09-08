@@ -3,11 +3,9 @@ package com.minibeit.user.web;
 import com.minibeit.MvcTest;
 import com.minibeit.file.domain.File;
 import com.minibeit.school.domain.School;
-import com.minibeit.security.token.RefreshTokenService;
-import com.minibeit.security.token.Token;
-import com.minibeit.security.token.TokenProvider;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.User;
+import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,17 +20,14 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import javax.servlet.http.Cookie;
 import java.io.InputStream;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -58,6 +53,27 @@ class UserControllerTest extends MvcTest {
                 .avatar(File.builder().id(1L).url("profile image url").build())
                 .school(School.builder().id(1L).name("고려대학교").build())
                 .build();
+    }
+
+    @Test
+    @DisplayName("닉네임 중복체크 문서화")
+    public void createDateRule() throws Exception {
+        UserRequest.Nickname request = UserRequest.Nickname.builder()
+                .nickname("별")
+                .build();
+
+        ResultActions results = mvc.perform(post("/api/user/nickname/check")
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(document("user-nickname-check",
+                        requestFields(
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("중복체크할 닉네임")
+                        )
+                ));
     }
 
     @Test

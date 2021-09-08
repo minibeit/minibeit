@@ -46,6 +46,9 @@ public class PostApplicantService {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
         postApplicant.updateStatusApprove();
+
+        List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
+        postDoDate.updateFull(approvedPostApplicant);
     }
 
     public void applyReject(Long postId, Long postDoDateId, Long userId, User user) {
@@ -58,6 +61,11 @@ public class PostApplicantService {
 
     public void applyCancel(Long postDoDateId, User user) {
         postApplicantRepository.deleteByPostDoDateIdAndUserId(postDoDateId, user.getId());
+
+        PostDoDate postDoDate = postDoDateRepository.findById(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
+
+        List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
+        postDoDate.updateFull(approvedPostApplicant);
     }
 
     private void permissionCheck(User user, Post post) {

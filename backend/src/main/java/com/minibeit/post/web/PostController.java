@@ -1,6 +1,7 @@
 package com.minibeit.post.web;
 
 import com.minibeit.common.dto.PageDto;
+import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
@@ -53,16 +54,24 @@ public class PostController {
 
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponse.GetOne> getOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
-        PostResponse.GetOne response = postService.getOne(postId, customUserDetails.getUser());
+        PostResponse.GetOne response = postService.getOne(postId, customUserDetails);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/{postId}/start")
+    public ResponseEntity<List<PostResponse.GetPostStartTime>> getPostStartTimeList(@PathVariable Long postId,
+                                                                                    @RequestParam(name = "doDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate) {
+        List<PostResponse.GetPostStartTime> response = postService.getPostStartTimeList(postId, doDate);
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/list/{schoolId}")
     public ResponseEntity<Page<PostResponse.GetList>> getList(@PathVariable Long schoolId,
+                                                              @RequestParam(defaultValue = "ALL") Payment paymentType,
                                                               @RequestParam(name = "doDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate,
-                                                              PageDto pageDto) {
-        Page<Post> posts = postService.getList(schoolId, doDate, pageDto);
-        List<PostResponse.GetList> response = posts.stream().map(post -> PostResponse.GetList.build(post, doDate)).collect(Collectors.toList());
+                                                              PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<Post> posts = postService.getList(schoolId, doDate, pageDto, paymentType);
+        List<PostResponse.GetList> response = posts.stream().map(post -> PostResponse.GetList.build(post, customUserDetails)).collect(Collectors.toList());
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
     }
 

@@ -16,6 +16,7 @@ import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
+import com.minibeit.security.userdetails.CustomUserDetails;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.service.exception.SchoolNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -83,20 +84,27 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostResponse.GetOne getOne(Long postId, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        return PostResponse.GetOne.build(post, user);
+    public PostResponse.GetOne getOne(Long postId, CustomUserDetails customUserDetails) {
+        Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
+        return PostResponse.GetOne.build(post, customUserDetails);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostResponse.GetPostStartTime> getPostStartTimeList(Long postId, LocalDate doDate) {
+        List<PostDoDate> postDoDateList = postDoDateRepository.findAllByPostIdAndDoDate(postId, doDate);
+
+        return postDoDateList.stream().map(PostResponse.GetPostStartTime::build).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Post> getList(Long schoolId, LocalDate doDate, PageDto pageDto, Payment paymentType) {
+        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, pageDto.of());
     }
 
     public void deleteOne(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);
         postRepository.deleteById(postId);
-    }
-
-    @Transactional(readOnly = true)
-    public Page<Post> getList(Long schoolId, LocalDate doDate, PageDto pageDto) {
-        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, pageDto.of());
     }
 
     private void permissionCheck(Long businessProfileId, User user) {

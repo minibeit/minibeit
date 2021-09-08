@@ -41,14 +41,14 @@ Content-Disposition: form-data; name="doTime";
 --boundary
 Content-Disposition: form-data; name="businessProfileId";
 
-1
+2
 --boundary
 Content-Disposition: form-data; name="schoolId";
 
 1
 
 ###
-POST {{apiUrl}}/post/1/info/date
+POST {{apiUrl}}/post/2/info/date
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -65,7 +65,7 @@ Content-Type: application/json;charset=UTF-8
   ]
 }
 ###
-GET {{apiUrl}}/post/1
+GET {{apiUrl}}/post/2
 Authorization: {{authorizationToken}}
 
 ###

@@ -47,7 +47,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return Optional.ofNullable(queryFactory.selectFrom(post)
                 .join(post.school).fetchJoin()
                 .join(post.businessProfile, businessProfile).fetchJoin()
-                .join(businessProfile.avatar).fetchJoin()
                 .where(post.id.eq(postId))
                 .fetchOne());
     }

@@ -16,6 +16,7 @@ import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
+import com.minibeit.security.userdetails.CustomUserDetails;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.service.exception.SchoolNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -83,9 +84,9 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public PostResponse.GetOne getOne(Long postId, User user) {
+    public PostResponse.GetOne getOne(Long postId, CustomUserDetails customUserDetails) {
         Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
-        return PostResponse.GetOne.build(post, user);
+        return PostResponse.GetOne.build(post, customUserDetails);
     }
 
     @Transactional(readOnly = true)

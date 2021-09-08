@@ -11,6 +11,7 @@ import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.PostService;
 import com.minibeit.school.domain.School;
+import com.minibeit.security.userdetails.CustomUserDetails;
 import com.minibeit.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -247,7 +248,8 @@ class PostControllerTest extends MvcTest {
     @Test
     @DisplayName("게시물 단건 조회 문서화")
     public void getOne() throws Exception {
-        PostResponse.GetOne response = PostResponse.GetOne.build(post1, user);
+        CustomUserDetails customUserDetails = CustomUserDetails.create(user);
+        PostResponse.GetOne response = PostResponse.GetOne.build(post1, customUserDetails);
 
         given(postService.getOne(any(), any())).willReturn(response);
 

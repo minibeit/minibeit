@@ -5,7 +5,6 @@ import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.PostReview;
 import com.minibeit.security.userdetails.CustomUserDetails;
-import com.minibeit.user.domain.User;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -66,8 +65,8 @@ public class PostResponse {
         private List<PostFileDto.Image> files;
         private PostDto.BusinessProfileInfo businessProfileInfo;
 
-        public static PostResponse.GetOne build(Post post, User user) {
-            return GetOne.builder()
+        public static PostResponse.GetOne build(Post post, CustomUserDetails customUserDetails) {
+            final GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(post.getId())
                     .title(post.getTitle())
                     .content(post.getContent())
@@ -83,9 +82,11 @@ public class PostResponse {
                     .startDate(post.getStartDate())
                     .endDate(post.getEndDate())
                     .files(post.getPostFileList().stream().map(PostFileDto.Image::build).collect(Collectors.toList()))
-                    .isMine(user.postIsMine(post))
-                    .businessProfileInfo(PostDto.BusinessProfileInfo.build(post.getBusinessProfile()))
-                    .build();
+                    .businessProfileInfo(PostDto.BusinessProfileInfo.build(post.getBusinessProfile()));
+            if (customUserDetails != null) {
+                getOneBuilder.isMine(customUserDetails.getUser().postIsMine(post));
+            }
+            return getOneBuilder.build();
         }
     }
 

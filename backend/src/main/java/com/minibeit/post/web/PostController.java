@@ -54,7 +54,7 @@ public class PostController {
 
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponse.GetOne> getOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
-        PostResponse.GetOne response = postService.getOne(postId, customUserDetails.getUser());
+        PostResponse.GetOne response = postService.getOne(postId, customUserDetails);
         return ResponseEntity.ok().body(response);
     }
 

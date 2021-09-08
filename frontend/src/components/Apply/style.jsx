@@ -5,6 +5,7 @@ export const FilterBox = styled.div``;
 export const ViewSelect = styled.div``;
 export const SelectBtn = styled.button``;
 export const FilterSubmitBtn = styled.button``;
+export const PaymentSelect = styled.select``;
 
 /*list*/
 export const FeedBox = styled.div`

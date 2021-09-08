@@ -1,5 +1,5 @@
 import React from "react";
-import NavBar from "../../components/Common/NavBar";
+import { NavBar } from "../../components/Common";
 import FilterAndList from "../../components/Apply/FilterAndList";
 
 export default function Apply() {

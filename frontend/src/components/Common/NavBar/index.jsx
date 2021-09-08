@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useRecoilValue } from "recoil";
-import { userState } from "../../recoil/userState";
-import { logoutFunc } from "../../utils/auth";
-import CreateAuthModal from "./Modal/CreateAuthModal";
+import { userState } from "../../../recoil/userState";
+import { logoutFunc } from "../../../utils/auth";
+import CreateAuthModal from "../Modal/CreateAuthModal";
 import * as S from "./style";
 
 export default function NavBar() {

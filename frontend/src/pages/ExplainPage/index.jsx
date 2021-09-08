@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import NavBar from "../../components/Common/NavBar";
+import { NavBar } from "../../components/Common";
 import { ExplainContent, ExplainTitle } from "../../components/ExplainPage";
 import * as S from "./style";
 

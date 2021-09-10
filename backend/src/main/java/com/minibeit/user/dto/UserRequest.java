@@ -2,7 +2,10 @@ package com.minibeit.user.dto;
 
 import com.minibeit.user.domain.Gender;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDate;
 
 public class UserRequest {
     @Setter
@@ -17,6 +20,8 @@ public class UserRequest {
         private String phoneNum;
         private String job;
         private Integer age;
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        private LocalDate birth;
         private Long schoolId;
         private MultipartFile avatar;
     }
@@ -43,6 +48,8 @@ public class UserRequest {
         private String job;
         private Integer age;
         private Long schoolId;
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
+        private LocalDate birth;
         private MultipartFile avatar;
         private boolean avatarChanged;
     }

@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.minibeit.businessprofile.domain.QUserBusinessProfile.userBusinessProfile;
 import static com.minibeit.user.domain.QUser.user;
@@ -18,5 +19,13 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         return queryFactory.selectFrom(user)
                 .join(user.userBusinessProfileList, userBusinessProfile).on(userBusinessProfile.businessProfile.id.eq(businessProfileId))
                 .fetch();
+    }
+
+    @Override
+    public Optional<User> findByIdWithSchool(Long userId) {
+        return Optional.ofNullable(queryFactory.selectFrom(user)
+                .join(user.school).fetchJoin()
+                .where(user.id.eq(userId))
+                .fetchOne());
     }
 }

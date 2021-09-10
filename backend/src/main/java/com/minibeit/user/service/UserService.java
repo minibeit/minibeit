@@ -34,7 +34,8 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponse.GetOne getMe(User user) {
-        return UserResponse.GetOne.build(userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new));
+        User findUser = userRepository.findByIdWithSchool(user.getId()).orElseThrow(UserNotFoundException::new);
+        return UserResponse.GetOne.build(findUser);
     }
 
     public UserResponse.CreateOrUpdate update(UserRequest.Update request, User user) {

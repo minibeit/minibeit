@@ -25,6 +25,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,7 +60,7 @@ class BusinessProfileControllerTest extends MvcTest {
                 .id(1L)
                 .name("홍길동")
                 .nickname("테스트")
-                .age(20)
+                .birth(LocalDate.of(1997,3,6))
                 .avatar(File.builder().id(2L).url("profile image url").build())
                 .gender(Gender.MALE)
                 .job("학생")

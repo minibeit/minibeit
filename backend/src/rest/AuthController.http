@@ -22,7 +22,7 @@ Content-Disposition: form-data; name="name";
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-테스터1
+테스터0
 --boundary
 Content-Disposition: form-data; name="gender";
 
@@ -36,9 +36,9 @@ Content-Disposition: form-data; name="job";
 
 대학생
 --boundary
-Content-Disposition: form-data; name="age";
+Content-Disposition: form-data; name="birth";
 
-21
+1997-01-01
 --boundary
 Content-Disposition: form-data; name="schoolId";
 

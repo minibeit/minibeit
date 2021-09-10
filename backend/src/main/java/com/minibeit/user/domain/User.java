@@ -11,6 +11,7 @@ import com.minibeit.user.service.exception.DuplicateNickNameException;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +35,11 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private Integer age;
-
     private String job;
 
     private String phoneNum;
+
+    private LocalDate birth;
 
     private boolean signupCheck;
 
@@ -64,10 +65,10 @@ public class User extends BaseEntity {
     public User signup(UserRequest.Signup request, School school, File avatar) {
         this.name = request.getName();
         this.nickname = request.getNickname();
-        this.age = request.getAge();
         this.gender = request.getGender();
         this.job = request.getJob();
         this.phoneNum = request.getPhoneNum();
+        this.birth = request.getBirth();
         this.signupCheck = true;
         this.school = school;
         this.avatar = avatar;
@@ -78,10 +79,10 @@ public class User extends BaseEntity {
         this.name = request.getName();
         this.nickname = request.getNickname();
         this.gender = request.getGender();
-        this.age = request.getAge();
         this.job = request.getJob();
         this.phoneNum = request.getPhoneNum();
         this.school = school;
+        this.birth = request.getBirth();
         return this;
     }
 

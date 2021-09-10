@@ -40,9 +40,9 @@ Content-Disposition: form-data; name="job";
 
 개발자
 --boundary
-Content-Disposition: form-data; name="age";
+Content-Disposition: form-data; name="birth";
 
-30
+2000-11-11
 --boundary
 Content-Disposition: form-data; name="schoolId";
 
@@ -51,7 +51,7 @@ Content-Disposition: form-data; name="schoolId";
 --boundary
 Content-Disposition: form-data; name="avatarChanged";
 
-true
+false
 ###
 GET {{apiUrl}}/user/list/1
 Authorization: {{authorizationToken}}

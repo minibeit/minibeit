@@ -1,7 +1,7 @@
 package com.minibeit.user.service;
 
-import com.minibeit.file.domain.File;
-import com.minibeit.file.service.FileService;
+import com.minibeit.avatar.domain.Avatar;
+import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.User;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final SchoolRepository schoolRepository;
-    private final FileService fileService;
+    private final AvatarService avatarService;
 
     public void nicknameCheck(UserRequest.Nickname request) {
         if (userRepository.findByNickname(request.getNickname()).isPresent()) {
@@ -56,8 +56,8 @@ public class UserService {
 
     private void updateAvatar(UserRequest.Update request, User user, User findUser) {
         if (request.isAvatarChanged()) {
-            fileService.deleteOne(user.getAvatar());
-            File file = fileService.upload(request.getAvatar());
+            avatarService.deleteOne(user.getAvatar());
+            Avatar file = avatarService.upload(request.getAvatar());
             findUser.updateAvatar(file);
         }
     }

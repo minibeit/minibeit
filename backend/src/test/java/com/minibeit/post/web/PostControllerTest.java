@@ -1,8 +1,8 @@
 package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
+import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.file.domain.File;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
@@ -58,7 +58,7 @@ class PostControllerTest extends MvcTest {
 
     @BeforeEach
     public void setup() {
-        businessProfile = BusinessProfile.builder().id(1L).name("동그라미 실험실").contact("010-1234-1234").introduce("동그라미 실험실입니다.").place("고려대").avatar(File.builder().id(1L).url("avatar url").build()).build();
+        businessProfile = BusinessProfile.builder().id(1L).name("동그라미 실험실").contact("010-1234-1234").introduce("동그라미 실험실입니다.").place("고려대").avatar(Avatar.builder().id(1L).url("avatar url").build()).build();
         user = User.builder().id(1L).name("동그라미").build();
         post1 = Post.builder()
                 .id(1L)

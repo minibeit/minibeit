@@ -3,9 +3,10 @@ package com.minibeit.user.domain;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.file.domain.File;
+import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.post.domain.Post;
 import com.minibeit.school.domain.School;
+import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.service.exception.DuplicateNickNameException;
 import lombok.*;
@@ -55,14 +56,14 @@ public class User extends BaseEntity {
     private School school;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
-    private File avatar;
+    @JoinColumn(name = "avatar_id")
+    private Avatar avatar;
 
     @Builder.Default
     @OneToMany(mappedBy = "user")
     private List<UserBusinessProfile> userBusinessProfileList = new ArrayList<>();
 
-    public User signup(UserRequest.Signup request, School school, File avatar) {
+    public User signup(AuthRequest.Signup request, School school, Avatar avatar) {
         this.name = request.getName();
         this.nickname = request.getNickname();
         this.gender = request.getGender();
@@ -86,7 +87,7 @@ public class User extends BaseEntity {
         return this;
     }
 
-    public void updateAvatar(File avatar) {
+    public void updateAvatar(Avatar avatar) {
         this.avatar = avatar;
     }
 

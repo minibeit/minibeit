@@ -1,7 +1,7 @@
 package com.minibeit.user.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.file.domain.File;
+import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.User;
@@ -51,7 +51,7 @@ class UserControllerTest extends MvcTest {
                 .birth(LocalDate.of(1997,3,6))
                 .job("개발자")
                 .phoneNum("010-1234-1234")
-                .avatar(File.builder().id(1L).url("profile image url").build())
+                .avatar(Avatar.builder().id(1L).url("profile image url").build())
                 .school(School.builder().id(1L).name("고려대학교").build())
                 .build();
     }

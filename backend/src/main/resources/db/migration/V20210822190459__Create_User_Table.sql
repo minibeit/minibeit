@@ -3,7 +3,7 @@ CREATE TABLE `user`
 (
     `id`           BIGINT       NOT NULL AUTO_INCREMENT,
     `school_id`    BIGINT,
-    `file_id`      BIGINT,
+    `avatar_id`    BIGINT,
     `oauth_id`     VARCHAR(100) NOT NULL,
     `name`         VARCHAR(100),
     `nickname`     VARCHAR(100),

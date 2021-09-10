@@ -30,6 +30,11 @@ public class PostApplicant extends BaseEntity {
 
     private boolean finish;
 
+    private void setPostDoDate(PostDoDate postDoDate) {
+        postDoDate.getPostApplicantList().add(this);
+        this.postDoDate = postDoDate;
+    }
+
     public void updateStatusApprove() {
         this.postStatus = PostStatus.APPROVE;
     }
@@ -39,11 +44,12 @@ public class PostApplicant extends BaseEntity {
     }
 
     public static PostApplicant create(PostDoDate postDoDate, User user) {
-        return PostApplicant.builder()
+        PostApplicant postApplicant = PostApplicant.builder()
                 .user(user)
-                .postDoDate(postDoDate)
                 .finish(false)
                 .postStatus(PostStatus.WAIT)
                 .build();
+        postApplicant.setPostDoDate(postDoDate);
+        return postApplicant;
     }
 }

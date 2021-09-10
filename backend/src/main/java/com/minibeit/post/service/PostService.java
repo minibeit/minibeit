@@ -106,6 +106,11 @@ public class PostService {
         return postRepository.findAllByLike(user, pageDto.of());
     }
 
+    @Transactional(readOnly = true)
+    public Page<PostResponse.GetApproveAndWaitList> getListByApplyIsApproveOrWait(User user, PageDto pageDto) {
+        return postRepository.findByApplyIsApproveOrWait(user, pageDto.of());
+    }
+
     public void deleteOne(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);

@@ -2,6 +2,9 @@ package com.minibeit.post.domain.repository;
 
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.dto.QPostResponse_GetApproveAndWaitList;
 import com.minibeit.user.domain.User;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -18,6 +21,7 @@ import java.util.Optional;
 
 import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
 import static com.minibeit.post.domain.QPost.post;
+import static com.minibeit.post.domain.QPostApplicant.postApplicant;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
 import static com.minibeit.post.domain.QPostLike.postLike;
 
@@ -55,12 +59,31 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     @Override
     public Page<Post> findAllByLike(User user, Pageable pageable) {
-        final JPAQuery<Post> query = queryFactory.selectFrom(post)
+        JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.postLikeList, postLike).on(postLike.createdBy.eq(user))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
         QueryResults<Post> results = query.fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    @Override
+    public Page<PostResponse.GetApproveAndWaitList> findByApplyIsApproveOrWait(User user, Pageable pageable) {
+        JPAQuery<PostResponse.GetApproveAndWaitList> query = queryFactory.select(new QPostResponse_GetApproveAndWaitList(
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.doDate, postApplicant.postStatus.stringValue()
+                ))
+                .from(post)
+                .join(post.postDoDateList, postDoDate)
+                .join(postDoDate.postApplicantList, postApplicant)
+                .where(postApplicant.user.eq(user)
+                        .and(postApplicant.postStatus.eq(PostStatus.APPROVE).or(postApplicant.postStatus.eq(PostStatus.WAIT))
+                                .and(postApplicant.finish.eq(false))))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        QueryResults<PostResponse.GetApproveAndWaitList> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }

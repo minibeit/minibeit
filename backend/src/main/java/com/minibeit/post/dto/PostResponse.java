@@ -5,6 +5,7 @@ import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.PostReview;
 import com.minibeit.security.userdetails.CustomUserDetails;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -153,6 +154,31 @@ public class PostResponse {
                     .id(post.getId())
                     .title(post.getTitle())
                     .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    public static class GetApproveAndWaitList {
+        private Long id;
+        private String title;
+        private Integer time;
+        private String contact;
+        private boolean recruitCondition;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime doDate;
+        private String status;
+
+        @QueryProjection
+        public GetApproveAndWaitList(Long id, String title, Integer time, String contact, boolean recruitCondition, LocalDateTime doDate, String status) {
+            this.id = id;
+            this.title = title;
+            this.time = time;
+            this.contact = contact;
+            this.recruitCondition = recruitCondition;
+            this.doDate = doDate;
+            this.status = status;
         }
     }
 }

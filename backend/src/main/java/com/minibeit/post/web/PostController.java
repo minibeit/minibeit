@@ -82,6 +82,12 @@ public class PostController {
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
     }
 
+    @GetMapping("/apply/approve/list")
+    public ResponseEntity<Page<PostResponse.GetApproveAndWaitList>> getListByApplyIsApproveOrWait(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<PostResponse.GetApproveAndWaitList> response = postService.getListByApplyIsApproveOrWait(customUserDetails.getUser(), pageDto);
+        return ResponseEntity.ok().body(response);
+    }
+
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         postService.deleteOne(postId, customUserDetails.getUser());

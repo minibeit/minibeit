@@ -4,12 +4,12 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/1/date/1/apply/approve/3
+POST {{apiUrl}}/post/1/date/1/apply/approve/4
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/1/date/1/apply/reject/6
+POST {{apiUrl}}/post/1/date/7/apply/reject/3
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 

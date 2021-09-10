@@ -17,7 +17,8 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     @Override
     public List<User> findAllInBusinessProfile(Long businessProfileId) {
         return queryFactory.selectFrom(user)
-                .join(user.userBusinessProfileList, userBusinessProfile).on(userBusinessProfile.businessProfile.id.eq(businessProfileId))
+                .join(user.userBusinessProfileList, userBusinessProfile)
+                .where(userBusinessProfile.businessProfile.id.eq(businessProfileId))
                 .fetch();
     }
 

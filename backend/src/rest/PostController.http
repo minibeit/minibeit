@@ -86,7 +86,7 @@ GET {{apiUrl}}/post/apply/approve/list?page=1&size=3
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/post/3/like
+POST {{apiUrl}}/post/1/like
 Authorization: {{authorizationToken}}
 
 ###

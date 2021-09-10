@@ -19,7 +19,6 @@ import java.time.LocalDate;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
 import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostApplicant.postApplicant;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
@@ -37,8 +36,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                         .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
                 .join(post.businessProfile).fetchJoin()
-                .where(post.school.id.eq(schoolId))
-                .where(paymentTypeEq(paymentType))
+                .leftJoin(post.postLikeList).fetchJoin()
+                .where(post.school.id.eq(schoolId)
+                        .and(paymentTypeEq(paymentType)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
@@ -52,7 +52,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Optional<Post> findByIdWithBusinessProfile(Long postId) {
         return Optional.ofNullable(queryFactory.selectFrom(post)
                 .join(post.school).fetchJoin()
-                .join(post.businessProfile, businessProfile).fetchJoin()
+                .join(post.businessProfile).fetchJoin()
                 .where(post.id.eq(postId))
                 .fetchOne());
     }
@@ -60,7 +60,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<Post> findAllByLike(User user, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
-                .join(post.postLikeList, postLike).on(postLike.createdBy.eq(user))
+                .join(post.postLikeList, postLike)
+                .where(postLike.createdBy.eq(user))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 

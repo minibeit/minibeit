@@ -72,6 +72,17 @@ include::{snippets}/post-getList/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-getList/http-response.adoc[]
 
+=== 자신이 즐겨찾기한 게시물 목록 조회
+
+`GET /api/post/like/list`
+
+요청 HTTP
+include::{snippets}/post-getList-like/http-request.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-getList-like/http-response.adoc[]
+include::{snippets}/post-getList-like/response-fields.adoc[]
+
 === 게시물 참여 신청하기
 
 `DELETE /api/post/{postId}/date/{postDoDateId}/apply`

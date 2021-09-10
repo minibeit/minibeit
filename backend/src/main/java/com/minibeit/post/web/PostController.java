@@ -75,6 +75,13 @@ public class PostController {
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
     }
 
+    @GetMapping("/like/list")
+    public ResponseEntity<Page<PostResponse.GetLikeList>> getListByLike(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<Post> posts = postService.getListByLike(customUserDetails.getUser(), pageDto);
+        List<PostResponse.GetLikeList> response = posts.stream().map(PostResponse.GetLikeList::build).collect(Collectors.toList());
+        return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
+    }
+
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         postService.deleteOne(postId, customUserDetails.getUser());

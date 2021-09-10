@@ -101,6 +101,11 @@ public class PostService {
         return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, pageDto.of());
     }
 
+    @Transactional(readOnly = true)
+    public Page<Post> getListByLike(User user, PageDto pageDto) {
+        return postRepository.findAllByLike(user, pageDto.of());
+    }
+
     public void deleteOne(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);

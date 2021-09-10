@@ -2,6 +2,7 @@ package com.minibeit.post.domain.repository;
 
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
+import com.minibeit.user.domain.User;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -18,6 +19,7 @@ import java.util.Optional;
 import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
 import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
+import static com.minibeit.post.domain.QPostLike.postLike;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -49,6 +51,18 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(post.businessProfile, businessProfile).fetchJoin()
                 .where(post.id.eq(postId))
                 .fetchOne());
+    }
+
+    @Override
+    public Page<Post> findAllByLike(User user, Pageable pageable) {
+        final JPAQuery<Post> query = queryFactory.selectFrom(post)
+                .join(post.postLikeList, postLike).on(postLike.createdBy.eq(user))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        QueryResults<Post> results = query.fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
     private BooleanExpression paymentTypeEq(Payment paymentType) {

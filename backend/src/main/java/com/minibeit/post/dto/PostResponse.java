@@ -139,4 +139,20 @@ public class PostResponse {
                     .build();
         }
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetLikeList {
+        private Long id;
+        private String title;
+
+        public static PostResponse.GetLikeList build(Post post) {
+            return GetLikeList.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .build();
+        }
+    }
 }

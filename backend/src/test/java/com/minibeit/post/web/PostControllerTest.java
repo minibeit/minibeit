@@ -62,7 +62,7 @@ class PostControllerTest extends MvcTest {
         user = User.builder().id(1L).name("동그라미").build();
         post1 = Post.builder()
                 .id(1L)
-                .title("동그라미 실험실")
+                .title("개발자는 하루에 커피를 몇 잔 마실까..")
                 .content("실험실 세부사항")
                 .place("고려대")
                 .contact("010-1234-5786")
@@ -83,7 +83,7 @@ class PostControllerTest extends MvcTest {
 
         post2 = Post.builder()
                 .id(2L)
-                .title("세모 실험실")
+                .title("코로나로 인한 대학생 우울증 실험")
                 .content("실험실 세부사항")
                 .place("고려대")
                 .contact("010-1234-5786")
@@ -354,6 +354,31 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("자신이 즐겨찾기한 게시물 목록 조회")
+    public void getListByLike() throws Exception {
+        Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 6), postList.size());
+        given(postService.getListByLike(any(), any())).willReturn(postPage);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/post/like/list")
+                .param("page", "1")
+                .param("size", "6"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-getList-like",
+                        requestParameters(
+                                parameterWithName("page").description("조회할 페이지"),
+                                parameterWithName("size").description("조회할 사이즈")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목")
                         )
                 ));
     }

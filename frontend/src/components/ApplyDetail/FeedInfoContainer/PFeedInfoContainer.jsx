@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
+import PTimeSelectBox from "./PTimeSelectBox";
 
 import * as S from "../style";
 
 PFeedInfoContainer.propTypes = {
   feedDetailData: PropTypes.shape({
+    id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
     doTime: PropTypes.number.isRequired,
     startDate: PropTypes.string.isRequired,
@@ -30,6 +32,7 @@ PFeedInfoContainer.propTypes = {
 
 export default function PFeedInfoContainer({ feedDetailData }) {
   const {
+    id,
     businessProfileInfo,
     title,
     doTime,
@@ -46,7 +49,7 @@ export default function PFeedInfoContainer({ feedDetailData }) {
     recruitCondition,
     recruitConditionDetail,
   } = feedDetailData;
-  console.log(feedDetailData);
+
   return (
     <S.DetailContainer>
       <S.TitleBox>
@@ -55,10 +58,7 @@ export default function PFeedInfoContainer({ feedDetailData }) {
         <button>북마크하기</button>
       </S.TitleBox>
       <S.DateInfoBox>
-        <h4>실험 날짜 및 시간 선택</h4>
-        <p>
-          모집기간 : {startDate.slice(0, 10)}~{endDate.slice(0, 10)}
-        </p>
+        <PTimeSelectBox feedId={id} startDate={startDate} endDate={endDate} />
       </S.DateInfoBox>
       <S.ContentBox>
         <h4>상세모집요강</h4>

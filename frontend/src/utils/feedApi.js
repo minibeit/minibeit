@@ -52,6 +52,12 @@ export const feedDetailApi = async (feedId) => {
   return await withoutAuthInstance.get(GET_FEEDDETAIL + feedId);
 };
 
+export const feedDetailTimeApi = async (feedId, doDate) => {
+  return await withAuthInstance.get(
+    GET_FEEDDETAIL + feedId + `/start?doDate=${doDate}`
+  );
+};
+
 export const feedEditApi = async (
   title,
   dueDate,

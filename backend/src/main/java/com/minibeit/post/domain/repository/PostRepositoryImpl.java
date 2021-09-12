@@ -73,7 +73,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<PostResponse.GetMyApplyList> findByApplyIsApproveOrWait(User user, Pageable pageable) {
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.doDate, postApplicant.postStatus.stringValue()
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.postStatus.stringValue()
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)
@@ -93,7 +93,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable pageable) {
         //TODO 후기 작성하기 구현 후 후기 작성하지 않은 게시물만 보여주기
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.doDate, postApplicant.postStatus.stringValue()
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.postStatus.stringValue()
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)

@@ -43,6 +43,10 @@ public class PostApplicant extends BaseEntity {
         this.postStatus = PostStatus.REJECT;
     }
 
+    public boolean writeReviewIsPossible() {
+        return this.postStatus.equals(PostStatus.APPROVE) && this.finish;
+    }
+
     public static PostApplicant create(PostDoDate postDoDate, User user) {
         PostApplicant postApplicant = PostApplicant.builder()
                 .user(user)

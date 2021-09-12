@@ -46,10 +46,11 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{postId}/review")
-    public ResponseEntity<PostResponse.PostReviewId> createReview(@PathVariable Long postId, @RequestBody PostRequest.CreateReview request) {
-        PostResponse.PostReviewId response = postService.createReview(postId, request);
-        return ResponseEntity.ok().body(response);
+    @PostMapping("/{postId}/review/{postDoDateId}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<PostResponse.ReviewId> createReview(@PathVariable Long postId, @PathVariable Long postDoDateId, @RequestBody PostRequest.CreateReview request, @CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.ReviewId response = postService.createReview(postId, postDoDateId, request, customUserDetails.getUser());
+        return ResponseEntity.created(URI.create("/api/post/review/" + response.getId())).body(response);
     }
 
     @GetMapping("/{postId}")

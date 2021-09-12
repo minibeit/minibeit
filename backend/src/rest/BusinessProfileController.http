@@ -91,4 +91,14 @@ POST {{apiUrl}}/business/profile/3/change/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
+###
+POST {{apiUrl}}/business/profile/1/review/1
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "postTitle": "게시물 제목",
+  "content": "후기작성",
+  "doDate": "2021-09-09T09:30"
+}
 

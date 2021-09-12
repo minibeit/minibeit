@@ -144,7 +144,7 @@ include::{snippets}/post-like/http-response.adoc[]
 
 === 게시물 후기 작성하기
 
-`POST /api/post/{postId}/review`
+`POST /api/post/{postId}/review/{postDoDateId}`
 
 요청 HTTP
 include::{snippets}/post-review-create/http-request.adoc[]

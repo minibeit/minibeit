@@ -48,7 +48,7 @@ Content-Disposition: form-data; name="schoolId";
 1
 
 ###
-POST {{apiUrl}}/post/2/info/date
+POST {{apiUrl}}/post/1/info/date
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -90,13 +90,4 @@ Authorization: {{authorizationToken}}
 ###
 POST {{apiUrl}}/post/1/like
 Authorization: {{authorizationToken}}
-
-###
-POST {{apiUrl}}/post/1/review
-Authorization: {{authorizationToken}}
-Content-Type: application/json;charset=UTF-8
-
-{
-  "content": "게시물 후기 내용~~"
-}
 

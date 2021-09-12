@@ -1,18 +1,23 @@
 package com.minibeit.post.service;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
+import com.minibeit.businessprofile.domain.repository.BusinessProfileReviewRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
+import com.minibeit.businessprofile.dto.BusinessProfileRequest;
+import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.*;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
-import com.minibeit.post.domain.repository.PostReviewRepository;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
@@ -38,9 +43,10 @@ public class PostService {
     private final PostFileService postFileService;
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
+    private final PostApplicantRepository postApplicantRepository;
     private final PostDoDateRepository postDoDateRepository;
     private final PostLikeRepository postLikeRepository;
-    private final PostReviewRepository postReviewRepository;
+    private final BusinessProfileReviewRepository businessProfileReviewRepository;
 
     public PostResponse.OnlyId createInfo(PostRequest.CreateInfo request, User user) {
         permissionCheck(request.getBusinessProfileId(), user);
@@ -75,12 +81,15 @@ public class PostService {
         }
     }
 
-    public PostResponse.PostReviewId createReview(Long postId, PostRequest.CreateReview request) {
-        //TODO 해당 게시물에 참여한 사람인지 확인 필요
+    public PostResponse.ReviewId createReview(Long postId, Long postDoDateId, PostRequest.CreateReview request, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        PostReview postReview = PostReview.create(post, request);
-        PostReview savedPostReview = postReviewRepository.save(postReview);
-        return PostResponse.PostReviewId.build(savedPostReview);
+        PostApplicant postApplicant = postApplicantRepository.findByUserIdAndPostDoDateId(user.getId(), postDoDateId).orElseThrow(PostApplicantNotFoundException::new);
+        if(!postApplicant.writeReviewIsPossible()){
+            throw new PermissionException();
+        }
+        BusinessProfileReview businessProfileReview = BusinessProfileReview.create(post.getBusinessProfile(), request);
+        BusinessProfileReview savedReview = businessProfileReviewRepository.save(businessProfileReview);
+        return PostResponse.ReviewId.build(savedReview);
     }
 
     @Transactional(readOnly = true)
@@ -115,6 +124,7 @@ public class PostService {
     public Page<PostResponse.GetMyApplyList> getListByApplyAndFinishedWithoutReview(User user, PageDto pageDto) {
         return postRepository.findByApplyAndFinishedWithoutReview(user, pageDto.of());
     }
+
     public void deleteOne(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);

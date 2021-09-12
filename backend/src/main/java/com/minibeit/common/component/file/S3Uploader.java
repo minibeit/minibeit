@@ -3,10 +3,10 @@ package com.minibeit.common.component.file;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.minibeit.file.domain.FileServer;
-import com.minibeit.file.domain.FileType;
-import com.minibeit.file.dto.SavedFile;
-import com.minibeit.file.service.exception.S3FileUploadException;
+import com.minibeit.avatar.domain.AvatarServer;
+import com.minibeit.avatar.domain.AvatarType;
+import com.minibeit.common.dto.SavedFile;
+import com.minibeit.common.component.exception.S3FileUploadException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -57,7 +57,7 @@ public class S3Uploader {
         SavedFile.SavedFileBuilder savedFileBuilder = SavedFile.builder()
                 .name(s3FileName)
                 .extension(extension)
-                .fileServer(FileServer.S3)
+                .avatarServer(AvatarServer.S3)
                 .originalName(originalName)
                 .size(file.getSize())
                 .isImage(isImage)
@@ -65,9 +65,9 @@ public class S3Uploader {
                 .width(width)
                 .height(height);
         if (isImage) {
-            return savedFileBuilder.fileType(FileType.IMAGE).build();
+            return savedFileBuilder.avatarType(AvatarType.IMAGE).build();
         }
-        return savedFileBuilder.fileType(FileType.FILE).build();
+        return savedFileBuilder.avatarType(AvatarType.FILE).build();
     }
 
     private void putS3(MultipartFile uploadFile, String fileName) throws IOException {

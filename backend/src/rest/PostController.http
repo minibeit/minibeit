@@ -41,7 +41,7 @@ Content-Disposition: form-data; name="doTime";
 --boundary
 Content-Disposition: form-data; name="businessProfileId";
 
-2
+1
 --boundary
 Content-Disposition: form-data; name="schoolId";
 
@@ -64,16 +64,27 @@ Content-Type: application/json;charset=UTF-8
     "2021-09-05T09:30"
   ]
 }
-###
-GET {{apiUrl}}/post/2
-Authorization: {{authorizationToken}}
 
 ###
 DELETE {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###
+GET {{apiUrl}}/post/2
+Authorization: {{authorizationToken}}
+###
 GET {{apiUrl}}/post/list/1?doDate=2021-09-03&page=1&size=10&paymentType=GOODS
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/1/start?doDate=2021-09-03
+###
+GET {{apiUrl}}/post/like/list?page=1&size=6
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/apply/approve/list?page=1&size=3
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/apply/finish/list?page=1&size=3
 Authorization: {{authorizationToken}}
 
 ###
@@ -89,6 +100,3 @@ Content-Type: application/json;charset=UTF-8
   "content": "게시물 후기 내용~~"
 }
 
-###
-GET {{apiUrl}}/post/1/start?doDate=2021-09-03
-Authorization: {{authorizationToken}}

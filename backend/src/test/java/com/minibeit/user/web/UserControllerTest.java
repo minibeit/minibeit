@@ -1,7 +1,7 @@
 package com.minibeit.user.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.file.domain.File;
+import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.User;
@@ -21,6 +21,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,10 +48,10 @@ class UserControllerTest extends MvcTest {
                 .name("테스터 실명")
                 .nickname("동그라미")
                 .gender(Gender.MALE)
-                .age(30)
+                .birth(LocalDate.of(1997,3,6))
                 .job("개발자")
                 .phoneNum("010-1234-1234")
-                .avatar(File.builder().id(1L).url("profile image url").build())
+                .avatar(Avatar.builder().id(1L).url("profile image url").build())
                 .school(School.builder().id(1L).name("고려대학교").build())
                 .build();
     }
@@ -95,8 +96,8 @@ class UserControllerTest extends MvcTest {
                                 fieldWithPath("gender").type(JsonFieldType.STRING).description("성별(MALE or FEMALE)"),
                                 fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
                                 fieldWithPath("job").type(JsonFieldType.STRING).description("직업"),
-                                fieldWithPath("age").type(JsonFieldType.NUMBER).description("나이"),
-                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("나이"),
+                                fieldWithPath("birth").type(JsonFieldType.STRING).description("생년월일"),
+                                fieldWithPath("schoolName").type(JsonFieldType.NUMBER).description("관심학교 이름"),
                                 fieldWithPath("avatar").type(JsonFieldType.STRING).description("프로필 이미지 url(프로필 이미지가 없다면 null)")
                         )
                 ));

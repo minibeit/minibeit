@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS `business_profile`;
 CREATE TABLE `business_profile`
 (
     `id`         BIGINT   NOT NULL AUTO_INCREMENT,
-    `file_id`    BIGINT,
+    `avatar_id`  BIGINT,
     `admin_id`   BIGINT,
     `name`       VARCHAR(100),
     `place`      VARCHAR(100),

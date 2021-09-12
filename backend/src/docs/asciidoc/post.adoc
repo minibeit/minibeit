@@ -68,9 +68,46 @@ include::{snippets}/post-getStartTime-list/response-fields.adoc[]
 요청 HTTP
 include::{snippets}/post-getList/http-request.adoc[]
 include::{snippets}/post-getList/path-parameters.adoc[]
+include::{snippets}/post-getList/request-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/post-getList/http-response.adoc[]
+
+=== 자신이 즐겨찾기한 게시물 목록 조회
+
+`GET /api/post/like/list`
+
+요청 HTTP
+include::{snippets}/post-getList-like/http-request.adoc[]
+include::{snippets}/post-getList-like/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-getList-like/http-response.adoc[]
+include::{snippets}/post-getList-like/response-fields.adoc[]
+
+=== 자신이 지원한 게시물 목록 조회(APPROVE,WAIT)
+
+`GET /api/post/apply/approve/list`
+
+요청 HTTP
+include::{snippets}/post-getList-apply-approveAndWait/http-request.adoc[]
+include::{snippets}/post-getList-apply-approveAndWait/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-getList-apply-approveAndWait/http-response.adoc[]
+include::{snippets}/post-getList-apply-approveAndWait/response-fields.adoc[]
+
+=== 자신이 후기를 작성할 수 있는 게시물 목록 조회(APPROVE , finish=True)
+
+`GET /api/post/apply/approve/finish/list`
+
+요청 HTTP
+include::{snippets}/post-getList-apply-approve-finish/http-request.adoc[]
+include::{snippets}/post-getList-apply-approve-finish/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-getList-apply-approve-finish/http-response.adoc[]
+include::{snippets}/post-getList-apply-approve-finish/response-fields.adoc[]
 
 === 게시물 참여 신청하기
 

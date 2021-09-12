@@ -75,6 +75,25 @@ public class PostController {
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
     }
 
+    @GetMapping("/like/list")
+    public ResponseEntity<Page<PostResponse.GetLikeList>> getListByLike(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<Post> posts = postService.getListByLike(customUserDetails.getUser(), pageDto);
+        List<PostResponse.GetLikeList> response = posts.stream().map(PostResponse.GetLikeList::build).collect(Collectors.toList());
+        return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
+    }
+
+    @GetMapping("/apply/approve/list")
+    public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyIsApproveOrWait(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyIsApproveOrWait(customUserDetails.getUser(), pageDto);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/apply/approve/finish/list")
+    public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyAndFinishedWithoutReview(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyAndFinishedWithoutReview(customUserDetails.getUser(), pageDto);
+        return ResponseEntity.ok().body(response);
+    }
+
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         postService.deleteOne(postId, customUserDetails.getUser());

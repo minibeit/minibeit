@@ -15,10 +15,13 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -34,12 +37,12 @@ class SchoolControllerTest extends MvcTest {
     @BeforeEach
     public void setup() {
         school1 = School.builder().id(1L).name("동그라미대학교").build();
-        school2 = School.builder().id(2L).name("세모대학교").build();
-        school3 = School.builder().id(3L).name("네모대학교").build();
+        school2 = School.builder().id(2L).name("동글대학교").build();
+        school3 = School.builder().id(3L).name("동글동글대학교").build();
     }
 
     @Test
-    @DisplayName("학교전체조회")
+    @DisplayName("학교 검색 리스트 조회(시작 글짜)")
     public void getList() throws Exception {
         List<SchoolResponse.GetList> response = new ArrayList<>();
         SchoolResponse.GetList getList1 = SchoolResponse.GetList.build(school1);
@@ -49,14 +52,18 @@ class SchoolControllerTest extends MvcTest {
         response.add(getList2);
         response.add(getList3);
 
-        given(schoolService.getList()).willReturn(response);
+        given(schoolService.getList(any())).willReturn(response);
 
         ResultActions results = mvc.perform(
-                get("/api/school/list")
+                get("/api/school/search")
+                        .param("name", "동")
         );
 
         results.andExpect(status().isOk())
-                .andDo(document("school-list",
+                .andDo(document("school-search",
+                        requestParameters(
+                                parameterWithName("name").description("검색할 학교 이름('고' 라고 검색을 했다면 '고'로 시작하는 학교 리스트가 나옵니다.)")
+                        ),
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("학교 식별자"),
                                 fieldWithPath("[].name").type(JsonFieldType.STRING).description("학교 이름")

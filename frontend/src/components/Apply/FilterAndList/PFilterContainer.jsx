@@ -29,9 +29,9 @@ export default function PFilterContainer({
   };
   const search = () => {
     if (filter.schoolId) {
-      getFeedList(filter.schoolId, filter.date);
+      getFeedList(1, filter.schoolId, filter.date);
     } else if (user.schoolId) {
-      getFeedList(user.schoolId, filter.date);
+      getFeedList(1, user.schoolId, filter.date);
     } else {
       alert("학교를 선택해주세요");
     }

@@ -58,11 +58,7 @@ export const feedDetailTimeApi = async (feedId, doDate) => {
   );
 };
 
-export const feedEditApi = async (
-inputs,
-  files,
-  postId
-) => {
+export const feedEditApi = async (inputs, files, postId) => {
   const formData = new FormData();
   formData.append("title", inputs.title);
   formData.append("content", inputs.content);
@@ -79,12 +75,12 @@ inputs,
   );
 };
 
-export const feedlistApi = async (schoolId, date) => {
+export const feedlistApi = async (page, schoolId, date) => {
   // 일단 페이지와 사이즈 고정으로 해놓음
   const doDate = `${date.getFullYear()}-${
     date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1
   }-${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
   return await withoutAuthInstance.get(
-    GET_FEEDLIST + `${schoolId}?page=1&size=10&doDate=${doDate}`
+    GET_FEEDLIST + `${schoolId}?page=${page}&size=10&doDate=${doDate}`
   );
 };

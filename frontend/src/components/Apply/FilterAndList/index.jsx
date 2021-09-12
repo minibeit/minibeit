@@ -4,10 +4,12 @@ import PListContainer from "./PListContainer";
 import SchoolSelectModal from "../../Common/Modal/SchoolSelectModal";
 import { schoolGetApi } from "../../../utils/schoolApi";
 import { feedlistApi } from "../../../utils/feedApi";
+import PBtnContainer from "./PBtnContainer";
 
 export default function FilterAndList() {
   const [schoolList, setSchoolList] = useState();
   const [feedList, setFeedList] = useState();
+  const [totalPages, setTotalPages] = useState();
   const [modalSwitch, setModalSwitch] = useState(false);
   const getSchoolList = () => {
     schoolGetApi()
@@ -18,10 +20,11 @@ export default function FilterAndList() {
         console.log(err);
       });
   };
-  const getFeedList = async (schoolId, date) => {
-    await feedlistApi(schoolId, date)
+  const getFeedList = async (page, schoolId, date) => {
+    await feedlistApi(page, schoolId, date)
       .then((res) => {
         setFeedList(res.data.content);
+        setTotalPages(res.data.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -44,6 +47,7 @@ export default function FilterAndList() {
         />
       ) : null}
       {feedList ? <PListContainer feedList={feedList} /> : null}
+      <PBtnContainer totalPages={totalPages} getFeedList={getFeedList} />
     </>
   );
 }

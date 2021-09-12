@@ -36,6 +36,7 @@ public class BusinessProfileController {
     @GetMapping("/{businessProfileId}")
     public ResponseEntity<BusinessProfileResponse.GetOne> getOne(@PathVariable Long businessProfileId, @CurrentUser CustomUserDetails customUserDetails) {
         BusinessProfileResponse.GetOne response = businessProfileService.getOne(businessProfileId, customUserDetails.getUser());
+
         return ResponseEntity.ok().body(response);
     }
 

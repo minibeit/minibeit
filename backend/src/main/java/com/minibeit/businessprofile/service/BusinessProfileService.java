@@ -51,8 +51,9 @@ public class BusinessProfileService {
     @Transactional(readOnly = true)
     public BusinessProfileResponse.GetOne getOne(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+        long numberOfEmployees = userRepository.findAllInBusinessProfile(businessProfileId).size();
 
-        return BusinessProfileResponse.GetOne.build(businessProfile, user);
+        return BusinessProfileResponse.GetOne.build(businessProfile, numberOfEmployees, user);
     }
 
     public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request, User user) {

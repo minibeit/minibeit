@@ -33,15 +33,17 @@ public class BusinessProfileResponse {
         private String introduce;
         private String contact;
         private boolean isMine;
+        private Long numberOfEmployees;
         private String avatar;
 
-        public static BusinessProfileResponse.GetOne build(BusinessProfile businessProfile, User user) {
+        public static BusinessProfileResponse.GetOne build(BusinessProfile businessProfile, long numberOfEmployees, User user) {
             GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(businessProfile.getId())
                     .name(businessProfile.getName())
                     .place(businessProfile.getPlace())
                     .introduce(businessProfile.getIntroduce())
                     .contact(businessProfile.getContact())
+                    .numberOfEmployees(numberOfEmployees)
                     .isMine(user.businessProfileIsMine(businessProfile));
             if (businessProfile.getAvatar() != null) {
                 return getOneBuilder.avatar(businessProfile.getAvatar().getUrl()).build();

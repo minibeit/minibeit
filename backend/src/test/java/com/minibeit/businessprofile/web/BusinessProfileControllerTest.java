@@ -142,7 +142,8 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 단건 조회 문서화")
     public void getOne() throws Exception {
-        BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile, user1);
+
+        BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile, 3, user1);
 
         given(businessProfileService.getOne(any(), any())).willReturn(response);
 
@@ -161,6 +162,7 @@ class BusinessProfileControllerTest extends MvcTest {
                                 fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
                                 fieldWithPath("mine").type(JsonFieldType.BOOLEAN).description("비즈니스 프로필 자신의 것인지 확인"),
+                                fieldWithPath("numberOfEmployees").type(JsonFieldType.NUMBER).description("비즈니스 프로필 소속 인원 수"),
                                 fieldWithPath("avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url(프로필 이미지가 없다면 null)")
                         )
                 ));

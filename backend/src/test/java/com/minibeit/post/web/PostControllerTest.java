@@ -386,8 +386,8 @@ class PostControllerTest extends MvcTest {
     @Test
     @DisplayName("자신이 신청한 게시물 목록 조회 (status = WAIT, APPROVE)")
     public void getListByApplyIsApproveOrWait() throws Exception {
-        List<PostResponse.GetApproveAndWaitList> response = new ArrayList<>();
-        PostResponse.GetApproveAndWaitList approveAndWaitList1 = PostResponse.GetApproveAndWaitList.builder()
+        List<PostResponse.GetMyApplyList> response = new ArrayList<>();
+        PostResponse.GetMyApplyList approveAndWaitList1 = PostResponse.GetMyApplyList.builder()
                 .id(1L)
                 .contact("010-1232-4568")
                 .title("간단한 실험")
@@ -396,7 +396,7 @@ class PostControllerTest extends MvcTest {
                 .recruitCondition(true)
                 .status(PostStatus.APPROVE.name())
                 .build();
-        PostResponse.GetApproveAndWaitList approveAndWaitList2 = PostResponse.GetApproveAndWaitList.builder()
+        PostResponse.GetMyApplyList approveAndWaitList2 = PostResponse.GetMyApplyList.builder()
                 .id(2L)
                 .contact("010-1232-4568")
                 .title("복잡한 실험")
@@ -407,7 +407,7 @@ class PostControllerTest extends MvcTest {
                 .build();
         response.add(approveAndWaitList1);
         response.add(approveAndWaitList2);
-        Page<PostResponse.GetApproveAndWaitList> postPage = new PageImpl<>(response, PageRequest.of(1, 6), postList.size());
+        Page<PostResponse.GetMyApplyList> postPage = new PageImpl<>(response, PageRequest.of(1, 6), postList.size());
         given(postService.getListByApplyIsApproveOrWait(any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
@@ -418,6 +418,60 @@ class PostControllerTest extends MvcTest {
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("post-getList-apply-approveAndWait",
+                        requestParameters(
+                                parameterWithName("page").description("조회할 페이지"),
+                                parameterWithName("size").description("조회할 사이즈")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
+                                fieldWithPath("content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
+                                fieldWithPath("content[].contact").type(JsonFieldType.STRING).description("게시물 연락처"),
+                                fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("게시물 조건 유무"),
+                                fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
+                                fieldWithPath("content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
+                                fieldWithPath("totalElements").description("전체 개수"),
+                                fieldWithPath("last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("totalPages").description("전체 페이지")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("자신이 후기 작서할 수 있는 게시물 목록 조회 (status = APPROVE, finish=true)")
+    public void getListByApplyAndFinishedWithoutReview() throws Exception {
+        List<PostResponse.GetMyApplyList> response = new ArrayList<>();
+        PostResponse.GetMyApplyList approveAndWaitList1 = PostResponse.GetMyApplyList.builder()
+                .id(1L)
+                .contact("010-1232-4568")
+                .title("간단한 실험")
+                .time(60)
+                .doDate(LocalDateTime.of(2021, 9, 10, 9, 30))
+                .recruitCondition(true)
+                .status(PostStatus.APPROVE.name())
+                .build();
+        PostResponse.GetMyApplyList approveAndWaitList2 = PostResponse.GetMyApplyList.builder()
+                .id(2L)
+                .contact("010-1232-4568")
+                .title("복잡한 실험")
+                .time(120)
+                .doDate(LocalDateTime.of(2021, 9, 10, 12, 30))
+                .recruitCondition(true)
+                .status(PostStatus.APPROVE.name())
+                .build();
+        response.add(approveAndWaitList1);
+        response.add(approveAndWaitList2);
+        Page<PostResponse.GetMyApplyList> postPage = new PageImpl<>(response, PageRequest.of(1, 6), postList.size());
+        given(postService.getListByApplyAndFinishedWithoutReview(any(), any())).willReturn(postPage);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/post/apply/approve/finish/list")
+                .param("page", "1")
+                .param("size", "3"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-getList-apply-approve-finish",
                         requestParameters(
                                 parameterWithName("page").description("조회할 페이지"),
                                 parameterWithName("size").description("조회할 사이즈")

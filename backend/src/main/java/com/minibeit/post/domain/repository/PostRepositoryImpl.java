@@ -4,7 +4,7 @@ import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostResponse;
-import com.minibeit.post.dto.QPostResponse_GetApproveAndWaitList;
+import com.minibeit.post.dto.QPostResponse_GetMyApplyList;
 import com.minibeit.user.domain.User;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -71,8 +71,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<PostResponse.GetApproveAndWaitList> findByApplyIsApproveOrWait(User user, Pageable pageable) {
-        JPAQuery<PostResponse.GetApproveAndWaitList> query = queryFactory.select(new QPostResponse_GetApproveAndWaitList(
+    public Page<PostResponse.GetMyApplyList> findByApplyIsApproveOrWait(User user, Pageable pageable) {
+        JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
                         post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.doDate, postApplicant.postStatus.stringValue()
                 ))
                 .from(post)
@@ -84,7 +84,26 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
-        QueryResults<PostResponse.GetApproveAndWaitList> results = query.fetchResults();
+        QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    @Override
+    public Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable pageable) {
+        //TODO 후기 작성하기 구현 후 후기 작성하지 않은 게시물만 보여주기
+        JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.doDate, postApplicant.postStatus.stringValue()
+                ))
+                .from(post)
+                .join(post.postDoDateList, postDoDate)
+                .join(postDoDate.postApplicantList, postApplicant)
+                .where(postApplicant.user.eq(user)
+                        .and(postApplicant.postStatus.eq(PostStatus.APPROVE).and(postApplicant.finish.eq(true))))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }

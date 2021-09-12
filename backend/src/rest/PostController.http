@@ -77,12 +77,14 @@ GET {{apiUrl}}/post/list/1?doDate=2021-09-03&page=1&size=10&paymentType=GOODS
 Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/1/start?doDate=2021-09-03
-Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/like/list?page=1&size=6
 Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/apply/approve/list?page=1&size=3
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/apply/finish/list?page=1&size=3
 Authorization: {{authorizationToken}}
 
 ###

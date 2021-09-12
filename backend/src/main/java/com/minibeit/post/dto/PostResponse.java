@@ -97,13 +97,14 @@ public class PostResponse {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetPostStartTime {
         private Long id;
-        private String startTime;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime startTime;
         private boolean isFull;
 
         public static GetPostStartTime build(PostDoDate postDoDate) {
             return GetPostStartTime.builder()
                     .id(postDoDate.getId())
-                    .startTime(postDoDate.getDoDate().getHour() + ":" + postDoDate.getDoDate().getMinute())
+                    .startTime(postDoDate.getDoDate())
                     .isFull(postDoDate.isFull())
                     .build();
         }
@@ -160,7 +161,7 @@ public class PostResponse {
     @Getter
     @Builder
     @NoArgsConstructor
-    public static class GetApproveAndWaitList {
+    public static class GetMyApplyList {
         private Long id;
         private String title;
         private Integer time;
@@ -171,7 +172,7 @@ public class PostResponse {
         private String status;
 
         @QueryProjection
-        public GetApproveAndWaitList(Long id, String title, Integer time, String contact, boolean recruitCondition, LocalDateTime doDate, String status) {
+        public GetMyApplyList(Long id, String title, Integer time, String contact, boolean recruitCondition, LocalDateTime doDate, String status) {
             this.id = id;
             this.title = title;
             this.time = time;

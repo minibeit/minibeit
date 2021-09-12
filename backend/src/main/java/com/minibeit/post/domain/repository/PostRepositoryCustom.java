@@ -17,5 +17,7 @@ public interface PostRepositoryCustom {
 
     Page<Post> findAllByLike(User user, Pageable pageable);
 
-    Page<PostResponse.GetApproveAndWaitList> findByApplyIsApproveOrWait(User user, Pageable pageable);
+    Page<PostResponse.GetMyApplyList> findByApplyIsApproveOrWait(User user, Pageable pageable);
+
+    Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable of);
 }

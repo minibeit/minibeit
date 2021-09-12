@@ -83,8 +83,14 @@ public class PostController {
     }
 
     @GetMapping("/apply/approve/list")
-    public ResponseEntity<Page<PostResponse.GetApproveAndWaitList>> getListByApplyIsApproveOrWait(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
-        Page<PostResponse.GetApproveAndWaitList> response = postService.getListByApplyIsApproveOrWait(customUserDetails.getUser(), pageDto);
+    public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyIsApproveOrWait(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyIsApproveOrWait(customUserDetails.getUser(), pageDto);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/apply/approve/finish/list")
+    public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyAndFinishedWithoutReview(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyAndFinishedWithoutReview(customUserDetails.getUser(), pageDto);
         return ResponseEntity.ok().body(response);
     }
 

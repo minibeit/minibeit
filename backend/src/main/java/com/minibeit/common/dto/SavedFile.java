@@ -1,7 +1,7 @@
-package com.minibeit.file.dto;
+package com.minibeit.common.dto;
 
-import com.minibeit.file.domain.FileServer;
-import com.minibeit.file.domain.FileType;
+import com.minibeit.avatar.domain.AvatarServer;
+import com.minibeit.avatar.domain.AvatarType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,6 +20,6 @@ public class SavedFile {
     private final Integer height;
 
     private final boolean isImage;
-    private final FileType fileType;
-    private final FileServer fileServer;
+    private final AvatarType avatarType;
+    private final AvatarServer avatarServer;
 }

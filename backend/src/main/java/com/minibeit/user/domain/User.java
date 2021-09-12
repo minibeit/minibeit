@@ -3,14 +3,16 @@ package com.minibeit.user.domain;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.file.domain.File;
+import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.post.domain.Post;
 import com.minibeit.school.domain.School;
+import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.service.exception.DuplicateNickNameException;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +36,11 @@ public class User extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
-    private Integer age;
-
     private String job;
 
     private String phoneNum;
+
+    private LocalDate birth;
 
     private boolean signupCheck;
 
@@ -54,20 +56,20 @@ public class User extends BaseEntity {
     private School school;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
-    private File avatar;
+    @JoinColumn(name = "avatar_id")
+    private Avatar avatar;
 
     @Builder.Default
     @OneToMany(mappedBy = "user")
     private List<UserBusinessProfile> userBusinessProfileList = new ArrayList<>();
 
-    public User signup(UserRequest.Signup request, School school, File avatar) {
+    public User signup(AuthRequest.Signup request, School school, Avatar avatar) {
         this.name = request.getName();
         this.nickname = request.getNickname();
-        this.age = request.getAge();
         this.gender = request.getGender();
         this.job = request.getJob();
         this.phoneNum = request.getPhoneNum();
+        this.birth = request.getBirth();
         this.signupCheck = true;
         this.school = school;
         this.avatar = avatar;
@@ -78,14 +80,14 @@ public class User extends BaseEntity {
         this.name = request.getName();
         this.nickname = request.getNickname();
         this.gender = request.getGender();
-        this.age = request.getAge();
         this.job = request.getJob();
         this.phoneNum = request.getPhoneNum();
         this.school = school;
+        this.birth = request.getBirth();
         return this;
     }
 
-    public void updateAvatar(File avatar) {
+    public void updateAvatar(Avatar avatar) {
         this.avatar = avatar;
     }
 

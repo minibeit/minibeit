@@ -6,6 +6,7 @@ export const filterState = atom({
   key: "filterState",
   default: {
     schoolId: null,
+    schoolName: null,
     date: today,
     payment: "ALL",
   },

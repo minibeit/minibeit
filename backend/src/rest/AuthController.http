@@ -2,7 +2,7 @@ POST {{apiUrl}}/user/login
 Content-Type: application/json;charset=UTF-8
 
 {
-  "id": "1"
+  "id": "2"
 }
 
 > {%
@@ -22,7 +22,7 @@ Content-Disposition: form-data; name="name";
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-테스터1
+테스터02
 --boundary
 Content-Disposition: form-data; name="gender";
 
@@ -36,10 +36,14 @@ Content-Disposition: form-data; name="job";
 
 대학생
 --boundary
-Content-Disposition: form-data; name="age";
+Content-Disposition: form-data; name="birth";
 
-21
+1997-01-01
 --boundary
 Content-Disposition: form-data; name="schoolId";
 
 1
+###--boundary
+###Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
+
+###< ./../main/resources/mock/images/enjoy.png

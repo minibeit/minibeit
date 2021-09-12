@@ -2,11 +2,11 @@ package com.minibeit.businessprofile.web;
 
 
 import com.minibeit.MvcTest;
+import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
-import com.minibeit.file.domain.File;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.Role;
@@ -25,6 +25,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,14 +54,14 @@ class BusinessProfileControllerTest extends MvcTest {
                 .place("고려대")
                 .contact("010-1234-5786")
                 .introduce("고려대 동그라미 실험실 입니다.")
-                .avatar(File.builder().id(1L).url("profile image url").build())
+                .avatar(Avatar.builder().id(1L).url("profile image url").build())
                 .build();
         user1 = User.builder()
                 .id(1L)
                 .name("홍길동")
                 .nickname("테스트")
-                .age(20)
-                .avatar(File.builder().id(2L).url("profile image url").build())
+                .birth(LocalDate.of(1997,3,6))
+                .avatar(Avatar.builder().id(2L).url("profile image url").build())
                 .gender(Gender.MALE)
                 .job("학생")
                 .oauthId("1")

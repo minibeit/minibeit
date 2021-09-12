@@ -1,7 +1,7 @@
 package com.minibeit.post.service;
 
 import com.minibeit.common.component.file.S3Uploader;
-import com.minibeit.file.dto.SavedFile;
+import com.minibeit.common.dto.SavedFile;
 import com.minibeit.post.domain.PostFile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

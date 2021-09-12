@@ -1,5 +1,6 @@
 package com.minibeit.businessprofile.service;
 
+import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
@@ -10,8 +11,7 @@ import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundExc
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.file.domain.File;
-import com.minibeit.file.service.FileService;
+import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
@@ -29,11 +29,11 @@ public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final UserRepository userRepository;
-    private final FileService fileService;
+    private final AvatarService avatarService;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
-        File avatar = fileService.upload(request.getAvatar());
+        Avatar avatar = avatarService.upload(request.getAvatar());
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(findUser);
         BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar, findUser);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
@@ -60,8 +60,8 @@ public class BusinessProfileService {
 
         permissionCheck(user, businessProfile);
         if (request.isAvatarChanged()) {
-            fileService.deleteOne(businessProfile.getAvatar());
-            File file = fileService.upload(request.getAvatar());
+            avatarService.deleteOne(businessProfile.getAvatar());
+            Avatar file = avatarService.upload(request.getAvatar());
             businessProfile.updateAvatar(file);
         }
         businessProfile.update(request);

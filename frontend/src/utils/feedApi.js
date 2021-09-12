@@ -53,27 +53,20 @@ export const feedDetailApi = async (feedId) => {
 };
 
 export const feedEditApi = async (
-  title,
-  dueDate,
-  doDate,
-  pay,
-  time,
-  place,
-  content,
-  phoneNum,
+inputs,
   files,
   postId
 ) => {
   const formData = new FormData();
-  formData.append("title", title);
-  formData.append("content", content);
-  formData.append("place", place);
-  formData.append("pay", pay);
-  formData.append("time", time);
+  formData.append("title", inputs.title);
+  formData.append("content", inputs.content);
+  formData.append("place", inputs.place);
+  formData.append("pay", inputs.pay);
+  formData.append("time", inputs.time);
   formData.append("files", files);
-  formData.append("phoneNum", phoneNum);
-  formData.append("dueDate", dueDate);
-  formData.append("doDate", doDate);
+  formData.append("phoneNum", inputs.phoneNum);
+  formData.append("dueDate", inputs.dueDate);
+  formData.append("doDate", inputs.doDate);
   return await withAuthInstance.post(
     `http://3.36.95.15:8080/api/board/${postId}`,
     formData

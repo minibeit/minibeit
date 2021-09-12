@@ -5,39 +5,25 @@ import PBProfileJoin from "./PBProfileJoin";
 export default function BProfileJoin({ businessId }) {
   const [usergroup, setUsergroup] = useState([]);
   const handleJoin = async (nickname) => {
-    try {
-      const result = await bprofileJoin(businessId, nickname);
-      if (result) {
+    await bprofileJoin(businessId, nickname)
+      .then(async () => {
         alert("초대되었습니다");
         getUsergroup();
-      }
-      //받은 데이터에 대하여 처리하기
-    } catch (e) {
-      console.log(e);
-    }
+      })
+      .catch((err) => console.log(err));
   };
   const handleDelete = async (userId, userNickname) => {
-    try {
-      const result = await bprofileJoinDel(businessId, userId);
-      if (result) {
+    await bprofileJoinDel(businessId, userId)
+      .then(async () => {
         alert(userNickname + "님의 초대가 취소되었습니다");
         getUsergroup();
-      }
-    } catch (e) {
-      console.log(e);
-    }
+      })
+      .catch((err) => console.log(err));
   };
   const getUsergroup = async () => {
-    try {
-      const result = await getBPusergroup(businessId);
-      console.log(result);
-      const data = result.data;
-      if (data) {
-        setUsergroup(data);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    await getBPusergroup(businessId)
+      .then(async (res) => setUsergroup(res.data))
+      .catch((err) => console.log(err));
   };
   useEffect(() => {
     getUsergroup();

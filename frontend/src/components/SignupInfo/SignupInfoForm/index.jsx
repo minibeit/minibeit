@@ -14,14 +14,9 @@ export default function SignupForm() {
   const [schoollist, setSchoolList] = useState([]);
 
   const getSchoolInfo = async () => {
-    try {
-      const result = await schoolGetApi();
-      if (result) {
-        setSchoolList(result.data);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    await schoolGetApi()
+      .then(async (res) => setSchoolList(res.data))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {

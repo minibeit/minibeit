@@ -7,32 +7,30 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 
-public class UserRequest {
+public class AuthRequest {
     @Setter
     @Getter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class Update {
+    public static class Signup {
         private String name;
         private String nickname;
-        private boolean nicknameChanged;
         private Gender gender;
         private String phoneNum;
         private String job;
         private Integer age;
-        private Long schoolId;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate birth;
+        private Long schoolId;
         private MultipartFile avatar;
-        private boolean avatarChanged;
     }
 
     @Getter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class Nickname {
-        private String nickname;
+    public static class Login {
+        private String id;
     }
 }

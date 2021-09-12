@@ -101,6 +101,20 @@ public class PostService {
         return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, pageDto.of());
     }
 
+    @Transactional(readOnly = true)
+    public Page<Post> getListByLike(User user, PageDto pageDto) {
+        return postRepository.findAllByLike(user, pageDto.of());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostResponse.GetMyApplyList> getListByApplyIsApproveOrWait(User user, PageDto pageDto) {
+        return postRepository.findByApplyIsApproveOrWait(user, pageDto.of());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostResponse.GetMyApplyList> getListByApplyAndFinishedWithoutReview(User user, PageDto pageDto) {
+        return postRepository.findByApplyAndFinishedWithoutReview(user, pageDto.of());
+    }
     public void deleteOne(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);

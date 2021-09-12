@@ -16,7 +16,8 @@ public class BusinessProfileRepositoryImpl implements BusinessProfileRepositoryC
     @Override
     public List<BusinessProfile> findAllByUserId(Long userId) {
         return queryFactory.selectFrom(businessProfile)
-                .join(businessProfile.userBusinessProfileList, userBusinessProfile).on(userBusinessProfile.user.id.eq(userId))
+                .join(businessProfile.userBusinessProfileList, userBusinessProfile)
+                .where(userBusinessProfile.user.id.eq(userId))
                 .fetch();
     }
 }

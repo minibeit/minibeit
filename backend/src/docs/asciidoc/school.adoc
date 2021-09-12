@@ -13,11 +13,12 @@
 
 === 학교 전체 조회
 
-`GET /api/school/list`
+`GET /api/school/search`
 
 요청 HTTP
-include::{snippets}/school-list/http-request.adoc[]
+include::{snippets}/school-search/http-request.adoc[]
+include::{snippets}/school-search/request-parameters.adoc[]
 
 성공 응답 HTTP
-include::{snippets}/school-list/http-response.adoc[]
-include::{snippets}/school-list/response-fields.adoc[]
+include::{snippets}/school-search/http-response.adoc[]
+include::{snippets}/school-search/response-fields.adoc[]

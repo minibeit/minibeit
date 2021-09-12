@@ -1,4 +1,4 @@
-package com.minibeit.file.service.exception;
+package com.minibeit.common.component.exception;
 
 import com.minibeit.common.exception.BusinessException;
 

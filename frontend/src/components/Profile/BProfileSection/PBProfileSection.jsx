@@ -16,21 +16,13 @@ export default function PBProfileSection() {
   };
 
   const getBprofileList = async () => {
-    try {
-      const result = await bprofileListGet(UserId);
-
-      const data = result.data;
-
-      if (data) {
-        setbprofiles(data);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    bprofileListGet(UserId)
+      .then(async (res) => setbprofiles(res.data))
+      .catch((err) => console.log(err));
   };
   const CreateBProfile = (inputs, img) => {
     bprofileNew(inputs, img)
-      .then((res) => {
+      .then(() => {
         getBprofileList();
         setModalSwitch(false);
       })

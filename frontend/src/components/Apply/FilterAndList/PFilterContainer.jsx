@@ -10,19 +10,10 @@ import * as S from "../style";
 
 PFilterContainer.propTypes = {
   setModalSwitch: PropTypes.func.isRequired,
-  schoolList: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ),
+  getFeedList: PropTypes.func.isRequired,
 };
 
-export default function PFilterContainer({
-  setModalSwitch,
-  schoolList,
-  getFeedList,
-}) {
+export default function PFilterContainer({ setModalSwitch, getFeedList }) {
   const [filter, setFilter] = useRecoilState(filterState);
   const openModal = () => {
     setModalSwitch(true);
@@ -45,19 +36,7 @@ export default function PFilterContainer({
   return (
     <>
       <S.FilterBox>
-        <S.ViewSelect>
-          {schoolList ? (
-            filter["schoolId"] ? (
-              schoolList.find((ele) => ele.id === filter["schoolId"]).name
-            ) : user["schoolId"] ? (
-              schoolList.find((ele) => ele.id === user["schoolId"]).name
-            ) : (
-              <p>학교를 선택하세요</p>
-            )
-          ) : (
-            <p>학교를 선택하세요</p>
-          )}
-        </S.ViewSelect>
+        <S.ViewSelect>{filter["schoolName"]}</S.ViewSelect>
         <S.SelectBtn onClick={openModal}>학교선택</S.SelectBtn>
         <DatePicker
           selected={filter["date"]}

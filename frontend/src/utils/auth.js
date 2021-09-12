@@ -4,9 +4,9 @@ import { withAuthInstance } from "./common";
 
 const { LOGOUT, SIGNUP } = API_URLS;
 
-export const signupInfoApi = async (inputs, img, accessToken) => {
+export const signupInfoApi = async (inputs2, img, accessToken) => {
   const formData = new FormData();
-  Object.keys(inputs).map((key) => formData.append(key, inputs[key]));
+  Object.keys(inputs2).map((key) => formData.append(key, inputs2[key]));
   if (img !== undefined) {
     formData.append("avatar", img);
   }

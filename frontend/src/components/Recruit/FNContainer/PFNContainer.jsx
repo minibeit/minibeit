@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import * as S from "../style";
 
 function PFNContainer({ bpList, schoolList, FNHandler }) {
+  const [index, setIndex] = useState(0);
   const [infoinputs, setInfoInputs] = useState({
     title: "",
     payment: "",
@@ -65,6 +66,105 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
   return (
     <>
       <S.FNBottomWrapper>
+        {index === 0 ? (
+          <S.FNLabel>
+            {" "}
+            작성자
+            <S.FNauthor
+              name="businessProfileId"
+              defaultValue={"DEFAULT"}
+              onChange={onInfoChange}
+            >
+              <option value="DEFAULT" disabled>
+                작성할 비즈니스 프로필을 선택하세요
+              </option>
+              {bpList.map(({ id, name, avatar }) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <option value={id} key={id}>
+                  {name}
+                </option>
+              ))}
+            </S.FNauthor>
+          </S.FNLabel>
+        ) : index === 1 ? (
+          <S.FNLabel>
+            {" "}
+            학교선택
+            <S.FNSchool
+              name="schoolId"
+              defaultValue={"DEFAULT"}
+              onChange={onInfoChange}
+            >
+              <option value="DEFAULT" disabled>
+                학교를 선택하세요
+              </option>
+              {schoolList.map(({ id, name }) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <option value={id} key={id}>
+                  {name}
+                </option>
+              ))}
+            </S.FNSchool>
+          </S.FNLabel>
+        ) : index === 2 ? (
+          <>
+            <S.FNLabel>
+              모집시작 날짜
+              <S.FNdueDate
+                type="date"
+                name="startDay"
+                value={startDay}
+                onChange={onDateChange}
+              />
+            </S.FNLabel>
+            <br />
+            <S.FNLabel>
+              모집마감 날짜
+              <S.FNdueDate
+                type="date"
+                name="endDay"
+                value={endDay}
+                onChange={onDateChange}
+              />
+            </S.FNLabel>
+          </>
+        ) : index === 3 ? (
+          <S.FNLabel>
+            모집 인원수
+            <S.FNcache
+              type="number"
+              name="headcount"
+              value={headcount}
+              onChange={onInfoChange}
+            />
+          </S.FNLabel>
+        ) : index === 4 ? (
+          <>
+            <S.FNLabel>
+              모집시작 시간
+              <S.FNdueDate
+                type="time"
+                name="startTime"
+                value={startTime || ""}
+                onChange={onDateChange}
+              />
+            </S.FNLabel>
+            <br />
+            <S.FNLabel>
+              모집마감 시간
+              <S.FNdueDate
+                type="time"
+                name="endTime"
+                value={endTime}
+                step="900"
+                onChange={onDateChange}
+              />
+            </S.FNLabel>
+          </>
+        ) : null}
+        <div onClick={() => setIndex(index + 1)}>다음</div>
+        <br />
+        <br />
         <S.FNLabel>
           {" "}
           게시물 제목을 입력하세요
@@ -76,95 +176,7 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
             onChange={onInfoChange}
           />
         </S.FNLabel>
-        <br />
-        <S.FNLabel>
-          {" "}
-          학교선택
-          <S.FNSchool
-            name="schoolId"
-            defaultValue={"DEFAULT"}
-            onChange={onInfoChange}
-          >
-            <option value="DEFAULT" disabled>
-              학교를 선택하세요
-            </option>
-            {schoolList.map(({ id, name }) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <option value={id} key={id}>
-                {name}
-              </option>
-            ))}
-          </S.FNSchool>
-        </S.FNLabel>
-        <br />
-        <S.FNLabel>
-          {" "}
-          작성자
-          <S.FNauthor
-            name="businessProfileId"
-            defaultValue={"DEFAULT"}
-            onChange={onInfoChange}
-          >
-            <option value="DEFAULT" disabled>
-              작성할 비즈니스 프로필을 선택하세요
-            </option>
-            {bpList.map(({ id, name, avatar }) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <option value={id} key={id}>
-                {name}
-              </option>
-            ))}
-          </S.FNauthor>
-        </S.FNLabel>
-        <S.FNLabel>
-          모집 인원수
-          <S.FNcache
-            type="number"
-            name="headcount"
-            value={headcount}
-            onChange={onInfoChange}
-          />
-        </S.FNLabel>
-        <br />
-        <S.FNLabel>
-          모집시작 날짜
-          <S.FNdueDate
-            type="date"
-            name="startDay"
-            value={startDay}
-            onChange={onDateChange}
-          />
-        </S.FNLabel>
-        <br />
-        <S.FNLabel>
-          모집마감 날짜
-          <S.FNdueDate
-            type="date"
-            name="endDay"
-            value={endDay}
-            onChange={onDateChange}
-          />
-        </S.FNLabel>
-        <S.FNLabel>
-          모집시작 시간
-          <S.FNdueDate
-            type="time"
-            name="startTime"
-            value={startTime || ""}
-            onChange={onDateChange}
-          />
-        </S.FNLabel>
-        <br />
-        <S.FNLabel>
-          모집마감 시간
-          <S.FNdueDate
-            type="time"
-            name="endTime"
-            value={endTime}
-            step="900"
-            onChange={onDateChange}
-          />
-        </S.FNLabel>
+
         <br />
         <S.FNLabel>
           지급방법

@@ -15,28 +15,16 @@ function FNContainer() {
   const history = useHistory();
   const [schoolList, setSchoolList] = useState([]);
   const [bpList, setbpList] = useState([]);
+
   const getSchoolList = async () => {
-    try {
-      const result = await schoolGetApi();
-      if (result) {
-        console.log(result);
-        setSchoolList(result.data);
-      }
-    } catch (e) {
-      console.log(e.response.data.error.msg);
-      alert(e.response.data.error.msg);
-    }
+    await schoolGetApi()
+      .then(async (res) => setSchoolList(res.data))
+      .catch((err) => console.log(err));
   };
   const getbpList = async () => {
-    try {
-      const result = await bprofileListGet(userId);
-      if (result) {
-        setbpList(result.data);
-      }
-    } catch (e) {
-      console.log(e.response.data.error.msg);
-      alert(e.response.data.error.msg);
-    }
+    await bprofileListGet(userId)
+      .then(async (res) => setbpList(res.data))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
@@ -44,22 +32,15 @@ function FNContainer() {
     getbpList();
   }, []);
   const FNHandler = async (infoinputs, dateinputs, files) => {
-    try {
-      const result = await feedCreateApi(infoinputs, files);
-
-      if (result) {
-        const postId = result.data.id;
-
-        const result2 = await feedDateCreateApi(postId, dateinputs);
-        if (result2) {
-          window.alert("게시물 생성에 성공!");
-          history.push(`/apply/${result.data.id}`);
-        }
-      }
-    } catch (e) {
-      console.log(e);
-      alert(e);
-    }
+    await feedCreateApi(infoinputs, files)
+      .then(async (res) => {
+        return await feedDateCreateApi(res.data.id, dateinputs);
+      })
+      .then(async (res) => {
+        window.alert("게시물 생성에 성공!");
+        history.push(`/apply/${res.data.id}`);
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <PFNContainer

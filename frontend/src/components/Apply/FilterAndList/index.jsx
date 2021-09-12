@@ -25,7 +25,7 @@ export default function FilterAndList() {
         getFeedList={getFeedList}
       />
       {modalSwitch ? (
-        <SchoolSelectModal setModalSwitch={setModalSwitch} />
+        <SchoolSelectModal setModalSwitch={setModalSwitch} use="ApplyList" />
       ) : null}
       {feedList ? <PListContainer feedList={feedList} /> : null}
     </>

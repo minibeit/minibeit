@@ -9,9 +9,10 @@ import { schoolGetApi } from "../../../../utils/schoolApi";
 
 SchoolSelectModal.propTypes = {
   setModalSwitch: PropTypes.func.isRequired,
+  use: PropTypes.string.isRequired,
 };
 
-export default function SchoolSelectModal({ setModalSwitch }) {
+export default function SchoolSelectModal({ setModalSwitch, use }) {
   const [filter, setFilter] = useRecoilState(filterState);
   const [schoolItem, setSchoolItem] = useState();
   const closeModal = () => {
@@ -38,10 +39,16 @@ export default function SchoolSelectModal({ setModalSwitch }) {
   };
 
   const selectSchool = async (e) => {
-    const filter_cp = { ...filter };
-    filter_cp["schoolId"] = parseInt(e.target.id);
-    filter_cp["schoolName"] = e.target.textContent;
-    await setFilter(filter_cp);
+    switch (use) {
+      case "ApplyList":
+        const filter_cp = { ...filter };
+        filter_cp["schoolId"] = parseInt(e.target.id);
+        filter_cp["schoolName"] = e.target.textContent;
+        setFilter(filter_cp);
+        break;
+      default:
+        alert("다시 시도해주세요");
+    }
     await closeModal();
   };
   useEffect(() => {

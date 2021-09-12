@@ -19,7 +19,6 @@ public class AuthRequest {
         private Gender gender;
         private String phoneNum;
         private String job;
-        private Integer age;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate birth;
         private Long schoolId;

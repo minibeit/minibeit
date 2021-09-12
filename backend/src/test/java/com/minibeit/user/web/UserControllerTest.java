@@ -122,7 +122,7 @@ class UserControllerTest extends MvcTest {
                         .param("gender", "MALE")
                         .param("phoneNum", "010-1234-5678")
                         .param("job", "개발자")
-                        .param("age", "30")
+                        .param("birth","2000-11-11")
                         .param("schoolId", "2")
                         .param("avatarChanged", "true")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -138,7 +138,7 @@ class UserControllerTest extends MvcTest {
                                 parameterWithName("gender").description("성별(MALE or FEMALE)"),
                                 parameterWithName("phoneNum").description("전화번호"),
                                 parameterWithName("job").description("직업"),
-                                parameterWithName("age").description("나이"),
+                                parameterWithName("birth").description("생년월일(2000-11-11)"),
                                 parameterWithName("schoolId").description("관심있는 학교 식별자"),
                                 parameterWithName("avatarChanged").description("개인 프로필 이미지 수정여부(수정했다면 true 안했다면 false)")
                         ),

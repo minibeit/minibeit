@@ -20,9 +20,9 @@ export default function PFilterContainer({ setModalSwitch, getFeedList }) {
   };
   const search = () => {
     if (filter.schoolId) {
-      getFeedList(filter.schoolId, filter.date);
+      getFeedList(filter.schoolId, filter.date, filter.payment);
     } else if (user.schoolId) {
-      getFeedList(user.schoolId, filter.date);
+      getFeedList(user.schoolId, filter.date, filter.payment);
     } else {
       alert("학교를 선택해주세요");
     }
@@ -46,15 +46,15 @@ export default function PFilterContainer({ setModalSwitch, getFeedList }) {
             setFilter(filter_cp);
           }}
         />
-        <S.FilterSubmitBtn onClick={search}>검색</S.FilterSubmitBtn>
         <S.PaymentSelect
           defaultValue={filter["payment"]}
           onChange={changePayment}
         >
-          <option value="ALL">전체</option>
+          <option value="">전체</option>
           <option value="CACHE">현금</option>
           <option value="GOODS">물품</option>
         </S.PaymentSelect>
+        <S.FilterSubmitBtn onClick={search}>검색</S.FilterSubmitBtn>
       </S.FilterBox>
     </>
   );

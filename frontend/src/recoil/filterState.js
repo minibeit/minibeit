@@ -8,6 +8,6 @@ export const filterState = atom({
     schoolId: null,
     schoolName: null,
     date: today,
-    payment: "ALL",
+    payment: "",
   },
 });

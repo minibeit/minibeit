@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 
 import * as S from "../style";
+import { SchoolSearch } from "../../Common";
 
 PFilterContainer.propTypes = {
   setModalSwitch: PropTypes.func.isRequired,
@@ -20,9 +21,9 @@ export default function PFilterContainer({ setModalSwitch, getFeedList }) {
   };
   const search = () => {
     if (filter.schoolId) {
-      getFeedList(filter.schoolId, filter.date, filter.payment);
+      getFeedList(1, filter.schoolId, filter.date, filter.payment);
     } else if (user.schoolId) {
-      getFeedList(user.schoolId, filter.date, filter.payment);
+      getFeedList(1, user.schoolId, filter.date, filter.payment);
     } else {
       alert("학교를 선택해주세요");
     }
@@ -36,8 +37,7 @@ export default function PFilterContainer({ setModalSwitch, getFeedList }) {
   return (
     <>
       <S.FilterBox>
-        <S.ViewSelect>{filter["schoolName"]}</S.ViewSelect>
-        <S.SelectBtn onClick={openModal}>학교선택</S.SelectBtn>
+        <SchoolSearch use="ApplyList" />
         <DatePicker
           selected={filter["date"]}
           onChange={(date) => {

@@ -26,7 +26,10 @@ export const logoutFunc = async () => {
   return await withAuthInstance.post(LOGOUT);
 };
 
-export const nickCheckApi = async () => {
-  return await withoutAuthInstance.post(N_CHECK);
+export const nickCheckApi = async (nickname) => {
+  const data = {
+    nickname :nickname
+  }
+  return await withoutAuthInstance.post(N_CHECK,data);
 };
 

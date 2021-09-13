@@ -17,3 +17,4 @@ export {
   bprofileJoinDel,
   getBPusergroup,
 } from "./bprofileApi";
+export { getLikeListApi, getMyInfo, editMyInfo } from "./profileApi";

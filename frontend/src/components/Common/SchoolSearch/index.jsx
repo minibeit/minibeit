@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { filterState } from "../../../recoil/filterState";
 import { schoolGetApi } from "../../../utils/schoolApi";
+import PropTypes from "prop-types";
 
 import * as S from "./style";
+
+SchoolSearch.propTypes = {
+  use: PropTypes.string.isRequired,
+};
 
 export default function SchoolSearch({ use }) {
   const [filter, setFilter] = useRecoilState(filterState);

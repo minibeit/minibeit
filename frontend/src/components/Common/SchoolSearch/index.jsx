@@ -5,6 +5,7 @@ import { schoolGetApi } from "../../../utils/schoolApi";
 import PropTypes from "prop-types";
 
 import * as S from "./style";
+import { signupState } from "../../../recoil/signupState";
 
 SchoolSearch.propTypes = {
   use: PropTypes.string.isRequired,
@@ -12,6 +13,7 @@ SchoolSearch.propTypes = {
 
 export default function SchoolSearch({ use }) {
   const [filter, setFilter] = useRecoilState(filterState);
+  const [signup, setSignup] = useRecoilState(signupState);
   const [schoolItem, setSchoolItem] = useState();
   const [listSwitch, setListSwitch] = useState(false);
 
@@ -47,7 +49,12 @@ export default function SchoolSearch({ use }) {
         filter_cp["schoolName"] = e.target.textContent;
         setFilter(filter_cp);
         break;
-      /* case 추가 */
+      case "Signup":
+        const signupRC = { ...signup };
+        signupRC["schoolId"] = parseInt(e.target.id);
+        signupRC["schoolName"] = e.target.textContent;
+        setSignup(signupRC);
+        break;
       default:
         alert("다시 시도해주세요");
     }

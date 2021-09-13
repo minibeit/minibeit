@@ -8,6 +8,8 @@ export const UserInfo = styled.p``;
 
 export const BPContainer = styled.div``;
 export const BPbtn = styled.div``;
+export const LBprev = styled.div``;
+export const LBnext = styled.div``;
 export const BPNewInput = styled.input``;
 export const ImgBox = styled.div`
   display: inline-block;
@@ -22,3 +24,7 @@ export const UserImg = styled.img`
   height: 100%;
 `;
 export const BPSubmitBtn = styled.div``;
+export const LBCont = styled.div``;
+export const LBTitle = styled.div``;
+export const LBContent = styled.div``;
+export const LBList = styled.div``;

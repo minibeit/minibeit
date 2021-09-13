@@ -23,8 +23,8 @@ export default function SignupForm() {
     getSchoolInfo();
   }, []);
 
-  const signupHandler = async (inputs, img) => {
-    await signupInfoApi(inputs, img, guest.accessToken)
+  const signupHandler = async (inputs2, img) => {
+    await signupInfoApi(inputs2, img, guest.accessToken)
       .then((res) => {
         window.alert("회원가입에 성공!");
         const guest_cp = { ...guest };

@@ -12,7 +12,7 @@ SchoolSelectModal.propTypes = {
   use: PropTypes.string.isRequired,
 };
 
-export default function SchoolSelectModal({ setModalSwitch, use }) {
+export default function SchoolSelectModal({ setModalSwitch, use, handleInfo }) {
   const [filter, setFilter] = useRecoilState(filterState);
   const [schoolItem, setSchoolItem] = useState();
   const closeModal = () => {
@@ -39,12 +39,18 @@ export default function SchoolSelectModal({ setModalSwitch, use }) {
   };
 
   const selectSchool = async (e) => {
+    const filter_cp = { ...filter };
     switch (use) {
       case "ApplyList":
-        const filter_cp = { ...filter };
         filter_cp["schoolId"] = parseInt(e.target.id);
         filter_cp["schoolName"] = e.target.textContent;
         setFilter(filter_cp);
+        break;
+      case "Signup":
+        filter_cp["schoolId"] = parseInt(e.target.id);
+        filter_cp["schoolName"] = e.target.textContent;
+        setFilter(filter_cp);
+        await handleInfo(e.target.id);
         break;
       default:
         alert("다시 시도해주세요");

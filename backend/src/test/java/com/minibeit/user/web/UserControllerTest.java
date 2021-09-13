@@ -97,7 +97,7 @@ class UserControllerTest extends MvcTest {
                                 fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
                                 fieldWithPath("job").type(JsonFieldType.STRING).description("직업"),
                                 fieldWithPath("birth").type(JsonFieldType.STRING).description("생년월일"),
-                                fieldWithPath("schoolName").type(JsonFieldType.NUMBER).description("관심학교 이름"),
+                                fieldWithPath("schoolName").type(JsonFieldType.STRING).description("관심학교 이름"),
                                 fieldWithPath("avatar").type(JsonFieldType.STRING).description("프로필 이미지 url(프로필 이미지가 없다면 null)")
                         )
                 ));

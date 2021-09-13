@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import PropTypes, { shape } from "prop-types";
-import { PVImg } from "../../Common";
+import { PVImg, SchoolSearch } from "../../Common";
 import * as S from "../style";
 import { handleCompressImg } from "../../../utils/imgCompress";
 import Portal from "../../Common/Modal/Portal";
 import ProgressBar from "../../Common/Progressbar";
+
+import SchoolSelectModal from "../../Common/Modal/SchoolSelectModal";
+import { filterState } from "../../../recoil/filterState";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { signupState } from "../../../recoil/signupState";
+import { nickCheckApi } from "../../../utils/auth";
 
 PSignupInfoForm.propTypes = {
   schoollist: PropTypes.arrayOf(
@@ -23,6 +29,8 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
   //   return confirmationMessage; // Gecko, WebKit, Chrome < 34
   // });
   const [msg, setMsg] = useState("다음");
+  const [nick, setNick] = useState("notyet");
+  const school = useRecoilValue(signupState);
   const [inputs, setInputs] = useState({
     name: "",
     nickname: "",
@@ -47,6 +55,12 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
     handleCompressImg(e.target.files[0]).then((res) => setImg(res));
   };
   const imgDel = () => {
+    setImg(undefined);
+  };
+  const nickCheck = async () => {
+    await nickCheckApi(nickname)
+      .then(() => setNick(true))
+      .catch((err) => setNick(false));
     setImg(undefined);
   };
   const singupInfoFunc = (e) => {
@@ -75,7 +89,7 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
         phoneNum: phoneNum,
         job: job,
         birth: birth,
-        schoolId: "1",
+        schoolId: school.schoolId,
       };
       signupHandler(inputs2, img);
     }
@@ -112,118 +126,148 @@ function PSignupInfoForm({ schoollist, signupHandler }) {
           <S.ModalPro>
             <ProgressBar bgcolor={item.bgcolor} completed={item.completed} />
           </S.ModalPro>
+          <S.SITitle>
+            {" "}
+            {index === 0
+              ? "반갑습니다! 간단한 프로필을 작성해 주세요"
+              : index === 1
+              ? "주변에 위치한 관심있는 학교를 선택해 주세요"
+              : index === 2
+              ? "현재 직업을 설정해 주세요"
+              : index === 3
+              ? "어떤 분야에 관심이 있나요?"
+              : null}
+          </S.SITitle>
           <S.ModalContent>
             <S.FormsignupContainer>
               {index === 0 ? (
                 <>
-                  <S.SignupInput
-                    value={name}
-                    name="name"
-                    type="text"
-                    placeholder="이름"
-                    onChange={onChange}
-                  />
-                  <br />
-                  <S.SignupInput
-                    value={nickname}
-                    name="nickname"
-                    type="text"
-                    placeholder="닉네임"
-                    onChange={onChange}
-                  />
-                  <br />
-                  <S.SignupSelect
-                    onChange={onChange}
-                    defaultValue={"DEFAULT"}
-                    name="gender"
-                  >
-                    <option value="DEFAULT" disabled>
+                  <S.SICont1_2>
+                    <S.SILabel>
+                      프로필 사진{" "}
+                      <S.ImgBox>
+                        {img ? (
+                          <PVImg img={img} />
+                        ) : (
+                          <S.Img src="/기본프로필.png" />
+                        )}
+                      </S.ImgBox>
+                      <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
+                      <S.SignupInput
+                        name="img"
+                        type="file"
+                        onChange={fileChange}
+                      />
+                    </S.SILabel>
+                  </S.SICont1_2>
+                  <S.SICont1_1>
+                    <S.SILabel>
+                      이름
+                      <S.SignupInput
+                        value={name}
+                        name="name"
+                        type="text"
+                        placeholder="이름"
+                        onChange={onChange}
+                      />
+                    </S.SILabel>
+                    <S.SILabel>
+                      닉네임
+                      <S.SignupInput
+                        value={nickname}
+                        name="nickname"
+                        type="text"
+                        placeholder="닉네임"
+                        onChange={onChange}
+                      />
+                    </S.SILabel>
+                    <S.SignupNickBtn onClick={nickCheck}>확인</S.SignupNickBtn>
+                    {nick === true ? (
+                      <S.SignupMSG color="blue">
+                        사용가능한 닉네임 입니다
+                      </S.SignupMSG>
+                    ) : nick === false ? (
+                      <S.SignupMSG color="red">닉네임이 중복됩니다</S.SignupMSG>
+                    ) : null}
+                    <S.SILabel>
                       성별
-                    </option>
-                    <option value="MALE" key={0}>
-                      남자
-                    </option>
-                    <option value="FEMALE" key={1}>
-                      여자
-                    </option>
-                  </S.SignupSelect>
-                  <S.SignupSelect
-                    name="year"
-                    onChange={onChange}
-                    defaultValue={"DEFAULT"}
-                  >
-                    <option value="DEFAULT" disabled>
-                      년
-                    </option>
-                    {range(1920, 2021).map((year) => (
-                      <option value={year} key={year - 1919}>
-                        {year}
-                      </option>
-                    ))}
-                  </S.SignupSelect>
-                  <S.SignupSelect
-                    name="month"
-                    onChange={onChange}
-                    defaultValue={"DEFAULT"}
-                  >
-                    <option value="DEFAULT" disabled>
-                      월
-                    </option>
-                    {range(1, 12).map((month) => (
-                      <option value={month} key={month - 1919}>
-                        {month}
-                      </option>
-                    ))}
-                  </S.SignupSelect>
-                  <S.SignupSelect
-                    name="day"
-                    onChange={onChange}
-                    defaultValue={"DEFAULT"}
-                  >
-                    <option value="DEFAULT" disabled>
-                      일
-                    </option>
-                    {range(1, 31).map((day) => (
-                      <option value={day} key={day - 1919}>
-                        {day}
-                      </option>
-                    ))}
-                  </S.SignupSelect>
-                  <br />
-                  <S.ImgBox>
-                    {img ? (
-                      <PVImg img={img} />
-                    ) : (
-                      <S.Img src="/기본프로필.png" />
-                    )}
-                  </S.ImgBox>
-                  <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
-                  <S.SignupInput name="img" type="file" onChange={fileChange} />
-                  <br />
-                  <S.SignupInput
-                    value={phoneNum}
-                    name="phoneNum"
-                    type="text"
-                    placeholder="전화번호"
-                    onChange={onChange}
-                  />
+                      <S.SignupSelect
+                        onChange={onChange}
+                        defaultValue={"DEFAULT"}
+                        name="gender"
+                      >
+                        <option value="DEFAULT" disabled>
+                          성별
+                        </option>
+                        <option value="MALE" key={0}>
+                          남자
+                        </option>
+                        <option value="FEMALE" key={1}>
+                          여자
+                        </option>
+                      </S.SignupSelect>
+                    </S.SILabel>
+                    <S.SILabel>
+                      생년월일
+                      <S.SignupSelect
+                        name="year"
+                        onChange={onChange}
+                        defaultValue={"DEFAULT"}
+                      >
+                        <option value="DEFAULT" disabled>
+                          년
+                        </option>
+                        {range(1920, 2021).map((year) => (
+                          <option value={year} key={year - 1919}>
+                            {year}
+                          </option>
+                        ))}
+                      </S.SignupSelect>
+                      <S.SignupSelect
+                        name="month"
+                        onChange={onChange}
+                        defaultValue={"DEFAULT"}
+                      >
+                        <option value="DEFAULT" disabled>
+                          월
+                        </option>
+                        {range(1, 12).map((month) => (
+                          <option value={month} key={month - 1919}>
+                            {month}
+                          </option>
+                        ))}
+                      </S.SignupSelect>
+                      <S.SignupSelect
+                        name="day"
+                        onChange={onChange}
+                        defaultValue={"DEFAULT"}
+                      >
+                        <option value="DEFAULT" disabled>
+                          일
+                        </option>
+                        {range(1, 31).map((day) => (
+                          <option value={day} key={day - 1919}>
+                            {day}
+                          </option>
+                        ))}
+                      </S.SignupSelect>
+                    </S.SILabel>
+                    <S.SILabel>
+                      전화번호
+                      <S.SignupInput
+                        value={phoneNum}
+                        name="phoneNum"
+                        type="text"
+                        placeholder="전화번호"
+                        onChange={onChange}
+                      />
+                    </S.SILabel>
+                  </S.SICont1_1>
                 </>
               ) : index === 1 ? (
-                <S.SignupSelect
-                  name="schoolId"
-                  onChange={onChange}
-                  defaultValue={"DEFAULT"}
-                >
-                  <option value="DEFAULT" disabled>
-                    학교를 선택하세요
-                  </option>
-                  {schoollist.map(({ id, name }) => (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <option value={id} key={id}>
-                      {name}
-                    </option>
-                  ))}
-                </S.SignupSelect>
+                <>
+                  <SchoolSearch use="Signup" />
+                </>
               ) : index === 2 ? (
                 <S.SignupInput
                   value={job}

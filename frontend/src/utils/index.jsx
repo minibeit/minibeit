@@ -6,7 +6,7 @@ export {
   feedlistApi,
   feedDateCreateApi,
 } from "./feedApi";
-export { signupInfoApi, logoutFunc } from "./auth";
+export { signupInfoApi, logoutFunc, nickCheckApi } from "./auth";
 export {
   bprofileNew,
   bprofileListGet,

@@ -7,6 +7,7 @@ const API_URLS = {
   MY_USERINFO: "/api/user/me",
   EDIT_MY_USERINFO: "/api/user/update",
   LOGIN: "/api/user/login",
+  N_CHECK:"/api/user/nickname/check",
   TOKEN_OBTAIN: "/account/token/obtain/",
   TOKEN_BLACKLIST: "/account/token/blacklist/",
   FEED_NEW: "/api/post/info",

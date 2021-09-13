@@ -5,10 +5,11 @@ import { schoolGetApi } from "../../../utils/schoolApi";
 
 import * as S from "./style";
 
-export default function SchoolSearch() {
+export default function SchoolSearch({ use }) {
   const [filter, setFilter] = useRecoilState(filterState);
   const [schoolItem, setSchoolItem] = useState();
   const [listSwitch, setListSwitch] = useState(false);
+
   const searchSchool = (e) => {
     if (e === undefined) {
       schoolGetApi("")
@@ -28,19 +29,31 @@ export default function SchoolSearch() {
         });
     }
   };
+
   const onFocus = () => {
     setListSwitch(true);
   };
+
   const selectSchool = async (e) => {
-    const filter_cp = { ...filter };
-    filter_cp["schoolId"] = parseInt(e.target.id);
-    filter_cp["schoolName"] = e.target.textContent;
+    switch (use) {
+      case "ApplyList":
+        const filter_cp = { ...filter };
+        filter_cp["schoolId"] = parseInt(e.target.id);
+        filter_cp["schoolName"] = e.target.textContent;
+        setFilter(filter_cp);
+        break;
+      /* case 추가 */
+      default:
+        alert("다시 시도해주세요");
+    }
     e.target.parentNode.previousSibling.value = e.target.textContent;
     setListSwitch(false);
   };
+
   useEffect(() => {
     searchSchool();
   }, []);
+
   return (
     <S.SchoolSearchBox>
       <S.SearchInput onFocus={onFocus} onChange={searchSchool}></S.SearchInput>

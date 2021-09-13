@@ -37,7 +37,7 @@ export default function PFilterContainer({ setModalSwitch, getFeedList }) {
   return (
     <>
       <S.FilterBox>
-        <SchoolSearch />
+        <SchoolSearch use="ApplyList" />
         <DatePicker
           selected={filter["date"]}
           onChange={(date) => {

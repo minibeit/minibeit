@@ -7,6 +7,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 
 import * as S from "../style";
+import { SchoolSearch } from "../../Common";
 
 PFilterContainer.propTypes = {
   setModalSwitch: PropTypes.func.isRequired,
@@ -36,8 +37,7 @@ export default function PFilterContainer({ setModalSwitch, getFeedList }) {
   return (
     <>
       <S.FilterBox>
-        <S.ViewSelect>{filter["schoolName"]}</S.ViewSelect>
-        <S.SelectBtn onClick={openModal}>학교선택</S.SelectBtn>
+        <SchoolSearch />
         <DatePicker
           selected={filter["date"]}
           onChange={(date) => {

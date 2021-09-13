@@ -9,6 +9,7 @@ import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.service.exception.*;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -63,12 +64,12 @@ public class PostApplicantService {
         postDoDate.updateFull(approvedPostApplicant);
     }
 
-    public void applyReject(Long postId, Long postDoDateId, Long userId, User user) {
+    public void applyReject(Long postId, Long postDoDateId, Long userId, PostApplicantRequest.ApplyReject request, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(user, post);
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
-        postApplicant.updateStatusReject();
+        postApplicant.updateStatusReject(request.getComment());
     }
 
     public void applyCancel(Long postDoDateId, User user) {

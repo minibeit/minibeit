@@ -1,14 +1,12 @@
 package com.minibeit.post.web;
 
+import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.service.PostApplicantService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,8 +39,10 @@ public class PostApplicantController {
     }
 
     @PostMapping("/{postId}/date/{postDoDateId}/apply/reject/{userId}")
-    public ResponseEntity<Void> applyReject(@PathVariable Long postId, @PathVariable Long postDoDateId, @PathVariable Long userId, @CurrentUser CustomUserDetails customUserDetails) {
-        postApplicantService.applyReject(postId, postDoDateId, userId, customUserDetails.getUser());
+    public ResponseEntity<Void> applyReject(@PathVariable Long postId, @PathVariable Long postDoDateId,
+                                            @PathVariable Long userId, @RequestBody PostApplicantRequest.ApplyReject request,
+                                            @CurrentUser CustomUserDetails customUserDetails) {
+        postApplicantService.applyReject(postId, postDoDateId, userId, request, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 }

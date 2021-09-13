@@ -20,7 +20,6 @@ public class UserRequest {
         private Gender gender;
         private String phoneNum;
         private String job;
-        private Integer age;
         private Long schoolId;
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate birth;

@@ -46,10 +46,11 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{postId}/review")
-    public ResponseEntity<PostResponse.PostReviewId> createReview(@PathVariable Long postId, @RequestBody PostRequest.CreateReview request) {
-        PostResponse.PostReviewId response = postService.createReview(postId, request);
-        return ResponseEntity.ok().body(response);
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/{postId}/review/{postDoDateId}")
+    public ResponseEntity<PostResponse.ReviewId> createReview(@PathVariable Long postId, @PathVariable Long postDoDateId, @RequestBody PostRequest.CreateReview request, @CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.ReviewId response = postService.createReview(postId, postDoDateId, request, customUserDetails.getUser());
+        return ResponseEntity.created(URI.create("/api/post/review/" + response.getId())).body(response);
     }
 
     @GetMapping("/{postId}")
@@ -88,9 +89,9 @@ public class PostController {
         return ResponseEntity.ok().body(response);
     }
 
-    @GetMapping("/apply/approve/finish/list")
-    public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyAndFinishedWithoutReview(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
-        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyAndFinishedWithoutReview(customUserDetails.getUser(), pageDto);
+    @GetMapping("/writable/review/list")
+    public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyMyFinishedWithoutReview(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyAndMyFinishedWithoutReview(customUserDetails.getUser(), pageDto);
         return ResponseEntity.ok().body(response);
     }
 

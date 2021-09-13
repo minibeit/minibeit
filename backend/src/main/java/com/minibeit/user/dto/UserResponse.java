@@ -77,7 +77,7 @@ public class UserResponse {
         private LocalDate birth;
         private String job;
         private String phoneNum;
-        private Long schoolName;
+        private String schoolName;
         private String avatar;
 
         public static UserResponse.GetOne build(User user) {
@@ -89,7 +89,7 @@ public class UserResponse {
                     .birth(user.getBirth())
                     .job(user.getJob())
                     .phoneNum(user.getPhoneNum())
-                    .schoolName(user.getSchool().getId());
+                    .schoolName(user.getSchool().getName());
             if(user.getAvatar()!=null){
                 return getOneBuilder.avatar(user.getAvatar().getUrl()).build();
             }

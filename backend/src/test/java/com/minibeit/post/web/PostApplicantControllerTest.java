@@ -1,6 +1,7 @@
 package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
+import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.service.PostApplicantService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -8,10 +9,13 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
+import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -75,10 +79,30 @@ class PostApplicantControllerTest extends MvcTest {
     }
 
     @Test
+    @DisplayName("피실험자가 게시물 실험완료 활성화 문서화")
+    public void applyMyFinish() throws Exception {
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/date/{postDoDateId}/finish", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-apply-my-finish",
+                        pathParameters(
+                                parameterWithName("postDoDateId").description("게시물 참여날짜 식별자")
+                        )
+                ));
+    }
+
+    @Test
     @DisplayName("비즈니스쪽에서 해당 지원자 게시물 참여 거절 문서화")
     public void applyReject() throws Exception {
+        PostApplicantRequest.ApplyReject request = PostApplicantRequest.ApplyReject.builder().comment("조건에 해당하지 않습니다.").build();
+
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .post("/api/post/{postId}/date/{postDoDateId}/apply/reject/{userId}", 1, 1, 2)
+                .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8"));
 
@@ -89,6 +113,9 @@ class PostApplicantControllerTest extends MvcTest {
                                 parameterWithName("postId").description("게시물 식별자"),
                                 parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자"),
                                 parameterWithName("userId").description("유저(지원자) 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("comment").type(JsonFieldType.STRING).description("거절 사유")
                         )
                 ));
     }

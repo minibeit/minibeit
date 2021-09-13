@@ -1,9 +1,9 @@
 package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.post.domain.PostReview;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
@@ -23,20 +23,6 @@ public class PostResponse {
         public static PostResponse.OnlyId build(Post post) {
             return PostResponse.OnlyId.builder()
                     .id(post.getId())
-                    .build();
-        }
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class PostReviewId {
-        private Long id;
-
-        public static PostResponse.PostReviewId build(PostReview postReview) {
-            return PostResponse.PostReviewId.builder()
-                    .id(postReview.getId())
                     .build();
         }
     }
@@ -167,19 +153,33 @@ public class PostResponse {
         private Integer time;
         private String contact;
         private boolean recruitCondition;
+        private Long postDoDateId;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime doDate;
         private String status;
 
         @QueryProjection
-        public GetMyApplyList(Long id, String title, Integer time, String contact, boolean recruitCondition, LocalDateTime doDate, String status) {
+        public GetMyApplyList(Long id, String title, Integer time, String contact, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status) {
             this.id = id;
             this.title = title;
             this.time = time;
             this.contact = contact;
             this.recruitCondition = recruitCondition;
+            this.postDoDateId = postDoDateId;
             this.doDate = doDate;
             this.status = status;
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class ReviewId {
+        private Long id;
+
+        public static PostResponse.ReviewId build(BusinessProfileReview businessProfileReview) {
+            return ReviewId.builder().id(businessProfileReview.getId()).build();
         }
     }
 }

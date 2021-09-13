@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -80,7 +81,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
                         .and(postApplicant.postStatus.eq(PostStatus.APPROVE).or(postApplicant.postStatus.eq(PostStatus.WAIT))
-                                .and(postApplicant.finish.eq(false))))
+                                .and(postDoDate.doDate.before(LocalDateTime.now()))))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
@@ -91,7 +92,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     @Override
     public Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable pageable) {
-        //TODO 후기 작성하기 구현 후 후기 작성하지 않은 게시물만 보여주기
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
                         post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.postStatus.stringValue()
                 ))
@@ -99,7 +99,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(post.postDoDateList, postDoDate)
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
-                        .and(postApplicant.postStatus.eq(PostStatus.APPROVE).and(postApplicant.finish.eq(true))))
+                        .and(postApplicant.postStatus.eq(PostStatus.APPROVE)
+                                .and(postApplicant.myFinish.isTrue())
+                                .and(postApplicant.businessFinish.isTrue())
+                                .and(postApplicant.writeReview.isFalse())))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 

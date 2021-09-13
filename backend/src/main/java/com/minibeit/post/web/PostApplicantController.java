@@ -22,6 +22,12 @@ public class PostApplicantController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/date/{postDoDateId}/finish")
+    public ResponseEntity<Void> applyMyFinish(@PathVariable Long postDoDateId, @CurrentUser CustomUserDetails customUserDetails) {
+        postApplicantService.applyMyFinish(postDoDateId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
+
     @PostMapping("/date/{postDoDateId}/apply/cancel")
     public ResponseEntity<Void> applyCancel(@PathVariable Long postDoDateId, @CurrentUser CustomUserDetails customUserDetails) {
         postApplicantService.applyCancel(postDoDateId, customUserDetails.getUser());

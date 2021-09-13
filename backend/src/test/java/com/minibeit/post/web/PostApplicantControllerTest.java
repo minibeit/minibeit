@@ -75,6 +75,23 @@ class PostApplicantControllerTest extends MvcTest {
     }
 
     @Test
+    @DisplayName("피실험자가 게시물 실험완료 활성화 문서화")
+    public void applyMyFinish() throws Exception {
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/date/{postDoDateId}/finish", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-apply-my-finish",
+                        pathParameters(
+                                parameterWithName("postDoDateId").description("게시물 참여날짜 식별자")
+                        )
+                ));
+    }
+
+    @Test
     @DisplayName("비즈니스쪽에서 해당 지원자 게시물 참여 거절 문서화")
     public void applyReject() throws Exception {
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders

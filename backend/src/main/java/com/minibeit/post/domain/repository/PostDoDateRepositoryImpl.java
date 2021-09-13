@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
 
@@ -21,5 +22,15 @@ public class PostDoDateRepositoryImpl implements PostDoDateRepositoryCustom {
                                 .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                                 .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth()))))
                 .fetch();
+    }
+
+    @Override
+    public Optional<PostDoDate> findByIdWithPost(Long postDoDateId) {
+        return Optional.ofNullable(
+                queryFactory.selectFrom(postDoDate)
+                        .join(postDoDate.post).fetchJoin()
+                        .where(postDoDate.id.eq(postDoDateId))
+                        .fetchOne()
+        );
     }
 }

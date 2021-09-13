@@ -5,8 +5,6 @@ import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileReviewRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
-import com.minibeit.businessprofile.dto.BusinessProfileRequest;
-import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
@@ -84,9 +82,10 @@ public class PostService {
     public PostResponse.ReviewId createReview(Long postId, Long postDoDateId, PostRequest.CreateReview request, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         PostApplicant postApplicant = postApplicantRepository.findByUserIdAndPostDoDateId(user.getId(), postDoDateId).orElseThrow(PostApplicantNotFoundException::new);
-        if(!postApplicant.writeReviewIsPossible()){
+        if (!postApplicant.writeReviewIsPossible()) {
             throw new PermissionException();
         }
+        postApplicant.updateWriteReview();
         BusinessProfileReview businessProfileReview = BusinessProfileReview.create(post.getBusinessProfile(), request);
         BusinessProfileReview savedReview = businessProfileReviewRepository.save(businessProfileReview);
         return PostResponse.ReviewId.build(savedReview);
@@ -121,7 +120,7 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostResponse.GetMyApplyList> getListByApplyAndFinishedWithoutReview(User user, PageDto pageDto) {
+    public Page<PostResponse.GetMyApplyList> getListByApplyAndMyFinishedWithoutReview(User user, PageDto pageDto) {
         return postRepository.findByApplyAndFinishedWithoutReview(user, pageDto.of());
     }
 

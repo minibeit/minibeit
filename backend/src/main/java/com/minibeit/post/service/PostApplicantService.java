@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,7 +27,7 @@ public class PostApplicantService {
     private final UserBusinessProfileRepository userBusinessProfileRepository;
 
     public void apply(Long postId, Long postDoDateId, User user) {
-        PostDoDate postDoDate = postDoDateRepository.findByIdAndPostId(postDoDateId, postId).orElseThrow(PostDoDateNotFoundException::new);
+        PostDoDate postDoDate = postDoDateRepository.findById(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
         if (postApplicantRepository.findByPostDoDateIdAndUserId(postDoDate.getId(), user.getId()).isPresent()) {
             throw new DuplicateApplyException();
         }
@@ -35,6 +36,16 @@ public class PostApplicantService {
 
         PostApplicant postApplicant = PostApplicant.create(postDoDate, user);
         postApplicantRepository.save(postApplicant);
+    }
+
+    public void applyMyFinish(Long postDoDateId, User user) {
+        PostDoDate postDoDate = postDoDateRepository.findByIdWithPost(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
+        Post post = postDoDate.getPost();
+        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
+        if (!postDoDate.getDoDate().plusMinutes(post.getDoTime()).isBefore(LocalDateTime.now()) && !postApplicant.writeReviewIsPossible()) {
+            throw new PermissionException();
+        }
+        postApplicant.updateMyFinish();
     }
 
     public void applyApprove(Long postId, Long postDoDateId, Long userId, User user) {

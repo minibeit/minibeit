@@ -467,10 +467,10 @@ class PostControllerTest extends MvcTest {
         response.add(approveAndWaitList1);
         response.add(approveAndWaitList2);
         Page<PostResponse.GetMyApplyList> postPage = new PageImpl<>(response, PageRequest.of(1, 6), postList.size());
-        given(postService.getListByApplyAndFinishedWithoutReview(any(), any())).willReturn(postPage);
+        given(postService.getListByApplyAndMyFinishedWithoutReview(any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/apply/approve/finish/list")
+                .get("/api/post/writable/review/list")
                 .param("page", "1")
                 .param("size", "3"));
 

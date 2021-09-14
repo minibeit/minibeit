@@ -44,9 +44,9 @@ public class PostResponse {
         private Integer doTime;
         private String schoolName;
         private boolean isMine;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         private LocalDateTime startDate;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         private LocalDateTime endDate;
         private List<PostFileDto.Image> files;
         private PostDto.BusinessProfileInfo businessProfileInfo;
@@ -84,12 +84,15 @@ public class PostResponse {
         private Long id;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime startTime;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime endTime;
         private boolean isFull;
 
-        public static GetPostStartTime build(PostDoDate postDoDate) {
+        public static GetPostStartTime build(PostDoDate postDoDate, Post post) {
             return GetPostStartTime.builder()
                     .id(postDoDate.getId())
                     .startTime(postDoDate.getDoDate())
+                    .endTime(postDoDate.getDoDate().plusMinutes(post.getDoTime()))
                     .isFull(postDoDate.isFull())
                     .build();
         }
@@ -144,28 +147,32 @@ public class PostResponse {
     }
 
     @Getter
-    @Builder
     @NoArgsConstructor
     public static class GetMyApplyList {
         private Long id;
         private String title;
-        private Integer time;
         private String contact;
         private boolean recruitCondition;
         private Long postDoDateId;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         private LocalDateTime doDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime startTime;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime endTime;
         private String status;
 
+        @Builder
         @QueryProjection
         public GetMyApplyList(Long id, String title, Integer time, String contact, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status) {
             this.id = id;
             this.title = title;
-            this.time = time;
             this.contact = contact;
             this.recruitCondition = recruitCondition;
             this.postDoDateId = postDoDateId;
             this.doDate = doDate;
+            this.startTime = doDate;
+            this.endTime = doDate.plusMinutes(time);
             this.status = status;
         }
     }

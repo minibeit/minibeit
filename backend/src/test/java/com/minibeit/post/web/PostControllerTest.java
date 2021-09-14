@@ -260,8 +260,8 @@ class PostControllerTest extends MvcTest {
     @DisplayName("게시물 시작 시간 리스트 조회 문서화")
     public void getPostStartTimeList() throws Exception {
         List<PostResponse.GetPostStartTime> postStartTimeList = new ArrayList<>();
-        PostResponse.GetPostStartTime startTime1 = PostResponse.GetPostStartTime.build(postDoDate1);
-        PostResponse.GetPostStartTime startTime2 = PostResponse.GetPostStartTime.build(postDoDate2);
+        PostResponse.GetPostStartTime startTime1 = PostResponse.GetPostStartTime.build(postDoDate1,post1);
+        PostResponse.GetPostStartTime startTime2 = PostResponse.GetPostStartTime.build(postDoDate2,post1);
         postStartTimeList.add(startTime1);
         postStartTimeList.add(startTime2);
         given(postService.getPostStartTimeList(any(), any())).willReturn(postStartTimeList);
@@ -281,6 +281,7 @@ class PostControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("실험 시작 시간 식별자"),
                                 fieldWithPath("[].startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
+                                fieldWithPath("[].endTime").type(JsonFieldType.STRING).description("실험 끝나는 시간"),
                                 fieldWithPath("[].full").type(JsonFieldType.BOOLEAN).description("모집인원이 꽉찼다면 true 아니면 false")
                         )
                 ));
@@ -398,10 +399,11 @@ class PostControllerTest extends MvcTest {
                         relaxedResponseFields(
                                 fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
                                 fieldWithPath("content[].contact").type(JsonFieldType.STRING).description("게시물 연락처"),
                                 fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("게시물 조건 유무"),
                                 fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
+                                fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
+                                fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
                                 fieldWithPath("content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
@@ -452,10 +454,11 @@ class PostControllerTest extends MvcTest {
                         relaxedResponseFields(
                                 fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
                                 fieldWithPath("content[].contact").type(JsonFieldType.STRING).description("게시물 연락처"),
                                 fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("게시물 조건 유무"),
                                 fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
+                                fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
+                                fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
                                 fieldWithPath("content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),

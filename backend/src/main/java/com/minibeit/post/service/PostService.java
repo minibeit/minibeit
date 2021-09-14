@@ -83,7 +83,7 @@ public class PostService {
     public List<PostResponse.GetPostStartTime> getPostStartTimeList(Long postId, LocalDate doDate) {
         List<PostDoDate> postDoDateList = postDoDateRepository.findAllByPostIdAndDoDate(postId, doDate);
 
-        return postDoDateList.stream().map(PostResponse.GetPostStartTime::build).collect(Collectors.toList());
+        return postDoDateList.stream().map(postDoDate -> PostResponse.GetPostStartTime.build(postDoDate, postDoDate.getPost())).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

@@ -1,7 +1,6 @@
 package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.security.userdetails.CustomUserDetails;
@@ -168,18 +167,6 @@ public class PostResponse {
             this.postDoDateId = postDoDateId;
             this.doDate = doDate;
             this.status = status;
-        }
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class ReviewId {
-        private Long id;
-
-        public static PostResponse.ReviewId build(BusinessProfileReview businessProfileReview) {
-            return ReviewId.builder().id(businessProfileReview.getId()).build();
         }
     }
 }

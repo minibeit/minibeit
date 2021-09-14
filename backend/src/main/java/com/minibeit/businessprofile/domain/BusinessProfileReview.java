@@ -1,7 +1,7 @@
 package com.minibeit.businessprofile.domain;
 
+import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.post.dto.PostRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -28,7 +28,7 @@ public class BusinessProfileReview extends BaseEntity {
     @JoinColumn(name = "business_profile_id")
     private BusinessProfile businessProfile;
 
-    public static BusinessProfileReview create(BusinessProfile businessProfile, PostRequest.CreateReview request) {
+    public static BusinessProfileReview create(BusinessProfile businessProfile, BusinessProfilesReviewRequest.CreateReview request) {
         return BusinessProfileReview.builder()
                 .postTitle(request.getPostTitle())
                 .content(request.getContent())

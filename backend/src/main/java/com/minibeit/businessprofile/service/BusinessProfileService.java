@@ -3,10 +3,8 @@ package com.minibeit.businessprofile.service;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
-import com.minibeit.businessprofile.domain.repository.BusinessProfileReviewRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
@@ -14,12 +12,6 @@ import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundExc
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostApplicant;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
-import com.minibeit.post.domain.repository.PostRepository;
-import com.minibeit.post.service.exception.PostApplicantNotFoundException;
-import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
@@ -49,6 +41,19 @@ public class BusinessProfileService {
         return BusinessProfileResponse.IdAndName.build(savedBusinessProfile);
     }
 
+    public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request, User user) {
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+
+        permissionCheck(user, businessProfile);
+        if (request.isAvatarChanged()) {
+            avatarService.deleteOne(businessProfile.getAvatar());
+            Avatar file = avatarService.upload(request.getAvatar());
+            businessProfile.updateAvatar(file);
+        }
+        businessProfile.update(request);
+        return BusinessProfileResponse.IdAndName.build(businessProfile);
+    }
+
     @Transactional(readOnly = true)
     public List<BusinessProfileResponse.GetList> getListIsMine(Long userId) {
         List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(userId);
@@ -61,19 +66,6 @@ public class BusinessProfileService {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
         return BusinessProfileResponse.GetOne.build(businessProfile, user);
-    }
-
-    public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request, User user) {
-        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-
-        permissionCheck(user, businessProfile);
-        if (request.isAvatarChanged()) {
-            avatarService.deleteOne(businessProfile.getAvatar());
-            Avatar file = avatarService.upload(request.getAvatar());
-            businessProfile.updateAvatar(file);
-        }
-        businessProfile.update(request);
-        return BusinessProfileResponse.IdAndName.build(businessProfile);
     }
 
     public void delete(Long businessProfileId, User user) {

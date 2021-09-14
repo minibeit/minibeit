@@ -214,38 +214,6 @@ class PostControllerTest extends MvcTest {
     }
 
     @Test
-    @DisplayName("게시물 후기 작성 문서화")
-    public void createReview() throws Exception {
-        PostRequest.CreateReview request = PostRequest.CreateReview.builder().postTitle("게시물 제목").content("게시물 후기 내용").doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build();
-        PostResponse.ReviewId response = PostResponse.ReviewId.builder().id(1L).build();
-        given(postService.createReview(any(), any(), any(), any())).willReturn(response);
-
-        ResultActions result = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/post/{postId}/review/{postDoDateId}", 1, 2)
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-        );
-
-        result.andExpect(status().isCreated())
-                .andDo(print())
-                .andDo(document("post-review-create",
-                        pathParameters(
-                                parameterWithName("postId").description("후기 작성할 게시물 식별자"),
-                                parameterWithName("postDoDateId").description("후기 작성할 게시물 시작 날짜 식별자")
-                        ),
-                        requestFields(
-                                fieldWithPath("postTitle").type(JsonFieldType.STRING).description("후기 작성할 게시물 제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("후기 내용"),
-                                fieldWithPath("doDate").type(JsonFieldType.STRING).description("후기 작성할 게시물 시작 날짜")
-                        ),
-                        responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("작성한 게시물 후기 식별자")
-                        )
-                ));
-    }
-
-    @Test
     @DisplayName("게시물 단건 조회 문서화")
     public void getOne() throws Exception {
         CustomUserDetails customUserDetails = CustomUserDetails.create(user);

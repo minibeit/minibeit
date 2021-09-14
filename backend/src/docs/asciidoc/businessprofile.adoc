@@ -117,3 +117,17 @@ include::{snippets}/user-list-in-businessprofile/path-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/user-list-in-businessprofile/http-response.adoc[]
+
+== 비즈니스 프로필 후기 관련 API
+=== 비즈니스 프로필 후기 작성하기
+
+`POST /api/post/{postId}/review/{postDoDateId}`
+
+요청 HTTP
+include::{snippets}/business-review-create/http-request.adoc[]
+include::{snippets}/business-review-create/path-parameters.adoc[]
+include::{snippets}/business-review-create/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-review-create/http-response.adoc[]
+include::{snippets}/business-review-create/response-fields.adoc[]

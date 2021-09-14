@@ -1,21 +1,17 @@
 package com.minibeit.post.service;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
-import com.minibeit.businessprofile.domain.repository.BusinessProfileReviewRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
-import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
@@ -41,10 +37,8 @@ public class PostService {
     private final PostFileService postFileService;
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
-    private final PostApplicantRepository postApplicantRepository;
     private final PostDoDateRepository postDoDateRepository;
     private final PostLikeRepository postLikeRepository;
-    private final BusinessProfileReviewRepository businessProfileReviewRepository;
 
     public PostResponse.OnlyId createInfo(PostRequest.CreateInfo request, User user) {
         permissionCheck(request.getBusinessProfileId(), user);
@@ -77,18 +71,6 @@ public class PostService {
         } else {
             postLikeRepository.delete(findPostLike.get());
         }
-    }
-
-    public PostResponse.ReviewId createReview(Long postId, Long postDoDateId, PostRequest.CreateReview request, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        PostApplicant postApplicant = postApplicantRepository.findByUserIdAndPostDoDateId(user.getId(), postDoDateId).orElseThrow(PostApplicantNotFoundException::new);
-        if (!postApplicant.writeReviewIsPossible()) {
-            throw new PermissionException();
-        }
-        postApplicant.updateWriteReview();
-        BusinessProfileReview businessProfileReview = BusinessProfileReview.create(post.getBusinessProfile(), request);
-        BusinessProfileReview savedReview = businessProfileReviewRepository.save(businessProfileReview);
-        return PostResponse.ReviewId.build(savedReview);
     }
 
     @Transactional(readOnly = true)

@@ -8,6 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
 
 @RequiredArgsConstructor
@@ -17,7 +18,8 @@ public class PostDoDateRepositoryImpl implements PostDoDateRepositoryCustom {
     @Override
     public List<PostDoDate> findAllByPostIdAndDoDate(Long postId, LocalDate doDate) {
         return queryFactory.selectFrom(postDoDate)
-                .where(postDoDate.post.id.eq(postId)
+                .join(postDoDate.post, post).fetchJoin()
+                .where(post.id.eq(postId)
                         .and(postDoDate.doDate.year().eq(doDate.getYear())
                                 .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                                 .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth()))))

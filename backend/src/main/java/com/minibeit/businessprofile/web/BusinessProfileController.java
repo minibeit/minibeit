@@ -21,21 +21,10 @@ public class BusinessProfileController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BusinessProfileResponse.IdAndName> create(BusinessProfileRequest.Create request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<BusinessProfileResponse.IdAndName> create(BusinessProfileRequest.Create request,
+                                                                    @CurrentUser CustomUserDetails customUserDetails) {
         BusinessProfileResponse.IdAndName response = businessProfileService.create(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/business/profile/" + response.getId())).body(response);
-    }
-
-    @GetMapping("/list/{userId}")
-    public ResponseEntity<List<BusinessProfileResponse.GetList>> getListIsMine(@PathVariable Long userId) {
-        List<BusinessProfileResponse.GetList> response = businessProfileService.getListIsMine(userId);
-        return ResponseEntity.ok().body(response);
-    }
-
-    @GetMapping("/{businessProfileId}")
-    public ResponseEntity<BusinessProfileResponse.GetOne> getOne(@PathVariable Long businessProfileId, @CurrentUser CustomUserDetails customUserDetails) {
-        BusinessProfileResponse.GetOne response = businessProfileService.getOne(businessProfileId, customUserDetails.getUser());
-        return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("/{businessProfileId}")
@@ -44,13 +33,6 @@ public class BusinessProfileController {
                                                                     @CurrentUser CustomUserDetails customUserDetails) {
         BusinessProfileResponse.IdAndName response = businessProfileService.update(businessProfileId, request, customUserDetails.getUser());
         return ResponseEntity.ok().body(response);
-    }
-
-    @DeleteMapping("/{businessProfileId}")
-    public ResponseEntity<Void> delete(@PathVariable Long businessProfileId,
-                                       @CurrentUser CustomUserDetails customUserDetails) {
-        businessProfileService.delete(businessProfileId, customUserDetails.getUser());
-        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{businessProfileId}/share")
@@ -66,6 +48,26 @@ public class BusinessProfileController {
                                             @PathVariable Long userId,
                                             @CurrentUser CustomUserDetails customUserDetails) {
         businessProfileService.transferOfAuthority(businessProfileId, userId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/list/{userId}")
+    public ResponseEntity<List<BusinessProfileResponse.GetList>> getListIsMine(@PathVariable Long userId) {
+        List<BusinessProfileResponse.GetList> response = businessProfileService.getListIsMine(userId);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/{businessProfileId}")
+    public ResponseEntity<BusinessProfileResponse.GetOne> getOne(@PathVariable Long businessProfileId,
+                                                                 @CurrentUser CustomUserDetails customUserDetails) {
+        BusinessProfileResponse.GetOne response = businessProfileService.getOne(businessProfileId, customUserDetails.getUser());
+        return ResponseEntity.ok().body(response);
+    }
+
+    @DeleteMapping("/{businessProfileId}")
+    public ResponseEntity<Void> delete(@PathVariable Long businessProfileId,
+                                       @CurrentUser CustomUserDetails customUserDetails) {
+        businessProfileService.delete(businessProfileId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 

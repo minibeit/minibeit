@@ -8,7 +8,7 @@ import { userState } from "../../../recoil/userState";
 
 PBtnContainer.propTypes = {
   getFeedList: PropTypes.func.isRequired,
-  totalPages: PropTypes.number.isRequired,
+  totalPages: PropTypes.number,
 };
 
 export default function PBtnContainer({ getFeedList, totalPages }) {
@@ -16,7 +16,11 @@ export default function PBtnContainer({ getFeedList, totalPages }) {
   const user = useRecoilValue(userState);
 
   const movePage = (e) => {
-    console.log(e.target.textContent);
+    const page = e.target.textContent;
+    const schoolId = filter.schoolId ? filter.schoolId : user.schoolId;
+    const date = filter.date;
+    const payment = filter.payment;
+    getFeedList(page, schoolId, date, payment);
   };
 
   return (

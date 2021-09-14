@@ -1,9 +1,11 @@
 package com.minibeit.businessprofile.web;
 
 import com.minibeit.MvcTest;
+import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.businessprofile.dto.BusinessProfileReviewResponse;
 import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
 import com.minibeit.businessprofile.service.BusinessProfileReviewService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -29,10 +31,23 @@ class BusinessProfileReviewControllerTest extends MvcTest {
     @MockBean
     private BusinessProfileReviewService businessProfileReviewService;
 
+    private BusinessProfileReview businessProfileReview;
+
+    @BeforeEach
+    public void setup() {
+        businessProfileReview = BusinessProfileReview.builder()
+                .id(1L)
+                .postTitle("실험 주제")
+                .content("실험실이 좋았습니다")
+                .time(60)
+                .doDate(LocalDateTime.of(2021, 9, 15, 9, 30))
+                .build();
+    }
+
     @Test
-    @DisplayName("게시물 후기 작성 문서화")
-    public void createReview() throws Exception {
-        BusinessProfilesReviewRequest.CreateReview request = BusinessProfilesReviewRequest.CreateReview.builder().postTitle("게시물 제목").content("게시물 후기 내용").doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build();
+    @DisplayName("비즈니스프로필 후기 작성 문서화")
+    public void create() throws Exception {
+        BusinessProfilesReviewRequest.CreateReview request = BusinessProfilesReviewRequest.CreateReview.builder().postTitle("게시물 제목").content("게시물 후기 내용").time(60).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build();
         BusinessProfileReviewResponse.ReviewId response = BusinessProfileReviewResponse.ReviewId.builder().id(1L).build();
         given(businessProfileReviewService.createReview(any(), any(), any(), any())).willReturn(response);
 
@@ -53,10 +68,38 @@ class BusinessProfileReviewControllerTest extends MvcTest {
                         requestFields(
                                 fieldWithPath("postTitle").type(JsonFieldType.STRING).description("후기 작성할 게시물 제목"),
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("후기 내용"),
-                                fieldWithPath("doDate").type(JsonFieldType.STRING).description("후기 작성할 게시물 시작 날짜")
+                                fieldWithPath("doDate").type(JsonFieldType.STRING).description("후기 작성할 게시물 시작 날짜"),
+                                fieldWithPath("time").type(JsonFieldType.NUMBER).description("후기 작성할 게시물 실험 소요 시간")
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("작성한 게시물 후기 식별자")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("비즈니스프로필 후기 단건 조회")
+    public void getOne() throws Exception {
+        BusinessProfileReviewResponse.GetOne response = BusinessProfileReviewResponse.GetOne.build(businessProfileReview);
+        given(businessProfileReviewService.getOne(any())).willReturn(response);
+
+        ResultActions result = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/business/profile/review/{businessProfileReviewId}", 1)
+        );
+
+        result.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-review-getOne",
+                        pathParameters(
+                                parameterWithName("businessProfileReviewId").description("조회할 리뷰 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("후기 식별자"),
+                                fieldWithPath("postTitle").type(JsonFieldType.STRING).description("게시물 제목"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("후기 내용"),
+                                fieldWithPath("doDate").type(JsonFieldType.STRING).description("실험 참가 날짜"),
+                                fieldWithPath("startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
+                                fieldWithPath("endTime").type(JsonFieldType.STRING).description("실험 마친 시간")
                         )
                 ));
     }

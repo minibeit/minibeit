@@ -4,6 +4,7 @@ import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileReviewRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileReviewResponse;
 import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
+import com.minibeit.businessprofile.service.exception.BusinessProfileReviewNotFoundException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostApplicant;
@@ -34,5 +35,11 @@ public class BusinessProfileReviewService {
         BusinessProfileReview businessProfileReview = BusinessProfileReview.create(post.getBusinessProfile(), request);
         BusinessProfileReview savedReview = businessProfileReviewRepository.save(businessProfileReview);
         return BusinessProfileReviewResponse.ReviewId.build(savedReview);
+    }
+
+    @Transactional(readOnly = true)
+    public BusinessProfileReviewResponse.GetOne getOne(Long businessProfileReviewId) {
+        BusinessProfileReview businessProfileReview = businessProfileReviewRepository.findById(businessProfileReviewId).orElseThrow(BusinessProfileReviewNotFoundException::new);
+        return BusinessProfileReviewResponse.GetOne.build(businessProfileReview);
     }
 }

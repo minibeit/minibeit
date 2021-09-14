@@ -13,6 +13,7 @@ public class BusinessProfilesReviewRequest {
     public static class CreateReview {
         private String postTitle;
         private String content;
+        private Integer time;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime doDate;
     }

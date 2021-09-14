@@ -14,14 +14,23 @@ import java.net.URI;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/post")
+@RequestMapping("/api")
 public class BusinessProfileReviewController {
     private final BusinessProfileReviewService businessProfileReviewService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/{postId}/review/{postDoDateId}")
-    public ResponseEntity<BusinessProfileReviewResponse.ReviewId> createReview(@PathVariable Long postId, @PathVariable Long postDoDateId, @RequestBody BusinessProfilesReviewRequest.CreateReview request, @CurrentUser CustomUserDetails customUserDetails) {
+    @PostMapping("/post/{postId}/review/{postDoDateId}")
+    public ResponseEntity<BusinessProfileReviewResponse.ReviewId> create(@PathVariable Long postId,
+                                                                         @PathVariable Long postDoDateId,
+                                                                         @RequestBody BusinessProfilesReviewRequest.CreateReview request,
+                                                                         @CurrentUser CustomUserDetails customUserDetails) {
         BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.createReview(postId, postDoDateId, request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/review/" + response.getId())).body(response);
+    }
+
+    @GetMapping("/business/profile/review/{businessProfileReviewId}")
+    public ResponseEntity<BusinessProfileReviewResponse.GetOne> getOne(@PathVariable Long businessProfileReviewId) {
+        BusinessProfileReviewResponse.GetOne response = businessProfileReviewService.getOne(businessProfileReviewId);
+        return ResponseEntity.ok().body(response);
     }
 }

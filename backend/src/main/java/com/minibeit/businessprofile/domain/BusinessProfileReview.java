@@ -22,6 +22,8 @@ public class BusinessProfileReview extends BaseEntity {
 
     private String content;
 
+    private Integer time;
+
     private LocalDateTime doDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -33,6 +35,7 @@ public class BusinessProfileReview extends BaseEntity {
                 .postTitle(request.getPostTitle())
                 .content(request.getContent())
                 .doDate(request.getDoDate())
+                .time(request.getTime())
                 .businessProfile(businessProfile)
                 .build();
     }

@@ -131,3 +131,15 @@ include::{snippets}/business-review-create/request-fields.adoc[]
 성공 응답 HTTP
 include::{snippets}/business-review-create/http-response.adoc[]
 include::{snippets}/business-review-create/response-fields.adoc[]
+
+=== 비즈니스 프로필 후기 단건 조회
+
+`GET /api/business/profile/review/{businessProfileReviewId}`
+
+요청 HTTP
+include::{snippets}/business-review-getOne/http-request.adoc[]
+include::{snippets}/business-review-getOne/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-review-getOne/http-response.adoc[]
+include::{snippets}/business-review-getOne/response-fields.adoc[]

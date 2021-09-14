@@ -1,0 +1,15 @@
+POST {{apiUrl}}/post/1/review/1
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "postTitle": "게시물 제목",
+  "content": "후기작성",
+  "time": "60",
+  "doDate": "2021-09-09T09:30"
+}
+
+###
+GET {{apiUrl}}/business/profile/review/1
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}

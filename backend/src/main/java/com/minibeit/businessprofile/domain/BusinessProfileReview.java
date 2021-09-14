@@ -30,7 +30,11 @@ public class BusinessProfileReview extends BaseEntity {
     @JoinColumn(name = "business_profile_id")
     private BusinessProfile businessProfile;
 
-    public static BusinessProfileReview create(BusinessProfile businessProfile, BusinessProfilesReviewRequest.CreateReview request) {
+    public void update(String content) {
+        this.content = content;
+    }
+
+    public static BusinessProfileReview create(BusinessProfile businessProfile, BusinessProfilesReviewRequest.Create request) {
         return BusinessProfileReview.builder()
                 .postTitle(request.getPostTitle())
                 .content(request.getContent())

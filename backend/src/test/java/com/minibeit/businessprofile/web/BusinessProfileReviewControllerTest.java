@@ -47,9 +47,9 @@ class BusinessProfileReviewControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스프로필 후기 작성 문서화")
     public void create() throws Exception {
-        BusinessProfilesReviewRequest.CreateReview request = BusinessProfilesReviewRequest.CreateReview.builder().postTitle("게시물 제목").content("게시물 후기 내용").time(60).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build();
+        BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder().postTitle("게시물 제목").content("게시물 후기 내용").time(60).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build();
         BusinessProfileReviewResponse.ReviewId response = BusinessProfileReviewResponse.ReviewId.builder().id(1L).build();
-        given(businessProfileReviewService.createReview(any(), any(), any(), any())).willReturn(response);
+        given(businessProfileReviewService.create(any(), any(), any(), any())).willReturn(response);
 
         ResultActions result = mvc.perform(RestDocumentationRequestBuilders
                 .post("/api/post/{postId}/review/{postDoDateId}", 1, 2)
@@ -100,6 +100,51 @@ class BusinessProfileReviewControllerTest extends MvcTest {
                                 fieldWithPath("doDate").type(JsonFieldType.STRING).description("실험 참가 날짜"),
                                 fieldWithPath("startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
                                 fieldWithPath("endTime").type(JsonFieldType.STRING).description("실험 마친 시간")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("비즈니스프로필 후기 수정 문서화")
+    public void update() throws Exception {
+        BusinessProfilesReviewRequest.Update request = BusinessProfilesReviewRequest.Update.builder().content("게시물 후기 수정된 내욜").build();
+        BusinessProfileReviewResponse.ReviewId response = BusinessProfileReviewResponse.ReviewId.builder().id(1L).build();
+        given(businessProfileReviewService.update(any(), any(), any())).willReturn(response);
+
+        ResultActions result = mvc.perform(RestDocumentationRequestBuilders
+                .put("/api/business/profile/review/{businessProfileReviewId}", 1)
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+        );
+
+        result.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-review-update",
+                        pathParameters(
+                                parameterWithName("businessProfileReviewId").description("후기 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("수정할 후기 내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("수정한 게시물 후기 식별자")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("비즈니스프로필 후기 삭제 문서화")
+    public void deleteOne() throws Exception {
+        ResultActions result = mvc.perform(RestDocumentationRequestBuilders
+                .delete("/api/business/profile/review/{businessProfileReviewId}", 1)
+        );
+
+        result.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-review-deleteOne",
+                        pathParameters(
+                                parameterWithName("businessProfileReviewId").description("후기 식별자")
                         )
                 ));
     }

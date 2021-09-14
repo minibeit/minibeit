@@ -25,7 +25,7 @@ public class BusinessProfileReviewService {
     private final PostApplicantRepository postApplicantRepository;
     private final BusinessProfileReviewRepository businessProfileReviewRepository;
 
-    public BusinessProfileReviewResponse.ReviewId createReview(Long postId, Long postDoDateId, BusinessProfilesReviewRequest.CreateReview request, User user) {
+    public BusinessProfileReviewResponse.ReviewId create(Long postId, Long postDoDateId, BusinessProfilesReviewRequest.Create request, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         PostApplicant postApplicant = postApplicantRepository.findByUserIdAndPostDoDateId(user.getId(), postDoDateId).orElseThrow(PostApplicantNotFoundException::new);
         if (!postApplicant.writeReviewIsPossible()) {
@@ -41,5 +41,24 @@ public class BusinessProfileReviewService {
     public BusinessProfileReviewResponse.GetOne getOne(Long businessProfileReviewId) {
         BusinessProfileReview businessProfileReview = businessProfileReviewRepository.findById(businessProfileReviewId).orElseThrow(BusinessProfileReviewNotFoundException::new);
         return BusinessProfileReviewResponse.GetOne.build(businessProfileReview);
+    }
+
+    public BusinessProfileReviewResponse.ReviewId update(Long businessProfileReviewId, BusinessProfilesReviewRequest.Update request, User user) {
+        BusinessProfileReview businessProfileReview = businessProfileReviewRepository.findById(businessProfileReviewId).orElseThrow(BusinessProfileReviewNotFoundException::new);
+        permissionCheck(user, businessProfileReview);
+        businessProfileReview.update(request.getContent());
+        return BusinessProfileReviewResponse.ReviewId.build(businessProfileReview);
+    }
+
+    public void deleteOne(Long businessProfileReviewId, User user) {
+        BusinessProfileReview businessProfileReview = businessProfileReviewRepository.findById(businessProfileReviewId).orElseThrow(BusinessProfileReviewNotFoundException::new);
+        permissionCheck(user, businessProfileReview);
+        businessProfileReviewRepository.delete(businessProfileReview);
+    }
+
+    private void permissionCheck(User user, BusinessProfileReview businessProfileReview) {
+        if (!businessProfileReview.getCreatedBy().getId().equals(user.getId())) {
+            throw new PermissionException();
+        }
     }
 }

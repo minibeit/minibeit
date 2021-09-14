@@ -413,7 +413,7 @@ class PostControllerTest extends MvcTest {
     }
 
     @Test
-    @DisplayName("자신이 후기 작서할 수 있는 게시물 목록 조회 (status = APPROVE, finish=true)")
+    @DisplayName("자신이 후기 작성할 수 있는 게시물 목록 조회 (status = APPROVE, finish=true)")
     public void getListByApplyAndFinishedWithoutReview() throws Exception {
         List<PostResponse.GetMyApplyList> response = new ArrayList<>();
         PostResponse.GetMyApplyList approveAndWaitList1 = PostResponse.GetMyApplyList.builder()
@@ -423,6 +423,7 @@ class PostControllerTest extends MvcTest {
                 .time(60)
                 .doDate(LocalDateTime.of(2021, 9, 10, 9, 30))
                 .recruitCondition(true)
+                .postDoDateId(1L)
                 .status(PostStatus.APPROVE.name())
                 .build();
         PostResponse.GetMyApplyList approveAndWaitList2 = PostResponse.GetMyApplyList.builder()
@@ -432,6 +433,7 @@ class PostControllerTest extends MvcTest {
                 .time(120)
                 .doDate(LocalDateTime.of(2021, 9, 10, 12, 30))
                 .recruitCondition(true)
+                .postDoDateId(2L)
                 .status(PostStatus.APPROVE.name())
                 .build();
         response.add(approveAndWaitList1);

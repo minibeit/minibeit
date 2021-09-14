@@ -22,9 +22,9 @@ public class BusinessProfileReviewController {
     @PostMapping("/post/{postId}/review/{postDoDateId}")
     public ResponseEntity<BusinessProfileReviewResponse.ReviewId> create(@PathVariable Long postId,
                                                                          @PathVariable Long postDoDateId,
-                                                                         @RequestBody BusinessProfilesReviewRequest.CreateReview request,
+                                                                         @RequestBody BusinessProfilesReviewRequest.Create request,
                                                                          @CurrentUser CustomUserDetails customUserDetails) {
-        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.createReview(postId, postDoDateId, request, customUserDetails.getUser());
+        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.create(postId, postDoDateId, request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/review/" + response.getId())).body(response);
     }
 
@@ -32,5 +32,20 @@ public class BusinessProfileReviewController {
     public ResponseEntity<BusinessProfileReviewResponse.GetOne> getOne(@PathVariable Long businessProfileReviewId) {
         BusinessProfileReviewResponse.GetOne response = businessProfileReviewService.getOne(businessProfileReviewId);
         return ResponseEntity.ok().body(response);
+    }
+
+    @PutMapping("/business/profile/review/{businessProfileReviewId}")
+    public ResponseEntity<BusinessProfileReviewResponse.ReviewId> update(@PathVariable Long businessProfileReviewId,
+                                                                         @RequestBody BusinessProfilesReviewRequest.Update request,
+                                                                         @CurrentUser CustomUserDetails customUserDetails) {
+        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.update(businessProfileReviewId, request, customUserDetails.getUser());
+        return ResponseEntity.ok().body(response);
+    }
+
+    @DeleteMapping("/business/profile/review/{businessProfileReviewId}")
+    public ResponseEntity<Void> deleteOne(@PathVariable Long businessProfileReviewId,
+                                          @CurrentUser CustomUserDetails customUserDetails) {
+        businessProfileReviewService.deleteOne(businessProfileReviewId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
     }
 }

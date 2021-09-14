@@ -13,3 +13,17 @@ Authorization: {{authorizationToken}}
 GET {{apiUrl}}/business/profile/review/1
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
+
+###
+PUT {{apiUrl}}/business/profile/review/1
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "content": "후기수정2"
+}
+
+###
+DELETE {{apiUrl}}/business/profile/review/1
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}

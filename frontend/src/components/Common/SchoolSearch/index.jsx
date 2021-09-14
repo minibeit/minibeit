@@ -63,7 +63,6 @@ export default function SchoolSearch({ use }) {
     e.target.parentNode.previousSibling.value = e.target.textContent;
     setListSwitch(false);
   };
-
   useEffect(() => {
     searchSchool();
   }, []);
@@ -71,7 +70,7 @@ export default function SchoolSearch({ use }) {
     <S.SchoolSearchBox>
       <S.SearchInput
         defaultValue={
-          schoolItem
+          user.schoolId && schoolItem
             ? schoolItem.find((ele) => ele.id === user.schoolId).name
             : null
         }

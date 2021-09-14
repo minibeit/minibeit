@@ -80,25 +80,23 @@ export default function PTimeSelectBox({
 // 시작날짜와 끝날짜를 입력하면 사이날짜를 뽑아주는 로직
 const createDoDateList = (startDate, endDate) => {
   let dateList = [];
-  startDate = new Date(startDate);
-  if (startDate.toISOString().slice(0, 10) === endDate.slice(0, 10)) {
-    dateList.push(startDate.toISOString().slice(0, 10));
+
+  const date = new Date(startDate);
+  if (startDate === endDate) {
+    dateList.push(startDate);
   } else {
-    while (startDate.toISOString().slice(0, 10) < endDate.slice(0, 10)) {
+    while (date.toISOString().slice(0, 10) <= endDate) {
       dateList.push(
-        `${startDate.getFullYear()}-${
-          startDate.getMonth() + 1 < 10
-            ? `0${startDate.getMonth() + 1}`
-            : startDate.getMonth() + 1
-        }-${
-          startDate.getDate() < 10
-            ? `0${startDate.getDate()}`
-            : startDate.getDate()
-        }`
+        `${date.getFullYear()}-${
+          date.getMonth() + 1 < 10
+            ? `0${date.getMonth() + 1}`
+            : date.getMonth() + 1
+        }-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
       );
-      startDate.setDate(startDate.getDate() + 1);
+      date.setDate(date.getDate() + 1);
     }
   }
+  console.log(dateList);
   return dateList;
 };
 

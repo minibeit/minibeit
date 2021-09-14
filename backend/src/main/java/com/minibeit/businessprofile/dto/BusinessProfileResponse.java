@@ -2,6 +2,7 @@ package com.minibeit.businessprofile.dto;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
+import com.minibeit.post.domain.Post;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
@@ -68,5 +69,29 @@ public class BusinessProfileResponse {
             }
             return getListBuilder.build();
         }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class PostList{
+
+        private String title;
+        private Integer numberOfPostLike;
+
+        public static BusinessProfileResponse.PostList build(Post post){
+
+            return PostList.builder().title(post.getTitle()).numberOfPostLike(getPostLike(post)).build();
+        }
+
+        private static int getPostLike(Post post) {
+            if(post.getPostLikeList() == null){
+                return 0;
+            }
+            return post.getPostLikeList().size();
+        }
+
+
     }
 }

@@ -6,7 +6,12 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
+import com.minibeit.common.dto.PageDto;
 import com.minibeit.file.domain.File;
+import com.minibeit.post.domain.Payment;
+import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.PostFile;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.Role;
@@ -18,6 +23,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -25,8 +31,11 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -34,6 +43,7 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -44,6 +54,7 @@ class BusinessProfileControllerTest extends MvcTest {
 
     private BusinessProfile businessProfile;
     private User user1;
+    private Post post1;
 
     @BeforeEach
     public void setup() {
@@ -70,6 +81,27 @@ class BusinessProfileControllerTest extends MvcTest {
                 .school(School.builder().id(1L).name("고려대").build())
                 .build();
         businessProfile.setCreatedBy(user1);
+
+        post1 = Post.builder()
+                .id(1L)
+                .title("동그라미 실험실")
+                .content("실험실 세부사항")
+                .place("고려대")
+                .contact("010-1234-5786")
+                .recruitPeople(10)
+                .payment(Payment.CACHE)
+                .paymentCache(50000)
+                .recruitCondition(true)
+                .recruitConditionDetail("운전면허 있는 사람만")
+                .doTime(120)
+                .startDate(LocalDateTime.of(2021, 9, 3, 9, 30))
+                .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
+                .school(School.builder().id(1L).name("고려대학교").build())
+                .businessProfile(businessProfile)
+                .postDoDateList(Collections.singletonList(PostDoDate.builder().id(1L).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build()))
+                .postFileList(Collections.singletonList(PostFile.builder().id(1L).url("profile image url").build()))
+                .build();
+        post1.setCreatedBy(user1);
     }
 
     @Test
@@ -274,6 +306,47 @@ class BusinessProfileControllerTest extends MvcTest {
                         pathParameters(
                                 parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
                                 parameterWithName("userId").description("삭제할 유저의 식별자")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("생성한 실험 리스트 문서화")
+    public void postList() throws Exception{
+
+        List<Post> postList = new ArrayList<>();
+        postList.add(post1);
+        List<BusinessProfileResponse.PostList> collect = postList.stream().map(BusinessProfileResponse.PostList::build).collect(Collectors.toList());
+        PageDto pageDto = new PageDto(1,5);
+        pageDto.setSort("new");
+
+        Page<BusinessProfileResponse.PostList> postPage = new PageImpl<>(collect, pageDto.of(pageDto.getSort()), collect.size());
+
+        given(businessProfileService.postList(any(), any())).willReturn(postPage);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/business/profile/{businessProfileId}/posts",1)
+                .param("page", "1")
+                .param("size", "10")
+                .param("sort", "new"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-profile-postList",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("조회할 페이지"),
+                                parameterWithName("size").description("조회할 사이즈"),
+                                parameterWithName("sort").description("new: 최신 순서, recruiting: 게시물 모집중 순서")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("content[].numberOfPostLike").type(JsonFieldType.NUMBER).description("즐겨찾기 수"),
+                                fieldWithPath("totalElements").description("전체 개수"),
+                                fieldWithPath("last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("totalPages").description("전체 페이지")
                         )
                 ));
     }

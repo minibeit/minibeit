@@ -9,13 +9,20 @@ import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
+import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.file.domain.File;
 import com.minibeit.file.service.FileService;
+import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +35,7 @@ import java.util.stream.Collectors;
 public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
+    private final PostRepository postRepository;
     private final UserRepository userRepository;
     private final FileService fileService;
 
@@ -41,6 +49,7 @@ public class BusinessProfileService {
         return BusinessProfileResponse.IdAndName.build(savedBusinessProfile);
     }
 
+    //user의 bsuinessProfile list 조회
     @Transactional(readOnly = true)
     public List<BusinessProfileResponse.GetList> getListIsMine(Long userId) {
         List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(userId);
@@ -105,6 +114,15 @@ public class BusinessProfileService {
         permissionCheck(user, businessProfile);
         User changeUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         businessProfile.changeAdmin(changeUser);
+    }
+
+
+    public Page<BusinessProfileResponse.PostList> postList(Long businessProfileId, PageDto pageDto){
+        Page<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, pageDto.of(), pageDto.getSort());
+        List<BusinessProfileResponse.PostList> postLists = posts.stream().map(BusinessProfileResponse.PostList::build).collect(Collectors.toList());
+
+        return new PageImpl<>(postLists, pageDto.of(pageDto.getSort()), posts.getTotalElements());
+
     }
 
     private void permissionCheck(User user, BusinessProfile businessProfile) {

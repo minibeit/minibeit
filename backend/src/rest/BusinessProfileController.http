@@ -86,4 +86,11 @@ POST {{apiUrl}}/business/profile/3/change/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
+###
+GET {{apiUrl}}/business/profile/2/posts?page=2&size=5&sort=new
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+
+
 

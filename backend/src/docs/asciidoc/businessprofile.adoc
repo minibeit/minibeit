@@ -106,6 +106,19 @@ include::{snippets}/business-profile-change-admin/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/business-profile-change-admin/http-response.adoc[]
 
+
+=== 비즈니스 프로필 게시물 리스트
+
+`GET /api/business/profile/{businessProfileId}/posts`
+
+요청 HTTP
+include::{snippets}/business-profile-postList/http-request.adoc[]
+include::{snippets}/business-profile-postList/path-parameters.adoc[]
+include::{snippets}/business-profile-postList/request-parameters.adoc[]
+성공 응답 HTTP
+include::{snippets}/business-profile-postList/http-response.adoc[]
+include::{snippets}/business-profile-postList/response-fields.adoc[]
+
 == User 관련 API
 === 해당 비즈니스 프로필을 가지고 있는 유저 조회
 

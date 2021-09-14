@@ -12,4 +12,6 @@ public interface PostRepositoryCustom {
     Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, Pageable pageable);
 
     Optional<Post> findByIdWithBusinessProfile(Long postId);
+
+    Page<Post> findAllByBusinessProfileId(Long businessProfileId, Pageable pageable, String sort);
 }

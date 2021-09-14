@@ -3,13 +3,17 @@ package com.minibeit.post.domain.repository;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.querydsl.core.QueryResults;
+import com.querydsl.core.types.Order;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -49,6 +53,27 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(post.businessProfile, businessProfile).fetchJoin()
                 .where(post.id.eq(postId))
                 .fetchOne());
+    }
+
+    @Override
+    public Page<Post> findAllByBusinessProfileId(Long businessProfileId, Pageable pageable, String sort) {
+        JPAQuery<Post> query = queryFactory.selectFrom(post)
+                .join(post.businessProfile, businessProfile).fetchJoin()
+                .where(post.businessProfile.id.eq(businessProfileId))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        if("new".equals(sort)) {
+            query.orderBy(post.id.desc());
+        }
+//        else if("recruiting".equals(sort)){
+//            query.orderBy(post.);
+//        }
+
+        QueryResults<Post> results = query.fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+
     }
 
     private BooleanExpression paymentTypeEq(Payment paymentType) {

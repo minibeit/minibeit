@@ -58,6 +58,15 @@ include::{snippets}/post-deleteOne/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-deleteOne/http-response.adoc[]
 
+=== 게시물 모집완료 상태 변화
+
+요청 HTTP
+include::{snippets}/post-recruitment-Completed/http-request.adoc[]
+include::{snippets}/post-recruitment-Completed/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-recruitment-Completed/http-response.adoc[]
+
 == 게시물 조회 관련 API
 === 게시물 단건 조회
 

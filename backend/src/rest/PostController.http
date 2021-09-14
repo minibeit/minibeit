@@ -101,3 +101,10 @@ Authorization: {{authorizationToken}}
   "content": "후기작성",
   "doDate": "2021-09-09T09:30"
 }
+
+###
+POST {{apiUrl}}/post/1/completed
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+

@@ -17,6 +17,7 @@ CREATE TABLE `post`
     `do_time`                  INTEGER      NOT NULL,
     `start_date`               DATETIME,
     `end_date`                 DATETIME,
+    `is_completed`             TINYINT(1)   NOT NULL,
     `created_at`               DATETIME     NOT NULL,
     `updated_at`               DATETIME DEFAULT NULL,
     `deleted_at`               DATETIME DEFAULT NULL,

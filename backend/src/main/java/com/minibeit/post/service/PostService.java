@@ -130,6 +130,11 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
+    public void recruitmentCompleted(Long postId, User user){
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        permissionCheck(post.getBusinessProfile().getId(), user);
+        post.completed();
+    }
     private void permissionCheck(Long businessProfileId, User user) {
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
             throw new PermissionException();

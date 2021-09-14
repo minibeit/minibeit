@@ -100,4 +100,10 @@ public class PostController {
         postService.deleteOne(postId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/{postId}/completed")
+    public ResponseEntity<Void> recruitmentCompleted(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails){
+        postService.recruitmentCompleted(postId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
 }

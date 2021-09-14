@@ -50,6 +50,8 @@ public class Post extends BaseEntity {
 
     private LocalDateTime endDate;
 
+    private boolean isCompleted;
+
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostFile> postFileList = new ArrayList<>();
@@ -96,6 +98,7 @@ public class Post extends BaseEntity {
                 .doTime(request.getDoTime())
                 .businessProfile(businessProfile)
                 .school(school)
+                .isCompleted(false)
                 .build();
         post.addPostFiles(postFileList);
         return post;
@@ -107,6 +110,10 @@ public class Post extends BaseEntity {
     }
 
     public boolean applyPossible(List<PostApplicant> postApplicants) {
-        return postApplicants.size() < this.recruitPeople;
+        return (postApplicants.size() < this.recruitPeople) && !isCompleted;
+    }
+
+    public void completed(){
+        this.isCompleted = true;
     }
 }

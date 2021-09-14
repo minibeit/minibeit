@@ -6,9 +6,10 @@ import { LoadingSpinner } from "../../Common";
 
 FeedInfoContainer.propTypes = {
   feedId: PropTypes.number.isRequired,
+  date: PropTypes.string,
 };
 
-export default function FeedInfoContainer({ feedId }) {
+export default function FeedInfoContainer({ feedId, date }) {
   const [feedDetailData, setFeedDetailData] = useState();
   const getFeedDetail = async (feedId) => {
     await feedDetailApi(feedId)
@@ -21,7 +22,7 @@ export default function FeedInfoContainer({ feedId }) {
   return (
     <>
       {feedDetailData ? (
-        <PFeedInfoContainer feedDetailData={feedDetailData} />
+        <PFeedInfoContainer feedDetailData={feedDetailData} date={date} />
       ) : (
         <LoadingSpinner />
       )}

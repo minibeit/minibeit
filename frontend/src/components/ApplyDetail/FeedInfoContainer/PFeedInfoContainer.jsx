@@ -28,9 +28,10 @@ PFeedInfoContainer.propTypes = {
       introduce: PropTypes.string.isRequired,
     }),
   }),
+  date: PropTypes.string,
 };
 
-export default function PFeedInfoContainer({ feedDetailData }) {
+export default function PFeedInfoContainer({ feedDetailData, date }) {
   const {
     id,
     businessProfileInfo,
@@ -58,7 +59,13 @@ export default function PFeedInfoContainer({ feedDetailData }) {
         <button>북마크하기</button>
       </S.TitleBox>
       <S.DateInfoBox>
-        <PTimeSelectBox feedId={id} startDate={startDate} endDate={endDate} />
+        <PTimeSelectBox
+          feedId={id}
+          date={date}
+          doTime={doTime}
+          startDate={startDate}
+          endDate={endDate}
+        />
       </S.DateInfoBox>
       <S.ContentBox>
         <h4>상세모집요강</h4>

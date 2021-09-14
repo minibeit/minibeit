@@ -28,22 +28,50 @@ public class PostApplicant extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PostStatus postStatus;
 
-    private boolean finish;
+    private String rejectComment;
+
+    private boolean myFinish;
+
+    private boolean businessFinish;
+
+    private boolean writeReview;
+
+
+    private void setPostDoDate(PostDoDate postDoDate) {
+        postDoDate.getPostApplicantList().add(this);
+        this.postDoDate = postDoDate;
+    }
 
     public void updateStatusApprove() {
         this.postStatus = PostStatus.APPROVE;
     }
 
-    public void updateStatusReject() {
+    public void updateStatusReject(String rejectComment) {
         this.postStatus = PostStatus.REJECT;
+        this.rejectComment = rejectComment;
+    }
+
+    public boolean writeReviewIsPossible() {
+        return this.postStatus.equals(PostStatus.APPROVE) && !this.writeReview && this.businessFinish;
+    }
+
+    public void updateMyFinish() {
+        this.myFinish = true;
+    }
+
+    public void updateWriteReview() {
+        this.writeReview = true;
     }
 
     public static PostApplicant create(PostDoDate postDoDate, User user) {
-        return PostApplicant.builder()
+        PostApplicant postApplicant = PostApplicant.builder()
                 .user(user)
-                .postDoDate(postDoDate)
-                .finish(false)
+                .myFinish(false)
+                .businessFinish(true)
+                .writeReview(false)
                 .postStatus(PostStatus.WAIT)
                 .build();
+        postApplicant.setPostDoDate(postDoDate);
+        return postApplicant;
     }
 }

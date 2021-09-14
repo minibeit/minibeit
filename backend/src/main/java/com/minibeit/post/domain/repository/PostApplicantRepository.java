@@ -13,5 +13,7 @@ public interface PostApplicantRepository extends JpaRepository<PostApplicant, Lo
 
     Optional<PostApplicant> findByPostDoDateIdAndUserId(Long postDoDateId, Long userId);
 
-    void deleteByPostDoDateIdAndUserId(Long postDoDateId, Long id);
+    void deleteByPostDoDateIdAndUserId(Long postDoDateId, Long userId);
+
+    Optional<PostApplicant> findByUserIdAndPostDoDateId(Long userId, Long postDoDateId);
 }

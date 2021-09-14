@@ -14,3 +14,6 @@ export const FeedBox = styled.div`
 export const FeedTitle = styled.h3``;
 export const FeedPay = styled.p``;
 export const FeedDoTime = styled.div``;
+
+/* button */
+export const BtnContainer = styled.div``;

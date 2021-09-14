@@ -2,6 +2,10 @@ package com.minibeit.post.domain.repository;
 
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.dto.QPostResponse_GetMyApplyList;
+import com.minibeit.user.domain.User;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
@@ -16,12 +20,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
 import static com.minibeit.post.domain.QPost.post;
+import static com.minibeit.post.domain.QPostApplicant.postApplicant;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
+import static com.minibeit.post.domain.QPostLike.postLike;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -35,8 +41,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                         .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
                 .join(post.businessProfile).fetchJoin()
-                .where(post.school.id.eq(schoolId))
-                .where(paymentTypeEq(paymentType))
+                .leftJoin(post.postLikeList).fetchJoin()
+                .where(post.school.id.eq(schoolId)
+                        .and(paymentTypeEq(paymentType)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
@@ -50,7 +57,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Optional<Post> findByIdWithBusinessProfile(Long postId) {
         return Optional.ofNullable(queryFactory.selectFrom(post)
                 .join(post.school).fetchJoin()
-                .join(post.businessProfile, businessProfile).fetchJoin()
+                .join(post.businessProfile).fetchJoin()
                 .where(post.id.eq(postId))
                 .fetchOne());
     }
@@ -58,12 +65,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<Post> findAllByBusinessProfileId(Long businessProfileId, Pageable pageable, String sort) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
-                .join(post.businessProfile, businessProfile).fetchJoin()
+                .join(post.businessProfile).fetchJoin()
                 .where(post.businessProfile.id.eq(businessProfileId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
-        if("new".equals(sort)) {
+        if ("new".equals(sort)) {
             query.orderBy(post.id.desc());
         }
 //        else if("recruiting".equals(sort)){
@@ -73,7 +80,59 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         QueryResults<Post> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
 
+    public Page<Post> findAllByLike(User user, Pageable pageable) {
+        JPAQuery<Post> query = queryFactory.selectFrom(post)
+                .join(post.postLikeList, postLike)
+                .where(postLike.createdBy.eq(user))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        QueryResults<Post> results = query.fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    @Override
+    public Page<PostResponse.GetMyApplyList> findByApplyIsApproveOrWait(User user, Pageable pageable) {
+        JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.postStatus.stringValue()
+                ))
+                .from(post)
+                .join(post.postDoDateList, postDoDate)
+                .join(postDoDate.postApplicantList, postApplicant)
+                .where(postApplicant.user.eq(user)
+                        .and(postApplicant.postStatus.eq(PostStatus.APPROVE).or(postApplicant.postStatus.eq(PostStatus.WAIT))
+                                .and(postDoDate.doDate.before(LocalDateTime.now()))))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    @Override
+    public Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable pageable) {
+
+        JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.postStatus.stringValue()
+                ))
+                .from(post)
+                .join(post.postDoDateList, postDoDate)
+                .join(postDoDate.postApplicantList, postApplicant)
+                .where(postApplicant.user.eq(user)
+                        .and(postApplicant.postStatus.eq(PostStatus.APPROVE)
+                                .and(postApplicant.myFinish.isTrue())
+                                .and(postApplicant.businessFinish.isTrue())
+                                .and(postApplicant.writeReview.isFalse())))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
     private BooleanExpression paymentTypeEq(Payment paymentType) {

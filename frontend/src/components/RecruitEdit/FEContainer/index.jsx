@@ -8,55 +8,22 @@ function FEContainer({ postId }) {
   const history = useHistory();
   const [post, setPost] = useState([]);
   const getFeedDetail = async () => {
-    try {
-      const result = await feedDetailApi(postId);
-      if (result) {
-        await setPost(result);
-        console.log(result);
-      }
-    } catch (e) {
-      console.log(e.response.data.error.msg);
-      alert(e.response.data.error.msg);
-    }
+    await feedDetailApi(postId)
+      .then(async (res) => setPost(res))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     getFeedDetail();
   }, []);
 
-  const FEHandler = async (
-    title,
-    dueDate,
-    doDate,
-    pay,
-    time,
-    place,
-    content,
-    phoneNum,
-    files
-  ) => {
-    try {
-      const result = await feedEditApi(
-        title,
-        dueDate,
-        doDate,
-        pay,
-        time,
-        place,
-        content,
-        phoneNum,
-        files,
-        postId
-      );
-      console.log(result.id);
-      if (result.id) {
+  const FEHandler = async (inputs, files) => {
+    await feedEditApi(inputs, files, postId)
+      .then(async (res) => {
         window.alert("게시물 수정에 성공!");
-        history.push(`/feedList/${result.id}`);
-      }
-    } catch (e) {
-      console.log(e.response.data.error.msg);
-      alert(e.response.data.error.msg);
-    }
+        history.push(`/feedList/${res.id}`);
+      })
+      .catch((err) => console.log(err));
   };
   return <PFEContainer post={post} FEHandler={FEHandler} />;
 }

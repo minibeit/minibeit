@@ -7,31 +7,23 @@ import "react-datepicker/dist/react-datepicker.css";
 import PropTypes from "prop-types";
 
 import * as S from "../style";
+import { SchoolSearch } from "../../Common";
 
 PFilterContainer.propTypes = {
   setModalSwitch: PropTypes.func.isRequired,
-  schoolList: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ),
+  getFeedList: PropTypes.func.isRequired,
 };
 
-export default function PFilterContainer({
-  setModalSwitch,
-  schoolList,
-  getFeedList,
-}) {
+export default function PFilterContainer({ setModalSwitch, getFeedList }) {
   const [filter, setFilter] = useRecoilState(filterState);
   const openModal = () => {
     setModalSwitch(true);
   };
   const search = () => {
     if (filter.schoolId) {
-      getFeedList(filter.schoolId, filter.date);
+      getFeedList(1, filter.schoolId, filter.date, filter.payment);
     } else if (user.schoolId) {
-      getFeedList(user.schoolId, filter.date);
+      getFeedList(1, user.schoolId, filter.date, filter.payment);
     } else {
       alert("학교를 선택해주세요");
     }
@@ -45,20 +37,7 @@ export default function PFilterContainer({
   return (
     <>
       <S.FilterBox>
-        <S.ViewSelect>
-          {schoolList ? (
-            filter["schoolId"] ? (
-              schoolList.find((ele) => ele.id === filter["schoolId"]).name
-            ) : user["schoolId"] ? (
-              schoolList.find((ele) => ele.id === user["schoolId"]).name
-            ) : (
-              <p>학교를 선택하세요</p>
-            )
-          ) : (
-            <p>학교를 선택하세요</p>
-          )}
-        </S.ViewSelect>
-        <S.SelectBtn onClick={openModal}>학교선택</S.SelectBtn>
+        <SchoolSearch use="ApplyList" />
         <DatePicker
           selected={filter["date"]}
           onChange={(date) => {
@@ -67,15 +46,15 @@ export default function PFilterContainer({
             setFilter(filter_cp);
           }}
         />
-        <S.FilterSubmitBtn onClick={search}>검색</S.FilterSubmitBtn>
         <S.PaymentSelect
           defaultValue={filter["payment"]}
           onChange={changePayment}
         >
-          <option value="ALL">전체</option>
+          <option value="">전체</option>
           <option value="CACHE">현금</option>
           <option value="GOODS">물품</option>
         </S.PaymentSelect>
+        <S.FilterSubmitBtn onClick={search}>검색</S.FilterSubmitBtn>
       </S.FilterBox>
     </>
   );

@@ -2,6 +2,8 @@ package com.minibeit.post.domain.repository;
 
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.dto.PostResponse;
+import com.minibeit.user.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,4 +16,9 @@ public interface PostRepositoryCustom {
     Optional<Post> findByIdWithBusinessProfile(Long postId);
 
     Page<Post> findAllByBusinessProfileId(Long businessProfileId, Pageable pageable, String sort);
+    Page<Post> findAllByLike(User user, Pageable pageable);
+
+    Page<PostResponse.GetMyApplyList> findByApplyIsApproveOrWait(User user, Pageable pageable);
+
+    Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable of);
 }

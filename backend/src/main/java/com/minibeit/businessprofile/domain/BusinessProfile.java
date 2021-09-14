@@ -1,8 +1,8 @@
 package com.minibeit.businessprofile.domain;
 
+import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.file.domain.File;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
@@ -30,8 +30,8 @@ public class BusinessProfile extends BaseEntity {
     private String contact;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "file_id")
-    private File avatar;
+    @JoinColumn(name = "avatar_id")
+    private Avatar avatar;
 
     @Builder.Default
     @OneToMany(mappedBy = "businessProfile", cascade = CascadeType.ALL)
@@ -52,11 +52,11 @@ public class BusinessProfile extends BaseEntity {
         this.introduce = createRequest.getIntroduce();
     }
 
-    public void updateAvatar(File avatar) {
+    public void updateAvatar(Avatar avatar) {
         this.avatar = avatar;
     }
 
-    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, File avatar, User admin) {
+    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, Avatar avatar, User admin) {
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(request.getName())
                 .place(request.getPlace())

@@ -46,10 +46,11 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{postId}/review")
-    public ResponseEntity<PostResponse.PostReviewId> createReview(@PathVariable Long postId, @RequestBody PostRequest.CreateReview request) {
-        PostResponse.PostReviewId response = postService.createReview(postId, request);
-        return ResponseEntity.ok().body(response);
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/{postId}/review/{postDoDateId}")
+    public ResponseEntity<PostResponse.ReviewId> createReview(@PathVariable Long postId, @PathVariable Long postDoDateId, @RequestBody PostRequest.CreateReview request, @CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.ReviewId response = postService.createReview(postId, postDoDateId, request, customUserDetails.getUser());
+        return ResponseEntity.created(URI.create("/api/post/review/" + response.getId())).body(response);
     }
 
     @GetMapping("/{postId}")
@@ -73,6 +74,25 @@ public class PostController {
         Page<Post> posts = postService.getList(schoolId, doDate, pageDto, paymentType);
         List<PostResponse.GetList> response = posts.stream().map(post -> PostResponse.GetList.build(post, customUserDetails)).collect(Collectors.toList());
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
+    }
+
+    @GetMapping("/like/list")
+    public ResponseEntity<Page<PostResponse.GetLikeList>> getListByLike(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<Post> posts = postService.getListByLike(customUserDetails.getUser(), pageDto);
+        List<PostResponse.GetLikeList> response = posts.stream().map(PostResponse.GetLikeList::build).collect(Collectors.toList());
+        return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
+    }
+
+    @GetMapping("/apply/approve/list")
+    public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyIsApproveOrWait(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyIsApproveOrWait(customUserDetails.getUser(), pageDto);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/writable/review/list")
+    public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyMyFinishedWithoutReview(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyAndMyFinishedWithoutReview(customUserDetails.getUser(), pageDto);
+        return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("/{postId}")

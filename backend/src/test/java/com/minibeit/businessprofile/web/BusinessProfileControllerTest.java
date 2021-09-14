@@ -2,12 +2,12 @@ package com.minibeit.businessprofile.web;
 
 
 import com.minibeit.MvcTest;
+import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
 import com.minibeit.common.dto.PageDto;
-import com.minibeit.file.domain.File;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
@@ -31,6 +31,7 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,14 +65,14 @@ class BusinessProfileControllerTest extends MvcTest {
                 .place("고려대")
                 .contact("010-1234-5786")
                 .introduce("고려대 동그라미 실험실 입니다.")
-                .avatar(File.builder().id(1L).url("profile image url").build())
+                .avatar(Avatar.builder().id(1L).url("profile image url").build())
                 .build();
         user1 = User.builder()
                 .id(1L)
                 .name("홍길동")
                 .nickname("테스트")
-                .age(20)
-                .avatar(File.builder().id(2L).url("profile image url").build())
+                .birth(LocalDate.of(1997, 3, 6))
+                .avatar(Avatar.builder().id(2L).url("profile image url").build())
                 .gender(Gender.MALE)
                 .job("학생")
                 .oauthId("1")
@@ -283,7 +284,6 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("권한 양도 문서화")
     public void transferOfAuthority() throws Exception {
-
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.post("/api/business/profile/{businessProfileId}/change/{userId}", 1, 1));
 
         results.andExpect(status().isOk())
@@ -299,7 +299,7 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 삭제 문서화")
     public void cancelShare() throws Exception {
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.delete("/api/business/profile/{businessProfileId}/expel/{userId}", 1,2));
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.delete("/api/business/profile/{businessProfileId}/expel/{userId}", 1, 2));
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("business-profile-share-cancel",

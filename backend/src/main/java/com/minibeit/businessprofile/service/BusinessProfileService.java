@@ -1,5 +1,7 @@
 package com.minibeit.businessprofile.service;
 
+import com.minibeit.avatar.domain.Avatar;
+import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
@@ -11,8 +13,6 @@ import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.file.domain.File;
-import com.minibeit.file.service.FileService;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.user.domain.User;
@@ -21,8 +21,6 @@ import com.minibeit.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,11 +35,11 @@ public class BusinessProfileService {
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final FileService fileService;
+    private final AvatarService avatarService;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
-        File avatar = fileService.upload(request.getAvatar());
+        Avatar avatar = avatarService.upload(request.getAvatar());
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(findUser);
         BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar, findUser);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
@@ -70,8 +68,8 @@ public class BusinessProfileService {
 
         permissionCheck(user, businessProfile);
         if (request.isAvatarChanged()) {
-            fileService.deleteOne(businessProfile.getAvatar());
-            File file = fileService.upload(request.getAvatar());
+            avatarService.deleteOne(businessProfile.getAvatar());
+            Avatar file = avatarService.upload(request.getAvatar());
             businessProfile.updateAvatar(file);
         }
         businessProfile.update(request);
@@ -109,7 +107,7 @@ public class BusinessProfileService {
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
     }
 
-    public void transferOfAuthority(Long businessProfileId, Long userId, User user){
+    public void transferOfAuthority(Long businessProfileId, Long userId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         permissionCheck(user, businessProfile);
         User changeUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);

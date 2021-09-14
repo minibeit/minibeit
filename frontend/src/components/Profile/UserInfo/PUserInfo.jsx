@@ -8,7 +8,7 @@ PUserInfo.propTypes = {
     name: PropTypes.string.isRequired,
     nickname: PropTypes.string.isRequired,
     gender: PropTypes.string.isRequired,
-    age: PropTypes.number.isRequired,
+    birth: PropTypes.string.isRequired,
     job: PropTypes.string.isRequired,
     phoneNum: PropTypes.string.isRequired,
     avatar: PropTypes.string,
@@ -44,9 +44,10 @@ export default function PUserInfo({ userData }) {
           ? "남자"
           : null}
       </S.UserInfo>
-      <S.UserInfo>나이 : {userData.age}</S.UserInfo>
+      <S.UserInfo>생년월일 : {userData.birth}</S.UserInfo>
       <S.UserInfo>직업 : {userData.job}</S.UserInfo>
       <S.UserInfo>전화번호 : {userData.phoneNum}</S.UserInfo>
+      <S.UserInfo>관심학교 : {userData.schoolName}</S.UserInfo>
     </S.UserInfoContainer>
   );
 }

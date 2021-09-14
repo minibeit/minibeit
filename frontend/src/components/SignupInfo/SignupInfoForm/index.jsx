@@ -14,22 +14,17 @@ export default function SignupForm() {
   const [schoollist, setSchoolList] = useState([]);
 
   const getSchoolInfo = async () => {
-    try {
-      const result = await schoolGetApi();
-      if (result) {
-        setSchoolList(result.data);
-      }
-    } catch (e) {
-      console.log(e);
-    }
+    await schoolGetApi()
+      .then(async (res) => setSchoolList(res.data))
+      .catch((err) => console.log(err));
   };
 
   useEffect(() => {
     getSchoolInfo();
   }, []);
 
-  const signupHandler = async (inputs, img) => {
-    await signupInfoApi(inputs, img, guest.accessToken)
+  const signupHandler = async (inputs2, img) => {
+    await signupInfoApi(inputs2, img, guest.accessToken)
       .then((res) => {
         window.alert("회원가입에 성공!");
         const guest_cp = { ...guest };

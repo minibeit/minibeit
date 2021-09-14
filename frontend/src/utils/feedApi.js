@@ -52,40 +52,36 @@ export const feedDetailApi = async (feedId) => {
   return await withoutAuthInstance.get(GET_FEEDDETAIL + feedId);
 };
 
-export const feedEditApi = async (
-  title,
-  dueDate,
-  doDate,
-  pay,
-  time,
-  place,
-  content,
-  phoneNum,
-  files,
-  postId
-) => {
+export const feedDetailTimeApi = async (feedId, doDate) => {
+  return await withAuthInstance.get(
+    GET_FEEDDETAIL + feedId + `/start?doDate=${doDate}`
+  );
+};
+
+export const feedEditApi = async (inputs, files, postId) => {
   const formData = new FormData();
-  formData.append("title", title);
-  formData.append("content", content);
-  formData.append("place", place);
-  formData.append("pay", pay);
-  formData.append("time", time);
+  formData.append("title", inputs.title);
+  formData.append("content", inputs.content);
+  formData.append("place", inputs.place);
+  formData.append("pay", inputs.pay);
+  formData.append("time", inputs.time);
   formData.append("files", files);
-  formData.append("phoneNum", phoneNum);
-  formData.append("dueDate", dueDate);
-  formData.append("doDate", doDate);
+  formData.append("phoneNum", inputs.phoneNum);
+  formData.append("dueDate", inputs.dueDate);
+  formData.append("doDate", inputs.doDate);
   return await withAuthInstance.post(
     `http://3.36.95.15:8080/api/board/${postId}`,
     formData
   );
 };
 
-export const feedlistApi = async (schoolId, date) => {
+export const feedlistApi = async (page, schoolId, date, payment) => {
   // 일단 페이지와 사이즈 고정으로 해놓음
   const doDate = `${date.getFullYear()}-${
     date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1
   }-${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
   return await withoutAuthInstance.get(
-    GET_FEEDLIST + `${schoolId}?page=1&size=10&doDate=${doDate}`
+    GET_FEEDLIST +
+      `${schoolId}?page=${page}&size=10&paymentType=${payment}&doDate=${doDate}`
   );
 };

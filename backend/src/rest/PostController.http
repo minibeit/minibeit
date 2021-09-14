@@ -41,14 +41,14 @@ Content-Disposition: form-data; name="doTime";
 --boundary
 Content-Disposition: form-data; name="businessProfileId";
 
-2
+1
 --boundary
 Content-Disposition: form-data; name="schoolId";
 
 1
 
 ###
-POST {{apiUrl}}/post/2/info/date
+POST {{apiUrl}}/post/1/info/date
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -64,16 +64,27 @@ Content-Type: application/json;charset=UTF-8
     "2021-09-05T09:30"
   ]
 }
-###
-GET {{apiUrl}}/post/2
-Authorization: {{authorizationToken}}
 
 ###
 DELETE {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###
+GET {{apiUrl}}/post/2
+Authorization: {{authorizationToken}}
+###
 GET {{apiUrl}}/post/list/1?doDate=2021-09-03&page=1&size=10&paymentType=GOODS
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/1/start?doDate=2021-09-03
+###
+GET {{apiUrl}}/post/like/list?page=1&size=6
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/apply/approve/list?page=1&size=3
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/write/review/list?page=1&size=3
 Authorization: {{authorizationToken}}
 
 ###
@@ -81,14 +92,12 @@ POST {{apiUrl}}/post/1/like
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/post/1/review
-Authorization: {{authorizationToken}}
+POST {{apiUrl}}/post/3/review/13
 Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
 
 {
-  "content": "게시물 후기 내용~~"
+  "postTitle": "게시물 제목",
+  "content": "후기작성",
+  "doDate": "2021-09-09T09:30"
 }
-
-###
-GET {{apiUrl}}/post/1/start?doDate=2021-09-03
-Authorization: {{authorizationToken}}

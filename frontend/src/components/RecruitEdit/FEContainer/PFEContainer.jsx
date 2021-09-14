@@ -5,18 +5,7 @@ import * as S from "../style";
 
 function PFEContainer({ post, FEHandler }) {
   const author = useRecoilValue(userState).name;
-  const {
-    content,
-    doDate,
-    dueDate,
-
-    contact,
-    pay,
-    place,
-    time,
-    title,
-  } = post;
-  console.log(post, title);
+  const { content, doDate, dueDate, contact, pay, place, time, title } = post;
   const [inputs, setInputs] = useState({
     title: post.title,
     dueDate: dueDate,
@@ -119,17 +108,7 @@ function PFEContainer({ post, FEHandler }) {
           type="submit"
           onClick={async (e) => {
             e.preventDefault();
-            await FEHandler(
-              title,
-              dueDate,
-              doDate,
-              pay,
-              time,
-              place,
-              content,
-              contact,
-              files
-            );
+            await FEHandler(inputs, files);
           }}
         >
           게시물 수정

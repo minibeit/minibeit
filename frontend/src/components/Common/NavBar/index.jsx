@@ -15,17 +15,13 @@ export default function NavBar() {
   };
 
   const logout = async () => {
-    try {
-      const result = await logoutFunc();
-      if (result) {
-        console.log(result);
+    await logoutFunc()
+      .then(async () => {
         window.alert("로그아웃이 되었습니다!");
         window.location.replace("/");
         localStorage.clear();
-      }
-    } catch (e) {
-      console.log(e);
-    }
+      })
+      .catch((err) => console.log(err));
   };
 
   return (

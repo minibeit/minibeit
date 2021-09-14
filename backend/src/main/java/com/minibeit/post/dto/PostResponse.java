@@ -1,10 +1,11 @@
 package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.post.domain.PostReview;
 import com.minibeit.security.userdetails.CustomUserDetails;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -22,20 +23,6 @@ public class PostResponse {
         public static PostResponse.OnlyId build(Post post) {
             return PostResponse.OnlyId.builder()
                     .id(post.getId())
-                    .build();
-        }
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class PostReviewId {
-        private Long id;
-
-        public static PostResponse.PostReviewId build(PostReview postReview) {
-            return PostResponse.PostReviewId.builder()
-                    .id(postReview.getId())
                     .build();
         }
     }
@@ -96,13 +83,14 @@ public class PostResponse {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetPostStartTime {
         private Long id;
-        private String startTime;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime startTime;
         private boolean isFull;
 
         public static GetPostStartTime build(PostDoDate postDoDate) {
             return GetPostStartTime.builder()
                     .id(postDoDate.getId())
-                    .startTime(postDoDate.getDoDate().getHour() + ":" + postDoDate.getDoDate().getMinute())
+                    .startTime(postDoDate.getDoDate())
                     .isFull(postDoDate.isFull())
                     .build();
         }
@@ -137,6 +125,61 @@ public class PostResponse {
                     .businessProfileName(post.getBusinessProfile().getName())
                     .isLike(post.isLike(customUserDetails))
                     .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetLikeList {
+        private Long id;
+        private String title;
+
+        public static PostResponse.GetLikeList build(Post post) {
+            return GetLikeList.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    public static class GetMyApplyList {
+        private Long id;
+        private String title;
+        private Integer time;
+        private String contact;
+        private boolean recruitCondition;
+        private Long postDoDateId;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime doDate;
+        private String status;
+
+        @QueryProjection
+        public GetMyApplyList(Long id, String title, Integer time, String contact, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status) {
+            this.id = id;
+            this.title = title;
+            this.time = time;
+            this.contact = contact;
+            this.recruitCondition = recruitCondition;
+            this.postDoDateId = postDoDateId;
+            this.doDate = doDate;
+            this.status = status;
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class ReviewId {
+        private Long id;
+
+        public static PostResponse.ReviewId build(BusinessProfileReview businessProfileReview) {
+            return ReviewId.builder().id(businessProfileReview.getId()).build();
         }
     }
 }

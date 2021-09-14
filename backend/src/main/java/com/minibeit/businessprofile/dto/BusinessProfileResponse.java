@@ -1,13 +1,11 @@
 package com.minibeit.businessprofile.dto;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.domain.UserBusinessProfile;
+
 import com.minibeit.post.domain.Post;
+
 import com.minibeit.user.domain.User;
 import lombok.*;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class BusinessProfileResponse {
     @Getter

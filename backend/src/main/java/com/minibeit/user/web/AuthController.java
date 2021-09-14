@@ -3,7 +3,7 @@ package com.minibeit.user.web;
 import com.minibeit.security.token.RefreshTokenService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
-import com.minibeit.user.dto.UserRequest;
+import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class AuthController {
 
     //테스트용
     @PostMapping("/login")
-    public ResponseEntity<UserResponse.Login> login(@RequestBody UserRequest.Login request, HttpServletResponse response) {
+    public ResponseEntity<UserResponse.Login> login(@RequestBody AuthRequest.Login request, HttpServletResponse response) {
         UserResponse.Login loginResponse = authService.login(request);
         createCookie(response, loginResponse.getRefreshToken());
 
@@ -31,13 +31,13 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<UserResponse.CreateOrUpdate> signup(UserRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<UserResponse.CreateOrUpdate> signup(AuthRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
         UserResponse.CreateOrUpdate response = authService.signup(request, customUserDetails.getUser());
         return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("/refreshtoken")
-    public ResponseEntity<UserResponse.Login> refreshToken(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {
+    public ResponseEntity<UserResponse.Login> refreshToken(@CookieValue(REFRESH_TOKEN) String refreshToken, HttpServletResponse response) {
         UserResponse.Login loginResponse = refreshTokenService.createAccessToken(refreshToken);
         createCookie(response, loginResponse.getRefreshToken());
 

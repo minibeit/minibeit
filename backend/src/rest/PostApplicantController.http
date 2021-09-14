@@ -1,18 +1,26 @@
 ###
-POST {{apiUrl}}/post/1/date/1/apply
+POST {{apiUrl}}/post/2/date/7/apply
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/1/date/1/apply/approve/3
+POST {{apiUrl}}/post/date/2/finish
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/1/date/1/apply/reject/6
+POST {{apiUrl}}/post/2/date/7/apply/approve/2
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
+###
+POST {{apiUrl}}/post/1/date/1/apply/reject/2
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+{
+  "comment": "조건이 해당하지 않습니다."
+}
 ###
 POST {{apiUrl}}/post/date/1/apply/cancel
 Authorization: {{authorizationToken}}

@@ -1,9 +1,12 @@
 package com.minibeit.user.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minibeit.security.token.Token;
 import com.minibeit.user.domain.User;
 import lombok.*;
+
+import java.time.LocalDate;
 
 public class UserResponse {
     @Getter
@@ -70,10 +73,11 @@ public class UserResponse {
         private String name;
         private String nickname;
         private String gender;
-        private Integer age;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+        private LocalDate birth;
         private String job;
         private String phoneNum;
-        private Long schoolId;
+        private String schoolName;
         private String avatar;
 
         public static UserResponse.GetOne build(User user) {
@@ -82,10 +86,10 @@ public class UserResponse {
                     .name(user.getName())
                     .nickname(user.getNickname())
                     .gender(user.getGender().name())
-                    .age(user.getAge())
+                    .birth(user.getBirth())
                     .job(user.getJob())
                     .phoneNum(user.getPhoneNum())
-                    .schoolId(user.getSchool().getId());
+                    .schoolName(user.getSchool().getName());
             if(user.getAvatar()!=null){
                 return getOneBuilder.avatar(user.getAvatar().getUrl()).build();
             }

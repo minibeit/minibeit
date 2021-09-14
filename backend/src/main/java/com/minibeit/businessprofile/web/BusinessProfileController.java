@@ -6,7 +6,6 @@ import com.minibeit.businessprofile.service.BusinessProfileService;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
-import com.sun.mail.iap.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -67,7 +66,7 @@ public class BusinessProfileController {
     @PostMapping("/{businessProfileId}/change/{userId}")
     public ResponseEntity<Void> changeAdmin(@PathVariable Long businessProfileId,
                                             @PathVariable Long userId,
-                                            @CurrentUser CustomUserDetails customUserDetails){
+                                            @CurrentUser CustomUserDetails customUserDetails) {
         businessProfileService.transferOfAuthority(businessProfileId, userId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }

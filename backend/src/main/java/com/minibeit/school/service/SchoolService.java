@@ -17,7 +17,7 @@ public class SchoolService {
     private final SchoolRepository schoolRepository;
 
     @Transactional(readOnly = true)
-    public List<SchoolResponse.GetList> getList() {
-        return schoolRepository.findAll().stream().map(SchoolResponse.GetList::build).collect(Collectors.toList());
+    public List<SchoolResponse.GetList> getList(String name) {
+        return schoolRepository.findByNameStartsWith(name).stream().map(SchoolResponse.GetList::build).collect(Collectors.toList());
     }
 }

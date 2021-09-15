@@ -5,8 +5,8 @@ export default function PLikeListBox({ likeList, handlepage, page, last }) {
   return (
     <S.LBCont>
       <S.LBTitle>즐겨찾기 목록</S.LBTitle>
-      {page >= 1 ? (
-        <S.LBprev onClick={handlepage("prev")}>이전</S.LBprev>
+      {page > 1 ? (
+        <S.LBprev onClick={async () => await handlepage("prev")}>이전</S.LBprev>
       ) : null}
       <S.LBContent>
         {likeList.map((post) => (
@@ -14,7 +14,7 @@ export default function PLikeListBox({ likeList, handlepage, page, last }) {
         ))}
       </S.LBContent>
       {last === false ? (
-        <S.LBnext onClick={handlepage("next")}>다음</S.LBnext>
+        <S.LBnext onClick={async () => await handlepage("next")}>다음</S.LBnext>
       ) : null}
     </S.LBCont>
   );

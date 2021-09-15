@@ -37,5 +37,6 @@ export const editMyInfo = async (inputs, newImg,basicImg) => {
 };
 
 export const getLikeListApi = async (page) => {
+  console.log(page)
   return await withAuthInstance.get(GET_LIKE_LIST+"page="+page+"&size=6");
 };

@@ -9,6 +9,7 @@ export default function LikeListBox() {
   const getLikeList = async (page) => {
     await getLikeListApi(page)
       .then((res) => {
+        console.log(res);
         setLikeList(res.data["content"]);
         setLast(res.data.last);
       })
@@ -17,7 +18,8 @@ export default function LikeListBox() {
   useEffect(() => {
     getLikeList(page);
   }, [page]);
-  const handlepage = (msg) => {
+  const handlepage = async (msg) => {
+    console.log(msg);
     if (msg === "prev") {
       setPage(page - 1);
     } else if (msg === "next") {

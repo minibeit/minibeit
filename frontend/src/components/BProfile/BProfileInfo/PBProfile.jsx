@@ -1,5 +1,5 @@
 import React from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 import { userState } from "../../../recoil/userState";
 import { deleteBprofile } from "../../../utils/bprofileApi";
@@ -20,9 +20,11 @@ PBProfile.propTypes = {
 
 export default function PBProfile({ buserData }) {
   const history = useHistory();
+  const [user, setUser] = useRecoilState(userState);
   const nickname = useRecoilValue(userState).name;
   const doDelete = async () => {
     await deleteBprofile(buserData.id);
+    setUser({ ...user, bpId: 0 });
     alert("삭제되었습니다.");
     window.location.replace("/user/" + nickname);
   };

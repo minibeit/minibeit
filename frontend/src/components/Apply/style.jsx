@@ -17,3 +17,8 @@ export const FeedDoTime = styled.div``;
 
 /* button */
 export const BtnContainer = styled.div``;
+export const PageBtn = styled.button`
+  &:disabled {
+  }
+  width: 20px;
+`;

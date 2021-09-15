@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { bprofileListGet, bprofileNew, deleteBprofile } from "../../../utils";
@@ -14,8 +14,7 @@ export default function PBProfileSection() {
   const UserId = useRecoilValue(userState).id;
   const [display, setdisplay] = useState("none");
   const [msg, setmsg] = useState("수정");
-  const nickname = useRecoilValue(userState).name;
-  const link = "/user/" + nickname;
+
   const onClick = () => {
     setModalSwitch(true);
   };
@@ -58,11 +57,6 @@ export default function PBProfileSection() {
   };
   return (
     <S.BPContainer>
-      <Link to={link}>
-        {" "}
-        <S.ProfileTab1>개인 프로필</S.ProfileTab1>
-      </Link>
-      <S.ProfileTab2>비즈니스 프로필</S.ProfileTab2>
       {modalSwitch ? (
         <CreateBProfileModal
           setModalSwitch={setModalSwitch}

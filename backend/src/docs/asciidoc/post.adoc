@@ -188,3 +188,16 @@ include::{snippets}/post-apply-reject/path-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/post-apply-reject/http-response.adoc[]
+
+=== 게시물에 해당하는 지원자 목록 날짜 기준으로 조회하기(실험모집하는 연구실)
+
+`GET /api/post/{postId}/applicant/list`
+
+요청 HTTP
+include::{snippets}/post-applicant-list/http-request.adoc[]
+include::{snippets}/post-applicant-list/path-parameters.adoc[]
+include::{snippets}/post-applicant-list/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-applicant-list/http-response.adoc[]
+include::{snippets}/post-applicant-list/response-fields.adoc[]

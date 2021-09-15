@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface PostApplicantRepository extends JpaRepository<PostApplicant, Long> {
+public interface PostApplicantRepository extends JpaRepository<PostApplicant, Long>, PostApplicantRepositoryCustom {
     @Query("select pa from PostApplicant pa where pa.postDoDate.id=:postDoDateId and pa.postStatus='APPROVE'")
     List<PostApplicant> findAllByPostDoDateIdAndStatusIsApprove(Long postDoDateId);
 

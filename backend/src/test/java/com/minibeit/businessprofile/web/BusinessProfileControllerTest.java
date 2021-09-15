@@ -59,14 +59,7 @@ class BusinessProfileControllerTest extends MvcTest {
 
     @BeforeEach
     public void setup() {
-        businessProfile = BusinessProfile.builder()
-                .id(1L)
-                .name("동그라미 실험실")
-                .place("고려대")
-                .contact("010-1234-5786")
-                .introduce("고려대 동그라미 실험실 입니다.")
-                .avatar(Avatar.builder().id(1L).url("profile image url").build())
-                .build();
+
         user1 = User.builder()
                 .id(1L)
                 .name("홍길동")
@@ -81,6 +74,17 @@ class BusinessProfileControllerTest extends MvcTest {
                 .role(Role.USER)
                 .school(School.builder().id(1L).name("고려대").build())
                 .build();
+
+        businessProfile = BusinessProfile.builder()
+                .id(1L)
+                .name("동그라미 실험실")
+                .place("고려대")
+                .contact("010-1234-5786")
+                .introduce("고려대 동그라미 실험실 입니다.")
+                .admin(user1)
+                .avatar(Avatar.builder().id(1L).url("profile image url").build())
+                .build();
+
         businessProfile.setCreatedBy(user1);
 
         post1 = Post.builder()
@@ -176,6 +180,7 @@ class BusinessProfileControllerTest extends MvcTest {
     @DisplayName("비즈니스 프로필 단건 조회 문서화")
     public void getOne() throws Exception {
 
+
         BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile, 3, user1);
 
         given(businessProfileService.getOne(any(), any())).willReturn(response);
@@ -191,6 +196,7 @@ class BusinessProfileControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
+                                fieldWithPath("principalInvestigator").type(JsonFieldType.STRING).description("비즈니스 프로필 책임자"),
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
                                 fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),

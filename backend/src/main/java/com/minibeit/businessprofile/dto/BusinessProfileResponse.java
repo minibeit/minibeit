@@ -28,6 +28,7 @@ public class BusinessProfileResponse {
     public static class GetOne {
         private Long id;
         private String name;
+        private String principalInvestigator;
         private String place;
         private String introduce;
         private String contact;
@@ -39,6 +40,7 @@ public class BusinessProfileResponse {
             GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(businessProfile.getId())
                     .name(businessProfile.getName())
+                    .principalInvestigator(businessProfile.getAdmin().getName())
                     .place(businessProfile.getPlace())
                     .introduce(businessProfile.getIntroduce())
                     .contact(businessProfile.getContact())

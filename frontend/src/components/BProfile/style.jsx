@@ -35,3 +35,17 @@ export const BPContainer = styled.div``;
 export const BPbtn = styled.div``;
 export const BPNewInput = styled.input``;
 export const BPSubmitBtn = styled.div``;
+export const BICont = styled.div``;
+export const BIContHead = styled.div``;
+export const BIContTitle = styled.div``;
+export const BIEdit = styled.div``;
+export const BIList = styled.div``;
+export const BIeleCont = styled.div`
+  cursor: pointer;
+`;
+export const BIeleImg = styled.img``;
+export const BIeleName = styled.div``;
+export const BInew = styled.div``;
+export const BIdelete = styled.div`
+  display: ${(props) => props.display};
+`;

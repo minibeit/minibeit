@@ -9,6 +9,7 @@ export const userState = atom({
     id: null,
     didSignup: false,
     schoolId: null,
+    bpId:0,
   },
   effects_UNSTABLE: [persistAtom],
 });
@@ -20,5 +21,6 @@ export const geustState = atom({
     id: null,
     didSignup: false,
     schoolId: null,
+    bpId:0,
   },
 });

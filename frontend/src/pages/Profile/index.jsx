@@ -1,19 +1,13 @@
 import React from "react";
 
 import { NavBar } from "../../components/Common";
-import {
-  BProfileSection,
-  LikeListBox,
-  UserInfo,
-} from "../../components/Profile";
+import ProfileCont from "../../components/Profile/ProfileCont";
 
 export default function Profile() {
   return (
     <>
       <NavBar />
-      <UserInfo />
-      <LikeListBox />
-      <BProfileSection />
+      <ProfileCont />
     </>
   );
 }

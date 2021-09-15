@@ -28,3 +28,10 @@ export const LBCont = styled.div``;
 export const LBTitle = styled.div``;
 export const LBContent = styled.div``;
 export const LBList = styled.div``;
+
+export const PTabCont = styled.div``;
+export const ProfileTab1 = styled.div``;
+export const ProfileTab2 = styled.div``;
+export const PTabContent = styled.div``;
+export const PleftBox = styled.div``;
+export const PrightBox = styled.div``;

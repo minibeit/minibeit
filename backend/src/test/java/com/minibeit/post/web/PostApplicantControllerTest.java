@@ -1,8 +1,11 @@
 package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
+import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostApplicantRequest;
+import com.minibeit.post.dto.PostApplicantResponse;
 import com.minibeit.post.service.PostApplicantService;
+import com.minibeit.user.domain.Gender;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -12,12 +15,17 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -116,6 +124,78 @@ class PostApplicantControllerTest extends MvcTest {
                         ),
                         requestFields(
                                 fieldWithPath("comment").type(JsonFieldType.STRING).description("거절 사유")
+                        )
+                ));
+    }
+
+
+    @Test
+    @DisplayName("시작 날짜에 따라 지원자 목록 조회")
+    public void applicantListByDate() throws Exception {
+        List<PostApplicantResponse.UserInfo> response = new ArrayList<>();
+        PostApplicantResponse.UserInfo userInfo1 = PostApplicantResponse.UserInfo.builder()
+                .id(1L)
+                .name("동그라미")
+                .birth(LocalDate.of(1999, 9, 9))
+                .gender(Gender.FEMALE)
+                .phoneNum("010-1234-0123")
+                .job("대학생")
+                .status(PostStatus.WAIT)
+                .startTime(LocalDateTime.of(2021, 9, 9, 9, 30))
+                .time(120)
+                .build();
+        PostApplicantResponse.UserInfo userInfo2 = PostApplicantResponse.UserInfo.builder()
+                .id(2L)
+                .name("네모")
+                .birth(LocalDate.of(1980, 9, 9))
+                .gender(Gender.MALE)
+                .phoneNum("010-1124-0123")
+                .job("교수")
+                .status(PostStatus.APPROVE)
+                .startTime(LocalDateTime.of(2021, 9, 9, 9, 30))
+                .time(120)
+                .build();
+        PostApplicantResponse.UserInfo userInfo3 = PostApplicantResponse.UserInfo.builder()
+                .id(3L)
+                .name("세모")
+                .birth(LocalDate.of(1997, 9, 9))
+                .gender(Gender.MALE)
+                .phoneNum("010-1234-6666")
+                .job("개발자")
+                .status(PostStatus.APPROVE)
+                .startTime(LocalDateTime.of(2021, 9, 9, 10, 30))
+                .time(120)
+                .build();
+        response.add(userInfo1);
+        response.add(userInfo2);
+        response.add(userInfo3);
+
+        given(postApplicantService.getApplicantListByDate(any(), any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/post/{postId}/applicant/list", 1)
+                .param("doDate", "2021-09-09")
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-applicant-list",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("doDate").description("실험자들을 조회할 날짜")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("유저 식별자"),
+                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("유저 실명"),
+                                fieldWithPath("[].birth").type(JsonFieldType.STRING).description("생년월일"),
+                                fieldWithPath("[].gender").type(JsonFieldType.STRING).description("성별"),
+                                fieldWithPath("[].phoneNum").type(JsonFieldType.STRING).description("연락처"),
+                                fieldWithPath("[].job").type(JsonFieldType.STRING).description("직업"),
+                                fieldWithPath("[].status").description("지원현황(APPROVE or REJECT or WAIT)"),
+                                fieldWithPath("[].startTime").description("실험 시작 시간"),
+                                fieldWithPath("[].endTime").description("실험 끝나는 시간")
                         )
                 ));
     }

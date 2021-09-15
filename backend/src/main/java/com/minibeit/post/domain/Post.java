@@ -2,6 +2,7 @@ package com.minibeit.post.domain;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.interests.domain.Interests;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.school.domain.School;
 import com.minibeit.security.userdetails.CustomUserDetails;
@@ -66,9 +67,13 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "business_profile_id")
     private BusinessProfile businessProfile;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id")
     private School school;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "interests_id")
+    private Interests interests;
 
     private void addPostFiles(List<PostFile> postFileList) {
         for (PostFile postFile : postFileList) {
@@ -81,7 +86,7 @@ public class Post extends BaseEntity {
         return customUserDetails != null && this.postLikeList.stream().anyMatch(postLike -> postLike.getCreatedBy().getId().equals(customUserDetails.getUser().getId()));
     }
 
-    public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile, List<PostFile> postFileList) {
+    public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile, Interests interests, List<PostFile> postFileList) {
         Post post = Post.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
@@ -96,6 +101,7 @@ public class Post extends BaseEntity {
                 .doTime(request.getDoTime())
                 .businessProfile(businessProfile)
                 .school(school)
+                .interests(interests)
                 .build();
         post.addPostFiles(postFileList);
         return post;

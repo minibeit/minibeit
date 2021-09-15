@@ -129,6 +129,7 @@ class PostControllerTest extends MvcTest {
                         .param("conditionDetail", "운전면허 있는 사람")
                         .param("doTime", "60")
                         .param("schoolId", "1")
+                        .param("interestsId", "1")
                         .param("businessProfileId", "1")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .characterEncoding("UTF-8")
@@ -150,6 +151,7 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("conditionDetail").description("구인 조건이 true인 경우 구인 조건 세부내용"),
                                 parameterWithName("doTime").description("실험 소요 시간"),
                                 parameterWithName("schoolId").description("학교 식별자"),
+                                parameterWithName("interestsId").description("관심분야 식별자"),
                                 parameterWithName("businessProfileId").description("게시물을 만드는 비즈니스 프로필 식별자")
                         ),
                         requestParts(

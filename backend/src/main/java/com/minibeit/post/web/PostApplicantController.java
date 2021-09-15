@@ -1,12 +1,17 @@
 package com.minibeit.post.web;
 
 import com.minibeit.post.dto.PostApplicantRequest;
+import com.minibeit.post.dto.PostApplicantResponse;
 import com.minibeit.post.service.PostApplicantService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -44,5 +49,13 @@ public class PostApplicantController {
                                             @CurrentUser CustomUserDetails customUserDetails) {
         postApplicantService.applyReject(postId, postDoDateId, userId, request, customUserDetails.getUser());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/{postId}/applicant/list")
+    public ResponseEntity<List<PostApplicantResponse.UserInfo>> applicantListByDate(@PathVariable Long postId,
+                                                                                    @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate) {
+
+        List<PostApplicantResponse.UserInfo> response = postApplicantService.getApplicantListByDate(postId, doDate);
+        return ResponseEntity.ok().body(response);
     }
 }

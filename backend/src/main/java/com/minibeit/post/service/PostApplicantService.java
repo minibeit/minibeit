@@ -10,12 +10,14 @@ import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostApplicantRequest;
+import com.minibeit.post.dto.PostApplicantResponse;
 import com.minibeit.post.service.exception.*;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -92,5 +94,9 @@ public class PostApplicantService {
         if (!post.applyPossible(postApplicants)) {
             throw new PostIsFullException();
         }
+    }
+
+    public List<PostApplicantResponse.UserInfo> getApplicantListByDate(Long postId, LocalDate doDate) {
+        return postApplicantRepository.findAllByPostAndDoDate(postId, doDate);
     }
 }

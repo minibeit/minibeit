@@ -96,7 +96,6 @@ const createDoDateList = (startDate, endDate) => {
       date.setDate(date.getDate() + 1);
     }
   }
-  console.log(dateList);
   return dateList;
 };
 

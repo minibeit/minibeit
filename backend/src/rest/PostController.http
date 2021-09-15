@@ -46,6 +46,10 @@ Content-Disposition: form-data; name="businessProfileId";
 Content-Disposition: form-data; name="schoolId";
 
 1
+--boundary
+Content-Disposition: form-data; name="interestsId";
+
+1
 
 ###
 POST {{apiUrl}}/post/3/info/date

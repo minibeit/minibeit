@@ -2,7 +2,7 @@ POST {{apiUrl}}/user/login
 Content-Type: application/json;charset=UTF-8
 
 {
-  "id": "2"
+  "id": "1"
 }
 
 > {%
@@ -22,7 +22,7 @@ Content-Disposition: form-data; name="name";
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-테스터02
+테스터022
 --boundary
 Content-Disposition: form-data; name="gender";
 
@@ -43,6 +43,14 @@ Content-Disposition: form-data; name="birth";
 Content-Disposition: form-data; name="schoolId";
 
 1
+--boundary
+Content-Disposition: form-data; name="interestsIds";
+
+1
+--boundary
+Content-Disposition: form-data; name="interestsIds";
+
+2
 ###--boundary
 ###Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
 

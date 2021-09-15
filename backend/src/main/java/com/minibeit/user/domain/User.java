@@ -1,9 +1,9 @@
 package com.minibeit.user.domain;
 
+import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.post.domain.Post;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.dto.AuthRequest;
@@ -60,7 +60,7 @@ public class User extends BaseEntity {
     private Avatar avatar;
 
     @Builder.Default
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserBusinessProfile> userBusinessProfileList = new ArrayList<>();
 
     public User signup(AuthRequest.Signup request, School school, Avatar avatar) {

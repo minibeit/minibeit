@@ -28,6 +28,7 @@ public class PostRequest {
         private Integer doTime;
         private Long schoolId;
         private Long businessProfileId;
+        private Long interestsId;
         private List<MultipartFile> files;
     }
 

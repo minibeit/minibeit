@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class AuthRequest {
     @Setter
@@ -22,6 +23,7 @@ public class AuthRequest {
         @DateTimeFormat(pattern = "yyyy-MM-dd")
         private LocalDate birth;
         private Long schoolId;
+        private List<Long> interestsIds;
         private MultipartFile avatar;
     }
 

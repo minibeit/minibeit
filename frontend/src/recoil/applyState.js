@@ -3,7 +3,9 @@ import { atom } from "recoil";
 export const applyState = atom({
   key: "applyState",
   default: {
-    date: null,
-    time: null,
+    postId: null,
+    doDate: "",
+    doTime: "",
+    postDoDateId: null,
   },
 });

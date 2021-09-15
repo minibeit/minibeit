@@ -1,7 +1,8 @@
 import { API_URLS } from "../constants";
 import { withAuthInstance, withoutAuthInstance } from "./common";
 
-const { FEED_NEW, FEED_DATE_NEW, GET_FEEDLIST, GET_FEEDDETAIL } = API_URLS;
+const { FEED_NEW, FEED_DATE_NEW, GET_FEEDLIST, GET_FEEDDETAIL, APPLY_POST } =
+  API_URLS;
 
 export const feedCreateApi = async (infoinputs, files) => {
   const formData = new FormData();
@@ -84,4 +85,8 @@ export const feedlistApi = async (page, schoolId, date, payment) => {
     GET_FEEDLIST +
       `${schoolId}?page=${page}&size=10&paymentType=${payment}&doDate=${doDate}`
   );
+};
+
+export const applyApi = async (postId, postDoDateId) => {
+  console.log(APPLY_POST + `/${postId}/date/${postDoDateId}/apply`);
 };

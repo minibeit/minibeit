@@ -20,7 +20,7 @@ export default function FilterAndList() {
         console.log(err);
       });
   };
-
+  console.log(totalPages);
   return (
     <>
       <PFilterContainer
@@ -31,7 +31,9 @@ export default function FilterAndList() {
         <SchoolSelectModal setModalSwitch={setModalSwitch} use="ApplyList" />
       ) : null}
       {feedList ? <PListContainer feedList={feedList} /> : null}
-      <PBtnContainer totalPages={totalPages} getFeedList={getFeedList} />
+      {totalPages && (
+        <PBtnContainer totalPages={totalPages} getFeedList={getFeedList} />
+      )}
     </>
   );
 }

@@ -26,23 +26,23 @@ export default function PListContainer({ feedList }) {
   const filter = useRecoilValue(filterState);
   const history = useHistory();
   const goToDetailPage = (e) => {
-    history.push(`/apply/${e.target.id}`);
+    history.push(
+      `/apply/${e.target.id}?${filter.date.getFullYear()}-${
+        filter.date.getMonth() + 1 < 10
+          ? "0" + (filter.date.getMonth() + 1)
+          : filter.date.getMonth() + 1
+      }-${
+        filter.date.getDate() < 10
+          ? "0" + filter.date.getDate()
+          : filter.date.getDate()
+      }`
+    );
   };
-  const feedListOfFilter = feedList.filter((ele) => {
-    // 보상에 따른 분류 작업
-    if (filter["payment"] === "CACHE") {
-      return ele.payment === "CACHE";
-    } else if (filter["payment"] === "GOODS") {
-      return ele.payment === "GOODS";
-    } else {
-      return ele;
-    }
-  });
 
   return (
     <>
-      {feedListOfFilter.length !== 0 ? (
-        feedListOfFilter.map((a) => {
+      {feedList.length !== 0 ? (
+        feedList.map((a) => {
           return (
             <S.FeedBox key={a.id}>
               <S.FeedTitle id={a.id} onClick={goToDetailPage}>

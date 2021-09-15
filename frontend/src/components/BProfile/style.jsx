@@ -32,6 +32,8 @@ export const JoinContainer = styled.div``;
 export const BPNewNickname = styled.input``;
 
 export const BPContainer = styled.div``;
+export const ProfileTab1 = styled.div``;
+export const ProfileTab2 = styled.div``;
 export const BPbtn = styled.div``;
 export const BPNewInput = styled.input``;
 export const BPSubmitBtn = styled.div``;

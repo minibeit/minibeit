@@ -83,6 +83,10 @@ public class PostApplicantService {
         postDoDate.updateFull(approvedPostApplicant);
     }
 
+    public List<PostApplicantResponse.UserInfo> getApplicantListByDate(Long postId, LocalDate doDate) {
+        return postApplicantRepository.findAllByPostAndDoDate(postId, doDate);
+    }
+
     private void permissionCheck(User user, Post post) {
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), post.getBusinessProfile().getId())) {
             throw new PermissionException();
@@ -94,9 +98,5 @@ public class PostApplicantService {
         if (!post.applyPossible(postApplicants)) {
             throw new PostIsFullException();
         }
-    }
-
-    public List<PostApplicantResponse.UserInfo> getApplicantListByDate(Long postId, LocalDate doDate) {
-        return postApplicantRepository.findAllByPostAndDoDate(postId, doDate);
     }
 }

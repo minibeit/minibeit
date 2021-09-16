@@ -16,6 +16,7 @@ const API_URLS = {
   GET_FEEDLIST: "/api/post/list/",
   GET_FEEDDETAIL: "/api/post/",
   APPLY_POST: "/api/post/",
+  BOOKMARK_POST: "/api/post/",
   BPROFILE_NEW: "/api/business/profile",
   BPROFILELIST: "/api/business/profile/list/",
   BPROFILE_GET: "/api/business/profile/",

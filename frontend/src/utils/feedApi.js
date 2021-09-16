@@ -1,8 +1,14 @@
 import { API_URLS } from "../constants";
 import { withAuthInstance, withoutAuthInstance } from "./common";
 
-const { FEED_NEW, FEED_DATE_NEW, GET_FEEDLIST, GET_FEEDDETAIL, APPLY_POST } =
-  API_URLS;
+const {
+  FEED_NEW,
+  FEED_DATE_NEW,
+  GET_FEEDLIST,
+  GET_FEEDDETAIL,
+  APPLY_POST,
+  BOOKMARK_POST,
+} = API_URLS;
 
 export const feedCreateApi = async (infoinputs, files) => {
   const formData = new FormData();
@@ -54,7 +60,7 @@ export const feedDetailApi = async (feedId) => {
 };
 
 export const feedDetailTimeApi = async (feedId, doDate) => {
-  return await withAuthInstance.get(
+  return await withoutAuthInstance.get(
     GET_FEEDDETAIL + feedId + `/start?doDate=${doDate}`
   );
 };
@@ -91,4 +97,12 @@ export const applyApi = async (postId, postDoDateId) => {
   return await withAuthInstance.post(
     APPLY_POST + `${postId}/date/${postDoDateId}/apply`
   );
+};
+
+export const bookmarkApi = async (postId, req) => {
+  if (req === "post") {
+    return await withAuthInstance.post(BOOKMARK_POST + `${postId}/like`);
+  } else if (req === "delete") {
+    return await withAuthInstance.delete(BOOKMARK_POST + `${postId}`);
+  }
 };

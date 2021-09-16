@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from "react";
 import PFeedInfoContainer from "./PFeedInfoContainer";
 import PropTypes from "prop-types";
-import { applyApi, feedDetailApi } from "../../../utils/feedApi";
+import { feedDetailApi } from "../../../utils/feedApi";
+import ApplyConfirmModal from "../../Common/Modal/ApplyConfirmModal";
 import { LoadingSpinner } from "../../Common";
+import { useResetRecoilState } from "recoil";
+import { applyState } from "../../../recoil/applyState";
 
 FeedInfoContainer.propTypes = {
   feedId: PropTypes.number.isRequired,
@@ -11,6 +14,9 @@ FeedInfoContainer.propTypes = {
 
 export default function FeedInfoContainer({ feedId, date }) {
   const [feedDetailData, setFeedDetailData] = useState();
+  const [modalSwitch, setModalSwitch] = useState(false);
+
+  const resetApply = useResetRecoilState(applyState);
 
   const getFeedDetail = async (feedId) => {
     await feedDetailApi(feedId)
@@ -18,24 +24,24 @@ export default function FeedInfoContainer({ feedId, date }) {
       .catch((err) => console.log(err));
   };
 
-  const applyForPost = async (feedId, postDoDateId) => {
-    applyApi(feedId, postDoDateId);
-  };
-
   useEffect(() => {
     getFeedDetail(feedId);
+    resetApply();
   }, []);
   return (
     <>
       {feedDetailData ? (
         <PFeedInfoContainer
-          applyForPost={applyForPost}
           feedDetailData={feedDetailData}
           date={date}
+          setModalSwitch={setModalSwitch}
         />
       ) : (
         <LoadingSpinner />
       )}
+      {modalSwitch ? (
+        <ApplyConfirmModal setModalSwitch={setModalSwitch} />
+      ) : null}
     </>
   );
 }

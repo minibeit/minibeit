@@ -7,7 +7,7 @@ import { useRecoilValue } from "recoil";
 import { applyState } from "../../../recoil/applyState";
 
 PFeedInfoContainer.propTypes = {
-  applyForPost: PropTypes.func.isRequired,
+  setModalSwitch: PropTypes.func.isRequired,
   feedDetailData: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
@@ -34,7 +34,7 @@ PFeedInfoContainer.propTypes = {
   date: PropTypes.string,
 };
 export default function PFeedInfoContainer({
-  applyForPost,
+  setModalSwitch,
   feedDetailData,
   date,
 }) {
@@ -58,8 +58,8 @@ export default function PFeedInfoContainer({
   } = feedDetailData;
 
   const apply = useRecoilValue(applyState);
-  const applyFunc = () => {
-    applyForPost(apply.postId, apply.postDoDateId);
+  const openModal = () => {
+    setModalSwitch(true);
   };
 
   return (
@@ -108,7 +108,7 @@ export default function PFeedInfoContainer({
         <p>날짜: {apply.doDate}</p>
         <p>시간: {apply.doTime}</p>
         {payment === "CACHE" ? <p>보상: {cache}원</p> : <p>보상: {goods}</p>}
-        <button onClick={applyFunc}>지원하기</button>
+        <button onClick={openModal}>지원하기</button>
         <button>공유하기</button>
       </S.ApplyBox>
     </S.DetailContainer>

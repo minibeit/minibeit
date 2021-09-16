@@ -22,9 +22,9 @@ export default function FilterAndList() {
     <>
       <PFilterContainer getFeedList={getFeedList} />
       {feedList ? <PListContainer feedList={feedList} /> : null}
-      {totalPages && (
+      {totalPages ? (
         <PBtnContainer totalPages={totalPages} getFeedList={getFeedList} />
-      )}
+      ) : null}
     </>
   );
 }

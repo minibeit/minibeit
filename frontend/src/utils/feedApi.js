@@ -88,5 +88,7 @@ export const feedlistApi = async (page, schoolId, date, payment) => {
 };
 
 export const applyApi = async (postId, postDoDateId) => {
-  console.log(APPLY_POST + `/${postId}/date/${postDoDateId}/apply`);
+  return await withAuthInstance.post(
+    APPLY_POST + `${postId}/date/${postDoDateId}/apply`
+  );
 };

@@ -3,11 +3,11 @@ CREATE TABLE `post`
 (
     `id`                       BIGINT       NOT NULL AUTO_INCREMENT,
     `school_id`                BIGINT       NOT NULL,
-    `interests_id`             BIGINT       NOT NULL,
     `business_profile_id`      BIGINT       NOT NULL,
     `title`                    VARCHAR(100) NOT NULL,
     `content`                  VARCHAR(255),
     `place`                    VARCHAR(100) NOT NULL,
+    `category`                 VARCHAR(100) NOT NULL,
     `recruit_people`           INTEGER      NOT NULL,
     `contact`                  VARCHAR(50)  NOT NULL,
     `payment`                  VARCHAR(50)  NOT NULL,

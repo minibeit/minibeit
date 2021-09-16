@@ -6,15 +6,12 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.interests.domain.Interests;
-import com.minibeit.interests.domain.InterestsRepository;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
-import com.minibeit.post.service.exception.InterestsNotFoundException;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
@@ -42,17 +39,15 @@ public class PostService {
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final PostDoDateRepository postDoDateRepository;
     private final PostLikeRepository postLikeRepository;
-    private final InterestsRepository interestsRepository;
 
     public PostResponse.OnlyId createInfo(PostRequest.CreateInfo request, User user) {
         permissionCheck(request.getBusinessProfileId(), user);
 
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         BusinessProfile businessProfile = businessProfileRepository.findById(request.getBusinessProfileId()).orElseThrow(BusinessProfileNotFoundException::new);
-        Interests interests = interestsRepository.findById(request.getInterestsId()).orElseThrow(InterestsNotFoundException::new);
         List<PostFile> postFiles = postFileService.uploadFiles(request.getFiles());
 
-        Post post = Post.create(request, school, businessProfile, interests, postFiles);
+        Post post = Post.create(request, school, businessProfile, postFiles);
         Post savedPost = postRepository.save(post);
 
         return PostResponse.OnlyId.build(savedPost);

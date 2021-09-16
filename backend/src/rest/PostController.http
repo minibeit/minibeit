@@ -19,6 +19,10 @@ Content-Disposition: form-data; name="contact";
 
 010-1234-5623
 --boundary
+Content-Disposition: form-data; name="category";
+
+미디어
+--boundary
 Content-Disposition: form-data; name="headcount";
 
 2
@@ -46,13 +50,10 @@ Content-Disposition: form-data; name="businessProfileId";
 Content-Disposition: form-data; name="schoolId";
 
 1
---boundary
-Content-Disposition: form-data; name="interestsId";
 
-1
 
 ###
-POST {{apiUrl}}/post/3/info/date
+POST {{apiUrl}}/post/1/info/date
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -74,7 +75,7 @@ DELETE {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/2
+GET {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/list/1?doDate=2021-09-03&page=1&size=10&paymentType=GOODS

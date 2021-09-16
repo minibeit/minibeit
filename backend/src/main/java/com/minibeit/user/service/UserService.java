@@ -32,12 +32,6 @@ public class UserService {
         }
     }
 
-    @Transactional(readOnly = true)
-    public UserResponse.GetOne getMe(User user) {
-        User findUser = userRepository.findByIdWithSchool(user.getId()).orElseThrow(UserNotFoundException::new);
-        return UserResponse.GetOne.build(findUser);
-    }
-
     public UserResponse.CreateOrUpdate update(UserRequest.Update request, User user) {
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
@@ -49,8 +43,21 @@ public class UserService {
         return UserResponse.CreateOrUpdate.build(updatedUser, school.getId());
     }
 
+    @Transactional(readOnly = true)
+    public UserResponse.GetOne getMe(User user) {
+        User findUser = userRepository.findByIdWithSchool(user.getId()).orElseThrow(UserNotFoundException::new);
+        return UserResponse.GetOne.build(findUser);
+    }
+
+    @Transactional(readOnly = true)
     public List<UserResponse.IdAndNickname> getListInBusinessProfile(Long businessProfileId) {
         List<User> users = userRepository.findAllInBusinessProfile(businessProfileId);
+        return users.stream().map(UserResponse.IdAndNickname::build).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<UserResponse.IdAndNickname> searchByNickname(String nickname) {
+        List<User> users = userRepository.findByNicknameStartsWith(nickname);
         return users.stream().map(UserResponse.IdAndNickname::build).collect(Collectors.toList());
     }
 

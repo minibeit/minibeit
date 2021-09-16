@@ -39,17 +39,29 @@ class UserControllerTest extends MvcTest {
     @MockBean
     private UserService userService;
 
-    private User user;
+    private User user1;
+    private User user2;
 
     @BeforeEach
     public void setup() {
-        user = User.builder()
+        user1 = User.builder()
                 .id(1L)
                 .name("테스터 실명")
                 .nickname("동그라미")
                 .gender(Gender.MALE)
-                .birth(LocalDate.of(1997,3,6))
+                .birth(LocalDate.of(1997, 3, 6))
                 .job("개발자")
+                .phoneNum("010-1234-1234")
+                .avatar(Avatar.builder().id(1L).url("profile image url").build())
+                .school(School.builder().id(1L).name("고려대학교").build())
+                .build();
+        user2 = User.builder()
+                .id(2L)
+                .name("동동")
+                .nickname("동동")
+                .gender(Gender.MALE)
+                .birth(LocalDate.of(1997, 3, 6))
+                .job("대학생")
                 .phoneNum("010-1234-1234")
                 .avatar(Avatar.builder().id(1L).url("profile image url").build())
                 .school(School.builder().id(1L).name("고려대학교").build())
@@ -80,7 +92,7 @@ class UserControllerTest extends MvcTest {
     @Test
     @DisplayName("내 정보 조회 문서화")
     public void getMe() throws Exception {
-        UserResponse.GetOne response = UserResponse.GetOne.build(user);
+        UserResponse.GetOne response = UserResponse.GetOne.build(user1);
 
         given(userService.getMe(any())).willReturn(response);
 
@@ -109,7 +121,7 @@ class UserControllerTest extends MvcTest {
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
 
-        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.builder().id(1L).nickname("별").schoolId(2L).build();
+        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.build(user1, 2L);
 
         given(userService.update(any(), any())).willReturn(response);
 
@@ -122,7 +134,7 @@ class UserControllerTest extends MvcTest {
                         .param("gender", "MALE")
                         .param("phoneNum", "010-1234-5678")
                         .param("job", "개발자")
-                        .param("birth","2000-11-11")
+                        .param("birth", "2000-11-11")
                         .param("schoolId", "2")
                         .param("avatarChanged", "true")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -154,10 +166,10 @@ class UserControllerTest extends MvcTest {
     }
 
     @Test
-    @DisplayName("비즈니스 프로필을 가지고 있는 유저 목록 조회")
+    @DisplayName("비즈니스 프로필을 가지고 있는 유저 목록 조회 문서화")
     public void getListInBusinessProfile() throws Exception {
         List<UserResponse.IdAndNickname> response = new ArrayList<>();
-        response.add(UserResponse.IdAndNickname.builder().id(1L).nickname("테스터").build());
+        response.add(UserResponse.IdAndNickname.build(user1));
         given(userService.getListInBusinessProfile(any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/user/list/business/profile/{businessProfileId}", 1));
@@ -171,6 +183,32 @@ class UserControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("공유된 유저의 식별자"),
                                 fieldWithPath("[].nickname").type(JsonFieldType.STRING).description("공유된 유저의 닉네임")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("닉네임으로 유저 목록 검색 문서화")
+    public void searchByNickname() throws Exception {
+        List<UserResponse.IdAndNickname> response = new ArrayList<>();
+        response.add(UserResponse.IdAndNickname.build(user1));
+        response.add(UserResponse.IdAndNickname.build(user2));
+        given(userService.searchByNickname(any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/user/search")
+                .param("nickname", "동")
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("user-search-nickname",
+                        requestParameters(
+                                parameterWithName("nickname").description("검색할 닉네임(입력한 값으로 닉네임이 시작하는 유저들이 검색됩니다~)")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("유저 식별자"),
+                                fieldWithPath("[].nickname").type(JsonFieldType.STRING).description("유저 닉네임")
                         )
                 ));
     }

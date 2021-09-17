@@ -103,7 +103,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-POST {{apiUrl}}/post/1/completed
+POST {{apiUrl}}/post/3/completed
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 

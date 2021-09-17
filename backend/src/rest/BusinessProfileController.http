@@ -92,7 +92,7 @@ Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/business/profile/2/posts?page=2&size=5&sort=new
+GET {{apiUrl}}/business/profile/1/posts?page=1&size=10&sort=recruiting
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 

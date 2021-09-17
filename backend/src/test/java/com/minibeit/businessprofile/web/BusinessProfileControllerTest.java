@@ -324,7 +324,7 @@ class BusinessProfileControllerTest extends MvcTest {
         postList.add(post1);
         List<BusinessProfileResponse.PostList> collect = postList.stream().map(BusinessProfileResponse.PostList::build).collect(Collectors.toList());
         PageDto pageDto = new PageDto(1,5);
-        pageDto.setSort("new");
+        pageDto.setSort("recruiting");
 
         Page<BusinessProfileResponse.PostList> postPage = new PageImpl<>(collect, pageDto.of(pageDto.getSort()), collect.size());
 
@@ -334,7 +334,7 @@ class BusinessProfileControllerTest extends MvcTest {
                 .get("/api/business/profile/{businessProfileId}/posts",1)
                 .param("page", "1")
                 .param("size", "10")
-                .param("sort", "new"));
+                .param("sort", "recruiting"));
 
         results.andExpect(status().isOk())
                 .andDo(print())
@@ -345,7 +345,7 @@ class BusinessProfileControllerTest extends MvcTest {
                         requestParameters(
                                 parameterWithName("page").description("조회할 페이지"),
                                 parameterWithName("size").description("조회할 사이즈"),
-                                parameterWithName("sort").description("new: 최신 순서, recruiting: 게시물 모집중 순서")
+                                parameterWithName("sort").description("recruiting: 게시물 모집중 + 최신 생성 순서, default: 최신순")
                         ),
                         relaxedResponseFields(
                                 fieldWithPath("content[].title").type(JsonFieldType.STRING).description("제목"),

@@ -70,12 +70,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
-        if ("new".equals(sort)) {
+        if("recruiting".equals(sort)){
+            query.orderBy(post.isCompleted.asc(), post.id.desc());
+        }
+        else{
             query.orderBy(post.id.desc());
         }
-//        else if("recruiting".equals(sort)){
-//            query.orderBy(post.);
-//        }
 
         QueryResults<Post> results = query.fetchResults();
 

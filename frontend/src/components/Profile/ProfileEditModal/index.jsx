@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { schoolGetApi } from "../../../utils/schoolApi";
 import { editMyInfo, getMyInfo } from "../../../utils/profileApi";
-import PProfileEditForm from "./PProfileEditForm";
 import { LoadingSpinner } from "../../Common";
 import { useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../../../recoil/userState";
+import PProfileEditModal from "./PProfileEditModal";
+import Portal from "../../Common/Modal/Portal";
+import * as S from "../style";
 
-export default function ProfileEditForm() {
+export default function ProfileEditModal({ setModalSwitch }) {
   const [user, setUser] = useRecoilState(userState);
   const history = useHistory();
   const [schoollist, setSchoolList] = useState([]);
   const [userData, setUserData] = useState();
+
   const getUserData = async () => {
     await getMyInfo().then((res) => {
       setUserData(res.data);
@@ -31,7 +34,9 @@ export default function ProfileEditForm() {
       history.push(`/user/${inputs.new_nickname}`);
     });
   };
-
+  const closeModal = () => {
+    setModalSwitch(false);
+  };
   useEffect(() => {
     getUserData();
     getSchoolInfo();
@@ -40,11 +45,23 @@ export default function ProfileEditForm() {
   return (
     <>
       {userData ? (
-        <PProfileEditForm
-          schoollist={schoollist}
-          userData={userData}
-          editUserDataHandler={editUserDataHandler}
-        />
+        <Portal>
+          <S.ModalBackground>
+            <S.ModalBox>
+              <S.ModalHeader>
+                <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
+              </S.ModalHeader>
+              <S.ModalContent>
+                <PProfileEditModal
+                  setModalSwitch={setModalSwitch}
+                  schoollist={schoollist}
+                  userData={userData}
+                  editUserDataHandler={editUserDataHandler}
+                />
+              </S.ModalContent>
+            </S.ModalBox>
+          </S.ModalBackground>
+        </Portal>
       ) : (
         <LoadingSpinner />
       )}

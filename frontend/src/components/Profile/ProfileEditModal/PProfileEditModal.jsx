@@ -5,8 +5,9 @@ import { PVImg } from "../../Common";
 
 import * as S from "../style";
 import { handleCompressImg } from "../../../utils/imgCompress";
+import Portal from "../../Common/Modal/Portal";
 
-PProfileEditForm.propTypes = {
+PProfileEditModal.propTypes = {
   schoollist: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -27,7 +28,8 @@ PProfileEditForm.propTypes = {
   editUserDataHandler: PropTypes.func.isRequired,
 };
 
-export default function PProfileEditForm({
+export default function PProfileEditModal({
+  setModalSwitch,
   schoollist,
   userData,
   editUserDataHandler,
@@ -79,6 +81,7 @@ export default function PProfileEditForm({
     setBasicImg(true);
     setNewImg(undefined);
   };
+
   return (
     <S.EditContainer>
       <S.EditInput

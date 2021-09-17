@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 import * as S from "../style";
 import PropTypes from "prop-types";
+import ProfileEditModal from "../ProfileEditModal";
 
 PUserInfo.propTypes = {
   userData: PropTypes.shape({
@@ -17,6 +18,7 @@ PUserInfo.propTypes = {
 
 export default function PUserInfo({ userData }) {
   const history = useHistory();
+  const [modalSwitch, setModalSwitch] = useState(false);
   return (
     <S.UserInfoContainer>
       <S.ImgBox>
@@ -27,13 +29,10 @@ export default function PUserInfo({ userData }) {
         )}
       </S.ImgBox>
       <br />
-      <button
-        onClick={() => {
-          history.push(`/user/${userData.id}/edit`);
-        }}
-      >
-        프로필 수정
-      </button>
+      <button onClick={() => setModalSwitch(true)}>프로필 수정</button>
+      {modalSwitch ? (
+        <ProfileEditModal setModalSwitch={setModalSwitch} />
+      ) : null}
       <S.UserName>이름 : {userData.name}</S.UserName>
       <S.UserInfo>닉네임 : {userData.nickname}</S.UserInfo>
       <S.UserInfo>

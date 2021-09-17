@@ -30,7 +30,6 @@ function App() {
           <Route path="/ProcessLogin" component={ProcessLogin} />
           <Route path="/signupInfo" component={SignupInfo} />
           <Route path="/user/:userId" exact component={Profile} />
-          <Route path="/user/:userId/edit" exact component={ProfileEdit} />
           <Route path="/business/:businessId" exact component={BProfile} />
           <Route
             path="/business/:businessId/edit"

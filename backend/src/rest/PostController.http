@@ -53,7 +53,7 @@ Content-Disposition: form-data; name="schoolId";
 
 
 ###
-POST {{apiUrl}}/post/1/info/date
+POST {{apiUrl}}/post/2/info/date
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -93,6 +93,6 @@ GET {{apiUrl}}/post/write/review/list?page=1&size=3
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/post/1/like
+POST {{apiUrl}}/post/2/like
 Authorization: {{authorizationToken}}
 

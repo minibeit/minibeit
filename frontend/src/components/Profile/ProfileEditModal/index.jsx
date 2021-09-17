@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { schoolGetApi } from "../../../utils/schoolApi";
 import { editMyInfo, getMyInfo } from "../../../utils/profileApi";
 import { LoadingSpinner } from "../../Common";
-import { useHistory } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { userState } from "../../../recoil/userState";
 import PProfileEditModal from "./PProfileEditModal";
@@ -11,27 +9,26 @@ import * as S from "../style";
 
 export default function ProfileEditModal({ setModalSwitch }) {
   const [user, setUser] = useRecoilState(userState);
-  const history = useHistory();
-  const [schoollist, setSchoolList] = useState([]);
   const [userData, setUserData] = useState();
 
   const getUserData = async () => {
     await getMyInfo().then((res) => {
+      console.log(res);
       setUserData(res.data);
     });
   };
-  const getSchoolInfo = async () => {
-    await schoolGetApi().then((res) => {
-      setSchoolList(res.data);
-    });
-  };
-  const editUserDataHandler = async (inputs, newImg, basicImg) => {
-    await editMyInfo(inputs, newImg, basicImg).then(async (res) => {
+
+  const editUserDataHandler = async (inputs, school, newImg, basicImg) => {
+    await editMyInfo(inputs, school, newImg, basicImg).then(async (res) => {
+      console.log(res);
       const user_cp = { ...user };
-      user_cp["schoolId"] = parseInt(inputs.schoolId);
+      user_cp["schoolId"] = parseInt(school);
       user_cp["name"] = inputs.new_nickname;
       setUser(user_cp);
-      history.push(`/user/${inputs.new_nickname}`);
+      console.log(setUser);
+      window.alert("회원정보가 수정되었습니다.");
+      window.location.replace(`/user/${inputs.new_nickname}`);
+      setModalSwitch(false);
     });
   };
   const closeModal = () => {
@@ -39,7 +36,7 @@ export default function ProfileEditModal({ setModalSwitch }) {
   };
   useEffect(() => {
     getUserData();
-    getSchoolInfo();
+    console.log(userData);
   }, []);
 
   return (
@@ -54,7 +51,6 @@ export default function ProfileEditModal({ setModalSwitch }) {
               <S.ModalContent>
                 <PProfileEditModal
                   setModalSwitch={setModalSwitch}
-                  schoollist={schoollist}
                   userData={userData}
                   editUserDataHandler={editUserDataHandler}
                 />

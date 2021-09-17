@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import PropTypes from "prop-types";
-import { PVImg } from "../../Common";
-
+import { PVImg, SchoolSearch } from "../../Common";
+import { signupState } from "../../../recoil/signupState";
+import { useRecoilValue } from "recoil";
 import * as S from "../style";
 import { handleCompressImg } from "../../../utils/imgCompress";
-import Portal from "../../Common/Modal/Portal";
 
 PProfileEditModal.propTypes = {
   schoollist: PropTypes.arrayOf(
@@ -15,25 +15,20 @@ PProfileEditModal.propTypes = {
     })
   ),
   userData: PropTypes.shape({
-    age: PropTypes.number.isRequired,
     avatar: PropTypes.string,
     gender: PropTypes.string.isRequired,
+    birth: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     job: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     nickname: PropTypes.string.isRequired,
     phoneNum: PropTypes.string.isRequired,
-    schoolId: PropTypes.number.isRequired,
+    schoolName: PropTypes.string.isRequired,
   }),
   editUserDataHandler: PropTypes.func.isRequired,
 };
 
-export default function PProfileEditModal({
-  setModalSwitch,
-  schoollist,
-  userData,
-  editUserDataHandler,
-}) {
+export default function PProfileEditModal({ userData, editUserDataHandler }) {
   const history = useHistory();
   const [inputs, setInputs] = useState({
     name: userData.name,
@@ -42,14 +37,16 @@ export default function PProfileEditModal({
     gender: userData.gender,
     phoneNum: userData.phoneNum,
     job: userData.job,
-    age: userData.age,
-    schoolId: userData.schoolId,
+    birth: userData.birth,
   });
   const [newImg, setNewImg] = useState();
   const [basicImg, setBasicImg] = useState(false);
-  const { name, pre_nickname, new_nickname, phoneNum, job, age } = inputs;
+  const school = useRecoilValue(signupState).schoolId;
+
+  const { name, pre_nickname, new_nickname, phoneNum, job, birth } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
+    console.log(value, name);
     setInputs({ ...inputs, [name]: value });
   };
   const onNumChange = (e) => {
@@ -146,36 +143,15 @@ export default function PProfileEditModal({
         onChange={onChange}
       />
       <br />
-      <S.EditInput
-        value={age}
-        name="age"
-        type="number"
-        placeholder="나이"
-        onChange={onChange}
-      />
+      <S.EditInput value={birth} name="birth" type="date" onChange={onChange} />
       <br />
-      <S.EditSelect
-        name="schoolId"
-        onChange={onChange}
-        defaultValue={userData.schoolId}
-      >
-        <option value={userData.schoolId} disabled>
-          {schoollist.find((ele) => ele.id === userData.schoolId) === undefined
-            ? null
-            : schoollist.find((ele) => ele.id === userData.schoolId).name}
-        </option>
-        {schoollist.map(({ id, name }) => (
-          <option value={id} key={id}>
-            {name}
-          </option>
-        ))}
-      </S.EditSelect>
+      <SchoolSearch use="Signup" />
       <br />
       <S.EditButton
         type="submit"
         onClick={async (e) => {
           e.preventDefault();
-          editUserDataHandler(inputs, newImg, basicImg);
+          editUserDataHandler(inputs, school, newImg, basicImg);
         }}
       >
         수정

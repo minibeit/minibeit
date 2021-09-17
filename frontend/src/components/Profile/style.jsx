@@ -25,7 +25,7 @@ export const UserImg = styled.img`
 `;
 export const EditButton = styled.button``;
 export const EditContainer = styled.div``;
-export const EditInput = styled.div``;
+export const EditInput = styled.input``;
 export const EditSelect = styled.select``;
 export const ImgDel = styled.button``;
 

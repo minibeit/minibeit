@@ -35,6 +35,13 @@ public class UserController {
         return ResponseEntity.ok().body(response);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<UserResponse.IdAndNickname>> searchByNickname(@RequestParam("nickname")String nickname) {
+        List<UserResponse.IdAndNickname> response = userService.searchByNickname(nickname);
+
+        return ResponseEntity.ok().body(response);
+    }
+
     @GetMapping("/list/business/profile/{businessProfileId}")
     public ResponseEntity<List<UserResponse.IdAndNickname>> getListInBusinessProfile(@PathVariable Long businessProfileId) {
         List<UserResponse.IdAndNickname> response = userService.getListInBusinessProfile(businessProfileId);

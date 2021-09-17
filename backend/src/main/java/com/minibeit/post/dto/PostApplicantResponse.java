@@ -1,7 +1,7 @@
 package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.user.domain.Gender;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
@@ -22,7 +22,7 @@ public class PostApplicantResponse {
         private Gender gender;
         private String phoneNum;
         private String job;
-        private PostStatus status;
+        private ApplyStatus status;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime startTime;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
@@ -30,7 +30,7 @@ public class PostApplicantResponse {
 
         @Builder
         @QueryProjection
-        public UserInfo(Long id, String name, LocalDate birth, Gender gender, String phoneNum, String job, Integer time, PostStatus status, LocalDateTime startTime) {
+        public UserInfo(Long id, String name, LocalDate birth, Gender gender, String phoneNum, String job, Integer time, ApplyStatus status, LocalDateTime startTime) {
             this.id = id;
             this.name = name;
             this.birth = birth;

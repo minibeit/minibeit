@@ -37,7 +37,7 @@ public class BusinessProfileController {
 
     @PostMapping("/{businessProfileId}/share")
     public ResponseEntity<Void> shareBusinessProfile(@PathVariable Long businessProfileId,
-                                                     @RequestBody BusinessProfileRequest.Share request,
+                                                     @RequestBody BusinessProfileRequest.ShareOrExpel request,
                                                      @CurrentUser CustomUserDetails customUserDetails) {
         businessProfileService.shareBusinessProfile(businessProfileId, request, customUserDetails.getUser());
         return ResponseEntity.ok().build();
@@ -48,6 +48,14 @@ public class BusinessProfileController {
                                             @PathVariable Long userId,
                                             @CurrentUser CustomUserDetails customUserDetails) {
         businessProfileService.transferOfAuthority(businessProfileId, userId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{businessProfileId}/expel")
+    public ResponseEntity<Void> cancelShare(@PathVariable Long businessProfileId,
+                                            @RequestBody BusinessProfileRequest.ShareOrExpel request,
+                                            @CurrentUser CustomUserDetails customUserDetails) {
+        businessProfileService.cancelShare(businessProfileId, request, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 
@@ -68,14 +76,6 @@ public class BusinessProfileController {
     public ResponseEntity<Void> delete(@PathVariable Long businessProfileId,
                                        @CurrentUser CustomUserDetails customUserDetails) {
         businessProfileService.delete(businessProfileId, customUserDetails.getUser());
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{businessProfileId}/expel/{userId}")
-    public ResponseEntity<Void> cancelShare(@PathVariable Long businessProfileId,
-                                            @PathVariable Long userId,
-                                            @CurrentUser CustomUserDetails customUserDetails) {
-        businessProfileService.cancelShare(businessProfileId, userId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 }

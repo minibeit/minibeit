@@ -61,8 +61,6 @@ class AuthControllerTest extends MvcTest {
                         .param("job", "대학생")
                         .param("birth","2000-11-11")
                         .param("schoolId", "1")
-                        .param("interestsIds", "1")
-                        .param("interestsIds", "2")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .characterEncoding("UTF-8")
         );
@@ -76,8 +74,7 @@ class AuthControllerTest extends MvcTest {
                                 parameterWithName("phoneNum").description("전화번호"),
                                 parameterWithName("birth").description("생년월일 (2000-11-11)"),
                                 parameterWithName("job").description("직업"),
-                                parameterWithName("schoolId").description("관심있는 학교 식별자"),
-                                parameterWithName("interestsIds").description("관심분야 식별자")
+                                parameterWithName("schoolId").description("관심있는 학교 식별자")
                         ),
                         requestParts(
                                 partWithName("avatar").description("사용자 프로필 이미지")

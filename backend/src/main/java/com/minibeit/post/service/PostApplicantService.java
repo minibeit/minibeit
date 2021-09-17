@@ -5,7 +5,7 @@ import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
@@ -46,7 +46,7 @@ public class PostApplicantService {
         PostDoDate postDoDate = postDoDateRepository.findByIdWithPost(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
         Post post = postDoDate.getPost();
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
-        if (!postDoDate.getDoDate().plusMinutes(post.getDoTime()).isBefore(LocalDateTime.now()) || !postApplicant.getPostStatus().equals(PostStatus.APPROVE)) {
+        if (!postDoDate.getDoDate().plusMinutes(post.getDoTime()).isBefore(LocalDateTime.now()) || !postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
             throw new PermissionException();
         }
         postApplicant.updateMyFinish();
@@ -83,6 +83,10 @@ public class PostApplicantService {
         postDoDate.updateFull(approvedPostApplicant);
     }
 
+    public List<PostApplicantResponse.UserInfo> getApplicantListByDate(Long postId, LocalDate doDate) {
+        return postApplicantRepository.findAllByPostAndDoDate(postId, doDate);
+    }
+
     private void permissionCheck(User user, Post post) {
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), post.getBusinessProfile().getId())) {
             throw new PermissionException();
@@ -94,9 +98,5 @@ public class PostApplicantService {
         if (!post.applyPossible(postApplicants)) {
             throw new PostIsFullException();
         }
-    }
-
-    public List<PostApplicantResponse.UserInfo> getApplicantListByDate(Long postId, LocalDate doDate) {
-        return postApplicantRepository.findAllByPostAndDoDate(postId, doDate);
     }
 }

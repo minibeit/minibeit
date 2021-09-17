@@ -1,5 +1,5 @@
 package com.minibeit.post.domain;
 
-public enum PostStatus {
+public enum ApplyStatus {
     APPROVE, REJECT, WAIT
 }

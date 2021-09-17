@@ -69,6 +69,7 @@ class PostControllerTest extends MvcTest {
                 .recruitCondition(true)
                 .recruitConditionDetail("운전면허 있는 사람만")
                 .doTime(120)
+                .category("디자인")
                 .startDate(LocalDateTime.of(2021, 9, 3, 9, 30))
                 .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
                 .school(School.builder().id(1L).name("고려대학교").build())
@@ -84,6 +85,7 @@ class PostControllerTest extends MvcTest {
                 .content("실험실 세부사항")
                 .place("고려대")
                 .contact("010-1234-5786")
+                .category("디자인")
                 .recruitPeople(10)
                 .payment(Payment.GOODS)
                 .paymentGoods("커피 기프티콘")
@@ -121,6 +123,7 @@ class PostControllerTest extends MvcTest {
                         .param("content", "아무나 올 수 있는 실험입니다.")
                         .param("place", "고려대 신공학관")
                         .param("contact", "010-1234-1234")
+                        .param("category", "디자인")
                         .param("headcount", "10")
                         .param("payment", "CACHE")
                         .param("cache", "10000")
@@ -129,7 +132,6 @@ class PostControllerTest extends MvcTest {
                         .param("conditionDetail", "운전면허 있는 사람")
                         .param("doTime", "60")
                         .param("schoolId", "1")
-                        .param("interestsId", "1")
                         .param("businessProfileId", "1")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .characterEncoding("UTF-8")
@@ -143,6 +145,7 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("content").description("세부사항"),
                                 parameterWithName("place").description("장소"),
                                 parameterWithName("contact").description("연락처"),
+                                parameterWithName("category").description("모집 분야"),
                                 parameterWithName("headcount").description("모집인원수"),
                                 parameterWithName("payment").description("지급 방법 (CACHE or GOODS) 지급 방법이 CACHE 인경우 cache만 보내고 goods는 안보내면 됩니다!"),
                                 parameterWithName("cache").description("지급 방법이 CACHE인 경우 현금"),
@@ -151,7 +154,6 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("conditionDetail").description("구인 조건이 true인 경우 구인 조건 세부내용"),
                                 parameterWithName("doTime").description("실험 소요 시간"),
                                 parameterWithName("schoolId").description("학교 식별자"),
-                                parameterWithName("interestsId").description("관심분야 식별자"),
                                 parameterWithName("businessProfileId").description("게시물을 만드는 비즈니스 프로필 식별자")
                         ),
                         requestParts(
@@ -369,7 +371,7 @@ class PostControllerTest extends MvcTest {
                 .time(60)
                 .doDate(LocalDateTime.of(2021, 9, 10, 9, 30))
                 .recruitCondition(true)
-                .status(PostStatus.APPROVE.name())
+                .status(ApplyStatus.APPROVE.name())
                 .build();
         PostResponse.GetMyApplyList approveAndWaitList2 = PostResponse.GetMyApplyList.builder()
                 .id(2L)
@@ -379,7 +381,7 @@ class PostControllerTest extends MvcTest {
                 .time(120)
                 .doDate(LocalDateTime.of(2021, 9, 10, 12, 30))
                 .recruitCondition(true)
-                .status(PostStatus.WAIT.name())
+                .status(ApplyStatus.WAIT.name())
                 .build();
         response.add(approveAndWaitList1);
         response.add(approveAndWaitList2);
@@ -426,7 +428,7 @@ class PostControllerTest extends MvcTest {
                 .doDate(LocalDateTime.of(2021, 9, 10, 9, 30))
                 .recruitCondition(true)
                 .postDoDateId(1L)
-                .status(PostStatus.APPROVE.name())
+                .status(ApplyStatus.APPROVE.name())
                 .build();
         PostResponse.GetMyApplyList approveAndWaitList2 = PostResponse.GetMyApplyList.builder()
                 .id(2L)
@@ -436,7 +438,7 @@ class PostControllerTest extends MvcTest {
                 .doDate(LocalDateTime.of(2021, 9, 10, 12, 30))
                 .recruitCondition(true)
                 .postDoDateId(2L)
-                .status(PostStatus.APPROVE.name())
+                .status(ApplyStatus.APPROVE.name())
                 .build();
         response.add(approveAndWaitList1);
         response.add(approveAndWaitList2);

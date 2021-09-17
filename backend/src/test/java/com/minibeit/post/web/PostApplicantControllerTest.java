@@ -1,7 +1,7 @@
 package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostApplicantResponse;
 import com.minibeit.post.service.PostApplicantService;
@@ -140,7 +140,7 @@ class PostApplicantControllerTest extends MvcTest {
                 .gender(Gender.FEMALE)
                 .phoneNum("010-1234-0123")
                 .job("대학생")
-                .status(PostStatus.WAIT)
+                .status(ApplyStatus.WAIT)
                 .startTime(LocalDateTime.of(2021, 9, 9, 9, 30))
                 .time(120)
                 .build();
@@ -151,7 +151,7 @@ class PostApplicantControllerTest extends MvcTest {
                 .gender(Gender.MALE)
                 .phoneNum("010-1124-0123")
                 .job("교수")
-                .status(PostStatus.APPROVE)
+                .status(ApplyStatus.APPROVE)
                 .startTime(LocalDateTime.of(2021, 9, 9, 9, 30))
                 .time(120)
                 .build();
@@ -162,7 +162,7 @@ class PostApplicantControllerTest extends MvcTest {
                 .gender(Gender.MALE)
                 .phoneNum("010-1234-6666")
                 .job("개발자")
-                .status(PostStatus.APPROVE)
+                .status(ApplyStatus.APPROVE)
                 .startTime(LocalDateTime.of(2021, 9, 9, 10, 30))
                 .time(120)
                 .build();

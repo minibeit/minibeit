@@ -55,3 +55,6 @@ false
 ###
 GET {{apiUrl}}/user/list/1
 Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/user/search?nickname=테스터1
+Authorization: {{authorizationToken}}

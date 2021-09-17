@@ -8,9 +8,9 @@ import {
   feedDateCreateApi,
 } from "../../../utils";
 import { schoolGetApi } from "../../../utils/schoolApi";
-import PFNContainer from "./PFNContainer";
+import PCreateFeedContainer from "./PCreateFeedContainer";
 
-function FNContainer() {
+export default function CreateFeedContainer() {
   const userId = useRecoilValue(userState).id;
   const history = useHistory();
   const [schoolList, setSchoolList] = useState([]);
@@ -43,11 +43,10 @@ function FNContainer() {
       .catch((err) => console.log(err));
   };
   return (
-    <PFNContainer
+    <PCreateFeedContainer
       bpList={bpList}
       schoolList={schoolList}
       FNHandler={FNHandler}
     />
   );
 }
-export default FNContainer;

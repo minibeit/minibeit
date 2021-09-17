@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import * as S from "../style";
 
-function PFNContainer({ bpList, schoolList, FNHandler }) {
+export default function PCreateFeedContainer({
+  bpList,
+  schoolList,
+  FNHandler,
+}) {
   const [index, setIndex] = useState(0);
   const [infoinputs, setInfoInputs] = useState({
     title: "",
@@ -325,4 +329,3 @@ function PFNContainer({ bpList, schoolList, FNHandler }) {
     </>
   );
 }
-export default PFNContainer;

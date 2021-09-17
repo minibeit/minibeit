@@ -18,3 +18,14 @@ export const FNFile = styled.input``;
 export const FNdetailInfo = styled.textarea``;
 export const FNcreateBtn = styled.button``;
 export const FNLabel = styled.label``;
+
+/* DateSelect */
+export const DateBox = styled.div`
+  display: flex;
+`;
+export const HeadCountBox = styled.div`
+  display: flex;
+`;
+export const DoTimeBox = styled.div`
+  display: flex;
+`;

@@ -7,20 +7,16 @@ import {
   feedCreateApi,
   feedDateCreateApi,
 } from "../../../utils";
-import { schoolGetApi } from "../../../utils/schoolApi";
-import PCreateFeedContainer from "./PCreateFeedContainer";
+
+import PSelectBProfile from "./PSelectBProfile";
+import PSchoolSelect from "./PSchoolSelect";
+import PDateSelect from "./PDateSelect";
 
 export default function CreateFeedContainer() {
   const userId = useRecoilValue(userState).id;
   const history = useHistory();
-  const [schoolList, setSchoolList] = useState([]);
   const [bpList, setbpList] = useState([]);
 
-  const getSchoolList = async () => {
-    await schoolGetApi()
-      .then(async (res) => setSchoolList(res.data))
-      .catch((err) => console.log(err));
-  };
   const getbpList = async () => {
     await bprofileListGet(userId)
       .then(async (res) => setbpList(res.data))
@@ -28,7 +24,6 @@ export default function CreateFeedContainer() {
   };
 
   useEffect(() => {
-    getSchoolList();
     getbpList();
   }, []);
   const FNHandler = async (infoinputs, dateinputs, files) => {
@@ -43,10 +38,10 @@ export default function CreateFeedContainer() {
       .catch((err) => console.log(err));
   };
   return (
-    <PCreateFeedContainer
-      bpList={bpList}
-      schoolList={schoolList}
-      FNHandler={FNHandler}
-    />
+    <>
+      {bpList && <PSelectBProfile bpList={bpList} />}
+      <PSchoolSelect />
+      <PDateSelect />
+    </>
   );
 }

@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import * as S from "./style";
 import { signupState } from "../../../recoil/signupState";
 import { userState } from "../../../recoil/userState";
+import { recuritState } from "../../../recoil/recuritState";
 
 SchoolSearch.propTypes = {
   use: PropTypes.string.isRequired,
@@ -14,8 +15,9 @@ SchoolSearch.propTypes = {
 
 export default function SchoolSearch({ use }) {
   const [filter, setFilter] = useRecoilState(filterState);
-  const user = useRecoilValue(userState);
   const [signup, setSignup] = useRecoilState(signupState);
+  const [recurit, setRecurit] = useRecoilState(recuritState);
+  const user = useRecoilValue(userState);
   const [schoolItem, setSchoolItem] = useState();
   const [listSwitch, setListSwitch] = useState(false);
 
@@ -56,6 +58,14 @@ export default function SchoolSearch({ use }) {
         signupRC["schoolId"] = parseInt(e.target.id);
         signupRC["schoolName"] = e.target.textContent;
         setSignup(signupRC);
+        break;
+      case "Recurit":
+        const recurit_cp = { ...recurit };
+        recurit_cp["school"] = {
+          id: parseInt(e.target.id),
+          name: e.target.textContent,
+        };
+        setSignup(recurit_cp);
         break;
       default:
         alert("다시 시도해주세요");

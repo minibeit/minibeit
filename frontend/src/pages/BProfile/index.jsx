@@ -6,6 +6,7 @@ import BProfileSection from "../../components/BProfile/BProfileSection";
 import { NavBar } from "../../components/Common";
 import { userState } from "../../recoil/userState";
 import * as S from "./style";
+import BOtherProfile from "../../components/BProfile/BOtherProfile";
 
 export default function BProfile({ match }) {
   const { businessId } = match.params;
@@ -22,7 +23,10 @@ export default function BProfile({ match }) {
       {businessId === "0" ? (
         <BProfileSection />
       ) : (
-        <BProfileInfo businessId={parseInt(businessId)} />
+        <>
+          <BProfileInfo businessId={parseInt(businessId)} />
+          <BOtherProfile businessId={parseInt(businessId)} />
+        </>
       )}
     </>
   );

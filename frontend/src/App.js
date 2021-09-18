@@ -7,7 +7,7 @@ import ProcessLogin from "./pages/ProcessLogin";
 
 import SignupInfo from "./pages/SignupInfo";
 import Profile from "./pages/Profile";
-import ProfileEdit from "./pages/ProfileEdit";
+
 import BProfile from "./pages/BProfile";
 import BProfileEdit from "./pages/BProfileEdit";
 import Apply from "./pages/Apply";

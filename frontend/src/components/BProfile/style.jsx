@@ -12,6 +12,9 @@ export const BUserInfoContainer2 = styled.div`
 export const BProfileDelete = styled.div``;
 export const BProfileEdit = styled.div``;
 export const BPuser = styled.div``;
+export const BPuser2 = styled.div`
+  color: red;
+`;
 export const BPjoin = styled.div``;
 export const BPuserdelete = styled.div``;
 export const UserName = styled.h3``;
@@ -83,4 +86,5 @@ export const ModalContent = styled.div``;
 export const JoinBox1 = styled.div``;
 export const JoinBox2 = styled.div``;
 export const JoinEdit = styled.div``;
+export const JoinAssign = styled.div``;
 export const JoinInput = styled.div``;

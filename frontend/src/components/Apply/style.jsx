@@ -12,9 +12,6 @@ export const FeedBox = styled.div`
   border: 1px solid grey;
 `;
 export const FeedTitle = styled.h2``;
-export const BookmarkBtn = styled.button`
-  background: ${(props) => props.color};
-`;
 export const FeedAuthor = styled.div``;
 export const FeedInfoData = styled.div`
   display: flex;

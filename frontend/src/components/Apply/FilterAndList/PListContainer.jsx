@@ -58,9 +58,9 @@ export default function PListContainer({ feedList, postBookmark }) {
               <S.FeedTitle id={a.id} onClick={goToDetailPage}>
                 {a.title}
               </S.FeedTitle>
-              <S.BookmarkBtn id={a.id} onClick={clickBookmark}>
+              <button id={a.id} onClick={clickBookmark}>
                 {a.like ? "북마크 중" : "북마크"}
-              </S.BookmarkBtn>
+              </button>
 
               <S.FeedAuthor>{a.businessProfileName}</S.FeedAuthor>
               <S.FeedInfoData>

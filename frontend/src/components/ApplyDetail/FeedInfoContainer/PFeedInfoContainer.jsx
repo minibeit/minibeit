@@ -67,7 +67,6 @@ export default function PFeedInfoContainer({
       <S.TitleBox>
         <h3>제목: {title}</h3>
         <p>작성자: {businessProfileInfo.name}</p>
-        <button>북마크하기</button>
       </S.TitleBox>
       <S.DateInfoBox>
         <PTimeSelectBox

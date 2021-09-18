@@ -41,7 +41,12 @@ export default function PListContainer({ feedList, postBookmark }) {
   };
 
   const clickBookmark = (e) => {
-    postBookmark(e.target.id, e.target.value);
+    postBookmark(e.target.id);
+    if (e.target.textContent === "북마크 중") {
+      e.target.textContent = "북마크";
+    } else {
+      e.target.textContent = "북마크 중";
+    }
   };
 
   return (
@@ -53,15 +58,9 @@ export default function PListContainer({ feedList, postBookmark }) {
               <S.FeedTitle id={a.id} onClick={goToDetailPage}>
                 {a.title}
               </S.FeedTitle>
-              {a.like !== true ? (
-                <button id={a.id} value="post" onClick={clickBookmark}>
-                  북마크
-                </button>
-              ) : (
-                <button id={a.id} value="delete" onClick={clickBookmark}>
-                  북마크 중
-                </button>
-              )}
+              <S.BookmarkBtn id={a.id} onClick={clickBookmark}>
+                {a.like ? "북마크 중" : "북마크"}
+              </S.BookmarkBtn>
 
               <S.FeedAuthor>{a.businessProfileName}</S.FeedAuthor>
               <S.FeedInfoData>

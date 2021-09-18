@@ -105,10 +105,6 @@ export const applyApi = async (postId, postDoDateId) => {
   );
 };
 
-export const bookmarkApi = async (postId, req) => {
-  if (req === "post") {
-    return await withAuthInstance.post(BOOKMARK_POST + `${postId}/like`);
-  } else if (req === "delete") {
-    return await withAuthInstance.delete(BOOKMARK_POST + `${postId}`);
-  }
+export const bookmarkApi = async (postId) => {
+  return await withAuthInstance.post(BOOKMARK_POST + `${postId}/like`);
 };

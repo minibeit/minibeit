@@ -38,6 +38,7 @@ export default function PBProfileJoin({
                 onClick={async () => {
                   await handleAssign(cheifId);
                   setAssignState(false);
+                  setCheifId();
                 }}
               >
                 완료

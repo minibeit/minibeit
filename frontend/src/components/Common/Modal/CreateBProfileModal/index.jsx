@@ -4,6 +4,7 @@ import { PVImg } from "../..";
 import PropTypes from "prop-types";
 import { handleCompressImg } from "../../../../utils/imgCompress";
 import * as S from "./style";
+import Address from "../../Address";
 
 CreateBProfileModal.propTypes = {
   setModalSwitch: PropTypes.func.isRequired,
@@ -21,7 +22,13 @@ export default function CreateBProfileModal({
     contact: "",
   });
   const [img, setImg] = useState();
-
+  const [admodalSwitch, setadModalSwitch] = useState(false);
+  const handleAddress = async (fullAddress) => {
+    setInputs({
+      ...inputs,
+      place: fullAddress,
+    });
+  };
   const { name, place, introduce, contact } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -54,12 +61,19 @@ export default function CreateBProfileModal({
               placeholder="이름"
               onChange={onChange}
             />
+            {admodalSwitch ? (
+              <Address
+                setModalSwitch={setadModalSwitch}
+                handleAddress={handleAddress}
+              />
+            ) : null}
             <S.BPNewInput
               value={place}
               name="place"
               type="text"
               placeholder="장소"
-              onChange={onChange}
+              onClick={() => setadModalSwitch(true)}
+              readOnly
             />
             <S.BPNewInput
               value={introduce}

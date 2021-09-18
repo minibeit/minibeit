@@ -29,12 +29,15 @@ export default function BProfileJoin({ businessId, setModalSwitch }) {
       .catch((err) => console.log(err));
   };
   const handleAssign = async (userId) => {
-    await assignChange(businessId, userId)
-      .then(async () => {
-        alert("관리자가 양도되었습니다");
-        getUsergroup();
-      })
-      .catch((err) => console.log(err));
+    if (userId === undefined) {
+    } else {
+      await assignChange(businessId, userId)
+        .then(async () => {
+          alert("관리자가 양도되었습니다");
+          getUsergroup();
+        })
+        .catch((err) => console.log(err));
+    }
   };
   const getUsergroup = async () => {
     await getBPusergroup(businessId)

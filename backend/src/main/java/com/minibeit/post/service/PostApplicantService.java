@@ -5,17 +5,19 @@ import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostApplicantRequest;
+import com.minibeit.post.dto.PostApplicantResponse;
 import com.minibeit.post.service.exception.*;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -44,7 +46,7 @@ public class PostApplicantService {
         PostDoDate postDoDate = postDoDateRepository.findByIdWithPost(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
         Post post = postDoDate.getPost();
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
-        if (!postDoDate.getDoDate().plusMinutes(post.getDoTime()).isBefore(LocalDateTime.now()) || !postApplicant.getPostStatus().equals(PostStatus.APPROVE)) {
+        if (!postDoDate.getDoDate().plusMinutes(post.getDoTime()).isBefore(LocalDateTime.now()) || !postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
             throw new PermissionException();
         }
         postApplicant.updateMyFinish();
@@ -79,6 +81,10 @@ public class PostApplicantService {
 
         List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
         postDoDate.updateFull(approvedPostApplicant);
+    }
+
+    public List<PostApplicantResponse.UserInfo> getApplicantListByDate(Long postId, LocalDate doDate) {
+        return postApplicantRepository.findAllByPostAndDoDate(postId, doDate);
     }
 
     private void permissionCheck(User user, Post post) {

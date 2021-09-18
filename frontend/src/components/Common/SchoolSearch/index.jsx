@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { filterState } from "../../../recoil/filterState";
 import { schoolGetApi } from "../../../utils/schoolApi";
 import PropTypes from "prop-types";
 
 import * as S from "./style";
 import { signupState } from "../../../recoil/signupState";
+import { userState } from "../../../recoil/userState";
 
 SchoolSearch.propTypes = {
   use: PropTypes.string.isRequired,
@@ -13,6 +14,7 @@ SchoolSearch.propTypes = {
 
 export default function SchoolSearch({ use }) {
   const [filter, setFilter] = useRecoilState(filterState);
+  const user = useRecoilValue(userState);
   const [signup, setSignup] = useRecoilState(signupState);
   const [schoolItem, setSchoolItem] = useState();
   const [listSwitch, setListSwitch] = useState(false);
@@ -61,14 +63,20 @@ export default function SchoolSearch({ use }) {
     e.target.parentNode.previousSibling.value = e.target.textContent;
     setListSwitch(false);
   };
-
   useEffect(() => {
     searchSchool();
   }, []);
-
   return (
     <S.SchoolSearchBox>
-      <S.SearchInput onFocus={onFocus} onChange={searchSchool}></S.SearchInput>
+      <S.SearchInput
+        defaultValue={
+          user.schoolId && schoolItem
+            ? schoolItem.find((ele) => ele.id === user.schoolId).name
+            : null
+        }
+        onFocus={onFocus}
+        onChange={searchSchool}
+      ></S.SearchInput>
       {listSwitch ? (
         <S.SchoolList>
           {schoolItem &&

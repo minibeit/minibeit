@@ -26,7 +26,7 @@ public class PostApplicant extends BaseEntity {
     private PostDoDate postDoDate;
 
     @Enumerated(EnumType.STRING)
-    private PostStatus postStatus;
+    private ApplyStatus applyStatus;
 
     private String rejectComment;
 
@@ -43,16 +43,16 @@ public class PostApplicant extends BaseEntity {
     }
 
     public void updateStatusApprove() {
-        this.postStatus = PostStatus.APPROVE;
+        this.applyStatus = ApplyStatus.APPROVE;
     }
 
     public void updateStatusReject(String rejectComment) {
-        this.postStatus = PostStatus.REJECT;
+        this.applyStatus = ApplyStatus.REJECT;
         this.rejectComment = rejectComment;
     }
 
     public boolean writeReviewIsPossible() {
-        return this.postStatus.equals(PostStatus.APPROVE) && !this.writeReview && this.businessFinish;
+        return this.applyStatus.equals(ApplyStatus.APPROVE) && !this.writeReview && this.businessFinish;
     }
 
     public void updateMyFinish() {
@@ -69,7 +69,7 @@ public class PostApplicant extends BaseEntity {
                 .myFinish(false)
                 .businessFinish(true)
                 .writeReview(false)
-                .postStatus(PostStatus.WAIT)
+                .applyStatus(ApplyStatus.WAIT)
                 .build();
         postApplicant.setPostDoDate(postDoDate);
         return postApplicant;

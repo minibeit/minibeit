@@ -44,3 +44,15 @@ include::{snippets}/user-update/request-parts.adoc[]
 성공 응답 HTTP
 include::{snippets}/user-update/http-response.adoc[]
 include::{snippets}/user-update/response-fields.adoc[]
+
+=== 닉네임으로 유저 목록 검색하기
+
+`GET /api/user/search`
+
+요청 HTTP
+include::{snippets}/user-search-nickname/http-request.adoc[]
+include::{snippets}/user-search-nickname/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/user-search-nickname/http-response.adoc[]
+include::{snippets}/user-search-nickname/response-fields.adoc[]

@@ -1,22 +1,29 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { feedDetailTimeApi } from "../../../utils/feedApi";
+import { useRecoilState } from "recoil";
+import { applyState } from "../../../recoil/applyState";
 
 PTimeSelectBox.propTypes = {
   feedId: PropTypes.number.isRequired,
+  date: PropTypes.string,
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
 };
 
-export default function PTimeSelectBox({ feedId, startDate, endDate }) {
+export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
+  const [apply, setApply] = useRecoilState(applyState);
   const [doTimeList, setDoTimeList] = useState();
   const [doDateList] = useState(createDoDateList(startDate, endDate));
-  const [viewDoDate, setViewDoDate] = useState(doDateList[0]);
+  const [viewDoDate, setViewDoDate] = useState(
+    date === "" ? doDateList[0] : date
+  );
   const getFeedDetailTime = async (id, doDate) => {
     await feedDetailTimeApi(id, doDate)
       .then(async (res) => await setDoTimeList(res.data))
       .catch((err) => console.log(err));
   };
+
   const moveDate = (e) => {
     if (e.target.value === "next") {
       if (doDateList.indexOf(viewDoDate) !== doDateList.length - 1) {
@@ -36,9 +43,19 @@ export default function PTimeSelectBox({ feedId, startDate, endDate }) {
       }
     }
   };
+  const selectDate = (e) => {
+    const apply_cp = { ...apply };
+    apply_cp["postId"] = feedId;
+    apply_cp["postDoDateId"] = parseInt(e.target.id);
+    apply_cp["doTime"] = e.target.textContent;
+    apply_cp["doDate"] = viewDoDate;
+    setApply(apply_cp);
+  };
+
   useEffect(() => {
-    getFeedDetailTime(feedId, startDate.slice(0, 10));
+    getFeedDetailTime(feedId, viewDoDate);
   }, []);
+
   return (
     <>
       <h4>실험 날짜 및 시간 선택</h4>
@@ -53,9 +70,20 @@ export default function PTimeSelectBox({ feedId, startDate, endDate }) {
         다음날짜
       </button>
       <div>
-        {doTimeList && doTimeList.length !== 0 ? (
+        {doTimeList ? (
           doTimeList.map((a) => {
-            return <button key={a.id}>{a.startTime}</button>;
+            return (
+              <button
+                key={a.id}
+                id={a.id}
+                onClick={selectDate}
+                disabled={
+                  a.id === parseInt(apply["postDoDateId"]) ? true : false
+                }
+              >
+                {a.startTime}~{a.endTime}
+              </button>
+            );
           })
         ) : (
           <p>이 날은 실험이 없습니다</p>
@@ -68,23 +96,20 @@ export default function PTimeSelectBox({ feedId, startDate, endDate }) {
 // 시작날짜와 끝날짜를 입력하면 사이날짜를 뽑아주는 로직
 const createDoDateList = (startDate, endDate) => {
   let dateList = [];
-  startDate = new Date(startDate);
-  if (startDate.toISOString().slice(0, 10) === endDate.slice(0, 10)) {
-    dateList.push(startDate.toISOString().slice(0, 10));
+
+  const date = new Date(startDate);
+  if (startDate === endDate) {
+    dateList.push(startDate);
   } else {
-    while (startDate.toISOString().slice(0, 10) < endDate.slice(0, 10)) {
+    while (date.toISOString().slice(0, 10) <= endDate) {
       dateList.push(
-        `${startDate.getFullYear()}-${
-          startDate.getMonth() + 1 < 10
-            ? `0${startDate.getMonth() + 1}`
-            : startDate.getMonth() + 1
-        }-${
-          startDate.getDate() < 10
-            ? `0${startDate.getDate()}`
-            : startDate.getDate()
-        }`
+        `${date.getFullYear()}-${
+          date.getMonth() + 1 < 10
+            ? `0${date.getMonth() + 1}`
+            : date.getMonth() + 1
+        }-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
       );
-      startDate.setDate(startDate.getDate() + 1);
+      date.setDate(date.getDate() + 1);
     }
   }
   return dateList;

@@ -19,6 +19,10 @@ Content-Disposition: form-data; name="contact";
 
 010-1234-5623
 --boundary
+Content-Disposition: form-data; name="category";
+
+미디어
+--boundary
 Content-Disposition: form-data; name="headcount";
 
 2
@@ -47,6 +51,7 @@ Content-Disposition: form-data; name="schoolId";
 
 1
 
+
 ###
 POST {{apiUrl}}/post/1/info/date
 Authorization: {{authorizationToken}}
@@ -70,7 +75,7 @@ DELETE {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/2
+GET {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/list/1?doDate=2021-09-03&page=1&size=10&paymentType=GOODS
@@ -81,7 +86,7 @@ GET {{apiUrl}}/post/1/start?doDate=2021-09-03
 GET {{apiUrl}}/post/like/list?page=1&size=6
 Authorization: {{authorizationToken}}
 ###
-GET {{apiUrl}}/post/apply/approve/list?page=1&size=3
+GET {{apiUrl}}/post/apply/approve/list?page=1&size=4
 Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/write/review/list?page=1&size=3

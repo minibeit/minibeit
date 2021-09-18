@@ -5,6 +5,7 @@ CREATE TABLE `business_profile_review`
     `business_profile_id` BIGINT       NOT NULL,
     `post_title`          VARCHAR(100) NOT NULL,
     `content`             VARCHAR(255) NOT NULL,
+    `time`                INTEGER      NOT NULL,
     `do_date`             DATETIME     NOT NULL,
     `created_at`          DATETIME     NOT NULL,
     `updated_at`          DATETIME DEFAULT NULL,

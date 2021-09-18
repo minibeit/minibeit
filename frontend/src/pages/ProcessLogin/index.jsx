@@ -13,6 +13,7 @@ function ProcessLogin({ match }) {
     name: match.params.nickname,
     didSignup: JSON.parse(match.params.signupCheck),
     schoolId: parseInt(match.params.schoolId),
+    bpId: 0,
   };
   if (data.didSignup) {
     localStorage.setItem("accessToken", match.params.accessToken);

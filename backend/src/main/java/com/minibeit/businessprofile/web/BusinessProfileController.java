@@ -24,21 +24,10 @@ public class BusinessProfileController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<BusinessProfileResponse.IdAndName> create(BusinessProfileRequest.Create request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<BusinessProfileResponse.IdAndName> create(BusinessProfileRequest.Create request,
+                                                                    @CurrentUser CustomUserDetails customUserDetails) {
         BusinessProfileResponse.IdAndName response = businessProfileService.create(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/business/profile/" + response.getId())).body(response);
-    }
-
-    @GetMapping("/list/{userId}")
-    public ResponseEntity<List<BusinessProfileResponse.GetList>> getListIsMine(@PathVariable Long userId) {
-        List<BusinessProfileResponse.GetList> response = businessProfileService.getListIsMine(userId);
-        return ResponseEntity.ok().body(response);
-    }
-
-    @GetMapping("/{businessProfileId}")
-    public ResponseEntity<BusinessProfileResponse.GetOne> getOne(@PathVariable Long businessProfileId, @CurrentUser CustomUserDetails customUserDetails) {
-        BusinessProfileResponse.GetOne response = businessProfileService.getOne(businessProfileId, customUserDetails.getUser());
-        return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("/{businessProfileId}")
@@ -49,16 +38,9 @@ public class BusinessProfileController {
         return ResponseEntity.ok().body(response);
     }
 
-    @DeleteMapping("/{businessProfileId}")
-    public ResponseEntity<Void> delete(@PathVariable Long businessProfileId,
-                                       @CurrentUser CustomUserDetails customUserDetails) {
-        businessProfileService.delete(businessProfileId, customUserDetails.getUser());
-        return ResponseEntity.ok().build();
-    }
-
     @PostMapping("/{businessProfileId}/share")
     public ResponseEntity<Void> shareBusinessProfile(@PathVariable Long businessProfileId,
-                                                     @RequestBody BusinessProfileRequest.Share request,
+                                                     @RequestBody BusinessProfileRequest.ShareOrExpel request,
                                                      @CurrentUser CustomUserDetails customUserDetails) {
         businessProfileService.shareBusinessProfile(businessProfileId, request, customUserDetails.getUser());
         return ResponseEntity.ok().build();
@@ -72,11 +54,31 @@ public class BusinessProfileController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{businessProfileId}/expel/{userId}")
+    @PostMapping("/{businessProfileId}/expel")
     public ResponseEntity<Void> cancelShare(@PathVariable Long businessProfileId,
-                                            @PathVariable Long userId,
+                                            @RequestBody BusinessProfileRequest.ShareOrExpel request,
                                             @CurrentUser CustomUserDetails customUserDetails) {
-        businessProfileService.cancelShare(businessProfileId, userId, customUserDetails.getUser());
+        businessProfileService.cancelShare(businessProfileId, request, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/list/{userId}")
+    public ResponseEntity<List<BusinessProfileResponse.GetList>> getListIsMine(@PathVariable Long userId) {
+        List<BusinessProfileResponse.GetList> response = businessProfileService.getListIsMine(userId);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/{businessProfileId}")
+    public ResponseEntity<BusinessProfileResponse.GetOne> getOne(@PathVariable Long businessProfileId,
+                                                                 @CurrentUser CustomUserDetails customUserDetails) {
+        BusinessProfileResponse.GetOne response = businessProfileService.getOne(businessProfileId, customUserDetails.getUser());
+        return ResponseEntity.ok().body(response);
+    }
+
+    @DeleteMapping("/{businessProfileId}")
+    public ResponseEntity<Void> delete(@PathVariable Long businessProfileId,
+                                       @CurrentUser CustomUserDetails customUserDetails) {
+        businessProfileService.delete(businessProfileId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 

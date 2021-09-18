@@ -20,40 +20,61 @@ PListContainer.propTypes = {
       startTime: PropTypes.array,
     })
   ),
+  postBookmark: PropTypes.func.isRequired,
 };
 
-export default function PListContainer({ feedList }) {
+export default function PListContainer({ feedList, postBookmark }) {
   const filter = useRecoilValue(filterState);
   const history = useHistory();
   const goToDetailPage = (e) => {
-    history.push(`/apply/${e.target.id}`);
+    history.push(
+      `/apply/${e.target.id}?${filter.date.getFullYear()}-${
+        filter.date.getMonth() + 1 < 10
+          ? "0" + (filter.date.getMonth() + 1)
+          : filter.date.getMonth() + 1
+      }-${
+        filter.date.getDate() < 10
+          ? "0" + filter.date.getDate()
+          : filter.date.getDate()
+      }`
+    );
   };
-  const feedListOfFilter = feedList.filter((ele) => {
-    // 보상에 따른 분류 작업
-    if (filter["payment"] === "CACHE") {
-      return ele.payment === "CACHE";
-    } else if (filter["payment"] === "GOODS") {
-      return ele.payment === "GOODS";
-    } else {
-      return ele;
-    }
-  });
+
+  const clickBookmark = (e) => {
+    postBookmark(e.target.id, e.target.value);
+  };
 
   return (
     <>
-      {feedListOfFilter.length !== 0 ? (
-        feedListOfFilter.map((a) => {
+      {feedList.length !== 0 ? (
+        feedList.map((a) => {
           return (
             <S.FeedBox key={a.id}>
               <S.FeedTitle id={a.id} onClick={goToDetailPage}>
                 {a.title}
               </S.FeedTitle>
-              <S.FeedDoTime>소요시간: {a.doTime}분</S.FeedDoTime>
-              {a.payment === "CACHE" ? (
-                <S.FeedPay>보상: {a.cache}원</S.FeedPay>
+              {a.like !== true ? (
+                <button id={a.id} value="post" onClick={clickBookmark}>
+                  북마크
+                </button>
               ) : (
-                <S.FeedPay>보상: 상품</S.FeedPay>
+                <button id={a.id} value="delete" onClick={clickBookmark}>
+                  북마크 중
+                </button>
               )}
+
+              <S.FeedAuthor>{a.businessProfileName}</S.FeedAuthor>
+              <S.FeedInfoData>
+                <S.DataItem>소요시간: {a.doTime}분</S.DataItem>
+                {a.payment === "CACHE" ? (
+                  <S.DataItem>지급: {a.cache}원</S.DataItem>
+                ) : (
+                  <S.DataItem>지급: 상품</S.DataItem>
+                )}
+                <S.DataItem>
+                  필수조건: {a.recruitCondition ? "있음" : "없음"}
+                </S.DataItem>
+              </S.FeedInfoData>
             </S.FeedBox>
           );
         })

@@ -22,7 +22,7 @@ PSignupInfoForm.propTypes = {
   signupHandler: PropTypes.func.isRequired,
 };
 
-function PSignupInfoForm({ schoollist, signupHandler }) {
+function PSignupInfoForm({ signupHandler }) {
   // window.addEventListener("beforeunload", function (e) {
   //   let confirmationMessage = "정말 닫으시겠습니까?";
   //   e.returnValue = confirmationMessage; // Gecko, Trident, Chrome 34+

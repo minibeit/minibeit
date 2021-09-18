@@ -3,8 +3,11 @@ import PropTypes from "prop-types";
 import PTimeSelectBox from "./PTimeSelectBox";
 
 import * as S from "../style";
+import { useRecoilValue } from "recoil";
+import { applyState } from "../../../recoil/applyState";
 
 PFeedInfoContainer.propTypes = {
+  setModalSwitch: PropTypes.func.isRequired,
   feedDetailData: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
@@ -28,9 +31,13 @@ PFeedInfoContainer.propTypes = {
       introduce: PropTypes.string.isRequired,
     }),
   }),
+  date: PropTypes.string,
 };
-
-export default function PFeedInfoContainer({ feedDetailData }) {
+export default function PFeedInfoContainer({
+  setModalSwitch,
+  feedDetailData,
+  date,
+}) {
   const {
     id,
     businessProfileInfo,
@@ -50,6 +57,11 @@ export default function PFeedInfoContainer({ feedDetailData }) {
     recruitConditionDetail,
   } = feedDetailData;
 
+  const apply = useRecoilValue(applyState);
+  const openModal = () => {
+    setModalSwitch(true);
+  };
+
   return (
     <S.DetailContainer>
       <S.TitleBox>
@@ -58,7 +70,12 @@ export default function PFeedInfoContainer({ feedDetailData }) {
         <button>북마크하기</button>
       </S.TitleBox>
       <S.DateInfoBox>
-        <PTimeSelectBox feedId={id} startDate={startDate} endDate={endDate} />
+        <PTimeSelectBox
+          feedId={id}
+          date={date}
+          startDate={startDate}
+          endDate={endDate}
+        />
       </S.DateInfoBox>
       <S.ContentBox>
         <h4>상세모집요강</h4>
@@ -88,10 +105,10 @@ export default function PFeedInfoContainer({ feedDetailData }) {
       </S.BusinessProfileBox>
       {files.length === 0 ? <p>파일없음</p> : <p>파일있는데 아직 구현 안됨</p>}
       <S.ApplyBox>
-        <p>날짜: </p>
-        <p>시간: </p>
+        <p>날짜: {apply.doDate}</p>
+        <p>시간: {apply.doTime}</p>
         {payment === "CACHE" ? <p>보상: {cache}원</p> : <p>보상: {goods}</p>}
-        <button>지원하기</button>
+        <button onClick={openModal}>지원하기</button>
         <button>공유하기</button>
       </S.ApplyBox>
     </S.DetailContainer>

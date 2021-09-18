@@ -3,7 +3,6 @@ package com.minibeit.businessprofile.service;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileReviewRepository;
@@ -12,7 +11,6 @@ import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
-import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.Post;
@@ -51,6 +49,19 @@ public class BusinessProfileService {
     }
 
     //user의 bsuinessProfile list 조회
+    public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request, User user) {
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+
+        permissionCheck(user, businessProfile);
+        if (request.isAvatarChanged()) {
+            avatarService.deleteOne(businessProfile.getAvatar());
+            Avatar file = avatarService.upload(request.getAvatar());
+            businessProfile.updateAvatar(file);
+        }
+        businessProfile.update(request);
+        return BusinessProfileResponse.IdAndName.build(businessProfile);
+    }
+
     @Transactional(readOnly = true)
     public List<BusinessProfileResponse.GetList> getListIsMine(Long userId) {
         List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(userId);
@@ -66,19 +77,6 @@ public class BusinessProfileService {
         return BusinessProfileResponse.GetOne.build(businessProfile, numberOfEmployees, user);
     }
 
-    public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request, User user) {
-        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-
-        permissionCheck(user, businessProfile);
-        if (request.isAvatarChanged()) {
-            avatarService.deleteOne(businessProfile.getAvatar());
-            Avatar file = avatarService.upload(request.getAvatar());
-            businessProfile.updateAvatar(file);
-        }
-        businessProfile.update(request);
-        return BusinessProfileResponse.IdAndName.build(businessProfile);
-    }
-
     public void delete(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
@@ -87,27 +85,24 @@ public class BusinessProfileService {
         businessProfileRepository.deleteById(businessProfileId);
     }
 
-    public void shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.Share request, User user) {
+    public void shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.ShareOrExpel request, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-
         permissionCheck(user, businessProfile);
 
-        User userToShare = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
-
-        if (userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(userToShare.getId(), businessProfileId)) {
+        List<User> users = userRepository.findAllByIdList(request.getUserIdList());
+        if (!userBusinessProfileRepository.findAllByUserIdListAndBusinessProfileId(request.getUserIdList(), businessProfileId).isEmpty()) {
             throw new DuplicateShareException();
         }
-        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
 
-        userBusinessProfileRepository.save(userBusinessProfile);
+        List<UserBusinessProfile> userBusinessProfileList = users.stream().map(shareToUser -> UserBusinessProfile.createWithBusinessProfile(shareToUser, businessProfile)).collect(Collectors.toList());
+        userBusinessProfileRepository.saveAll(userBusinessProfileList);
     }
 
-    public void cancelShare(Long businessProfileId, Long userId, User user) {
+    public void cancelShare(Long businessProfileId, BusinessProfileRequest.ShareOrExpel request, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         permissionCheck(user, businessProfile);
 
-        UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userId, businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
-        userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
+        userBusinessProfileRepository.deleteAllByIdAndBusinessProfileIdInQuery(request.getUserIdList(), businessProfileId);
     }
 
     public void transferOfAuthority(Long businessProfileId, Long userId, User user) {

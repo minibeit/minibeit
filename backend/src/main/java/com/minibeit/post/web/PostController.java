@@ -46,13 +46,6 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/{postId}/review/{postDoDateId}")
-    public ResponseEntity<PostResponse.ReviewId> createReview(@PathVariable Long postId, @PathVariable Long postDoDateId, @RequestBody PostRequest.CreateReview request, @CurrentUser CustomUserDetails customUserDetails) {
-        PostResponse.ReviewId response = postService.createReview(postId, postDoDateId, request, customUserDetails.getUser());
-        return ResponseEntity.created(URI.create("/api/post/review/" + response.getId())).body(response);
-    }
-
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponse.GetOne> getOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.GetOne response = postService.getOne(postId, customUserDetails);

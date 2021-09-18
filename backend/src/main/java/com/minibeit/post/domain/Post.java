@@ -31,6 +31,8 @@ public class Post extends BaseEntity {
 
     private String contact;
 
+    private String category;
+
     private Integer recruitPeople;
 
     @Enumerated(EnumType.STRING)
@@ -68,7 +70,7 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "business_profile_id")
     private BusinessProfile businessProfile;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id")
     private School school;
 
@@ -89,6 +91,7 @@ public class Post extends BaseEntity {
                 .content(request.getContent())
                 .place(request.getPlace())
                 .contact(request.getContact())
+                .category(request.getCategory())
                 .recruitPeople(request.getHeadcount())
                 .payment(request.getPayment())
                 .paymentCache(request.getCache())

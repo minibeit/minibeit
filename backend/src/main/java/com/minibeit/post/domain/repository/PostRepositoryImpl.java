@@ -1,8 +1,8 @@
 package com.minibeit.post.domain.repository;
 
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.dto.QPostResponse_GetMyApplyList;
 import com.minibeit.user.domain.User;
@@ -97,13 +97,13 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<PostResponse.GetMyApplyList> findByApplyIsApproveOrWait(User user, Pageable pageable) {
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.postStatus.stringValue()
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue()
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
-                        .and(postApplicant.postStatus.eq(PostStatus.APPROVE).or(postApplicant.postStatus.eq(PostStatus.WAIT))
+                        .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE).or(postApplicant.applyStatus.eq(ApplyStatus.WAIT))
                                 .and(postDoDate.doDate.before(LocalDateTime.now()))))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
@@ -117,13 +117,13 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable pageable) {
 
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.postStatus.stringValue()
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue()
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
-                        .and(postApplicant.postStatus.eq(PostStatus.APPROVE)
+                        .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE)
                                 .and(postApplicant.myFinish.isTrue())
                                 .and(postApplicant.businessFinish.isTrue())
                                 .and(postApplicant.writeReview.isFalse())))

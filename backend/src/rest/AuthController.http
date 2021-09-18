@@ -22,7 +22,7 @@ Content-Disposition: form-data; name="name";
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-테스터02
+테스터022
 --boundary
 Content-Disposition: form-data; name="gender";
 

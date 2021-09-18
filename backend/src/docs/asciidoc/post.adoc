@@ -154,7 +154,7 @@ include::{snippets}/post-apply/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-apply/http-response.adoc[]
 
-=== 피실험자가 게시물 참여 완료하기
+=== 게시물 참여 완료하기(피실험자)
 
 `POST /api/post/date/{postDoDateId}/finish`
 
@@ -165,7 +165,7 @@ include::{snippets}/post-apply-my-finish/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-apply-my-finish/http-response.adoc[]
 
-=== 게시물 참여 취소하기
+=== 게시물 참여 취소하기(피실험자)
 
 `POST /api/post/date/{postDoDateId}/apply/cancel`
 
@@ -176,7 +176,7 @@ include::{snippets}/post-apply-cancel/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-apply-cancel/http-response.adoc[]
 
-=== 지원자 참여 허락하기
+=== 지원자 참여 허락하기(실험모집하는 연구실)
 
 `POST /api/post/{postId}/date/{postDoDateId}/apply/approve/{userId}`
 
@@ -187,7 +187,7 @@ include::{snippets}/post-apply-approve/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-apply-approve/http-response.adoc[]
 
-=== 지원자 참여 거절하기
+=== 지원자 참여 거절하기(실험모집하는 연구실)
 
 `POST /api/post/{postId}/date/{postDoDateId}/apply/reject/{userId}`
 
@@ -198,16 +198,15 @@ include::{snippets}/post-apply-reject/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-apply-reject/http-response.adoc[]
 
-== 게시물 후기 관련 API
-=== 게시물 후기 작성하기
+=== 게시물에 해당하는 지원자 목록 날짜 기준으로 조회하기(실험모집하는 연구실)
 
-`POST /api/post/{postId}/review/{postDoDateId}`
+`GET /api/post/{postId}/applicant/list`
 
 요청 HTTP
-include::{snippets}/post-review-create/http-request.adoc[]
-include::{snippets}/post-review-create/path-parameters.adoc[]
-include::{snippets}/post-review-create/request-fields.adoc[]
+include::{snippets}/post-applicant-list/http-request.adoc[]
+include::{snippets}/post-applicant-list/path-parameters.adoc[]
+include::{snippets}/post-applicant-list/request-parameters.adoc[]
 
 성공 응답 HTTP
-include::{snippets}/post-review-create/http-response.adoc[]
-include::{snippets}/post-review-create/response-fields.adoc[]
+include::{snippets}/post-applicant-list/http-response.adoc[]
+include::{snippets}/post-applicant-list/response-fields.adoc[]

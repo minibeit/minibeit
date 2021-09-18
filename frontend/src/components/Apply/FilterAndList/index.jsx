@@ -1,20 +1,29 @@
 import React, { useState } from "react";
 import PFilterContainer from "./PFilterContainer";
 import PListContainer from "./PListContainer";
-import SchoolSelectModal from "../../Common/Modal/SchoolSelectModal";
-import { feedlistApi } from "../../../utils/feedApi";
+import { bookmarkApi, feedlistApi } from "../../../utils/feedApi";
 import PBtnContainer from "./PBtnContainer";
 
 export default function FilterAndList() {
   const [feedList, setFeedList] = useState();
   const [totalPages, setTotalPages] = useState();
-  const [modalSwitch, setModalSwitch] = useState(false);
 
   const getFeedList = async (page, schoolId, date, payment) => {
     await feedlistApi(page, schoolId, date, payment)
       .then((res) => {
         setFeedList(res.data.content);
+        console.log(res.data.content);
         setTotalPages(res.data.totalPages);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const postBookmark = async (postId, req) => {
+    await bookmarkApi(postId, req)
+      .then((res) => {
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -23,15 +32,13 @@ export default function FilterAndList() {
 
   return (
     <>
-      <PFilterContainer
-        setModalSwitch={setModalSwitch}
-        getFeedList={getFeedList}
-      />
-      {modalSwitch ? (
-        <SchoolSelectModal setModalSwitch={setModalSwitch} use="ApplyList" />
+      <PFilterContainer getFeedList={getFeedList} />
+      {feedList ? (
+        <PListContainer feedList={feedList} postBookmark={postBookmark} />
       ) : null}
-      {feedList ? <PListContainer feedList={feedList} /> : null}
-      <PBtnContainer totalPages={totalPages} getFeedList={getFeedList} />
+      {totalPages ? (
+        <PBtnContainer totalPages={totalPages} getFeedList={getFeedList} />
+      ) : null}
     </>
   );
 }

@@ -1,7 +1,7 @@
 package com.minibeit.businessprofile.domain;
 
+import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.post.dto.PostRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -22,17 +22,24 @@ public class BusinessProfileReview extends BaseEntity {
 
     private String content;
 
+    private Integer time;
+
     private LocalDateTime doDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "business_profile_id")
     private BusinessProfile businessProfile;
 
-    public static BusinessProfileReview create(BusinessProfile businessProfile, PostRequest.CreateReview request) {
+    public void update(String content) {
+        this.content = content;
+    }
+
+    public static BusinessProfileReview create(BusinessProfile businessProfile, BusinessProfilesReviewRequest.Create request) {
         return BusinessProfileReview.builder()
                 .postTitle(request.getPostTitle())
                 .content(request.getContent())
                 .doDate(request.getDoDate())
+                .time(request.getTime())
                 .businessProfile(businessProfile)
                 .build();
     }

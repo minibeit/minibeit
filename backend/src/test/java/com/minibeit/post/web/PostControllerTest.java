@@ -69,6 +69,7 @@ class PostControllerTest extends MvcTest {
                 .recruitCondition(true)
                 .recruitConditionDetail("운전면허 있는 사람만")
                 .doTime(120)
+                .category("디자인")
                 .startDate(LocalDateTime.of(2021, 9, 3, 9, 30))
                 .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
                 .school(School.builder().id(1L).name("고려대학교").build())
@@ -84,6 +85,7 @@ class PostControllerTest extends MvcTest {
                 .content("실험실 세부사항")
                 .place("고려대")
                 .contact("010-1234-5786")
+                .category("디자인")
                 .recruitPeople(10)
                 .payment(Payment.GOODS)
                 .paymentGoods("커피 기프티콘")
@@ -121,6 +123,7 @@ class PostControllerTest extends MvcTest {
                         .param("content", "아무나 올 수 있는 실험입니다.")
                         .param("place", "고려대 신공학관")
                         .param("contact", "010-1234-1234")
+                        .param("category", "디자인")
                         .param("headcount", "10")
                         .param("payment", "CACHE")
                         .param("cache", "10000")
@@ -142,6 +145,7 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("content").description("세부사항"),
                                 parameterWithName("place").description("장소"),
                                 parameterWithName("contact").description("연락처"),
+                                parameterWithName("category").description("모집 분야"),
                                 parameterWithName("headcount").description("모집인원수"),
                                 parameterWithName("payment").description("지급 방법 (CACHE or GOODS) 지급 방법이 CACHE 인경우 cache만 보내고 goods는 안보내면 됩니다!"),
                                 parameterWithName("cache").description("지급 방법이 CACHE인 경우 현금"),
@@ -214,38 +218,6 @@ class PostControllerTest extends MvcTest {
     }
 
     @Test
-    @DisplayName("게시물 후기 작성 문서화")
-    public void createReview() throws Exception {
-        PostRequest.CreateReview request = PostRequest.CreateReview.builder().postTitle("게시물 제목").content("게시물 후기 내용").doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build();
-        PostResponse.ReviewId response = PostResponse.ReviewId.builder().id(1L).build();
-        given(postService.createReview(any(), any(), any(), any())).willReturn(response);
-
-        ResultActions result = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/post/{postId}/review/{postDoDateId}", 1, 2)
-                .content(objectMapper.writeValueAsString(request))
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-        );
-
-        result.andExpect(status().isCreated())
-                .andDo(print())
-                .andDo(document("post-review-create",
-                        pathParameters(
-                                parameterWithName("postId").description("후기 작성할 게시물 식별자"),
-                                parameterWithName("postDoDateId").description("후기 작성할 게시물 시작 날짜 식별자")
-                        ),
-                        requestFields(
-                                fieldWithPath("postTitle").type(JsonFieldType.STRING).description("후기 작성할 게시물 제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("후기 내용"),
-                                fieldWithPath("doDate").type(JsonFieldType.STRING).description("후기 작성할 게시물 시작 날짜")
-                        ),
-                        responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("작성한 게시물 후기 식별자")
-                        )
-                ));
-    }
-
-    @Test
     @DisplayName("게시물 단건 조회 문서화")
     public void getOne() throws Exception {
         CustomUserDetails customUserDetails = CustomUserDetails.create(user);
@@ -292,8 +264,8 @@ class PostControllerTest extends MvcTest {
     @DisplayName("게시물 시작 시간 리스트 조회 문서화")
     public void getPostStartTimeList() throws Exception {
         List<PostResponse.GetPostStartTime> postStartTimeList = new ArrayList<>();
-        PostResponse.GetPostStartTime startTime1 = PostResponse.GetPostStartTime.build(postDoDate1);
-        PostResponse.GetPostStartTime startTime2 = PostResponse.GetPostStartTime.build(postDoDate2);
+        PostResponse.GetPostStartTime startTime1 = PostResponse.GetPostStartTime.build(postDoDate1,post1);
+        PostResponse.GetPostStartTime startTime2 = PostResponse.GetPostStartTime.build(postDoDate2,post1);
         postStartTimeList.add(startTime1);
         postStartTimeList.add(startTime2);
         given(postService.getPostStartTimeList(any(), any())).willReturn(postStartTimeList);
@@ -313,6 +285,7 @@ class PostControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("실험 시작 시간 식별자"),
                                 fieldWithPath("[].startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
+                                fieldWithPath("[].endTime").type(JsonFieldType.STRING).description("실험 끝나는 시간"),
                                 fieldWithPath("[].full").type(JsonFieldType.BOOLEAN).description("모집인원이 꽉찼다면 true 아니면 false")
                         )
                 ));
@@ -398,7 +371,7 @@ class PostControllerTest extends MvcTest {
                 .time(60)
                 .doDate(LocalDateTime.of(2021, 9, 10, 9, 30))
                 .recruitCondition(true)
-                .status(PostStatus.APPROVE.name())
+                .status(ApplyStatus.APPROVE.name())
                 .build();
         PostResponse.GetMyApplyList approveAndWaitList2 = PostResponse.GetMyApplyList.builder()
                 .id(2L)
@@ -408,7 +381,7 @@ class PostControllerTest extends MvcTest {
                 .time(120)
                 .doDate(LocalDateTime.of(2021, 9, 10, 12, 30))
                 .recruitCondition(true)
-                .status(PostStatus.WAIT.name())
+                .status(ApplyStatus.WAIT.name())
                 .build();
         response.add(approveAndWaitList1);
         response.add(approveAndWaitList2);
@@ -430,10 +403,11 @@ class PostControllerTest extends MvcTest {
                         relaxedResponseFields(
                                 fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
                                 fieldWithPath("content[].contact").type(JsonFieldType.STRING).description("게시물 연락처"),
                                 fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("게시물 조건 유무"),
                                 fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
+                                fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
+                                fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
                                 fieldWithPath("content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
@@ -443,7 +417,7 @@ class PostControllerTest extends MvcTest {
     }
 
     @Test
-    @DisplayName("자신이 후기 작서할 수 있는 게시물 목록 조회 (status = APPROVE, finish=true)")
+    @DisplayName("자신이 후기 작성할 수 있는 게시물 목록 조회 (status = APPROVE, finish=true)")
     public void getListByApplyAndFinishedWithoutReview() throws Exception {
         List<PostResponse.GetMyApplyList> response = new ArrayList<>();
         PostResponse.GetMyApplyList approveAndWaitList1 = PostResponse.GetMyApplyList.builder()
@@ -453,7 +427,8 @@ class PostControllerTest extends MvcTest {
                 .time(60)
                 .doDate(LocalDateTime.of(2021, 9, 10, 9, 30))
                 .recruitCondition(true)
-                .status(PostStatus.APPROVE.name())
+                .postDoDateId(1L)
+                .status(ApplyStatus.APPROVE.name())
                 .build();
         PostResponse.GetMyApplyList approveAndWaitList2 = PostResponse.GetMyApplyList.builder()
                 .id(2L)
@@ -462,7 +437,8 @@ class PostControllerTest extends MvcTest {
                 .time(120)
                 .doDate(LocalDateTime.of(2021, 9, 10, 12, 30))
                 .recruitCondition(true)
-                .status(PostStatus.APPROVE.name())
+                .postDoDateId(2L)
+                .status(ApplyStatus.APPROVE.name())
                 .build();
         response.add(approveAndWaitList1);
         response.add(approveAndWaitList2);
@@ -484,10 +460,11 @@ class PostControllerTest extends MvcTest {
                         relaxedResponseFields(
                                 fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
                                 fieldWithPath("content[].contact").type(JsonFieldType.STRING).description("게시물 연락처"),
                                 fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("게시물 조건 유무"),
                                 fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
+                                fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
+                                fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
                                 fieldWithPath("content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),

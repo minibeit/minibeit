@@ -10,7 +10,6 @@ import com.minibeit.security.token.TokenProvider;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.dto.AuthRequest;
-import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.exception.DuplicateNickNameException;
 import com.minibeit.user.service.exception.SchoolNotFoundException;

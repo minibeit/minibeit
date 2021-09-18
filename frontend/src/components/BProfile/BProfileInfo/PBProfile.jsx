@@ -41,7 +41,14 @@ export default function PBProfile({ buserData }) {
           )}
         </S.ImgBox>
         <S.UserName>이름 : {buserData.name}</S.UserName>
-        <S.UserInfo>장소 : {buserData.place}</S.UserInfo>
+        <S.UserInfo
+          onClick={() =>
+            window.open("https://map.naver.com/v5/search/" + buserData.place)
+          }
+        >
+          장소 : {buserData.place}
+        </S.UserInfo>
+
         <S.UserInfo>실험실 소개 : {buserData.introduce}</S.UserInfo>
         <S.UserInfo>전화번호 : {buserData.contact}</S.UserInfo>
       </S.BUserInfoContainer1>

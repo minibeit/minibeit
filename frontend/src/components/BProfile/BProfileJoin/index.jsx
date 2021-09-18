@@ -34,7 +34,7 @@ export default function BProfileJoin({ businessId, setModalSwitch }) {
       await assignChange(businessId, userId)
         .then(async () => {
           alert("관리자가 양도되었습니다");
-          getUsergroup();
+          window.location.replace("/business/" + businessId);
         })
         .catch((err) => console.log(err));
     }

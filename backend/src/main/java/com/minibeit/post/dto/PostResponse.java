@@ -2,6 +2,7 @@ package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minibeit.businessprofile.domain.BusinessProfileReview;
+import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.security.userdetails.CustomUserDetails;

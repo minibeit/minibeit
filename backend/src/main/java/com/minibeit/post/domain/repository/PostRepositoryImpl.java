@@ -21,6 +21,7 @@ import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -63,12 +64,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<Post> findAllByBusinessProfileId(Long businessProfileId, Pageable pageable, String sort) {
+    public List<Post> findAllByBusinessProfileId(Long businessProfileId, String sort) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.businessProfile).fetchJoin()
-                .where(post.businessProfile.id.eq(businessProfileId))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .where(post.businessProfile.id.eq(businessProfileId));
 
         if("recruiting".equals(sort)){
             query.orderBy(post.isCompleted.asc(), post.id.desc());
@@ -79,7 +78,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         QueryResults<Post> results = query.fetchResults();
 
-        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+        return results.getResults();
+
     }
 
     public Page<Post> findAllByLike(User user, Pageable pageable) {

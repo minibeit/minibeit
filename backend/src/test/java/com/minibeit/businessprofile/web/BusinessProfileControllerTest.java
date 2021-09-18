@@ -328,7 +328,7 @@ class BusinessProfileControllerTest extends MvcTest {
 
         Page<BusinessProfileResponse.PostList> postPage = new PageImpl<>(collect, pageDto.of(pageDto.getSort()), collect.size());
 
-        given(businessProfileService.postList(any(), any())).willReturn(postPage);
+        given(businessProfileService.getPostList(any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/business/profile/{businessProfileId}/posts",1)

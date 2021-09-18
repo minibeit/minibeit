@@ -3,8 +3,10 @@ package com.minibeit.businessprofile.service;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
+import com.minibeit.businessprofile.domain.repository.BusinessProfileReviewRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
@@ -35,6 +37,7 @@ public class BusinessProfileService {
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final BusinessProfileReviewRepository businessProfileReviewRepository;
     private final AvatarService avatarService;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
@@ -115,13 +118,23 @@ public class BusinessProfileService {
     }
 
 
-    public Page<BusinessProfileResponse.PostList> postList(Long businessProfileId, PageDto pageDto){
-        Page<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, pageDto.of(), pageDto.getSort());
+    public Page<BusinessProfileResponse.PostList> getPostList(Long businessProfileId, PageDto pageDto){
+        List<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, pageDto.getSort());
         List<BusinessProfileResponse.PostList> postLists = posts.stream().map(BusinessProfileResponse.PostList::build).collect(Collectors.toList());
 
-        return new PageImpl<>(postLists, pageDto.of(pageDto.getSort()), posts.getTotalElements());
+        return new PageImpl<>(postLists, pageDto.of(pageDto.getSort()), posts.size());
 
     }
+
+//    public Page<BusinessProfileResponse.ReviewList> getReviewList(Long businessProfileId, PageDto pageDto){
+//        List<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, pageDto.getSort());
+//        Page<BusinessProfileReview> reviews = businessProfileReviewRepository.findAllByBusinessProfileId(businessProfileId, pageDto.of(), pageDto.getSort());
+//
+//        //List<BusinessProfileResponse.ReviewList> postLists = reviews.stream().map(BusinessProfileResponse.ReviewList::build).collect(Collectors.toList());
+//
+//        return new PageImpl<>(postLists, pageDto.of(pageDto.getSort()), reviews.getTotalElements());
+//
+//    }
 
     private void permissionCheck(User user, BusinessProfile businessProfile) {
         if (!businessProfile.getAdmin().getId().equals(user.getId())) {

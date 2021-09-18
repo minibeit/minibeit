@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public interface PostRepositoryCustom {
@@ -15,7 +16,8 @@ public interface PostRepositoryCustom {
 
     Optional<Post> findByIdWithBusinessProfile(Long postId);
 
-    Page<Post> findAllByBusinessProfileId(Long businessProfileId, Pageable pageable, String sort);
+    List<Post> findAllByBusinessProfileId(Long businessProfileId, String sort);
+
     Page<Post> findAllByLike(User user, Pageable pageable);
 
     Page<PostResponse.GetMyApplyList> findByApplyIsApproveOrWait(User user, Pageable pageable);

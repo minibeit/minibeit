@@ -35,11 +35,11 @@ public class BusinessProfileController {
         return ResponseEntity.ok().body(response);
     }
 
-    @PostMapping("/{businessProfileId}/share")
+    @PostMapping("/{businessProfileId}/share/{userId}")
     public ResponseEntity<Void> shareBusinessProfile(@PathVariable Long businessProfileId,
-                                                     @RequestBody BusinessProfileRequest.ShareOrExpel request,
+                                                     @PathVariable Long userId,
                                                      @CurrentUser CustomUserDetails customUserDetails) {
-        businessProfileService.shareBusinessProfile(businessProfileId, request, customUserDetails.getUser());
+        businessProfileService.shareBusinessProfile(businessProfileId, userId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 
@@ -51,11 +51,11 @@ public class BusinessProfileController {
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/{businessProfileId}/expel")
+    @DeleteMapping("/{businessProfileId}/expel/{userId}")
     public ResponseEntity<Void> cancelShare(@PathVariable Long businessProfileId,
-                                            @RequestBody BusinessProfileRequest.ShareOrExpel request,
+                                            @PathVariable Long userId,
                                             @CurrentUser CustomUserDetails customUserDetails) {
-        businessProfileService.cancelShare(businessProfileId, request, customUserDetails.getUser());
+        businessProfileService.cancelShare(businessProfileId, userId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 

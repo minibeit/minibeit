@@ -9,11 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 public interface PostRepositoryCustom {
-    Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, Pageable pageable);
+    Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, Pageable pageable);
 
     Optional<Post> findByIdWithBusinessProfile(Long postId);
 

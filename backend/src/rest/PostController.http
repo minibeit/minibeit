@@ -21,19 +21,19 @@ Content-Disposition: form-data; name="contact";
 --boundary
 Content-Disposition: form-data; name="category";
 
-미디어
+식품
 --boundary
 Content-Disposition: form-data; name="headcount";
 
-2
+5
 --boundary
 Content-Disposition: form-data; name="payment";
 
-GOODS
+CACHE
 --boundary
-Content-Disposition: form-data; name="goods";
+Content-Disposition: form-data; name="cache";
 
-상품
+30000
 --boundary
 Content-Disposition: form-data; name="condition";
 
@@ -78,7 +78,7 @@ Authorization: {{authorizationToken}}
 GET {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 ###
-GET {{apiUrl}}/post/list/1?doDate=2021-09-03&page=1&size=10&paymentType=GOODS
+GET {{apiUrl}}/post/list/1?doDate=2021-09-03&page=1&size=15&paymentType=&category=&startTime=08:00&endTime=12:00
 Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/1/start?doDate=2021-09-03

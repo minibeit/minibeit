@@ -31,23 +31,44 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, Pageable pageable) {
-        //TODO 이렇게 distinct를 사용한경우와 service layer에서 로직을 사용해서 구분하는 경우 뭐가 좋은지 성능 테스트 해보면 좋을 것 같음.
-        JPAQuery<Post> query = queryFactory.selectFrom(post).distinct()
-                .join(post.postDoDateList, postDoDate).on(postDoDate.doDate.year().eq(doDate.getYear())
-                        .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
-                        .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
+    public Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, Pageable pageable) {
+        JPAQuery<Post> query = queryFactory.selectFrom(post)
+                .join(post.postDoDateList, postDoDate)
                 .join(post.businessProfile).fetchJoin()
                 .where(post.school.id.eq(schoolId)
-                        .and(paymentTypeEq(paymentType)))
+                        .and(postDoDate.doDate.year().eq(doDate.getYear())
+                                .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
+                                .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
+                        .and(paymentTypeEq(paymentType))
+                        .and(categoryEq(category)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
-
 
         QueryResults<Post> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
+
+    private BooleanExpression paymentTypeEq(Payment paymentType) {
+        if (Objects.nonNull(paymentType) && !paymentType.equals(Payment.ALL)) {
+            return post.payment.eq(paymentType);
+        }
+        return null;
+    }
+
+    private BooleanExpression categoryEq(String category) {
+        if (Objects.nonNull(category) && !category.equals("ALL")) {
+            return post.category.eq(category);
+        }
+        return null;
+    }
+
+//    private BooleanExpression minPayGoe(Integer minPay) {
+//        if (Objects.nonNull(minPay) && post.paymentCache != null) {
+//            return post.paymentCache.goe(minPay);
+//        }
+//        return null;
+//    }
 
     @Override
     public Optional<Post> findByIdWithBusinessProfile(Long postId) {
@@ -130,12 +151,5 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
-    }
-
-    private BooleanExpression paymentTypeEq(Payment paymentType) {
-        if (Objects.nonNull(paymentType) && !paymentType.equals(Payment.ALL)) {
-            return post.payment.eq(paymentType);
-        }
-        return null;
     }
 }

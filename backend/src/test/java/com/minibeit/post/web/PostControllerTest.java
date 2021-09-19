@@ -266,8 +266,8 @@ class PostControllerTest extends MvcTest {
     @DisplayName("게시물 시작 시간 리스트 조회 문서화")
     public void getPostStartTimeList() throws Exception {
         List<PostResponse.GetPostStartTime> postStartTimeList = new ArrayList<>();
-        PostResponse.GetPostStartTime startTime1 = PostResponse.GetPostStartTime.build(postDoDate1,post1);
-        PostResponse.GetPostStartTime startTime2 = PostResponse.GetPostStartTime.build(postDoDate2,post1);
+        PostResponse.GetPostStartTime startTime1 = PostResponse.GetPostStartTime.build(postDoDate1, post1);
+        PostResponse.GetPostStartTime startTime2 = PostResponse.GetPostStartTime.build(postDoDate2, post1);
         postStartTimeList.add(startTime1);
         postStartTimeList.add(startTime2);
         given(postService.getPostStartTimeList(any(), any())).willReturn(postStartTimeList);
@@ -297,12 +297,13 @@ class PostControllerTest extends MvcTest {
     @DisplayName("게시물 목록 조회 문서화(학교 id,실험날짜 기준)")
     public void getList() throws Exception {
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
-        given(postService.getList(any(), any(), any(), any())).willReturn(postPage);
+        given(postService.getList(any(), any(), any(), any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/list/{schoolId}", 1)
                 .param("page", "1")
                 .param("size", "10")
+                .param("category", "식품")
                 .param("paymentType", "CACHE")
                 .param("doDate", "2021-09-04"));
 
@@ -315,6 +316,7 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("page").description("조회할 페이지"),
                                 parameterWithName("size").description("조회할 사이즈"),
                                 parameterWithName("doDate").description("조회할 게시물 실험 날짜(doDate)"),
+                                parameterWithName("category").description("조회할 게시물 카테고리"),
                                 parameterWithName("paymentType").description("CACHE or GOODS (보내지 않을 경우 전체 조회가 됩니다!)")
                         ),
                         relaxedResponseFields(
@@ -477,19 +479,19 @@ class PostControllerTest extends MvcTest {
 
     @Test
     @DisplayName("비즈니스 프로필로 생성한 실험 리스트 문서화")
-    public void getListByBusinessProfile() throws Exception{
+    public void getListByBusinessProfile() throws Exception {
         List<Post> postList = new ArrayList<>();
         postList.add(post1);
         postList.add(post2);
         List<PostResponse.GetListByBusinessProfile> collect = postList.stream().map(PostResponse.GetListByBusinessProfile::build).collect(Collectors.toList());
-        PageDto pageDto = new PageDto(1,5);
+        PageDto pageDto = new PageDto(1, 5);
 
         Page<PostResponse.GetListByBusinessProfile> postPage = new PageImpl<>(collect, pageDto.of(), postList.size());
 
         given(postService.getListByBusinessProfile(any(), any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/business/profile/{businessProfileId}/list",1)
+                .get("/api/post/business/profile/{businessProfileId}/list", 1)
                 .param("page", "1")
                 .param("size", "5")
                 .param("status", "RECRUIT"));
@@ -532,7 +534,7 @@ class PostControllerTest extends MvcTest {
 
     @Test
     @DisplayName("게시물 모집상태 변화 문서화")
-    public void completed() throws Exception{
+    public void completed() throws Exception {
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.post("/api/post/{postId}/completed", 1));
 
         results.andExpect(status().isOk())

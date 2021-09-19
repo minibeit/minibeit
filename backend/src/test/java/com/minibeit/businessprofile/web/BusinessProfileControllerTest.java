@@ -4,7 +4,6 @@ package com.minibeit.businessprofile.web;
 import com.minibeit.MvcTest;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
 import com.minibeit.post.domain.Payment;
@@ -38,7 +37,8 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -262,22 +262,15 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 공유(초대) 문서화")
     public void shareBusinessProfile() throws Exception {
-        BusinessProfileRequest.ShareOrExpel request = BusinessProfileRequest.ShareOrExpel.builder().userIdList(Collections.singletonList(1L)).build();
-
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/business/profile/{businessProfileId}/share", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-                .content(objectMapper.writeValueAsString(request)));
+                .post("/api/business/profile/{businessProfileId}/share/{userId}", 1,1));
 
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("business-profile-share",
                         pathParameters(
-                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
-                        ),
-                        requestFields(
-                                fieldWithPath("userIdList").type(JsonFieldType.ARRAY).description("비즈니스프로필을 공유하려는 유저 식별자")
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
+                                parameterWithName("userId").description("초대할 유저 식별자")
                         )
                 ));
     }
@@ -285,22 +278,14 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 삭제 문서화")
     public void cancelShare() throws Exception {
-        BusinessProfileRequest.ShareOrExpel request = BusinessProfileRequest.ShareOrExpel.builder().userIdList(Collections.singletonList(1L)).build();
-
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/business/profile/{businessProfileId}/expel", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-                .content(objectMapper.writeValueAsString(request)));
-
+                .delete("/api/business/profile/{businessProfileId}/expel/{userId}", 1, 2));
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("business-profile-share-cancel",
                         pathParameters(
-                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
-                        ),
-                        requestFields(
-                                fieldWithPath("userIdList").type(JsonFieldType.ARRAY).description("비즈니스프로필을 삭제하려는 유저 식별자")
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
+                                parameterWithName("userId").description("삭제할 유저의 식별자")
                         )
                 ));
     }
@@ -308,7 +293,8 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("권한 양도 문서화")
     public void transferOfAuthority() throws Exception {
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.post("/api/business/profile/{businessProfileId}/change/{userId}", 1, 1));
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/business/profile/{businessProfileId}/change/{userId}", 1, 1));
 
         results.andExpect(status().isOk())
                 .andDo(print())

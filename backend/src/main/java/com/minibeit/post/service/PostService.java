@@ -88,8 +88,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Post> getList(Long schoolId, LocalDate doDate, PageDto pageDto, Payment paymentType) {
-        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, pageDto.of());
+    public Page<Post> getList(Long schoolId, LocalDate doDate, String category, PageDto pageDto, Payment paymentType) {
+        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, category, pageDto.of());
     }
 
     @Transactional(readOnly = true)

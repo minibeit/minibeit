@@ -3,9 +3,11 @@ package com.minibeit.businessprofile.web;
 import com.minibeit.businessprofile.dto.BusinessProfileReviewResponse;
 import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
 import com.minibeit.businessprofile.service.BusinessProfileReviewService;
+import com.minibeit.common.dto.PageDto;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,13 @@ public class BusinessProfileReviewController {
     @GetMapping("/business/profile/review/{businessProfileReviewId}")
     public ResponseEntity<BusinessProfileReviewResponse.GetOne> getOne(@PathVariable Long businessProfileReviewId) {
         BusinessProfileReviewResponse.GetOne response = businessProfileReviewService.getOne(businessProfileReviewId);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/business/profile/{businessProfileId}/review/list")
+    public ResponseEntity<Page<BusinessProfileReviewResponse.GetOne>> getReviewList(@PathVariable Long businessProfileId,
+                                                                                    PageDto pageDto) {
+        Page<BusinessProfileReviewResponse.GetOne> response = businessProfileReviewService.getList(businessProfileId, pageDto);
         return ResponseEntity.ok().body(response);
     }
 

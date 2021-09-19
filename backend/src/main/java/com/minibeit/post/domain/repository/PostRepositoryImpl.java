@@ -3,6 +3,7 @@ package com.minibeit.post.domain.repository;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.dto.QPostResponse_GetMyApplyList;
 import com.minibeit.user.domain.User;
@@ -37,7 +38,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                         .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
                 .join(post.businessProfile).fetchJoin()
-                .leftJoin(post.postLikeList).fetchJoin()
                 .where(post.school.id.eq(schoolId)
                         .and(paymentTypeEq(paymentType)))
                 .offset(pageable.getOffset())
@@ -59,6 +59,26 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
+    public Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, Pageable pageable) {
+        JPAQuery<Post> query = queryFactory.selectFrom(post)
+                .join(post.businessProfile)
+                .where(post.businessProfile.id.eq(businessProfileId)
+                        .and(postStatusEq(postStatus)))
+                .orderBy(post.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+        QueryResults<Post> results = query.fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    private BooleanExpression postStatusEq(PostStatus postStatus) {
+        if (Objects.nonNull(postStatus)) {
+            return post.postStatus.eq(postStatus);
+        }
+        return null;
+    }
+
     public Page<Post> findAllByLike(User user, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.postLikeList, postLike)
@@ -92,6 +112,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     @Override
     public Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable pageable) {
+
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
                         post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue()
                 ))

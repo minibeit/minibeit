@@ -7,6 +7,10 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
+import com.minibeit.post.domain.Payment;
+import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.PostFile;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.Role;
@@ -26,6 +30,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -46,17 +51,11 @@ class BusinessProfileControllerTest extends MvcTest {
 
     private BusinessProfile businessProfile;
     private User user1;
+    private Post post1;
 
     @BeforeEach
     public void setup() {
-        businessProfile = BusinessProfile.builder()
-                .id(1L)
-                .name("동그라미 실험실")
-                .place("고려대")
-                .contact("010-1234-5786")
-                .introduce("고려대 동그라미 실험실 입니다.")
-                .avatar(Avatar.builder().id(1L).url("profile image url").build())
-                .build();
+
         user1 = User.builder()
                 .id(1L)
                 .name("홍길동")
@@ -71,7 +70,39 @@ class BusinessProfileControllerTest extends MvcTest {
                 .role(Role.USER)
                 .school(School.builder().id(1L).name("고려대").build())
                 .build();
+
+        businessProfile = BusinessProfile.builder()
+                .id(1L)
+                .name("동그라미 실험실")
+                .place("고려대")
+                .contact("010-1234-5786")
+                .introduce("고려대 동그라미 실험실 입니다.")
+                .admin(user1)
+                .avatar(Avatar.builder().id(1L).url("profile image url").build())
+                .build();
+
         businessProfile.setCreatedBy(user1);
+
+        post1 = Post.builder()
+                .id(1L)
+                .title("동그라미 실험실")
+                .content("실험실 세부사항")
+                .place("고려대")
+                .contact("010-1234-5786")
+                .recruitPeople(10)
+                .payment(Payment.CACHE)
+                .paymentCache(50000)
+                .recruitCondition(true)
+                .recruitConditionDetail("운전면허 있는 사람만")
+                .doTime(120)
+                .startDate(LocalDateTime.of(2021, 9, 3, 9, 30))
+                .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
+                .school(School.builder().id(1L).name("고려대학교").build())
+                .businessProfile(businessProfile)
+                .postDoDateList(Collections.singletonList(PostDoDate.builder().id(1L).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build()))
+                .postFileList(Collections.singletonList(PostFile.builder().id(1L).url("profile image url").build()))
+                .build();
+        post1.setCreatedBy(user1);
     }
 
     @Test
@@ -144,9 +175,9 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 단건 조회 문서화")
     public void getOne() throws Exception {
-        BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile, user1);
+        BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile);
 
-        given(businessProfileService.getOne(any(), any())).willReturn(response);
+        given(businessProfileService.getOne(any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/{businessProfileId}", 1));
 
@@ -159,10 +190,11 @@ class BusinessProfileControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
+                                fieldWithPath("adminName").type(JsonFieldType.STRING).description("비즈니스 프로필 책임자 닉네임"),
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
                                 fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
-                                fieldWithPath("mine").type(JsonFieldType.BOOLEAN).description("비즈니스 프로필 자신의 것인지 확인"),
+                                fieldWithPath("numberOfEmployees").type(JsonFieldType.NUMBER).description("비즈니스 프로필 소속 인원 수"),
                                 fieldWithPath("avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url(프로필 이미지가 없다면 null)")
                         )
                 ));

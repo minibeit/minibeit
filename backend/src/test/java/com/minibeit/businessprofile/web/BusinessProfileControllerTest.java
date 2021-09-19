@@ -177,9 +177,9 @@ class BusinessProfileControllerTest extends MvcTest {
     public void getOne() throws Exception {
 
 
-        BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile, 3, user1);
+        BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile);
 
-        given(businessProfileService.getOne(any(), any())).willReturn(response);
+        given(businessProfileService.getOne(any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/{businessProfileId}", 1));
 
@@ -192,11 +192,10 @@ class BusinessProfileControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
-                                fieldWithPath("principalInvestigator").type(JsonFieldType.STRING).description("비즈니스 프로필 책임자"),
+                                fieldWithPath("adminName").type(JsonFieldType.STRING).description("비즈니스 프로필 책임자 닉네임"),
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
                                 fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
-                                fieldWithPath("mine").type(JsonFieldType.BOOLEAN).description("비즈니스 프로필 자신의 것인지 확인"),
                                 fieldWithPath("numberOfEmployees").type(JsonFieldType.NUMBER).description("비즈니스 프로필 소속 인원 수"),
                                 fieldWithPath("avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url(프로필 이미지가 없다면 null)")
                         )

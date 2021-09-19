@@ -11,16 +11,12 @@ import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
-import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -48,7 +44,6 @@ public class BusinessProfileService {
         return BusinessProfileResponse.IdAndName.build(savedBusinessProfile);
     }
 
-    //user의 bsuinessProfile list 조회
     public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
@@ -70,11 +65,10 @@ public class BusinessProfileService {
     }
 
     @Transactional(readOnly = true)
-    public BusinessProfileResponse.GetOne getOne(Long businessProfileId, User user) {
-        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-        long numberOfEmployees = userRepository.findAllInBusinessProfile(businessProfileId).size();
+    public BusinessProfileResponse.GetOne getOne(Long businessProfileId) {
+        BusinessProfile businessProfile = businessProfileRepository.findByIdWithAdmin(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
-        return BusinessProfileResponse.GetOne.build(businessProfile, numberOfEmployees, user);
+        return BusinessProfileResponse.GetOne.build(businessProfile);
     }
 
     public void delete(Long businessProfileId, User user) {

@@ -38,7 +38,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                         .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
                 .join(post.businessProfile).fetchJoin()
-                .leftJoin(post.postLikeList).fetchJoin()
                 .where(post.school.id.eq(schoolId)
                         .and(paymentTypeEq(paymentType)))
                 .offset(pageable.getOffset())
@@ -63,7 +62,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.businessProfile)
-                .leftJoin(post.postLikeList).fetchJoin()
                 .where(post.businessProfile.id.eq(businessProfileId)
                         .and(postStatusEq(postStatus)))
                 .orderBy(post.id.desc())

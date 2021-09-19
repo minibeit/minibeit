@@ -69,33 +69,27 @@ Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business/profile/2/share
+POST {{apiUrl}}/business/profile/1/share
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 {
-  "userIdList": [2,3]
+  "userIdList": [2]
 }
 
 ###
-POST {{apiUrl}}/business/profile/2/expel
+POST {{apiUrl}}/business/profile/1/expel/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
-
-{
-  "userIdList": [2,3]
-}
 
 ###
 POST {{apiUrl}}/business/profile/3/change/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
+
 ###
-GET {{apiUrl}}/business/profile/1/posts?page=1&size=10&sort=recruiting
-Content-Type: application/json;charset=UTF-8
+GET {{apiUrl}}/business/profile/1
 Authorization: {{authorizationToken}}
-
-
 
 

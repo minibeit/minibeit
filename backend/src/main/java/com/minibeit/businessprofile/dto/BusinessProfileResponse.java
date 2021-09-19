@@ -80,28 +80,6 @@ public class BusinessProfileResponse {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class PostList{
-
-        private String title;
-        private Integer numberOfPostLike;
-
-        public static BusinessProfileResponse.PostList build(Post post){
-
-            return PostList.builder().title(post.getTitle()).numberOfPostLike(getPostLike(post)).build();
-        }
-
-        private static int getPostLike(Post post) {
-            if(post.getPostLikeList() == null){
-                return 0;
-            }
-            return post.getPostLikeList().size();
-        }
-
-    }
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class ReviewList{
         private String title;
         private String content;

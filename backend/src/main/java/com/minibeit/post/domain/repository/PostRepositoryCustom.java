@@ -2,6 +2,7 @@ package com.minibeit.post.domain.repository;
 
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.user.domain.User;
 import org.springframework.data.domain.Page;
@@ -16,7 +17,7 @@ public interface PostRepositoryCustom {
 
     Optional<Post> findByIdWithBusinessProfile(Long postId);
 
-    List<Post> findAllByBusinessProfileId(Long businessProfileId, String sort);
+    Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, Pageable pageable);
 
     Page<Post> findAllByLike(User user, Pageable pageable);
 

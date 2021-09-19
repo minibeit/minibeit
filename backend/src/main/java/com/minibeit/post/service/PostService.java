@@ -20,6 +20,7 @@ import com.minibeit.user.domain.User;
 import com.minibeit.user.service.exception.SchoolNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -106,17 +107,25 @@ public class PostService {
         return postRepository.findByApplyAndFinishedWithoutReview(user, pageDto.of());
     }
 
+    public Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfile(Long businessProfileId, PostStatus postStatus, PageDto pageDto) {
+        Page<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, postStatus, pageDto.of());
+        List<PostResponse.GetListByBusinessProfile> getListByBusinessProfileList = posts.stream().map(PostResponse.GetListByBusinessProfile::build).collect(Collectors.toList());
+
+        return new PageImpl<>(getListByBusinessProfileList, pageDto.of(), posts.getTotalElements());
+    }
+
     public void deleteOne(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);
         postRepository.deleteById(postId);
     }
 
-    public void recruitmentCompleted(Long postId, User user){
+    public void recruitmentCompleted(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);
         post.completed();
     }
+
     private void permissionCheck(Long businessProfileId, User user) {
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
             throw new PermissionException();

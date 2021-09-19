@@ -3,25 +3,21 @@ package com.minibeit.post.domain.repository;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.dto.QPostResponse_GetMyApplyList;
 import com.minibeit.user.domain.User;
 import com.querydsl.core.QueryResults;
-import com.querydsl.core.types.Order;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -64,22 +60,25 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public List<Post> findAllByBusinessProfileId(Long businessProfileId, String sort) {
+    public Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
-                .join(post.businessProfile).fetchJoin()
-                .where(post.businessProfile.id.eq(businessProfileId));
-
-        if("recruiting".equals(sort)){
-            query.orderBy(post.isCompleted.asc(), post.id.desc());
-        }
-        else{
-            query.orderBy(post.id.desc());
-        }
-
+                .join(post.businessProfile)
+                .leftJoin(post.postLikeList).fetchJoin()
+                .where(post.businessProfile.id.eq(businessProfileId)
+                        .and(postStatusEq(postStatus)))
+                .orderBy(post.id.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
         QueryResults<Post> results = query.fetchResults();
 
-        return results.getResults();
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
 
+    private BooleanExpression postStatusEq(PostStatus postStatus) {
+        if (Objects.nonNull(postStatus)) {
+            return post.postStatus.eq(postStatus);
+        }
+        return null;
     }
 
     public Page<Post> findAllByLike(User user, Pageable pageable) {

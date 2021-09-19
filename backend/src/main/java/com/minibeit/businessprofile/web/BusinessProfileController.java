@@ -3,12 +3,9 @@ package com.minibeit.businessprofile.web;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
-import com.minibeit.common.dto.PageDto;
-import com.minibeit.post.dto.PostResponse;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -80,13 +77,5 @@ public class BusinessProfileController {
                                        @CurrentUser CustomUserDetails customUserDetails) {
         businessProfileService.delete(businessProfileId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
-    }
-
-    @GetMapping("/{businessProfileId}/posts")
-    public ResponseEntity<Page<BusinessProfileResponse.PostList>> postList(@PathVariable Long businessProfileId,
-                                                                           PageDto pageDto){
-        Page<BusinessProfileResponse.PostList> postLists = businessProfileService.getPostList(businessProfileId, pageDto);
-
-        return ResponseEntity.ok().body(postLists);
     }
 }

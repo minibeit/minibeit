@@ -52,7 +52,8 @@ public class Post extends BaseEntity {
 
     private LocalDateTime endDate;
 
-    private boolean isCompleted;
+    @Enumerated(EnumType.STRING)
+    private PostStatus postStatus;
 
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
@@ -85,6 +86,19 @@ public class Post extends BaseEntity {
         return customUserDetails != null && this.postLikeList.stream().anyMatch(postLike -> postLike.getCreatedBy().getId().equals(customUserDetails.getUser().getId()));
     }
 
+    public void updateDate(PostRequest.CreateDateRule request) {
+        this.startDate = request.getStartDate();
+        this.endDate = request.getEndDate();
+    }
+
+    public boolean applyPossible(List<PostApplicant> postApplicants) {
+        return (postApplicants.size() < this.recruitPeople) && !postStatus.equals(PostStatus.RECRUIT);
+    }
+
+    public void completed() {
+        this.postStatus = PostStatus.COMPLETE;
+    }
+
     public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile, List<PostFile> postFileList) {
         Post post = Post.builder()
                 .title(request.getTitle())
@@ -101,22 +115,9 @@ public class Post extends BaseEntity {
                 .doTime(request.getDoTime())
                 .businessProfile(businessProfile)
                 .school(school)
-                .isCompleted(false)
+                .postStatus(PostStatus.RECRUIT)
                 .build();
         post.addPostFiles(postFileList);
         return post;
-    }
-
-    public void updateDate(PostRequest.CreateDateRule request) {
-        this.startDate = request.getStartDate();
-        this.endDate = request.getEndDate();
-    }
-
-    public boolean applyPossible(List<PostApplicant> postApplicants) {
-        return (postApplicants.size() < this.recruitPeople) && !isCompleted;
-    }
-
-    public void completed(){
-        this.isCompleted = true;
     }
 }

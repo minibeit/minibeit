@@ -1,8 +1,6 @@
 package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.minibeit.businessprofile.domain.BusinessProfileReview;
-import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.security.userdetails.CustomUserDetails;
@@ -176,6 +174,25 @@ public class PostResponse {
             this.startTime = doDate;
             this.endTime = doDate.plusMinutes(time);
             this.status = status;
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetListByBusinessProfile {
+        private Long id;
+        private String title;
+        private Integer likes;
+
+        public static GetListByBusinessProfile build(Post post) {
+
+            return GetListByBusinessProfile.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .likes(post.getPostLikeList().size())
+                    .build();
         }
     }
 }

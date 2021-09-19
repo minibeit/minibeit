@@ -3,6 +3,7 @@ package com.minibeit.post.web;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.PostService;
@@ -88,6 +89,14 @@ public class PostController {
         return ResponseEntity.ok().body(response);
     }
 
+    @GetMapping("/business/profile/{businessProfileId}/list")
+    public ResponseEntity<Page<PostResponse.GetListByBusinessProfile>> getListByBusinessProfile(@PathVariable Long businessProfileId,
+                                                                                                @RequestParam(defaultValue = "RECRUIT", name = "status") PostStatus postStatus,
+                                                                                                PageDto pageDto) {
+        Page<PostResponse.GetListByBusinessProfile> response = postService.getListByBusinessProfile(businessProfileId, postStatus, pageDto);
+        return ResponseEntity.ok().body(response);
+    }
+
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         postService.deleteOne(postId, customUserDetails.getUser());
@@ -95,7 +104,7 @@ public class PostController {
     }
 
     @PostMapping("/{postId}/completed")
-    public ResponseEntity<Void> recruitmentCompleted(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails){
+    public ResponseEntity<Void> recruitmentCompleted(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         postService.recruitmentCompleted(postId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }

@@ -3,6 +3,7 @@ package com.minibeit.post.web;
 import com.minibeit.MvcTest;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
@@ -30,6 +31,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -466,6 +468,47 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
                                 fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
                                 fieldWithPath("content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
+                                fieldWithPath("totalElements").description("전체 개수"),
+                                fieldWithPath("last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("totalPages").description("전체 페이지")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("비즈니스 프로필로 생성한 실험 리스트 문서화")
+    public void getListByBusinessProfile() throws Exception{
+        List<Post> postList = new ArrayList<>();
+        postList.add(post1);
+        postList.add(post2);
+        List<PostResponse.GetListByBusinessProfile> collect = postList.stream().map(PostResponse.GetListByBusinessProfile::build).collect(Collectors.toList());
+        PageDto pageDto = new PageDto(1,5);
+
+        Page<PostResponse.GetListByBusinessProfile> postPage = new PageImpl<>(collect, pageDto.of(), postList.size());
+
+        given(postService.getListByBusinessProfile(any(), any(), any())).willReturn(postPage);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/post/business/profile/{businessProfileId}/list",1)
+                .param("page", "1")
+                .param("size", "5")
+                .param("status", "RECRUIT"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-getList-business-profile",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("조회할 페이지"),
+                                parameterWithName("size").description("조회할 사이즈"),
+                                parameterWithName("status").description("RECRUIT(모집중) or COMPLETE(모집완료)")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("content[].likes").type(JsonFieldType.NUMBER).description("즐겨찾기 수"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")

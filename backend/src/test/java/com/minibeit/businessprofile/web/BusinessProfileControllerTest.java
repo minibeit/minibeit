@@ -7,7 +7,6 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
-import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
@@ -23,7 +22,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.domain.*;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
@@ -32,10 +30,10 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -43,7 +41,6 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -322,47 +319,6 @@ class BusinessProfileControllerTest extends MvcTest {
                         pathParameters(
                                 parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
                                 parameterWithName("userId").description("권한을 받을 유저의 식별자")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("생성한 실험 리스트 문서화")
-    public void postList() throws Exception{
-
-        List<Post> postList = new ArrayList<>();
-        postList.add(post1);
-        List<BusinessProfileResponse.PostList> collect = postList.stream().map(BusinessProfileResponse.PostList::build).collect(Collectors.toList());
-        PageDto pageDto = new PageDto(1,5);
-        pageDto.setSort("recruiting");
-
-        Page<BusinessProfileResponse.PostList> postPage = new PageImpl<>(collect, pageDto.of(pageDto.getSort()), collect.size());
-
-        given(businessProfileService.getPostList(any(), any())).willReturn(postPage);
-
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/business/profile/{businessProfileId}/posts",1)
-                .param("page", "1")
-                .param("size", "10")
-                .param("sort", "recruiting"));
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("business-profile-postList",
-                        pathParameters(
-                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
-                        ),
-                        requestParameters(
-                                parameterWithName("page").description("조회할 페이지"),
-                                parameterWithName("size").description("조회할 사이즈"),
-                                parameterWithName("sort").description("recruiting: 게시물 모집중 + 최신 생성 순서, default: 최신순")
-                        ),
-                        relaxedResponseFields(
-                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("제목"),
-                                fieldWithPath("content[].numberOfPostLike").type(JsonFieldType.NUMBER).description("즐겨찾기 수"),
-                                fieldWithPath("totalElements").description("전체 개수"),
-                                fieldWithPath("last").description("마지막 페이지인지 식별"),
-                                fieldWithPath("totalPages").description("전체 페이지")
                         )
                 ));
     }

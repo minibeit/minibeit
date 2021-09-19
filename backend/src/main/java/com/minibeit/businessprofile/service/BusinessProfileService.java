@@ -112,15 +112,6 @@ public class BusinessProfileService {
         businessProfile.changeAdmin(changeUser);
     }
 
-
-    public Page<BusinessProfileResponse.PostList> getPostList(Long businessProfileId, PageDto pageDto){
-        List<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, pageDto.getSort());
-        List<BusinessProfileResponse.PostList> postLists = posts.stream().map(BusinessProfileResponse.PostList::build).collect(Collectors.toList());
-
-        return new PageImpl<>(postLists, pageDto.of(pageDto.getSort()), posts.size());
-
-    }
-
 //    public Page<BusinessProfileResponse.ReviewList> getReviewList(Long businessProfileId, PageDto pageDto){
 //        List<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, pageDto.getSort());
 //        Page<BusinessProfileReview> reviews = businessProfileReviewRepository.findAllByBusinessProfileId(businessProfileId, pageDto.of(), pageDto.getSort());

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
 import { userState } from "../../../recoil/userState";
@@ -22,6 +22,7 @@ export default function PBProfile({ buserData }) {
   const history = useHistory();
   const [user, setUser] = useRecoilState(userState);
   const nickname = useRecoilValue(userState).name;
+  const [modalSwitch, setModalSwitch] = useState(false);
   const doDelete = async () => {
     await deleteBprofile(buserData.id);
     setUser({ ...user, bpId: 0 });
@@ -55,7 +56,13 @@ export default function PBProfile({ buserData }) {
           수정하기
         </S.BProfileEdit>
         <S.BProfileDelete onClick={doDelete}>삭제하기</S.BProfileDelete>
-        <BProfileJoin businessId={buserData.id} />
+        <S.BPjoin onClick={() => setModalSwitch(true)}>소속 인원 목록</S.BPjoin>
+        {modalSwitch ? (
+          <BProfileJoin
+            businessId={buserData.id}
+            setModalSwitch={setModalSwitch}
+          />
+        ) : null}
       </S.BUserInfoContainer2>
     </S.UserInfoContainer>
   );

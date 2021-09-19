@@ -7,14 +7,15 @@ export const getMyInfo = async () => {
   return await withAuthInstance.get(MY_USERINFO);
 };
 
-export const editMyInfo = async (inputs, newImg,basicImg) => {
+export const editMyInfo = async (inputs,school, newImg,basicImg) => {
   const formData = new FormData();
   formData.append("name", inputs.name);
   formData.append("gender", inputs.gender);
   formData.append("job", inputs.job);
   formData.append("age", inputs.age);
   formData.append("phoneNum", inputs.phoneNum);
-  formData.append("schoolId", inputs.schoolId);
+  formData.append("schoolId", school);
+  formData.append("birth", inputs.birth);
   formData.append("nickname", inputs.new_nickname);
   formData.append(
     "nicknameChanged",

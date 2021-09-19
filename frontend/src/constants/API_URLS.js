@@ -26,5 +26,7 @@ const API_URLS = {
   BPROFILE_JOIN_DEL: "/api/business/profile/",
   GET_BP_USERGROUP: "/api/user/list/business/profile/",
   GET_LIKE_LIST: "/api/post/like/list?",
+  SEARCH_USER: "/api/user/search",
+  ASSIGN_CHANGE: "/api/business/profile/",
 };
 export default API_URLS;

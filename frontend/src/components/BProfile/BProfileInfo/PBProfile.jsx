@@ -49,9 +49,12 @@ export default function PBProfile({ buserData }) {
         >
           장소 : {buserData.place}
         </S.UserInfo>
-
+        <S.UserInfo>책임자 : {buserData.adminName}</S.UserInfo>
         <S.UserInfo>실험실 소개 : {buserData.introduce}</S.UserInfo>
         <S.UserInfo>전화번호 : {buserData.contact}</S.UserInfo>
+        <S.UserInfo>
+          실험실 소속 인원 : {buserData.numberOfEmployees}
+        </S.UserInfo>
       </S.BUserInfoContainer1>
       <S.BUserInfoContainer2>
         <S.BProfileEdit onClick={() => setModal2Switch(true)}>

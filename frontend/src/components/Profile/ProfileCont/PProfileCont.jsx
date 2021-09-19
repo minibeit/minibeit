@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import * as S from "../style";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
+import JoinListBox from "../JoinListBox";
 
 export default function PProfileCont() {
   const bpId = useRecoilValue(userState).bpId;
@@ -24,7 +25,7 @@ export default function PProfileCont() {
           <LikeListBox />
         </S.PleftBox>
         <S.PrightBox>
-          <div>참여실험 리스트</div>
+          <JoinListBox />
           <div>완료 실험 리스트</div>
         </S.PrightBox>
       </S.PTabContent>

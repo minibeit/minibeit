@@ -6,6 +6,7 @@ import { deleteBprofile } from "../../../utils/bprofileApi";
 import * as S from "../style";
 import { useHistory } from "react-router";
 import BProfileJoin from "../BProfileJoin";
+import BProfileEditCont from "../../BProfileEdit/BProfileEditCont";
 
 PBProfile.propTypes = {
   buserData: PropTypes.shape({
@@ -19,10 +20,10 @@ PBProfile.propTypes = {
 };
 
 export default function PBProfile({ buserData }) {
-  const history = useHistory();
   const [user, setUser] = useRecoilState(userState);
   const nickname = useRecoilValue(userState).name;
   const [modalSwitch, setModalSwitch] = useState(false);
+  const [modal2Switch, setModal2Switch] = useState(false);
   const doDelete = async () => {
     await deleteBprofile(buserData.id);
     setUser({ ...user, bpId: 0 });
@@ -53,15 +54,15 @@ export default function PBProfile({ buserData }) {
         <S.UserInfo>전화번호 : {buserData.contact}</S.UserInfo>
       </S.BUserInfoContainer1>
       <S.BUserInfoContainer2>
-        <S.BProfileEdit
-          onClick={() =>
-            history.push({
-              pathname: `/business/${buserData.id}/edit`,
-            })
-          }
-        >
+        <S.BProfileEdit onClick={() => setModal2Switch(true)}>
           수정하기
         </S.BProfileEdit>
+        {modal2Switch ? (
+          <BProfileEditCont
+            businessId={buserData.id}
+            setModal2Switch={setModal2Switch}
+          />
+        ) : null}
         <S.BProfileDelete onClick={doDelete}>삭제하기</S.BProfileDelete>
         <S.BPjoin onClick={() => setModalSwitch(true)}>소속 인원 목록</S.BPjoin>
         {modalSwitch ? (

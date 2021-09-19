@@ -31,7 +31,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, Integer minPay, Pageable pageable) {
+    public Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.postDoDateList, postDoDate)
                 .join(post.businessProfile).fetchJoin()
@@ -40,8 +40,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                                 .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                                 .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
                         .and(paymentTypeEq(paymentType))
-                        .and(categoryEq(category))
-                        .and(minPayGoe(minPay)))
+                        .and(categoryEq(category)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
@@ -64,12 +63,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return null;
     }
 
-    private BooleanExpression minPayGoe(Integer minPay) {
-        if (Objects.nonNull(minPay) && post.paymentCache != null) {
-            return post.paymentCache.goe(minPay);
-        }
-        return null;
-    }
+//    private BooleanExpression minPayGoe(Integer minPay) {
+//        if (Objects.nonNull(minPay) && post.paymentCache != null) {
+//            return post.paymentCache.goe(minPay);
+//        }
+//        return null;
+//    }
 
     @Override
     public Optional<Post> findByIdWithBusinessProfile(Long postId) {

@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 public interface PostRepositoryCustom {
-    Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, Integer minPay, Pageable pageable);
+    Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, Pageable pageable);
 
     Optional<Post> findByIdWithBusinessProfile(Long postId);
 

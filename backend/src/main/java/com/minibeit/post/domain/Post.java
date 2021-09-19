@@ -92,7 +92,7 @@ public class Post extends BaseEntity {
     }
 
     public boolean applyPossible(List<PostApplicant> postApplicants) {
-        return (postApplicants.size() < this.recruitPeople) && !postStatus.equals(PostStatus.RECRUIT);
+        return (postApplicants.size() < this.recruitPeople) && postStatus.equals(PostStatus.RECRUIT);
     }
 
     public void completed() {

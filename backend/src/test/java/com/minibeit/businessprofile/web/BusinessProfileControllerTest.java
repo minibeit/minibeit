@@ -175,8 +175,6 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 단건 조회 문서화")
     public void getOne() throws Exception {
-
-
         BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile);
 
         given(businessProfileService.getOne(any())).willReturn(response);

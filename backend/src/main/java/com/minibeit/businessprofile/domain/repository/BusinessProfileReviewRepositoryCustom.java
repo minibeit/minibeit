@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface BusinessProfileReviewRepositoryCustom {
-    Page<BusinessProfileReview>  findAllByBusinessProfileId(Long businessProfileId, Pageable pageable, String sort);
+    Page<BusinessProfileReview>  findAllByBusinessProfileId(Long businessProfileId, Pageable pageable);
 }

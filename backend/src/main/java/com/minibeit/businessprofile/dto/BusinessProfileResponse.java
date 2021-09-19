@@ -1,11 +1,7 @@
 package com.minibeit.businessprofile.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.post.domain.Post;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 public class BusinessProfileResponse {
     @Getter
@@ -66,23 +62,6 @@ public class BusinessProfileResponse {
                 getListBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
             }
             return getListBuilder.build();
-        }
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class ReviewList {
-        private String title;
-        private String content;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
-        private LocalDateTime startDate;
-
-        //private Integer doTime;
-
-        public static BusinessProfileResponse.ReviewList build(Post post) {
-            return ReviewList.builder().title(post.getTitle()).content(post.getContent()).startDate(post.getStartDate()).build();
         }
     }
 }

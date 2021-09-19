@@ -5,14 +5,12 @@ import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
-import com.minibeit.businessprofile.domain.repository.BusinessProfileReviewRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
@@ -29,9 +27,7 @@ import java.util.stream.Collectors;
 public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
-    private final PostRepository postRepository;
     private final UserRepository userRepository;
-    private final BusinessProfileReviewRepository businessProfileReviewRepository;
     private final AvatarService avatarService;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
@@ -105,16 +101,6 @@ public class BusinessProfileService {
         User changeUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         businessProfile.changeAdmin(changeUser);
     }
-
-//    public Page<BusinessProfileResponse.ReviewList> getReviewList(Long businessProfileId, PageDto pageDto){
-//        List<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, pageDto.getSort());
-//        Page<BusinessProfileReview> reviews = businessProfileReviewRepository.findAllByBusinessProfileId(businessProfileId, pageDto.of(), pageDto.getSort());
-//
-//        //List<BusinessProfileResponse.ReviewList> postLists = reviews.stream().map(BusinessProfileResponse.ReviewList::build).collect(Collectors.toList());
-//
-//        return new PageImpl<>(postLists, pageDto.of(pageDto.getSort()), reviews.getTotalElements());
-//
-//    }
 
     private void permissionCheck(User user, BusinessProfile businessProfile) {
         if (!businessProfile.getAdmin().getId().equals(user.getId())) {

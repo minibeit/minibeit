@@ -14,6 +14,9 @@ export const recuritState = atom({
     startDate: null,
     endDate: null,
     headCount: 1,
-    doTime: 10,
+    doTime: 30,
+    startTime: null,
+    endTime: null,
+    doDateList: null,
   },
 });

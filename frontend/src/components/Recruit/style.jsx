@@ -29,3 +29,6 @@ export const HeadCountBox = styled.div`
 export const DoTimeBox = styled.div`
   display: flex;
 `;
+export const StartEndTimeBox = styled.div`
+  display: flex;
+`;

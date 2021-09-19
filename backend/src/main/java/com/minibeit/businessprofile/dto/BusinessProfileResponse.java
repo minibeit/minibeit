@@ -1,7 +1,6 @@
 package com.minibeit.businessprofile.dto;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.user.domain.User;
 import lombok.*;
 
 public class BusinessProfileResponse {
@@ -25,20 +24,22 @@ public class BusinessProfileResponse {
     public static class GetOne {
         private Long id;
         private String name;
+        private String adminName;
         private String place;
         private String introduce;
         private String contact;
-        private boolean isMine;
+        private Integer numberOfEmployees;
         private String avatar;
 
-        public static BusinessProfileResponse.GetOne build(BusinessProfile businessProfile, User user) {
+        public static BusinessProfileResponse.GetOne build(BusinessProfile businessProfile) {
             GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(businessProfile.getId())
                     .name(businessProfile.getName())
+                    .adminName(businessProfile.getAdmin().getNickname())
                     .place(businessProfile.getPlace())
                     .introduce(businessProfile.getIntroduce())
                     .contact(businessProfile.getContact())
-                    .isMine(user.businessProfileIsMine(businessProfile));
+                    .numberOfEmployees(businessProfile.getUserBusinessProfileList().size());
             if (businessProfile.getAvatar() != null) {
                 return getOneBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
             }

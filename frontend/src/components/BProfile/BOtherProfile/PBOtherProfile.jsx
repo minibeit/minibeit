@@ -7,7 +7,7 @@ import { bprofileListGet, bprofileNew, deleteBprofile } from "../../../utils";
 import * as S from "../../BProfile/style";
 import { BCreateCont } from "../../BProfileEdit";
 
-export default function PBProfileSection() {
+export default function PBOtherProfile({ originalId }) {
   const [bprofiles, setbprofiles] = useState([]);
   const [modalSwitch, setModalSwitch] = useState(false);
   const [user, setUser] = useRecoilState(userState);
@@ -75,26 +75,30 @@ export default function PBProfileSection() {
           추가할까요?
         </S.BIContHead>
       )}
-      {bprofiles.map((bprofile) => (
-        <div key={bprofile.id}>
-          <S.BIdelete
-            display={display}
-            onClick={async () => await doDelete(bprofile.id)}
-          >
-            삭제
-          </S.BIdelete>
-          <S.BIeleCont onClick={async () => await goBProfile(bprofile.id)}>
-            <S.ImgBox>
-              {bprofile.avatar !== null ? (
-                <S.UserImg src={bprofile.avatar} />
-              ) : (
-                <S.UserImg src="/기본비즈니스프로필.jpeg" />
-              )}
-            </S.ImgBox>
-            <S.BIeleName>{bprofile.name}</S.BIeleName>
-          </S.BIeleCont>
-        </div>
-      ))}
+      {bprofiles.map((bprofile) => {
+        if (parseInt(bprofile.id) !== originalId) {
+          return (
+            <div key={bprofile.id}>
+              <S.BIdelete
+                display={display}
+                onClick={async () => await doDelete(bprofile.id)}
+              >
+                삭제
+              </S.BIdelete>
+              <S.BIeleCont onClick={async () => await goBProfile(bprofile.id)}>
+                <S.ImgBox>
+                  {bprofile.avatar !== null ? (
+                    <S.UserImg src={bprofile.avatar} />
+                  ) : (
+                    <S.UserImg src="/기본비즈니스프로필.jpeg" />
+                  )}
+                </S.ImgBox>
+                <S.BIeleName>{bprofile.name}</S.BIeleName>
+              </S.BIeleCont>
+            </div>
+          );
+        }
+      })}
       <S.BPbtn onClick={onClick}>비즈니스 프로필 생성하기</S.BPbtn>
     </S.BPContainer>
   );

@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react";
 import { editBprofile, getBprofileInfo } from "../../../utils/bprofileApi";
 import PBProfileEditCont from "./PBProfileEditCont";
 import { LoadingSpinner } from "../../Common";
+import Portal from "../../Common/Modal/Portal";
+import * as S from "../style";
 
-export default function BProfileEditCont({ businessId }) {
+export default function BProfileEditCont({ businessId, setModal2Switch }) {
   const [BProfileData, setBProfileData] = useState();
   const bpEditHandler = async (inputs, img, basicImg) => {
     editBprofile(businessId, inputs, img, basicImg)
@@ -20,14 +22,27 @@ export default function BProfileEditCont({ businessId }) {
   useEffect(() => {
     getProfile();
   }, []);
-
+  const closeModal = () => {
+    setModal2Switch(false);
+  };
   return (
     <>
       {BProfileData ? (
-        <PBProfileEditCont
-          bpEditHandler={bpEditHandler}
-          BProfileData={BProfileData}
-        />
+        <Portal>
+          <S.ModalBackground>
+            <S.ModalBox>
+              <S.ModalHeader>
+                <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
+              </S.ModalHeader>
+              <S.ModalContent>
+                <PBProfileEditCont
+                  bpEditHandler={bpEditHandler}
+                  BProfileData={BProfileData}
+                />
+              </S.ModalContent>
+            </S.ModalBox>
+          </S.ModalBackground>
+        </Portal>
       ) : (
         <LoadingSpinner />
       )}

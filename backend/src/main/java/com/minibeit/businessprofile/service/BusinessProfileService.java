@@ -62,10 +62,10 @@ public class BusinessProfileService {
     }
 
     @Transactional(readOnly = true)
-    public BusinessProfileResponse.GetOne getOne(Long businessProfileId, User user) {
-        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+    public BusinessProfileResponse.GetOne getOne(Long businessProfileId) {
+        BusinessProfile businessProfile = businessProfileRepository.findByIdWithAdmin(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
-        return BusinessProfileResponse.GetOne.build(businessProfile, user);
+        return BusinessProfileResponse.GetOne.build(businessProfile);
     }
 
     public void delete(Long businessProfileId, User user) {

@@ -82,7 +82,6 @@ include::{snippets}/business-profile-share/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/business-profile-share/http-response.adoc[]
 
-
 === 비즈니스 프로필 공유 취소
 
 `DELETE /api/business/profile/{businessProfileId}/expel/{userId}`
@@ -106,6 +105,7 @@ include::{snippets}/business-profile-change-admin/path-parameters.adoc[]
 include::{snippets}/business-profile-change-admin/http-response.adoc[]
 
 == User 관련 API
+
 === 해당 비즈니스 프로필을 가지고 있는 유저 조회
 
 `GET /api/user/list/business/profile/{businessProfileId}`
@@ -118,6 +118,7 @@ include::{snippets}/user-list-in-businessprofile/path-parameters.adoc[]
 include::{snippets}/user-list-in-businessprofile/http-response.adoc[]
 
 == 비즈니스 프로필 후기 관련 API
+
 === 비즈니스 프로필 후기 작성하기
 
 `POST /api/post/{postId}/review/{postDoDateId}`
@@ -143,6 +144,19 @@ include::{snippets}/business-review-getOne/path-parameters.adoc[]
 include::{snippets}/business-review-getOne/http-response.adoc[]
 include::{snippets}/business-review-getOne/response-fields.adoc[]
 
+=== 비즈니스 프로필 후기 목록 조회
+
+`GET /api/business/profile/{businessProfileId}/review/list`
+
+요청 HTTP
+include::{snippets}/business-review-getList/http-request.adoc[]
+include::{snippets}/business-review-getList/path-parameters.adoc[]
+include::{snippets}/business-review-getList/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-review-getList/http-response.adoc[]
+include::{snippets}/business-review-getList/response-fields.adoc[]
+
 === 비즈니스 프로필 후기 수정
 
 `PUT /api/business/profile/review/{businessProfileReviewId}`
@@ -164,6 +178,5 @@ include::{snippets}/business-review-update/response-fields.adoc[]
 include::{snippets}/business-review-deleteOne/http-request.adoc[]
 include::{snippets}/business-review-deleteOne/path-parameters.adoc[]
 
-성공 응답 HTTP
-include::{snippets}/business-review-deleteOne/http-response.adoc[]
+성공 응답 HTTP include::{snippets}/business-review-deleteOne/http-response.adoc[]
 

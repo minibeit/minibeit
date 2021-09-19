@@ -178,4 +178,23 @@ public class PostResponse {
             this.status = status;
         }
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetListByBusinessProfile {
+        private Long id;
+        private String title;
+        private Integer likes;
+
+        public static GetListByBusinessProfile build(Post post) {
+
+            return GetListByBusinessProfile.builder()
+                    .id(post.getId())
+                    .title(post.getTitle())
+                    .likes(post.getPostLikeList().size())
+                    .build();
+        }
+    }
 }

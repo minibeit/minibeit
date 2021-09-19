@@ -52,6 +52,9 @@ public class Post extends BaseEntity {
 
     private LocalDateTime endDate;
 
+    @Enumerated(EnumType.STRING)
+    private PostStatus postStatus;
+
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostFile> postFileList = new ArrayList<>();
@@ -89,7 +92,11 @@ public class Post extends BaseEntity {
     }
 
     public boolean applyPossible(List<PostApplicant> postApplicants) {
-        return postApplicants.size() < this.recruitPeople;
+        return (postApplicants.size() < this.recruitPeople) && !postStatus.equals(PostStatus.RECRUIT);
+    }
+
+    public void completed() {
+        this.postStatus = PostStatus.COMPLETE;
     }
 
     public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile, List<PostFile> postFileList) {
@@ -108,6 +115,7 @@ public class Post extends BaseEntity {
                 .doTime(request.getDoTime())
                 .businessProfile(businessProfile)
                 .school(school)
+                .postStatus(PostStatus.RECRUIT)
                 .build();
         post.addPostFiles(postFileList);
         return post;

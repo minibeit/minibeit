@@ -75,6 +75,9 @@ Authorization: {{authorizationToken}}
 
 ###
 DELETE {{apiUrl}}/business/profile/1/expel/3
+
+###
+POST {{apiUrl}}/business/profile/1/expel/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
@@ -82,4 +85,9 @@ Authorization: {{authorizationToken}}
 POST {{apiUrl}}/business/profile/3/change/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/business/profile/1
+Authorization: {{authorizationToken}}
+
 

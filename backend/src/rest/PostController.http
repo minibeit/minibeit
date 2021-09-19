@@ -53,7 +53,7 @@ Content-Disposition: form-data; name="schoolId";
 
 
 ###
-POST {{apiUrl}}/post/12/info/date
+POST {{apiUrl}}/post/4/info/date
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -91,8 +91,28 @@ Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/write/review/list?page=1&size=3
 Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/business/profile/1/list?page=1&size=5&status=RECRUIT
+Authorization: {{authorizationToken}}
 
 ###
 POST {{apiUrl}}/post/1/like
 Authorization: {{authorizationToken}}
+
+###
+POST {{apiUrl}}/post/3/review/13
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "postTitle": "게시물 제목",
+  "content": "후기작성",
+  "doDate": "2021-09-09T09:30"
+}
+
+###
+POST {{apiUrl}}/post/3/completed
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
 

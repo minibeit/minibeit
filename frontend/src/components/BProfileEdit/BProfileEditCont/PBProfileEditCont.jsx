@@ -9,7 +9,6 @@ PBProfileEditCont.propTypes = {
   bpEditHandler: PropTypes.func.isRequired,
   BProfileData: PropTypes.shape({
     avatar: PropTypes.string,
-    category: PropTypes.string.isRequired,
     contact: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
     introduce: PropTypes.string.isRequired,
@@ -21,7 +20,6 @@ PBProfileEditCont.propTypes = {
 export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
   const [inputs, setInputs] = useState({
     name: BProfileData.name,
-    category: BProfileData.category,
     place: BProfileData.place,
     introduce: BProfileData.introduce,
     contact: BProfileData.contact,
@@ -29,7 +27,7 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
   const [basicImg, setBasicImg] = useState(false);
   const [newImg, setNewImg] = useState();
 
-  const { name, category, place, introduce, contact } = inputs;
+  const { name, place, introduce, contact } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
     setInputs({ ...inputs, [name]: value });
@@ -52,13 +50,7 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
           placeholder="실험실 이름"
           onChange={onChange}
         />
-        <S.BPEditInput
-          value={category}
-          name="category"
-          type="text"
-          placeholder="카테고리"
-          onChange={onChange}
-        />
+
         <S.BPEditInput
           value={place || ""}
           name="place"

@@ -1,22 +1,18 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { feedDetailTimeApi } from "../../../utils/feedApi";
+import { useRecoilState } from "recoil";
+import { applyState } from "../../../recoil/applyState";
 
 PTimeSelectBox.propTypes = {
   feedId: PropTypes.number.isRequired,
   date: PropTypes.string,
-  doTime: PropTypes.number.isRequired,
   startDate: PropTypes.string.isRequired,
   endDate: PropTypes.string.isRequired,
 };
 
-export default function PTimeSelectBox({
-  feedId,
-  date,
-  doTime,
-  startDate,
-  endDate,
-}) {
+export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
+  const [apply, setApply] = useRecoilState(applyState);
   const [doTimeList, setDoTimeList] = useState();
   const [doDateList] = useState(createDoDateList(startDate, endDate));
   const [viewDoDate, setViewDoDate] = useState(
@@ -27,6 +23,7 @@ export default function PTimeSelectBox({
       .then(async (res) => await setDoTimeList(res.data))
       .catch((err) => console.log(err));
   };
+
   const moveDate = (e) => {
     if (e.target.value === "next") {
       if (doDateList.indexOf(viewDoDate) !== doDateList.length - 1) {
@@ -46,9 +43,19 @@ export default function PTimeSelectBox({
       }
     }
   };
+  const selectDate = (e) => {
+    const apply_cp = { ...apply };
+    apply_cp["postId"] = feedId;
+    apply_cp["postDoDateId"] = parseInt(e.target.id);
+    apply_cp["doTime"] = e.target.textContent;
+    apply_cp["doDate"] = viewDoDate;
+    setApply(apply_cp);
+  };
+
   useEffect(() => {
     getFeedDetailTime(feedId, viewDoDate);
   }, []);
+
   return (
     <>
       <h4>실험 날짜 및 시간 선택</h4>
@@ -63,10 +70,19 @@ export default function PTimeSelectBox({
         다음날짜
       </button>
       <div>
-        {doTimeList && doTimeList.length !== 0 ? (
+        {doTimeList ? (
           doTimeList.map((a) => {
             return (
-              <button key={a.id}>{caculatedTime(a.startTime, doTime)}</button>
+              <button
+                key={a.id}
+                id={a.id}
+                onClick={selectDate}
+                disabled={
+                  a.id === parseInt(apply["postDoDateId"]) ? true : false
+                }
+              >
+                {a.startTime}~{a.endTime}
+              </button>
             );
           })
         ) : (
@@ -98,13 +114,3 @@ const createDoDateList = (startDate, endDate) => {
   }
   return dateList;
 };
-
-//시작시간과 실험시간을 더해서 startTime ~ endTime으로 string을 뽑아주는 로직
-function caculatedTime(startTime, timeLength) {
-  const date = new Date(`2000-01-01T${startTime}`);
-  date.setMinutes(date.getMinutes() + timeLength);
-  const endTime = `${date.getHours()}:${
-    date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
-  }`;
-  return `${startTime}~${endTime}`;
-}

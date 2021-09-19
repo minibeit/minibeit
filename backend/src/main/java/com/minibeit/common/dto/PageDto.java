@@ -3,6 +3,7 @@ package com.minibeit.common.dto;
 import lombok.Getter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Getter
 public class PageDto {

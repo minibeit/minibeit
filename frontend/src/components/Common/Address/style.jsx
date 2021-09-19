@@ -15,8 +15,8 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   background-color: white;
-  width: 40rem;
-  height: 30rem;
+  width: 20rem;
+  height: 15rem;
 `;
 export const ModalHeader = styled.div`
   display: flex;
@@ -29,17 +29,3 @@ export const CloseModalBtn = styled.button`
   margin-right: 0.5rem;
 `;
 export const ModalContent = styled.div``;
-export const BPSubmitBtn = styled.button``;
-export const ImgDel = styled.button``;
-export const BPNewInput = styled.input``;
-export const ImgBox = styled.div`
-  background-color: gray;
-  overflow: hidden;
-  width: 10rem;
-  height: 10rem;
-`;
-export const Img = styled.img`
-  object-fit: fill;
-  width: 100%;
-  height: 100%;
-`;

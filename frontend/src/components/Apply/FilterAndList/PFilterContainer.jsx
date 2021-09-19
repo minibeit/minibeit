@@ -10,15 +10,11 @@ import * as S from "../style";
 import { SchoolSearch } from "../../Common";
 
 PFilterContainer.propTypes = {
-  setModalSwitch: PropTypes.func.isRequired,
   getFeedList: PropTypes.func.isRequired,
 };
 
-export default function PFilterContainer({ setModalSwitch, getFeedList }) {
+export default function PFilterContainer({ getFeedList }) {
   const [filter, setFilter] = useRecoilState(filterState);
-  const openModal = () => {
-    setModalSwitch(true);
-  };
   const search = () => {
     if (filter.schoolId) {
       getFeedList(1, filter.schoolId, filter.date, filter.payment);

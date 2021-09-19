@@ -1,19 +1,18 @@
 import React, { useState } from "react";
-import Portal from "../Portal";
-import { PVImg } from "../..";
+import Portal from "../../Common/Modal/Portal";
+import { PVImg } from "../../Common";
 import PropTypes from "prop-types";
-import { handleCompressImg } from "../../../../utils/imgCompress";
-import * as S from "./style";
 
-CreateBProfileModal.propTypes = {
+import * as S from "../style";
+import Address from "../../Common/Address";
+import { handleCompressImg } from "../../../utils/imgCompress";
+
+BCreateCont.propTypes = {
   setModalSwitch: PropTypes.func.isRequired,
   CreateBProfile: PropTypes.func.isRequired,
 };
 
-export default function CreateBProfileModal({
-  setModalSwitch,
-  CreateBProfile,
-}) {
+export default function BCreateCont({ setModalSwitch, CreateBProfile }) {
   const [inputs, setInputs] = useState({
     name: "",
     place: "",
@@ -21,7 +20,13 @@ export default function CreateBProfileModal({
     contact: "",
   });
   const [img, setImg] = useState();
-
+  const [admodalSwitch, setadModalSwitch] = useState(false);
+  const handleAddress = async (fullAddress) => {
+    setInputs({
+      ...inputs,
+      place: fullAddress,
+    });
+  };
   const { name, place, introduce, contact } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -47,28 +52,35 @@ export default function CreateBProfileModal({
             <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
           </S.ModalHeader>
           <S.ModalContent>
-            <S.BPNewInput
+            <S.BPEditInput
               value={name}
               name="name"
               type="text"
               placeholder="이름"
               onChange={onChange}
             />
-            <S.BPNewInput
+            {admodalSwitch ? (
+              <Address
+                setModalSwitch={setadModalSwitch}
+                handleAddress={handleAddress}
+              />
+            ) : null}
+            <S.BPEditInput
               value={place}
               name="place"
               type="text"
               placeholder="장소"
-              onChange={onChange}
+              onClick={() => setadModalSwitch(true)}
+              readOnly
             />
-            <S.BPNewInput
+            <S.BPEditInput
               value={introduce}
               name="introduce"
               type="text"
               placeholder="소개"
               onChange={onChange}
             />
-            <S.BPNewInput
+            <S.BPEditInput
               value={contact}
               name="contact"
               type="text"
@@ -83,15 +95,15 @@ export default function CreateBProfileModal({
               )}
             </S.ImgBox>
             <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
-            <S.BPNewInput name="img" type="file" onChange={fileChange} />
-            <S.BPSubmitBtn
+            <S.BPEditInput name="img" type="file" onChange={fileChange} />
+            <S.BPEditButton
               onClick={async (e) => {
                 e.preventDefault();
                 CreateBProfile(inputs, img);
               }}
             >
               생성하기
-            </S.BPSubmitBtn>
+            </S.BPEditButton>
           </S.ModalContent>
         </S.ModalBox>
       </S.ModalBackground>

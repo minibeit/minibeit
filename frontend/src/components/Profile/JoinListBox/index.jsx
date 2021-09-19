@@ -7,7 +7,7 @@ export default function JoinListBox() {
   const [joinlist, setJoinlist] = useState([]);
   const getJoinlist = async () => {
     await getJoinlistApi(1)
-      .then((res) => setJoinlist(res.data))
+      .then((res) => setJoinlist(res.data.content))
       .catch((err) => console.log(err));
   };
   useEffect(() => {

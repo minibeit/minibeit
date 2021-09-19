@@ -32,6 +32,5 @@ public class DataLoader implements CommandLineRunner {
             }
             userRepository.saveAll(users);
         }
-
     }
 }

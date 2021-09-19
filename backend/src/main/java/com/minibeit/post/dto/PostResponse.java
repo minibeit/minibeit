@@ -105,6 +105,7 @@ public class PostResponse {
     public static class GetList {
         private Long id;
         private String title;
+        private String category;
         private String payment;
         private String goods;
         private Integer cache;
@@ -118,6 +119,7 @@ public class PostResponse {
             return GetList.builder()
                     .id(post.getId())
                     .title(post.getTitle())
+                    .category(post.getCategory())
                     .payment(post.getPayment().name())
                     .goods(post.getPaymentGoods())
                     .cache(post.getPaymentCache())

@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { bprofileListGet, bprofileNew, deleteBprofile } from "../../../utils";
-import CreateBProfileModal from "../../Common/Modal/CreateBProfileModal";
 
 import * as S from "../../BProfile/style";
+import { BCreateCont } from "../../BProfileEdit";
 
 export default function PBProfileSection() {
   const [bprofiles, setbprofiles] = useState([]);
@@ -58,7 +58,7 @@ export default function PBProfileSection() {
   return (
     <S.BPContainer>
       {modalSwitch ? (
-        <CreateBProfileModal
+        <BCreateCont
           setModalSwitch={setModalSwitch}
           CreateBProfile={CreateBProfile}
         />

@@ -9,7 +9,7 @@ import SignupInfo from "./pages/SignupInfo";
 import Profile from "./pages/Profile";
 
 import BProfile from "./pages/BProfile";
-import BProfileEdit from "./pages/BProfileEdit";
+
 import Apply from "./pages/Apply";
 import ApplyDetail from "./pages/ApplyDetail";
 import Recruit from "./pages/Recruit";
@@ -31,11 +31,6 @@ function App() {
           <Route path="/signupInfo" component={SignupInfo} />
           <Route path="/user/:userId" exact component={Profile} />
           <Route path="/business/:businessId" exact component={BProfile} />
-          <Route
-            path="/business/:businessId/edit"
-            exact
-            component={BProfileEdit}
-          />
           <Route path="/apply/:postId" exact component={ApplyDetail} />
           <Route path="/apply" component={Apply} />
           <Route path="/recruit" exact component={Recruit} />

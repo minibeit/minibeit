@@ -114,6 +114,7 @@ public class PostResponse {
         private Integer doTime;
         private String businessProfileName;
         private boolean isLike;
+        private Integer likes;
 
         public static PostResponse.GetList build(Post post, CustomUserDetails customUserDetails) {
             return GetList.builder()
@@ -128,6 +129,7 @@ public class PostResponse {
                     .doTime(post.getDoTime())
                     .businessProfileName(post.getBusinessProfile().getName())
                     .isLike(post.isLike(customUserDetails))
+                    .likes(post.getPostLikeList().size())
                     .build();
         }
     }

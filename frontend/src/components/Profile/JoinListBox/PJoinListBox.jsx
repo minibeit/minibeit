@@ -11,7 +11,7 @@ export default function PJoinListBox({ joinlist }) {
           <ProfileFeed
             allow={true}
             finish={false}
-            complete={false}
+            state="Join"
             feedInfo={joinEle}
           />
         ))

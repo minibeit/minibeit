@@ -285,17 +285,17 @@ function JobGrid({ handleJob }) {
     {
       id: 1,
       name: "학생",
-      emoji: "🖥",
+      emoji: "🎓",
     },
     {
       id: 2,
       name: "경영/사무",
-      emoji: "🖥",
+      emoji: "📔",
     },
     {
       id: 3,
       name: "마케팅",
-      emoji: "🖥",
+      emoji: "🛍",
     },
     {
       id: 4,
@@ -305,22 +305,22 @@ function JobGrid({ handleJob }) {
     {
       id: 5,
       name: "디자인",
-      emoji: "🖥",
+      emoji: "🎨",
     },
     {
       id: 6,
       name: "무역",
-      emoji: "🖥",
+      emoji: "⛴",
     },
     {
       id: 7,
       name: "유통",
-      emoji: "🖥",
+      emoji: "🚛",
     },
     {
       id: 8,
       name: "영업",
-      emoji: "🖥",
+      emoji: "💼",
     },
     {
       id: 9,

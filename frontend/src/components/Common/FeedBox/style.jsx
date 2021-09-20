@@ -10,3 +10,6 @@ export const Notyet = styled.div``;
 export const FeedDateNum = styled.div``;
 export const FeedTimeCheck = styled.div``;
 export const BtnCont = styled.div``;
+
+export const FeedBookmark = styled.div``;
+export const FeedBookmarkCont = styled.div``;

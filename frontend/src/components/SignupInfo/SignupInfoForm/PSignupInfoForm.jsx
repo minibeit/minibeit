@@ -1,16 +1,14 @@
 import React, { useState } from "react";
 import PropTypes, { shape } from "prop-types";
 import { PVImg, SchoolSearch } from "../../Common";
-import * as S from "../style";
 import { handleCompressImg } from "../../../utils/imgCompress";
 import Portal from "../../Common/Modal/Portal";
 import ProgressBar from "../../Common/Progressbar";
 
-import SchoolSelectModal from "../../Common/Modal/SchoolSelectModal";
-import { filterState } from "../../../recoil/filterState";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { signupState } from "../../../recoil/signupState";
 import { nickCheckApi } from "../../../utils/auth";
+import * as S from "../style";
 
 PSignupInfoForm.propTypes = {
   schoollist: PropTypes.arrayOf(
@@ -44,13 +42,16 @@ function PSignupInfoForm({ signupHandler }) {
   });
   const [index, setIndex] = useState(0);
   const [img, setImg] = useState();
-  const { name, nickname, phoneNum, gender, schoolId, job, year, month, day } =
-    inputs;
+  const { name, nickname, phoneNum, gender, job, year, month, day } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
     setInputs({ ...inputs, [name]: value });
   };
-  const [item, setitem] = useState({ bgcolor: "#6a1b9a", completed: 25 });
+  const handleJob = async (jobName) => {
+    console.log(jobName);
+    setInputs({ ...inputs, job: jobName });
+  };
+  const [item, setitem] = useState({ bgcolor: "#6a1b9a", completed: 33.3 });
   const fileChange = (e) => {
     handleCompressImg(e.target.files[0]).then((res) => setImg(res));
   };
@@ -65,13 +66,13 @@ function PSignupInfoForm({ signupHandler }) {
   };
   const singupInfoFunc = (e) => {
     console.log(index);
-    if (index <= 2) {
+    if (index <= 1) {
       setIndex(index + 1);
-      setitem({ bgcolor: "#6a1b9a", completed: ((index + 2) / 4) * 100 });
+      setitem({ bgcolor: "#6a1b9a", completed: ((index + 2) / 3) * 100 });
     }
-    if (index === 2) {
+    if (index === 1) {
       setMsg("회원가입");
-    } else if (index === 3) {
+    } else if (index === 2) {
       e.preventDefault();
       let new_m = month;
       let new_d = day;
@@ -118,8 +119,6 @@ function PSignupInfoForm({ signupHandler }) {
                 ? "관심학교 설정하기"
                 : index === 2
                 ? "현재 직업 설정하기"
-                : index === 3
-                ? "관심분야 설정하기"
                 : null}
             </S.SIheader>
           </S.ModalHeader>
@@ -134,8 +133,6 @@ function PSignupInfoForm({ signupHandler }) {
               ? "주변에 위치한 관심있는 학교를 선택해 주세요"
               : index === 2
               ? "현재 직업을 설정해 주세요"
-              : index === 3
-              ? "어떤 분야에 관심이 있나요?"
               : null}
           </S.SITitle>
           <S.ModalContent>
@@ -269,17 +266,7 @@ function PSignupInfoForm({ signupHandler }) {
                   <SchoolSearch use="Signup" />
                 </>
               ) : index === 2 ? (
-                <S.SignupInput
-                  value={job}
-                  name="job"
-                  type="text"
-                  placeholder="직업"
-                  onChange={onChange}
-                />
-              ) : index === 3 ? (
-                <>
-                  <div>관심분야 설정</div>
-                </>
+                <JobGrid handleJob={handleJob} />
               ) : null}
               <S.SignupButton type="submit" onClick={singupInfoFunc}>
                 {msg}
@@ -292,3 +279,112 @@ function PSignupInfoForm({ signupHandler }) {
   );
 }
 export default PSignupInfoForm;
+
+function JobGrid({ handleJob }) {
+  const jobList = [
+    {
+      id: 1,
+      name: "학생",
+      emoji: "🎓",
+    },
+    {
+      id: 2,
+      name: "경영/사무",
+      emoji: "📔",
+    },
+    {
+      id: 3,
+      name: "마케팅",
+      emoji: "🛍",
+    },
+    {
+      id: 4,
+      name: "IT/인터넷",
+      emoji: "🖥",
+    },
+    {
+      id: 5,
+      name: "디자인",
+      emoji: "🎨",
+    },
+    {
+      id: 6,
+      name: "무역",
+      emoji: "⛴",
+    },
+    {
+      id: 7,
+      name: "유통",
+      emoji: "🚛",
+    },
+    {
+      id: 8,
+      name: "영업",
+      emoji: "💼",
+    },
+    {
+      id: 9,
+      name: "서비스",
+      emoji: "🖥",
+    },
+    {
+      id: 10,
+      name: "교육",
+      emoji: "🖥",
+    },
+    {
+      id: 11,
+      name: "건설",
+      emoji: "🖥",
+    },
+    {
+      id: 12,
+      name: "의료",
+      emoji: "🖥",
+    },
+    {
+      id: 13,
+      name: "미디어",
+      emoji: "🖥",
+    },
+    {
+      id: 14,
+      name: "전문직",
+      emoji: "🖥",
+    },
+    {
+      id: 15,
+      name: "주부",
+      emoji: "🖥",
+    },
+    {
+      id: 16,
+      name: "공무원",
+      emoji: "🖥",
+    },
+    {
+      id: 17,
+      name: "무직",
+      emoji: "",
+    },
+    {
+      id: 18,
+      name: "기타",
+      emoji: "",
+    },
+  ];
+
+  return (
+    <S.JobBlockCont>
+      {jobList.map((jobitem) => (
+        <S.JobBlock
+          key={jobitem.id}
+          onClick={async () => await handleJob(jobitem.name)}
+        >
+          <S.JobEmoji>{jobitem.emoji}</S.JobEmoji>
+          <S.JobName>{jobitem.name}</S.JobName>
+        </S.JobBlock>
+      ))}
+    </S.JobBlockCont>
+  );
+}

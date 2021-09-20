@@ -28,5 +28,6 @@ const API_URLS = {
   GET_LIKE_LIST: "/api/post/like/list?",
   SEARCH_USER: "/api/user/search",
   ASSIGN_CHANGE: "/api/business/profile/",
+  GET_JOIN_LIST:"/api/post/apply/approve/list",
 };
 export default API_URLS;

@@ -8,6 +8,7 @@ export const UserInfo = styled.p``;
 
 export const BPContainer = styled.div``;
 export const BPbtn = styled.div``;
+export const BoxTitle = styled.div``;
 export const LBprev = styled.div``;
 export const LBnext = styled.div``;
 export const BPNewInput = styled.input``;
@@ -76,3 +77,5 @@ export const CloseModalBtn = styled.button`
   margin-right: 0.5rem;
 `;
 export const ModalContent = styled.div``;
+export const IfNoneWordCont = styled.div``;
+export const IfNoneBtn = styled.button``;

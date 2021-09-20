@@ -63,3 +63,11 @@ export const SignupNickBtn = styled.button`
   margin-right: 0.5rem;
 `;
 export const ModalContent = styled.div``;
+export const JobBlockCont = styled.div`
+  width: -webkit-fill-available;
+  display: flex;
+  flex-wrap: wrap;
+`;
+export const JobBlock = styled.div``;
+export const JobEmoji = styled.div``;
+export const JobName = styled.div``;

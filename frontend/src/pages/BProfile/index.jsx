@@ -1,12 +1,12 @@
 import React from "react";
-import { BProfileInfo } from "../../components/BProfile";
+
 import { useRecoilValue } from "recoil";
 import { Link } from "react-router-dom";
 import BProfileSection from "../../components/BProfile/BProfileSection";
 import { NavBar } from "../../components/Common";
 import { userState } from "../../recoil/userState";
 import * as S from "./style";
-import BOtherProfile from "../../components/BProfile/BOtherProfile";
+import { BprofileContainer } from "../../components/BProfile";
 
 export default function BProfile({ match }) {
   const { businessId } = match.params;
@@ -24,8 +24,7 @@ export default function BProfile({ match }) {
         <BProfileSection />
       ) : (
         <>
-          <BProfileInfo businessId={parseInt(businessId)} />
-          <BOtherProfile businessId={parseInt(businessId)} />
+          <BprofileContainer businessId={parseInt(businessId)} />
         </>
       )}
     </>

@@ -1,7 +1,16 @@
 import React from "react";
+import { useState } from "react";
+import { doJoinApi, doNotJoinApi } from "../../../../utils/profileApi";
+import ReviewModal from "../../ReviewModal";
 import * as S from "../style";
 
-export default function ProfileFeed({ state, allow, finish, feedInfo }) {
+export default function ProfileFeed({
+  state,
+  allow,
+  finish,
+  feedInfo,
+  getJoinlist,
+}) {
   return (
     <>
       <S.FeedTag></S.FeedTag>
@@ -9,7 +18,11 @@ export default function ProfileFeed({ state, allow, finish, feedInfo }) {
         <S.FeedTitle>{feedInfo.title}</S.FeedTitle>
         <S.FeedContent>
           {state === "Join" ? (
-            <JoinFeedBlock feedInfo={feedInfo} allow={allow} />
+            <JoinFeedBlock
+              getJoinlist={getJoinlist}
+              feedInfo={feedInfo}
+              allow={allow}
+            />
           ) : state === "finish" ? (
             finish ? (
               <FinishFeedBlock feedInfo={feedInfo} />
@@ -22,7 +35,26 @@ export default function ProfileFeed({ state, allow, finish, feedInfo }) {
     </>
   );
 }
-function JoinFeedBlock({ feedInfo, allow }) {
+function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
+  const [modalSwitch, setModalSwitch] = useState(false);
+  const doNotJoin = async () => {
+    await doNotJoinApi(feedInfo.postDoDateId)
+      .then(() => {
+        alert(feedInfo.title + "실험이 참여 취소 되었습니다.");
+        getJoinlist();
+      })
+      .catch((err) => console.log(err));
+  };
+  console.log(feedInfo);
+  const postInfo = {
+    id: feedInfo.id,
+    postTitle: feedInfo.title,
+    content: "",
+    doDate: feedInfo.doDate,
+    startTime: feedInfo.startTime,
+    endTime: feedInfo.endTime,
+    postDoDateId: feedInfo.postDoDateId,
+  };
   return (
     <>
       <S.FeedDateNum>
@@ -34,11 +66,38 @@ function JoinFeedBlock({ feedInfo, allow }) {
       </S.FeedTimeCheck>
       {allow ? (
         <S.BtnCont>
-          <S.FeedBtn>참여완료</S.FeedBtn>
-          <S.FeedBtn>참여취소</S.FeedBtn>
+          <S.FeedBtn
+            onClick={async () => {
+              setModalSwitch(true);
+            }}
+          >
+            참여완료
+          </S.FeedBtn>
+          {modalSwitch ? (
+            <ReviewModal
+              setModalSwitch={setModalSwitch}
+              state="NEW"
+              postInfo={postInfo}
+            />
+          ) : null}
+          <S.FeedBtn
+            onClick={async (e) => {
+              e.preventDefault();
+              await doNotJoin();
+            }}
+          >
+            참여취소
+          </S.FeedBtn>
         </S.BtnCont>
       ) : (
-        <S.FeedBtn>참여취소</S.FeedBtn>
+        <S.FeedBtn
+          onClick={async (e) => {
+            e.preventDefault();
+            await doNotJoin();
+          }}
+        >
+          참여취소
+        </S.FeedBtn>
       )}
     </>
   );

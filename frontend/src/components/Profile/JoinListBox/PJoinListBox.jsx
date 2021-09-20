@@ -2,16 +2,18 @@ import React from "react";
 import ProfileFeed from "../../Common/FeedBox/ProfileFeed";
 import * as S from "../style";
 
-export default function PJoinListBox({ joinlist }) {
+export default function PJoinListBox({ joinlist, getJoinlist }) {
   return (
     <>
       <S.BoxTitle>신청한 목록</S.BoxTitle>
       {joinlist.length > 0 ? (
         joinlist.map((joinEle) => (
           <ProfileFeed
-            allow={true}
+            key={joinEle.postDoDateId}
+            allow={joinEle.status === "APPROVE" ? true : false}
             finish={false}
             state="Join"
+            getJoinlist={getJoinlist}
             feedInfo={joinEle}
           />
         ))

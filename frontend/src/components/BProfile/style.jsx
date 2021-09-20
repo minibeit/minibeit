@@ -88,3 +88,8 @@ export const JoinBox2 = styled.div``;
 export const JoinEdit = styled.div``;
 export const JoinAssign = styled.div``;
 export const JoinInput = styled.div``;
+export const BPLeftCont = styled.div``;
+export const BPRightCont = styled.div``;
+
+export const BoxTitle = styled.div``;
+export const IfNoneWordCont = styled.div``;

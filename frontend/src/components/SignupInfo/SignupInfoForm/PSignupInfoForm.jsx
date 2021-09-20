@@ -325,42 +325,42 @@ function JobGrid({ handleJob }) {
     {
       id: 9,
       name: "서비스",
-      emoji: "🖥",
+      emoji: "📝",
     },
     {
       id: 10,
       name: "교육",
-      emoji: "🖥",
+      emoji: "📖",
     },
     {
       id: 11,
       name: "건설",
-      emoji: "🖥",
+      emoji: "🏗",
     },
     {
       id: 12,
       name: "의료",
-      emoji: "🖥",
+      emoji: "💊",
     },
     {
       id: 13,
       name: "미디어",
-      emoji: "🖥",
+      emoji: "🎥",
     },
     {
       id: 14,
       name: "전문직",
-      emoji: "🖥",
+      emoji: "🏫",
     },
     {
       id: 15,
       name: "주부",
-      emoji: "🖥",
+      emoji: "🏡",
     },
     {
       id: 16,
       name: "공무원",
-      emoji: "🖥",
+      emoji: "💻",
     },
     {
       id: 17,

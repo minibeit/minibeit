@@ -14,5 +14,5 @@ export default function JoinListBox() {
     getJoinlist();
   }, []);
 
-  return <PJoinListBox joinlist={joinlist} />;
+  return <PJoinListBox joinlist={joinlist} getJoinlist={getJoinlist} />;
 }

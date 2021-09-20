@@ -40,7 +40,7 @@ function ReviewFeedBlock({ feedInfo }) {
         {feedInfo.endTime}
       </S.FeedDateNum>
       <S.Review>{feedInfo.content}</S.Review>
-      <S.FeedBtn>글내리기</S.FeedBtn>
+      <S.FeedBtn>더보기</S.FeedBtn>
     </>
   );
 }

@@ -29,5 +29,6 @@ const API_URLS = {
   SEARCH_USER: "/api/user/search",
   ASSIGN_CHANGE: "/api/business/profile/",
   GET_JOIN_LIST:"/api/post/apply/approve/list",
+  DO_JOIN: "/api/post/date/",
 };
 export default API_URLS;

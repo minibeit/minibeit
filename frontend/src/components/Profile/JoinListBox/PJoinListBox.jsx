@@ -9,6 +9,7 @@ export default function PJoinListBox({ joinlist }) {
       {joinlist.length > 0 ? (
         joinlist.map((joinEle) => (
           <ProfileFeed
+            key={joinEle.postDoDateId}
             allow={true}
             finish={false}
             state="Join"

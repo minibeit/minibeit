@@ -1,4 +1,5 @@
 import React from "react";
+import { doJoinApi } from "../../../../utils/profileApi";
 import * as S from "../style";
 
 export default function ProfileFeed({ state, allow, finish, feedInfo }) {
@@ -23,6 +24,11 @@ export default function ProfileFeed({ state, allow, finish, feedInfo }) {
   );
 }
 function JoinFeedBlock({ feedInfo, allow }) {
+  const doJoin = async () => {
+    await doJoinApi(feedInfo.postDoDateId)
+      .then(() => alert(feedInfo.title + "실험이 참여 완료 되었습니다."))
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <S.FeedDateNum>
@@ -34,7 +40,14 @@ function JoinFeedBlock({ feedInfo, allow }) {
       </S.FeedTimeCheck>
       {allow ? (
         <S.BtnCont>
-          <S.FeedBtn>참여완료</S.FeedBtn>
+          <S.FeedBtn
+            onClick={async (e) => {
+              e.preventDefault();
+              await doJoin();
+            }}
+          >
+            참여완료
+          </S.FeedBtn>
           <S.FeedBtn>참여취소</S.FeedBtn>
         </S.BtnCont>
       ) : (

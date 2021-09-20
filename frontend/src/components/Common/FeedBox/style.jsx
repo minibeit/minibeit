@@ -13,3 +13,4 @@ export const BtnCont = styled.div``;
 
 export const FeedBookmark = styled.div``;
 export const FeedBookmarkCont = styled.div``;
+export const FeedWrap = styled.div``;

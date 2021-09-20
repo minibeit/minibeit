@@ -18,4 +18,10 @@ export {
   getBPusergroup,
   getSearchUser,
 } from "./bprofileApi";
-export { getLikeListApi, getMyInfo, editMyInfo, doJoinApi } from "./profileApi";
+export {
+  getLikeListApi,
+  getMyInfo,
+  editMyInfo,
+  doJoinApi,
+  doNotJoinApi,
+} from "./profileApi";

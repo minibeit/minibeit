@@ -30,5 +30,6 @@ const API_URLS = {
   ASSIGN_CHANGE: "/api/business/profile/",
   GET_JOIN_LIST:"/api/post/apply/approve/list",
   DO_JOIN: "/api/post/date/",
+  DONOT_JOIN: "/api/post/date/",
 };
 export default API_URLS;

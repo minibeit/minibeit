@@ -2,7 +2,7 @@ import React from "react";
 import ProfileFeed from "../../Common/FeedBox/ProfileFeed";
 import * as S from "../style";
 
-export default function PJoinListBox({ joinlist }) {
+export default function PJoinListBox({ joinlist, getJoinlist }) {
   return (
     <>
       <S.BoxTitle>신청한 목록</S.BoxTitle>
@@ -13,6 +13,7 @@ export default function PJoinListBox({ joinlist }) {
             allow={true}
             finish={false}
             state="Join"
+            getJoinlist={getJoinlist}
             feedInfo={joinEle}
           />
         ))

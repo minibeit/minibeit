@@ -1,7 +1,7 @@
 import { withAuthInstance } from "./common";
 import { API_URLS } from "../constants";
 
-const { MY_USERINFO, EDIT_MY_USERINFO,GET_LIKE_LIST,GET_JOIN_LIST,DO_JOIN } = API_URLS;
+const { MY_USERINFO, EDIT_MY_USERINFO,GET_LIKE_LIST,GET_JOIN_LIST,DO_JOIN,DONOT_JOIN } = API_URLS;
 
 export const getMyInfo = async () => {
   return await withAuthInstance.get(MY_USERINFO);
@@ -47,4 +47,7 @@ export const getJoinlistApi = async (page) => {
 
 export const doJoinApi = async (postDoDateId) => {
   return await withAuthInstance.post(DO_JOIN+postDoDateId+"/finish");
+};
+export const doNotJoinApi = async (postDoDateId) => {
+  return await withAuthInstance.post(DONOT_JOIN+postDoDateId+"/apply/cancel");
 };

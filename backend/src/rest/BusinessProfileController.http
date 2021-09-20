@@ -24,9 +24,8 @@ Content-Disposition: form-data; name="contact";
 
 ###< ./../main/resources/mock/images/enjoy.png
 
-
 ###
-GET {{apiUrl}}/business/profile/list/2
+GET {{apiUrl}}/business/profile/mine/list
 Authorization: {{authorizationToken}}
 
 ###
@@ -69,7 +68,7 @@ Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business/profile/1/share/3
+POST {{apiUrl}}/business/profile/2/share/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 

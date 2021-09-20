@@ -1,6 +1,7 @@
 package com.minibeit.businessprofile.dto;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.user.domain.User;
 import lombok.*;
 
 public class BusinessProfileResponse {
@@ -30,8 +31,9 @@ public class BusinessProfileResponse {
         private String contact;
         private Integer numberOfEmployees;
         private String avatar;
+        private boolean isAdmin;
 
-        public static BusinessProfileResponse.GetOne build(BusinessProfile businessProfile) {
+        public static BusinessProfileResponse.GetOne build(BusinessProfile businessProfile, User user) {
             GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(businessProfile.getId())
                     .name(businessProfile.getName())
@@ -39,6 +41,7 @@ public class BusinessProfileResponse {
                     .place(businessProfile.getPlace())
                     .introduce(businessProfile.getIntroduce())
                     .contact(businessProfile.getContact())
+                    .isAdmin(user.isAdminInBusinessProfile(businessProfile))
                     .numberOfEmployees(businessProfile.getUserBusinessProfileList().size());
             if (businessProfile.getAvatar() != null) {
                 return getOneBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
@@ -55,9 +58,13 @@ public class BusinessProfileResponse {
         private Long id;
         private String name;
         private String avatar;
+        private boolean isAdmin;
 
-        public static BusinessProfileResponse.GetList build(BusinessProfile businessProfile) {
-            GetListBuilder getListBuilder = GetList.builder().id(businessProfile.getId()).name(businessProfile.getName());
+        public static BusinessProfileResponse.GetList build(BusinessProfile businessProfile, User user) {
+            GetListBuilder getListBuilder = GetList.builder()
+                    .id(businessProfile.getId())
+                    .name(businessProfile.getName())
+                    .isAdmin(user.isAdminInBusinessProfile(businessProfile));
             if (businessProfile.getAvatar() != null) {
                 getListBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
             }

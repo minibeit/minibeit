@@ -55,17 +55,17 @@ public class BusinessProfileService {
     }
 
     @Transactional(readOnly = true)
-    public List<BusinessProfileResponse.GetList> getListIsMine(Long userId) {
-        List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(userId);
+    public List<BusinessProfileResponse.GetList> getListIsMine(User user) {
+        List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(user.getId());
 
-        return businessProfileList.stream().map(BusinessProfileResponse.GetList::build).collect(Collectors.toList());
+        return businessProfileList.stream().map(businessProfile -> BusinessProfileResponse.GetList.build(businessProfile, user)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public BusinessProfileResponse.GetOne getOne(Long businessProfileId) {
+    public BusinessProfileResponse.GetOne getOne(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findByIdWithAdmin(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
-        return BusinessProfileResponse.GetOne.build(businessProfile);
+        return BusinessProfileResponse.GetOne.build(businessProfile, user);
     }
 
     public void delete(Long businessProfileId, User user) {

@@ -1,4 +1,7 @@
 import React from "react";
+import { useState } from "react";
+import { reviewOneReadApi } from "../../../../utils";
+import ReviewModal from "../../ReviewModal";
 import * as S from "../style";
 
 export default function BProfileFeed({ state, feedInfo }) {
@@ -32,6 +35,14 @@ function NewFeedBlock({ feedInfo }) {
   );
 }
 function ReviewFeedBlock({ feedInfo }) {
+  const [modalSwitch, setModalSwitch] = useState(false);
+  const [postInfo, setPostInfo] = useState({});
+  const readReview = async (businessProfileReviewId) => {
+    await reviewOneReadApi(businessProfileReviewId)
+      .then(async (res) => setPostInfo(res.data))
+      .then(() => setModalSwitch(true))
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <S.FeedTitle>{feedInfo.postTitle}</S.FeedTitle>
@@ -40,7 +51,20 @@ function ReviewFeedBlock({ feedInfo }) {
         {feedInfo.endTime}
       </S.FeedDateNum>
       <S.Review>{feedInfo.content}</S.Review>
-      <S.FeedBtn>더보기</S.FeedBtn>
+      <S.FeedBtn
+        onClick={async () => {
+          await readReview(feedInfo.id);
+        }}
+      >
+        더보기
+      </S.FeedBtn>
+      {modalSwitch ? (
+        <ReviewModal
+          setModalSwitch={setModalSwitch}
+          state="READ"
+          postInfo={postInfo}
+        />
+      ) : null}
     </>
   );
 }

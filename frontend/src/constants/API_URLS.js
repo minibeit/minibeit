@@ -32,6 +32,7 @@ const API_URLS = {
   DO_JOIN: "/api/post/date/",
   DONOT_JOIN: "/api/post/date/",
   REVIEW_NEW:"/api/post/",
-  REVIEW_LIST_GET :"/api/business/profile/"
+  REVIEW_LIST_GET :"/api/business/profile/",
+  REVIEW_ONE_READ:"/api/business/profile/review/"
 };
 export default API_URLS;

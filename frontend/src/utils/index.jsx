@@ -25,4 +25,4 @@ export {
   doJoinApi,
   doNotJoinApi,
 } from "./profileApi";
-export { reviewNewApi, reviewListGetApi } from "./reviewApi";
+export { reviewNewApi, reviewListGetApi, reviewOneReadApi } from "./reviewApi";

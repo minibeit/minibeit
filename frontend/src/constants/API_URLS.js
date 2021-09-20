@@ -31,5 +31,6 @@ const API_URLS = {
   GET_JOIN_LIST:"/api/post/apply/approve/list",
   DO_JOIN: "/api/post/date/",
   DONOT_JOIN: "/api/post/date/",
+  REVIEW_NEW:"/api/post/",
 };
 export default API_URLS;

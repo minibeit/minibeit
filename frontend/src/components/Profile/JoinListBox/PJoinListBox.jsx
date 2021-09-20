@@ -10,7 +10,7 @@ export default function PJoinListBox({ joinlist, getJoinlist }) {
         joinlist.map((joinEle) => (
           <ProfileFeed
             key={joinEle.postDoDateId}
-            allow={true}
+            allow={joinEle.status === "APPROVE" ? true : false}
             finish={false}
             state="Join"
             getJoinlist={getJoinlist}

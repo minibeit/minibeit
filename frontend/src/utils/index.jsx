@@ -25,3 +25,4 @@ export {
   doJoinApi,
   doNotJoinApi,
 } from "./profileApi";
+export { reviewNewApi } from "./reviewApi";

@@ -11,6 +11,8 @@ import {
 import PSelectBProfile from "./PSelectBProfile";
 import PSchoolSelect from "./PSchoolSelect";
 import PDateSelect from "./PDateSelect";
+import TestDatePicker from "./TestdatePicker";
+import TestDatePicker2 from "./TestDatePicker2";
 
 export default function CreateFeedContainer() {
   const userId = useRecoilValue(userState).id;
@@ -42,6 +44,8 @@ export default function CreateFeedContainer() {
       {bpList && <PSelectBProfile bpList={bpList} />}
       <PSchoolSelect />
       <PDateSelect />
+      <TestDatePicker />
+      <TestDatePicker2 />
     </>
   );
 }

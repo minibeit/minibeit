@@ -24,10 +24,12 @@ export default function TestDatePicker2() {
         monthFormat={"YYYY년 MM월"}
         displayFormat="YYYY-MM-DD"
         numberOfMonths={1}
-        noBorder
         hideKeyboardShortcutsPanel
         renderCalendarDay={(props) => {
-          console.log(props.modifiers);
+          const { modifiers, day } = props;
+          if (props.modifiers && props.modifiers.has("selected")) {
+            console.log(props.day);
+          }
           return <CalendarDay {...props} />;
         }}
       />

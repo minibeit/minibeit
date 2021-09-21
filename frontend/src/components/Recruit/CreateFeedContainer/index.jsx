@@ -45,7 +45,6 @@ export default function CreateFeedContainer() {
       <PSchoolSelect />
       <PDateSelect />
       <TestDatePicker />
-      <TestDatePicker2 />
     </>
   );
 }

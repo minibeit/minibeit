@@ -365,7 +365,7 @@ class PostControllerTest extends MvcTest {
 
     @Test
     @DisplayName("자신이 신청한 게시물 목록 조회 (status = WAIT, APPROVE)")
-    public void getListByApplyIsApproveOrWait() throws Exception {
+    public void getListByApplyStatus() throws Exception {
         List<PostResponse.GetMyApplyList> response = new ArrayList<>();
         PostResponse.GetMyApplyList approveAndWaitList1 = PostResponse.GetMyApplyList.builder()
                 .id(1L)
@@ -390,29 +390,34 @@ class PostControllerTest extends MvcTest {
         response.add(approveAndWaitList1);
         response.add(approveAndWaitList2);
         Page<PostResponse.GetMyApplyList> postPage = new PageImpl<>(response, PageRequest.of(1, 6), postList.size());
-        given(postService.getListByApplyIsApproveOrWait(any(), any())).willReturn(postPage);
+        given(postService.getListByApplyStatus(any(), any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/apply/approve/list")
+                .get("/api/post/apply/list")
                 .param("page", "1")
-                .param("size", "3"));
+                .param("size", "3")
+                .param("status", "APPROVE")
+        );
 
         results.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("post-getList-apply-approveAndWait",
+                .andDo(document("post-apply-list",
                         requestParameters(
                                 parameterWithName("page").description("조회할 페이지"),
-                                parameterWithName("size").description("조회할 사이즈")
+                                parameterWithName("size").description("조회할 사이즈"),
+                                parameterWithName("status").description("게시물 상태 APPROVE or WAIT")
                         ),
                         relaxedResponseFields(
                                 fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
                                 fieldWithPath("content[].contact").type(JsonFieldType.STRING).description("게시물 연락처"),
                                 fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("게시물 조건 유무"),
+                                fieldWithPath("content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
                                 fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
                                 fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
                                 fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
                                 fieldWithPath("content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
+                                fieldWithPath("content[].finish").type(JsonFieldType.BOOLEAN).description("참여완료 버튼 활성화이면 true 아니면 false"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")

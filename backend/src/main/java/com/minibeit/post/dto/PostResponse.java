@@ -1,6 +1,7 @@
 package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.security.userdetails.CustomUserDetails;
@@ -156,19 +157,22 @@ public class PostResponse {
         private String contact;
         private boolean recruitCondition;
         private Long postDoDateId;
+        private Integer time;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         private LocalDateTime doDate;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime startTime;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime endTime;
+        private boolean finish;
         private String status;
 
         @Builder
         @QueryProjection
-        public GetMyApplyList(Long id, String title, Integer time, String contact, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status) {
+        public GetMyApplyList(Long id, String title, Integer time, String contact, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status, boolean businessFinish) {
             this.id = id;
             this.title = title;
+            this.time = time;
             this.contact = contact;
             this.recruitCondition = recruitCondition;
             this.postDoDateId = postDoDateId;
@@ -176,6 +180,7 @@ public class PostResponse {
             this.startTime = doDate;
             this.endTime = doDate.plusMinutes(time);
             this.status = status;
+            this.finish = endTime.isBefore(LocalDateTime.now()) && businessFinish && status.equals(ApplyStatus.APPROVE.name());
         }
     }
 

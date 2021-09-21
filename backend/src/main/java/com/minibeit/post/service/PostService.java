@@ -98,15 +98,16 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostResponse.GetMyApplyList> getListByApplyIsApproveOrWait(User user, PageDto pageDto) {
-        return postRepository.findByApplyIsApproveOrWait(user, pageDto.of());
-    }
-
-    @Transactional(readOnly = true)
     public Page<PostResponse.GetMyApplyList> getListByApplyAndMyFinishedWithoutReview(User user, PageDto pageDto) {
         return postRepository.findByApplyAndFinishedWithoutReview(user, pageDto.of());
     }
 
+    @Transactional(readOnly = true)
+    public Page<PostResponse.GetMyApplyList> getListByApplyStatus(ApplyStatus applyStatus, User user, PageDto pageDto) {
+        return postRepository.findAllByApplyStatus(applyStatus, user, pageDto.of());
+    }
+
+    @Transactional(readOnly = true)
     public Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfile(Long businessProfileId, PostStatus postStatus, PageDto pageDto) {
         Page<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, postStatus, pageDto.of());
         List<PostResponse.GetListByBusinessProfile> getListByBusinessProfileList = posts.stream().map(PostResponse.GetListByBusinessProfile::build).collect(Collectors.toList());

@@ -53,20 +53,33 @@ Content-Disposition: form-data; name="schoolId";
 
 
 ###
-POST {{apiUrl}}/post/1/info/date
+POST {{apiUrl}}/post/2/info/date
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
+//{
+//  "startDate": "2021-09-01T09:30",
+//  "endDate": "2021-09-09T09:30",
+//  "doDateList": [
+//    "2021-09-03T09:30",
+//    "2021-09-03T10:30",
+//    "2021-09-03T11:30",
+//    "2021-09-03T12:30",
+//    "2021-09-04T09:30",
+//    "2021-09-05T09:30"
+//  ]
+//}
+
 {
-  "startDate": "2021-09-01T09:30",
-  "endDate": "2021-09-09T09:30",
+  "startDate": "2021-09-21T09:30",
+  "endDate": "2021-10-02T09:30",
   "doDateList": [
-    "2021-09-03T09:30",
-    "2021-09-03T10:30",
-    "2021-09-03T11:30",
-    "2021-09-03T12:30",
-    "2021-09-04T09:30",
-    "2021-09-05T09:30"
+    "2021-09-30T09:30",
+    "2021-09-30T10:30",
+    "2021-10-01T11:30",
+    "2021-10-01T12:30",
+    "2021-10-02T09:30",
+    "2021-10-02T09:30"
   ]
 }
 
@@ -87,6 +100,9 @@ GET {{apiUrl}}/post/like/list?page=1&size=6
 Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/apply/approve/list?page=1&size=4
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/apply/list?page=1&size=4&status=APPROVE
 Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/write/review/list?page=1&size=3

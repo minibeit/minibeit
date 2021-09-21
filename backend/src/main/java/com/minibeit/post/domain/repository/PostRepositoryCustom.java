@@ -1,5 +1,6 @@
 package com.minibeit.post.domain.repository;
 
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostStatus;
@@ -20,7 +21,7 @@ public interface PostRepositoryCustom {
 
     Page<Post> findAllByLike(User user, Pageable pageable);
 
-    Page<PostResponse.GetMyApplyList> findByApplyIsApproveOrWait(User user, Pageable pageable);
-
     Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable of);
+
+    Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus applyStatus, User user, Pageable of);
 }

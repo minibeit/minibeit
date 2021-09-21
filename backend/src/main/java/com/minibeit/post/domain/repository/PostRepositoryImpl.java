@@ -100,6 +100,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return null;
     }
 
+    @Override
     public Page<Post> findAllByLike(User user, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.postLikeList, postLike)
@@ -113,29 +114,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<PostResponse.GetMyApplyList> findByApplyIsApproveOrWait(User user, Pageable pageable) {
-        JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue()
-                ))
-                .from(post)
-                .join(post.postDoDateList, postDoDate)
-                .join(postDoDate.postApplicantList, postApplicant)
-                .where(postApplicant.user.eq(user)
-                        .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE).or(postApplicant.applyStatus.eq(ApplyStatus.WAIT))
-                                .and(postDoDate.doDate.before(LocalDateTime.now()))))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
-
-        QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
-
-        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
-    }
-
-    @Override
     public Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable pageable) {
-
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue()
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue(), postApplicant.businessFinish
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)
@@ -152,4 +133,34 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
+
+    @Override
+    public Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus applyStatus, User user, Pageable pageable) {
+        JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue(), postApplicant.businessFinish
+                ))
+                .from(post)
+                .join(post.postDoDateList, postDoDate)
+                .join(postDoDate.postApplicantList, postApplicant)
+                .where(postApplicant.user.eq(user)
+                        .and(applyStatusEq(applyStatus)))
+                .orderBy(postDoDate.doDate.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    private BooleanExpression applyStatusEq(ApplyStatus applyStatus) {
+        if (applyStatus.equals(ApplyStatus.WAIT)) {
+            return postApplicant.applyStatus.eq(ApplyStatus.WAIT).and(postDoDate.doDate.after(LocalDateTime.now().minusDays(1)));
+        }
+        if(applyStatus.equals(ApplyStatus.APPROVE)){
+            return postApplicant.applyStatus.eq(ApplyStatus.APPROVE).and(postApplicant.myFinish.isFalse());
+        }
+        return null;
+    }
+
 }

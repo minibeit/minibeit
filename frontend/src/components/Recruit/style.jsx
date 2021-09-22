@@ -32,3 +32,6 @@ export const DoTimeBox = styled.div`
 export const StartEndTimeBox = styled.div`
   display: flex;
 `;
+
+/* TimeSelect */
+export const GroupBox = styled.div``;

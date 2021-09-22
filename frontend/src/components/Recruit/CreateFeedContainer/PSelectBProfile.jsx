@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import * as S from "../style";
 import { useRecoilState } from "recoil";
-import { recuritState } from "../../../recoil/recuritState";
+import { recruitState } from "../../../recoil/recruitState";
 
 PSelectBProfile.propTypes = {
   bplist: PropTypes.arrayOf(
@@ -16,14 +16,14 @@ PSelectBProfile.propTypes = {
 };
 
 export default function PSelectBProfile({ bpList }) {
-  const [recurit, setRecurit] = useRecoilState(recuritState);
+  const [recruit, setrecruit] = useRecoilState(recruitState);
   const selectBP = (e) => {
-    const recurit_cp = { ...recurit };
-    recurit_cp["businessProfile"] = {
+    const recruit_cp = { ...recruit };
+    recruit_cp["businessProfile"] = {
       id: parseInt(e.target.id),
       name: e.target.textContent,
     };
-    setRecurit(recurit_cp);
+    setrecruit(recruit_cp);
   };
   return (
     <>
@@ -36,12 +36,13 @@ export default function PSelectBProfile({ bpList }) {
             onClick={selectBP}
             id={a.id}
             key={a.id}
-            disabled={recurit["businessProfile"].id === a.id ? true : false}
+            disabled={recruit["businessProfile"].id === a.id ? true : false}
           >
             {a.name}
           </button>
         );
       })}
+      {recruit["businessProfile"].id ? <button>확인</button> : null}
     </>
   );
 }

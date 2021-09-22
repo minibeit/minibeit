@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 
-export const recuritState = atom({
-  key: "recuritState",
+export const recruitState = atom({
+  key: "recruitState",
   default: {
     businessProfile: {
       id: null,

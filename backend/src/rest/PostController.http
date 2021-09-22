@@ -37,7 +37,11 @@ Content-Disposition: form-data; name="cache";
 --boundary
 Content-Disposition: form-data; name="condition";
 
-false
+true
+--boundary
+Content-Disposition: form-data; name="conditionDetail";
+
+개발자만|커피좋아하는사람만|ㅎㅎㅎ|
 --boundary
 Content-Disposition: form-data; name="doTime";
 
@@ -53,7 +57,7 @@ Content-Disposition: form-data; name="schoolId";
 
 
 ###
-POST {{apiUrl}}/post/2/info/date
+POST {{apiUrl}}/post/5/info/date
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -88,7 +92,7 @@ DELETE {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/1
+GET {{apiUrl}}/post/4
 Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/list/1?doDate=2021-09-03&page=1&size=15&paymentType=&category=&startTime=08:00&endTime=12:00
@@ -112,7 +116,7 @@ GET {{apiUrl}}/post/business/profile/1/list?page=1&size=5&status=RECRUIT
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/post/1/like
+POST {{apiUrl}}/post/4/like
 Authorization: {{authorizationToken}}
 
 ###

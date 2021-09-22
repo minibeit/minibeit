@@ -153,7 +153,7 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("cache").description("지급 방법이 CACHE인 경우 현금"),
                                 parameterWithName("goods").description("지급 방법이 GOODS인 경우 보상"),
                                 parameterWithName("condition").description("구인 조건이 있다면 true 아니면 false (구인 조건이 false라면 conditionDetail를 안보내면 됩니다! )"),
-                                parameterWithName("conditionDetail").description("구인 조건이 true인 경우 구인 조건 세부내용"),
+                                parameterWithName("conditionDetail").description("구인 조건이 true인 경우 구인 조건 세부내용(조건 1개가 끝날때마다 | 특수문자를 붙혀서 보내주세요! 엔터위에 있습니다~!)"),
                                 parameterWithName("doTime").description("실험 소요 시간"),
                                 parameterWithName("schoolId").description("학교 식별자"),
                                 parameterWithName("businessProfileId").description("게시물을 만드는 비즈니스 프로필 식별자")
@@ -257,6 +257,7 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("businessProfileInfo.contact").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 연락처"),
                                 fieldWithPath("businessProfileInfo.address").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 주소"),
                                 fieldWithPath("businessProfileInfo.introduce").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 소개"),
+                                fieldWithPath("like").type(JsonFieldType.BOOLEAN).description("자신이 해당 게시물에 즐겨찾기를 한 상태라면 true 아니면 false"),
                                 fieldWithPath("mine").type(JsonFieldType.BOOLEAN).description("게시물이 자신이 것인지")
                         )
                 ));

@@ -41,9 +41,10 @@ public class PostResponse {
         private String goods;
         private Integer cache;
         private boolean recruitCondition;
-        private String recruitConditionDetail;
+        private String[] recruitConditionDetail;
         private Integer doTime;
         private String schoolName;
+        private boolean isLike;
         private boolean isMine;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         private LocalDateTime startDate;
@@ -63,15 +64,16 @@ public class PostResponse {
                     .goods(post.getPaymentGoods())
                     .cache(post.getPaymentCache())
                     .recruitCondition(post.isRecruitCondition())
-                    .recruitConditionDetail(post.getRecruitConditionDetail())
                     .doTime(post.getDoTime())
                     .schoolName(post.getSchool().getName())
                     .startDate(post.getStartDate())
                     .endDate(post.getEndDate())
                     .files(post.getPostFileList().stream().map(PostFileDto.Image::build).collect(Collectors.toList()))
-                    .businessProfileInfo(PostDto.BusinessProfileInfo.build(post.getBusinessProfile()));
-            if (customUserDetails != null) {
-                getOneBuilder.isMine(customUserDetails.getUser().postIsMine(post));
+                    .businessProfileInfo(PostDto.BusinessProfileInfo.build(post.getBusinessProfile()))
+                    .isMine(post.isMine(customUserDetails))
+                    .isLike(post.isLike(customUserDetails));
+            if (post.getRecruitConditionDetail() != null) {
+                getOneBuilder.recruitConditionDetail(post.getRecruitConditionDetail().split("\\|"));
             }
             return getOneBuilder.build();
         }

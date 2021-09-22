@@ -298,7 +298,7 @@ class PostControllerTest extends MvcTest {
     @DisplayName("게시물 목록 조회 문서화(학교 id,실험날짜 기준)")
     public void getList() throws Exception {
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
-        given(postService.getList(any(), any(), any(), any(), any())).willReturn(postPage);
+        given(postService.getList(any(), any(), any(), any(), any(), any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/list/{schoolId}", 1)
@@ -306,7 +306,10 @@ class PostControllerTest extends MvcTest {
                 .param("size", "10")
                 .param("category", "식품")
                 .param("paymentType", "CACHE")
-                .param("doDate", "2021-09-04"));
+                .param("doDate", "2021-09-04")
+                .param("startTime", "09:30")
+                .param("endTime", "18:50")
+        );
 
         results.andExpect(status().isOk())
                 .andDo(print())
@@ -318,7 +321,9 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("size").description("조회할 사이즈"),
                                 parameterWithName("doDate").description("조회할 게시물 실험 날짜(doDate)"),
                                 parameterWithName("category").description("조회할 게시물 카테고리"),
-                                parameterWithName("paymentType").description("CACHE or GOODS (보내지 않을 경우 전체 조회가 됩니다!)")
+                                parameterWithName("paymentType").description("CACHE or GOODS (보내지 않을 경우 전체 조회가 됩니다!)"),
+                                parameterWithName("startTime").description("조회할 게시물 실험 시작 시간(시작 조건)"),
+                                parameterWithName("endTime").description("조회할 게시물 실험 시작 시간(끝 조건)")
                         ),
                         relaxedResponseFields(
                                 fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
@@ -327,7 +332,6 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("content[].goods").description("지급 수단이 GOODS 인 경우 물품 보상").optional(),
                                 fieldWithPath("content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
                                 fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
-                                fieldWithPath("content[].recruitConditionDetail").description("구인조건이 있다면 구인조건 세부사항(없다면 null)").optional(),
                                 fieldWithPath("content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),

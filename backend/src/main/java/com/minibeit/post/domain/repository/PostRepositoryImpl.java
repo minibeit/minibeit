@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -31,8 +32,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, Pageable pageable) {
-        JPAQuery<Post> query = queryFactory.selectFrom(post)
+    public Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, LocalTime startTime, LocalTime endTime, Pageable pageable) {
+        JPAQuery<Post> query = queryFactory.selectFrom(post).distinct()
                 .join(post.postDoDateList, postDoDate)
                 .join(post.businessProfile).fetchJoin()
                 .where(post.school.id.eq(schoolId)
@@ -40,7 +41,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                                 .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                                 .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
                         .and(paymentTypeEq(paymentType))
-                        .and(categoryEq(category)))
+                        .and(categoryEq(category))
+                        .and(startEndTimeBetween(doDate, startTime, endTime)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
@@ -62,6 +64,16 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         }
         return null;
     }
+
+    private BooleanExpression startEndTimeBetween(LocalDate doDate, LocalTime startTime, LocalTime endTime) {
+        if (Objects.nonNull(startTime) && Objects.nonNull(endTime)) {
+            LocalDateTime startDateTime = LocalDateTime.of(doDate.getYear(), doDate.getMonthValue(), doDate.getDayOfMonth(), startTime.getHour(), startTime.getMinute());
+            LocalDateTime endDateTime = LocalDateTime.of(doDate.getYear(), doDate.getMonthValue(), doDate.getDayOfMonth(), endTime.getHour(), endTime.getMinute());
+            return postDoDate.doDate.between(startDateTime, endDateTime);
+        }
+        return null;
+    }
+
 
 //    private BooleanExpression minPayGoe(Integer minPay) {
 //        if (Objects.nonNull(minPay) && post.paymentCache != null) {
@@ -157,7 +169,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         if (applyStatus.equals(ApplyStatus.WAIT)) {
             return postApplicant.applyStatus.eq(ApplyStatus.WAIT).and(postDoDate.doDate.after(LocalDateTime.now().minusDays(1)));
         }
-        if(applyStatus.equals(ApplyStatus.APPROVE)){
+        if (applyStatus.equals(ApplyStatus.APPROVE)) {
             return postApplicant.applyStatus.eq(ApplyStatus.APPROVE).and(postApplicant.myFinish.isFalse());
         }
         return null;

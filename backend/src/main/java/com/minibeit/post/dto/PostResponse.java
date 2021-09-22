@@ -113,7 +113,6 @@ public class PostResponse {
         private String goods;
         private Integer cache;
         private boolean recruitCondition;
-        private String recruitConditionDetail;
         private Integer doTime;
         private String businessProfileName;
         private boolean isLike;
@@ -127,7 +126,6 @@ public class PostResponse {
                     .goods(post.getPaymentGoods())
                     .cache(post.getPaymentCache())
                     .recruitCondition(post.isRecruitCondition())
-                    .recruitConditionDetail(post.getRecruitConditionDetail())
                     .doTime(post.getDoTime())
                     .businessProfileName(post.getBusinessProfile().getName())
                     .isLike(post.isLike(customUserDetails))

@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -88,8 +89,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Post> getList(Long schoolId, LocalDate doDate, String category, PageDto pageDto, Payment paymentType) {
-        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, category, pageDto.of());
+    public Page<Post> getList(Long schoolId, LocalDate doDate, String category, PageDto pageDto, Payment paymentType, LocalTime startTime, LocalTime endTime) {
+        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, category, startTime, endTime, pageDto.of());
     }
 
     @Transactional(readOnly = true)

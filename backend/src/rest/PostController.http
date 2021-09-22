@@ -95,7 +95,7 @@ Authorization: {{authorizationToken}}
 GET {{apiUrl}}/post/4
 Authorization: {{authorizationToken}}
 ###
-GET {{apiUrl}}/post/list/1?doDate=2021-09-03&page=1&size=15&paymentType=&category=&startTime=08:00&endTime=12:00
+GET {{apiUrl}}/post/list/1?doDate=2021-10-01&page=1&size=15&paymentType=&category=&startTime=12:31&endTime=12:35
 Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/1/start?doDate=2021-09-03

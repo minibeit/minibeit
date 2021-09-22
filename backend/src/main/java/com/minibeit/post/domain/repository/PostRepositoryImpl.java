@@ -18,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -31,8 +32,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, Pageable pageable) {
-        JPAQuery<Post> query = queryFactory.selectFrom(post)
+    public Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, LocalTime startTime, LocalTime endTime, Pageable pageable) {
+        JPAQuery<Post> query = queryFactory.selectFrom(post).distinct()
                 .join(post.postDoDateList, postDoDate)
                 .join(post.businessProfile).fetchJoin()
                 .where(post.school.id.eq(schoolId)
@@ -40,7 +41,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                                 .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                                 .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
                         .and(paymentTypeEq(paymentType))
-                        .and(categoryEq(category)))
+                        .and(categoryEq(category))
+                        .and(startEndTimeBetween(doDate, startTime, endTime)))
+                .orderBy(post.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
@@ -62,6 +65,16 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         }
         return null;
     }
+
+    private BooleanExpression startEndTimeBetween(LocalDate doDate, LocalTime startTime, LocalTime endTime) {
+        if (Objects.nonNull(startTime) && Objects.nonNull(endTime)) {
+            LocalDateTime startDateTime = LocalDateTime.of(doDate.getYear(), doDate.getMonthValue(), doDate.getDayOfMonth(), startTime.getHour(), startTime.getMinute());
+            LocalDateTime endDateTime = LocalDateTime.of(doDate.getYear(), doDate.getMonthValue(), doDate.getDayOfMonth(), endTime.getHour(), endTime.getMinute());
+            return postDoDate.doDate.between(startDateTime, endDateTime);
+        }
+        return null;
+    }
+
 
 //    private BooleanExpression minPayGoe(Integer minPay) {
 //        if (Objects.nonNull(minPay) && post.paymentCache != null) {
@@ -100,6 +113,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return null;
     }
 
+    @Override
     public Page<Post> findAllByLike(User user, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.postLikeList, postLike)
@@ -113,29 +127,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<PostResponse.GetMyApplyList> findByApplyIsApproveOrWait(User user, Pageable pageable) {
-        JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue()
-                ))
-                .from(post)
-                .join(post.postDoDateList, postDoDate)
-                .join(postDoDate.postApplicantList, postApplicant)
-                .where(postApplicant.user.eq(user)
-                        .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE).or(postApplicant.applyStatus.eq(ApplyStatus.WAIT))
-                                .and(postDoDate.doDate.before(LocalDateTime.now()))))
-                .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
-
-        QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
-
-        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
-    }
-
-    @Override
     public Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable pageable) {
-
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue()
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue(), postApplicant.businessFinish
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)
@@ -152,4 +146,34 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
+
+    @Override
+    public Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus applyStatus, User user, Pageable pageable) {
+        JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue(), postApplicant.businessFinish
+                ))
+                .from(post)
+                .join(post.postDoDateList, postDoDate)
+                .join(postDoDate.postApplicantList, postApplicant)
+                .where(postApplicant.user.eq(user)
+                        .and(applyStatusEq(applyStatus)))
+                .orderBy(postDoDate.doDate.asc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize());
+
+        QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    private BooleanExpression applyStatusEq(ApplyStatus applyStatus) {
+        if (applyStatus.equals(ApplyStatus.WAIT)) {
+            return postApplicant.applyStatus.eq(ApplyStatus.WAIT).and(postDoDate.doDate.after(LocalDateTime.now().minusDays(1)));
+        }
+        if (applyStatus.equals(ApplyStatus.APPROVE)) {
+            return postApplicant.applyStatus.eq(ApplyStatus.APPROVE).and(postApplicant.myFinish.isFalse());
+        }
+        return null;
+    }
+
 }

@@ -119,15 +119,15 @@ include::{snippets}/post-getList-like/response-fields.adoc[]
 
 === 자신이 지원한 게시물 목록 조회(APPROVE,WAIT)
 
-`GET /api/post/apply/approve/list`
+`GET /api/post/apply/list`
 
 요청 HTTP
-include::{snippets}/post-getList-apply-approveAndWait/http-request.adoc[]
-include::{snippets}/post-getList-apply-approveAndWait/request-parameters.adoc[]
+include::{snippets}/post-apply-list/http-request.adoc[]
+include::{snippets}/post-apply-list/request-parameters.adoc[]
 
 성공 응답 HTTP
-include::{snippets}/post-getList-apply-approveAndWait/http-response.adoc[]
-include::{snippets}/post-getList-apply-approveAndWait/response-fields.adoc[]
+include::{snippets}/post-apply-list/http-response.adoc[]
+include::{snippets}/post-apply-list/response-fields.adoc[]
 
 === 자신이 후기를 작성할 수 있는 게시물 목록 조회
 

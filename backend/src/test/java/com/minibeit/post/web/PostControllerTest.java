@@ -153,7 +153,7 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("cache").description("지급 방법이 CACHE인 경우 현금"),
                                 parameterWithName("goods").description("지급 방법이 GOODS인 경우 보상"),
                                 parameterWithName("condition").description("구인 조건이 있다면 true 아니면 false (구인 조건이 false라면 conditionDetail를 안보내면 됩니다! )"),
-                                parameterWithName("conditionDetail").description("구인 조건이 true인 경우 구인 조건 세부내용"),
+                                parameterWithName("conditionDetail").description("구인 조건이 true인 경우 구인 조건 세부내용(조건 1개가 끝날때마다 | 특수문자를 붙혀서 보내주세요! 엔터위에 있습니다~!)"),
                                 parameterWithName("doTime").description("실험 소요 시간"),
                                 parameterWithName("schoolId").description("학교 식별자"),
                                 parameterWithName("businessProfileId").description("게시물을 만드는 비즈니스 프로필 식별자")
@@ -257,6 +257,7 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("businessProfileInfo.contact").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 연락처"),
                                 fieldWithPath("businessProfileInfo.address").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 주소"),
                                 fieldWithPath("businessProfileInfo.introduce").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 소개"),
+                                fieldWithPath("like").type(JsonFieldType.BOOLEAN).description("자신이 해당 게시물에 즐겨찾기를 한 상태라면 true 아니면 false"),
                                 fieldWithPath("mine").type(JsonFieldType.BOOLEAN).description("게시물이 자신이 것인지")
                         )
                 ));
@@ -297,7 +298,7 @@ class PostControllerTest extends MvcTest {
     @DisplayName("게시물 목록 조회 문서화(학교 id,실험날짜 기준)")
     public void getList() throws Exception {
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
-        given(postService.getList(any(), any(), any(), any(), any())).willReturn(postPage);
+        given(postService.getList(any(), any(), any(), any(), any(), any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/list/{schoolId}", 1)
@@ -305,7 +306,10 @@ class PostControllerTest extends MvcTest {
                 .param("size", "10")
                 .param("category", "식품")
                 .param("paymentType", "CACHE")
-                .param("doDate", "2021-09-04"));
+                .param("doDate", "2021-09-04")
+                .param("startTime", "09:30")
+                .param("endTime", "18:50")
+        );
 
         results.andExpect(status().isOk())
                 .andDo(print())
@@ -317,7 +321,9 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("size").description("조회할 사이즈"),
                                 parameterWithName("doDate").description("조회할 게시물 실험 날짜(doDate)"),
                                 parameterWithName("category").description("조회할 게시물 카테고리"),
-                                parameterWithName("paymentType").description("CACHE or GOODS (보내지 않을 경우 전체 조회가 됩니다!)")
+                                parameterWithName("paymentType").description("CACHE or GOODS (보내지 않을 경우 전체 조회가 됩니다!)"),
+                                parameterWithName("startTime").description("조회할 게시물 실험 시작 시간(시작 조건)"),
+                                parameterWithName("endTime").description("조회할 게시물 실험 시작 시간(끝 조건)")
                         ),
                         relaxedResponseFields(
                                 fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
@@ -326,7 +332,6 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("content[].goods").description("지급 수단이 GOODS 인 경우 물품 보상").optional(),
                                 fieldWithPath("content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
                                 fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
-                                fieldWithPath("content[].recruitConditionDetail").description("구인조건이 있다면 구인조건 세부사항(없다면 null)").optional(),
                                 fieldWithPath("content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
                                 fieldWithPath("content[].likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
                                 fieldWithPath("totalElements").description("전체 개수"),
@@ -366,7 +371,7 @@ class PostControllerTest extends MvcTest {
 
     @Test
     @DisplayName("자신이 신청한 게시물 목록 조회 (status = WAIT, APPROVE)")
-    public void getListByApplyIsApproveOrWait() throws Exception {
+    public void getListByApplyStatus() throws Exception {
         List<PostResponse.GetMyApplyList> response = new ArrayList<>();
         PostResponse.GetMyApplyList approveAndWaitList1 = PostResponse.GetMyApplyList.builder()
                 .id(1L)
@@ -391,29 +396,34 @@ class PostControllerTest extends MvcTest {
         response.add(approveAndWaitList1);
         response.add(approveAndWaitList2);
         Page<PostResponse.GetMyApplyList> postPage = new PageImpl<>(response, PageRequest.of(1, 6), postList.size());
-        given(postService.getListByApplyIsApproveOrWait(any(), any())).willReturn(postPage);
+        given(postService.getListByApplyStatus(any(), any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/apply/approve/list")
+                .get("/api/post/apply/list")
                 .param("page", "1")
-                .param("size", "3"));
+                .param("size", "3")
+                .param("status", "APPROVE")
+        );
 
         results.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("post-getList-apply-approveAndWait",
+                .andDo(document("post-apply-list",
                         requestParameters(
                                 parameterWithName("page").description("조회할 페이지"),
-                                parameterWithName("size").description("조회할 사이즈")
+                                parameterWithName("size").description("조회할 사이즈"),
+                                parameterWithName("status").description("게시물 상태 APPROVE or WAIT")
                         ),
                         relaxedResponseFields(
                                 fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
                                 fieldWithPath("content[].contact").type(JsonFieldType.STRING).description("게시물 연락처"),
                                 fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("게시물 조건 유무"),
+                                fieldWithPath("content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
                                 fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
                                 fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
                                 fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
                                 fieldWithPath("content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
+                                fieldWithPath("content[].finish").type(JsonFieldType.BOOLEAN).description("참여완료 버튼 활성화이면 true 아니면 false"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")

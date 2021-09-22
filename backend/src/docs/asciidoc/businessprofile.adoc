@@ -37,11 +37,10 @@ include::{snippets}/business-profile-getOne/response-fields.adoc[]
 
 === 자신의 비즈니스 프로필 전체 조회
 
-`GET /api/business/profile/list/{userId}`
+`GET /api/business/profile/mine/list`
 
 요청 HTTP
 include::{snippets}/business-profile-list-mine/http-request.adoc[]
-include::{snippets}/business-profile-list-mine/path-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/business-profile-list-mine/http-response.adoc[]
@@ -106,7 +105,7 @@ include::{snippets}/business-profile-change-admin/http-response.adoc[]
 
 == User 관련 API
 
-=== 해당 비즈니스 프로필을 가지고 있는 유저 조회
+=== 해당 비즈니스 프로필의 소속인원 조회(관리자 제외)
 
 `GET /api/user/list/business/profile/{businessProfileId}`
 

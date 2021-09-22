@@ -1,6 +1,7 @@
 package com.minibeit.user.domain;
 
 import com.minibeit.avatar.domain.Avatar;
+import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.post.domain.Post;
@@ -96,7 +97,7 @@ public class User extends BaseEntity {
         }
     }
 
-    public boolean postIsMine(Post post) {
-        return post.getCreatedBy().getId().equals(this.id);
+    public boolean isAdminInBusinessProfile(BusinessProfile businessProfile) {
+        return businessProfile.getAdmin().getId().equals(this.getId());
     }
 }

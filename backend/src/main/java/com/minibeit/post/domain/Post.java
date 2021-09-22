@@ -86,6 +86,11 @@ public class Post extends BaseEntity {
         return customUserDetails != null && this.postLikeList.stream().anyMatch(postLike -> postLike.getCreatedBy().getId().equals(customUserDetails.getUser().getId()));
     }
 
+    public boolean isMine(CustomUserDetails customUserDetails) {
+        return customUserDetails != null && this.businessProfile.getUserBusinessProfileList().stream()
+                .anyMatch(userBusinessProfile -> userBusinessProfile.getUser().getId().equals(customUserDetails.getUser().getId()));
+    }
+
     public void updateDate(PostRequest.CreateDateRule request) {
         this.startDate = request.getStartDate();
         this.endDate = request.getEndDate();

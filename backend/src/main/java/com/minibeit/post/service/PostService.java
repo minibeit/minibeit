@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -88,8 +89,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Post> getList(Long schoolId, LocalDate doDate, String category, PageDto pageDto, Payment paymentType) {
-        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, category, pageDto.of());
+    public Page<Post> getList(Long schoolId, LocalDate doDate, String category, PageDto pageDto, Payment paymentType, LocalTime startTime, LocalTime endTime) {
+        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, category, startTime, endTime, pageDto.of());
     }
 
     @Transactional(readOnly = true)
@@ -98,15 +99,16 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostResponse.GetMyApplyList> getListByApplyIsApproveOrWait(User user, PageDto pageDto) {
-        return postRepository.findByApplyIsApproveOrWait(user, pageDto.of());
-    }
-
-    @Transactional(readOnly = true)
     public Page<PostResponse.GetMyApplyList> getListByApplyAndMyFinishedWithoutReview(User user, PageDto pageDto) {
         return postRepository.findByApplyAndFinishedWithoutReview(user, pageDto.of());
     }
 
+    @Transactional(readOnly = true)
+    public Page<PostResponse.GetMyApplyList> getListByApplyStatus(ApplyStatus applyStatus, User user, PageDto pageDto) {
+        return postRepository.findAllByApplyStatus(applyStatus, user, pageDto.of());
+    }
+
+    @Transactional(readOnly = true)
     public Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfile(Long businessProfileId, PostStatus postStatus, PageDto pageDto) {
         Page<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, postStatus, pageDto.of());
         List<PostResponse.GetListByBusinessProfile> getListByBusinessProfileList = posts.stream().map(PostResponse.GetListByBusinessProfile::build).collect(Collectors.toList());

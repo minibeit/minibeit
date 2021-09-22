@@ -1,6 +1,7 @@
 package com.minibeit.post.web;
 
 import com.minibeit.common.dto.PageDto;
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostStatus;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,10 +68,10 @@ public class PostController {
                                                               @RequestParam(name = "doDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate,
                                                               @RequestParam(defaultValue = "ALL", name = "category") String category,
 //                                                              @RequestParam(name = "minPay", required = false) Integer minPay,
-//                                                              @RequestParam(name = "startTime", required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime startTime,
-//                                                              @RequestParam(name = "endTime", required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime endTime,
+                                                              @RequestParam(name = "startTime", required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime startTime,
+                                                              @RequestParam(name = "endTime", required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime endTime,
                                                               PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
-        Page<Post> posts = postService.getList(schoolId, doDate, category, pageDto, paymentType);
+        Page<Post> posts = postService.getList(schoolId, doDate, category, pageDto, paymentType, startTime, endTime);
         List<PostResponse.GetList> response = posts.stream().map(post -> PostResponse.GetList.build(post, customUserDetails)).collect(Collectors.toList());
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
     }
@@ -83,15 +83,17 @@ public class PostController {
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
     }
 
-    @GetMapping("/apply/approve/list")
-    public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyIsApproveOrWait(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
-        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyIsApproveOrWait(customUserDetails.getUser(), pageDto);
-        return ResponseEntity.ok().body(response);
-    }
-
     @GetMapping("/writable/review/list")
     public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyMyFinishedWithoutReview(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
         Page<PostResponse.GetMyApplyList> response = postService.getListByApplyAndMyFinishedWithoutReview(customUserDetails.getUser(), pageDto);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/apply/list")
+    public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyStatus(@RequestParam(name = "status") ApplyStatus applyStatus,
+                                                                                  PageDto pageDto,
+                                                                                  @CurrentUser CustomUserDetails customUserDetails) {
+        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyStatus(applyStatus, customUserDetails.getUser(), pageDto);
         return ResponseEntity.ok().body(response);
     }
 

@@ -51,6 +51,18 @@ public class BusinessProfileController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/mine/list")
+    public ResponseEntity<List<BusinessProfileResponse.GetList>> getListIsMine(@CurrentUser CustomUserDetails customUserDetails) {
+        List<BusinessProfileResponse.GetList> response = businessProfileService.getListIsMine(customUserDetails.getUser());
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/{businessProfileId}")
+    public ResponseEntity<BusinessProfileResponse.GetOne> getOne(@PathVariable Long businessProfileId, @CurrentUser CustomUserDetails customUserDetails) {
+        BusinessProfileResponse.GetOne response = businessProfileService.getOne(businessProfileId, customUserDetails.getUser());
+        return ResponseEntity.ok().body(response);
+    }
+
     @DeleteMapping("/{businessProfileId}/expel/{userId}")
     public ResponseEntity<Void> cancelShare(@PathVariable Long businessProfileId,
                                             @PathVariable Long userId,
@@ -59,17 +71,6 @@ public class BusinessProfileController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/list/{userId}")
-    public ResponseEntity<List<BusinessProfileResponse.GetList>> getListIsMine(@PathVariable Long userId) {
-        List<BusinessProfileResponse.GetList> response = businessProfileService.getListIsMine(userId);
-        return ResponseEntity.ok().body(response);
-    }
-
-    @GetMapping("/{businessProfileId}")
-    public ResponseEntity<BusinessProfileResponse.GetOne> getOne(@PathVariable Long businessProfileId) {
-        BusinessProfileResponse.GetOne response = businessProfileService.getOne(businessProfileId);
-        return ResponseEntity.ok().body(response);
-    }
 
     @DeleteMapping("/{businessProfileId}")
     public ResponseEntity<Void> delete(@PathVariable Long businessProfileId,

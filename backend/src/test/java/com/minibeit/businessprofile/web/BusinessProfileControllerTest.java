@@ -156,18 +156,16 @@ class BusinessProfileControllerTest extends MvcTest {
 
         given(businessProfileService.getListIsMine(any())).willReturn(getLists);
 
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/list/{userId}", 1));
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/mine/list"));
 
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("business-profile-list-mine",
-                        pathParameters(
-                                parameterWithName("userId").description("조회할 유저 식별자")
-                        ),
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
                                 fieldWithPath("[].name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
-                                fieldWithPath("[].avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url")
+                                fieldWithPath("[].avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url"),
+                                fieldWithPath("[].admin").type(JsonFieldType.BOOLEAN).description("로그인한 유저가 해당 비즈니스 프로필의 관리자라면 true")
                         )
                 ));
     }
@@ -175,9 +173,9 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 단건 조회 문서화")
     public void getOne() throws Exception {
-        BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile);
+        BusinessProfileResponse.GetOne response = BusinessProfileResponse.GetOne.build(businessProfile, user1);
 
-        given(businessProfileService.getOne(any())).willReturn(response);
+        given(businessProfileService.getOne(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/{businessProfileId}", 1));
 
@@ -195,6 +193,7 @@ class BusinessProfileControllerTest extends MvcTest {
                                 fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
                                 fieldWithPath("numberOfEmployees").type(JsonFieldType.NUMBER).description("비즈니스 프로필 소속 인원 수"),
+                                fieldWithPath("admin").type(JsonFieldType.BOOLEAN).description("로그인한 유저가 해당 비즈니스 프로필의 관리자라면 true"),
                                 fieldWithPath("avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url(프로필 이미지가 없다면 null)")
                         )
                 ));
@@ -263,7 +262,7 @@ class BusinessProfileControllerTest extends MvcTest {
     @DisplayName("비즈니스 프로필 공유(초대) 문서화")
     public void shareBusinessProfile() throws Exception {
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/business/profile/{businessProfileId}/share/{userId}", 1,1));
+                .post("/api/business/profile/{businessProfileId}/share/{userId}", 1, 1));
 
         results.andExpect(status().isOk())
                 .andDo(print())

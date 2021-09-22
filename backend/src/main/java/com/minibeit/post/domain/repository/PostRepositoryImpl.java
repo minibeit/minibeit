@@ -43,6 +43,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         .and(paymentTypeEq(paymentType))
                         .and(categoryEq(category))
                         .and(startEndTimeBetween(doDate, startTime, endTime)))
+                .orderBy(post.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 

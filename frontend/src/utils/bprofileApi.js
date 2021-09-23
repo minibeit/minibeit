@@ -74,6 +74,6 @@ export const assignChange = async (businessId,userId) => {
   );
 };
 
-export const getMakelistApi = async (businessId, page) => {
-  return await withAuthInstance.get(BPROFILE_MAKE_LIST+businessId+ "/list?page="+page+"&size=3&status=RECRUIT");
+export const getMakelistApi = async (businessId, page,status) => {
+  return await withAuthInstance.get(BPROFILE_MAKE_LIST+businessId+ "/list?page="+page+"&size=3&status="+status);
 };

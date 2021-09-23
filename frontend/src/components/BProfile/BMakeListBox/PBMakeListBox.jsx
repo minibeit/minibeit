@@ -22,7 +22,11 @@ export default function PBMakeListBox({ makelist, paging, handlepage, state }) {
         </>
       ) : (
         <S.IfNoneWordCont>
-          <p>아직 후기가 작성되지 않았습니다.</p>
+          {state === "new" ? (
+            <p>아직 모집중인 실험이 없습니다.</p>
+          ) : (
+            <p>완료된 실험이 없습니다.</p>
+          )}
         </S.IfNoneWordCont>
       )}
     </>

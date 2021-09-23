@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getMakelistApi } from "../../../utils";
 import PBMakeListBox from "./PBMakeListBox";
 
-export default function BMakeListBox({ businessId, state }) {
+export default function BMakeListBox({ businessId, state, status }) {
   const [makelist, setMakelist] = useState([]);
   const [page, setPage] = useState(1);
   const [paging, setPaging] = useState({
@@ -10,7 +10,7 @@ export default function BMakeListBox({ businessId, state }) {
     last: "",
   });
   const getMakelist = async () => {
-    await getMakelistApi(businessId, page)
+    await getMakelistApi(businessId, page, status)
       .then((res) => {
         setMakelist(res.data.content);
         setPaging({ first: res.data.first, last: res.data.last });

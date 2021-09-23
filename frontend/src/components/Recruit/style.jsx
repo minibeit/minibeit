@@ -35,3 +35,11 @@ export const StartEndTimeBox = styled.div`
 
 /* TimeSelect */
 export const GroupBox = styled.div``;
+export const GroupBtn = styled.button`
+  width: 2rem;
+  height: 2rem;
+  border: 0.5px solid grey;
+  cursor: pointer;
+  background: ${(props) => props.color || "white"};
+  border-radius: 50%;
+`;

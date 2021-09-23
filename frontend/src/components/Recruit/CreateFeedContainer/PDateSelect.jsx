@@ -90,7 +90,7 @@ export default function PDateSelect() {
       setExceptDate([...exceptDate_cp]);
     }
   };
-  console.log(recruit);
+
   return (
     <>
       <h2>리서치 정보를 알려주세요.</h2>
@@ -206,6 +206,7 @@ export default function PDateSelect() {
             recruit_cp["doDateList"] = dateArr;
             recruit_cp["startDate"] = startDate.format("YYYY-MM-DD");
             recruit_cp["endDate"] = endDate.format("YYYY-MM-DD");
+            recruit_cp["exceptDateList"] = exceptDate;
             setrecruit(recruit_cp);
           }}
         >

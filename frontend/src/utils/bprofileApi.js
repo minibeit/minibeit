@@ -21,8 +21,8 @@ export const bprofileNew = async (inputs, img) => {
   }
   return await withAuthInstance.post(BPROFILE_NEW, formData);
 };
-export const bprofileListGet = async (UserId) => {
-  return await withAuthInstance.get(BPROFILELIST + UserId);
+export const bprofileListGet = async () => {
+  return await withAuthInstance.get(BPROFILELIST);
 };
 
 export const getBprofileInfo = async (businessId) => {

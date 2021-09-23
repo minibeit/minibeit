@@ -56,25 +56,29 @@ export default function PBProfile({ buserData }) {
           실험실 소속 인원 : {buserData.numberOfEmployees}
         </S.UserInfo>
       </S.BUserInfoContainer1>
-      <S.BUserInfoContainer2>
-        <S.BProfileEdit onClick={() => setModal2Switch(true)}>
-          수정하기
-        </S.BProfileEdit>
-        {modal2Switch ? (
-          <BProfileEditCont
-            businessId={buserData.id}
-            setModal2Switch={setModal2Switch}
-          />
-        ) : null}
-        <S.BProfileDelete onClick={doDelete}>삭제하기</S.BProfileDelete>
-        <S.BPjoin onClick={() => setModalSwitch(true)}>소속 인원 목록</S.BPjoin>
-        {modalSwitch ? (
-          <BProfileJoin
-            businessId={buserData.id}
-            setModalSwitch={setModalSwitch}
-          />
-        ) : null}
-      </S.BUserInfoContainer2>
+      {buserData.admin ? (
+        <S.BUserInfoContainer2>
+          <S.BProfileEdit onClick={() => setModal2Switch(true)}>
+            수정하기
+          </S.BProfileEdit>
+          {modal2Switch ? (
+            <BProfileEditCont
+              businessId={buserData.id}
+              setModal2Switch={setModal2Switch}
+            />
+          ) : null}
+          <S.BProfileDelete onClick={doDelete}>삭제하기</S.BProfileDelete>
+          <S.BPjoin onClick={() => setModalSwitch(true)}>
+            소속 인원 목록
+          </S.BPjoin>
+          {modalSwitch ? (
+            <BProfileJoin
+              businessId={buserData.id}
+              setModalSwitch={setModalSwitch}
+            />
+          ) : null}
+        </S.BUserInfoContainer2>
+      ) : null}
     </S.UserInfoContainer>
   );
 }

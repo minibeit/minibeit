@@ -37,6 +37,14 @@ export default function ProfileFeed({
 }
 function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
   const [modalSwitch, setModalSwitch] = useState(false);
+  const doJoin = async () => {
+    await doJoinApi(feedInfo.postDoDateId)
+      .then((res) => {
+        setModalSwitch(true);
+      })
+      // 만일 에러뜨면 아직 실험 날짜가 오늘날짜보다 이후라서 그럼
+      .catch((err) => console.log(err));
+  };
   const doNotJoin = async () => {
     await doNotJoinApi(feedInfo.postDoDateId)
       .then(() => {
@@ -54,6 +62,7 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
     startTime: feedInfo.startTime,
     endTime: feedInfo.endTime,
     postDoDateId: feedInfo.postDoDateId,
+    time: feedInfo.time,
   };
   return (
     <>
@@ -67,8 +76,9 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
       {allow ? (
         <S.BtnCont>
           <S.FeedBtn
-            onClick={async () => {
-              setModalSwitch(true);
+            onClick={async (e) => {
+              e.preventDefault();
+              await doJoin();
             }}
           >
             참여완료

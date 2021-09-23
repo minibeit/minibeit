@@ -11,7 +11,7 @@ export default function PBProfileSection() {
   const [bprofiles, setbprofiles] = useState([]);
   const [modalSwitch, setModalSwitch] = useState(false);
   const [user, setUser] = useRecoilState(userState);
-  const UserId = useRecoilValue(userState).id;
+
   const [display, setdisplay] = useState("none");
   const [msg, setmsg] = useState("수정");
 
@@ -24,7 +24,7 @@ export default function PBProfileSection() {
     getBprofileList();
   };
   const getBprofileList = async () => {
-    bprofileListGet(UserId)
+    bprofileListGet()
       .then(async (res) => setbprofiles(res.data))
       .catch((err) => console.log(err));
   };
@@ -77,12 +77,15 @@ export default function PBProfileSection() {
       )}
       {bprofiles.map((bprofile) => (
         <div key={bprofile.id}>
-          <S.BIdelete
-            display={display}
-            onClick={async () => await doDelete(bprofile.id)}
-          >
-            삭제
-          </S.BIdelete>
+          {bprofile.admin ? (
+            <S.BIdelete
+              display={display}
+              onClick={async () => await doDelete(bprofile.id)}
+            >
+              삭제
+            </S.BIdelete>
+          ) : null}
+
           <S.BIeleCont onClick={async () => await goBProfile(bprofile.id)}>
             <S.ImgBox>
               {bprofile.avatar !== null ? (

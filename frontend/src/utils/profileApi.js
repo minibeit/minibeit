@@ -41,8 +41,8 @@ export const getLikeListApi = async (page) => {
   console.log(page)
   return await withAuthInstance.get(GET_LIKE_LIST+"page="+page+"&size=6");
 };
-export const getJoinlistApi = async (page) => {
-  return await withAuthInstance.get(GET_JOIN_LIST+"?page="+page+"&size=3");
+export const getJoinlistApi = async (page, state) => {
+  return await withAuthInstance.get(GET_JOIN_LIST+"?page="+page+"&size=3&status="+state);
 };
 
 export const doJoinApi = async (postDoDateId) => {

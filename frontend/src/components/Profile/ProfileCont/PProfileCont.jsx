@@ -25,7 +25,8 @@ export default function PProfileCont() {
           <LikeListBox />
         </S.PleftBox>
         <S.PrightBox>
-          <JoinListBox />
+          <JoinListBox state="APPROVE" />
+          <JoinListBox state="WAIT" />
           <div>완료 실험 리스트</div>
         </S.PrightBox>
       </S.PTabContent>

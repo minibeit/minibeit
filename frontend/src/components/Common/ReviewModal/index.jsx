@@ -21,7 +21,7 @@ export default function ReviewModal({ setModalSwitch, postInfo, state }) {
     const newReviewInfo = {
       postTitle: postInfo.postTitle,
       content: content,
-      time: 30,
+      time: postInfo.time,
       doDate: postInfo.doDate + "T" + postInfo.startTime,
     };
     await reviewNewApi(postInfo.id, postInfo.postDoDateId, newReviewInfo)
@@ -36,7 +36,9 @@ export default function ReviewModal({ setModalSwitch, postInfo, state }) {
       <S.ModalBackground>
         <S.ModalBox>
           <S.ModalHeader>
-            <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
+            {state === "NEW" ? null : (
+              <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
+            )}
           </S.ModalHeader>
           <S.ModalContent>
             <S.ReviewTop>

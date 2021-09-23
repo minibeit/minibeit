@@ -6,7 +6,7 @@ import * as S from "../style";
 export default function PBReviewBox({ reviewlist }) {
   return (
     <>
-      <S.BoxTitle>신청한 목록</S.BoxTitle>
+      <S.BoxTitle>후기 모아보기</S.BoxTitle>
       {reviewlist.length > 0 ? (
         reviewlist.map((reviewEle) => (
           <BProfileFeed

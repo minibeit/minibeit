@@ -79,3 +79,5 @@ export const CloseModalBtn = styled.button`
 export const ModalContent = styled.div``;
 export const IfNoneWordCont = styled.div``;
 export const IfNoneBtn = styled.button``;
+
+export const ListPaging = styled.div``;

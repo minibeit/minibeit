@@ -1,19 +1,18 @@
-import React, { useEffect } from "react";
-import { useState } from "react";
-import { reviewListGetApi } from "../../../utils";
-import PBReviewBox from "./PBReviewBox";
+import React, { useEffect, useState } from "react";
+import { getMakelistApi } from "../../../utils";
+import PBMakeListBox from "./PBMakeListBox";
 
-export default function BReviewBox({ businessId }) {
-  const [reviewlist, setReviewlist] = useState([]);
+export default function BMakeListBox({ businessId, state, status }) {
+  const [makelist, setMakelist] = useState([]);
   const [page, setPage] = useState(1);
   const [paging, setPaging] = useState({
     first: "",
     last: "",
   });
-  const getReviewlist = async () => {
-    await reviewListGetApi(businessId, page)
+  const getMakelist = async () => {
+    await getMakelistApi(businessId, page, status)
       .then((res) => {
-        setReviewlist(res.data.content);
+        setMakelist(res.data.content);
         setPaging({ first: res.data.first, last: res.data.last });
       })
       .catch((err) => console.log(err));
@@ -26,14 +25,14 @@ export default function BReviewBox({ businessId }) {
     }
   };
   useEffect(() => {
-    getReviewlist();
+    getMakelist();
   }, [page]);
-
   return (
-    <PBReviewBox
-      reviewlist={reviewlist}
-      handlepage={handlepage}
+    <PBMakeListBox
+      makelist={makelist}
       paging={paging}
+      handlepage={handlepage}
+      state={state}
     />
   );
 }

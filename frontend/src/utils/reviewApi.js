@@ -9,7 +9,7 @@ export const reviewNewApi = async (postId,postDoDateId,newReviewInfo) => {
 };
 
 export const reviewListGetApi = async (businessId, page) => {
-  return await withAuthInstance.get(REVIEW_LIST_GET+businessId+"/review/list?page="+page+"&size=5");
+  return await withAuthInstance.get(REVIEW_LIST_GET+businessId+"/review/list?page="+page+"&size=3");
 };
 export const reviewOneReadApi = async (businessProfileReviewId) => {
   return await withAuthInstance.get(REVIEW_ONE_READ+businessProfileReviewId);

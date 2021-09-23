@@ -9,7 +9,7 @@ const {
   BPROFILE_EDIT,
   BPROFILE_JOIN,
   BPROFILE_JOIN_DEL,
-  GET_BP_USERGROUP,SEARCH_USER,ASSIGN_CHANGE
+  GET_BP_USERGROUP,SEARCH_USER,BPROFILE_MAKE_LIST, ASSIGN_CHANGE
 } = API_URLS;
 
 // getuserinfo 완료되면 api주소 입력 후 사용
@@ -70,6 +70,10 @@ export const getSearchUser = async (input) => {
 
 export const assignChange = async (businessId,userId) => {
   return await withAuthInstance.post(
-    BPROFILE_JOIN + businessId + "/change/"+userId,
+    ASSIGN_CHANGE + businessId + "/change/"+userId,
   );
+};
+
+export const getMakelistApi = async (businessId, page,status) => {
+  return await withAuthInstance.get(BPROFILE_MAKE_LIST+businessId+ "/list?page="+page+"&size=3&status="+status);
 };

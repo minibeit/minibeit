@@ -93,3 +93,4 @@ export const BPRightCont = styled.div``;
 
 export const BoxTitle = styled.div``;
 export const IfNoneWordCont = styled.div``;
+export const ListPaging = styled.div``;

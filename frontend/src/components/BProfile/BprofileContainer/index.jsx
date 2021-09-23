@@ -1,4 +1,5 @@
 import React from "react";
+import BMakeListBox from "../BMakeListBox";
 import BOtherProfile from "../BOtherProfile";
 import BProfileInfo from "../BProfileInfo";
 import BReviewBox from "../BReviewBox";
@@ -12,7 +13,12 @@ export default function BProfileContainer({ businessId }) {
       </S.BPLeftCont>
       <S.BPRightCont>
         <BOtherProfile businessId={businessId} />
-        <div>생성한 실험리스트</div>
+        <BMakeListBox businessId={businessId} state="new" status="RECRUIT" />
+        <BMakeListBox
+          businessId={businessId}
+          state="finish"
+          status="COMPLETE"
+        />
         <BReviewBox businessId={businessId} />
       </S.BPRightCont>
     </>

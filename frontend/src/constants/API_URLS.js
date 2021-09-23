@@ -20,6 +20,7 @@ const API_URLS = {
   BPROFILE_NEW: "/api/business/profile",
   BPROFILELIST: "/api/business/profile/mine/list",
   BPROFILE_GET: "/api/business/profile/",
+  BPROFILE_MAKE_LIST :"/api/post/business/profile/",
   BPROFILE_DELETE: "/api/business/profile/",
   BPROFILE_EDIT: "/api/business/profile/",
   BPROFILE_JOIN: "/api/business/profile/",

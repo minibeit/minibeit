@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 
 import "react-dates/initialize";
 import { CalendarDay, DateRangePicker, SingleDatePicker } from "react-dates";
-import "react-dates/lib/css/_datepicker.css";
+import "../react-dates.css";
 import moment from "moment";
 import "moment/locale/ko";
 

@@ -115,6 +115,10 @@ export default function PDateSelect() {
           focusedInput={focusedInput}
           onFocusChange={(focusedInput) => {
             setFocusedInput(focusedInput);
+            setExceptDate([]);
+            const recruit_cp = { ...recruit };
+            recruit_cp["exceptDateList"] = [];
+            setrecruit(recruit_cp);
           }}
         />
       </S.DateBox>

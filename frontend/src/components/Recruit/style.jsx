@@ -43,3 +43,8 @@ export const GroupBtn = styled.button`
   background: ${(props) => props.color || "white"};
   border-radius: 50%;
 `;
+export const ColorView = styled.div`
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+`;

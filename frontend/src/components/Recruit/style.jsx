@@ -47,4 +47,5 @@ export const ColorView = styled.div`
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
+  background: ${(props) => props.color || "none"};
 `;

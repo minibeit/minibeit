@@ -26,6 +26,7 @@ export default function PDateSelect() {
 
   const disabledDates = [...recruit["exceptDateList"]];
 
+  /* 제외된 날짜를 block해주는 로직 */
   const tileDisabled = ({ date, view }) => {
     if (view === "month") {
       return disabledDates.find(
@@ -35,27 +36,6 @@ export default function PDateSelect() {
     }
   };
 
-  /* 선택한 그룹으로 날짜에 색을 표시해주는 로직 */
-  const createColorPick = (e) => {
-    if (e.target.nodeName === "BUTTON") {
-      e.target.childNodes[1].style["background-color"] = selectGroup.color;
-      e.target.childNodes[1].setAttribute("name", "helloButton");
-    } else if (e.target.nodeName === "ABBR") {
-      e.target.nextSibling.style["background-color"] = selectGroup.color;
-    } else {
-      e.target.style["background-color"] = selectGroup.color;
-    }
-  };
-  /* 날짜에 표시된 점을 삭제하는 로직 */
-  const deleteColorPick = (e) => {
-    if (e.target.nodeName === "BUTTON") {
-      e.target.childNodes[1].style["background-color"] = null;
-    } else if (e.target.nodeName === "ABBR") {
-      e.target.nextSibling.style["background-color"] = null;
-    } else {
-      e.target.style["background-color"] = null;
-    }
-  };
   /* 선택한 날짜를 그룹에 추가&삭제하는 로직 */
   const setGroupDateList = (e, day) => {
     const group_cp = [...group];
@@ -69,23 +49,37 @@ export default function PDateSelect() {
             group_cp[i].dateList.indexOf(dayString),
             1
           );
-          deleteColorPick(e);
           // 지금 선택되어있는 그룹과 다른 그룹일 경우 그룹 변경
         } else {
           group_cp[i].dateList.splice(
             group_cp[i].dateList.indexOf(dayString),
             1
           );
-          createColorPick(e);
         }
         // 클릭했을 때 날짜가 어느 그룹에도 속해있지 않을 경우
       } else if (selectGroup.id === group_cp[i].id) {
         group_cp[i].dateList.push(dayString);
-        createColorPick(e);
       }
     }
     console.log(group_cp);
     setGroup(group_cp);
+  };
+
+  /* 날짜가 그룹에 이미 속해있을 경우 속해있는 그룹의 색을 표시해주는 로직 */
+  const tileContent = ({ date, view }) => {
+    if (view === "month") {
+      const dateString = moment(date).format("YYYY-MM-DD");
+      if (
+        group.filter((ele) => ele.dateList.includes(dateString)).length !== 0
+      ) {
+        const color = group.filter((ele) =>
+          ele.dateList.includes(dateString)
+        )[0].color;
+        return <S.ColorView color={color}></S.ColorView>;
+      } else {
+        return <S.ColorView></S.ColorView>;
+      }
+    }
   };
 
   return (
@@ -107,7 +101,7 @@ export default function PDateSelect() {
           next2Label={null}
           prev2Label={null}
           showNeighboringMonth={false}
-          tileContent={<S.ColorView />}
+          tileContent={tileContent}
         />
       </S.DateBox>
       <S.GroupBox>

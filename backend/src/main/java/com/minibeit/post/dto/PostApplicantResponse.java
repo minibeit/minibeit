@@ -23,6 +23,7 @@ public class PostApplicantResponse {
         private String phoneNum;
         private String job;
         private ApplyStatus status;
+        private Boolean isAttend;
         private Long postDoDateId;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime startTime;
@@ -31,7 +32,7 @@ public class PostApplicantResponse {
 
         @Builder
         @QueryProjection
-        public UserInfo(Long id, String name, LocalDate birth, Gender gender, String phoneNum, String job, Integer time, ApplyStatus status, Long postDoDateId, LocalDateTime startTime) {
+        public UserInfo(Long id, String name, LocalDate birth, Gender gender, String phoneNum, String job, Integer time, ApplyStatus status, Boolean isAttend, Long postDoDateId, LocalDateTime startTime) {
             this.id = id;
             this.name = name;
             this.birth = birth;
@@ -39,6 +40,7 @@ public class PostApplicantResponse {
             this.phoneNum = phoneNum;
             this.job = job;
             this.status = status;
+            this.isAttend = isAttend;
             this.postDoDateId = postDoDateId;
             this.startTime = startTime;
             this.endTime = startTime.plusMinutes(time);

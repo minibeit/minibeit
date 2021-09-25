@@ -186,6 +186,7 @@ class PostApplicantControllerTest extends MvcTest {
                 .status(ApplyStatus.WAIT)
                 .startTime(LocalDateTime.of(2021, 9, 9, 9, 30))
                 .time(120)
+                .isAttend(true)
                 .postDoDateId(1L)
                 .build();
         PostApplicantResponse.UserInfo userInfo2 = PostApplicantResponse.UserInfo.builder()
@@ -198,6 +199,7 @@ class PostApplicantControllerTest extends MvcTest {
                 .status(ApplyStatus.APPROVE)
                 .startTime(LocalDateTime.of(2021, 9, 9, 9, 30))
                 .time(120)
+                .isAttend(true)
                 .postDoDateId(1L)
                 .build();
         PostApplicantResponse.UserInfo userInfo3 = PostApplicantResponse.UserInfo.builder()
@@ -210,6 +212,7 @@ class PostApplicantControllerTest extends MvcTest {
                 .status(ApplyStatus.APPROVE)
                 .startTime(LocalDateTime.of(2021, 9, 9, 10, 30))
                 .time(120)
+                .isAttend(true)
                 .postDoDateId(2L)
                 .build();
         response.add(userInfo1);
@@ -240,6 +243,87 @@ class PostApplicantControllerTest extends MvcTest {
                                 fieldWithPath("[].phoneNum").type(JsonFieldType.STRING).description("연락처"),
                                 fieldWithPath("[].job").type(JsonFieldType.STRING).description("직업"),
                                 fieldWithPath("[].status").description("지원현황(APPROVE or WAIT)"),
+                                fieldWithPath("[].isAttend").description("실험 참여했다면 true, 안했다면 false"),
+                                fieldWithPath("[].postDoDateId").description("게시물 실험 시작 시간 식별자"),
+                                fieldWithPath("[].startTime").description("실험 시작 시간"),
+                                fieldWithPath("[].endTime").description("실험 끝나는 시간")
+                        )
+                ));
+    }
+
+
+    @Test
+    @DisplayName("시작 날짜에 따른 확정자 명단 목록 조회 문서화 ")
+    public void approveApplicantListByDate() throws Exception {
+        List<PostApplicantResponse.UserInfo> response = new ArrayList<>();
+        PostApplicantResponse.UserInfo userInfo1 = PostApplicantResponse.UserInfo.builder()
+                .id(1L)
+                .name("동그라미")
+                .birth(LocalDate.of(1999, 9, 9))
+                .gender(Gender.FEMALE)
+                .phoneNum("010-1234-0123")
+                .job("대학생")
+                .status(ApplyStatus.APPROVE)
+                .startTime(LocalDateTime.of(2021, 9, 9, 9, 30))
+                .time(120)
+                .isAttend(true)
+                .postDoDateId(1L)
+                .build();
+        PostApplicantResponse.UserInfo userInfo2 = PostApplicantResponse.UserInfo.builder()
+                .id(2L)
+                .name("네모")
+                .birth(LocalDate.of(1980, 9, 9))
+                .gender(Gender.MALE)
+                .phoneNum("010-1124-0123")
+                .job("교수")
+                .status(ApplyStatus.APPROVE)
+                .startTime(LocalDateTime.of(2021, 9, 9, 9, 30))
+                .time(120)
+                .isAttend(true)
+                .postDoDateId(1L)
+                .build();
+        PostApplicantResponse.UserInfo userInfo3 = PostApplicantResponse.UserInfo.builder()
+                .id(3L)
+                .name("세모")
+                .birth(LocalDate.of(1997, 9, 9))
+                .gender(Gender.MALE)
+                .phoneNum("010-1234-6666")
+                .job("개발자")
+                .status(ApplyStatus.APPROVE)
+                .startTime(LocalDateTime.of(2021, 9, 9, 10, 30))
+                .time(120)
+                .isAttend(true)
+                .postDoDateId(2L)
+                .build();
+        response.add(userInfo1);
+        response.add(userInfo2);
+        response.add(userInfo3);
+
+        given(postApplicantService.getApproveApplicantListByDate(any(), any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/post/{postId}/applicant/confirm/list", 1)
+                .param("doDate", "2021-09-09")
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-applicant-confirm-list",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("doDate").description("실험자들을 조회할 날짜")
+                        ),
+                        responseFields(
+                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("유저 식별자"),
+                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("유저 실명"),
+                                fieldWithPath("[].birth").type(JsonFieldType.STRING).description("생년월일"),
+                                fieldWithPath("[].gender").type(JsonFieldType.STRING).description("성별"),
+                                fieldWithPath("[].phoneNum").type(JsonFieldType.STRING).description("연락처"),
+                                fieldWithPath("[].job").type(JsonFieldType.STRING).description("직업"),
+                                fieldWithPath("[].status").description("지원현황(APPROVE or WAIT)"),
+                                fieldWithPath("[].isAttend").description("실험 참여했다면 true, 안했다면 false"),
                                 fieldWithPath("[].postDoDateId").description("게시물 실험 시작 시간 식별자"),
                                 fieldWithPath("[].startTime").description("실험 시작 시간"),
                                 fieldWithPath("[].endTime").description("실험 끝나는 시간")

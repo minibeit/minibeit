@@ -98,8 +98,14 @@ public class PostApplicantService {
         postApplicant.changeBusinessFinish(request.getIsAttend());
     }
 
+    @Transactional(readOnly = true)
     public List<PostApplicantResponse.UserInfo> getApplicantListByDate(Long postId, LocalDate doDate) {
         return postApplicantRepository.findAllByPostAndDoDate(postId, doDate);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostApplicantResponse.UserInfo> getApproveApplicantListByDate(Long postId, LocalDate doDate) {
+        return postApplicantRepository.findAllByPostAndDoDateAndApprove(postId, doDate);
     }
 
     private void permissionCheck(User user, Post post) {

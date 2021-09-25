@@ -72,4 +72,11 @@ public class PostApplicantController {
         List<PostApplicantResponse.UserInfo> response = postApplicantService.getApplicantListByDate(postId, doDate);
         return ResponseEntity.ok().body(response);
     }
+
+    @GetMapping("/{postId}/applicant/confirm/list")
+    public ResponseEntity<List<PostApplicantResponse.UserInfo>> approveApplicantListByDate(@PathVariable Long postId,
+                                                                                           @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate) {
+        List<PostApplicantResponse.UserInfo> response = postApplicantService.getApproveApplicantListByDate(postId, doDate);
+        return ResponseEntity.ok().body(response);
+    }
 }

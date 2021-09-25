@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface PostApplicantRepositoryCustom {
     List<PostApplicantResponse.UserInfo> findAllByPostAndDoDate(Long postId, LocalDate doDate);
+
+    List<PostApplicantResponse.UserInfo> findAllByPostAndDoDateAndApprove(Long postId, LocalDate doDate);
 }

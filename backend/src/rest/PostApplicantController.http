@@ -38,9 +38,13 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 {
-  "isAttend": true
+  "isAttend": false
 }
 
 ###
 GET {{apiUrl}}/post/2/applicant/list?doDate=2021-09-30
+Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/post/1/applicant/confirm/list?doDate=2021-09-30
 Authorization: {{authorizationToken}}

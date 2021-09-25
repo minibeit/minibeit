@@ -143,6 +143,7 @@ class PostApplicantControllerTest extends MvcTest {
                 .status(ApplyStatus.WAIT)
                 .startTime(LocalDateTime.of(2021, 9, 9, 9, 30))
                 .time(120)
+                .postDoDateId(1L)
                 .build();
         PostApplicantResponse.UserInfo userInfo2 = PostApplicantResponse.UserInfo.builder()
                 .id(2L)
@@ -154,6 +155,7 @@ class PostApplicantControllerTest extends MvcTest {
                 .status(ApplyStatus.APPROVE)
                 .startTime(LocalDateTime.of(2021, 9, 9, 9, 30))
                 .time(120)
+                .postDoDateId(1L)
                 .build();
         PostApplicantResponse.UserInfo userInfo3 = PostApplicantResponse.UserInfo.builder()
                 .id(3L)
@@ -165,6 +167,7 @@ class PostApplicantControllerTest extends MvcTest {
                 .status(ApplyStatus.APPROVE)
                 .startTime(LocalDateTime.of(2021, 9, 9, 10, 30))
                 .time(120)
+                .postDoDateId(2L)
                 .build();
         response.add(userInfo1);
         response.add(userInfo2);
@@ -193,7 +196,8 @@ class PostApplicantControllerTest extends MvcTest {
                                 fieldWithPath("[].gender").type(JsonFieldType.STRING).description("성별"),
                                 fieldWithPath("[].phoneNum").type(JsonFieldType.STRING).description("연락처"),
                                 fieldWithPath("[].job").type(JsonFieldType.STRING).description("직업"),
-                                fieldWithPath("[].status").description("지원현황(APPROVE or REJECT or WAIT)"),
+                                fieldWithPath("[].status").description("지원현황(APPROVE or WAIT)"),
+                                fieldWithPath("[].postDoDateId").description("게시물 실험 시작 시간 식별자"),
                                 fieldWithPath("[].startTime").description("실험 시작 시간"),
                                 fieldWithPath("[].endTime").description("실험 끝나는 시간")
                         )

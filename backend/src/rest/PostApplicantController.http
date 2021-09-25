@@ -1,5 +1,5 @@
 ###
-POST {{apiUrl}}/post/3/date/14/apply
+POST {{apiUrl}}/post/2/date/8/apply
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -14,7 +14,7 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/1/date/1/apply/reject/2
+POST {{apiUrl}}/post/1/date/7/apply/reject/2
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -27,5 +27,5 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-GET {{apiUrl}}/post/1/applicant/list?doDate=2021-09-03
+GET {{apiUrl}}/post/2/applicant/list?doDate=2021-09-30
 Authorization: {{authorizationToken}}

@@ -1,5 +1,6 @@
 package com.minibeit.post.domain.repository;
 
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.dto.PostApplicantResponse;
 import com.minibeit.post.dto.QPostApplicantResponse_UserInfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -20,15 +21,18 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
     @Override
     public List<PostApplicantResponse.UserInfo> findAllByPostAndDoDate(Long postId, LocalDate doDate) {
         return queryFactory.select(new QPostApplicantResponse_UserInfo(
-                        user.id, user.name, user.birth, user.gender, user.phoneNum, user.job, post.doTime, postApplicant.applyStatus, postDoDate.doDate
+                        user.id, user.name, user.birth, user.gender, user.phoneNum, user.job, post.doTime, postApplicant.applyStatus, postDoDate.id, postDoDate.doDate
                 ))
                 .from(postApplicant)
                 .join(postApplicant.user, user)
                 .join(postApplicant.postDoDate, postDoDate)
                 .join(postDoDate.post, post)
-                .where(post.id.eq(postId).and(postDoDate.doDate.year().eq(doDate.getYear())
-                        .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
-                        .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth()))))
+                .where(post.id.eq(postId)
+                        .and(postDoDate.doDate.year().eq(doDate.getYear())
+                                .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
+                                .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
+                        .and(postApplicant.applyStatus.ne(ApplyStatus.REJECT)))
+                .orderBy(postDoDate.doDate.asc())
                 .fetch();
     }
 }

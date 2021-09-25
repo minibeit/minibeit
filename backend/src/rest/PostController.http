@@ -57,7 +57,7 @@ Content-Disposition: form-data; name="schoolId";
 
 
 ###
-POST {{apiUrl}}/post/5/info/date
+POST {{apiUrl}}/post/4/info/date
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 

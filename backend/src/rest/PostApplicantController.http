@@ -26,10 +26,20 @@ Content-Type: application/json;charset=UTF-8
 {
   "comment": "조건이 해당하지 않습니다."
 }
+
 ###
 POST {{apiUrl}}/post/date/1/apply/cancel
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
+
+###
+POST {{apiUrl}}/post/1/date/1/attend/change/2
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+{
+  "isAttend": true
+}
 
 ###
 GET {{apiUrl}}/post/2/applicant/list?doDate=2021-09-30

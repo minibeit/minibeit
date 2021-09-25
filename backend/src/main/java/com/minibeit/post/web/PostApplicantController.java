@@ -59,6 +59,13 @@ public class PostApplicantController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{postId}/date/{postDoDateId}/attend/change/{userId}")
+    public ResponseEntity<Void> attendChange(@PathVariable Long postId, @PathVariable Long postDoDateId,
+                                             @PathVariable Long userId, @RequestBody PostApplicantRequest.AttendChange request, @CurrentUser CustomUserDetails customUserDetails) {
+        postApplicantService.attendChange(postId, postDoDateId, userId, request, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/{postId}/applicant/list")
     public ResponseEntity<List<PostApplicantResponse.UserInfo>> applicantListByDate(@PathVariable Long postId,
                                                                                     @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate) {

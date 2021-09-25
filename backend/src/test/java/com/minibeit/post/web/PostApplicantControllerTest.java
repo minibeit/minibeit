@@ -147,6 +147,30 @@ class PostApplicantControllerTest extends MvcTest {
                 ));
     }
 
+    @Test
+    @DisplayName("비즈니스쪽에서 해당 지원자 참여 여부 결정")
+    public void attendChange() throws Exception {
+        PostApplicantRequest.AttendChange request = PostApplicantRequest.AttendChange.builder().isAttend(false).build();
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/{postId}/date/{postDoDateId}/attend/change/{userId}", 1, 1, 2)
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-attend-change",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자"),
+                                parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자"),
+                                parameterWithName("userId").description("유저(지원자) 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("isAttend").type(JsonFieldType.BOOLEAN).description("해당 지원자가 실험 참여 했다면 true 아니면 false")
+                        )
+                ));
+    }
 
     @Test
     @DisplayName("시작 날짜에 따라 지원자 목록 조회")

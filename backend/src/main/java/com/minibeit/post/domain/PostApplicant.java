@@ -47,7 +47,7 @@ public class PostApplicant extends BaseEntity {
     }
 
     public void updateStatusWait() {
-        this.applyStatus=ApplyStatus.WAIT;
+        this.applyStatus = ApplyStatus.WAIT;
     }
 
     public void updateStatusReject(String rejectComment) {
@@ -77,5 +77,9 @@ public class PostApplicant extends BaseEntity {
                 .build();
         postApplicant.setPostDoDate(postDoDate);
         return postApplicant;
+    }
+
+    public void changeBusinessFinish(Boolean isAttend) {
+        this.businessFinish = isAttend;
     }
 }

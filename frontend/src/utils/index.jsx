@@ -1,10 +1,11 @@
 export {
   feedCreateApi,
-  feedDeleteApi,
   feedDetailApi,
   feedEditApi,
   feedlistApi,
   feedDateCreateApi,
+  stateCompleteApi,
+  feedDeleteApi,
 } from "./feedApi";
 export { signupInfoApi, logoutFunc, nickCheckApi } from "./auth";
 export {

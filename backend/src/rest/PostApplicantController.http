@@ -9,7 +9,12 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/2/date/14/apply/approve/2
+POST {{apiUrl}}/post/1/date/1/apply/approve/2
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+###
+POST {{apiUrl}}/post/1/date/1/apply/approve/cancel/2
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 

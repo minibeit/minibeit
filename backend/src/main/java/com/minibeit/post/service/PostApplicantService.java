@@ -66,6 +66,13 @@ public class PostApplicantService {
         postDoDate.updateFull(approvedPostApplicant);
     }
 
+    public void applyApproveCancel(Long postId, Long postDoDateId, Long userId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        permissionCheck(user, post);
+        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
+        postApplicant.updateStatusWait();
+    }
+
     public void applyReject(Long postId, Long postDoDateId, Long userId, PostApplicantRequest.ApplyReject request, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(user, post);

@@ -46,6 +46,10 @@ public class PostApplicant extends BaseEntity {
         this.applyStatus = ApplyStatus.APPROVE;
     }
 
+    public void updateStatusWait() {
+        this.applyStatus=ApplyStatus.WAIT;
+    }
+
     public void updateStatusReject(String rejectComment) {
         this.applyStatus = ApplyStatus.REJECT;
         this.rejectComment = rejectComment;

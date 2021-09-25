@@ -198,6 +198,17 @@ include::{snippets}/post-apply-approve/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-apply-approve/http-response.adoc[]
 
+=== 지원자 참여 허락 취소하기(실험모집하는 연구실)
+
+`POST /api/post/{postId}/date/{postDoDateId}/apply/approve/cancel/{userId}`
+
+요청 HTTP
+include::{snippets}/post-apply-approve-cancel/http-request.adoc[]
+include::{snippets}/post-apply-approve-cancel/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-apply-approve-cancel/http-response.adoc[]
+
 === 지원자 참여 거절하기(실험모집하는 연구실)
 
 `POST /api/post/{postId}/date/{postDoDateId}/apply/reject/{userId}`

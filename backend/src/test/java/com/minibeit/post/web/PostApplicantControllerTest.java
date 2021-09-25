@@ -87,6 +87,25 @@ class PostApplicantControllerTest extends MvcTest {
     }
 
     @Test
+    @DisplayName("비즈니스쪽에서 해당 지원자 게시물 참여 허가 취소 문서화")
+    public void applyApproveCancel() throws Exception {
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/{postId}/date/{postDoDateId}/apply/approve/cancel/{userId}", 1, 1, 2)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-apply-approve-cancel",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자"),
+                                parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자"),
+                                parameterWithName("userId").description("유저(지원자) 식별자")
+                        )
+                ));
+    }
+
+    @Test
     @DisplayName("피실험자가 게시물 실험완료 활성화 문서화")
     public void applyMyFinish() throws Exception {
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders

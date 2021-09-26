@@ -19,6 +19,12 @@ export {
   getBPusergroup,
   getSearchUser,
   getMakelistApi,
+  getWaitListApi,
+  getApproveListApi,
+  approveOneApi,
+  cancelOneApi,
+  setAttendApi,
+  rejectOneApi,
 } from "./bprofileApi";
 export {
   getLikeListApi,

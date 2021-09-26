@@ -7,6 +7,7 @@ import {
   reviewOneReadApi,
   stateCompleteApi,
 } from "../../../../utils";
+import BManageModal from "../../../BProfile/BManageModal";
 import ReviewModal from "../../ReviewModal";
 import * as S from "../style";
 
@@ -29,6 +30,7 @@ export default function BProfileFeed({ state, feedInfo, getMakelist }) {
   );
 }
 function NewFeedBlock({ feedInfo, getMakelist }) {
+  const [modalSwitch, setModalSwitch] = useState(false);
   const [change, setChange] = useRecoilState(changeState);
   const stateComplete = async (postId) => {
     await stateCompleteApi(postId)
@@ -43,6 +45,14 @@ function NewFeedBlock({ feedInfo, getMakelist }) {
     <>
       <S.FeedTitle>{feedInfo.title}</S.FeedTitle>
       <S.FeedBookmarkCont>
+        <div onClick={() => setModalSwitch(true)}>person</div>
+        {modalSwitch ? (
+          <BManageModal
+            postId={feedInfo.id}
+            title={feedInfo.title}
+            setModalSwitch={setModalSwitch}
+          />
+        ) : null}
         <div>star</div>
         <S.FeedBookmark>{feedInfo.likes}</S.FeedBookmark>
       </S.FeedBookmarkCont>

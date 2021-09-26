@@ -37,5 +37,11 @@ const API_URLS = {
   REVIEW_ONE_READ:"/api/business/profile/review/",
   STATE_COMPLETE :"/api/post/",
   FEED_DELETE :"/api/post/",
+  GET_WAIT_LIST: "/api/post/",
+  GET_APPROVE_LIST : "/api/post/",
+  APPROVE_ONE : "/api/post/",
+  CANCEL_ONE :"/api/post/",
+  REJECT_ONE :"/api/post/",
+  SET_ATTEND :"/api/post/",
 };
 export default API_URLS;

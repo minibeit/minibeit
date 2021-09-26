@@ -1,8 +1,8 @@
 package com.minibeit.post.domain.repository;
 
 import com.minibeit.post.domain.ApplyStatus;
-import com.minibeit.post.dto.PostApplicantResponse;
-import com.minibeit.post.dto.QPostApplicantResponse_UserInfo;
+import com.minibeit.post.dto.PostApplicantDto;
+import com.minibeit.post.dto.QPostApplicantDto_UserInfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -19,8 +19,8 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<PostApplicantResponse.UserInfo> findAllByPostAndDoDate(Long postId, LocalDate doDate) {
-        return queryFactory.select(new QPostApplicantResponse_UserInfo(
+    public List<PostApplicantDto.UserInfo> findAllByPostAndDoDate(Long postId, LocalDate doDate) {
+        return queryFactory.select(new QPostApplicantDto_UserInfo(
                         user.id, user.name, user.birth, user.gender, user.phoneNum, user.job, post.doTime, postApplicant.applyStatus, postApplicant.businessFinish, postDoDate.id, postDoDate.doDate
                 ))
                 .from(postApplicant)
@@ -37,8 +37,8 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
     }
 
     @Override
-    public List<PostApplicantResponse.UserInfo> findAllByPostAndDoDateAndApprove(Long postId, LocalDate doDate) {
-        return queryFactory.select(new QPostApplicantResponse_UserInfo(
+    public List<PostApplicantDto.UserInfo> findAllByPostAndDoDateAndApprove(Long postId, LocalDate doDate) {
+        return queryFactory.select(new QPostApplicantDto_UserInfo(
                         user.id, user.name, user.birth, user.gender, user.phoneNum, user.job, post.doTime, postApplicant.applyStatus, postApplicant.businessFinish, postDoDate.id, postDoDate.doDate
                 ))
                 .from(postApplicant)

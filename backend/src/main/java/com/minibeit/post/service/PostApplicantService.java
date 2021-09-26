@@ -9,6 +9,7 @@ import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.dto.PostApplicantDto;
 import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostApplicantResponse;
 import com.minibeit.post.service.exception.*;
@@ -99,13 +100,15 @@ public class PostApplicantService {
     }
 
     @Transactional(readOnly = true)
-    public List<PostApplicantResponse.UserInfo> getApplicantListByDate(Long postId, LocalDate doDate) {
-        return postApplicantRepository.findAllByPostAndDoDate(postId, doDate);
+    public List<PostApplicantResponse.ApplicantInfo> getApplicantListByDate(Long postId, LocalDate doDate) {
+        List<PostApplicantDto.UserInfo> userInfoList = postApplicantRepository.findAllByPostAndDoDate(postId, doDate);
+        return PostApplicantResponse.ApplicantInfo.dtoToResponse(userInfoList);
     }
 
     @Transactional(readOnly = true)
-    public List<PostApplicantResponse.UserInfo> getApproveApplicantListByDate(Long postId, LocalDate doDate) {
-        return postApplicantRepository.findAllByPostAndDoDateAndApprove(postId, doDate);
+    public List<PostApplicantResponse.ApplicantInfo> getApproveApplicantListByDate(Long postId, LocalDate doDate) {
+        List<PostApplicantDto.UserInfo> userInfoList = postApplicantRepository.findAllByPostAndDoDateAndApprove(postId, doDate);
+        return PostApplicantResponse.ApplicantInfo.dtoToResponse(userInfoList);
     }
 
     private void permissionCheck(User user, Post post) {

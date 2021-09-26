@@ -2,13 +2,14 @@ package com.minibeit.post.service;
 
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.common.exception.PermissionException;
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.dto.PostApplicantDto;
 import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostApplicantResponse;
 import com.minibeit.post.service.exception.*;
@@ -66,6 +67,13 @@ public class PostApplicantService {
         postDoDate.updateFull(approvedPostApplicant);
     }
 
+    public void applyApproveCancel(Long postId, Long postDoDateId, Long userId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        permissionCheck(user, post);
+        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
+        postApplicant.updateStatusWait();
+    }
+
     public void applyReject(Long postId, Long postDoDateId, Long userId, PostApplicantRequest.ApplyReject request, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(user, post);
@@ -83,8 +91,24 @@ public class PostApplicantService {
         postDoDate.updateFull(approvedPostApplicant);
     }
 
-    public List<PostApplicantResponse.UserInfo> getApplicantListByDate(Long postId, LocalDate doDate) {
-        return postApplicantRepository.findAllByPostAndDoDate(postId, doDate);
+    public void attendChange(Long postId, Long postDoDateId, Long userId, PostApplicantRequest.AttendChange request, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        permissionCheck(user, post);
+        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
+
+        postApplicant.changeBusinessFinish(request.getIsAttend());
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostApplicantResponse.ApplicantInfo> getApplicantListByDate(Long postId, LocalDate doDate) {
+        List<PostApplicantDto.UserInfo> userInfoList = postApplicantRepository.findAllByPostAndDoDate(postId, doDate);
+        return PostApplicantResponse.ApplicantInfo.dtoToResponse(userInfoList);
+    }
+
+    @Transactional(readOnly = true)
+    public List<PostApplicantResponse.ApplicantInfo> getApproveApplicantListByDate(Long postId, LocalDate doDate) {
+        List<PostApplicantDto.UserInfo> userInfoList = postApplicantRepository.findAllByPostAndDoDateAndApprove(postId, doDate);
+        return PostApplicantResponse.ApplicantInfo.dtoToResponse(userInfoList);
     }
 
     private void permissionCheck(User user, Post post) {

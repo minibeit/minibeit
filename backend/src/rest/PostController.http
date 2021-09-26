@@ -57,7 +57,7 @@ Content-Disposition: form-data; name="schoolId";
 
 
 ###
-POST {{apiUrl}}/post/5/info/date
+POST {{apiUrl}}/post/7/info/date
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -76,7 +76,7 @@ Content-Type: application/json;charset=UTF-8
 
 {
   "startDate": "2021-09-21T09:30",
-  "endDate": "2021-10-02T09:30",
+  "endDate": "2021-09-24T09:30",
   "doDateList": [
     "2021-09-30T09:30",
     "2021-09-30T10:30",
@@ -112,7 +112,7 @@ Authorization: {{authorizationToken}}
 GET {{apiUrl}}/post/write/review/list?page=1&size=3
 Authorization: {{authorizationToken}}
 ###
-GET {{apiUrl}}/post/business/profile/1/list?page=1&size=5&status=RECRUIT
+GET {{apiUrl}}/post/business/profile/1/list?page=1&size=5&status=COMPLETE
 Authorization: {{authorizationToken}}
 
 ###

@@ -107,8 +107,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private BooleanExpression postStatusEq(PostStatus postStatus) {
-        if (Objects.nonNull(postStatus)) {
-            return post.postStatus.eq(postStatus);
+        if (postStatus.equals(PostStatus.RECRUIT)) {
+            return post.postStatus.eq(postStatus).and(post.endDate.after(LocalDateTime.now().minusDays(1)));
+        }
+        if (postStatus.equals(PostStatus.COMPLETE)) {
+            return post.postStatus.eq(postStatus).or(post.endDate.before(LocalDateTime.now().minusDays(1)));
         }
         return null;
     }
@@ -175,5 +178,4 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         }
         return null;
     }
-
 }

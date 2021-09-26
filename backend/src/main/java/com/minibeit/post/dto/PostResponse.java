@@ -40,12 +40,13 @@ public class PostResponse {
         private String payment;
         private String goods;
         private Integer cache;
+        private String paymentDetail;
         private boolean recruitCondition;
         private String[] recruitConditionDetail;
         private Integer doTime;
         private String schoolName;
-        private boolean isLike;
-        private boolean isMine;
+        private Boolean isLike;
+        private Boolean isMine;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         private LocalDateTime startDate;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
@@ -63,6 +64,7 @@ public class PostResponse {
                     .payment(post.getPayment().name())
                     .goods(post.getPaymentGoods())
                     .cache(post.getPaymentCache())
+                    .paymentDetail(post.getPaymentDetail())
                     .recruitCondition(post.isRecruitCondition())
                     .doTime(post.getDoTime())
                     .schoolName(post.getSchool().getName())
@@ -89,7 +91,7 @@ public class PostResponse {
         private LocalDateTime startTime;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime endTime;
-        private boolean isFull;
+        private Boolean isFull;
 
         public static GetPostStartTime build(PostDoDate postDoDate, Post post) {
             return GetPostStartTime.builder()
@@ -115,7 +117,7 @@ public class PostResponse {
         private boolean recruitCondition;
         private Integer doTime;
         private String businessProfileName;
-        private boolean isLike;
+        private Boolean isLike;
         private Integer likes;
 
         public static PostResponse.GetList build(Post post, CustomUserDetails customUserDetails) {

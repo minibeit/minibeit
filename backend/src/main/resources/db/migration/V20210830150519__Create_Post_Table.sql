@@ -13,6 +13,7 @@ CREATE TABLE `post`
     `payment`                  VARCHAR(50)  NOT NULL,
     `payment_cache`            INTEGER,
     `payment_goods`            VARCHAR(255),
+    `payment_detail`            VARCHAR(255),
     `recruit_condition`        TINYINT(1) NOT NULL,
     `recruit_condition_detail` VARCHAR(200),
     `do_time`                  INTEGER      NOT NULL,

@@ -47,20 +47,21 @@ public class PostService {
 
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         BusinessProfile businessProfile = businessProfileRepository.findById(request.getBusinessProfileId()).orElseThrow(BusinessProfileNotFoundException::new);
-        List<PostFile> postFiles = postFileService.uploadFiles(request.getFiles());
 
-        Post post = Post.create(request, school, businessProfile, postFiles);
+        Post post = Post.create(request, school, businessProfile);
         Post savedPost = postRepository.save(post);
+
+        List<PostDoDate> postDoDateList = request.getDoDateList().stream().map(doDate -> PostDoDate.create(doDate.getGroupId(), doDate.getDoDate(), post)).collect(Collectors.toList());
+        postDoDateRepository.saveAll(postDoDateList);
 
         return PostResponse.OnlyId.build(savedPost);
     }
 
-    public PostResponse.OnlyId createDateRule(Long postId, PostRequest.CreateDateRule request, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+    public PostResponse.OnlyId addFiles(Long postId, PostRequest.AddFile request, User user) {
+        Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);
-        post.updateDate(request);
-        List<PostDoDate> postDoDateList = request.getDoDateList().stream().map(doDate -> PostDoDate.create(doDate, post)).collect(Collectors.toList());
-        postDoDateRepository.saveAll(postDoDateList);
+        postFileService.uploadFiles(post, request.getFiles());
+
         return PostResponse.OnlyId.build(post);
     }
 

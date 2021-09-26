@@ -16,25 +16,24 @@
 `POST /api/post/info`
 
 요청 HTTP
-include::{snippets}/post-create-info/request-parameters.adoc[]
-include::{snippets}/post-create-info/request-parts.adoc[]
+include::{snippets}/post-create-info/request-body.adoc[]
+include::{snippets}/post-create-info/request-fields.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/post-create-info/http-response.adoc[]
 include::{snippets}/post-create-info/response-fields.adoc[]
 
-=== 게시물 날짜 정보 입력(생성)
-
-`POST /api/post/{postId}/info/date`
+=== 게시물 파일 추가
+`POST /api/post/{postId}/files`
 
 요청 HTTP
-include::{snippets}/post-create-date/http-request.adoc[]
-include::{snippets}/post-create-date/path-parameters.adoc[]
-include::{snippets}/post-create-date/request-fields.adoc[]
+
+include::{snippets}/post-add-files/path-parameters.adoc[]
+include::{snippets}/post-add-files/request-parts.adoc[]
 
 성공 응답 HTTP
-include::{snippets}/post-create-date/http-response.adoc[]
-include::{snippets}/post-create-date/response-fields.adoc[]
+include::{snippets}/post-add-files/http-response.adoc[]
+include::{snippets}/post-add-files/response-fields.adoc[]
 
 === 게시물 즐겨찾기에 추가 or 삭제하기
 

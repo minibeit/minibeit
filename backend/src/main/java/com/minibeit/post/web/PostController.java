@@ -31,16 +31,16 @@ public class PostController {
     private final PostService postService;
 
     @PostMapping("/info")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<PostResponse.OnlyId> createInfo(PostRequest.CreateInfo request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<PostResponse.OnlyId> createInfo(@RequestBody PostRequest.CreateInfo request, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.OnlyId response = postService.createInfo(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(response);
     }
 
-    @PostMapping("/{postId}/info/date")
-    public ResponseEntity<PostResponse.OnlyId> createDateRule(@PathVariable Long postId, @RequestBody PostRequest.CreateDateRule request, @CurrentUser CustomUserDetails customUserDetails) {
-        PostResponse.OnlyId response = postService.createDateRule(postId, request, customUserDetails.getUser());
-        return ResponseEntity.ok().body(response);
+    @PostMapping("/{postId}/files")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<PostResponse.OnlyId> addFiles(@PathVariable Long postId, PostRequest.AddFile request, @CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.OnlyId response = postService.addFiles(postId, request, customUserDetails.getUser());
+        return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(response);
     }
 
     @PostMapping("/{postId}/like")

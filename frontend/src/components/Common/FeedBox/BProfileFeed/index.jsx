@@ -1,36 +1,69 @@
 import React from "react";
 import { useState } from "react";
-import { reviewOneReadApi } from "../../../../utils";
+import { useRecoilState } from "recoil";
+import { changeState } from "../../../../recoil/changeState";
+import {
+  feedDeleteApi,
+  reviewOneReadApi,
+  stateCompleteApi,
+} from "../../../../utils";
+import BManageModal from "../../../BProfile/BManageModal";
 import ReviewModal from "../../ReviewModal";
 import * as S from "../style";
 
-export default function BProfileFeed({ state, feedInfo }) {
+export default function BProfileFeed({ state, feedInfo, getMakelist }) {
   return (
     <>
       <S.FeedTag></S.FeedTag>
       <S.FeedCont>
         <S.FeedContent>
           {state === "new" ? (
-            <NewFeedBlock feedInfo={feedInfo} />
+            <NewFeedBlock feedInfo={feedInfo} getMakelist={getMakelist} />
           ) : state === "review" ? (
             <ReviewFeedBlock feedInfo={feedInfo} />
           ) : state === "finish" ? (
-            <FinishFeedBlock feedInfo={feedInfo} />
+            <FinishFeedBlock feedInfo={feedInfo} getMakelist={getMakelist} />
           ) : null}
         </S.FeedContent>
       </S.FeedCont>
     </>
   );
 }
-function NewFeedBlock({ feedInfo }) {
+function NewFeedBlock({ feedInfo, getMakelist }) {
+  const [modalSwitch, setModalSwitch] = useState(false);
+  const [change, setChange] = useRecoilState(changeState);
+  const stateComplete = async (postId) => {
+    await stateCompleteApi(postId)
+      .then(async () => {
+        window.alert(feedInfo.title + "이 모집완료 되었습니다");
+        await getMakelist();
+        setChange(1);
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <S.FeedTitle>{feedInfo.title}</S.FeedTitle>
       <S.FeedBookmarkCont>
+        <div onClick={() => setModalSwitch(true)}>person</div>
+        {modalSwitch ? (
+          <BManageModal
+            postId={feedInfo.id}
+            title={feedInfo.title}
+            setModalSwitch={setModalSwitch}
+          />
+        ) : null}
         <div>star</div>
         <S.FeedBookmark>{feedInfo.likes}</S.FeedBookmark>
       </S.FeedBookmarkCont>
-      <S.FeedBtn>글내리기</S.FeedBtn>
+      <S.FeedBtn
+        onClick={async (e) => {
+          e.preventDefault();
+          await stateComplete(feedInfo.id);
+        }}
+      >
+        글내리기
+      </S.FeedBtn>
     </>
   );
 }
@@ -69,7 +102,19 @@ function ReviewFeedBlock({ feedInfo }) {
   );
 }
 
-function FinishFeedBlock({ feedInfo }) {
+function FinishFeedBlock({ feedInfo, getMakelist }) {
+  const [change, setChange] = useRecoilState(changeState);
+  if (change === 1) {
+    getMakelist();
+  }
+  const postDelete = async (postId) => {
+    await feedDeleteApi(postId)
+      .then(() => {
+        window.alert(feedInfo.title + "이 삭제되었습니다.");
+        getMakelist();
+      })
+      .catch((err) => console.log(err));
+  };
   return (
     <>
       <S.FeedTitle>{feedInfo.title}</S.FeedTitle>
@@ -77,7 +122,14 @@ function FinishFeedBlock({ feedInfo }) {
         <div>star</div>
         <S.FeedBookmark>{feedInfo.likes}</S.FeedBookmark>
       </S.FeedBookmarkCont>
-      <S.FeedBtn>삭제하기</S.FeedBtn>
+      <S.FeedBtn
+        onClick={async (e) => {
+          e.preventDefault();
+          await postDelete(feedInfo.id);
+        }}
+      >
+        삭제하기
+      </S.FeedBtn>
     </>
   );
 }

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { changeState } from "../../../recoil/changeState";
 import { getMakelistApi } from "../../../utils";
 import PBMakeListBox from "./PBMakeListBox";
 
 export default function BMakeListBox({ businessId, state, status }) {
   const [makelist, setMakelist] = useState([]);
   const [page, setPage] = useState(1);
+  const [change, setChange] = useRecoilState(changeState);
   const [paging, setPaging] = useState({
     first: "",
     last: "",
@@ -14,6 +17,7 @@ export default function BMakeListBox({ businessId, state, status }) {
       .then((res) => {
         setMakelist(res.data.content);
         setPaging({ first: res.data.first, last: res.data.last });
+        setChange(0);
       })
       .catch((err) => console.log(err));
   };
@@ -33,6 +37,7 @@ export default function BMakeListBox({ businessId, state, status }) {
       paging={paging}
       handlepage={handlepage}
       state={state}
+      getMakelist={getMakelist}
     />
   );
 }

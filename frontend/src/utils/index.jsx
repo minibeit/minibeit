@@ -1,10 +1,11 @@
 export {
   feedCreateApi,
-  feedDeleteApi,
   feedDetailApi,
   feedEditApi,
   feedlistApi,
   feedDateCreateApi,
+  stateCompleteApi,
+  feedDeleteApi,
 } from "./feedApi";
 export { signupInfoApi, logoutFunc, nickCheckApi } from "./auth";
 export {
@@ -18,6 +19,12 @@ export {
   getBPusergroup,
   getSearchUser,
   getMakelistApi,
+  getWaitListApi,
+  getApproveListApi,
+  approveOneApi,
+  cancelOneApi,
+  setAttendApi,
+  rejectOneApi,
 } from "./bprofileApi";
 export {
   getLikeListApi,

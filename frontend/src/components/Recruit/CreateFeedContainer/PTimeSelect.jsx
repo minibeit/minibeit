@@ -39,8 +39,8 @@ export default function PDateSelect() {
   /* 선택한 날짜를 그룹에 추가&삭제하는 로직 */
   const setGroupDateList = (e, day) => {
     const group_cp = [...group];
+    const dayString = moment(day).format("YYYY-MM-DD");
     for (var i = 0; i < group_cp.length; i++) {
-      const dayString = moment(day).format("YYYY-MM-DD");
       // 클릭했을 때 이미 날짜가 그룹에 속해있는 경우
       if (group_cp[i].dateList.includes(dayString)) {
         // 지금 선택되어있는 그룹과 같은 그룹일 경우 삭제

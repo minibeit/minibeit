@@ -52,3 +52,21 @@ export const ColorView = styled.div`
 
 /* CategorySelect */
 export const CategoryBtn = styled.button``;
+
+/* Info Data */
+export const TitleInput = styled.input`
+  width: 20rem;
+`;
+export const ContentInput = styled.textarea`
+  width: 20rem;
+  height: 6rem;
+`;
+export const ConditionInput = styled.input`
+  display: block;
+`;
+export const PaymentInput = styled.input`
+  width: 20rem;
+`;
+export const PaymentMemo = styled.input`
+  width: 20rem;
+`;

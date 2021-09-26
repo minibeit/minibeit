@@ -45,6 +45,8 @@ export default function PCategorySelect() {
 
   return (
     <>
+      <h2>카테고리</h2>
+      <p>모집하는 실험의 카테고리를 골라보세요.</p>
       {categoryArr.map((a, i) => {
         return (
           <S.CategoryBtn

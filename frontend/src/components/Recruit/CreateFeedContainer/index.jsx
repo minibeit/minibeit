@@ -13,6 +13,7 @@ import PSchoolSelect from "./PSchoolSelect";
 import PDateSelect from "./PDateSelect";
 import PTimeSelect from "./PTimeSelect";
 import PCategorySelect from "./PCategorySelect";
+import PInfoData from "./PInfoData";
 
 export default function CreateFeedContainer() {
   const userId = useRecoilValue(userState).id;
@@ -46,6 +47,7 @@ export default function CreateFeedContainer() {
       <PDateSelect />
       <PTimeSelect />
       <PCategorySelect />
+      <PInfoData />
     </>
   );
 }

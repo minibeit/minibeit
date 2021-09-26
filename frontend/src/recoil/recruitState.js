@@ -20,5 +20,12 @@ export const recruitState = atom({
     doDateList: null,
     exceptDateList: [],
     category: null,
+    title: null,
+    content: null,
+    condition: false,
+    conditionDetail: null,
+    payment: "cache",
+    pay: null,
+    payMemo: null,
   },
 });

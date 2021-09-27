@@ -27,6 +27,8 @@ public class Post extends BaseEntity {
 
     private String content;
 
+    private String updatedContent;
+
     private String place;
 
     private String contact;
@@ -92,6 +94,11 @@ public class Post extends BaseEntity {
 
     public void completed() {
         this.postStatus = PostStatus.COMPLETE;
+    }
+
+    public Post updateContent(String updatedContent) {
+        this.updatedContent = updatedContent;
+        return this;
     }
 
     public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile) {

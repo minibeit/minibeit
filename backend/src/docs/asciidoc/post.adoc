@@ -35,6 +35,19 @@ include::{snippets}/post-add-files/request-parts.adoc[]
 include::{snippets}/post-add-files/http-response.adoc[]
 include::{snippets}/post-add-files/response-fields.adoc[]
 
+=== 게시물 세부 사항 수정(덮어쓰기)
+
+`PUT /api/post/{postId}`
+
+요청 HTTP
+include::{snippets}/post-update-content/request-body.adoc[]
+include::{snippets}/post-update-content/path-parameters.adoc[]
+include::{snippets}/post-update-content/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-update-content/http-response.adoc[]
+include::{snippets}/post-update-content/response-fields.adoc[]
+
 === 게시물 즐겨찾기에 추가 or 삭제하기
 
 `POST /api/post/{postId}/like`

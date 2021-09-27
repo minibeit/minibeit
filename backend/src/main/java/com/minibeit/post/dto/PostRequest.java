@@ -45,4 +45,12 @@ public class PostRequest {
     public static class AddFile {
         private List<MultipartFile> files;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class UpdateContent {
+        private String updatedContent;
+    }
 }

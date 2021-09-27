@@ -49,6 +49,12 @@ public class PostController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/{postId}/completed")
+    public ResponseEntity<Void> recruitmentCompleted(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
+        postService.recruitmentCompleted(postId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/{postId}")
     public ResponseEntity<PostResponse.GetOne> getOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.GetOne response = postService.getOne(postId, customUserDetails);
@@ -106,15 +112,16 @@ public class PostController {
         return ResponseEntity.ok().body(response);
     }
 
+    @PutMapping("/{postId}")
+    public ResponseEntity<PostResponse.OnlyId> updateContent(@PathVariable Long postId, @RequestBody PostRequest.UpdateContent request,
+                                                             @CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.OnlyId response = postService.updateContent(postId, request, customUserDetails.getUser());
+        return ResponseEntity.ok().body(response);
+    }
+
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         postService.deleteOne(postId, customUserDetails.getUser());
-        return ResponseEntity.ok().build();
-    }
-
-    @PostMapping("/{postId}/completed")
-    public ResponseEntity<Void> recruitmentCompleted(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
-        postService.recruitmentCompleted(postId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 }

@@ -65,6 +65,7 @@ class PostControllerTest extends MvcTest {
                 .id(1L)
                 .title("개발자는 하루에 커피를 몇 잔 마실까..")
                 .content("실험실 세부사항")
+                .updatedContent("실험실 세부사항 수정")
                 .place("고려대")
                 .contact("010-1234-5786")
                 .recruitPeople(10)
@@ -206,6 +207,38 @@ class PostControllerTest extends MvcTest {
     }
 
     @Test
+    @DisplayName("게시물 세부내용 수정")
+    public void updateContent() throws Exception {
+        PostRequest.UpdateContent request = PostRequest.UpdateContent.builder()
+                .updatedContent("수정된 내용 추가")
+                .build();
+        PostResponse.OnlyId response = PostResponse.OnlyId.builder().id(1L).build();
+
+        given(postService.updateContent(any(), any(), any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .put("/api/post/{postId}", 1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request))
+                .characterEncoding("UTF-8")
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-update-content",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("updatedContent").type(JsonFieldType.STRING).description("수정된 내용")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시물 식별자")
+                        )
+                ));
+    }
+
+    @Test
     @DisplayName("게시글 즐겨찾기 문서화")
     public void like() throws Exception {
         ResultActions result = mvc.perform(RestDocumentationRequestBuilders
@@ -243,6 +276,7 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("세부사항"),
+                                fieldWithPath("updatedContent").type(JsonFieldType.STRING).description("수정된 세부사항 (없다면 null)"),
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("장소"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("연락처"),
                                 fieldWithPath("payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),

@@ -117,6 +117,14 @@ public class PostService {
         return new PageImpl<>(getListByBusinessProfileList, pageDto.of(), posts.getTotalElements());
     }
 
+    public PostResponse.OnlyId updateContent(Long postId, PostRequest.UpdateContent request, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        permissionCheck(post.getBusinessProfile().getId(), user);
+        Post updatedPost = post.updateContent(request.getUpdatedContent());
+
+        return PostResponse.OnlyId.build(updatedPost);
+    }
+
     public void deleteOne(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);

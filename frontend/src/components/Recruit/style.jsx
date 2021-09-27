@@ -70,3 +70,29 @@ export const PaymentInput = styled.input`
 export const PaymentMemo = styled.input`
   width: 20rem;
 `;
+
+/* img and address */
+export const ImgBox = styled.div`
+  background-color: gray;
+  overflow: hidden;
+  width: 40rem;
+  display: inline-block;
+`;
+export const Img = styled.img`
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+`;
+export const FileLabel = styled.label`
+  background-color: gray;
+  overflow: hidden;
+  width: 10rem;
+  height: 10rem;
+  display: inline-block;
+`;
+export const FileInput = styled.input`
+  display: none;
+`;
+export const AddressInput = styled.input`
+  width: 20rem;
+`;

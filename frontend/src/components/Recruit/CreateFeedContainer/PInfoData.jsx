@@ -39,7 +39,6 @@ export default function PInfoData() {
     copy.payMemo = payMemo;
     setrecruit(copy);
   };
-  console.log(recruit);
 
   return (
     <>

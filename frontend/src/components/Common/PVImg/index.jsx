@@ -8,7 +8,7 @@ const style = {
 
 export default function PVImg({ img }) {
   var imgUrl;
-  console.log(img);
+
   if (img) {
     imgUrl = URL.createObjectURL(img);
   }

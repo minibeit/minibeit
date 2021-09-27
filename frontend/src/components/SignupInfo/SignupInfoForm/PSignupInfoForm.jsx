@@ -93,7 +93,6 @@ function PSignupInfoForm({ signupHandler }) {
       };
       signupHandler(inputs2, img);
     }
-    console.log(index);
   };
   function range(start, end) {
     let arr = [];

@@ -7,6 +7,7 @@ import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundExc
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.*;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
@@ -34,6 +35,7 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class PostService {
+    private static final String REJECT_MSG = "모집이 완료되었습니다.";
     private final PostRepository postRepository;
     private final SchoolRepository schoolRepository;
     private final PostFileService postFileService;
@@ -41,26 +43,28 @@ public class PostService {
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final PostDoDateRepository postDoDateRepository;
     private final PostLikeRepository postLikeRepository;
+    private final PostApplicantRepository postApplicantRepository;
 
     public PostResponse.OnlyId createInfo(PostRequest.CreateInfo request, User user) {
         permissionCheck(request.getBusinessProfileId(), user);
 
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         BusinessProfile businessProfile = businessProfileRepository.findById(request.getBusinessProfileId()).orElseThrow(BusinessProfileNotFoundException::new);
-        List<PostFile> postFiles = postFileService.uploadFiles(request.getFiles());
 
-        Post post = Post.create(request, school, businessProfile, postFiles);
+        Post post = Post.create(request, school, businessProfile);
         Post savedPost = postRepository.save(post);
+
+        List<PostDoDate> postDoDateList = request.getDoDateList().stream().map(doDate -> PostDoDate.create(doDate.getGroupId(), doDate.getDoDate(), post)).collect(Collectors.toList());
+        postDoDateRepository.saveAll(postDoDateList);
 
         return PostResponse.OnlyId.build(savedPost);
     }
 
-    public PostResponse.OnlyId createDateRule(Long postId, PostRequest.CreateDateRule request, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+    public PostResponse.OnlyId addFiles(Long postId, PostRequest.AddFile request, User user) {
+        Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);
-        post.updateDate(request);
-        List<PostDoDate> postDoDateList = request.getDoDateList().stream().map(doDate -> PostDoDate.create(doDate, post)).collect(Collectors.toList());
-        postDoDateRepository.saveAll(postDoDateList);
+        postFileService.uploadFiles(post, request.getFiles());
+
         return PostResponse.OnlyId.build(post);
     }
 
@@ -73,6 +77,16 @@ public class PostService {
         } else {
             postLikeRepository.delete(findPostLike.get());
         }
+    }
+
+    public void recruitmentCompleted(Long postId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        permissionCheck(post.getBusinessProfile().getId(), user);
+
+        List<Long> applicantIdList = postApplicantRepository.findAllByApplyStatusIsWait(postId).stream().map(PostApplicant::getId).collect(Collectors.toList());
+        postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT, REJECT_MSG);
+
+        post.completed();
     }
 
     @Transactional(readOnly = true)
@@ -89,8 +103,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Post> getList(Long schoolId, LocalDate doDate, String category, PageDto pageDto, Payment paymentType, LocalTime startTime, LocalTime endTime) {
-        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, category, startTime, endTime, pageDto.of());
+    public Page<Post> getList(Long schoolId, LocalDate doDate, String category, PageDto pageDto, Payment paymentType, LocalTime startTime, LocalTime endTime, Integer minPay, Integer doTime) {
+        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, category, startTime, endTime, minPay, doTime, pageDto.of());
     }
 
     @Transactional(readOnly = true)
@@ -116,16 +130,19 @@ public class PostService {
         return new PageImpl<>(getListByBusinessProfileList, pageDto.of(), posts.getTotalElements());
     }
 
+    public PostResponse.OnlyId updateContent(Long postId, PostRequest.UpdateContent request, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        permissionCheck(post.getBusinessProfile().getId(), user);
+        Post updatedPost = post.updateContent(request.getUpdatedContent());
+
+        return PostResponse.OnlyId.build(updatedPost);
+    }
+
     public void deleteOne(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);
-        postRepository.deleteById(postId);
-    }
 
-    public void recruitmentCompleted(Long postId, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        permissionCheck(post.getBusinessProfile().getId(), user);
-        post.completed();
+        postRepository.deleteById(postId);
     }
 
     private void permissionCheck(Long businessProfileId, User user) {

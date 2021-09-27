@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DatePicker from "react-datepicker";
 
 import "react-dates/initialize";
@@ -50,8 +50,8 @@ export default function PDateSelect() {
       const recruit_cp = { ...recruit };
       if (recruit_cp["doTime"] > 30) {
         recruit_cp["doTime"] -= 30;
+        setRecruit(recruit_cp);
       }
-      setRecruit(recruit_cp);
     } else {
       const recruit_cp = { ...recruit };
       recruit_cp["doTime"] += 30;
@@ -90,6 +90,22 @@ export default function PDateSelect() {
       setExceptDate([...exceptDate_cp]);
     }
   };
+
+  const createTimeArr = (startTime, endTime, doTime) => {
+    const startMoment = moment(startTime, "HH:mm");
+    const endMoment = moment(endTime, "HH:mm").subtract(doTime, "minutes");
+    const timeArr = [];
+    while (startMoment <= endMoment) {
+      timeArr.push(
+        `${startMoment.format("HH:mm")}~${startMoment
+          .add(doTime, "minutes")
+          .format("HH:mm")}`
+      );
+    }
+    return timeArr;
+  };
+
+  useEffect(() => {}, [recruit.doTime]);
 
   return (
     <>
@@ -203,11 +219,16 @@ export default function PDateSelect() {
           dateFormat="HH:mm"
         />
       </S.StartEndTimeBox>
-      {dateArr.length !== 0 && recruit["startTime"] && recruit["endTime"] ? (
+      {dateArr.length !== 0 && recruit["startTime"] && recruit["endTime"] && (
         <button
           onClick={() => {
             const recruit_cp = { ...recruit };
             recruit_cp["doDateList"] = dateArr;
+            recruit_cp["doTimeList"] = createTimeArr(
+              moment(startTime).format("HH:mm"),
+              moment(endTime).format("HH:mm"),
+              recruit.doTime
+            );
             recruit_cp["startDate"] = startDate.format("YYYY-MM-DD");
             recruit_cp["endDate"] = endDate.format("YYYY-MM-DD");
             recruit_cp["exceptDateList"] = exceptDate;
@@ -216,7 +237,7 @@ export default function PDateSelect() {
         >
           확인
         </button>
-      ) : null}
+      )}
     </>
   );
 }

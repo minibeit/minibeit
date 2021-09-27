@@ -61,7 +61,6 @@ export default function PDateSelect() {
         group_cp[i].dateList.push(dayString);
       }
     }
-    console.log(group_cp);
     setGroup(group_cp);
   };
 
@@ -130,6 +129,18 @@ export default function PDateSelect() {
           );
         })}
       </S.GroupBox>
+      <S.TimeBtnBox>
+        <>
+          {selectGroup &&
+            selectGroup.dateList.map((a, i) => <span key={i}>{a}</span>)}
+        </>
+        <div key={recruit}>
+          {recruit.doTimeList &&
+            recruit.doTimeList.map((a, i) => {
+              return <button key={i}>{a}</button>;
+            })}
+        </div>
+      </S.TimeBtnBox>
     </>
   );
 }

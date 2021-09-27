@@ -17,6 +17,7 @@ export const recruitState = atom({
     doTime: 30,
     startTime: null,
     endTime: null,
+    doTimeList: [],
     doDateList: null,
     exceptDateList: [],
     category: "",

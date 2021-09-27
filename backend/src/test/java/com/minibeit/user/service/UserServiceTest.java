@@ -50,4 +50,14 @@ class UserServiceTest {
         userService.nicknameCheck(request);
 
     }
+
+    @Test
+    @DisplayName("닉네임 중복 체크 - 실패(중복된 이름)")
+    void nicknameCheckFailureWhenDuplicateNickname(){
+        //given
+        UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("테스터1").build();
+
+        assertThatThrownBy(() -> userService.nicknameCheck(request))
+                .isInstanceOf(DuplicateNickNameException.class);
+    }
 }

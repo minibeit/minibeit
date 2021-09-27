@@ -43,7 +43,7 @@ function PSignupInfoForm({ signupHandler }) {
   const { name, nickname, phoneNum, gender, job, birth } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
-    if (name === "nickname" && nick === false) {
+    if (name === "nickname") {
       setNick("notyet");
     }
     console.log(value, name);
@@ -52,7 +52,7 @@ function PSignupInfoForm({ signupHandler }) {
   const handleJob = async (jobName) => {
     console.log(jobName);
     setInputs({ ...inputs, job: jobName });
-    setMsg("미니바이트 시작하기");
+    setMsg("시작하기");
   };
   const [item, setitem] = useState({ bgcolor: "#6a1b9a", completed: 33.3 });
   const fileChange = (e) => {
@@ -132,39 +132,45 @@ function PSignupInfoForm({ signupHandler }) {
             <ProgressBar bgcolor={item.bgcolor} completed={item.completed} />
           </S.ModalPro>
           <S.SITitle>
-            {" "}
-            {index === 0
-              ? "반갑습니다! 간단한 프로필을 작성해 주세요"
-              : index === 1
-              ? "주변에 위치한 관심있는 학교를 선택해 주세요"
-              : index === 2
-              ? "현재 직업을 설정해 주세요"
-              : null}
+            <p>
+              {" "}
+              {index === 0
+                ? "반갑습니다! 기본 프로필을 작성해 주세요"
+                : index === 1
+                ? "주변에 위치한 관심있는 학교를 선택해 주세요"
+                : index === 2
+                ? "현재 직업을 설정해 주세요"
+                : null}
+            </p>
           </S.SITitle>
-          <S.ModalContent>
-            <S.FormsignupContainer>
-              {index === 0 ? (
-                <>
-                  <S.SICont1_2>
-                    <S.SILabel>
-                      프로필 사진{" "}
-                      <S.ImgBox>
-                        {img ? (
-                          <PVImg img={img} />
-                        ) : (
-                          <S.Img src="/기본프로필.png" />
-                        )}
-                      </S.ImgBox>
-                      <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
-                      <S.SignupInput
-                        name="img"
-                        type="file"
-                        onChange={fileChange}
-                      />
-                    </S.SILabel>
-                  </S.SICont1_2>
-                  <S.SICont1_1>
-                    <S.SILabel>
+          <S.FormsignupContainer>
+            {index === 0 ? (
+              <>
+                <S.SICont1_2>
+                  <p>
+                    {" "}
+                    프로필 사진<p>(필수아님*)</p>{" "}
+                  </p>
+
+                  <S.ImgBox>
+                    {img ? (
+                      <PVImg img={img} />
+                    ) : (
+                      <S.Img src="/기본프로필.png" />
+                    )}
+                  </S.ImgBox>
+                  <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
+                  <S.FileLabel for="input-file">사진 업로드 하기</S.FileLabel>
+                  <S.SignupfileInput
+                    id="input-file"
+                    name="img"
+                    type="file"
+                    onChange={fileChange}
+                  />
+                </S.SICont1_2>
+                <S.SICont1_1>
+                  <S.SICont1_1_1>
+                    <S.SILabel width="82px">
                       이름
                       <S.SignupInput
                         value={name}
@@ -174,24 +180,33 @@ function PSignupInfoForm({ signupHandler }) {
                         onChange={onChange}
                       />
                     </S.SILabel>
-                    <S.SILabel>
-                      닉네임
-                      <S.SignupInput
-                        value={nickname}
-                        name="nickname"
-                        type="text"
-                        placeholder="닉네임"
-                        onChange={onChange}
-                      />
-                    </S.SILabel>
-                    <S.SignupNickBtn onClick={nickCheck}>확인</S.SignupNickBtn>
-                    {nick === true ? (
-                      <S.SignupMSG color="blue">
-                        사용가능한 닉네임 입니다
-                      </S.SignupMSG>
-                    ) : nick === false ? (
-                      <S.SignupMSG color="red">닉네임이 중복됩니다</S.SignupMSG>
-                    ) : null}
+                    <S.NickBox>
+                      <S.NicknameCont>
+                        <S.SILabel width="84px">
+                          닉네임
+                          <S.SignupInput
+                            value={nickname}
+                            name="nickname"
+                            type="text"
+                            placeholder="닉네임"
+                            onChange={onChange}
+                          />
+                        </S.SILabel>{" "}
+                        <S.SignupNickBtn onClick={nickCheck}>
+                          확인
+                        </S.SignupNickBtn>
+                      </S.NicknameCont>
+                      {nick === true ? (
+                        <S.SignupMSG color="blue">
+                          사용가능한 닉네임 입니다
+                        </S.SignupMSG>
+                      ) : nick === false ? (
+                        <S.SignupMSG color="red">
+                          닉네임이 중복됩니다
+                        </S.SignupMSG>
+                      ) : null}
+                    </S.NickBox>
+
                     <S.SILabel>
                       성별
                       <S.SignupSelect
@@ -210,7 +225,7 @@ function PSignupInfoForm({ signupHandler }) {
                         </option>
                       </S.SignupSelect>
                     </S.SILabel>
-                    <S.SILabel>
+                    <S.SILabel width="145px">
                       생년월일
                       <S.SignupInput
                         value={birth}
@@ -219,7 +234,9 @@ function PSignupInfoForm({ signupHandler }) {
                         onChange={onChange}
                       />
                     </S.SILabel>
-                    <S.SILabel>
+                  </S.SICont1_1_1>
+                  <S.SICont1_1_2>
+                    <S.SILabel width="130px">
                       전화번호
                       <S.SignupInput
                         value={phoneNum}
@@ -229,20 +246,20 @@ function PSignupInfoForm({ signupHandler }) {
                         onChange={onChange}
                       />
                     </S.SILabel>
-                  </S.SICont1_1>
-                </>
-              ) : index === 1 ? (
-                <>
-                  <SchoolSearch use="Signup" />
-                </>
-              ) : index === 2 ? (
-                <JobGrid handleJob={handleJob} />
-              ) : null}
-              <S.SignupButton type="submit" onClick={singupInfoFunc}>
-                {msg}
-              </S.SignupButton>
-            </S.FormsignupContainer>
-          </S.ModalContent>
+                  </S.SICont1_1_2>
+                </S.SICont1_1>
+              </>
+            ) : index === 1 ? (
+              <>
+                <SchoolSearch use="Signup" />
+              </>
+            ) : index === 2 ? (
+              <JobGrid handleJob={handleJob} />
+            ) : null}
+          </S.FormsignupContainer>
+          <S.SignupButton>
+            <p onClick={singupInfoFunc}> {msg}</p>
+          </S.SignupButton>
         </S.ModalBox>
       </S.ModalBackground>
     </Portal>

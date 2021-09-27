@@ -303,7 +303,7 @@ class PostControllerTest extends MvcTest {
     @DisplayName("게시물 목록 조회 문서화(학교 id,실험날짜 기준)")
     public void getList() throws Exception {
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
-        given(postService.getList(any(), any(), any(), any(), any(), any(), any())).willReturn(postPage);
+        given(postService.getList(any(), any(), any(), any(), any(), any(), any(), any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/list/{schoolId}", 1)
@@ -312,6 +312,8 @@ class PostControllerTest extends MvcTest {
                 .param("category", "식품")
                 .param("paymentType", "CACHE")
                 .param("doDate", "2021-09-04")
+                .param("minPay", "10000")
+                .param("doTime", "60")
                 .param("startTime", "09:30")
                 .param("endTime", "18:50")
         );
@@ -327,6 +329,8 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("doDate").description("조회할 게시물 실험 날짜(doDate)"),
                                 parameterWithName("category").description("조회할 게시물 카테고리"),
                                 parameterWithName("paymentType").description("CACHE or GOODS (보내지 않을 경우 전체 조회가 됩니다!)"),
+                                parameterWithName("minPay").description("최소 금액 10000 -> 10000이상, 1만원 미만인 경우 9999를 보내주시면 됩니다."),
+                                parameterWithName("doTime").description("소요 시간(분단위) 60 -> 60분이내, 120 -> 120분 이내, 3시간 이상인 경우 181을 보내주시면 됩니다."),
                                 parameterWithName("startTime").description("조회할 게시물 실험 시작 시간(시작 조건)"),
                                 parameterWithName("endTime").description("조회할 게시물 실험 시작 시간(끝 조건)")
                         ),

@@ -67,11 +67,12 @@ public class PostController {
                                                               @RequestParam(defaultValue = "ALL") Payment paymentType,
                                                               @RequestParam(name = "doDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate,
                                                               @RequestParam(defaultValue = "ALL", name = "category") String category,
-//                                                              @RequestParam(name = "minPay", required = false) Integer minPay,
+                                                              @RequestParam(name = "minPay", required = false) Integer minPay,
+                                                              @RequestParam(name = "doTime", required = false) Integer doTime,
                                                               @RequestParam(name = "startTime", required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime startTime,
                                                               @RequestParam(name = "endTime", required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime endTime,
                                                               PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
-        Page<Post> posts = postService.getList(schoolId, doDate, category, pageDto, paymentType, startTime, endTime);
+        Page<Post> posts = postService.getList(schoolId, doDate, category, pageDto, paymentType, startTime, endTime, minPay, doTime);
         List<PostResponse.GetList> response = posts.stream().map(post -> PostResponse.GetList.build(post, customUserDetails)).collect(Collectors.toList());
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
     }

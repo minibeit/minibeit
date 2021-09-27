@@ -10,7 +10,7 @@ Content-Type: application/json;charset=UTF-8
   "category": "미디어",
   "headcount": 10,
   "payment": "CACHE",
-  "cache": 10000,
+  "cache": 5000,
   "goods": null,
   "paymentDetail": "계좌로 지급해드립니다.",
   "condition": true,
@@ -63,7 +63,7 @@ Authorization: {{authorizationToken}}
 GET {{apiUrl}}/post/2
 Authorization: {{authorizationToken}}
 ###
-GET {{apiUrl}}/post/list/1?doDate=2021-10-01&page=1&size=15&paymentType=&category=&startTime=09:00&endTime=12:35
+GET {{apiUrl}}/post/list/1?doDate=2021-10-01&page=1&size=15&paymentType=&category=&startTime=09:00&endTime=12:35&minPay=9999&doTime=
 
 ###
 GET {{apiUrl}}/post/1/start?doDate=2021-09-03

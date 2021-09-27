@@ -15,6 +15,7 @@ export default function SignupForm() {
   const signupHandler = async (inputs2, img) => {
     await signupInfoApi(inputs2, img, guest.accessToken)
       .then((res) => {
+        console.log(res);
         window.alert("회원가입에 성공!");
         const guest_cp = { ...guest };
         localStorage.setItem("accessToken", guest.accessToken);

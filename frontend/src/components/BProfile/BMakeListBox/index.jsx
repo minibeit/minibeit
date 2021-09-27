@@ -14,10 +14,19 @@ export default function BMakeListBox({ businessId, state, status }) {
   });
   const getMakelist = async () => {
     await getMakelistApi(businessId, page, status)
-      .then((res) => {
-        setMakelist(res.data.content);
-        setPaging({ first: res.data.first, last: res.data.last });
-        setChange(0);
+      .then(async (res) => {
+        if (res.data.content.length === 0) {
+          console.log(res.data.content.length === 0);
+          await getMakelistApi(businessId, 1, status).then((res) => {
+            setMakelist(res.data.content);
+            setPaging({ first: res.data.first, last: res.data.last });
+            setChange(0);
+          });
+        } else {
+          setMakelist(res.data.content);
+          setPaging({ first: res.data.first, last: res.data.last });
+          setChange(0);
+        }
       })
       .catch((err) => console.log(err));
   };

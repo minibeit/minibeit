@@ -15,19 +15,61 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   background-color: white;
-  width: 40rem;
-  height: 30rem;
+  width: 100%;
+  max-width: 35rem;
+  border-radius: 20px;
+  height: 35rem;
 `;
 export const ModalHeader = styled.div`
   display: flex;
   align-items: center;
-  height: 2rem;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
+  height: 4.5rem;
 `;
-export const CloseModalBtn = styled.button`
+export const CloseModalBtn = styled.div`
   margin-left: auto;
-  margin-right: 0.5rem;
+  margin-right: 1.5rem;
+  height: -webkit-fill-available;
+  & > svg {
+    height: 37.67px;
+    font-size: 30.5px;
+    margin: 17px 0px;
+    cursor: pointer;
+  }
 `;
 export const ModalContent = styled.div``;
-export const FormContainer = styled.div``;
-export const LoginButton = styled.div``;
+export const Formexplain = styled.div`
+  text-align: center;
+  font-size: 11px;
+  color: #8c8c8c;
+`;
+export const FormContainer = styled.div`
+  width: 57%;
+  margin: 0 auto;
+`;
+export const FormTitleBox = styled.div`
+  height: 16rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & > p {
+    font-size: 28px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 1.1px;
+    font-stretch: normal;
+    line-height: 1.3;
+  }
+`;
+export const LoginButton = styled.div`
+  cursor: pointer;
+  background: ${(props) => props.color};
+  height: 48px;
+  border-radius: 27px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 18px 0;
+  & > p {
+    color: white;
+  }
+`;

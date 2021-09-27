@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropTypes, { shape } from "prop-types";
+import PropTypes, { object, shape } from "prop-types";
 import { PVImg, SchoolSearch } from "../../Common";
 import { handleCompressImg } from "../../../utils/imgCompress";
 import Portal from "../../Common/Modal/Portal";
@@ -35,21 +35,24 @@ function PSignupInfoForm({ signupHandler }) {
     gender: "",
     phoneNum: "",
     job: "",
-    year: "",
-    month: "",
-    day: "",
+    birth: "",
     schoolId: "",
   });
   const [index, setIndex] = useState(0);
   const [img, setImg] = useState();
-  const { name, nickname, phoneNum, gender, job, year, month, day } = inputs;
+  const { name, nickname, phoneNum, gender, job, birth } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
+    if (name === "nickname") {
+      setNick("notyet");
+    }
+    console.log(value, name);
     setInputs({ ...inputs, [name]: value });
   };
   const handleJob = async (jobName) => {
     console.log(jobName);
     setInputs({ ...inputs, job: jobName });
+    setMsg("시작하기");
   };
   const [item, setitem] = useState({ bgcolor: "#6a1b9a", completed: 33.3 });
   const fileChange = (e) => {
@@ -66,23 +69,32 @@ function PSignupInfoForm({ signupHandler }) {
   };
   const singupInfoFunc = (e) => {
     console.log(index);
-    if (index <= 1) {
+    if (index < 1) {
+      for (const key in inputs) {
+        if (
+          key !== "schoolId" &&
+          key !== "job" &&
+          (inputs[key] === null || inputs[key] === "")
+        ) {
+          return window.alert("회원가입시 필요한 정보를 전부 입력해 주세요!");
+        }
+      }
+      if (nick === "notyet") {
+        return window.alert("닉네임 중복확인을 해주세요!");
+      } else if (nick === false) {
+        return window.alert("닉네임이 중복됩니다. 다른 닉네임을 선택해주세요!");
+      }
       setIndex(index + 1);
       setitem({ bgcolor: "#6a1b9a", completed: ((index + 2) / 3) * 100 });
     }
     if (index === 1) {
-      setMsg("회원가입");
+      if (school.schoolId === null || school.schoolId === "") {
+        return window.alert("학교를 입력해 주세요!");
+      }
+      setIndex(index + 1);
+      setitem({ bgcolor: "#6a1b9a", completed: ((index + 2) / 3) * 100 });
     } else if (index === 2) {
       e.preventDefault();
-      let new_m = month;
-      let new_d = day;
-      if (month < 10) {
-        new_m = "0" + month;
-      }
-      if (day < 10) {
-        new_d = "0" + day;
-      }
-      const birth = year + "-" + new_m + "-" + new_d;
       const inputs2 = {
         name: name,
         nickname: nickname,
@@ -92,19 +104,13 @@ function PSignupInfoForm({ signupHandler }) {
         birth: birth,
         schoolId: school.schoolId,
       };
-      signupHandler(inputs2, img);
+
+      if (inputs2.job === null || inputs2.job === "") {
+        return window.alert("직업을 선택해 주세요!");
+      }
+      return signupHandler(inputs2, img);
     }
-    console.log(index);
   };
-  function range(start, end) {
-    let arr = [];
-    let length = end - start;
-    for (var i = 0; i <= length; i++) {
-      arr[i] = start;
-      start++;
-    }
-    return arr;
-  }
 
   return (
     <Portal>
@@ -126,39 +132,45 @@ function PSignupInfoForm({ signupHandler }) {
             <ProgressBar bgcolor={item.bgcolor} completed={item.completed} />
           </S.ModalPro>
           <S.SITitle>
-            {" "}
-            {index === 0
-              ? "반갑습니다! 간단한 프로필을 작성해 주세요"
-              : index === 1
-              ? "주변에 위치한 관심있는 학교를 선택해 주세요"
-              : index === 2
-              ? "현재 직업을 설정해 주세요"
-              : null}
+            <p>
+              {" "}
+              {index === 0
+                ? "반갑습니다! 기본 프로필을 작성해 주세요"
+                : index === 1
+                ? "주변에 위치한 관심있는 학교를 선택해 주세요"
+                : index === 2
+                ? "현재 직업을 설정해 주세요"
+                : null}
+            </p>
           </S.SITitle>
-          <S.ModalContent>
-            <S.FormsignupContainer>
-              {index === 0 ? (
-                <>
-                  <S.SICont1_2>
-                    <S.SILabel>
-                      프로필 사진{" "}
-                      <S.ImgBox>
-                        {img ? (
-                          <PVImg img={img} />
-                        ) : (
-                          <S.Img src="/기본프로필.png" />
-                        )}
-                      </S.ImgBox>
-                      <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
-                      <S.SignupInput
-                        name="img"
-                        type="file"
-                        onChange={fileChange}
-                      />
-                    </S.SILabel>
-                  </S.SICont1_2>
-                  <S.SICont1_1>
-                    <S.SILabel>
+          <S.FormsignupContainer>
+            {index === 0 ? (
+              <>
+                <S.SICont1_2>
+                  <p>
+                    {" "}
+                    프로필 사진<p>(필수아님*)</p>{" "}
+                  </p>
+
+                  <S.ImgBox>
+                    {img ? (
+                      <PVImg img={img} />
+                    ) : (
+                      <S.Img src="/기본프로필.png" />
+                    )}
+                  </S.ImgBox>
+                  <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
+                  <S.FileLabel for="input-file">사진 업로드 하기</S.FileLabel>
+                  <S.SignupfileInput
+                    id="input-file"
+                    name="img"
+                    type="file"
+                    onChange={fileChange}
+                  />
+                </S.SICont1_2>
+                <S.SICont1_1>
+                  <S.SICont1_1_1>
+                    <S.SILabel width="82px">
                       이름
                       <S.SignupInput
                         value={name}
@@ -168,24 +180,33 @@ function PSignupInfoForm({ signupHandler }) {
                         onChange={onChange}
                       />
                     </S.SILabel>
-                    <S.SILabel>
-                      닉네임
-                      <S.SignupInput
-                        value={nickname}
-                        name="nickname"
-                        type="text"
-                        placeholder="닉네임"
-                        onChange={onChange}
-                      />
-                    </S.SILabel>
-                    <S.SignupNickBtn onClick={nickCheck}>확인</S.SignupNickBtn>
-                    {nick === true ? (
-                      <S.SignupMSG color="blue">
-                        사용가능한 닉네임 입니다
-                      </S.SignupMSG>
-                    ) : nick === false ? (
-                      <S.SignupMSG color="red">닉네임이 중복됩니다</S.SignupMSG>
-                    ) : null}
+                    <S.NickBox>
+                      <S.NicknameCont>
+                        <S.SILabel width="84px">
+                          닉네임
+                          <S.SignupInput
+                            value={nickname}
+                            name="nickname"
+                            type="text"
+                            placeholder="닉네임"
+                            onChange={onChange}
+                          />
+                        </S.SILabel>{" "}
+                        <S.SignupNickBtn onClick={nickCheck}>
+                          확인
+                        </S.SignupNickBtn>
+                      </S.NicknameCont>
+                      {nick === true ? (
+                        <S.SignupMSG color="blue">
+                          사용가능한 닉네임 입니다
+                        </S.SignupMSG>
+                      ) : nick === false ? (
+                        <S.SignupMSG color="red">
+                          닉네임이 중복됩니다
+                        </S.SignupMSG>
+                      ) : null}
+                    </S.NickBox>
+
                     <S.SILabel>
                       성별
                       <S.SignupSelect
@@ -204,52 +225,18 @@ function PSignupInfoForm({ signupHandler }) {
                         </option>
                       </S.SignupSelect>
                     </S.SILabel>
-                    <S.SILabel>
+                    <S.SILabel width="145px">
                       생년월일
-                      <S.SignupSelect
-                        name="year"
+                      <S.SignupInput
+                        value={birth}
+                        name="birth"
+                        type="date"
                         onChange={onChange}
-                        defaultValue={"DEFAULT"}
-                      >
-                        <option value="DEFAULT" disabled>
-                          년
-                        </option>
-                        {range(1920, 2021).map((year) => (
-                          <option value={year} key={year - 1919}>
-                            {year}
-                          </option>
-                        ))}
-                      </S.SignupSelect>
-                      <S.SignupSelect
-                        name="month"
-                        onChange={onChange}
-                        defaultValue={"DEFAULT"}
-                      >
-                        <option value="DEFAULT" disabled>
-                          월
-                        </option>
-                        {range(1, 12).map((month) => (
-                          <option value={month} key={month - 1919}>
-                            {month}
-                          </option>
-                        ))}
-                      </S.SignupSelect>
-                      <S.SignupSelect
-                        name="day"
-                        onChange={onChange}
-                        defaultValue={"DEFAULT"}
-                      >
-                        <option value="DEFAULT" disabled>
-                          일
-                        </option>
-                        {range(1, 31).map((day) => (
-                          <option value={day} key={day - 1919}>
-                            {day}
-                          </option>
-                        ))}
-                      </S.SignupSelect>
+                      />
                     </S.SILabel>
-                    <S.SILabel>
+                  </S.SICont1_1_1>
+                  <S.SICont1_1_2>
+                    <S.SILabel width="130px">
                       전화번호
                       <S.SignupInput
                         value={phoneNum}
@@ -259,20 +246,20 @@ function PSignupInfoForm({ signupHandler }) {
                         onChange={onChange}
                       />
                     </S.SILabel>
-                  </S.SICont1_1>
-                </>
-              ) : index === 1 ? (
-                <>
-                  <SchoolSearch use="Signup" />
-                </>
-              ) : index === 2 ? (
-                <JobGrid handleJob={handleJob} />
-              ) : null}
-              <S.SignupButton type="submit" onClick={singupInfoFunc}>
-                {msg}
-              </S.SignupButton>
-            </S.FormsignupContainer>
-          </S.ModalContent>
+                  </S.SICont1_1_2>
+                </S.SICont1_1>
+              </>
+            ) : index === 1 ? (
+              <>
+                <SchoolSearch use="Signup" />
+              </>
+            ) : index === 2 ? (
+              <JobGrid handleJob={handleJob} />
+            ) : null}
+          </S.FormsignupContainer>
+          <S.SignupButton>
+            <p onClick={singupInfoFunc}> {msg}</p>
+          </S.SignupButton>
         </S.ModalBox>
       </S.ModalBackground>
     </Portal>
@@ -373,18 +360,39 @@ function JobGrid({ handleJob }) {
       emoji: "",
     },
   ];
+  const [clickId, setClickId] = useState(0);
+  const jobClick = async (jobName, jobId) => {
+    setClickId(jobId);
+    await handleJob(jobName);
+  };
 
   return (
     <S.JobBlockCont>
-      {jobList.map((jobitem) => (
-        <S.JobBlock
-          key={jobitem.id}
-          onClick={async () => await handleJob(jobitem.name)}
-        >
-          <S.JobEmoji>{jobitem.emoji}</S.JobEmoji>
-          <S.JobName>{jobitem.name}</S.JobName>
-        </S.JobBlock>
-      ))}
+      {jobList.map((jobitem) => {
+        return clickId === jobitem.id ? (
+          <S.JobClickBlock
+            key={jobitem.id}
+            onClick={async (e) => {
+              e.preventDefault();
+              await jobClick(jobitem.name, jobitem.id);
+            }}
+          >
+            <S.JobEmoji>{jobitem.emoji}</S.JobEmoji>
+            <S.JobName>{jobitem.name}</S.JobName>
+          </S.JobClickBlock>
+        ) : (
+          <S.JobBlock
+            key={jobitem.id}
+            onClick={async (e) => {
+              e.preventDefault();
+              await jobClick(jobitem.name, jobitem.id);
+            }}
+          >
+            <S.JobEmoji>{jobitem.emoji}</S.JobEmoji>
+            <S.JobName>{jobitem.name}</S.JobName>
+          </S.JobBlock>
+        );
+      })}
     </S.JobBlockCont>
   );
 }

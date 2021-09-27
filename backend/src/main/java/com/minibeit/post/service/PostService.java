@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -36,7 +35,7 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class PostService {
-    private static final String REJECT_MSG = "실험이 취소되었습니다.";
+    private static final String REJECT_MSG = "모집이 완료되었습니다.";
     private final PostRepository postRepository;
     private final SchoolRepository schoolRepository;
     private final PostFileService postFileService;
@@ -78,6 +77,16 @@ public class PostService {
         } else {
             postLikeRepository.delete(findPostLike.get());
         }
+    }
+
+    public void recruitmentCompleted(Long postId, User user) {
+        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        permissionCheck(post.getBusinessProfile().getId(), user);
+
+        List<Long> applicantIdList = postApplicantRepository.findAllByApplyStatusIsWait(postId).stream().map(PostApplicant::getId).collect(Collectors.toList());
+        postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT, REJECT_MSG);
+
+        post.completed();
     }
 
     @Transactional(readOnly = true)
@@ -129,20 +138,11 @@ public class PostService {
         return PostResponse.OnlyId.build(updatedPost);
     }
 
-    public void deleteOne(Long postId, User user, LocalDateTime now) {
+    public void deleteOne(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);
 
-        List<Long> applicantIdList = postApplicantRepository.findAllByTodayAfterAndApprove(postId, now).stream().map(PostApplicant::getId).collect(Collectors.toList());
-        postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT, REJECT_MSG);
-
-        post.updateDeleteAt();
-    }
-
-    public void recruitmentCompleted(Long postId, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        permissionCheck(post.getBusinessProfile().getId(), user);
-        post.completed();
+        postRepository.deleteById(postId);
     }
 
     private void permissionCheck(Long businessProfileId, User user) {

@@ -101,10 +101,6 @@ public class Post extends BaseEntity {
         return this;
     }
 
-    public void updateDeleteAt() {
-        this.setDeletedAt(LocalDateTime.now());
-    }
-
     public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile) {
         return Post.builder()
                 .title(request.getTitle())

@@ -8,7 +8,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.minibeit.post.domain.QPost.post;
@@ -57,12 +56,12 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
     }
 
     @Override
-    public List<PostApplicant> findAllByTodayAfterAndApprove(Long postId, LocalDateTime now) {
+    public List<PostApplicant> findAllByApplyStatusIsWait(Long postId) {
         return queryFactory.selectFrom(postApplicant)
                 .join(postApplicant.postDoDate, postDoDate)
                 .join(postDoDate.post, post)
                 .where(post.id.eq(postId)
-                        .and(postDoDate.doDate.after(now).and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE))))
+                        .and(postApplicant.applyStatus.eq(ApplyStatus.WAIT)))
                 .fetch();
     }
 }

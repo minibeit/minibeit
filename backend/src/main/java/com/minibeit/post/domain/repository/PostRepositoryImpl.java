@@ -45,8 +45,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         .and(categoryEq(category))
                         .and(minPayGoe(minPay))
                         .and(doTimeLoe(doTime))
-                        .and(startEndTimeBetween(doDate, startTime, endTime))
-                        .and(post.deletedAt.isNull()))
+                        .and(startEndTimeBetween(doDate, startTime, endTime)))
                 .orderBy(post.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
@@ -104,7 +103,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return Optional.ofNullable(queryFactory.selectFrom(post)
                 .join(post.school).fetchJoin()
                 .join(post.businessProfile).fetchJoin()
-                .where(post.id.eq(postId).and(post.deletedAt.isNull()))
+                .where(post.id.eq(postId))
                 .fetchOne());
     }
 
@@ -113,8 +112,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.businessProfile)
                 .where(post.businessProfile.id.eq(businessProfileId)
-                        .and(postStatusEq(postStatus))
-                        .and(post.deletedAt.isNull()))
+                        .and(postStatusEq(postStatus)))
                 .orderBy(post.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
@@ -137,8 +135,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Page<Post> findAllByLike(User user, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.postLikeList, postLike)
-                .where(postLike.createdBy.eq(user)
-                        .and(post.deletedAt.isNull()))
+                .where(postLike.createdBy.eq(user))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
@@ -177,8 +174,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(post.postDoDateList, postDoDate)
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
-                        .and(applyStatusEq(applyStatus))
-                        .and(post.deletedAt.isNull()))
+                        .and(applyStatusEq(applyStatus)))
                 .orderBy(postDoDate.doDate.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());

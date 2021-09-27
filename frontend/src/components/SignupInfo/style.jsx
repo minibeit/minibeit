@@ -63,6 +63,9 @@ export const SignupNickBtn = styled.button`
   margin-right: 0.5rem;
 `;
 export const ModalContent = styled.div``;
+export const JobClickBlock = styled.div`
+  color: red;
+`;
 export const JobBlockCont = styled.div`
   width: -webkit-fill-available;
   display: flex;

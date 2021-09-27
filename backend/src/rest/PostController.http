@@ -18,27 +18,31 @@ Content-Type: application/json;charset=UTF-8
   "doTime": 60,
   "schoolId": 1,
   "businessProfileId": 1,
-  "startDate": "2021-09-20T09:30",
+  "startDate": "2021-09-25T09:30",
   "endDate": "2021-10-02T12:30",
   "doDateList": [
     {
       "groupId":1,
-      "doDate": "2021-09-30T09:30"
+      "doDate": "2021-09-27T09:30"
     },
     {
       "groupId":2,
-      "doDate": "2021-09-30T10:30"
+      "doDate": "2021-09-27T10:30"
     },
     {
       "groupId":3,
-      "doDate": "2021-10-01T11:30"
+      "doDate": "2021-09-27T20:30"
     },
     {
       "groupId":4,
+      "doDate": "2021-09-28T11:30"
+    },
+    {
+      "groupId":5,
       "doDate": "2021-10-01T12:30"
     },
     {
-      "groupId":1,
+      "groupId":6,
       "doDate": "2021-10-02T09:30"
     }
   ]
@@ -84,7 +88,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-DELETE {{apiUrl}}/post/1
+DELETE {{apiUrl}}/post/2
 Authorization: {{authorizationToken}}
 
 ###

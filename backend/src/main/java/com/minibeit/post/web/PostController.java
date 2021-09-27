@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -121,7 +122,7 @@ public class PostController {
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
-        postService.deleteOne(postId, customUserDetails.getUser());
+        postService.deleteOne(postId, customUserDetails.getUser(), LocalDateTime.now());
         return ResponseEntity.ok().build();
     }
 }

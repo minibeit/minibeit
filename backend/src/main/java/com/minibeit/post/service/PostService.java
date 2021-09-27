@@ -7,6 +7,7 @@ import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundExc
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.*;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +36,7 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class PostService {
+    private static final String REJECT_MSG = "실험이 취소되었습니다.";
     private final PostRepository postRepository;
     private final SchoolRepository schoolRepository;
     private final PostFileService postFileService;
@@ -41,6 +44,7 @@ public class PostService {
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final PostDoDateRepository postDoDateRepository;
     private final PostLikeRepository postLikeRepository;
+    private final PostApplicantRepository postApplicantRepository;
 
     public PostResponse.OnlyId createInfo(PostRequest.CreateInfo request, User user) {
         permissionCheck(request.getBusinessProfileId(), user);
@@ -125,10 +129,14 @@ public class PostService {
         return PostResponse.OnlyId.build(updatedPost);
     }
 
-    public void deleteOne(Long postId, User user) {
+    public void deleteOne(Long postId, User user, LocalDateTime now) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);
-        postRepository.deleteById(postId);
+
+        List<Long> applicantIdList = postApplicantRepository.findAllByTodayAfterAndApprove(postId, now).stream().map(PostApplicant::getId).collect(Collectors.toList());
+        postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT, REJECT_MSG);
+
+        post.updateDeleteAt();
     }
 
     public void recruitmentCompleted(Long postId, User user) {

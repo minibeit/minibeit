@@ -40,11 +40,13 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         .and(postDoDate.doDate.year().eq(doDate.getYear())
                                 .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                                 .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
+                        .and(post.postStatus.eq(PostStatus.RECRUIT))
                         .and(paymentTypeEq(paymentType))
                         .and(categoryEq(category))
                         .and(minPayGoe(minPay))
                         .and(doTimeLoe(doTime))
-                        .and(startEndTimeBetween(doDate, startTime, endTime)))
+                        .and(startEndTimeBetween(doDate, startTime, endTime))
+                        .and(post.deletedAt.isNull()))
                 .orderBy(post.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
@@ -102,7 +104,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return Optional.ofNullable(queryFactory.selectFrom(post)
                 .join(post.school).fetchJoin()
                 .join(post.businessProfile).fetchJoin()
-                .where(post.id.eq(postId))
+                .where(post.id.eq(postId).and(post.deletedAt.isNull()))
                 .fetchOne());
     }
 
@@ -111,7 +113,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.businessProfile)
                 .where(post.businessProfile.id.eq(businessProfileId)
-                        .and(postStatusEq(postStatus)))
+                        .and(postStatusEq(postStatus))
+                        .and(post.deletedAt.isNull()))
                 .orderBy(post.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
@@ -134,7 +137,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Page<Post> findAllByLike(User user, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.postLikeList, postLike)
-                .where(postLike.createdBy.eq(user))
+                .where(postLike.createdBy.eq(user)
+                        .and(post.deletedAt.isNull()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
@@ -173,7 +177,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(post.postDoDateList, postDoDate)
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
-                        .and(applyStatusEq(applyStatus)))
+                        .and(applyStatusEq(applyStatus))
+                        .and(post.deletedAt.isNull()))
                 .orderBy(postDoDate.doDate.asc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());

@@ -1,12 +1,14 @@
 package com.minibeit.post.domain.repository;
 
 import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.dto.PostApplicantDto;
 import com.minibeit.post.dto.QPostApplicantDto_UserInfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.minibeit.post.domain.QPost.post;
@@ -51,6 +53,16 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
                                 .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
                         .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE)))
                 .orderBy(postDoDate.doDate.asc())
+                .fetch();
+    }
+
+    @Override
+    public List<PostApplicant> findAllByTodayAfterAndApprove(Long postId, LocalDateTime now) {
+        return queryFactory.selectFrom(postApplicant)
+                .join(postApplicant.postDoDate, postDoDate)
+                .join(postDoDate.post, post)
+                .where(post.id.eq(postId)
+                        .and(postDoDate.doDate.after(now).and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE))))
                 .fetch();
     }
 }

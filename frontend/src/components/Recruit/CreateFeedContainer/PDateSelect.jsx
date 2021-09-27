@@ -13,7 +13,7 @@ import { useRecoilState } from "recoil";
 import { recruitState } from "../../../recoil/recruitState";
 
 export default function PDateSelect() {
-  const [recruit, setrecruit] = useRecoilState(recruitState);
+  const [recruit, setRecruit] = useRecoilState(recruitState);
 
   /* range calendar state */
   const [startDate, setStartDate] = useState(null);
@@ -36,11 +36,11 @@ export default function PDateSelect() {
       if (recruit_cp["headCount"] > 1) {
         recruit_cp["headCount"] -= 1;
       }
-      setrecruit(recruit_cp);
+      setRecruit(recruit_cp);
     } else {
       const recruit_cp = { ...recruit };
       recruit_cp["headCount"] += 1;
-      setrecruit(recruit_cp);
+      setRecruit(recruit_cp);
     }
   };
 
@@ -49,13 +49,13 @@ export default function PDateSelect() {
     if (e.target.textContent === "-") {
       const recruit_cp = { ...recruit };
       if (recruit_cp["doTime"] > 30) {
-        recruit_cp["doTime"] -= 10;
+        recruit_cp["doTime"] -= 30;
       }
-      setrecruit(recruit_cp);
+      setRecruit(recruit_cp);
     } else {
       const recruit_cp = { ...recruit };
-      recruit_cp["doTime"] += 10;
-      setrecruit(recruit_cp);
+      recruit_cp["doTime"] += 30;
+      setRecruit(recruit_cp);
     }
   };
 
@@ -118,7 +118,7 @@ export default function PDateSelect() {
             setExceptDate([]);
             const recruit_cp = { ...recruit };
             recruit_cp["exceptDateList"] = [];
-            setrecruit(recruit_cp);
+            setRecruit(recruit_cp);
           }}
         />
       </S.DateBox>
@@ -179,7 +179,7 @@ export default function PDateSelect() {
             const recruit_cp = { ...recruit };
             recruit_cp["startTime"] = moment(date).format("HH:mm");
             setStartTime(date);
-            setrecruit(recruit_cp);
+            setRecruit(recruit_cp);
           }}
           showTimeSelect
           showTimeSelectOnly
@@ -194,7 +194,7 @@ export default function PDateSelect() {
             const recruit_cp = { ...recruit };
             recruit_cp["endTime"] = moment(date).format("HH:mm");
             setEndTime(date);
-            setrecruit(recruit_cp);
+            setRecruit(recruit_cp);
           }}
           showTimeSelect
           showTimeSelectOnly
@@ -211,7 +211,7 @@ export default function PDateSelect() {
             recruit_cp["startDate"] = startDate.format("YYYY-MM-DD");
             recruit_cp["endDate"] = endDate.format("YYYY-MM-DD");
             recruit_cp["exceptDateList"] = exceptDate;
-            setrecruit(recruit_cp);
+            setRecruit(recruit_cp);
           }}
         >
           확인

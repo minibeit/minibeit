@@ -49,6 +49,7 @@ export const ColorView = styled.div`
   border-radius: 50%;
   background: ${(props) => props.color || "none"};
 `;
+export const TimeBtnBox = styled.div``;
 
 /* CategorySelect */
 export const CategoryBtn = styled.button``;

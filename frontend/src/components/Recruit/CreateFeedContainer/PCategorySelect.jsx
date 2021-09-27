@@ -8,7 +8,6 @@ import { recruitState } from "../../../recoil/recruitState";
 export default function PCategorySelect() {
   const [recruit, setRecruit] = useRecoilState(recruitState);
 
-  const [category, setCategory] = useState({ id: "", name: "" });
   const [categoryArr] = useState([
     "경영/마케팅",
     "IT/모바일",
@@ -32,15 +31,9 @@ export default function PCategorySelect() {
   ]);
 
   const onClick = (e) => {
-    const category_cp = { ...category };
-    category_cp["id"] = parseInt(e.target.id);
-    category_cp["name"] = e.target.textContent;
-    setCategory(category_cp);
-  };
-  const onSubmit = () => {
-    const recruit_cp = { ...recruit };
-    recruit_cp["category"] = category.name;
-    setRecruit(recruit_cp);
+    const copy = { ...recruit };
+    copy["category"] = e.target.textContent;
+    setRecruit(copy);
   };
 
   return (
@@ -53,15 +46,13 @@ export default function PCategorySelect() {
             id={i}
             key={i}
             onClick={onClick}
-            disabled={category.id === i ? true : false}
+            disabled={recruit.category === a ? true : false}
           >
             {a}
           </S.CategoryBtn>
         );
       })}
-      <>
-        {category.name !== "" ? <button onClick={onSubmit}>확인</button> : null}
-      </>
+      <button>확인</button>
     </>
   );
 }

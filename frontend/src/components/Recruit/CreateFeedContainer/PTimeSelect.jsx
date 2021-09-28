@@ -8,12 +8,7 @@ import "moment/locale/ko";
 
 import * as S from "../style";
 
-import { useRecoilState } from "recoil";
-import { recruitState } from "../../../recoil/recruitState";
-
-export default function PDateSelect() {
-  const [recruit, setRecruit] = useRecoilState(recruitState);
-
+export default function PDateSelect({ recruit, setRecruit }) {
   const [group, setGroup] = useState([
     { id: 1, color: "#0be881", dateList: [] },
     { id: 2, color: "#f7d794", dateList: [] },
@@ -24,12 +19,10 @@ export default function PDateSelect() {
   const [groupBtn, setGroupBtn] = useState([]);
   const [selectGroup, setSelectGroup] = useState();
 
-  const disabledDates = [...recruit["exceptDateList"]];
-
   /* 제외된 날짜를 block해주는 로직 */
   const tileDisabled = ({ date, view }) => {
     if (view === "month") {
-      return disabledDates.find(
+      return recruit.exceptDateList.find(
         (ele) =>
           moment(ele).format("YYYY-MM-DD") === moment(date).format("YYYY-MM-DD")
       );
@@ -79,6 +72,20 @@ export default function PDateSelect() {
         return <S.ColorView></S.ColorView>;
       }
     }
+  };
+
+  const createTimeArr = (startTime, endTime, doTime) => {
+    const startMoment = moment(startTime, "HH:mm");
+    const endMoment = moment(endTime, "HH:mm").subtract(doTime, "minutes");
+    const timeArr = [];
+    while (startMoment <= endMoment) {
+      timeArr.push(
+        `${startMoment.format("HH:mm")}~${startMoment
+          .add(doTime, "minutes")
+          .format("HH:mm")}`
+      );
+    }
+    return timeArr;
   };
 
   return (
@@ -134,12 +141,6 @@ export default function PDateSelect() {
           {selectGroup &&
             selectGroup.dateList.map((a, i) => <span key={i}>{a}</span>)}
         </>
-        <div key={recruit}>
-          {recruit.doTimeList &&
-            recruit.doTimeList.map((a, i) => {
-              return <button key={i}>{a}</button>;
-            })}
-        </div>
       </S.TimeBtnBox>
     </>
   );

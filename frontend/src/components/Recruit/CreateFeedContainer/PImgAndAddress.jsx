@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 
-import { useRecoilState } from "recoil";
-import { recruitState } from "../../../recoil/recruitState";
 import { PVImg } from "../../Common";
-import { handleCompressImg } from "../../../utils/imgCompress";
 import Address from "../../Common/Address";
 
 import * as S from "../style";
 
-export default function PImgAndAddress() {
-  const [recruit, setRecruit] = useRecoilState(recruitState);
-  const [images, setImages] = useState([]);
+export default function PImgAndAddress({ recruit, setRecruit }) {
   const [modalSwitch, setModalSwitch] = useState(false);
-  const [address, setAddress] = useState("");
 
   const fileChange = (e) => {
     const copy = { ...recruit };
@@ -40,7 +34,7 @@ export default function PImgAndAddress() {
         type="text"
         readOnly
         onClick={() => setModalSwitch(!modalSwitch)}
-        value={address}
+        value={recruit.address}
       />
       {modalSwitch ? (
         <Address

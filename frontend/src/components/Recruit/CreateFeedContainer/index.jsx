@@ -12,6 +12,36 @@ import PInfoData from "./PInfoData";
 import PImgAndAddress from "./PImgAndAddress";
 
 export default function CreateFeedContainer() {
+  const [recruit, setRecruit] = useState({
+    businessProfile: {
+      id: null,
+      name: null,
+    },
+    school: {
+      id: null,
+      name: null,
+    },
+    startDate: null,
+    endDate: null,
+    headCount: 1,
+    doTime: 30,
+    startTime: null,
+    endTime: null,
+    doTimeList: [],
+    doDateList: null,
+    exceptDateList: [],
+    category: "",
+    title: "",
+    content: "",
+    condition: false,
+    conditionDetail: [],
+    payment: "cache",
+    pay: null,
+    payMemo: null,
+    images: [],
+    address: "",
+    contact: "",
+  });
   const userId = useRecoilValue(userState).id;
   const [bpList, setbpList] = useState([]);
 
@@ -25,15 +55,25 @@ export default function CreateFeedContainer() {
     getbpList();
   }, []);
 
+  console.log(recruit);
   return (
     <>
-      {bpList && <PSelectBProfile bpList={bpList} />}
-      <PSchoolSelect />
-      <PDateSelect />
-      <PTimeSelect />
-      <PCategorySelect />
-      <PInfoData />
-      <PImgAndAddress />
+      {bpList && (
+        <PSelectBProfile
+          bpList={bpList}
+          recruit={recruit}
+          setRecruit={setRecruit}
+        />
+      )}
+      <PSchoolSelect recruit={recruit} setRecruit={setRecruit} />
+      <PDateSelect recruit={recruit} setRecruit={setRecruit} />
+      {recruit.doDateList && (
+        <PTimeSelect recruit={recruit} setRecruit={setRecruit} />
+      )}
+
+      <PCategorySelect recruit={recruit} setRecruit={setRecruit} />
+      <PInfoData recruit={recruit} setRecruit={setRecruit} />
+      <PImgAndAddress recruit={recruit} setRecruit={setRecruit} />
     </>
   );
 }

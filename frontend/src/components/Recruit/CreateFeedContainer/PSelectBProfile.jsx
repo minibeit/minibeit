@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import * as S from "../style";
-import { useRecoilState } from "recoil";
-import { recruitState } from "../../../recoil/recruitState";
 
 PSelectBProfile.propTypes = {
   bplist: PropTypes.arrayOf(
@@ -15,15 +13,14 @@ PSelectBProfile.propTypes = {
   ),
 };
 
-export default function PSelectBProfile({ bpList }) {
-  const [recruit, setrecruit] = useRecoilState(recruitState);
+export default function PSelectBProfile({ bpList, recruit, setRecruit }) {
   const selectBP = (e) => {
-    const recruit_cp = { ...recruit };
-    recruit_cp["businessProfile"] = {
+    const copy = { ...recruit };
+    copy.businessProfile = {
       id: parseInt(e.target.id),
       name: e.target.textContent,
     };
-    setrecruit(recruit_cp);
+    setRecruit(copy);
   };
   return (
     <>
@@ -36,13 +33,13 @@ export default function PSelectBProfile({ bpList }) {
             onClick={selectBP}
             id={a.id}
             key={a.id}
-            disabled={recruit["businessProfile"].id === a.id ? true : false}
+            disabled={recruit.businessProfile.id === a.id ? true : false}
           >
             {a.name}
           </button>
         );
       })}
-      {recruit["businessProfile"].id ? <button>확인</button> : null}
+      {recruit.businessProfile.id ? <button>확인</button> : null}
     </>
   );
 }

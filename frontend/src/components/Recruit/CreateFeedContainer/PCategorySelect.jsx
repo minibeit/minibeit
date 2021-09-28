@@ -2,12 +2,7 @@ import React, { useState } from "react";
 
 import * as S from "../style";
 
-import { useRecoilState } from "recoil";
-import { recruitState } from "../../../recoil/recruitState";
-
-export default function PCategorySelect() {
-  const [recruit, setRecruit] = useRecoilState(recruitState);
-
+export default function PCategorySelect({ recruit, setRecruit }) {
   const [categoryArr] = useState([
     "경영/마케팅",
     "IT/모바일",

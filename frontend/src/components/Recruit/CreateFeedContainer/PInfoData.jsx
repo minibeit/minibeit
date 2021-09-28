@@ -3,14 +3,9 @@ import Switch from "@mui/material/Switch";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 
-import { useRecoilState } from "recoil";
-import { recruitState } from "../../../recoil/recruitState";
-
 import * as S from "../style";
 
-export default function PInfoData() {
-  const [recruit, setRecruit] = useRecoilState(recruitState);
-
+export default function PInfoData({ recruit, setRecruit }) {
   const addConditionDetail = () => {
     const copy = { ...recruit };
     const arr = [...copy.conditionDetail];

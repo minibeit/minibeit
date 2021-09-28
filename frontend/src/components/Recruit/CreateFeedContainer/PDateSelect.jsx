@@ -9,21 +9,15 @@ import "moment/locale/ko";
 
 import * as S from "../style";
 
-import { useRecoilState } from "recoil";
-import { recruitState } from "../../../recoil/recruitState";
-
-export default function PDateSelect() {
-  const [recruit, setRecruit] = useRecoilState(recruitState);
+export default function PDateSelect({ recruit, setRecruit }) {
+  const { startDate, endDate, doDateList, exceptDateList } = recruit;
 
   /* range calendar state */
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [dateArr, setDateArr] = useState([]);
   const [focusedInput, setFocusedInput] = useState(null);
 
   /* single calendar state */
-  const [exceptDate, setExceptDate] = useState([]);
   const [focused, setFocused] = useState(null);
+  const [check, setCheck] = useState(false);
 
   /* time select */
   const [startTime, setStartTime] = useState(null);
@@ -32,30 +26,30 @@ export default function PDateSelect() {
   /* 모집인원 카운트 로직 */
   const changeHeadCount = (e) => {
     if (e.target.textContent === "-") {
-      const recruit_cp = { ...recruit };
-      if (recruit_cp["headCount"] > 1) {
-        recruit_cp["headCount"] -= 1;
+      const copy = { ...recruit };
+      if (copy.headCount > 1) {
+        copy.headCount -= 1;
       }
-      setRecruit(recruit_cp);
+      setRecruit(copy);
     } else {
-      const recruit_cp = { ...recruit };
-      recruit_cp["headCount"] += 1;
-      setRecruit(recruit_cp);
+      const copy = { ...recruit };
+      copy.headCount += 1;
+      setRecruit(copy);
     }
   };
 
   /* 실험 시간 단위 로직 */
   const changeDoTime = (e) => {
     if (e.target.textContent === "-") {
-      const recruit_cp = { ...recruit };
-      if (recruit_cp["doTime"] > 30) {
-        recruit_cp["doTime"] -= 30;
-        setRecruit(recruit_cp);
+      const copy = { ...recruit };
+      if (copy.doTime > 30) {
+        copy.doTime -= 30;
+        setRecruit(copy);
       }
     } else {
-      const recruit_cp = { ...recruit };
-      recruit_cp["doTime"] += 30;
-      setRecruit(recruit_cp);
+      const copy = { ...recruit };
+      copy.doTime += 30;
+      setRecruit(copy);
     }
   };
 
@@ -75,37 +69,28 @@ export default function PDateSelect() {
   };
 
   /* 실험 날짜 빼는 로직 */
-  const handleDateArr = (date) => {
+  const createExceptDate = (date) => {
+    const copy = recruit;
     if (startDate.format("YYYY-MM-DD") === date.format("YYYY-MM-DD")) {
       alert("실험 첫날은 지울수 없습니다");
-    } else if (dateArr.includes(date.format("YYYY-MM-DD"))) {
-      const dateArr_cp = dateArr;
-      dateArr_cp.splice(dateArr_cp.indexOf(date.format("YYYY-MM-DD")), 1);
-      setDateArr([...dateArr_cp]);
-      setExceptDate([...exceptDate, date.format("YYYY-MM-DD")]);
-    } else {
-      setDateArr([...dateArr, date.format("YYYY-MM-DD")]);
-      const exceptDate_cp = [...exceptDate];
-      exceptDate_cp.splice(exceptDate_cp.indexOf(date.format("YYYY-MM-DD")), 1);
-      setExceptDate([...exceptDate_cp]);
-    }
-  };
-
-  const createTimeArr = (startTime, endTime, doTime) => {
-    const startMoment = moment(startTime, "HH:mm");
-    const endMoment = moment(endTime, "HH:mm").subtract(doTime, "minutes");
-    const timeArr = [];
-    while (startMoment <= endMoment) {
-      timeArr.push(
-        `${startMoment.format("HH:mm")}~${startMoment
-          .add(doTime, "minutes")
-          .format("HH:mm")}`
+    } else if (copy.doDateList.includes(date.format("YYYY-MM-DD"))) {
+      copy.doDateList.splice(
+        copy.doDateList.indexOf(date.format("YYYY-MM-DD")),
+        1
       );
+      copy.exceptDateList = [...copy.exceptDateList, date.format("YYYY-MM-DD")];
+      setCheck(!check);
+      setRecruit(copy);
+    } else {
+      copy.doDateList = [...copy.doDateList, date.format("YYYY-MM-DD")];
+      copy.exceptDateList.splice(
+        copy.exceptDateList.indexOf(date.format("YYYY-MM-DD")),
+        1
+      );
+      setCheck(!check);
+      setRecruit(copy);
     }
-    return timeArr;
   };
-
-  useEffect(() => {}, [recruit.doTime]);
 
   return (
     <>
@@ -122,19 +107,22 @@ export default function PDateSelect() {
           displayFormat="YYYY-MM-DD"
           hideKeyboardShortcutsPanel={true}
           onDatesChange={({ startDate, endDate }) => {
-            setStartDate(startDate);
-            setEndDate(endDate);
+            const copy = recruit;
+            copy.startDate = startDate;
+            copy.endDate = endDate;
+            setRecruit(copy);
             if (startDate && endDate !== null) {
-              setDateArr(createDateArr(startDate, endDate));
+              const copy = recruit;
+              copy.doDateList = createDateArr(startDate, endDate);
+              setRecruit(copy);
             }
           }}
           focusedInput={focusedInput}
           onFocusChange={(focusedInput) => {
             setFocusedInput(focusedInput);
-            setExceptDate([]);
-            const recruit_cp = { ...recruit };
-            recruit_cp["exceptDateList"] = [];
-            setRecruit(recruit_cp);
+            const copy = { ...recruit };
+            copy.exceptDateList = [];
+            setRecruit(copy);
           }}
         />
       </S.DateBox>
@@ -143,15 +131,16 @@ export default function PDateSelect() {
         <p>날짜 빼기</p>
         <SingleDatePicker
           date={startDate}
-          onDateChange={handleDateArr}
+          onDateChange={createExceptDate}
           focused={focused}
           onFocusChange={({ focused }) => {
             setFocused(focused);
           }}
-          key={dateArr}
+          key={check}
+          keepOpenOnDateSelect={true}
           numberOfMonths={2}
           isDayBlocked={(day) => {
-            if (moment(startDate) > day || moment(endDate) < day) {
+            if (startDate > day || endDate < day) {
               return true;
             }
           }}
@@ -160,13 +149,12 @@ export default function PDateSelect() {
           monthFormat="YYYY년 MM월"
           disabled={startDate && endDate ? false : true}
           displayFormat={
-            exceptDate.length === 0 ? "없음" : `${exceptDate.length}일`
+            exceptDateList.length === 0 ? "없음" : `${exceptDateList.length}일`
           }
-          keepOpenOnDateSelect={true}
           renderCalendarDay={(props) => {
             const { day, modifiers } = props;
-            if (day && dateArr.length !== 0) {
-              if (dateArr.find((ele) => ele === day.format("YYYY-MM-DD"))) {
+            if (day && doDateList.length !== 0) {
+              if (doDateList.find((ele) => ele === day.format("YYYY-MM-DD"))) {
                 modifiers && modifiers.add("selected");
               }
             }
@@ -178,13 +166,13 @@ export default function PDateSelect() {
       <S.HeadCountBox>
         <p>모집 인원</p>
         <button onClick={changeHeadCount}>-</button>
-        <p>{recruit["headCount"]}명</p>
+        <p>{recruit.headCount}명</p>
         <button onClick={changeHeadCount}>+</button>
       </S.HeadCountBox>
       <p>시간 단위</p>
       <S.DoTimeBox>
         <button onClick={changeDoTime}>-</button>
-        <p>{recruit["doTime"]}분</p>
+        <p>{recruit.doTime}분</p>
         <button onClick={changeDoTime}>+</button>
       </S.DoTimeBox>
       <S.StartEndTimeBox>
@@ -192,10 +180,10 @@ export default function PDateSelect() {
         <DatePicker
           selected={startTime}
           onChange={(date) => {
-            const recruit_cp = { ...recruit };
-            recruit_cp["startTime"] = moment(date).format("HH:mm");
+            const copy = { ...recruit };
+            copy.startTime = moment(date).format("HH:mm");
             setStartTime(date);
-            setRecruit(recruit_cp);
+            setRecruit(copy);
           }}
           showTimeSelect
           showTimeSelectOnly
@@ -207,10 +195,10 @@ export default function PDateSelect() {
         <DatePicker
           selected={endTime}
           onChange={(date) => {
-            const recruit_cp = { ...recruit };
-            recruit_cp["endTime"] = moment(date).format("HH:mm");
+            const copy = { ...recruit };
+            copy.endTime = moment(date).format("HH:mm");
             setEndTime(date);
-            setRecruit(recruit_cp);
+            setRecruit(copy);
           }}
           showTimeSelect
           showTimeSelectOnly
@@ -219,25 +207,6 @@ export default function PDateSelect() {
           dateFormat="HH:mm"
         />
       </S.StartEndTimeBox>
-      {dateArr.length !== 0 && recruit["startTime"] && recruit["endTime"] && (
-        <button
-          onClick={() => {
-            const recruit_cp = { ...recruit };
-            recruit_cp["doDateList"] = dateArr;
-            recruit_cp["doTimeList"] = createTimeArr(
-              moment(startTime).format("HH:mm"),
-              moment(endTime).format("HH:mm"),
-              recruit.doTime
-            );
-            recruit_cp["startDate"] = startDate.format("YYYY-MM-DD");
-            recruit_cp["endDate"] = endDate.format("YYYY-MM-DD");
-            recruit_cp["exceptDateList"] = exceptDate;
-            setRecruit(recruit_cp);
-          }}
-        >
-          확인
-        </button>
-      )}
     </>
   );
 }

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,18 +27,23 @@ public class UserService {
     private final SchoolRepository schoolRepository;
     private final AvatarService avatarService;
 
-    public void nicknameCheck(UserRequest.Nickname request) {
+    public boolean isValidNickname(UserRequest.Nickname request) {
         if (userRepository.findByNickname(request.getNickname()).isPresent()) {
             throw new DuplicateNickNameException();
         }
+        return true;
     }
 
     public UserResponse.CreateOrUpdate update(UserRequest.Update request, User user) {
 
-        nicknameCheck(UserRequest.Nickname.builder().nickname(request.getNickname()).build());
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         findUser.nicknameDuplicateCheck(request.isNicknameChanged(), request.getNickname());
+
+        UserRequest.Nickname requestNickname = UserRequest.Nickname.builder().nickname(request.getNickname()).build();
+        if(request.isNicknameChanged() && !isValidNickname(requestNickname)){
+            throw new DuplicateNickNameException();
+        }
 
         User updatedUser = findUser.update(request, school);
         updateAvatar(request, user, findUser);

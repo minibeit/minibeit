@@ -1,22 +1,20 @@
 package com.minibeit.user.service;
 
-import com.minibeit.MvcTest;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.avatar.domain.AvatarServer;
 import com.minibeit.avatar.domain.AvatarType;
 import com.minibeit.avatar.service.AvatarService;
-import com.minibeit.common.component.file.S3Uploader;
 import com.minibeit.common.dto.SavedFile;
 import com.minibeit.school.domain.School;
-import com.minibeit.security.token.TokenProvider;
 import com.minibeit.user.domain.Gender;
+import com.minibeit.user.domain.Role;
+import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
+import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserRequest;
-import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.exception.DuplicateNickNameException;
 import com.minibeit.user.service.exception.UserNotFoundException;
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,20 +27,15 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 
 @ActiveProfiles("dev")
 @SpringBootTest
@@ -58,8 +51,46 @@ class UserServiceTest {
 
     @MockBean
     private AvatarService avatarService;
+    private User user1, user2;
 
+    @BeforeEach
+    void setup() {
 
+        user1 = User.builder()
+                .id(1L)
+                .name("홍길동")
+                .nickname("테스터1")
+                .oauthId("1")
+                .provider(SignupProvider.MINIBEIT)
+                .signupCheck(true)
+                .gender(Gender.MALE)
+                .birth(LocalDate.of(1997, 3, 6))
+                .job("개발자")
+                .role(Role.USER)
+                .phoneNum("010-1234-1234")
+                .avatar(Avatar.builder().id(1L).url("profile image url").build())
+                .school(School.builder().id(1L).name("고려대학교").build())
+                .build();
+
+        user2 = User.builder()
+                .id(2L)
+                .name("전우치")
+                .nickname("테스터2")
+                .oauthId("1")
+                .provider(SignupProvider.MINIBEIT)
+                .signupCheck(true)
+                .gender(Gender.MALE)
+                .birth(LocalDate.of(2002, 2, 20))
+                .role(Role.USER)
+                .job("대학생")
+                .phoneNum("010-5678-1234")
+                .avatar(Avatar.builder().id(1L).url("profile image url").build())
+                .school(School.builder().id(1L).name("서울대학교").build())
+                .build();
+
+        userRepository.save(user1);
+        userRepository.save(user2);
+    }
 
     @Test
     @DisplayName("닉네임 중복 체크 - 성공")
@@ -67,7 +98,7 @@ class UserServiceTest {
 
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("중복안된이름").build();
 
-        userService.nicknameCheck(request);
+        userService.isValidNickname(request);
 
     }
 
@@ -77,7 +108,7 @@ class UserServiceTest {
 
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("테스터1").build();
 
-        assertThatThrownBy(() -> userService.nicknameCheck(request))
+        assertThatThrownBy(() -> userService.isValidNickname(request))
                 .isInstanceOf(DuplicateNickNameException.class);
     }
 
@@ -86,6 +117,7 @@ class UserServiceTest {
     void allUpdate() throws IOException {
         //given
         User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MultipartFile multipartFile = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is);
 
@@ -118,7 +150,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("유저 정보 업데이트 - 성공(정보 그대로 업데이트")
+    @DisplayName("유저 정보 업데이트 - 성공(정보 그대로 업데이트)")
     void update() throws IOException {
         //given
         User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);

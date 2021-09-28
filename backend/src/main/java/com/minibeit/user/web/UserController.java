@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping("/nickname/check")
     public ResponseEntity<Void> nicknameCheck(@RequestBody UserRequest.Nickname request) {
-        userService.nicknameCheck(request);
+        userService.isValidNickname(request);
         return ResponseEntity.ok().build();
     }
 

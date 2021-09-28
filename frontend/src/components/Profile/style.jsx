@@ -1,10 +1,40 @@
 import styled from "styled-components";
 
 export const UserInfoContainer = styled.div`
-  text-align: center;
+  display: flex;
+  min-width: 332px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
-export const UserName = styled.h3``;
-export const UserInfo = styled.p``;
+
+export const UserInfo = styled.div`
+  display: flex;
+  padding: 9px;
+  & > p:first-child {
+    flex: 1;
+  }
+  & > p:nth-child(2) {
+    flex: 1;
+  }
+`;
+export const UserInfoBox = styled.div`
+  max-width: 248px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 17px 20px 17px;
+  border-radius: 8px;
+  margin: 11px 0;
+  width: 100%;
+  background: white;
+`;
+export const UserEditBtn = styled.div`
+  width: 57px;
+  cursor: pointer;
+  padding: 4px 7px;
+  background: white;
+  border-radius: 8px;
+`;
 
 export const BPContainer = styled.div``;
 export const BPbtn = styled.div``;
@@ -14,7 +44,7 @@ export const LBnext = styled.div``;
 export const BPNewInput = styled.input``;
 export const ImgBox = styled.div`
   display: inline-block;
-  background-color: gray;
+
   overflow: hidden;
   width: 10rem;
   height: 10rem;
@@ -23,6 +53,7 @@ export const UserImg = styled.img`
   object-fit: fill;
   width: 100%;
   height: 100%;
+  border-radius: 50%;
 `;
 export const EditButton = styled.button``;
 export const EditContainer = styled.div``;
@@ -42,12 +73,70 @@ export const LBTitle = styled.div``;
 export const LBContent = styled.div``;
 export const LBList = styled.div``;
 
-export const PTabCont = styled.div``;
-export const ProfileTab1 = styled.div``;
-export const ProfileTab2 = styled.div``;
-export const PTabContent = styled.div``;
-export const PleftBox = styled.div``;
-export const PrightBox = styled.div``;
+export const PTabCont = styled.div`
+  display: flex;
+  align-items: end;
+  margin: 0 50px;
+  & > a {
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+  }
+`;
+export const ProfileTab1 = styled.div`
+  padding: 7px 52px;
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  background: #d8d6d6;
+  @media only screen and (max-width: 480px) {
+    font-size: 13px;
+    padding: 10px 22px;
+    min-width: 57px;
+  }
+`;
+export const ProfileTab2 = styled.div`
+  padding: 7px 52px;
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  background: #9e9e9e;
+  position: relative;
+  right: 29px;
+  z-index: -1;
+  @media only screen and (max-width: 480px) {
+    font-size: 13px;
+    padding: 10px 23px;
+    min-width: 83px;
+    right: 18px;
+    }
+  }
+`;
+export const PTabContent = styled.div`
+  margin: 0 50px;
+  display: flex;
+  flex-wrap: wrap;
+  background: #d8d6d6;
+  padding: 30px 30px 57px 30px;
+`;
+export const PleftBox = styled.div`
+  flex: 1;
+`;
+export const PrightBox = styled.div`
+  flex: 2;
+`;
+export const PrightTab = styled.div`
+  display: flex;
+  min-width: 371px;
+  width: 100%;
+`;
+export const PrightTabele = styled.div`
+  padding: 0px 9px;
+  border-right: 1px solid gray;
+  & > p {
+    cursor: pointer;
+    border-bottom: ${(props) =>
+      props.tabIndex === props.index ? "2px solid blue" : null};
+  }
+`;
 export const ModalBackground = styled.div`
   position: fixed;
   top: 0;
@@ -77,7 +166,27 @@ export const CloseModalBtn = styled.button`
   margin-right: 0.5rem;
 `;
 export const ModalContent = styled.div``;
-export const IfNoneWordCont = styled.div``;
-export const IfNoneBtn = styled.button``;
+export const IfNoneWordCont = styled.div`
+  margin: 15px 0;
+  background: white;
+  border-radius: 8px;
+  height: 88%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  & > p {
+    font-size: 20px;
+    color: gray;
+  }
+`;
+export const IfNoneBtn = styled.div`
+  background: blue;
+  cursor: pointer;
+  padding: 7px 13px;
+  border-radius: 21px;
+  color: white;
+  margin: 10px;
+`;
 
 export const ListPaging = styled.div``;

@@ -5,15 +5,11 @@ import * as S from "../style";
 export default function PJoinListBox({
   joinlist,
   getJoinlist,
-  state,
   handlepage,
   paging,
 }) {
   return (
     <>
-      <S.BoxTitle>
-        {state === "APPROVE" ? "확정된 목록" : "대기중인 목록"}
-      </S.BoxTitle>
       {joinlist.length > 0 ? (
         <>
           {joinlist.map((joinEle) => (

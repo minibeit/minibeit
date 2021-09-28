@@ -116,4 +116,41 @@ class UserServiceTest {
         assertThat(updatedUser.getPhoneNum()).isEqualTo(updateInfo.getPhoneNum());
         assertThat(updatedUser.getGender()).isEqualTo(updateInfo.getGender());
     }
+
+    @Test
+    @DisplayName("유저 정보 업데이트 - 성공(정보 그대로 업데이트")
+    void update() throws IOException {
+        //given
+        User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MultipartFile multipartFile = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is);
+
+        UserRequest.Update updateInfo = UserRequest.Update.builder()
+                .name("테스터1")
+                .nickname("테스터1")
+                .nicknameChanged(false)
+                .gender(Gender.MALE)
+                .phoneNum("010-1234-1234")
+                .job("테스트하는사람")
+                .schoolId(1L)
+                .birth(LocalDate.of(2000, 12, 12))
+                .avatar(multipartFile)
+                .avatarChanged(true).build();
+        SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, AvatarType.IMAGE, AvatarServer.S3);
+
+        Avatar avatar = Avatar.create(savedFile);
+
+        given(avatarService.upload(any())).willReturn(avatar);
+        userService.update(updateInfo, user);
+        //then
+        User updatedUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
+
+        assertThat(updatedUser.getNickname()).isEqualTo(updateInfo.getNickname());
+        assertThat(updatedUser.getAvatar().getName()).isEqualTo(avatar.getName());
+        assertThat(updatedUser.getBirth()).isEqualTo(updateInfo.getBirth());
+        assertThat(updatedUser.getJob()).isEqualTo(updateInfo.getJob());
+        assertThat(updatedUser.getPhoneNum()).isEqualTo(updateInfo.getPhoneNum());
+        assertThat(updatedUser.getGender()).isEqualTo(updateInfo.getGender());
+    }
+
 }

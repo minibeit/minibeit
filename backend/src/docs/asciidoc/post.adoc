@@ -70,7 +70,18 @@ include::{snippets}/post-deleteOne/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-deleteOne/http-response.adoc[]
 
-=== 게시물 모집완료 상태 변화
+=== 반려 게시물 삭제
+
+`DELETE /api/rejectPost/{rejectPostId}`
+
+요청 HTTP
+include::{snippets}/rejectPost-deleteOne/http-request.adoc[]
+include::{snippets}/rejectPost-deleteOne/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/rejectPost-deleteOne/http-response.adoc[]
+
+=== 게시물 모집완료
 
 요청 HTTP
 include::{snippets}/post-recruitment-Completed/http-request.adoc[]

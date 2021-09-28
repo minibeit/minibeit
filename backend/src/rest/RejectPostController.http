@@ -1,0 +1,2 @@
+DELETE {{apiUrl}}/rejectPost/1
+Authorization: {{authorizationToken}}

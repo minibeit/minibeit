@@ -580,7 +580,7 @@ class PostControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("post-deleteOne",
                         pathParameters(
-                                parameterWithName("postId").description("삭제할 게시물 프로필 식별자")
+                                parameterWithName("postId").description("삭제할 게시물 식별자")
                         )
                 ));
     }

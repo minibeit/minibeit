@@ -4,4 +4,5 @@ import com.minibeit.post.domain.RejectPost;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RejectPostRepository extends JpaRepository<RejectPost, Long> {
+    void deleteByIdAndUserId(Long rejectPostId, Long id);
 }

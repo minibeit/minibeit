@@ -27,11 +27,10 @@ public class UserService {
     private final SchoolRepository schoolRepository;
     private final AvatarService avatarService;
 
-    public boolean isValidNickname(UserRequest.Nickname request) {
+    public void nicknameCheck(UserRequest.Nickname request) {
         if (userRepository.findByNickname(request.getNickname()).isPresent()) {
             throw new DuplicateNickNameException();
         }
-        return true;
     }
 
     public UserResponse.CreateOrUpdate update(UserRequest.Update request, User user) {
@@ -40,9 +39,9 @@ public class UserService {
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         findUser.nicknameDuplicateCheck(request.isNicknameChanged(), request.getNickname());
 
-        UserRequest.Nickname requestNickname = UserRequest.Nickname.builder().nickname(request.getNickname()).build();
-        if(request.isNicknameChanged() && !isValidNickname(requestNickname)){
-            throw new DuplicateNickNameException();
+        if(request.isNicknameChanged()){
+            UserRequest.Nickname requestNickname = UserRequest.Nickname.builder().nickname(request.getNickname()).build();
+            nicknameCheck(requestNickname);
         }
 
         User updatedUser = findUser.update(request, school);

@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -98,7 +99,10 @@ class UserServiceTest {
 
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("중복안된이름").build();
 
-        userService.isValidNickname(request);
+        userService.nicknameCheck(request);
+
+        Optional<User> user = userRepository.findByNickname(request.getNickname());
+        assertThat(user).isEmpty();
 
     }
 
@@ -108,8 +112,10 @@ class UserServiceTest {
 
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("테스터1").build();
 
-        assertThatThrownBy(() -> userService.isValidNickname(request))
-                .isInstanceOf(DuplicateNickNameException.class);
+        assertThatThrownBy(() -> userService.nicknameCheck(request)).isInstanceOf(DuplicateNickNameException.class);
+
+        User findUser = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
+        assertThat(findUser.getNickname()).isEqualTo(request.getNickname());
     }
 
     @Test

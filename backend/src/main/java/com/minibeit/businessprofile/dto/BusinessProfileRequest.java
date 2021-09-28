@@ -12,7 +12,6 @@ public class BusinessProfileRequest {
     public static class Create {
         private String name;
         private String place;
-        private String introduce;
         private String contact;
         private MultipartFile avatar;
     }
@@ -25,7 +24,6 @@ public class BusinessProfileRequest {
     public static class Update {
         private String name;
         private String place;
-        private String introduce;
         private String contact;
         private MultipartFile avatar;
         private boolean avatarChanged;

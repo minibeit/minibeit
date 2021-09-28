@@ -55,7 +55,6 @@ class BusinessProfileControllerTest extends MvcTest {
 
     @BeforeEach
     public void setup() {
-
         user1 = User.builder()
                 .id(1L)
                 .name("홍길동")
@@ -76,7 +75,6 @@ class BusinessProfileControllerTest extends MvcTest {
                 .name("동그라미 실험실")
                 .place("고려대")
                 .contact("010-1234-5786")
-                .introduce("고려대 동그라미 실험실 입니다.")
                 .admin(user1)
                 .avatar(Avatar.builder().id(1L).url("profile image url").build())
                 .build();
@@ -119,7 +117,6 @@ class BusinessProfileControllerTest extends MvcTest {
                         .file(avatar)
                         .param("name", "동그라미 실험실")
                         .param("place", "고려대 신공학관")
-                        .param("introduce", "고려대 동그라미 실험실입니다!!")
                         .param("contact", "010-1234-1234")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .characterEncoding("UTF-8")
@@ -130,7 +127,6 @@ class BusinessProfileControllerTest extends MvcTest {
                         requestParameters(
                                 parameterWithName("name").description("실험실 이름"),
                                 parameterWithName("place").description("실험실 장소"),
-                                parameterWithName("introduce").description("실험실 소개"),
                                 parameterWithName("contact").description("실험실 연락처")
                         ),
                         requestParts(
@@ -190,7 +186,6 @@ class BusinessProfileControllerTest extends MvcTest {
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
                                 fieldWithPath("adminName").type(JsonFieldType.STRING).description("비즈니스 프로필 책임자 닉네임"),
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
-                                fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
                                 fieldWithPath("numberOfEmployees").type(JsonFieldType.NUMBER).description("비즈니스 프로필 소속 인원 수"),
                                 fieldWithPath("admin").type(JsonFieldType.BOOLEAN).description("로그인한 유저가 해당 비즈니스 프로필의 관리자라면 true"),
@@ -214,7 +209,6 @@ class BusinessProfileControllerTest extends MvcTest {
                 .file(avatar)
                 .param("name", "네모 실험실")
                 .param("place", "네모 대학교")
-                .param("introduce", "네모 대학교 네모 실험실입니다!!")
                 .param("contact", "010-1234-5678")
                 .param("avatarChanged", "true")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -230,7 +224,6 @@ class BusinessProfileControllerTest extends MvcTest {
                         requestParameters(
                                 parameterWithName("name").description("실험실 이름"),
                                 parameterWithName("place").description("실험실 장소"),
-                                parameterWithName("introduce").description("실험실 소개"),
                                 parameterWithName("contact").description("실험실 연락처"),
                                 parameterWithName("avatarChanged").description("비즈니스 프로필 이미지 수정되었다면 true 아니면 false")
                         ),

@@ -59,7 +59,7 @@ class PostControllerTest extends MvcTest {
 
     @BeforeEach
     public void setup() {
-        businessProfile = BusinessProfile.builder().id(1L).name("동그라미 실험실").contact("010-1234-1234").introduce("동그라미 실험실입니다.").place("고려대").avatar(Avatar.builder().id(1L).url("avatar url").build()).build();
+        businessProfile = BusinessProfile.builder().id(1L).name("동그라미 실험실").contact("010-1234-1234").place("고려대").avatar(Avatar.builder().id(1L).url("avatar url").build()).build();
         user = User.builder().id(1L).name("동그라미").build();
         post1 = Post.builder()
                 .id(1L)
@@ -295,7 +295,6 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("businessProfileInfo.avatar").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 이미지"),
                                 fieldWithPath("businessProfileInfo.contact").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 연락처"),
                                 fieldWithPath("businessProfileInfo.address").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 주소"),
-                                fieldWithPath("businessProfileInfo.introduce").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 소개"),
                                 fieldWithPath("isLike").type(JsonFieldType.BOOLEAN).description("자신이 해당 게시물에 즐겨찾기를 한 상태라면 true 아니면 false"),
                                 fieldWithPath("isMine").type(JsonFieldType.BOOLEAN).description("게시물이 자신이 것인지")
                         )

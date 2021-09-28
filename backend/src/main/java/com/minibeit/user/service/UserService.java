@@ -33,6 +33,8 @@ public class UserService {
     }
 
     public UserResponse.CreateOrUpdate update(UserRequest.Update request, User user) {
+
+        nicknameCheck(UserRequest.Nickname.builder().nickname(request.getNickname()).build());
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         findUser.nicknameDuplicateCheck(request.isNicknameChanged(), request.getNickname());

@@ -1,119 +1,62 @@
 POST {{apiUrl}}/post/info
 Authorization: {{authorizationToken}}
-Content-Type: multipart/form-data; boundary=boundary
-
---boundary
-Content-Disposition: form-data; name="title";
-
-실험자 모집합니다.
---boundary
-Content-Disposition: form-data; name="content";
-
-아무나 오세요~
---boundary
-Content-Disposition: form-data; name="place";
-
-고려대 신공학관
---boundary
-Content-Disposition: form-data; name="contact";
-
-010-1234-5623
---boundary
-Content-Disposition: form-data; name="category";
-
-식품
---boundary
-Content-Disposition: form-data; name="headcount";
-
-5
---boundary
-Content-Disposition: form-data; name="payment";
-
-CACHE
---boundary
-Content-Disposition: form-data; name="cache";
-
-30000
---boundary
-Content-Disposition: form-data; name="condition";
-
-true
---boundary
-Content-Disposition: form-data; name="conditionDetail";
-
-개발자만|커피좋아하는사람만|ㅎㅎㅎ|
---boundary
-Content-Disposition: form-data; name="doTime";
-
-60
---boundary
-Content-Disposition: form-data; name="businessProfileId";
-
-1
---boundary
-Content-Disposition: form-data; name="schoolId";
-
-1
-
-
-###
-POST {{apiUrl}}/post/7/info/date
-Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
-//{
-//  "startDate": "2021-09-01T09:30",
-//  "endDate": "2021-09-09T09:30",
-//  "doDateList": [
-//    "2021-09-03T09:30",
-//    "2021-09-03T10:30",
-//    "2021-09-03T11:30",
-//    "2021-09-03T12:30",
-//    "2021-09-04T09:30",
-//    "2021-09-05T09:30"
-//  ]
-//}
-
 {
-  "startDate": "2021-09-21T09:30",
-  "endDate": "2021-09-24T09:30",
+  "title": "커피를 얼마나 마셔야 잠을 못잘까요~",
+  "content": "실험 내용",
+  "place": "고려대학교 연구실",
+  "contact": "010-1234-1234",
+  "category": "미디어",
+  "headcount": 10,
+  "payment": "CACHE",
+  "cache": 5000,
+  "goods": null,
+  "paymentDetail": "계좌로 지급해드립니다.",
+  "condition": true,
+  "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
+  "doTime": 60,
+  "schoolId": 1,
+  "businessProfileId": 1,
+  "startDate": "2021-09-25T09:30",
+  "endDate": "2021-10-02T12:30",
   "doDateList": [
-    "2021-09-30T09:30",
-    "2021-09-30T10:30",
-    "2021-10-01T11:30",
-    "2021-10-01T12:30",
-    "2021-10-02T09:30",
-    "2021-10-02T09:30"
+    {
+      "groupId":1,
+      "doDate": "2021-09-27T09:30"
+    },
+    {
+      "groupId":2,
+      "doDate": "2021-09-27T10:30"
+    },
+    {
+      "groupId":3,
+      "doDate": "2021-09-27T20:30"
+    },
+    {
+      "groupId":4,
+      "doDate": "2021-09-28T11:30"
+    },
+    {
+      "groupId":5,
+      "doDate": "2021-10-01T12:30"
+    },
+    {
+      "groupId":6,
+      "doDate": "2021-10-02T09:30"
+    }
   ]
 }
 
 ###
-DELETE {{apiUrl}}/post/1
+POST {{apiUrl}}/post/1/files
 Authorization: {{authorizationToken}}
+Content-Type: multipart/form-data; boundary=boundary
 
-###
-GET {{apiUrl}}/post/4
-Authorization: {{authorizationToken}}
-###
-GET {{apiUrl}}/post/list/1?doDate=2021-10-01&page=1&size=15&paymentType=&category=&startTime=09:00&endTime=12:35
+--boundary
+Content-Disposition: form-data; name="files"; filename="enjoy.png"
 
-###
-GET {{apiUrl}}/post/1/start?doDate=2021-09-03
-###
-GET {{apiUrl}}/post/like/list?page=1&size=6
-Authorization: {{authorizationToken}}
-###
-GET {{apiUrl}}/post/apply/approve/list?page=1&size=4
-Authorization: {{authorizationToken}}
-###
-GET {{apiUrl}}/post/apply/list?page=1&size=4&status=APPROVE
-Authorization: {{authorizationToken}}
-###
-GET {{apiUrl}}/post/write/review/list?page=1&size=3
-Authorization: {{authorizationToken}}
-###
-GET {{apiUrl}}/post/business/profile/1/list?page=1&size=5&status=COMPLETE
-Authorization: {{authorizationToken}}
+< ./../main/resources/mock/images/enjoy.png
 
 ###
 POST {{apiUrl}}/post/4/like
@@ -134,5 +77,42 @@ Authorization: {{authorizationToken}}
 POST {{apiUrl}}/post/3/completed
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
+
+###
+PUT {{apiUrl}}/post/1
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "updatedContent": "수정된 내용 추가"
+}
+
+###
+DELETE {{apiUrl}}/post/2
+Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/post/2
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/list/1?doDate=2021-10-01&page=1&size=15&paymentType=&category=&startTime=09:00&endTime=12:35&minPay=9999&doTime=
+###
+GET {{apiUrl}}/post/1/start?doDate=2021-09-03
+###
+GET {{apiUrl}}/post/like/list?page=1&size=6
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/apply/approve/list?page=1&size=4
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/apply/list?page=1&size=4&status=APPROVE
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/write/review/list?page=1&size=3
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/business/profile/1/list?page=1&size=5&status=COMPLETE
+Authorization: {{authorizationToken}}
+
 
 

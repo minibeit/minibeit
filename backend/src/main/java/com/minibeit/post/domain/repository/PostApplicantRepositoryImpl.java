@@ -1,6 +1,7 @@
 package com.minibeit.post.domain.repository;
 
 import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.dto.PostApplicantDto;
 import com.minibeit.post.dto.QPostApplicantDto_UserInfo;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -51,6 +52,16 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
                                 .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
                         .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE)))
                 .orderBy(postDoDate.doDate.asc())
+                .fetch();
+    }
+
+    @Override
+    public List<PostApplicant> findAllByApplyStatusIsWait(Long postId) {
+        return queryFactory.selectFrom(postApplicant)
+                .join(postApplicant.postDoDate, postDoDate)
+                .join(postDoDate.post, post)
+                .where(post.id.eq(postId)
+                        .and(postApplicant.applyStatus.eq(ApplyStatus.WAIT)))
                 .fetch();
     }
 }

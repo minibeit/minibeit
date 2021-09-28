@@ -32,7 +32,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, LocalTime startTime, LocalTime endTime, Pageable pageable) {
+    public Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, LocalTime startTime, LocalTime endTime, Integer minPay, Integer doTime, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post).distinct()
                 .join(post.postDoDateList, postDoDate)
                 .join(post.businessProfile).fetchJoin()
@@ -40,8 +40,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         .and(postDoDate.doDate.year().eq(doDate.getYear())
                                 .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                                 .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
+                        .and(post.postStatus.eq(PostStatus.RECRUIT))
                         .and(paymentTypeEq(paymentType))
                         .and(categoryEq(category))
+                        .and(minPayGoe(minPay))
+                        .and(doTimeLoe(doTime))
                         .and(startEndTimeBetween(doDate, startTime, endTime)))
                 .orderBy(post.id.desc())
                 .offset(pageable.getOffset())
@@ -75,13 +78,25 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return null;
     }
 
+    private BooleanExpression minPayGoe(Integer minPay) {
+        if (Objects.nonNull(minPay) && post.paymentCache != null && minPay == 9999) {
+            return post.paymentCache.lt(10000);
+        }
+        if (Objects.nonNull(minPay) && post.paymentCache != null) {
+            return post.paymentCache.goe(minPay);
+        }
+        return null;
+    }
 
-//    private BooleanExpression minPayGoe(Integer minPay) {
-//        if (Objects.nonNull(minPay) && post.paymentCache != null) {
-//            return post.paymentCache.goe(minPay);
-//        }
-//        return null;
-//    }
+    private BooleanExpression doTimeLoe(Integer doTime) {
+        if (Objects.nonNull(doTime) && doTime == 181) {
+            return post.doTime.goe(180);
+        }
+        if (Objects.nonNull(doTime)) {
+            return post.doTime.loe(doTime);
+        }
+        return null;
+    }
 
     @Override
     public Optional<Post> findByIdWithBusinessProfile(Long postId) {

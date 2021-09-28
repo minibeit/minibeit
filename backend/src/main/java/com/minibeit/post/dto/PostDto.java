@@ -1,7 +1,10 @@
 package com.minibeit.post.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import lombok.*;
+
+import java.time.LocalDateTime;
 
 public class PostDto {
     @Getter
@@ -28,5 +31,15 @@ public class PostDto {
             }
             return businessProfileInfoBuilder.build();
         }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class PostDoDate {
+        private Integer groupId;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime doDate;
     }
 }

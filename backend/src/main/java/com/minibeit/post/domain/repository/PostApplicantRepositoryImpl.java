@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostApplicant.postApplicant;
@@ -63,5 +64,16 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
                 .where(post.id.eq(postId)
                         .and(postApplicant.applyStatus.eq(ApplyStatus.WAIT)))
                 .fetch();
+    }
+
+    @Override
+    public Optional<PostApplicant> findByPostDoDateIdAndUserIdWithPostDoDate(Long postDoDateId, Long userId) {
+        return Optional.ofNullable(
+                queryFactory.selectFrom(postApplicant)
+                        .join(postApplicant.user, user)
+                        .join(postApplicant.postDoDate, postDoDate).fetchJoin()
+                        .where(postDoDate.id.eq(postDoDateId).and(user.id.eq(userId)))
+                        .fetchOne()
+        );
     }
 }

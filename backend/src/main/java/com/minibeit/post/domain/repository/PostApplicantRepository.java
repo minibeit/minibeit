@@ -20,6 +20,6 @@ public interface PostApplicantRepository extends JpaRepository<PostApplicant, Lo
     Optional<PostApplicant> findByUserIdAndPostDoDateId(Long userId, Long postDoDateId);
 
     @Modifying
-    @Query("update PostApplicant pa set pa.rejectComment=:msg, pa.applyStatus=:status where pa.id in :applicantIdList")
-    void updateReject(List<Long> applicantIdList, ApplyStatus status, String msg);
+    @Query("update PostApplicant pa set pa.applyStatus=:status where pa.id in :applicantIdList")
+    void updateReject(List<Long> applicantIdList, ApplyStatus status);
 }

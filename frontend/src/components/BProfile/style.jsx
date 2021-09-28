@@ -21,7 +21,7 @@ export const UserName = styled.h3``;
 export const UserInfo = styled.p``;
 export const ImgBox = styled.div`
   display: inline-block;
-  background-color: gray;
+  border-radius: 50%;
   overflow: hidden;
   width: 10rem;
   height: 10rem;
@@ -35,23 +35,100 @@ export const BPJoinBtn = styled.div``;
 export const JoinContainer = styled.div``;
 export const BPNewNickname = styled.input``;
 
-export const BPContainer = styled.div``;
+export const BPContainer = styled.div`
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  margin: 98px 0px;
+`;
 
-export const BPbtn = styled.div``;
+export const BPbtn = styled.div`
+  background: white;
+  width: 65px;
+  height: 65px;
+  margin-left: 29px;
+  border-radius: 50%;
+  display: ${(props) => props.display};
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  & > svg {
+    font-size: 35px;
+  }
+`;
 export const BPNewInput = styled.input``;
 export const BPSubmitBtn = styled.div``;
 export const BICont = styled.div``;
-export const BIContHead = styled.div``;
+export const BIContHead2 = styled.div`
+  display: flex;
+  & > p {
+    font-size: 17px;
+  }
+`;
+export const BIContHead = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 125px;
+  justify-content: space-evenly;
+  & > p:first-child {
+    font-size: 31px;
+  }
+  & > p:nth-child(2) {
+    font-size: 20px;
+  }
+  & > p:nth-child(3) {
+    font-size: 20px;
+    font-weight: 700;
+  }
+`;
 export const BIContTitle = styled.div``;
-export const BIEdit = styled.div``;
+export const BIWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+export const BIEdit = styled.div`
+  margin-left: 24px;
+  & > p {
+    cursor: pointer;
+    font-size: 12px;
+    border-bottom: 1px solid black;
+  }
+`;
 export const BIList = styled.div``;
 export const BIeleCont = styled.div`
   cursor: pointer;
+  margin: 25px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 export const BIeleImg = styled.img``;
-export const BIeleName = styled.div``;
+export const BIeleName = styled.div`
+  height: 36px;
+  display: flex;
+  align-items: end;
+  & > p {
+    font-size: 19px;
+  }
+`;
 export const BInew = styled.div``;
 export const BIdelete = styled.div`
+  position: relative;
+  top: 54px;
+  left: 131px;
+  width: 34px;
+  height: 34px;
+  background: white;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 3;
+  cursor: pointer;
   display: ${(props) => props.display};
 `;
 export const ModalBackground = styled.div`

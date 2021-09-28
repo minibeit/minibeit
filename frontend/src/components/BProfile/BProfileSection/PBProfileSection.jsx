@@ -76,11 +76,19 @@ export default function PBProfileSection() {
           </S.BIEdit>
         </S.BIContHead2>
       ) : (
-        <S.BIContHead>
-          <p>📝</p>
-          <p>접속할 비즈니스 프로필이 존재하지 않습니다.</p>
-          <p> 비즈니스 프로필을 추가할까요?</p>
-        </S.BIContHead>
+        <>
+          <S.BIContHead>
+            <p>📝</p>
+            <p>접속할 비즈니스 프로필이 존재하지 않습니다.</p>
+            <p> 비즈니스 프로필을 추가할까요?</p>
+          </S.BIContHead>
+          <S.BIWrapper>
+            {" "}
+            <S.BPbtn display="flex" onClick={onClick}>
+              <AddIcon />
+            </S.BPbtn>
+          </S.BIWrapper>
+        </>
       )}
       <S.BIWrapper>
         {bprofiles.map((bprofile) => (

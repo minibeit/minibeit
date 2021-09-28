@@ -10,12 +10,18 @@ export default function ProfileFeed({
   finish,
   feedInfo,
   getJoinlist,
+  tag,
 }) {
   return (
     <>
-      <S.FeedTag></S.FeedTag>
+      <S.FeedTag>
+        <p>{tag}</p>
+      </S.FeedTag>
       <S.FeedCont>
-        <S.FeedTitle>{feedInfo.title}</S.FeedTitle>
+        <S.FeedTitle>
+          <p>실험명</p>
+          <p>{feedInfo.title}</p>
+        </S.FeedTitle>
         <S.FeedContent>
           {state === "Join" ? (
             <JoinFeedBlock
@@ -67,11 +73,18 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
   return (
     <>
       <S.FeedDateNum>
-        실험날짜 {feedInfo.doDate}/실험실 번호 {feedInfo.contact}
+        <p>실험날짜</p>
+        <p> {feedInfo.doDate}</p>
+        <p>/실험실 번호 </p>
+        <p> {feedInfo.contact}</p>
       </S.FeedDateNum>
       <S.FeedTimeCheck>
-        실험시간 {feedInfo.startTime}~{feedInfo.endTime}/ 조건 유무{" "}
-        {feedInfo.recruitCondition ? "있음" : "없음"}
+        <p>실험시간 </p>
+        <p>
+          {feedInfo.startTime}~{feedInfo.endTime}
+        </p>
+        <p> / 조건 유무 </p>
+        <p> {feedInfo.recruitCondition ? "있음" : "없음"}</p>
       </S.FeedTimeCheck>
       {allow ? (
         <S.BtnCont>
@@ -81,7 +94,7 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
               await doJoin();
             }}
           >
-            참여완료
+            <p>참여완료</p>
           </S.FeedBtn>
           {modalSwitch ? (
             <ReviewModal
@@ -96,7 +109,7 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
               await doNotJoin();
             }}
           >
-            참여취소
+            <p>참여취소</p>
           </S.FeedBtn>
         </S.BtnCont>
       ) : (
@@ -106,7 +119,7 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
             await doNotJoin();
           }}
         >
-          참여취소
+          <p>참여취소</p>
         </S.FeedBtn>
       )}
     </>

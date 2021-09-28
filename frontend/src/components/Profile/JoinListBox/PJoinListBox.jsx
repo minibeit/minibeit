@@ -18,6 +18,7 @@ export default function PJoinListBox({
               allow={joinEle.status === "APPROVE" ? true : false}
               finish={false}
               state="Join"
+              tag={joinEle.status === "APPROVE" ? "참여 확정" : "참여 대기"}
               getJoinlist={getJoinlist}
               feedInfo={joinEle}
             />

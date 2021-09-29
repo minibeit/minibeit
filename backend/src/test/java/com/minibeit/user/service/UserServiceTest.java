@@ -96,7 +96,7 @@ class UserServiceTest {
     @Test
     @DisplayName("닉네임 중복 체크 - 성공")
     void nicknameCheck() {
-
+        //given//when//then
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("중복안된이름").build();
 
         userService.nicknameCheck(request);
@@ -189,6 +189,41 @@ class UserServiceTest {
         assertThat(updatedUser.getJob()).isEqualTo(updateInfo.getJob());
         assertThat(updatedUser.getPhoneNum()).isEqualTo(updateInfo.getPhoneNum());
         assertThat(updatedUser.getGender()).isEqualTo(updateInfo.getGender());
+    }
+
+    @Test
+    @DisplayName("유저 정보 업데이트 - 실패(중복된 닉네임 사용)")
+    void updateFail() throws IOException {
+        //given
+        User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+
+        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MultipartFile multipartFile = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is);
+
+        UserRequest.Update updateInfo = UserRequest.Update.builder()
+                .name("테스터1")
+                .nickname("테스터2")
+                .nicknameChanged(true)
+                .gender(Gender.MALE)
+                .phoneNum("010-1234-5678")
+                .job("테스트하는사람")
+                .schoolId(1L)
+                .birth(LocalDate.of(2000, 12, 12))
+                .avatar(multipartFile)
+                .avatarChanged(true).build();
+        SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, AvatarType.IMAGE, AvatarServer.S3);
+
+        Avatar avatar = Avatar.create(savedFile);
+
+        given(avatarService.upload(any())).willReturn(avatar);
+        //when
+        assertThatThrownBy(() -> userService.update(updateInfo,user))
+                .isInstanceOf(DuplicateNickNameException.class);
+        //then
+        User noUpdatedUser = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+        assertThat(noUpdatedUser.getNickname()).isEqualTo("테스터1");
+        assertThat(noUpdatedUser.getPhoneNum()).isEqualTo("010-1234-1234");
+
     }
 
 }

@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class PostRequest {
-    @Setter
     @Getter
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -20,15 +19,30 @@ public class PostRequest {
         private String place;
         private String contact;
         private String category;
-        private Payment payment;
         private Integer headcount;
+        private Payment payment;
         private Integer cache;
         private String goods;
+        private String paymentDetail;
         private boolean condition;
         private String conditionDetail;
         private Integer doTime;
         private Long schoolId;
         private Long businessProfileId;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime startDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime endDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
+        private List<PostDto.PostDoDate> doDateList;
+    }
+
+    @Setter
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class AddFile {
         private List<MultipartFile> files;
     }
 
@@ -36,12 +50,7 @@ public class PostRequest {
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class CreateDateRule {
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
-        private LocalDateTime startDate;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
-        private LocalDateTime endDate;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
-        private List<LocalDateTime> doDateList;
+    public static class UpdateContent {
+        private String updatedContent;
     }
 }

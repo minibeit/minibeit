@@ -25,8 +25,6 @@ public class BusinessProfile extends BaseEntity {
 
     private String place;
 
-    private String introduce;
-
     private String contact;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -49,7 +47,6 @@ public class BusinessProfile extends BaseEntity {
         this.name = createRequest.getName();
         this.place = createRequest.getPlace();
         this.contact = createRequest.getContact();
-        this.introduce = createRequest.getIntroduce();
     }
 
     public void updateAvatar(Avatar avatar) {
@@ -60,7 +57,6 @@ public class BusinessProfile extends BaseEntity {
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(request.getName())
                 .place(request.getPlace())
-                .introduce(request.getIntroduce())
                 .contact(request.getContact())
                 .avatar(avatar)
                 .admin(admin)

@@ -4,9 +4,12 @@ package com.minibeit.businessprofile.web;
 import com.minibeit.MvcTest;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
+import com.minibeit.post.domain.Payment;
+import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.PostFile;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.Role;
@@ -26,6 +29,7 @@ import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +37,8 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -46,17 +51,10 @@ class BusinessProfileControllerTest extends MvcTest {
 
     private BusinessProfile businessProfile;
     private User user1;
+    private Post post1;
 
     @BeforeEach
     public void setup() {
-        businessProfile = BusinessProfile.builder()
-                .id(1L)
-                .name("동그라미 실험실")
-                .place("고려대")
-                .contact("010-1234-5786")
-                .introduce("고려대 동그라미 실험실 입니다.")
-                .avatar(Avatar.builder().id(1L).url("profile image url").build())
-                .build();
         user1 = User.builder()
                 .id(1L)
                 .name("홍길동")
@@ -71,7 +69,38 @@ class BusinessProfileControllerTest extends MvcTest {
                 .role(Role.USER)
                 .school(School.builder().id(1L).name("고려대").build())
                 .build();
+
+        businessProfile = BusinessProfile.builder()
+                .id(1L)
+                .name("동그라미 실험실")
+                .place("고려대")
+                .contact("010-1234-5786")
+                .admin(user1)
+                .avatar(Avatar.builder().id(1L).url("profile image url").build())
+                .build();
+
         businessProfile.setCreatedBy(user1);
+
+        post1 = Post.builder()
+                .id(1L)
+                .title("동그라미 실험실")
+                .content("실험실 세부사항")
+                .place("고려대")
+                .contact("010-1234-5786")
+                .recruitPeople(10)
+                .payment(Payment.CACHE)
+                .paymentCache(50000)
+                .recruitCondition(true)
+                .recruitConditionDetail("운전면허 있는 사람만")
+                .doTime(120)
+                .startDate(LocalDateTime.of(2021, 9, 3, 9, 30))
+                .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
+                .school(School.builder().id(1L).name("고려대학교").build())
+                .businessProfile(businessProfile)
+                .postDoDateList(Collections.singletonList(PostDoDate.builder().id(1L).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build()))
+                .postFileList(Collections.singletonList(PostFile.builder().id(1L).url("profile image url").build()))
+                .build();
+        post1.setCreatedBy(user1);
     }
 
     @Test
@@ -88,7 +117,6 @@ class BusinessProfileControllerTest extends MvcTest {
                         .file(avatar)
                         .param("name", "동그라미 실험실")
                         .param("place", "고려대 신공학관")
-                        .param("introduce", "고려대 동그라미 실험실입니다!!")
                         .param("contact", "010-1234-1234")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .characterEncoding("UTF-8")
@@ -99,7 +127,6 @@ class BusinessProfileControllerTest extends MvcTest {
                         requestParameters(
                                 parameterWithName("name").description("실험실 이름"),
                                 parameterWithName("place").description("실험실 장소"),
-                                parameterWithName("introduce").description("실험실 소개"),
                                 parameterWithName("contact").description("실험실 연락처")
                         ),
                         requestParts(
@@ -125,18 +152,16 @@ class BusinessProfileControllerTest extends MvcTest {
 
         given(businessProfileService.getListIsMine(any())).willReturn(getLists);
 
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/list/{userId}", 1));
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/mine/list"));
 
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("business-profile-list-mine",
-                        pathParameters(
-                                parameterWithName("userId").description("조회할 유저 식별자")
-                        ),
                         responseFields(
                                 fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
                                 fieldWithPath("[].name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
-                                fieldWithPath("[].avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url")
+                                fieldWithPath("[].avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url"),
+                                fieldWithPath("[].admin").type(JsonFieldType.BOOLEAN).description("로그인한 유저가 해당 비즈니스 프로필의 관리자라면 true")
                         )
                 ));
     }
@@ -159,10 +184,11 @@ class BusinessProfileControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
+                                fieldWithPath("adminName").type(JsonFieldType.STRING).description("비즈니스 프로필 책임자 닉네임"),
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
-                                fieldWithPath("introduce").type(JsonFieldType.STRING).description("비즈니스 프로필 소개"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
-                                fieldWithPath("mine").type(JsonFieldType.BOOLEAN).description("비즈니스 프로필 자신의 것인지 확인"),
+                                fieldWithPath("numberOfEmployees").type(JsonFieldType.NUMBER).description("비즈니스 프로필 소속 인원 수"),
+                                fieldWithPath("admin").type(JsonFieldType.BOOLEAN).description("로그인한 유저가 해당 비즈니스 프로필의 관리자라면 true"),
                                 fieldWithPath("avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url(프로필 이미지가 없다면 null)")
                         )
                 ));
@@ -183,7 +209,6 @@ class BusinessProfileControllerTest extends MvcTest {
                 .file(avatar)
                 .param("name", "네모 실험실")
                 .param("place", "네모 대학교")
-                .param("introduce", "네모 대학교 네모 실험실입니다!!")
                 .param("contact", "010-1234-5678")
                 .param("avatarChanged", "true")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -199,7 +224,6 @@ class BusinessProfileControllerTest extends MvcTest {
                         requestParameters(
                                 parameterWithName("name").description("실험실 이름"),
                                 parameterWithName("place").description("실험실 장소"),
-                                parameterWithName("introduce").description("실험실 소개"),
                                 parameterWithName("contact").description("실험실 연락처"),
                                 parameterWithName("avatarChanged").description("비즈니스 프로필 이미지 수정되었다면 true 아니면 false")
                         ),
@@ -230,22 +254,15 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 공유(초대) 문서화")
     public void shareBusinessProfile() throws Exception {
-        BusinessProfileRequest.ShareOrExpel request = BusinessProfileRequest.ShareOrExpel.builder().userIdList(Collections.singletonList(1L)).build();
-
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/business/profile/{businessProfileId}/share", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-                .content(objectMapper.writeValueAsString(request)));
+                .post("/api/business/profile/{businessProfileId}/share/{userId}", 1, 1));
 
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("business-profile-share",
                         pathParameters(
-                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
-                        ),
-                        requestFields(
-                                fieldWithPath("userIdList").type(JsonFieldType.ARRAY).description("비즈니스프로필을 공유하려는 유저 식별자")
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
+                                parameterWithName("userId").description("초대할 유저 식별자")
                         )
                 ));
     }
@@ -253,22 +270,14 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 삭제 문서화")
     public void cancelShare() throws Exception {
-        BusinessProfileRequest.ShareOrExpel request = BusinessProfileRequest.ShareOrExpel.builder().userIdList(Collections.singletonList(1L)).build();
-
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/business/profile/{businessProfileId}/expel", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .characterEncoding("UTF-8")
-                .content(objectMapper.writeValueAsString(request)));
-
+                .delete("/api/business/profile/{businessProfileId}/expel/{userId}", 1, 2));
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("business-profile-share-cancel",
                         pathParameters(
-                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
-                        ),
-                        requestFields(
-                                fieldWithPath("userIdList").type(JsonFieldType.ARRAY).description("비즈니스프로필을 삭제하려는 유저 식별자")
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
+                                parameterWithName("userId").description("삭제할 유저의 식별자")
                         )
                 ));
     }
@@ -276,7 +285,8 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("권한 양도 문서화")
     public void transferOfAuthority() throws Exception {
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.post("/api/business/profile/{businessProfileId}/change/{userId}", 1, 1));
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/business/profile/{businessProfileId}/change/{userId}", 1, 1));
 
         results.andExpect(status().isOk())
                 .andDo(print())

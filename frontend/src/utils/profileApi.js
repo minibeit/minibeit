@@ -1,7 +1,7 @@
 import { withAuthInstance } from "./common";
 import { API_URLS } from "../constants";
 
-const { MY_USERINFO, EDIT_MY_USERINFO,GET_LIKE_LIST } = API_URLS;
+const { MY_USERINFO, EDIT_MY_USERINFO,GET_LIKE_LIST,GET_JOIN_LIST,DO_JOIN,DONOT_JOIN,GET_CANCEL_LIST,DELETE_CANCEL } = API_URLS;
 
 export const getMyInfo = async () => {
   return await withAuthInstance.get(MY_USERINFO);
@@ -40,4 +40,22 @@ export const editMyInfo = async (inputs,school, newImg,basicImg) => {
 export const getLikeListApi = async (page) => {
   console.log(page)
   return await withAuthInstance.get(GET_LIKE_LIST+"page="+page+"&size=6");
+};
+export const getJoinlistApi = async (page, state) => {
+  return await withAuthInstance.get(GET_JOIN_LIST+"?page="+page+"&size=3&status="+state);
+};
+
+export const getCancellistApi = async (page) => {
+  return await withAuthInstance.get(GET_CANCEL_LIST+"?page="+page+"&size=3");
+};
+
+export const deleteCancelApi = async (rejectPostId) => {
+  return await withAuthInstance.get(DELETE_CANCEL+rejectPostId);
+};
+
+export const doJoinApi = async (postDoDateId) => {
+  return await withAuthInstance.post(DO_JOIN+postDoDateId+"/finish");
+};
+export const doNotJoinApi = async (postDoDateId) => {
+  return await withAuthInstance.post(DONOT_JOIN+postDoDateId+"/apply/cancel");
 };

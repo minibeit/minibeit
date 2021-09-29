@@ -97,11 +97,7 @@ public class User extends BaseEntity {
         }
     }
 
-    public boolean postIsMine(Post post) {
-        return post.getCreatedBy().getId().equals(this.id);
-    }
-
-    public boolean businessProfileIsMine(BusinessProfile businessProfile) {
-        return businessProfile.getCreatedBy().getId().equals(this.getId());
+    public boolean isAdminInBusinessProfile(BusinessProfile businessProfile) {
+        return businessProfile.getAdmin().getId().equals(this.getId());
     }
 }

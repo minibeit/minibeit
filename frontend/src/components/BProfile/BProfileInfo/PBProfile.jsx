@@ -6,12 +6,12 @@ import { deleteBprofile } from "../../../utils/bprofileApi";
 import * as S from "../style";
 import { useHistory } from "react-router";
 import BProfileJoin from "../BProfileJoin";
+import BProfileEditCont from "../../BProfileEdit/BProfileEditCont";
 
 PBProfile.propTypes = {
   buserData: PropTypes.shape({
     contact: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
-    introduce: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     place: PropTypes.string.isRequired,
     avatar: PropTypes.string,
@@ -19,10 +19,10 @@ PBProfile.propTypes = {
 };
 
 export default function PBProfile({ buserData }) {
-  const history = useHistory();
   const [user, setUser] = useRecoilState(userState);
   const nickname = useRecoilValue(userState).name;
   const [modalSwitch, setModalSwitch] = useState(false);
+  const [modal2Switch, setModal2Switch] = useState(false);
   const doDelete = async () => {
     await deleteBprofile(buserData.id);
     setUser({ ...user, bpId: 0 });
@@ -32,38 +32,56 @@ export default function PBProfile({ buserData }) {
 
   return (
     <S.UserInfoContainer>
-      <S.BUserInfoContainer1>
-        <S.ImgBox>
-          {buserData.avatar !== null ? (
-            <S.UserImg src={buserData.avatar} />
-          ) : (
-            <S.UserImg src="/기본비즈니스프로필.jpeg" />
-          )}
-        </S.ImgBox>
-        <S.UserName>이름 : {buserData.name}</S.UserName>
-        <S.UserInfo>장소 : {buserData.place}</S.UserInfo>
-        <S.UserInfo>실험실 소개 : {buserData.introduce}</S.UserInfo>
-        <S.UserInfo>전화번호 : {buserData.contact}</S.UserInfo>
-      </S.BUserInfoContainer1>
-      <S.BUserInfoContainer2>
-        <S.BProfileEdit
-          onClick={() =>
-            history.push({
-              pathname: `/business/${buserData.id}/edit`,
-            })
-          }
-        >
-          수정하기
+      <S.ImgBox>
+        {buserData.avatar !== null ? (
+          <S.UserImg src={buserData.avatar} />
+        ) : (
+          <S.UserImg src="/기본비즈니스프로필.jpeg" />
+        )}
+      </S.ImgBox>
+      {buserData.admin ? (
+        <S.BProfileEdit onClick={() => setModal2Switch(true)}>
+          <p>수정하기</p>
         </S.BProfileEdit>
-        <S.BProfileDelete onClick={doDelete}>삭제하기</S.BProfileDelete>
-        <S.BPjoin onClick={() => setModalSwitch(true)}>소속 인원 목록</S.BPjoin>
-        {modalSwitch ? (
-          <BProfileJoin
-            businessId={buserData.id}
-            setModalSwitch={setModalSwitch}
-          />
-        ) : null}
-      </S.BUserInfoContainer2>
+      ) : null}
+      <S.UserInfoBox>
+        <S.UserInfo>
+          <p>이름</p>
+          <p>{buserData.name}</p>{" "}
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>담당자</p>
+          <p>{buserData.adminName}</p>
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>주소</p> <p>{buserData.place}</p>
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>소속 인원</p>
+          <p>{buserData.numberOfEmployees} 명</p>
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>전화번호 </p>
+          <p>{buserData.contact}</p>
+        </S.UserInfo>
+      </S.UserInfoBox>
+      {modal2Switch ? (
+        <BProfileEditCont
+          businessId={buserData.id}
+          setModal2Switch={setModal2Switch}
+        />
+      ) : null}
+      {modalSwitch ? (
+        <BProfileJoin
+          businessId={buserData.id}
+          setModalSwitch={setModalSwitch}
+        />
+      ) : null}
+      {buserData.admin ? (
+        <S.BPjoin onClick={() => setModalSwitch(true)}>
+          <p>소속 인원 목록</p>
+        </S.BPjoin>
+      ) : null}
     </S.UserInfoContainer>
   );
 }

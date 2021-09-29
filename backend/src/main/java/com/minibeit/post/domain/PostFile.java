@@ -1,8 +1,8 @@
 package com.minibeit.post.domain;
 
 import com.minibeit.avatar.domain.AvatarServer;
-import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.avatar.domain.AvatarType;
+import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.common.dto.SavedFile;
 import lombok.*;
 
@@ -37,12 +37,13 @@ public class PostFile extends BaseEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    public void setPost(Post post) {
+    private void setPost(Post post) {
         this.post = post;
+        post.getPostFileList().add(this);
     }
 
-    public static PostFile create(SavedFile file) {
-        return PostFile.builder()
+    public static PostFile create(Post post, SavedFile file) {
+        PostFile postFile = PostFile.builder()
                 .name(file.getName())
                 .type(file.getAvatarType())
                 .server(file.getAvatarServer())
@@ -52,5 +53,7 @@ public class PostFile extends BaseEntity {
                 .size(file.getSize())
                 .url(file.getPublicUrl())
                 .build();
+        postFile.setPost(post);
+        return postFile;
     }
 }

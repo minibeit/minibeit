@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { bprofileListGet, bprofileNew, deleteBprofile } from "../../../utils";
-import CreateBProfileModal from "../../Common/Modal/CreateBProfileModal";
-
+import AddIcon from "@mui/icons-material/Add";
 import * as S from "../../BProfile/style";
+import { BCreateCont } from "../../BProfileEdit";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function PBOtherProfile({ originalId }) {
   const [bprofiles, setbprofiles] = useState([]);
@@ -57,34 +58,27 @@ export default function PBOtherProfile({ originalId }) {
   };
   return (
     <S.BPContainer>
+      <S.BOtherHead>
+        <p>프로필 목록</p>
+      </S.BOtherHead>
       {modalSwitch ? (
-        <CreateBProfileModal
+        <BCreateCont
           setModalSwitch={setModalSwitch}
           CreateBProfile={CreateBProfile}
         />
       ) : null}
-      {bprofiles.length > 0 ? (
-        <S.BIContHead>
-          {" "}
-          <S.BIContTitle>접속할 비즈니스 프로필을 선택해주세요</S.BIContTitle>
-          <S.BIEdit onClick={editfunc}>{msg}</S.BIEdit>
-        </S.BIContHead>
-      ) : (
-        <S.BIContHead>
-          접속할 비즈니스 프로필이 존재하지 않습니다 비즈니스 프로필을
-          추가할까요?
-        </S.BIContHead>
-      )}
       {bprofiles.map((bprofile) => {
         if (parseInt(bprofile.id) !== originalId) {
           return (
             <div key={bprofile.id}>
-              <S.BIdelete
-                display={display}
-                onClick={async () => await doDelete(bprofile.id)}
-              >
-                삭제
-              </S.BIdelete>
+              {bprofile.admin ? (
+                <S.BIdelete
+                  display={display}
+                  onClick={async () => await doDelete(bprofile.id)}
+                >
+                  <CloseIcon />
+                </S.BIdelete>
+              ) : null}
               <S.BIeleCont onClick={async () => await goBProfile(bprofile.id)}>
                 <S.ImgBox>
                   {bprofile.avatar !== null ? (
@@ -93,13 +87,17 @@ export default function PBOtherProfile({ originalId }) {
                     <S.UserImg src="/기본비즈니스프로필.jpeg" />
                   )}
                 </S.ImgBox>
-                <S.BIeleName>{bprofile.name}</S.BIeleName>
+                <S.BIeleName>
+                  <p>{bprofile.name}</p>
+                </S.BIeleName>
               </S.BIeleCont>
             </div>
           );
         }
       })}
-      <S.BPbtn onClick={onClick}>비즈니스 프로필 생성하기</S.BPbtn>
+      <S.BPbtn onClick={onClick}>
+        <AddIcon />
+      </S.BPbtn>
     </S.BPContainer>
   );
 }

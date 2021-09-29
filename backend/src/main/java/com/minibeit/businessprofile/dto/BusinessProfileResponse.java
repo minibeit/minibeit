@@ -25,20 +25,22 @@ public class BusinessProfileResponse {
     public static class GetOne {
         private Long id;
         private String name;
+        private String adminName;
         private String place;
-        private String introduce;
         private String contact;
-        private boolean isMine;
+        private Integer numberOfEmployees;
         private String avatar;
+        private boolean isAdmin;
 
         public static BusinessProfileResponse.GetOne build(BusinessProfile businessProfile, User user) {
             GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(businessProfile.getId())
                     .name(businessProfile.getName())
+                    .adminName(businessProfile.getAdmin().getNickname())
                     .place(businessProfile.getPlace())
-                    .introduce(businessProfile.getIntroduce())
                     .contact(businessProfile.getContact())
-                    .isMine(user.businessProfileIsMine(businessProfile));
+                    .isAdmin(user.isAdminInBusinessProfile(businessProfile))
+                    .numberOfEmployees(businessProfile.getUserBusinessProfileList().size());
             if (businessProfile.getAvatar() != null) {
                 return getOneBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
             }
@@ -54,9 +56,13 @@ public class BusinessProfileResponse {
         private Long id;
         private String name;
         private String avatar;
+        private boolean isAdmin;
 
-        public static BusinessProfileResponse.GetList build(BusinessProfile businessProfile) {
-            GetListBuilder getListBuilder = GetList.builder().id(businessProfile.getId()).name(businessProfile.getName());
+        public static BusinessProfileResponse.GetList build(BusinessProfile businessProfile, User user) {
+            GetListBuilder getListBuilder = GetList.builder()
+                    .id(businessProfile.getId())
+                    .name(businessProfile.getName())
+                    .isAdmin(user.isAdminInBusinessProfile(businessProfile));
             if (businessProfile.getAvatar() != null) {
                 getListBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
             }

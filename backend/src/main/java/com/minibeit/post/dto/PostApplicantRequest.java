@@ -10,4 +10,12 @@ public class PostApplicantRequest {
     public static class ApplyReject {
         private String comment;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class AttendChange {
+        private Boolean isAttend;
+    }
 }

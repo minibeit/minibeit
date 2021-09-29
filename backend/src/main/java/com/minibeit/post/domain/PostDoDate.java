@@ -1,5 +1,6 @@
 package com.minibeit.post.domain;
 
+import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.common.domain.BaseEntity;
 import lombok.*;
 
@@ -19,6 +20,8 @@ public class PostDoDate extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Integer groupId;
+
     private LocalDateTime doDate;
 
     private boolean full;
@@ -26,6 +29,10 @@ public class PostDoDate extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "postDoDate")
     private List<PostApplicant> postApplicantList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "postDoDate")
+    private List<BusinessProfileReview> businessProfileReviewList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")
@@ -40,8 +47,8 @@ public class PostDoDate extends BaseEntity {
         this.full = this.post.getRecruitPeople() <= approvedPostApplicant.size();
     }
 
-    public static PostDoDate create(LocalDateTime doDate, Post post) {
-        PostDoDate postDoDate = PostDoDate.builder().doDate(doDate).full(false).build();
+    public static PostDoDate create(Integer groupId, LocalDateTime doDate, Post post) {
+        PostDoDate postDoDate = PostDoDate.builder().groupId(groupId).doDate(doDate).full(false).build();
         postDoDate.setPost(post);
         return postDoDate;
     }

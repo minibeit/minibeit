@@ -5,24 +5,29 @@ import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.businessprofile.dto.BusinessProfileReviewResponse;
 import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
 import com.minibeit.businessprofile.service.BusinessProfileReviewService;
+import com.minibeit.common.dto.PageDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,16 +36,24 @@ class BusinessProfileReviewControllerTest extends MvcTest {
     @MockBean
     private BusinessProfileReviewService businessProfileReviewService;
 
-    private BusinessProfileReview businessProfileReview;
+    private BusinessProfileReview businessProfileReview1;
+    private BusinessProfileReview businessProfileReview2;
 
     @BeforeEach
     public void setup() {
-        businessProfileReview = BusinessProfileReview.builder()
+        businessProfileReview1 = BusinessProfileReview.builder()
                 .id(1L)
                 .postTitle("실험 주제")
                 .content("실험실이 좋았습니다")
                 .time(60)
                 .doDate(LocalDateTime.of(2021, 9, 15, 9, 30))
+                .build();
+        businessProfileReview2 = BusinessProfileReview.builder()
+                .id(2L)
+                .postTitle("실험 주제2")
+                .content("보상이 느립니다.")
+                .time(120)
+                .doDate(LocalDateTime.of(2021, 9, 18, 9, 30))
                 .build();
     }
 
@@ -78,9 +91,51 @@ class BusinessProfileReviewControllerTest extends MvcTest {
     }
 
     @Test
-    @DisplayName("비즈니스프로필 후기 단건 조회")
+    @DisplayName("비즈니스프로필 후기 목록 조회")
     public void getOne() throws Exception {
-        BusinessProfileReviewResponse.GetOne response = BusinessProfileReviewResponse.GetOne.build(businessProfileReview);
+        List<BusinessProfileReview> businessProfileReviews = new ArrayList<>();
+        businessProfileReviews.add(businessProfileReview1);
+        businessProfileReviews.add(businessProfileReview2);
+        List<BusinessProfileReviewResponse.GetOne> collect = businessProfileReviews.stream().map(BusinessProfileReviewResponse.GetOne::build).collect(Collectors.toList());
+        PageDto pageDto = new PageDto(1, 5);
+
+        Page<BusinessProfileReviewResponse.GetOne> response = new PageImpl<>(collect, pageDto.of(), businessProfileReviews.size());
+        given(businessProfileReviewService.getList(any(), any())).willReturn(response);
+
+        ResultActions result = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/business/profile/{businessProfileId}/review/list", 1)
+                .param("page", "1")
+                .param("size", "5")
+        );
+
+        result.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-review-getList",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("page").description("조회할 페이지"),
+                                parameterWithName("size").description("조회할 사이즈")
+                        ),
+                        relaxedResponseFields(
+                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("후기 식별자"),
+                                fieldWithPath("content[].postTitle").type(JsonFieldType.STRING).description("게시물 제목"),
+                                fieldWithPath("content[].content").type(JsonFieldType.STRING).description("후기 내용"),
+                                fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("실험 참가 날짜"),
+                                fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
+                                fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("실험 마친 시간"),
+                                fieldWithPath("totalElements").description("전체 개수"),
+                                fieldWithPath("last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("totalPages").description("전체 페이지")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("비즈니스프로필 리뷰 목록 조회")
+    public void getList() throws Exception {
+        BusinessProfileReviewResponse.GetOne response = BusinessProfileReviewResponse.GetOne.build(businessProfileReview1);
         given(businessProfileReviewService.getOne(any())).willReturn(response);
 
         ResultActions result = mvc.perform(RestDocumentationRequestBuilders

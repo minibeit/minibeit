@@ -1,45 +1,31 @@
 package com.minibeit.post.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.minibeit.post.domain.ApplyStatus;
-import com.minibeit.user.domain.Gender;
-import com.querydsl.core.annotations.QueryProjection;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PostApplicantResponse {
-    @Getter
-    @NoArgsConstructor
-    public static class UserInfo {
-        private Long id;
-        private String name;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-        private LocalDate birth;
-        private Gender gender;
-        private String phoneNum;
-        private String job;
-        private ApplyStatus status;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
-        private LocalDateTime startTime;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
-        private LocalDateTime endTime;
 
-        @Builder
-        @QueryProjection
-        public UserInfo(Long id, String name, LocalDate birth, Gender gender, String phoneNum, String job, Integer time, ApplyStatus status, LocalDateTime startTime) {
-            this.id = id;
-            this.name = name;
-            this.birth = birth;
-            this.gender = gender;
-            this.phoneNum = phoneNum;
-            this.job = job;
-            this.status = status;
-            this.startTime = startTime;
-            this.endTime = startTime.plusMinutes(time);
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class ApplicantInfo {
+        private Long postDoDateId;
+        private List<PostApplicantDto.UserInfo> userInfoList;
+
+        public static List<PostApplicantResponse.ApplicantInfo> dtoToResponse(List<PostApplicantDto.UserInfo> applicantInfoList) {
+            Map<Long, List<PostApplicantDto.UserInfo>> collect = applicantInfoList.stream().collect(Collectors.groupingBy(PostApplicantDto.UserInfo::getPostDoDateId));
+            List<PostApplicantResponse.ApplicantInfo> result = new ArrayList<>();
+            for (Long postDoDateId : collect.keySet()) {
+                List<PostApplicantDto.UserInfo> applicantInfos = collect.get(postDoDateId);
+                PostApplicantResponse.ApplicantInfo userInfo = PostApplicantResponse.ApplicantInfo.builder().postDoDateId(postDoDateId).userInfoList(applicantInfos).build();
+                result.add(userInfo);
+            }
+            return result;
         }
     }
 }

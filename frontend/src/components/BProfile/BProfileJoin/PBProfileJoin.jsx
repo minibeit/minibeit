@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../../recoil/userState";
 import * as S from "../style";
 
 export default function PBProfileJoin({
@@ -10,6 +12,7 @@ export default function PBProfileJoin({
   const [editState, setEditState] = useState(false);
   const [assignState, setAssignState] = useState(false);
   const [cheifId, setCheifId] = useState();
+  const currentUser = useRecoilValue(userState).name;
 
   return (
     <>
@@ -84,7 +87,8 @@ export default function PBProfileJoin({
                       {user.nickname}
                     </S.BPuser>
                   )}
-                  {editState === false ? null : (
+                  {editState === false ? null : currentUser ===
+                    user.nickname ? null : (
                     <S.BPuserdelete
                       onClick={async (e) => {
                         e.preventDefault();

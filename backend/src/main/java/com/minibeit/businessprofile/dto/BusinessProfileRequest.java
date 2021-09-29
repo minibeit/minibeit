@@ -3,8 +3,6 @@ package com.minibeit.businessprofile.dto;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 public class BusinessProfileRequest {
     @Setter
     @Getter
@@ -14,7 +12,6 @@ public class BusinessProfileRequest {
     public static class Create {
         private String name;
         private String place;
-        private String introduce;
         private String contact;
         private MultipartFile avatar;
     }
@@ -27,17 +24,8 @@ public class BusinessProfileRequest {
     public static class Update {
         private String name;
         private String place;
-        private String introduce;
         private String contact;
         private MultipartFile avatar;
         private boolean avatarChanged;
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class ShareOrExpel {
-        private List<Long> userIdList;
     }
 }

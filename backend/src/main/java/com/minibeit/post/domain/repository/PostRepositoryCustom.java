@@ -22,7 +22,7 @@ public interface PostRepositoryCustom {
 
     Page<Post> findAllByLike(User user, Pageable pageable);
 
-    Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable of);
+    Page<PostResponse.GetMyCompletedList> findAllByMyCompleted(User user, Pageable of);
 
     Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus applyStatus, User user, Pageable of);
 }

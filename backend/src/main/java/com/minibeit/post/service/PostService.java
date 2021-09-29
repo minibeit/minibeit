@@ -7,10 +7,7 @@ import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundExc
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
-import com.minibeit.post.domain.repository.PostDoDateRepository;
-import com.minibeit.post.domain.repository.PostLikeRepository;
-import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
@@ -44,6 +41,7 @@ public class PostService {
     private final PostDoDateRepository postDoDateRepository;
     private final PostLikeRepository postLikeRepository;
     private final PostApplicantRepository postApplicantRepository;
+    private final RejectPostRepository rejectPostRepository;
 
     public PostResponse.OnlyId createInfo(PostRequest.CreateInfo request, User user) {
         permissionCheck(request.getBusinessProfileId(), user);
@@ -82,9 +80,14 @@ public class PostService {
     public void recruitmentCompleted(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(post.getBusinessProfile().getId(), user);
+        List<PostApplicant> postApplicantList = postApplicantRepository.findAllByApplyStatusIsWait(postId);
 
-        List<Long> applicantIdList = postApplicantRepository.findAllByApplyStatusIsWait(postId).stream().map(PostApplicant::getId).collect(Collectors.toList());
-        postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT, REJECT_MSG);
+        List<Long> applicantIdList = postApplicantList.stream().map(PostApplicant::getId).collect(Collectors.toList());
+        postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT);
+
+        List<RejectPost> rejectPostList = postApplicantList.stream()
+                .map(postApplicant -> RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), REJECT_MSG, postApplicant.getUser())).collect(Collectors.toList());
+        rejectPostRepository.saveAll(rejectPostList);
 
         post.completed();
     }
@@ -113,8 +116,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostResponse.GetMyApplyList> getListByApplyAndMyFinishedWithoutReview(User user, PageDto pageDto) {
-        return postRepository.findByApplyAndFinishedWithoutReview(user, pageDto.of());
+    public Page<PostResponse.GetMyCompletedList> getListByMyCompleteList(User user, PageDto pageDto) {
+        return postRepository.findAllByMyCompleted(user, pageDto.of());
     }
 
     @Transactional(readOnly = true)

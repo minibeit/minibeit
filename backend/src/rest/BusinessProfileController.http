@@ -11,10 +11,6 @@ Content-Disposition: form-data; name="place";
 
 고려대
 --boundary
-Content-Disposition: form-data; name="introduce";
-
-고려대 실험실 입니다!
---boundary
 Content-Disposition: form-data; name="contact";
 
 010-1234-1234

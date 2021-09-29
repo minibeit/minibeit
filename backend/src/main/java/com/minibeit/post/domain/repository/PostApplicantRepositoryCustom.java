@@ -5,6 +5,7 @@ import com.minibeit.post.dto.PostApplicantDto;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public interface PostApplicantRepositoryCustom {
     List<PostApplicantDto.UserInfo> findAllByPostAndDoDate(Long postId, LocalDate doDate);
@@ -12,4 +13,6 @@ public interface PostApplicantRepositoryCustom {
     List<PostApplicantDto.UserInfo> findAllByPostAndDoDateAndApprove(Long postId, LocalDate doDate);
 
     List<PostApplicant> findAllByApplyStatusIsWait(Long postId);
+
+    Optional<PostApplicant> findByPostDoDateIdAndUserIdWithPostDoDate(Long postDoDateId, Long userId);
 }

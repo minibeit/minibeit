@@ -3,6 +3,7 @@ CREATE TABLE `business_profile_review`
 (
     `id`                  BIGINT       NOT NULL AUTO_INCREMENT,
     `business_profile_id` BIGINT       NOT NULL,
+    `post_do_date_id`     BIGINT       NOT NULL,
     `post_title`          VARCHAR(100) NOT NULL,
     `content`             VARCHAR(255) NOT NULL,
     `time`                INTEGER      NOT NULL,

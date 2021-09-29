@@ -8,7 +8,12 @@ import "moment/locale/ko";
 
 import * as S from "../style";
 
-export default function PDateSelect({ recruit, setRecruit }) {
+export default function PDateSelect({
+  recruit,
+  setRecruit,
+  switchCalendar,
+  setSwitchCalendar,
+}) {
   const [group] = useState([
     { id: 1, color: "#0be881", dateList: [] },
     { id: 2, color: "#f7d794", dateList: [] },
@@ -85,22 +90,29 @@ export default function PDateSelect({ recruit, setRecruit }) {
       setCreatedGroup(createdGroup_cp);
     }
   };
-  console.log(createdGroup);
 
   return (
     <>
       <h2>정확한 실험 시간을 날짜마다 정해보세요</h2>
-
       <S.DateBox>
         <Calendar
           calendarType="US"
-          minDate={new Date(recruit["startDate"])}
-          maxDate={new Date(recruit["endDate"])}
+          minDate={
+            recruit["startDate"] !== null
+              ? new Date(recruit["startDate"])
+              : null
+          }
+          maxDate={
+            recruit["endDate"] !== null ? new Date(recruit["endDate"]) : null
+          }
           onClickDay={(day, e) => {
             if (selectGroup) {
               setGroupDateList(e, day);
             }
           }}
+          defaultValue={
+            recruit.startDate !== null ? new Date(recruit["startDate"]) : null
+          }
           tileDisabled={tileDisabled}
           minDetail="month"
           next2Label={null}
@@ -140,7 +152,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
       <S.TimeBtnBox>
         <>
           {selectGroup &&
-            selectGroup.dateList.map((a, i) => <span key={i}>{a}</span>)}
+            selectGroup.dateList.map((a, i) => <span key={i}>{a} </span>)}
         </>
         <>
           {selectGroup &&
@@ -162,6 +174,13 @@ export default function PDateSelect({ recruit, setRecruit }) {
               );
             })}
         </>
+        <button
+          onClick={() => {
+            setSwitchCalendar(!switchCalendar);
+          }}
+        >
+          저장
+        </button>
       </S.TimeBtnBox>
     </>
   );

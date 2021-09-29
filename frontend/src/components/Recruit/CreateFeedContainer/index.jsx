@@ -54,7 +54,6 @@ export default function CreateFeedContainer() {
     getbpList();
   }, []);
 
-  console.log(recruit);
   return (
     <>
       {bpList && (

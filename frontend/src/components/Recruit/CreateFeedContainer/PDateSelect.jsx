@@ -24,6 +24,8 @@ export default function PDateSelect({ recruit, setRecruit }) {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
 
+  const [switchCalendar, setSwitchCalendar] = useState(false);
+
   /* 모집인원 카운트 로직 */
   const changeHeadCount = (e) => {
     if (e.target.textContent === "-") {
@@ -228,7 +230,23 @@ export default function PDateSelect({ recruit, setRecruit }) {
           dateFormat="HH:mm"
         />
       </S.StartEndTimeBox>
-      <PTimeSelect recruit={recruit} setRecruit={setRecruit} />
+      <button
+        key={recruit}
+        disabled={startTime && endTime && startDate && endDate ? false : true}
+        onClick={() => {
+          setSwitchCalendar(!switchCalendar);
+        }}
+      >
+        {switchCalendar ? "접기" : "펼쳐보기"}
+      </button>
+      {switchCalendar && (
+        <PTimeSelect
+          recruit={recruit}
+          setRecruit={setRecruit}
+          setSwitchCalendar={setSwitchCalendar}
+          switchCalendar={switchCalendar}
+        />
+      )}
     </>
   );
 }

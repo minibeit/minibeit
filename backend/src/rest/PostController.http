@@ -88,7 +88,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-DELETE {{apiUrl}}/post/2
+DELETE {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###
@@ -108,7 +108,7 @@ Authorization: {{authorizationToken}}
 GET {{apiUrl}}/post/apply/list?page=1&size=4&status=APPROVE
 Authorization: {{authorizationToken}}
 ###
-GET {{apiUrl}}/post/write/review/list?page=1&size=3
+GET {{apiUrl}}/post/myComplete/list?page=1&size=10
 Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/business/profile/1/list?page=1&size=5&status=COMPLETE

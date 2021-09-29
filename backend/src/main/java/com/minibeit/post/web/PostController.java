@@ -90,9 +90,9 @@ public class PostController {
         return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
     }
 
-    @GetMapping("/writable/review/list")
-    public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyMyFinishedWithoutReview(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
-        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyAndMyFinishedWithoutReview(customUserDetails.getUser(), pageDto);
+    @GetMapping("/myComplete/list")
+    public ResponseEntity<Page<PostResponse.GetMyCompletedList>> getListByMyCompleteList(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<PostResponse.GetMyCompletedList> response = postService.getListByMyCompleteList(customUserDetails.getUser(), pageDto);
         return ResponseEntity.ok().body(response);
     }
 

@@ -116,8 +116,8 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostResponse.GetMyApplyList> getListByApplyAndMyFinishedWithoutReview(User user, PageDto pageDto) {
-        return postRepository.findByApplyAndFinishedWithoutReview(user, pageDto.of());
+    public Page<PostResponse.GetMyCompletedList> getListByMyCompleteList(User user, PageDto pageDto) {
+        return postRepository.findAllByMyCompleted(user, pageDto.of());
     }
 
     @Transactional(readOnly = true)

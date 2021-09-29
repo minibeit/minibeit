@@ -52,7 +52,7 @@ public class PostApplicant extends BaseEntity {
     }
 
     public boolean writeReviewIsPossible() {
-        return this.applyStatus.equals(ApplyStatus.APPROVE) && !this.writeReview && this.businessFinish;
+        return this.applyStatus.equals(ApplyStatus.APPROVE) && !this.writeReview && this.businessFinish && this.myFinish;
     }
 
     public void updateMyFinish() {

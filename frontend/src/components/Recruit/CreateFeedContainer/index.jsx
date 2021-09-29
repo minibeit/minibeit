@@ -6,7 +6,6 @@ import { bprofileListGet } from "../../../utils";
 import PSelectBProfile from "./PSelectBProfile";
 import PSchoolSelect from "./PSchoolSelect";
 import PDateSelect from "./PDateSelect";
-import PTimeSelect from "./PTimeSelect";
 import PCategorySelect from "./PCategorySelect";
 import PInfoData from "./PInfoData";
 import PImgAndAddress from "./PImgAndAddress";
@@ -67,10 +66,6 @@ export default function CreateFeedContainer() {
       )}
       <PSchoolSelect recruit={recruit} setRecruit={setRecruit} />
       <PDateSelect recruit={recruit} setRecruit={setRecruit} />
-      {recruit.doDateList && (
-        <PTimeSelect recruit={recruit} setRecruit={setRecruit} />
-      )}
-
       <PCategorySelect recruit={recruit} setRecruit={setRecruit} />
       <PInfoData recruit={recruit} setRecruit={setRecruit} />
       <PImgAndAddress recruit={recruit} setRecruit={setRecruit} />

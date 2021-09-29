@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import Calendar from "react-calendar";
 import "../react-calendar.css";
@@ -9,6 +9,8 @@ import "moment/locale/ko";
 import * as S from "../style";
 
 export default function PDateSelect({ recruit, setRecruit }) {
+  const { doTimeList } = recruit;
+
   const [group, setGroup] = useState([
     { id: 1, color: "#0be881", dateList: [] },
     { id: 2, color: "#f7d794", dateList: [] },
@@ -16,7 +18,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
     { id: 4, color: "#574b90", dateList: [] },
     { id: 5, color: "#63cdda", dateList: [] },
   ]);
-  const [groupBtn, setGroupBtn] = useState([]);
+  const [createdGroup, setCreatedGroup] = useState([]);
   const [selectGroup, setSelectGroup] = useState();
 
   /* 제외된 날짜를 block해주는 로직 */
@@ -31,30 +33,24 @@ export default function PDateSelect({ recruit, setRecruit }) {
 
   /* 선택한 날짜를 그룹에 추가&삭제하는 로직 */
   const setGroupDateList = (e, day) => {
-    const group_cp = [...group];
+    const copy = [...createdGroup];
     const dayString = moment(day).format("YYYY-MM-DD");
-    for (var i = 0; i < group_cp.length; i++) {
+    for (var i = 0; i < copy.length; i++) {
       // 클릭했을 때 이미 날짜가 그룹에 속해있는 경우
-      if (group_cp[i].dateList.includes(dayString)) {
+      if (copy[i].dateList.includes(dayString)) {
         // 지금 선택되어있는 그룹과 같은 그룹일 경우 삭제
-        if (selectGroup.id === group_cp[i].id) {
-          group_cp[i].dateList.splice(
-            group_cp[i].dateList.indexOf(dayString),
-            1
-          );
+        if (selectGroup.id === copy[i].id) {
+          copy[i].dateList.splice(copy[i].dateList.indexOf(dayString), 1);
           // 지금 선택되어있는 그룹과 다른 그룹일 경우 그룹 변경
         } else {
-          group_cp[i].dateList.splice(
-            group_cp[i].dateList.indexOf(dayString),
-            1
-          );
+          copy[i].dateList.splice(copy[i].dateList.indexOf(dayString), 1);
         }
         // 클릭했을 때 날짜가 어느 그룹에도 속해있지 않을 경우
-      } else if (selectGroup.id === group_cp[i].id) {
-        group_cp[i].dateList.push(dayString);
+      } else if (selectGroup.id === copy[i].id) {
+        copy[i].dateList.push(dayString);
       }
     }
-    setGroup(group_cp);
+    setCreatedGroup(copy);
   };
 
   /* 날짜가 그룹에 이미 속해있을 경우 속해있는 그룹의 색을 표시해주는 로직 */
@@ -73,20 +69,15 @@ export default function PDateSelect({ recruit, setRecruit }) {
       }
     }
   };
-
-  const createTimeArr = (startTime, endTime, doTime) => {
-    const startMoment = moment(startTime, "HH:mm");
-    const endMoment = moment(endTime, "HH:mm").subtract(doTime, "minutes");
-    const timeArr = [];
-    while (startMoment <= endMoment) {
-      timeArr.push(
-        `${startMoment.format("HH:mm")}~${startMoment
-          .add(doTime, "minutes")
-          .format("HH:mm")}`
-      );
+  const changeTime = (e) => {
+    console.log(e.target.checked);
+    if (e.target.checked) {
+      console.log(e.target.nextSibling.textContent, "날짜에 추가");
+    } else {
+      console.log(e.target.nextSibling.textContent, "날짜에서 빼기");
     }
-    return timeArr;
   };
+  console.log(createdGroup);
 
   return (
     <>
@@ -113,16 +104,16 @@ export default function PDateSelect({ recruit, setRecruit }) {
       <S.GroupBox>
         <S.GroupBtn
           onClick={() => {
-            if (groupBtn.length < 5) {
-              setGroupBtn([...groupBtn, group[groupBtn.length]]);
+            if (createdGroup.length < 5) {
+              setCreatedGroup([...createdGroup, group[createdGroup.length]]);
             } else {
-              alert("그룹은 최대 5개 입니다.");
+              alert(`그룹은 최대 ${group.length}개 입니다.`);
             }
           }}
         >
           +
         </S.GroupBtn>
-        {groupBtn.map((a) => {
+        {createdGroup.map((a) => {
           return (
             <S.GroupBtn
               onClick={() => {
@@ -140,6 +131,22 @@ export default function PDateSelect({ recruit, setRecruit }) {
         <>
           {selectGroup &&
             selectGroup.dateList.map((a, i) => <span key={i}>{a}</span>)}
+        </>
+        <>
+          {selectGroup &&
+            doTimeList &&
+            doTimeList.map((a, i) => {
+              return (
+                <div key={i}>
+                  <input
+                    type="checkbox"
+                    id={`check_${a}`}
+                    onClick={changeTime}
+                  />
+                  <label htmlFor={`check_${a}`}>{a}</label>
+                </div>
+              );
+            })}
         </>
       </S.TimeBtnBox>
     </>

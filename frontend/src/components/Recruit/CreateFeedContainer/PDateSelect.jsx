@@ -6,11 +6,12 @@ import { CalendarDay, DateRangePicker, SingleDatePicker } from "react-dates";
 import "../react-dates.css";
 import moment from "moment";
 import "moment/locale/ko";
+import PTimeSelect from "./PTimeSelect";
 
 import * as S from "../style";
 
 export default function PDateSelect({ recruit, setRecruit }) {
-  const { startDate, endDate, doDateList, exceptDateList } = recruit;
+  const { startDate, endDate, doDateList, exceptDateList, doTime } = recruit;
 
   /* range calendar state */
   const [focusedInput, setFocusedInput] = useState(null);
@@ -91,6 +92,26 @@ export default function PDateSelect({ recruit, setRecruit }) {
       setRecruit(copy);
     }
   };
+
+  const createTimeArr = (startTime, endTime, doTime) => {
+    const startMoment = moment(startTime, "HH:mm");
+    const endMoment = moment(endTime, "HH:mm");
+    const timeArr = [];
+    while (startMoment <= endMoment) {
+      timeArr.push(
+        `${startMoment.format("HH:mm")}~${startMoment
+          .add(doTime, "minutes")
+          .format("HH:mm")}`
+      );
+    }
+    const copy = recruit;
+    copy.doTimeList = timeArr;
+    setRecruit(copy);
+  };
+
+  useEffect(() => {
+    createTimeArr(startTime, endTime, doTime);
+  });
 
   return (
     <>
@@ -207,6 +228,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
           dateFormat="HH:mm"
         />
       </S.StartEndTimeBox>
+      <PTimeSelect recruit={recruit} setRecruit={setRecruit} />
     </>
   );
 }

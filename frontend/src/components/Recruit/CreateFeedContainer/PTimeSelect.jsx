@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Calendar from "react-calendar";
 import "../react-calendar.css";
@@ -9,9 +9,7 @@ import "moment/locale/ko";
 import * as S from "../style";
 
 export default function PDateSelect({ recruit, setRecruit }) {
-  const { doTimeList } = recruit;
-
-  const [group, setGroup] = useState([
+  const [group] = useState([
     { id: 1, color: "#0be881", dateList: [] },
     { id: 2, color: "#f7d794", dateList: [] },
     { id: 3, color: "#cf6a87", dateList: [] },
@@ -69,12 +67,22 @@ export default function PDateSelect({ recruit, setRecruit }) {
       }
     }
   };
+
+  /* 그룹에 따라서 시간을 제외시키거나 추가시키는 로직 */
   const changeTime = (e) => {
-    console.log(e.target.checked);
+    const date = e.target.nextSibling.textContent;
+    const selectGroup_cp = { ...selectGroup };
+    const createdGroup_cp = [...createdGroup];
     if (e.target.checked) {
-      console.log(e.target.nextSibling.textContent, "날짜에 추가");
+      selectGroup_cp.timeList.push(date);
+      createdGroup_cp[selectGroup_cp.id - 1].timeList = selectGroup_cp.timeList;
+      setSelectGroup(selectGroup_cp);
+      setCreatedGroup(createdGroup_cp);
     } else {
-      console.log(e.target.nextSibling.textContent, "날짜에서 빼기");
+      selectGroup_cp.timeList.splice(selectGroup_cp.timeList.indexOf(date), 1);
+      createdGroup_cp[selectGroup_cp.id - 1].timeList = selectGroup_cp.timeList;
+      setSelectGroup(selectGroup_cp);
+      setCreatedGroup(createdGroup_cp);
     }
   };
   console.log(createdGroup);
@@ -105,7 +113,9 @@ export default function PDateSelect({ recruit, setRecruit }) {
         <S.GroupBtn
           onClick={() => {
             if (createdGroup.length < 5) {
-              setCreatedGroup([...createdGroup, group[createdGroup.length]]);
+              const copy = { ...group[createdGroup.length] };
+              copy.timeList = [...recruit.doTimeList];
+              setCreatedGroup([...createdGroup, copy]);
             } else {
               alert(`그룹은 최대 ${group.length}개 입니다.`);
             }
@@ -134,14 +144,18 @@ export default function PDateSelect({ recruit, setRecruit }) {
         </>
         <>
           {selectGroup &&
-            doTimeList &&
-            doTimeList.map((a, i) => {
+            recruit.doTimeList.map((a, i) => {
               return (
-                <div key={i}>
+                <div key={`${selectGroup.id}_${i}`}>
                   <input
                     type="checkbox"
                     id={`check_${a}`}
                     onClick={changeTime}
+                    defaultChecked={
+                      createdGroup[selectGroup.id - 1].timeList.includes(a)
+                        ? true
+                        : false
+                    }
                   />
                   <label htmlFor={`check_${a}`}>{a}</label>
                 </div>

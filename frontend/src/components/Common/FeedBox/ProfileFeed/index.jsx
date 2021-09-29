@@ -50,7 +50,7 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
   const doJoin = async () => {
     await doJoinApi(feedInfo.postDoDateId)
       .then((res) => {
-        setModalSwitch(true);
+        console.log(res);
       })
       // 만일 에러뜨면 아직 실험 날짜가 오늘날짜보다 이후라서 그럼
       .catch((err) => console.log(err));
@@ -93,15 +93,15 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
       {allow ? (
         <S.BtnCont>
           <S.FeedBtn
-            onClick={async (e) => {
-              e.preventDefault();
-              await doJoin();
+            onClick={async () => {
+              setModalSwitch(true);
             }}
           >
             <p>참여완료</p>
           </S.FeedBtn>
           {modalSwitch ? (
             <ReviewModal
+              doJoin={doJoin}
               setModalSwitch={setModalSwitch}
               state="NEW"
               postInfo={postInfo}

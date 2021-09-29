@@ -127,6 +127,7 @@ export const PrightTab = styled.div`
   display: flex;
   min-width: 371px;
   width: 100%;
+  margin-bottom: 21px;
 `;
 export const PrightTabele = styled.div`
   padding: 0px 9px;

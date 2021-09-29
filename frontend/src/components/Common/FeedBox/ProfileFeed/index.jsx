@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { doJoinApi, doNotJoinApi } from "../../../../utils/profileApi";
+import { doJoinApi, doNotJoinApi, deleteCancelApi } from "../../../../utils";
 import ReviewModal from "../../ReviewModal";
 import * as S from "../style";
 
@@ -10,6 +10,7 @@ export default function ProfileFeed({
   finish,
   feedInfo,
   getJoinlist,
+  getCancellist,
   tag,
 }) {
   return (
@@ -33,7 +34,10 @@ export default function ProfileFeed({
             finish ? (
               <FinishFeedBlock feedInfo={feedInfo} />
             ) : (
-              <CancelFeedBlock feedInfo={feedInfo} />
+              <CancelFeedBlock
+                getCancellist={getCancellist}
+                feedInfo={feedInfo}
+              />
             )
           ) : null}
         </S.FeedContent>
@@ -74,16 +78,16 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
     <>
       <S.FeedDateNum>
         <p>실험날짜</p>
-        <p> {feedInfo.doDate}</p>
-        <p>/실험실 번호 </p>
+        <p> {feedInfo.doDate} /</p>
+        <p>실험실 번호 </p>
         <p> {feedInfo.contact}</p>
       </S.FeedDateNum>
       <S.FeedTimeCheck>
         <p>실험시간 </p>
         <p>
-          {feedInfo.startTime}~{feedInfo.endTime}
+          {feedInfo.startTime}~{feedInfo.endTime} /
         </p>
-        <p> / 조건 유무 </p>
+        <p> 조건 유무 </p>
         <p> {feedInfo.recruitCondition ? "있음" : "없음"}</p>
       </S.FeedTimeCheck>
       {allow ? (
@@ -135,11 +139,26 @@ function FinishFeedBlock({ feedInfo }) {
   );
 }
 
-function CancelFeedBlock({ feedInfo }) {
+function CancelFeedBlock({ feedInfo, getCancellist }) {
+  const doDelete = async () => {
+    await deleteCancelApi(feedInfo.id)
+      .then(() => getCancellist())
+      .catch((err) => console.log(err));
+  };
   return (
     <>
-      <S.Over></S.Over>
-      <S.FeedBtn>삭제하기</S.FeedBtn>
+      <S.Over>
+        <p>반려사유</p>
+        <p>{feedInfo.rejectComment}</p>
+      </S.Over>
+      <S.FeedBtn
+        onClick={async (e) => {
+          e.preventDefault();
+          await doDelete();
+        }}
+      >
+        <p>삭제하기</p>
+      </S.FeedBtn>
     </>
   );
 }

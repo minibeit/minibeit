@@ -43,5 +43,7 @@ const API_URLS = {
   CANCEL_ONE :"/api/post/",
   REJECT_ONE :"/api/post/",
   SET_ATTEND :"/api/post/",
+  GET_CANCEL_LIST : "/api/rejectPost/list",
+  DELETE_CANCEL:"/api/rejectPost/",
 };
 export default API_URLS;

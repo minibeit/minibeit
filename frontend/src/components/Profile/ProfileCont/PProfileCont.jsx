@@ -47,7 +47,7 @@ export default function PProfileCont() {
           ) : tabIndex === 3 ? (
             <div>완료 실험 리스트</div>
           ) : tabIndex === 4 ? (
-            <div>반려 실험 리스트</div>
+            <JoinListBox state="CANCEL" />
           ) : null}
         </S.PrightBox>
       </S.PTabContent>

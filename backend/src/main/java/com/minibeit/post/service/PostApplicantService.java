@@ -2,13 +2,11 @@ package com.minibeit.post.service;
 
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.ApplyStatus;
-import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostApplicant;
-import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.dto.PostApplicantDto;
 import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostApplicantResponse;
@@ -30,6 +28,7 @@ public class PostApplicantService {
     private final PostDoDateRepository postDoDateRepository;
     private final PostApplicantRepository postApplicantRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
+    private final RejectPostRepository rejectPostRepository;
 
     public void apply(Long postId, Long postDoDateId, User user) {
         PostDoDate postDoDate = postDoDateRepository.findById(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
@@ -77,9 +76,12 @@ public class PostApplicantService {
     public void applyReject(Long postId, Long postDoDateId, Long userId, PostApplicantRequest.ApplyReject request, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(user, post);
-        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
+        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDate(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
-        postApplicant.updateStatusReject(request.getComment());
+        postApplicant.updateStatusReject();
+
+        RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getComment(), postApplicant.getUser());
+        rejectPostRepository.save(rejectPost);
     }
 
     public void applyCancel(Long postDoDateId, User user) {

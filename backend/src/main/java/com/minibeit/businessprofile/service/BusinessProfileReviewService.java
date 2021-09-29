@@ -38,7 +38,8 @@ public class BusinessProfileReviewService {
             throw new PermissionException();
         }
         postApplicant.updateWriteReview();
-        BusinessProfileReview businessProfileReview = BusinessProfileReview.create(post.getBusinessProfile(), request);
+
+        BusinessProfileReview businessProfileReview = BusinessProfileReview.create(postApplicant.getPostDoDate(), post.getBusinessProfile(), request);
         BusinessProfileReview savedReview = businessProfileReviewRepository.save(businessProfileReview);
         return BusinessProfileReviewResponse.ReviewId.build(savedReview);
     }

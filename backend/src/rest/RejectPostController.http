@@ -1,0 +1,6 @@
+GET {{apiUrl}}/rejectPost/list?page=1&size=6
+Authorization: {{authorizationToken}}
+
+###
+DELETE {{apiUrl}}/rejectPost/1
+Authorization: {{authorizationToken}}

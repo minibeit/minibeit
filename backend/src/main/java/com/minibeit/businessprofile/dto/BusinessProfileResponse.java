@@ -27,7 +27,6 @@ public class BusinessProfileResponse {
         private String name;
         private String adminName;
         private String place;
-        private String introduce;
         private String contact;
         private Integer numberOfEmployees;
         private String avatar;
@@ -39,7 +38,6 @@ public class BusinessProfileResponse {
                     .name(businessProfile.getName())
                     .adminName(businessProfile.getAdmin().getNickname())
                     .place(businessProfile.getPlace())
-                    .introduce(businessProfile.getIntroduce())
                     .contact(businessProfile.getContact())
                     .isAdmin(user.isAdminInBusinessProfile(businessProfile))
                     .numberOfEmployees(businessProfile.getUserBusinessProfileList().size());

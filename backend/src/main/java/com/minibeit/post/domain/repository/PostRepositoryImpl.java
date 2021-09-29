@@ -6,6 +6,7 @@ import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.dto.QPostResponse_GetMyApplyList;
+import com.minibeit.post.dto.QPostResponse_GetMyCompletedList;
 import com.minibeit.user.domain.User;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -22,6 +23,7 @@ import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.minibeit.businessprofile.domain.QBusinessProfileReview.businessProfileReview;
 import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostApplicant.postApplicant;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
@@ -137,7 +139,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(post.postLikeList, postLike)
                 .where(postLike.createdBy.eq(user))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .limit(pageable.getPageSize())
+                .orderBy(post.id.desc());
 
         QueryResults<Post> results = query.fetchResults();
 
@@ -145,22 +148,22 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable pageable) {
-        JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue(), postApplicant.businessFinish
+    public Page<PostResponse.GetMyCompletedList> findAllByMyCompleted(User user, Pageable pageable) {
+        JPAQuery<PostResponse.GetMyCompletedList> query = queryFactory.select(new QPostResponse_GetMyCompletedList(
+                        post.id, postDoDate.id, post.title, businessProfileReview.id, businessProfileReview.content
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)
+                .leftJoin(postDoDate.businessProfileReviewList, businessProfileReview).on(businessProfileReview.createdBy.eq(user))
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
                         .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE)
                                 .and(postApplicant.myFinish.isTrue())
-                                .and(postApplicant.businessFinish.isTrue())
-                                .and(postApplicant.writeReview.isFalse())))
+                                .and(postApplicant.businessFinish.isTrue())))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
-        QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
+        QueryResults<PostResponse.GetMyCompletedList> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }

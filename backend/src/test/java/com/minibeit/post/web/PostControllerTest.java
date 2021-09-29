@@ -59,7 +59,7 @@ class PostControllerTest extends MvcTest {
 
     @BeforeEach
     public void setup() {
-        businessProfile = BusinessProfile.builder().id(1L).name("동그라미 실험실").contact("010-1234-1234").introduce("동그라미 실험실입니다.").place("고려대").avatar(Avatar.builder().id(1L).url("avatar url").build()).build();
+        businessProfile = BusinessProfile.builder().id(1L).name("동그라미 실험실").contact("010-1234-1234").place("고려대").avatar(Avatar.builder().id(1L).url("avatar url").build()).build();
         user = User.builder().id(1L).name("동그라미").build();
         post1 = Post.builder()
                 .id(1L)
@@ -295,7 +295,6 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("businessProfileInfo.avatar").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 이미지"),
                                 fieldWithPath("businessProfileInfo.contact").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 연락처"),
                                 fieldWithPath("businessProfileInfo.address").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 주소"),
-                                fieldWithPath("businessProfileInfo.introduce").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 소개"),
                                 fieldWithPath("isLike").type(JsonFieldType.BOOLEAN).description("자신이 해당 게시물에 즐겨찾기를 한 상태라면 true 아니면 false"),
                                 fieldWithPath("isMine").type(JsonFieldType.BOOLEAN).description("게시물이 자신이 것인지")
                         )
@@ -475,55 +474,54 @@ class PostControllerTest extends MvcTest {
     }
 
     @Test
-    @DisplayName("자신이 후기 작성할 수 있는 게시물 목록 조회 (status = APPROVE, finish=true)")
+    @DisplayName("자신이 완료한 게시물 목록 조회")
     public void getListByApplyAndFinishedWithoutReview() throws Exception {
-        List<PostResponse.GetMyApplyList> response = new ArrayList<>();
-        PostResponse.GetMyApplyList approveAndWaitList1 = PostResponse.GetMyApplyList.builder()
-                .id(1L)
-                .contact("010-1232-4568")
+        List<PostResponse.GetMyCompletedList> response = new ArrayList<>();
+        PostResponse.GetMyCompletedList getMyCompletedList1 = PostResponse.GetMyCompletedList.builder()
+                .postId(1L)
                 .title("간단한 실험")
-                .time(60)
-                .doDate(LocalDateTime.of(2021, 9, 10, 9, 30))
-                .recruitCondition(true)
                 .postDoDateId(1L)
-                .status(ApplyStatus.APPROVE.name())
+                .reviewId(1L)
+                .review("내가 작성한 첫번째 후기")
                 .build();
-        PostResponse.GetMyApplyList approveAndWaitList2 = PostResponse.GetMyApplyList.builder()
-                .id(2L)
-                .contact("010-1232-4568")
-                .title("복잡한 실험")
-                .time(120)
-                .doDate(LocalDateTime.of(2021, 9, 10, 12, 30))
-                .recruitCondition(true)
+        PostResponse.GetMyCompletedList getMyCompletedList2 = PostResponse.GetMyCompletedList.builder()
+                .postId(2L)
+                .title("간단한 실험2")
                 .postDoDateId(2L)
-                .status(ApplyStatus.APPROVE.name())
+                .reviewId(2L)
+                .review("내가 작성한 두번째 후기")
                 .build();
-        response.add(approveAndWaitList1);
-        response.add(approveAndWaitList2);
-        Page<PostResponse.GetMyApplyList> postPage = new PageImpl<>(response, PageRequest.of(1, 6), postList.size());
-        given(postService.getListByApplyAndMyFinishedWithoutReview(any(), any())).willReturn(postPage);
+        PostResponse.GetMyCompletedList getMyCompletedList3 = PostResponse.GetMyCompletedList.builder()
+                .postId(2L)
+                .title("간단한 실험2")
+                .postDoDateId(2L)
+                .reviewId(3L)
+                .review("내가 작성한 세번째 후기")
+                .build();
+        response.add(getMyCompletedList1);
+        response.add(getMyCompletedList2);
+        response.add(getMyCompletedList3);
+        Page<PostResponse.GetMyCompletedList> postPage = new PageImpl<>(response, PageRequest.of(1, 6), postList.size());
+        given(postService.getListByMyCompleteList(any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/writable/review/list")
+                .get("/api/post/myComplete/list")
                 .param("page", "1")
                 .param("size", "3"));
 
         results.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("post-getList-apply-approve-finish",
+                .andDo(document("post-myCompleted-list",
                         requestParameters(
                                 parameterWithName("page").description("조회할 페이지"),
                                 parameterWithName("size").description("조회할 사이즈")
                         ),
                         relaxedResponseFields(
-                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("content[].postId").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("content[].contact").type(JsonFieldType.STRING).description("게시물 연락처"),
-                                fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("게시물 조건 유무"),
-                                fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
-                                fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
-                                fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
-                                fieldWithPath("content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
+                                fieldWithPath("content[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 시작 시간 식별자"),
+                                fieldWithPath("content[].reviewId").description("리뷰 식별자 (없다면 null)"),
+                                fieldWithPath("content[].review").description("리뷰 내용 (없다면 null)"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")
@@ -581,7 +579,7 @@ class PostControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("post-deleteOne",
                         pathParameters(
-                                parameterWithName("postId").description("삭제할 게시물 프로필 식별자")
+                                parameterWithName("postId").description("삭제할 게시물 식별자")
                         )
                 ));
     }

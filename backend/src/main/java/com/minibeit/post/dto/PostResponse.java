@@ -3,6 +3,7 @@ package com.minibeit.post.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import com.querydsl.core.annotations.QueryProjection;
@@ -187,6 +188,34 @@ public class PostResponse {
             this.endTime = doDate.plusMinutes(time);
             this.status = status;
             this.finish = endTime.isBefore(LocalDateTime.now()) && businessFinish && status.equals(ApplyStatus.APPROVE.name());
+        }
+    }
+
+    @Getter
+    @NoArgsConstructor
+    public static class GetMyCompletedList {
+        private Long postId;
+        private Long postDoDateId;
+        private String title;
+        private Long reviewId;
+        private String review;
+
+        public static PostResponse.GetMyCompletedList build(PostApplicant postApplicant) {
+            return GetMyCompletedList.builder()
+                    .postId(postApplicant.getPostDoDate().getPost().getId())
+                    .postDoDateId(postApplicant.getPostDoDate().getId())
+                    .title(postApplicant.getPostDoDate().getPost().getTitle())
+                    .build();
+        }
+
+        @Builder
+        @QueryProjection
+        public GetMyCompletedList(Long postId, Long postDoDateId, String title, Long reviewId, String review) {
+            this.postId = postId;
+            this.postDoDateId = postDoDateId;
+            this.title = title;
+            this.reviewId = reviewId;
+            this.review = review;
         }
     }
 

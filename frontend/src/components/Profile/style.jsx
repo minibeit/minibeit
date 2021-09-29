@@ -138,6 +138,11 @@ export const PrightTabele = styled.div`
       props.tabIndex === props.index ? "2px solid blue" : null};
   }
 `;
+
+export const PrightTopBox = styled.div`
+  display: flex;
+`;
+export const PFavorite = styled.div``;
 export const ModalBackground = styled.div`
   position: fixed;
   top: 0;

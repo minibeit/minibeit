@@ -93,7 +93,15 @@ export const BtnCont = styled.div`
   display: flex;
 `;
 
-export const FeedBookmark = styled.div``;
+export const FeedBookmark = styled.div`
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-bottom: 20px;
+  & > p {
+    margin: 0 5px;
+  }
+`;
 export const FeedBookmarkCont = styled.div``;
 export const FeedWrap = styled.div``;
 export const Review = styled.div``;

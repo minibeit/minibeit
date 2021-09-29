@@ -3,10 +3,10 @@ import AddIcon from "@mui/icons-material/Add";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { bprofileListGet, bprofileNew, deleteBprofile } from "../../../utils";
-
 import * as S from "../../BProfile/style";
 import { BCreateCont } from "../../BProfileEdit";
 import CloseIcon from "@mui/icons-material/Close";
+
 export default function PBProfileSection() {
   const [bprofiles, setbprofiles] = useState([]);
   const [modalSwitch, setModalSwitch] = useState(false);

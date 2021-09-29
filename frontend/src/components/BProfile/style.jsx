@@ -1,7 +1,13 @@
 import styled from "styled-components";
 
 export const UserInfoContainer = styled.div`
-  text-align: center;
+  display: flex;
+  height: 100%;
+  max-height: 518px;
+  justify-content: space-between;
+  max-width: 408px;
+  flex-direction: column;
+  align-items: center;
 `;
 export const BUserInfoContainer1 = styled.div`
   text-align: center;
@@ -9,16 +15,57 @@ export const BUserInfoContainer1 = styled.div`
 export const BUserInfoContainer2 = styled.div`
   text-align: center;
 `;
-export const BProfileDelete = styled.div``;
-export const BProfileEdit = styled.div``;
+export const BProfileDelete = styled.div`
+  width: 57px;
+  cursor: pointer;
+  padding: 4px 7px;
+  background: white;
+  border-radius: 8px;
+`;
+export const BProfileEdit = styled.div`
+  width: 57px;
+  cursor: pointer;
+  padding: 4px 7px;
+  background: white;
+  border-radius: 8px;
+`;
 export const BPuser = styled.div``;
 export const BPuser2 = styled.div`
   color: red;
 `;
-export const BPjoin = styled.div``;
+export const BPjoin = styled.div`
+  & > p {
+    white-space: pre;
+    color: white;
+    background: blue;
+
+    padding: 13px 96px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+`;
 export const BPuserdelete = styled.div``;
-export const UserName = styled.h3``;
-export const UserInfo = styled.p``;
+
+export const UserInfoBox = styled.div`
+  max-width: 248px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 17px 20px 17px;
+  border-radius: 8px;
+  margin: 11px 0;
+  width: 100%;
+  background: white;
+`;
+export const UserInfo = styled.div`
+  display: flex;
+  padding: 9px;
+  & > p:first-child {
+    flex: 1;
+  }
+  & > p:nth-child(2) {
+    flex: 1;
+  }
+`;
 export const ImgBox = styled.div`
   display: inline-block;
   border-radius: 50%;
@@ -34,6 +81,7 @@ export const UserImg = styled.img`
 export const BPJoinBtn = styled.div``;
 export const JoinContainer = styled.div``;
 export const BPNewNickname = styled.input``;
+export const BOtherHead = styled.div``;
 
 export const BPContainer = styled.div`
   display: flex;
@@ -165,9 +213,28 @@ export const JoinBox2 = styled.div``;
 export const JoinEdit = styled.div``;
 export const JoinAssign = styled.div``;
 export const JoinInput = styled.div``;
-export const BPLeftCont = styled.div``;
-export const BPRightCont = styled.div``;
+export const BPLeftCont = styled.div`
+  flex: 1;
+`;
+export const BPRightCont = styled.div`
+  flex: 2;
+`;
 
 export const BoxTitle = styled.div``;
+export const BPrightTab = styled.div`
+  display: flex;
+  min-width: 371px;
+  width: 100%;
+  margin-bottom: 21px;
+`;
+export const BPrightTabele = styled.div`
+  padding: 0px 9px;
+  border-right: 1px solid gray;
+  & > p {
+    cursor: pointer;
+    border-bottom: ${(props) =>
+      props.tabIndex === props.index ? "2px solid blue" : null};
+  }
+`;
 export const IfNoneWordCont = styled.div``;
 export const ListPaging = styled.div``;

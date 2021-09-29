@@ -41,3 +41,6 @@ export const BTabContent = styled.div`
   background: #d8d6d6;
   padding: 30px 30px 57px 30px;
 `;
+export const TabBox = styled.div`
+  display: flex;
+`;

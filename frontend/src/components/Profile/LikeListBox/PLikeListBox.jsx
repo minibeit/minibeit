@@ -4,7 +4,6 @@ import * as S from "../style";
 export default function PLikeListBox({ likeList, handlepage, page, last }) {
   return (
     <S.LBCont>
-      <S.LBTitle>즐겨찾기 목록</S.LBTitle>
       {page > 1 ? (
         <S.LBprev onClick={async () => await handlepage("prev")}>이전</S.LBprev>
       ) : null}

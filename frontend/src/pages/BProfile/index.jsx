@@ -26,9 +26,9 @@ export default function BProfile({ match }) {
         {businessId === "0" ? (
           <BProfileSection />
         ) : (
-          <>
+          <S.TabBox>
             <BprofileContainer businessId={parseInt(businessId)} />
-          </>
+          </S.TabBox>
         )}
       </S.BTabContent>
     </>

@@ -3,9 +3,11 @@ package com.minibeit.user.service;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.avatar.domain.AvatarServer;
 import com.minibeit.avatar.domain.AvatarType;
+import com.minibeit.avatar.domain.repository.AvatarRepository;
 import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.common.dto.SavedFile;
 import com.minibeit.school.domain.School;
+import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.Role;
 import com.minibeit.user.domain.SignupProvider;
@@ -13,6 +15,7 @@ import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserRequest;
+import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.exception.DuplicateNickNameException;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,6 +26,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.scheduling.config.ScheduledTaskHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -30,7 +34,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,10 +55,24 @@ class UserServiceTest {
 
     @MockBean
     private AvatarService avatarService;
+
+    @Autowired
+    private AvatarRepository avatarRepository;
+
+    @Autowired
+    private SchoolRepository schoolRepository;
+
     private User user1, user2;
 
     @BeforeEach
     void setup() {
+        SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, AvatarType.IMAGE, AvatarServer.S3);
+
+        Avatar avatar = Avatar.create(savedFile);
+        avatarRepository.save(avatar);
+
+        School school = School.builder().id(1L).name("고려대학교").build();
+        schoolRepository.save(school);
 
         user1 = User.builder()
                 .id(1L)
@@ -69,8 +86,8 @@ class UserServiceTest {
                 .job("개발자")
                 .role(Role.USER)
                 .phoneNum("010-1234-1234")
-                .avatar(Avatar.builder().id(1L).url("profile image url").build())
-                .school(School.builder().id(1L).name("고려대학교").build())
+                .avatar(avatar)
+                .school(school)
                 .build();
 
         user2 = User.builder()
@@ -85,8 +102,8 @@ class UserServiceTest {
                 .role(Role.USER)
                 .job("대학생")
                 .phoneNum("010-5678-1234")
-                .avatar(Avatar.builder().id(1L).url("profile image url").build())
-                .school(School.builder().id(1L).name("서울대학교").build())
+                .avatar(avatar)
+                .school(school)
                 .build();
 
         userRepository.save(user1);
@@ -108,7 +125,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("닉네임 중복 체크 - 실패(중복된 이름)")
-    void nicknameCheckFailureWhenDuplicateNickname(){
+    void nicknameCheckFailureWhenDuplicateNickname() {
 
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("테스터1").build();
 
@@ -217,7 +234,7 @@ class UserServiceTest {
 
         given(avatarService.upload(any())).willReturn(avatar);
         //when
-        assertThatThrownBy(() -> userService.update(updateInfo,user))
+        assertThatThrownBy(() -> userService.update(updateInfo, user))
                 .isInstanceOf(DuplicateNickNameException.class);
         //then
         User noUpdatedUser = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
@@ -225,5 +242,26 @@ class UserServiceTest {
         assertThat(noUpdatedUser.getPhoneNum()).isEqualTo("010-1234-1234");
 
     }
+
+    @Test
+    @DisplayName("내정보 조회 - 성공")
+    void getMe() {
+        //given
+        User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+
+        //when
+        UserResponse.GetOne me = userService.getMe(user);
+
+        //then
+        assertThat(user.getNickname()).isEqualTo(me.getNickname());
+        assertThat(user.getBirth()).isEqualTo(me.getBirth());
+        assertThat(user.getJob()).isEqualTo(me.getJob());
+        assertThat(user.getPhoneNum()).isEqualTo(me.getPhoneNum());
+        assertThat(user.getName()).isEqualTo(me.getName());
+        assertThat(user.getGender().name()).isEqualTo(me.getGender());
+        assertThat(user.getAvatar().getUrl()).isEqualTo(me.getAvatar());
+
+    }
+
 
 }

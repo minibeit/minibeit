@@ -11,7 +11,6 @@ export default function PBMakeListBox({
 }) {
   return (
     <>
-      <S.BoxTitle>{state === "new" ? "생성한 실험" : "완료된 실험"}</S.BoxTitle>
       {makelist.length > 0 ? (
         <>
           {makelist.map((makeEle) => (

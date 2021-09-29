@@ -15,18 +15,22 @@ export default function BProfile({ match }) {
   return (
     <>
       <NavBar />
-      <Link to={link}>
-        {" "}
-        <S.ProfileTab1>개인 프로필</S.ProfileTab1>
-      </Link>
-      <S.ProfileTab2>비즈니스 프로필</S.ProfileTab2>
-      {businessId === "0" ? (
-        <BProfileSection />
-      ) : (
-        <>
-          <BprofileContainer businessId={parseInt(businessId)} />
-        </>
-      )}
+      <S.BTabCont>
+        <Link to={link}>
+          {" "}
+          <S.ProfileTab1>개인 프로필</S.ProfileTab1>
+        </Link>
+        <S.ProfileTab2>비즈니스 프로필</S.ProfileTab2>
+      </S.BTabCont>
+      <S.BTabContent>
+        {businessId === "0" ? (
+          <BProfileSection />
+        ) : (
+          <S.TabBox>
+            <BprofileContainer businessId={parseInt(businessId)} />
+          </S.TabBox>
+        )}
+      </S.BTabContent>
     </>
   );
 }

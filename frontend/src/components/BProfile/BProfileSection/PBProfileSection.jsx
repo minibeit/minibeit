@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
-
+import AddIcon from "@mui/icons-material/Add";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { bprofileListGet, bprofileNew, deleteBprofile } from "../../../utils";
-
 import * as S from "../../BProfile/style";
 import { BCreateCont } from "../../BProfileEdit";
+import CloseIcon from "@mui/icons-material/Close";
 
 export default function PBProfileSection() {
   const [bprofiles, setbprofiles] = useState([]);
@@ -22,6 +22,8 @@ export default function PBProfileSection() {
     await deleteBprofile(businessId);
     alert("삭제되었습니다.");
     getBprofileList();
+    setdisplay("none");
+    setmsg("수정");
   };
   const getBprofileList = async () => {
     bprofileListGet()
@@ -40,7 +42,7 @@ export default function PBProfileSection() {
   };
   const editfunc = () => {
     if (display === "none") {
-      setdisplay("block");
+      setdisplay("flex");
       setmsg("완료");
     } else {
       setdisplay("none");
@@ -64,41 +66,60 @@ export default function PBProfileSection() {
         />
       ) : null}
       {bprofiles.length > 0 ? (
-        <S.BIContHead>
+        <S.BIContHead2>
           {" "}
-          <S.BIContTitle>접속할 비즈니스 프로필을 선택해주세요</S.BIContTitle>
-          <S.BIEdit onClick={editfunc}>{msg}</S.BIEdit>
-        </S.BIContHead>
+          <S.BIContTitle>
+            <p>사용하실 비즈니스 프로필을 선택해주세요</p>
+          </S.BIContTitle>
+          <S.BIEdit>
+            <p onClick={editfunc}>{msg}</p>
+          </S.BIEdit>
+        </S.BIContHead2>
       ) : (
-        <S.BIContHead>
-          접속할 비즈니스 프로필이 존재하지 않습니다 비즈니스 프로필을
-          추가할까요?
-        </S.BIContHead>
+        <>
+          <S.BIContHead>
+            <p>📝</p>
+            <p>접속할 비즈니스 프로필이 존재하지 않습니다.</p>
+            <p> 비즈니스 프로필을 추가할까요?</p>
+          </S.BIContHead>
+          <S.BIWrapper>
+            {" "}
+            <S.BPbtn display="flex" onClick={onClick}>
+              <AddIcon />
+            </S.BPbtn>
+          </S.BIWrapper>
+        </>
       )}
-      {bprofiles.map((bprofile) => (
-        <div key={bprofile.id}>
-          {bprofile.admin ? (
-            <S.BIdelete
-              display={display}
-              onClick={async () => await doDelete(bprofile.id)}
-            >
-              삭제
-            </S.BIdelete>
-          ) : null}
+      <S.BIWrapper>
+        {bprofiles.map((bprofile) => (
+          <div key={bprofile.id}>
+            {bprofile.admin ? (
+              <S.BIdelete
+                display={display}
+                onClick={async () => await doDelete(bprofile.id)}
+              >
+                <CloseIcon />
+              </S.BIdelete>
+            ) : null}
 
-          <S.BIeleCont onClick={async () => await goBProfile(bprofile.id)}>
-            <S.ImgBox>
-              {bprofile.avatar !== null ? (
-                <S.UserImg src={bprofile.avatar} />
-              ) : (
-                <S.UserImg src="/기본비즈니스프로필.jpeg" />
-              )}
-            </S.ImgBox>
-            <S.BIeleName>{bprofile.name}</S.BIeleName>
-          </S.BIeleCont>
-        </div>
-      ))}
-      <S.BPbtn onClick={onClick}>비즈니스 프로필 생성하기</S.BPbtn>
+            <S.BIeleCont onClick={async () => await goBProfile(bprofile.id)}>
+              <S.ImgBox>
+                {bprofile.avatar !== null ? (
+                  <S.UserImg src={bprofile.avatar} />
+                ) : (
+                  <S.UserImg src="/기본비즈니스프로필.jpeg" />
+                )}
+              </S.ImgBox>
+              <S.BIeleName>
+                <p>{bprofile.name}</p>
+              </S.BIeleName>
+            </S.BIeleCont>
+          </div>
+        ))}
+        <S.BPbtn display={display} onClick={onClick}>
+          <AddIcon />
+        </S.BPbtn>
+      </S.BIWrapper>
     </S.BPContainer>
   );
 }

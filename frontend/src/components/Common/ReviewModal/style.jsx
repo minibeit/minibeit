@@ -14,9 +14,13 @@ export const ModalBox = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  background-color: white;
-  width: 20rem;
-  height: 15rem;
+  width: 57%;
+  overflow: scroll;
+  max-width: 41rem;
+  border-radius: 20px;
+  padding: 46px 55px;
+  height: 26rem;
+  background: #f1f0f0;
 `;
 export const ModalHeader = styled.div`
   display: flex;
@@ -28,17 +32,69 @@ export const CloseModalBtn = styled.button`
   margin-left: auto;
   margin-right: 0.5rem;
 `;
-export const ModalContent = styled.div``;
-export const ReviewBtn = styled.button``;
-export const ReviewContentCont = styled.div``;
+export const ModalContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: inherit;
+`;
+export const ReviewBtn = styled.div``;
+export const ReviewContentCont = styled.div`
+  flex: 2;
+  margin: 30px 0px 0px 0;
+  background: lightgray;
+  border-radius: 17px;
+  padding: 20px;
+  & > p {
+    font-size: 12px;
+  }
+`;
 export const ReviewDate = styled.div``;
-export const ReviewDatecont = styled.div``;
-export const ReviewInfo = styled.div``;
-export const ReviewInput = styled.input``;
+export const ReviewDatecont = styled.div`
+  margin-right: 33px;
+  & > p {
+    font-size: 12px;
+  }
+`;
+export const ReviewInfo = styled.div`
+  display: flex;
+`;
+export const ReviewInput = styled.textarea`
+  width: -webkit-fill-available;
+  height: 228px;
+  background: none;
+  border: none;
+  outline: none;
+  text-decoration: none;
+  font-size: 14px;
+  line-height: 1.3;
+  letter-spacing: 1px;
+  text-align: left;
+`;
 export const ReviewInputView = styled.div``;
-export const ReviewSecond = styled.div``;
+export const ReviewSecond = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
 export const ReviewTime = styled.div``;
 export const ReviewTimecont = styled.div``;
-export const ReviewTitle = styled.div``;
-export const ReviewTitleCont = styled.div``;
-export const ReviewTop = styled.div``;
+export const ReviewTitle = styled.div`
+  flex: 2;
+  margin-top: 8px;
+  & > p {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 29px;
+    border-bottom: 2px solid blue;
+  }
+`;
+export const ReviewTitleCont = styled.div`
+  flex: 1;
+  margin: 30px 30px 30px 0;
+`;
+export const ReviewTop = styled.div`
+  display: flex;
+
+  height: 80%;
+`;

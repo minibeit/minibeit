@@ -81,9 +81,23 @@ export const UserImg = styled.img`
 export const BPJoinBtn = styled.div``;
 export const JoinContainer = styled.div``;
 export const BPNewNickname = styled.input``;
-export const BOtherHead = styled.div``;
+export const BOtherHead = styled.div`
+  display: flex;
+  align-items: center;
+  & > p {
+    background: gray;
+    width: fit-content;
+    padding: 5px 21px;
+    border-radius: 25px;
+  }
+`;
 
 export const BPContainer = styled.div`
+  display: flex;
+
+  flex-direction: column;
+`;
+export const BPContainer2 = styled.div`
   display: flex;
   height: 100%;
   flex-direction: column;
@@ -93,17 +107,16 @@ export const BPContainer = styled.div`
 `;
 
 export const BPbtn = styled.div`
-  background: white;
-  width: 65px;
-  height: 65px;
-  margin-left: 29px;
-  border-radius: 50%;
-  display: ${(props) => props.display};
+  height: 12rem;
+  display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
   & > svg {
     font-size: 35px;
+    display: ${(props) => props.display};
+    background: white;
+    padding: 20px;
+    border-radius: 50%;
+    cursor: pointer;
   }
 `;
 export const BPNewInput = styled.input``;
@@ -218,6 +231,9 @@ export const BPLeftCont = styled.div`
 `;
 export const BPRightCont = styled.div`
   flex: 2;
+  display: flex;
+  flex-direction: column;
+  margin-left: 32px;
 `;
 
 export const BoxTitle = styled.div``;

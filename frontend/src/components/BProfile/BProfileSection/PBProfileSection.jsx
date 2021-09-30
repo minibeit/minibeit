@@ -58,7 +58,7 @@ export default function PBProfileSection() {
     window.location.replace("/business/" + businessId);
   };
   return (
-    <S.BPContainer>
+    <S.BPContainer2>
       {modalSwitch ? (
         <BCreateCont
           setModalSwitch={setModalSwitch}
@@ -120,6 +120,6 @@ export default function PBProfileSection() {
           <AddIcon />
         </S.BPbtn>
       </S.BIWrapper>
-    </S.BPContainer>
+    </S.BPContainer2>
   );
 }

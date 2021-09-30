@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.List;
 
 @RestController
@@ -104,6 +105,13 @@ public class PostController {
                                                                                                 @RequestParam(defaultValue = "RECRUIT", name = "status") PostStatus postStatus,
                                                                                                 PageDto pageDto) {
         Page<PostResponse.GetListByBusinessProfile> response = postService.getListByBusinessProfile(businessProfileId, postStatus, pageDto);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/{postId}/exist/doDate/list")
+    public ResponseEntity<PostResponse.DoDateList> getDoDateList(@PathVariable Long postId,
+                                                                 @RequestParam(name = "yearMonth") @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {
+        PostResponse.DoDateList response = postService.getDoDateListByYearMonth(postId, yearMonth);
         return ResponseEntity.ok().body(response);
     }
 

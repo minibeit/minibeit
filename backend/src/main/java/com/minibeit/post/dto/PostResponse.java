@@ -2,6 +2,7 @@ package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Sets;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
@@ -9,14 +10,16 @@ import com.minibeit.security.userdetails.CustomUserDetails;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PostResponse {
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class OnlyId {
         private Long id;
@@ -30,7 +33,7 @@ public class PostResponse {
 
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetOne {
         private Long id;
@@ -86,7 +89,7 @@ public class PostResponse {
 
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetPostStartTime {
         private Long id;
@@ -108,7 +111,7 @@ public class PostResponse {
 
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetList {
         private Long id;
@@ -142,7 +145,7 @@ public class PostResponse {
 
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetLikeList {
         private Long id;
@@ -157,7 +160,7 @@ public class PostResponse {
     }
 
     @Getter
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetMyApplyList {
         private Long id;
         private String title;
@@ -219,7 +222,7 @@ public class PostResponse {
 
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetListByBusinessProfile {
         private Long id;
@@ -232,6 +235,22 @@ public class PostResponse {
                     .id(post.getId())
                     .title(post.getTitle())
                     .likes(post.getPostLikeList().size())
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class DoDateList {
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+        private Set<LocalDate> doDateList;
+
+        public static PostResponse.DoDateList build(List<PostDoDate> postDoDates) {
+            List<LocalDate> localDates = postDoDates.stream().map(postDoDate -> postDoDate.getDoDate().toLocalDate()).collect(Collectors.toList());
+            return DoDateList.builder()
+                    .doDateList(Sets.newHashSet(localDates))
                     .build();
         }
     }

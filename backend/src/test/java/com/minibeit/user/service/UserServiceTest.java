@@ -284,7 +284,7 @@ class UserServiceTest {
     @DisplayName("비즈니스 프로필 조회 - 성공")
     void getListInBusinessProfile() {
         //given
-
+        final int sharedBusinessProfileUsers = 1;
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .id(1L)
                 .name("연구소")
@@ -306,6 +306,7 @@ class UserServiceTest {
         //then
         assertThat(listInBusinessProfile.get(0).getId()).isEqualTo(user2.getId());
         assertThat(listInBusinessProfile.get(0).getNickname()).isEqualTo(user2.getNickname());
+        assertThat(listInBusinessProfile.size()).isEqualTo(sharedBusinessProfileUsers);
 
     }
 

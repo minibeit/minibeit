@@ -1,7 +1,7 @@
 import React from "react";
 import DaumPostCode from "react-daum-postcode";
 import Portal from "../Modal/Portal";
-
+import CloseIcon from "@mui/icons-material/Close";
 import * as S from "./style";
 
 export default function Address({ setModalSwitch, handleAddress }) {
@@ -19,7 +19,7 @@ export default function Address({ setModalSwitch, handleAddress }) {
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
     //fullAddress -> 전체 주소반환
-    console.log(fullAddress);
+
     handleAddress(fullAddress);
     setModalSwitch(false);
   };
@@ -31,10 +31,12 @@ export default function Address({ setModalSwitch, handleAddress }) {
       <S.ModalBackground>
         <S.ModalBox>
           <S.ModalHeader>
-            <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
+            <S.CloseModalBtn onClick={closeModal}>
+              <CloseIcon />
+            </S.CloseModalBtn>
           </S.ModalHeader>
           <S.ModalContent>
-            <DaumPostCode onComplete={handleComplete} className="post-code" />)
+            <DaumPostCode onComplete={handleComplete} className="post-code" />
           </S.ModalContent>
         </S.ModalBox>
       </S.ModalBackground>

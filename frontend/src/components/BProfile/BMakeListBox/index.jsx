@@ -39,7 +39,7 @@ export default function BMakeListBox({ businessId, state, status }) {
   };
   useEffect(() => {
     getMakelist();
-  }, [page]);
+  }, [page, state]);
   return (
     <PBMakeListBox
       makelist={makelist}

@@ -12,7 +12,6 @@ PBProfile.propTypes = {
   buserData: PropTypes.shape({
     contact: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
-    introduce: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     place: PropTypes.string.isRequired,
     avatar: PropTypes.string,
@@ -33,51 +32,55 @@ export default function PBProfile({ buserData }) {
 
   return (
     <S.UserInfoContainer>
-      <S.BUserInfoContainer1>
-        <S.ImgBox>
-          {buserData.avatar !== null ? (
-            <S.UserImg src={buserData.avatar} />
-          ) : (
-            <S.UserImg src="/기본비즈니스프로필.jpeg" />
-          )}
-        </S.ImgBox>
-        <S.UserName>이름 : {buserData.name}</S.UserName>
-        <S.UserInfo
-          onClick={() =>
-            window.open("https://map.naver.com/v5/search/" + buserData.place)
-          }
-        >
-          장소 : {buserData.place}
-        </S.UserInfo>
-        <S.UserInfo>책임자 : {buserData.adminName}</S.UserInfo>
-        <S.UserInfo>실험실 소개 : {buserData.introduce}</S.UserInfo>
-        <S.UserInfo>전화번호 : {buserData.contact}</S.UserInfo>
-        <S.UserInfo>
-          실험실 소속 인원 : {buserData.numberOfEmployees}
-        </S.UserInfo>
-      </S.BUserInfoContainer1>
+      <S.ImgBox>
+        {buserData.avatar !== null ? (
+          <S.UserImg src={buserData.avatar} />
+        ) : (
+          <S.UserImg src="/기본비즈니스프로필.jpeg" />
+        )}
+      </S.ImgBox>
       {buserData.admin ? (
-        <S.BUserInfoContainer2>
-          <S.BProfileEdit onClick={() => setModal2Switch(true)}>
-            수정하기
-          </S.BProfileEdit>
-          {modal2Switch ? (
-            <BProfileEditCont
-              businessId={buserData.id}
-              setModal2Switch={setModal2Switch}
-            />
-          ) : null}
-          <S.BProfileDelete onClick={doDelete}>삭제하기</S.BProfileDelete>
-          <S.BPjoin onClick={() => setModalSwitch(true)}>
-            소속 인원 목록
-          </S.BPjoin>
-          {modalSwitch ? (
-            <BProfileJoin
-              businessId={buserData.id}
-              setModalSwitch={setModalSwitch}
-            />
-          ) : null}
-        </S.BUserInfoContainer2>
+        <S.BProfileEdit onClick={() => setModal2Switch(true)}>
+          <p>수정하기</p>
+        </S.BProfileEdit>
+      ) : null}
+      <S.UserInfoBox>
+        <S.UserInfo>
+          <p>이름</p>
+          <p>{buserData.name}</p>{" "}
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>담당자</p>
+          <p>{buserData.adminName}</p>
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>주소</p> <p>{buserData.place}</p>
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>소속 인원</p>
+          <p>{buserData.numberOfEmployees} 명</p>
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>전화번호 </p>
+          <p>{buserData.contact}</p>
+        </S.UserInfo>
+      </S.UserInfoBox>
+      {modal2Switch ? (
+        <BProfileEditCont
+          businessId={buserData.id}
+          setModal2Switch={setModal2Switch}
+        />
+      ) : null}
+      {modalSwitch ? (
+        <BProfileJoin
+          businessId={buserData.id}
+          setModalSwitch={setModalSwitch}
+        />
+      ) : null}
+      {buserData.admin ? (
+        <S.BPjoin onClick={() => setModalSwitch(true)}>
+          <p>소속 인원 목록</p>
+        </S.BPjoin>
       ) : null}
     </S.UserInfoContainer>
   );

@@ -35,7 +35,7 @@ Content-Type: application/json;charset=UTF-8
     },
     {
       "groupId":4,
-      "doDate": "2021-09-28T11:30"
+      "doDate": "2021-09-30T11:30"
     },
     {
       "groupId":5,
@@ -97,7 +97,7 @@ Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/list/1?doDate=2021-10-01&page=1&size=15&paymentType=&category=&startTime=09:00&endTime=12:35&minPay=9999&doTime=
 ###
-GET {{apiUrl}}/post/1/start?doDate=2021-09-03
+GET {{apiUrl}}/post/2/start?doDate=2021-09-27
 ###
 GET {{apiUrl}}/post/like/list?page=1&size=6
 Authorization: {{authorizationToken}}
@@ -105,13 +105,16 @@ Authorization: {{authorizationToken}}
 GET {{apiUrl}}/post/apply/approve/list?page=1&size=4
 Authorization: {{authorizationToken}}
 ###
-GET {{apiUrl}}/post/apply/list?page=1&size=4&status=APPROVE
+GET {{apiUrl}}/post/apply/list?page=1&size=4&status=WAIT
 Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/myComplete/list?page=1&size=10
 Authorization: {{authorizationToken}}
 ###
-GET {{apiUrl}}/post/business/profile/1/list?page=1&size=5&status=COMPLETE
+GET {{apiUrl}}/post/4/exist/doDate/list?yearMonth=2021-09
+Authorization: {{authorizationToken}}
+###
+GET {{apiUrl}}/post/business/profile/1/list?page=1&size=1&status=COMPLETE
 Authorization: {{authorizationToken}}
 
 

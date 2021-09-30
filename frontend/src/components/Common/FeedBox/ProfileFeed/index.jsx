@@ -1,6 +1,6 @@
 import React from "react";
 import { useState } from "react";
-import { doJoinApi, doNotJoinApi } from "../../../../utils/profileApi";
+import { doJoinApi, doNotJoinApi, deleteCancelApi } from "../../../../utils";
 import ReviewModal from "../../ReviewModal";
 import * as S from "../style";
 
@@ -10,12 +10,19 @@ export default function ProfileFeed({
   finish,
   feedInfo,
   getJoinlist,
+  getCancellist,
+  tag,
 }) {
   return (
     <>
-      <S.FeedTag></S.FeedTag>
+      <S.FeedTag>
+        <p>{tag}</p>
+      </S.FeedTag>
       <S.FeedCont>
-        <S.FeedTitle>{feedInfo.title}</S.FeedTitle>
+        <S.FeedTitle>
+          <p>실험명</p>
+          <p>{feedInfo.title}</p>
+        </S.FeedTitle>
         <S.FeedContent>
           {state === "Join" ? (
             <JoinFeedBlock
@@ -27,7 +34,10 @@ export default function ProfileFeed({
             finish ? (
               <FinishFeedBlock feedInfo={feedInfo} />
             ) : (
-              <CancelFeedBlock feedInfo={feedInfo} />
+              <CancelFeedBlock
+                getCancellist={getCancellist}
+                feedInfo={feedInfo}
+              />
             )
           ) : null}
         </S.FeedContent>
@@ -40,7 +50,7 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
   const doJoin = async () => {
     await doJoinApi(feedInfo.postDoDateId)
       .then((res) => {
-        setModalSwitch(true);
+        console.log(res);
       })
       // 만일 에러뜨면 아직 실험 날짜가 오늘날짜보다 이후라서 그럼
       .catch((err) => console.log(err));
@@ -67,24 +77,31 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
   return (
     <>
       <S.FeedDateNum>
-        실험날짜 {feedInfo.doDate}/실험실 번호 {feedInfo.contact}
+        <p>실험날짜</p>
+        <p> {feedInfo.doDate} /</p>
+        <p>실험실 번호 </p>
+        <p> {feedInfo.contact}</p>
       </S.FeedDateNum>
       <S.FeedTimeCheck>
-        실험시간 {feedInfo.startTime}~{feedInfo.endTime}/ 조건 유무{" "}
-        {feedInfo.recruitCondition ? "있음" : "없음"}
+        <p>실험시간 </p>
+        <p>
+          {feedInfo.startTime}~{feedInfo.endTime} /
+        </p>
+        <p> 조건 유무 </p>
+        <p> {feedInfo.recruitCondition ? "있음" : "없음"}</p>
       </S.FeedTimeCheck>
       {allow ? (
         <S.BtnCont>
           <S.FeedBtn
-            onClick={async (e) => {
-              e.preventDefault();
-              await doJoin();
+            onClick={async () => {
+              setModalSwitch(true);
             }}
           >
-            참여완료
+            <p>참여완료</p>
           </S.FeedBtn>
           {modalSwitch ? (
             <ReviewModal
+              doJoin={doJoin}
               setModalSwitch={setModalSwitch}
               state="NEW"
               postInfo={postInfo}
@@ -96,7 +113,7 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
               await doNotJoin();
             }}
           >
-            참여취소
+            <p>참여취소</p>
           </S.FeedBtn>
         </S.BtnCont>
       ) : (
@@ -106,7 +123,7 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
             await doNotJoin();
           }}
         >
-          참여취소
+          <p>참여취소</p>
         </S.FeedBtn>
       )}
     </>
@@ -122,11 +139,26 @@ function FinishFeedBlock({ feedInfo }) {
   );
 }
 
-function CancelFeedBlock({ feedInfo }) {
+function CancelFeedBlock({ feedInfo, getCancellist }) {
+  const doDelete = async () => {
+    await deleteCancelApi(feedInfo.id)
+      .then(() => getCancellist())
+      .catch((err) => console.log(err));
+  };
   return (
     <>
-      <S.Over></S.Over>
-      <S.FeedBtn>삭제하기</S.FeedBtn>
+      <S.Over>
+        <p>반려사유</p>
+        <p>{feedInfo.rejectComment}</p>
+      </S.Over>
+      <S.FeedBtn
+        onClick={async (e) => {
+          e.preventDefault();
+          await doDelete();
+        }}
+      >
+        <p>삭제하기</p>
+      </S.FeedBtn>
     </>
   );
 }

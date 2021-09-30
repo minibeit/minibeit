@@ -8,6 +8,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,8 +61,7 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
     public List<PostApplicant> findAllByApplyStatusIsWait(Long postId) {
         return queryFactory.selectFrom(postApplicant)
                 .join(postApplicant.postDoDate, postDoDate)
-                .join(postDoDate.post, post)
-                .where(post.id.eq(postId)
+                .where(postDoDate.post.id.eq(postId)
                         .and(postApplicant.applyStatus.eq(ApplyStatus.WAIT)))
                 .fetch();
     }
@@ -70,10 +70,18 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
     public Optional<PostApplicant> findByPostDoDateIdAndUserIdWithPostDoDate(Long postDoDateId, Long userId) {
         return Optional.ofNullable(
                 queryFactory.selectFrom(postApplicant)
-                        .join(postApplicant.user, user)
                         .join(postApplicant.postDoDate, postDoDate).fetchJoin()
-                        .where(postDoDate.id.eq(postDoDateId).and(user.id.eq(userId)))
+                        .where(postDoDate.id.eq(postDoDateId).and(postApplicant.user.id.eq(userId)))
                         .fetchOne()
         );
+    }
+
+    @Override
+    public List<PostApplicant> findAllByDoDateBeforeToday(LocalDateTime now) {
+        return queryFactory.selectFrom(postApplicant)
+                .join(postApplicant.postDoDate, postDoDate).fetchJoin()
+                .join(postDoDate.post).fetchJoin()
+                .where(postDoDate.doDate.lt(now).and(postApplicant.applyStatus.eq(ApplyStatus.WAIT)))
+                .fetch();
     }
 }

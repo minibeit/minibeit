@@ -62,7 +62,7 @@ class BusinessProfileReviewControllerTest extends MvcTest {
     public void create() throws Exception {
         BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder().postTitle("게시물 제목").content("게시물 후기 내용").time(60).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build();
         BusinessProfileReviewResponse.ReviewId response = BusinessProfileReviewResponse.ReviewId.builder().id(1L).build();
-        given(businessProfileReviewService.create(any(), any(), any(), any())).willReturn(response);
+        given(businessProfileReviewService.create(any(), any(), any(), any(), any())).willReturn(response);
 
         ResultActions result = mvc.perform(RestDocumentationRequestBuilders
                 .post("/api/post/{postId}/review/{postDoDateId}", 1, 2)
@@ -164,7 +164,7 @@ class BusinessProfileReviewControllerTest extends MvcTest {
     public void update() throws Exception {
         BusinessProfilesReviewRequest.Update request = BusinessProfilesReviewRequest.Update.builder().content("게시물 후기 수정된 내욜").build();
         BusinessProfileReviewResponse.ReviewId response = BusinessProfileReviewResponse.ReviewId.builder().id(1L).build();
-        given(businessProfileReviewService.update(any(), any(), any())).willReturn(response);
+        given(businessProfileReviewService.update(any(), any(), any(), any())).willReturn(response);
 
         ResultActions result = mvc.perform(RestDocumentationRequestBuilders
                 .put("/api/business/profile/review/{businessProfileReviewId}", 1)

@@ -21,11 +21,14 @@ export const ModalBox = styled.div`
 export const ModalHeader = styled.div`
   display: flex;
   align-items: center;
-  height: 2rem;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
+  height: 2.3rem;
 `;
-export const CloseModalBtn = styled.button`
+export const CloseModalBtn = styled.div`
   margin-left: auto;
   margin-right: 0.5rem;
+  & > svg {
+    font-size: 18px;
+    cursor: pointer;
+  }
 `;
 export const ModalContent = styled.div``;

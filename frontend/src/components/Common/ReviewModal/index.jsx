@@ -7,7 +7,12 @@ import Portal from "../Modal/Portal";
 
 import * as S from "./style";
 
-export default function ReviewModal({ setModalSwitch, postInfo, state }) {
+export default function ReviewModal({
+  doJoin,
+  setModalSwitch,
+  postInfo,
+  state,
+}) {
   const userName = useRecoilValue(userState).name;
   const closeModal = () => {
     setModalSwitch(false);
@@ -25,7 +30,8 @@ export default function ReviewModal({ setModalSwitch, postInfo, state }) {
       doDate: postInfo.doDate + "T" + postInfo.startTime,
     };
     await reviewNewApi(postInfo.id, postInfo.postDoDateId, newReviewInfo)
-      .then(() => {
+      .then(async () => {
+        await doJoin(postInfo.postDoDateId);
         alert("후기가 등록되었습니다");
         window.location.replace("/user/" + userName);
       })
@@ -44,16 +50,28 @@ export default function ReviewModal({ setModalSwitch, postInfo, state }) {
             <S.ReviewTop>
               <S.ReviewTitleCont>
                 <p>실험명</p>
-                <S.ReviewTitle>{postInfo.postTitle}</S.ReviewTitle>
+                <S.ReviewTitle>
+                  <p>{postInfo.postTitle}</p>
+                </S.ReviewTitle>
               </S.ReviewTitleCont>
               <S.ReviewContentCont>
                 <p>후기</p>
                 {state === "READ" ? (
                   <S.ReviewInputView>{postInfo.content}</S.ReviewInputView>
                 ) : state === "NEW" ? (
-                  <S.ReviewInput onChange={onChange} placeholder="후기작성" />
+                  <S.ReviewInput
+                    cols="50"
+                    rows="10"
+                    onChange={onChange}
+                    placeholder="후기작성"
+                  />
                 ) : (
-                  <S.ReviewInput onChange={onChange} value={ReviewContent} />
+                  <S.ReviewInput
+                    cols="50"
+                    rows="10"
+                    onChange={onChange}
+                    value={ReviewContent}
+                  />
                 )}
               </S.ReviewContentCont>
             </S.ReviewTop>
@@ -70,19 +88,21 @@ export default function ReviewModal({ setModalSwitch, postInfo, state }) {
                   </S.ReviewTime>{" "}
                 </S.ReviewTimecont>
               </S.ReviewInfo>
+              {state === "NEW" ? (
+                <S.ReviewBtn
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await newReview(ReviewContent);
+                  }}
+                >
+                  작성완료
+                </S.ReviewBtn>
+              ) : state === "EDIT" ? (
+                <S.ReviewBtn>
+                  <p>수정완료</p>
+                </S.ReviewBtn>
+              ) : null}
             </S.ReviewSecond>
-            {state === "NEW" ? (
-              <S.ReviewBtn
-                onClick={async (e) => {
-                  e.preventDefault();
-                  await newReview(ReviewContent);
-                }}
-              >
-                작성완료
-              </S.ReviewBtn>
-            ) : state === "EDIT" ? (
-              <S.ReviewBtn>수정완료</S.ReviewBtn>
-            ) : null}
           </S.ModalContent>
         </S.ModalBox>
       </S.ModalBackground>

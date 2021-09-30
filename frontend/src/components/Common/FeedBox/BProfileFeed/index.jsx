@@ -9,22 +9,29 @@ import {
 } from "../../../../utils";
 import BManageModal from "../../../BProfile/BManageModal";
 import ReviewModal from "../../ReviewModal";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 import * as S from "../style";
 
 export default function BProfileFeed({ state, feedInfo, getMakelist }) {
   return (
     <>
-      <S.FeedTag></S.FeedTag>
+      <S.FeedTag>
+        <p>
+          {state === "new"
+            ? "모집중"
+            : state === "finish"
+            ? "모집완료"
+            : "후기"}
+        </p>
+      </S.FeedTag>
       <S.FeedCont>
-        <S.FeedContent>
-          {state === "new" ? (
-            <NewFeedBlock feedInfo={feedInfo} getMakelist={getMakelist} />
-          ) : state === "review" ? (
-            <ReviewFeedBlock feedInfo={feedInfo} />
-          ) : state === "finish" ? (
-            <FinishFeedBlock feedInfo={feedInfo} getMakelist={getMakelist} />
-          ) : null}
-        </S.FeedContent>
+        {state === "new" ? (
+          <NewFeedBlock feedInfo={feedInfo} getMakelist={getMakelist} />
+        ) : state === "review" ? (
+          <ReviewFeedBlock feedInfo={feedInfo} />
+        ) : state === "finish" ? (
+          <FinishFeedBlock feedInfo={feedInfo} getMakelist={getMakelist} />
+        ) : null}
       </S.FeedCont>
     </>
   );
@@ -43,9 +50,11 @@ function NewFeedBlock({ feedInfo, getMakelist }) {
   };
   return (
     <>
-      <S.FeedTitle>{feedInfo.title}</S.FeedTitle>
-      <S.FeedBookmarkCont>
-        <div onClick={() => setModalSwitch(true)}>person</div>
+      <S.FeedTitle>
+        <p>실험명</p>
+        <p>{feedInfo.title}</p>
+      </S.FeedTitle>
+      <S.FeedContent>
         {modalSwitch ? (
           <BManageModal
             postId={feedInfo.id}
@@ -53,17 +62,29 @@ function NewFeedBlock({ feedInfo, getMakelist }) {
             setModalSwitch={setModalSwitch}
           />
         ) : null}
-        <div>star</div>
-        <S.FeedBookmark>{feedInfo.likes}</S.FeedBookmark>
-      </S.FeedBookmarkCont>
-      <S.FeedBtn
-        onClick={async (e) => {
-          e.preventDefault();
-          await stateComplete(feedInfo.id);
-        }}
-      >
-        글내리기
-      </S.FeedBtn>
+        <S.FeedBookmark>
+          <StarBorderIcon />
+          <p>{feedInfo.likes}</p>
+        </S.FeedBookmark>
+        <S.BtnCont>
+          <S.FeedBtn
+            onClick={(e) => {
+              e.preventDefault();
+              setModalSwitch(true);
+            }}
+          >
+            <p>참여 관리 하기</p>
+          </S.FeedBtn>
+          <S.FeedBtn
+            onClick={async (e) => {
+              e.preventDefault();
+              await stateComplete(feedInfo.id);
+            }}
+          >
+            <p>모집완료</p>
+          </S.FeedBtn>
+        </S.BtnCont>
+      </S.FeedContent>
     </>
   );
 }
@@ -117,19 +138,26 @@ function FinishFeedBlock({ feedInfo, getMakelist }) {
   };
   return (
     <>
-      <S.FeedTitle>{feedInfo.title}</S.FeedTitle>
-      <S.FeedBookmarkCont>
-        <div>star</div>
-        <S.FeedBookmark>{feedInfo.likes}</S.FeedBookmark>
-      </S.FeedBookmarkCont>
-      <S.FeedBtn
-        onClick={async (e) => {
-          e.preventDefault();
-          await postDelete(feedInfo.id);
-        }}
-      >
-        삭제하기
-      </S.FeedBtn>
+      <S.FeedTitle>
+        <p>실험명</p>
+        <p>{feedInfo.title}</p>
+      </S.FeedTitle>
+      <S.FeedContent>
+        <S.FeedBookmark>
+          <StarBorderIcon />
+          <p>{feedInfo.likes}</p>
+        </S.FeedBookmark>
+        <S.BtnCont>
+          <S.FeedBtn
+            onClick={async (e) => {
+              e.preventDefault();
+              await postDelete(feedInfo.id);
+            }}
+          >
+            <p>삭제하기</p>
+          </S.FeedBtn>
+        </S.BtnCont>
+      </S.FeedContent>
     </>
   );
 }

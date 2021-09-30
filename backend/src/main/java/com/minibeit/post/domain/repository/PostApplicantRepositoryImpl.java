@@ -8,6 +8,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,5 +74,14 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
                         .where(postDoDate.id.eq(postDoDateId).and(postApplicant.user.id.eq(userId)))
                         .fetchOne()
         );
+    }
+
+    @Override
+    public List<PostApplicant> findAllByDoDateBeforeToday(LocalDateTime now) {
+        return queryFactory.selectFrom(postApplicant)
+                .join(postApplicant.postDoDate, postDoDate).fetchJoin()
+                .join(postDoDate.post).fetchJoin()
+                .where(postDoDate.doDate.lt(now).and(postApplicant.applyStatus.eq(ApplyStatus.WAIT)))
+                .fetch();
     }
 }

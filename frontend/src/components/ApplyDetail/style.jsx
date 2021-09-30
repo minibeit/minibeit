@@ -11,7 +11,7 @@ export const DateInfoBox = styled.div`
 export const ContentBox = styled.div`
   border: 1px solid grey;
 `;
-export const RecuritConditionBox = styled.div`
+export const recruitConditionBox = styled.div`
   border: 1px solid grey;
 `;
 export const PaymentBox = styled.div`

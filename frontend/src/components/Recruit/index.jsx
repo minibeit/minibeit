@@ -1,1 +1,1 @@
-export { default as FNContainer } from "./FNContainer";
+export { default as CreateFeedContainer } from "./CreateFeedContainer";

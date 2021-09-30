@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,7 +27,7 @@ public class BusinessProfileReviewController {
                                                                          @PathVariable Long postDoDateId,
                                                                          @RequestBody BusinessProfilesReviewRequest.Create request,
                                                                          @CurrentUser CustomUserDetails customUserDetails) {
-        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.create(postId, postDoDateId, request, customUserDetails.getUser());
+        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.create(postId, postDoDateId, request, LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/review/" + response.getId())).body(response);
     }
 
@@ -47,7 +48,7 @@ public class BusinessProfileReviewController {
     public ResponseEntity<BusinessProfileReviewResponse.ReviewId> update(@PathVariable Long businessProfileReviewId,
                                                                          @RequestBody BusinessProfilesReviewRequest.Update request,
                                                                          @CurrentUser CustomUserDetails customUserDetails) {
-        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.update(businessProfileReviewId, request, customUserDetails.getUser());
+        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.update(businessProfileReviewId, request, LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.ok().body(response);
     }
 

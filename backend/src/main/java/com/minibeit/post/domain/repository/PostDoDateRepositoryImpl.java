@@ -5,6 +5,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,5 +35,14 @@ public class PostDoDateRepositoryImpl implements PostDoDateRepositoryCustom {
                         .where(postDoDate.id.eq(postDoDateId))
                         .fetchOne()
         );
+    }
+
+    @Override
+    public List<PostDoDate> findAllByPostIdAndYearMonth(Long postId, YearMonth yearMonth) {
+        return queryFactory.selectFrom(postDoDate)
+                .where(postDoDate.post.id.eq(postId)
+                        .and(postDoDate.doDate.year().eq(yearMonth.getYear())
+                                .and(postDoDate.doDate.month().eq(yearMonth.getMonthValue()))))
+                .fetch();
     }
 }

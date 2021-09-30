@@ -335,8 +335,10 @@ class PostControllerTest extends MvcTest {
     @Test
     @DisplayName("게시물 목록 조회 문서화(학교 id,실험날짜 기준)")
     public void getList() throws Exception {
+        CustomUserDetails customUserDetails = CustomUserDetails.create(user);
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
-        given(postService.getList(any(), any(), any(), any(), any(), any(), any(), any(), any())).willReturn(postPage);
+        Page<PostResponse.GetList> response = postPage.map(post1 -> PostResponse.GetList.build(post1, customUserDetails));
+        given(postService.getList(any(), any(), any(), any(), any(), any(), any(), any(), any(),any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/list/{schoolId}", 1)
@@ -387,7 +389,9 @@ class PostControllerTest extends MvcTest {
     @DisplayName("자신이 즐겨찾기한 게시물 목록 조회")
     public void getListByLike() throws Exception {
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 6), postList.size());
-        given(postService.getListByLike(any(), any())).willReturn(postPage);
+        Page<PostResponse.GetLikeList> response = postPage.map(PostResponse.GetLikeList::build);
+
+        given(postService.getListByLike(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/like/list")
@@ -532,15 +536,10 @@ class PostControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필로 생성한 실험 리스트 문서화")
     public void getListByBusinessProfile() throws Exception {
-        List<Post> postList = new ArrayList<>();
-        postList.add(post1);
-        postList.add(post2);
-        List<PostResponse.GetListByBusinessProfile> collect = postList.stream().map(PostResponse.GetListByBusinessProfile::build).collect(Collectors.toList());
-        PageDto pageDto = new PageDto(1, 5);
+        Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 6), postList.size());
+        Page<PostResponse.GetListByBusinessProfile> response = postPage.map(PostResponse.GetListByBusinessProfile::build);
 
-        Page<PostResponse.GetListByBusinessProfile> postPage = new PageImpl<>(collect, pageDto.of(), postList.size());
-
-        given(postService.getListByBusinessProfile(any(), any(), any())).willReturn(postPage);
+        given(postService.getListByBusinessProfile(any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/business/profile/{businessProfileId}/list", 1)

@@ -5,6 +5,11 @@ import com.minibeit.avatar.domain.AvatarServer;
 import com.minibeit.avatar.domain.AvatarType;
 import com.minibeit.avatar.domain.repository.AvatarRepository;
 import com.minibeit.avatar.service.AvatarService;
+import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.businessprofile.domain.QUserBusinessProfile;
+import com.minibeit.businessprofile.domain.UserBusinessProfile;
+import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
+import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.common.dto.SavedFile;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
@@ -18,6 +23,7 @@ import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.exception.DuplicateNickNameException;
 import com.minibeit.user.service.exception.UserNotFoundException;
+import lombok.Getter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,6 +31,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.scheduling.config.ScheduledTaskHolder;
 import org.springframework.test.context.ActiveProfiles;
@@ -34,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -62,16 +71,24 @@ class UserServiceTest {
     @Autowired
     private SchoolRepository schoolRepository;
 
+    @Autowired
+    private BusinessProfileRepository businessProfileRepository;
+
+    @Autowired
+    private UserBusinessProfileRepository userBusinessProfileRepository;
+
     private User user1, user2;
+    private Avatar avatar;
+    private School school;
 
     @BeforeEach
     void setup() {
         SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, AvatarType.IMAGE, AvatarServer.S3);
 
-        Avatar avatar = Avatar.create(savedFile);
+        avatar = Avatar.create(savedFile);
         avatarRepository.save(avatar);
 
-        School school = School.builder().id(1L).name("고려대학교").build();
+        school = School.builder().id(1L).name("고려대학교").build();
         schoolRepository.save(school);
 
         user1 = User.builder()
@@ -174,7 +191,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("유저 정보 업데이트 - 성공(정보 그대로 업데이트)")
-    void update() throws IOException {
+    void updateToSameData() throws IOException {
         //given
         User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
@@ -210,7 +227,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("유저 정보 업데이트 - 실패(중복된 닉네임 사용)")
-    void updateFail() throws IOException {
+    void updateFailureWhenNicknameDuplicate() throws IOException {
         //given
         User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
 
@@ -263,5 +280,33 @@ class UserServiceTest {
 
     }
 
+    @Test
+    @DisplayName("비즈니스 프로필 조회 - 성공")
+    void getListInBusinessProfile() {
+        //given
+
+        BusinessProfile businessProfile = BusinessProfile.builder()
+                .id(1L)
+                .name("연구소")
+                .place("고려대")
+                .contact("연락처")
+                .admin(user1)
+                .avatar(avatar)
+                .build();
+        businessProfile.setCreatedBy(user1);
+        businessProfileRepository.save(businessProfile);
+
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(user2, businessProfile);
+        userBusinessProfileRepository.save(userBusinessProfile);
+
+        //when
+        List<UserResponse.IdAndNickname> listInBusinessProfile = userService.getListInBusinessProfile(businessProfile.getId());
+
+
+        //then
+        assertThat(listInBusinessProfile.get(0).getId()).isEqualTo(user2.getId());
+        assertThat(listInBusinessProfile.get(0).getNickname()).isEqualTo(user2.getNickname());
+
+    }
 
 }

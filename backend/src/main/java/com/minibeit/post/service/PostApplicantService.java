@@ -60,7 +60,7 @@ public class PostApplicantService {
 
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
-        postApplicant.updateStatusApprove();
+        postApplicant.updateStatus(ApplyStatus.APPROVE);
 
         List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
         postDoDate.updateFull(approvedPostApplicant);
@@ -70,7 +70,7 @@ public class PostApplicantService {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         permissionCheck(user, post);
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
-        postApplicant.updateStatusWait();
+        postApplicant.updateStatus(ApplyStatus.WAIT);
     }
 
     public void applyReject(Long postId, Long postDoDateId, Long userId, PostApplicantRequest.ApplyReject request, User user) {
@@ -78,7 +78,7 @@ public class PostApplicantService {
         permissionCheck(user, post);
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDate(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
-        postApplicant.updateStatusReject();
+        postApplicant.updateStatus(ApplyStatus.REJECT);
 
         RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getComment(), postApplicant.getUser());
         rejectPostRepository.save(rejectPost);

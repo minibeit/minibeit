@@ -44,6 +44,10 @@ public class BusinessProfileReview extends BaseEntity {
         postDoDate.getBusinessProfileReviewList().add(this);
     }
 
+    public boolean updateReviewIsPossible(LocalDateTime now){
+        return this.getDoDate().plusDays(7).isAfter(now);
+    }
+
     public static BusinessProfileReview create(PostDoDate postDoDate, BusinessProfile businessProfile, BusinessProfilesReviewRequest.Create request) {
         final BusinessProfileReview businessProfileReview = BusinessProfileReview.builder()
                 .postTitle(request.getPostTitle())

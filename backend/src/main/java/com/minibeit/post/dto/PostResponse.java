@@ -1,9 +1,9 @@
 package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import com.querydsl.core.annotations.QueryProjection;
@@ -192,30 +192,28 @@ public class PostResponse {
     }
 
     @Getter
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @Builder
     public static class GetMyCompletedList {
         private Long postId;
         private Long postDoDateId;
         private String title;
         private Long reviewId;
         private String review;
-
-        public static PostResponse.GetMyCompletedList build(PostApplicant postApplicant) {
-            return GetMyCompletedList.builder()
-                    .postId(postApplicant.getPostDoDate().getPost().getId())
-                    .postDoDateId(postApplicant.getPostDoDate().getId())
-                    .title(postApplicant.getPostDoDate().getPost().getTitle())
-                    .build();
-        }
+        private Boolean isWritable;
+        @JsonIgnore
+        private LocalDateTime postDoDate;
 
         @Builder
         @QueryProjection
-        public GetMyCompletedList(Long postId, Long postDoDateId, String title, Long reviewId, String review) {
+        public GetMyCompletedList(Long postId, Long postDoDateId, String title, Long reviewId, String review, LocalDateTime postDoDate) {
             this.postId = postId;
             this.postDoDateId = postDoDateId;
             this.title = title;
             this.reviewId = reviewId;
             this.review = review;
+            this.isWritable = postDoDate.plusDays(7).isAfter(LocalDateTime.now());
         }
     }
 

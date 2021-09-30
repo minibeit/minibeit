@@ -1,4 +1,4 @@
-POST {{apiUrl}}/post/1/review/1
+POST {{apiUrl}}/post/3/review/14
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 

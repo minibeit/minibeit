@@ -107,7 +107,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public Page<PostResponse.GetList> getList(Long schoolId, LocalDate doDate, String category, PageDto pageDto, Payment paymentType, LocalTime startTime, LocalTime endTime, Integer minPay, Integer doTime, CustomUserDetails customUserDetails) {
         Page<Post> posts = postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, category, startTime, endTime, minPay, doTime, pageDto.of());
-        return posts.map(post -> PostResponse.GetList.build(post,customUserDetails));
+        return posts.map(post -> PostResponse.GetList.build(post, customUserDetails));
     }
 
     @Transactional(readOnly = true)

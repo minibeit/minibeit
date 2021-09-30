@@ -3,7 +3,6 @@ package com.minibeit.post.web;
 import com.minibeit.MvcTest;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
@@ -32,7 +31,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -338,7 +336,7 @@ class PostControllerTest extends MvcTest {
         CustomUserDetails customUserDetails = CustomUserDetails.create(user);
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
         Page<PostResponse.GetList> response = postPage.map(post1 -> PostResponse.GetList.build(post1, customUserDetails));
-        given(postService.getList(any(), any(), any(), any(), any(), any(), any(), any(), any(),any())).willReturn(response);
+        given(postService.getList(any(), any(), any(), any(), any(), any(), any(), any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/list/{schoolId}", 1)
@@ -487,6 +485,7 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(1L)
                 .reviewId(1L)
                 .review("내가 작성한 첫번째 후기")
+                .isWritable(true)
                 .build();
         PostResponse.GetMyCompletedList getMyCompletedList2 = PostResponse.GetMyCompletedList.builder()
                 .postId(2L)
@@ -494,6 +493,7 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(2L)
                 .reviewId(2L)
                 .review("내가 작성한 두번째 후기")
+                .isWritable(true)
                 .build();
         PostResponse.GetMyCompletedList getMyCompletedList3 = PostResponse.GetMyCompletedList.builder()
                 .postId(2L)
@@ -501,6 +501,7 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(2L)
                 .reviewId(3L)
                 .review("내가 작성한 세번째 후기")
+                .isWritable(false)
                 .build();
         response.add(getMyCompletedList1);
         response.add(getMyCompletedList2);
@@ -526,6 +527,7 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("content[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 시작 시간 식별자"),
                                 fieldWithPath("content[].reviewId").description("리뷰 식별자 (없다면 null)"),
                                 fieldWithPath("content[].review").description("리뷰 내용 (없다면 null)"),
+                                fieldWithPath("content[].isWritable").description("리뷰를 작성하거나 수정할 수 있다면 true(실험후 일주일동안 가능)"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")

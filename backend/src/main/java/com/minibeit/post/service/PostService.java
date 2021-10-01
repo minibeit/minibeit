@@ -35,16 +35,15 @@ public class PostService {
     private static final String REJECT_MSG = "모집이 완료되었습니다.";
     private final PostRepository postRepository;
     private final SchoolRepository schoolRepository;
-    private final PostFileService postFileService;
     private final BusinessProfileRepository businessProfileRepository;
-    private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final PostDoDateRepository postDoDateRepository;
     private final PostLikeRepository postLikeRepository;
     private final PostApplicantRepository postApplicantRepository;
     private final RejectPostRepository rejectPostRepository;
+    private final PostPermissionCheck postPermissionCheck;
 
     public PostResponse.OnlyId createInfo(PostRequest.CreateInfo request, User user) {
-        permissionCheck(request.getBusinessProfileId(), user);
+        postPermissionCheck.userInBusinessProfileCheck(request.getBusinessProfileId(), user);
 
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         BusinessProfile businessProfile = businessProfileRepository.findById(request.getBusinessProfileId()).orElseThrow(BusinessProfileNotFoundException::new);
@@ -56,14 +55,6 @@ public class PostService {
         postDoDateRepository.saveAll(postDoDateList);
 
         return PostResponse.OnlyId.build(savedPost);
-    }
-
-    public PostResponse.OnlyId addFiles(Long postId, PostRequest.AddFile request, User user) {
-        Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
-        permissionCheck(post.getBusinessProfile().getId(), user);
-        postFileService.uploadFiles(post, request.getFiles());
-
-        return PostResponse.OnlyId.build(post);
     }
 
     public void createOrDeletePostLike(Long postId, User user) {
@@ -79,7 +70,8 @@ public class PostService {
 
     public void recruitmentCompleted(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        permissionCheck(post.getBusinessProfile().getId(), user);
+        postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
+
         List<PostApplicant> postApplicantList = postApplicantRepository.findAllByApplyStatusIsWait(postId);
 
         List<Long> applicantIdList = postApplicantList.stream().map(PostApplicant::getId).collect(Collectors.toList());
@@ -141,7 +133,8 @@ public class PostService {
 
     public PostResponse.OnlyId updateContent(Long postId, PostRequest.UpdateContent request, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        permissionCheck(post.getBusinessProfile().getId(), user);
+        postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
+
         Post updatedPost = post.updateContent(request.getUpdatedContent());
 
         return PostResponse.OnlyId.build(updatedPost);
@@ -149,14 +142,8 @@ public class PostService {
 
     public void deleteOne(Long postId, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        permissionCheck(post.getBusinessProfile().getId(), user);
+        postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
         postRepository.deleteById(postId);
-    }
-
-    private void permissionCheck(Long businessProfileId, User user) {
-        if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
-            throw new PermissionException();
-        }
     }
 }

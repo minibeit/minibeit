@@ -7,6 +7,7 @@ import com.minibeit.post.domain.*;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.PostFileService;
 import com.minibeit.post.service.PostService;
 import com.minibeit.school.domain.School;
 import com.minibeit.security.userdetails.CustomUserDetails;
@@ -45,6 +46,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class PostControllerTest extends MvcTest {
     @MockBean
     private PostService postService;
+    @MockBean
+    private PostFileService postFileService;
 
     private BusinessProfile businessProfile;
     private Post post1;
@@ -180,7 +183,7 @@ class PostControllerTest extends MvcTest {
         MockMultipartFile files = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is.readAllBytes());
         PostResponse.OnlyId response = PostResponse.OnlyId.builder().id(1L).build();
 
-        given(postService.addFiles(any(), any(), any())).willReturn(response);
+        given(postFileService.addFiles(any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(
                 fileUpload("/api/post/{postId}/files", 1)

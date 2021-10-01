@@ -6,6 +6,7 @@ import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.PostFileService;
 import com.minibeit.post.service.PostService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
@@ -27,8 +28,10 @@ import java.util.List;
 @RequestMapping("/api/post")
 public class PostController {
     private final PostService postService;
+    private final PostFileService postFileService;
 
     @PostMapping("/info")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PostResponse.OnlyId> createInfo(@RequestBody PostRequest.CreateInfo request, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.OnlyId response = postService.createInfo(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(response);
@@ -37,7 +40,7 @@ public class PostController {
     @PostMapping("/{postId}/files")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PostResponse.OnlyId> addFiles(@PathVariable Long postId, PostRequest.AddFile request, @CurrentUser CustomUserDetails customUserDetails) {
-        PostResponse.OnlyId response = postService.addFiles(postId, request, customUserDetails.getUser());
+        PostResponse.OnlyId response = postFileService.addFiles(postId, request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(response);
     }
 

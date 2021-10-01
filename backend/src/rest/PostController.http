@@ -49,9 +49,14 @@ Content-Type: application/json;charset=UTF-8
 }
 
 ###
-POST {{apiUrl}}/post/1/files
+POST {{apiUrl}}/post/4/files
 Authorization: {{authorizationToken}}
 Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="files"; filename="enjoy.png"
+
+< ./../main/resources/mock/images/enjoy.png
 
 --boundary
 Content-Disposition: form-data; name="files"; filename="enjoy.png"

@@ -33,7 +33,12 @@ export default function PBMakeListBox({
       ) : (
         <S.IfNoneWordCont>
           {state === "new" ? (
-            <p>아직 모집중인 실험이 없습니다.</p>
+            <>
+              <p>아직 모집중인 실험이 없습니다.</p>
+              <S.IfNoneBtn onClick={() => window.location.replace("/recruit")}>
+                실험 모집하러 가기
+              </S.IfNoneBtn>
+            </>
           ) : (
             <p>완료된 실험이 없습니다.</p>
           )}

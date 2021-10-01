@@ -47,10 +47,18 @@ export default function PJoinListBox({
         </>
       ) : (
         <S.IfNoneWordCont>
-          <p>아직 실험에 참여하지 않으셨네요.</p>
-          <S.IfNoneBtn onClick={() => window.location.replace("/apply")}>
-            실험에 참여하러 가기
-          </S.IfNoneBtn>
+          {state === "WAIT" ? (
+            <>
+              <p>아직 실험에 참여하지 않으셨네요.</p>
+              <S.IfNoneBtn onClick={() => window.location.replace("/apply")}>
+                실험에 참여하러 가기
+              </S.IfNoneBtn>
+            </>
+          ) : state === "APPROVE" ? (
+            <p>아직 확정된 실험이 없습니다.</p>
+          ) : state === "CANCEL" ? (
+            <p>아직 반려된 실험이 없습니다.</p>
+          ) : null}
         </S.IfNoneWordCont>
       )}
     </>

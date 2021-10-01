@@ -8,6 +8,18 @@ export const filterState = atom({
     schoolId: null,
     schoolName: null,
     date: today,
-    payment: "",
+    category: null,
+    paymentType: "",
+    minPay: null,
+    doTime: null,
+    startAndEnd: [0, 24],
+    startTime: "00:00",
+    endTime: "00:00",
+  },
+});
+export const categoryState = atom({
+  key: "categoryState",
+  default: {
+    category: null,
   },
 });

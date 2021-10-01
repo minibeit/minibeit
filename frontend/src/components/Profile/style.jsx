@@ -43,11 +43,10 @@ export const LBprev = styled.div``;
 export const LBnext = styled.div``;
 export const BPNewInput = styled.input``;
 export const ImgBox = styled.div`
-  display: inline-block;
-
   overflow: hidden;
   width: 10rem;
   height: 10rem;
+  display: inline-block;
 `;
 export const UserImg = styled.img`
   object-fit: fill;
@@ -56,15 +55,49 @@ export const UserImg = styled.img`
   border-radius: 50%;
 `;
 export const EditButton = styled.button``;
-export const EditContainer = styled.div``;
+export const EditContainer1 = styled.div`
+  width: 174px;
+  flex: 1;
+  margin: 41px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+export const EditContainer2 = styled.div``;
 export const EditInput = styled.input``;
+export const PELabel = styled.label``;
+export const EditFInput = styled.input`
+  display: none;
+`;
+export const FileLabel = styled.label`
+  padding: 5px;
+  cursor: pointer;
+  background: #c4c4c4;
+  color: white;
+  border-radius: 14px;
+  width: 100px;
+  font-size: 12px;
+  text-align: center;
+`;
 export const EditSelect = styled.select``;
-export const ImgDel = styled.button``;
+export const ImgDel = styled.div`
+  padding: 5px;
+  cursor: pointer;
+  background: #c4c4c4;
+  color: white;
+  border-radius: 14px;
+  width: 100px;
+  font-size: 12px;
+  text-align: center;
+  margin: 10px 0px;
+`;
 
 export const Img = styled.img`
   object-fit: fill;
   width: 100%;
   height: 100%;
+  border-radius: 50%;
 `;
 
 export const BPSubmitBtn = styled.div``;
@@ -157,21 +190,35 @@ export const ModalBox = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
+  width: 57%;
+  overflow: scroll;
+  max-width: 41rem;
+  border-radius: 20px;
+  padding: 32px 36px;
+  height: 26rem;
   background-color: white;
-  width: 40rem;
-  height: 45rem;
 `;
 export const ModalHeader = styled.div`
   display: flex;
   align-items: center;
-  height: 2rem;
+  height: 3.2rem;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
+  & > p {
+    font-size: 18px;
+    font-weight: 500;
+  }
 `;
-export const CloseModalBtn = styled.button`
+export const CloseModalBtn = styled.div`
   margin-left: auto;
-  margin-right: 0.5rem;
+  height: -webkit-fill-available;
+  & > svg {
+    cursor: pointer;
+  }
 `;
-export const ModalContent = styled.div``;
+export const ModalContent = styled.div`
+  flex-wrap: wrap;
+  display: flex;
+`;
 export const IfNoneWordCont = styled.div`
   margin: 15px 0;
   background: white;

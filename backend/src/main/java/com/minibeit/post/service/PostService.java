@@ -18,12 +18,12 @@ import com.minibeit.user.domain.User;
 import com.minibeit.user.service.exception.SchoolNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -106,13 +106,15 @@ public class PostService {
     }
 
     @Transactional(readOnly = true)
-    public Page<Post> getList(Long schoolId, LocalDate doDate, String category, PageDto pageDto, Payment paymentType, LocalTime startTime, LocalTime endTime, Integer minPay, Integer doTime) {
-        return postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, category, startTime, endTime, minPay, doTime, pageDto.of());
+    public Page<PostResponse.GetList> getList(Long schoolId, LocalDate doDate, String category, PageDto pageDto, Payment paymentType, LocalTime startTime, LocalTime endTime, Integer minPay, Integer doTime, CustomUserDetails customUserDetails) {
+        Page<Post> posts = postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, category, startTime, endTime, minPay, doTime, pageDto.of());
+        return posts.map(post -> PostResponse.GetList.build(post, customUserDetails));
     }
 
     @Transactional(readOnly = true)
-    public Page<Post> getListByLike(User user, PageDto pageDto) {
-        return postRepository.findAllByLike(user, pageDto.of());
+    public Page<PostResponse.GetLikeList> getListByLike(User user, PageDto pageDto) {
+        final Page<Post> posts = postRepository.findAllByLike(user, pageDto.of());
+        return posts.map(PostResponse.GetLikeList::build);
     }
 
     @Transactional(readOnly = true)
@@ -128,9 +130,13 @@ public class PostService {
     @Transactional(readOnly = true)
     public Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfile(Long businessProfileId, PostStatus postStatus, PageDto pageDto) {
         Page<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, postStatus, pageDto.of());
-        List<PostResponse.GetListByBusinessProfile> getListByBusinessProfileList = posts.stream().map(PostResponse.GetListByBusinessProfile::build).collect(Collectors.toList());
+        return posts.map(PostResponse.GetListByBusinessProfile::build);
+    }
 
-        return new PageImpl<>(getListByBusinessProfileList, pageDto.of(), posts.getTotalElements());
+    @Transactional(readOnly = true)
+    public PostResponse.DoDateList getDoDateListByYearMonth(Long postId, YearMonth yearMonth) {
+        List<PostDoDate> postDoDateList = postDoDateRepository.findAllByPostIdAndYearMonth(postId, yearMonth);
+        return PostResponse.DoDateList.build(postDoDateList);
     }
 
     public PostResponse.OnlyId updateContent(Long postId, PostRequest.UpdateContent request, User user) {

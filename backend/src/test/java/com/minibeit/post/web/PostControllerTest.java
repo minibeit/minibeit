@@ -3,7 +3,6 @@ package com.minibeit.post.web;
 import com.minibeit.MvcTest;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
@@ -28,11 +27,9 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -335,8 +332,10 @@ class PostControllerTest extends MvcTest {
     @Test
     @DisplayName("게시물 목록 조회 문서화(학교 id,실험날짜 기준)")
     public void getList() throws Exception {
+        CustomUserDetails customUserDetails = CustomUserDetails.create(user);
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
-        given(postService.getList(any(), any(), any(), any(), any(), any(), any(), any(), any())).willReturn(postPage);
+        Page<PostResponse.GetList> response = postPage.map(post1 -> PostResponse.GetList.build(post1, customUserDetails));
+        given(postService.getList(any(), any(), any(), any(), any(), any(), any(), any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/list/{schoolId}", 1)
@@ -387,7 +386,9 @@ class PostControllerTest extends MvcTest {
     @DisplayName("자신이 즐겨찾기한 게시물 목록 조회")
     public void getListByLike() throws Exception {
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 6), postList.size());
-        given(postService.getListByLike(any(), any())).willReturn(postPage);
+        Page<PostResponse.GetLikeList> response = postPage.map(PostResponse.GetLikeList::build);
+
+        given(postService.getListByLike(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/like/list")
@@ -483,6 +484,7 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(1L)
                 .reviewId(1L)
                 .review("내가 작성한 첫번째 후기")
+                .isWritable(true)
                 .build();
         PostResponse.GetMyCompletedList getMyCompletedList2 = PostResponse.GetMyCompletedList.builder()
                 .postId(2L)
@@ -490,6 +492,7 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(2L)
                 .reviewId(2L)
                 .review("내가 작성한 두번째 후기")
+                .isWritable(true)
                 .build();
         PostResponse.GetMyCompletedList getMyCompletedList3 = PostResponse.GetMyCompletedList.builder()
                 .postId(2L)
@@ -497,6 +500,7 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(2L)
                 .reviewId(3L)
                 .review("내가 작성한 세번째 후기")
+                .isWritable(false)
                 .build();
         response.add(getMyCompletedList1);
         response.add(getMyCompletedList2);
@@ -522,6 +526,7 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("content[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 시작 시간 식별자"),
                                 fieldWithPath("content[].reviewId").description("리뷰 식별자 (없다면 null)"),
                                 fieldWithPath("content[].review").description("리뷰 내용 (없다면 null)"),
+                                fieldWithPath("content[].isWritable").description("리뷰를 작성하거나 수정할 수 있다면 true(실험후 일주일동안 가능)"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")
@@ -532,15 +537,10 @@ class PostControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필로 생성한 실험 리스트 문서화")
     public void getListByBusinessProfile() throws Exception {
-        List<Post> postList = new ArrayList<>();
-        postList.add(post1);
-        postList.add(post2);
-        List<PostResponse.GetListByBusinessProfile> collect = postList.stream().map(PostResponse.GetListByBusinessProfile::build).collect(Collectors.toList());
-        PageDto pageDto = new PageDto(1, 5);
+        Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 6), postList.size());
+        Page<PostResponse.GetListByBusinessProfile> response = postPage.map(PostResponse.GetListByBusinessProfile::build);
 
-        Page<PostResponse.GetListByBusinessProfile> postPage = new PageImpl<>(collect, pageDto.of(), postList.size());
-
-        given(postService.getListByBusinessProfile(any(), any(), any())).willReturn(postPage);
+        given(postService.getListByBusinessProfile(any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/business/profile/{businessProfileId}/list", 1)
@@ -566,6 +566,36 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("게시물 실험이 있는 날짜 목록 조회(년,월 기준) 문서화")
+    public void getDoDateList() throws Exception {
+        Set<LocalDate> localDates = new HashSet<>();
+        localDates.add(LocalDate.of(2021, 9, 21));
+        localDates.add(LocalDate.of(2021, 9, 22));
+        localDates.add(LocalDate.of(2021, 9, 23));
+        PostResponse.DoDateList response = PostResponse.DoDateList.builder().doDateList(localDates).build();
+
+        given(postService.getDoDateListByYearMonth(any(), any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/post/{postId}/exist/doDate/list", 1)
+                .param("yearMonth", "2021-09"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-doDate-list",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("yearMonth").description("조회할 날짜")
+                        ),
+                        responseFields(
+                                fieldWithPath("doDateList[]").type(JsonFieldType.ARRAY).description("실험 있는 날짜")
                         )
                 ));
     }

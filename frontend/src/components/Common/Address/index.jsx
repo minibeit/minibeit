@@ -19,7 +19,7 @@ export default function Address({ setModalSwitch, handleAddress }) {
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
     //fullAddress -> 전체 주소반환
-    console.log(fullAddress);
+
     handleAddress(fullAddress);
     setModalSwitch(false);
   };

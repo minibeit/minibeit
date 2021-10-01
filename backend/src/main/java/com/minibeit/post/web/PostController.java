@@ -3,7 +3,6 @@ package com.minibeit.post.web;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
-import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
@@ -12,7 +11,6 @@ import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +19,8 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -78,16 +76,14 @@ public class PostController {
                                                               @RequestParam(name = "startTime", required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime startTime,
                                                               @RequestParam(name = "endTime", required = false) @DateTimeFormat(pattern = "HH:mm") LocalTime endTime,
                                                               PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
-        Page<Post> posts = postService.getList(schoolId, doDate, category, pageDto, paymentType, startTime, endTime, minPay, doTime);
-        List<PostResponse.GetList> response = posts.stream().map(post -> PostResponse.GetList.build(post, customUserDetails)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
+        Page<PostResponse.GetList> response = postService.getList(schoolId, doDate, category, pageDto, paymentType, startTime, endTime, minPay, doTime, customUserDetails);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/like/list")
     public ResponseEntity<Page<PostResponse.GetLikeList>> getListByLike(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
-        Page<Post> posts = postService.getListByLike(customUserDetails.getUser(), pageDto);
-        List<PostResponse.GetLikeList> response = posts.stream().map(PostResponse.GetLikeList::build).collect(Collectors.toList());
-        return ResponseEntity.ok().body(new PageImpl<>(response, pageDto.of(), posts.getTotalElements()));
+        Page<PostResponse.GetLikeList> response = postService.getListByLike(customUserDetails.getUser(), pageDto);
+        return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/myComplete/list")
@@ -109,6 +105,13 @@ public class PostController {
                                                                                                 @RequestParam(defaultValue = "RECRUIT", name = "status") PostStatus postStatus,
                                                                                                 PageDto pageDto) {
         Page<PostResponse.GetListByBusinessProfile> response = postService.getListByBusinessProfile(businessProfileId, postStatus, pageDto);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/{postId}/exist/doDate/list")
+    public ResponseEntity<PostResponse.DoDateList> getDoDateList(@PathVariable Long postId,
+                                                                 @RequestParam(name = "yearMonth") @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {
+        PostResponse.DoDateList response = postService.getDoDateListByYearMonth(postId, yearMonth);
         return ResponseEntity.ok().body(response);
     }
 

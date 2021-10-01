@@ -12,10 +12,10 @@ SchoolSearch.propTypes = {
   use: PropTypes.string.isRequired,
 };
 
-export default function SchoolSearch({ use }) {
+export default function SchoolSearch({ use, recruit, setRecruit }) {
   const [filter, setFilter] = useRecoilState(filterState);
-  const user = useRecoilValue(userState);
   const [signup, setSignup] = useRecoilState(signupState);
+  const user = useRecoilValue(userState);
   const [schoolItem, setSchoolItem] = useState();
   const [listSwitch, setListSwitch] = useState(false);
 
@@ -56,6 +56,14 @@ export default function SchoolSearch({ use }) {
         signupRC["schoolId"] = parseInt(e.target.id);
         signupRC["schoolName"] = e.target.textContent;
         setSignup(signupRC);
+        break;
+      case "recruit":
+        const recruit_cp = { ...recruit };
+        recruit_cp["school"] = {
+          id: parseInt(e.target.id),
+          name: e.target.textContent,
+        };
+        setRecruit(recruit_cp);
         break;
       default:
         alert("다시 시도해주세요");

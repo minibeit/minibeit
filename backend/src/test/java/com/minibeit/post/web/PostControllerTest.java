@@ -100,8 +100,8 @@ class PostControllerTest extends MvcTest {
 
         postList.add(post1);
         postList.add(post2);
-        postDoDate1 = PostDoDate.builder().id(1L).full(false).post(post1).doDate(LocalDateTime.of(2021, 9, 5, 9, 30)).build();
-        postDoDate2 = PostDoDate.builder().id(2L).full(true).post(post1).doDate(LocalDateTime.of(2021, 9, 5, 10, 30)).build();
+        postDoDate1 = PostDoDate.builder().id(1L).isFull(false).post(post1).doDate(LocalDateTime.of(2021, 9, 5, 9, 30)).build();
+        postDoDate2 = PostDoDate.builder().id(2L).isFull(true).post(post1).doDate(LocalDateTime.of(2021, 9, 5, 10, 30)).build();
     }
 
     @Test

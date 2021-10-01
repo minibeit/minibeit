@@ -24,7 +24,7 @@ public class PostDoDate extends BaseEntity {
 
     private LocalDateTime doDate;
 
-    private boolean full;
+    private boolean isFull;
 
     @Builder.Default
     @OneToMany(mappedBy = "postDoDate")
@@ -44,11 +44,11 @@ public class PostDoDate extends BaseEntity {
     }
 
     public void updateFull(List<PostApplicant> approvedPostApplicant) {
-        this.full = this.post.getRecruitPeople() <= approvedPostApplicant.size();
+        this.isFull = this.post.getRecruitPeople() <= approvedPostApplicant.size();
     }
 
     public static PostDoDate create(Integer groupId, LocalDateTime doDate, Post post) {
-        PostDoDate postDoDate = PostDoDate.builder().groupId(groupId).doDate(doDate).full(false).build();
+        PostDoDate postDoDate = PostDoDate.builder().groupId(groupId).doDate(doDate).isFull(false).build();
         postDoDate.setPost(post);
         return postDoDate;
     }

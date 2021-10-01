@@ -63,7 +63,7 @@ public class PostByBusinessService {
         if (request.getFiles() != null) {
             savedFiles = s3Uploader.uploadFileList(request.getFiles());
         }
-        List<PostFile> postFiles = savedFiles.stream().map(postFile -> PostFile.create(post, postFile)).collect(Collectors.toList());
+        List<PostFile> postFiles = savedFiles.stream().map(savedFile -> PostFile.create(post, savedFile)).collect(Collectors.toList());
         postFileRepository.saveAll(postFiles);
 
         return PostResponse.OnlyId.build(post);

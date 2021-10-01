@@ -27,6 +27,8 @@ public class Post extends BaseEntity {
 
     private String content;
 
+    private String updatedContent;
+
     private String place;
 
     private String contact;
@@ -42,6 +44,8 @@ public class Post extends BaseEntity {
 
     private String paymentGoods;
 
+    private String paymentDetail;
+
     private boolean recruitCondition;
 
     private String recruitConditionDetail;
@@ -51,6 +55,9 @@ public class Post extends BaseEntity {
     private LocalDateTime startDate;
 
     private LocalDateTime endDate;
+
+    @Enumerated(EnumType.STRING)
+    private PostStatus postStatus;
 
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
@@ -72,28 +79,30 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "school_id")
     private School school;
 
-    private void addPostFiles(List<PostFile> postFileList) {
-        for (PostFile postFile : postFileList) {
-            postFile.setPost(this);
-            this.postFileList.add(postFile);
-        }
-    }
-
     public boolean isLike(CustomUserDetails customUserDetails) {
         return customUserDetails != null && this.postLikeList.stream().anyMatch(postLike -> postLike.getCreatedBy().getId().equals(customUserDetails.getUser().getId()));
     }
 
-    public void updateDate(PostRequest.CreateDateRule request) {
-        this.startDate = request.getStartDate();
-        this.endDate = request.getEndDate();
+    public boolean isMine(CustomUserDetails customUserDetails) {
+        return customUserDetails != null && this.businessProfile.getUserBusinessProfileList().stream()
+                .anyMatch(userBusinessProfile -> userBusinessProfile.getUser().getId().equals(customUserDetails.getUser().getId()));
     }
 
     public boolean applyPossible(List<PostApplicant> postApplicants) {
-        return postApplicants.size() < this.recruitPeople;
+        return (postApplicants.size() < this.recruitPeople) && postStatus.equals(PostStatus.RECRUIT);
     }
 
-    public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile, List<PostFile> postFileList) {
-        Post post = Post.builder()
+    public void completed() {
+        this.postStatus = PostStatus.COMPLETE;
+    }
+
+    public Post updateContent(String updatedContent) {
+        this.updatedContent = updatedContent;
+        return this;
+    }
+
+    public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile) {
+        return Post.builder()
                 .title(request.getTitle())
                 .content(request.getContent())
                 .place(request.getPlace())
@@ -102,14 +111,16 @@ public class Post extends BaseEntity {
                 .recruitPeople(request.getHeadcount())
                 .payment(request.getPayment())
                 .paymentCache(request.getCache())
+                .paymentDetail(request.getPaymentDetail())
                 .paymentGoods(request.getGoods())
                 .recruitCondition(request.isCondition())
                 .recruitConditionDetail(request.getConditionDetail())
                 .doTime(request.getDoTime())
+                .startDate(request.getStartDate())
+                .endDate(request.getEndDate())
                 .businessProfile(businessProfile)
                 .school(school)
+                .postStatus(PostStatus.RECRUIT)
                 .build();
-        post.addPostFiles(postFileList);
-        return post;
     }
 }

@@ -7,9 +7,9 @@ import ProcessLogin from "./pages/ProcessLogin";
 
 import SignupInfo from "./pages/SignupInfo";
 import Profile from "./pages/Profile";
-import ProfileEdit from "./pages/ProfileEdit";
+
 import BProfile from "./pages/BProfile";
-import BProfileEdit from "./pages/BProfileEdit";
+
 import Apply from "./pages/Apply";
 import ApplyDetail from "./pages/ApplyDetail";
 import Recruit from "./pages/Recruit";
@@ -30,13 +30,7 @@ function App() {
           <Route path="/ProcessLogin" component={ProcessLogin} />
           <Route path="/signupInfo" component={SignupInfo} />
           <Route path="/user/:userId" exact component={Profile} />
-          <Route path="/user/:userId/edit" exact component={ProfileEdit} />
           <Route path="/business/:businessId" exact component={BProfile} />
-          <Route
-            path="/business/:businessId/edit"
-            exact
-            component={BProfileEdit}
-          />
           <Route path="/apply/:postId" exact component={ApplyDetail} />
           <Route path="/apply" component={Apply} />
           <Route path="/recruit" exact component={Recruit} />

@@ -53,8 +53,9 @@ Content-Disposition: form-data; name="avatarChanged";
 
 false
 ###
-GET {{apiUrl}}/user/list/1
+GET {{apiUrl}}/user/list/business/profile/1
 Authorization: {{authorizationToken}}
+
 ###
 GET {{apiUrl}}/user/search?nickname=테스터1
 Authorization: {{authorizationToken}}

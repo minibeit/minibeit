@@ -11,21 +11,11 @@ export default function SignupForm() {
   const history = useHistory();
   const [loginState, setLoginState] = useRecoilState(userState);
   const guest = useRecoilValue(geustState);
-  const [schoollist, setSchoolList] = useState([]);
-
-  const getSchoolInfo = async () => {
-    await schoolGetApi()
-      .then(async (res) => setSchoolList(res.data))
-      .catch((err) => console.log(err));
-  };
-
-  useEffect(() => {
-    getSchoolInfo();
-  }, []);
 
   const signupHandler = async (inputs2, img) => {
     await signupInfoApi(inputs2, img, guest.accessToken)
       .then((res) => {
+        console.log(res);
         window.alert("회원가입에 성공!");
         const guest_cp = { ...guest };
         localStorage.setItem("accessToken", guest.accessToken);
@@ -40,7 +30,5 @@ export default function SignupForm() {
         console.log(err);
       });
   };
-  return (
-    <PSignupInfoForm schoollist={schoollist} signupHandler={signupHandler} />
-  );
+  return <PSignupInfoForm signupHandler={signupHandler} />;
 }

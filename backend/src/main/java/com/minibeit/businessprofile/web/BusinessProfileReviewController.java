@@ -3,14 +3,17 @@ package com.minibeit.businessprofile.web;
 import com.minibeit.businessprofile.dto.BusinessProfileReviewResponse;
 import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
 import com.minibeit.businessprofile.service.BusinessProfileReviewService;
+import com.minibeit.common.dto.PageDto;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +27,7 @@ public class BusinessProfileReviewController {
                                                                          @PathVariable Long postDoDateId,
                                                                          @RequestBody BusinessProfilesReviewRequest.Create request,
                                                                          @CurrentUser CustomUserDetails customUserDetails) {
-        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.create(postId, postDoDateId, request, customUserDetails.getUser());
+        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.create(postId, postDoDateId, request, LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/review/" + response.getId())).body(response);
     }
 
@@ -34,11 +37,18 @@ public class BusinessProfileReviewController {
         return ResponseEntity.ok().body(response);
     }
 
+    @GetMapping("/business/profile/{businessProfileId}/review/list")
+    public ResponseEntity<Page<BusinessProfileReviewResponse.GetOne>> getReviewList(@PathVariable Long businessProfileId,
+                                                                                    PageDto pageDto) {
+        Page<BusinessProfileReviewResponse.GetOne> response = businessProfileReviewService.getList(businessProfileId, pageDto);
+        return ResponseEntity.ok().body(response);
+    }
+
     @PutMapping("/business/profile/review/{businessProfileReviewId}")
     public ResponseEntity<BusinessProfileReviewResponse.ReviewId> update(@PathVariable Long businessProfileReviewId,
                                                                          @RequestBody BusinessProfilesReviewRequest.Update request,
                                                                          @CurrentUser CustomUserDetails customUserDetails) {
-        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.update(businessProfileReviewId, request, customUserDetails.getUser());
+        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.update(businessProfileReviewId, request, LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.ok().body(response);
     }
 

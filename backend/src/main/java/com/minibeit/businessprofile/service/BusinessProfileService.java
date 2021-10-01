@@ -10,6 +10,7 @@ import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
+import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
@@ -54,15 +55,15 @@ public class BusinessProfileService {
     }
 
     @Transactional(readOnly = true)
-    public List<BusinessProfileResponse.GetList> getListIsMine(Long userId) {
-        List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(userId);
+    public List<BusinessProfileResponse.GetList> getListIsMine(User user) {
+        List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(user.getId());
 
-        return businessProfileList.stream().map(BusinessProfileResponse.GetList::build).collect(Collectors.toList());
+        return businessProfileList.stream().map(businessProfile -> BusinessProfileResponse.GetList.build(businessProfile, user)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public BusinessProfileResponse.GetOne getOne(Long businessProfileId, User user) {
-        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+        BusinessProfile businessProfile = businessProfileRepository.findByIdWithAdmin(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
         return BusinessProfileResponse.GetOne.build(businessProfile, user);
     }
@@ -75,24 +76,27 @@ public class BusinessProfileService {
         businessProfileRepository.deleteById(businessProfileId);
     }
 
-    public void shareBusinessProfile(Long businessProfileId, BusinessProfileRequest.ShareOrExpel request, User user) {
+    public void shareBusinessProfile(Long businessProfileId, Long invitedUserId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+
         permissionCheck(user, businessProfile);
 
-        List<User> users = userRepository.findAllByIdList(request.getUserIdList());
-        if (!userBusinessProfileRepository.findAllByUserIdListAndBusinessProfileId(request.getUserIdList(), businessProfileId).isEmpty()) {
+        User userToShare = userRepository.findById(invitedUserId).orElseThrow(UserNotFoundException::new);
+
+        if (userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(userToShare.getId(), businessProfileId)) {
             throw new DuplicateShareException();
         }
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
 
-        List<UserBusinessProfile> userBusinessProfileList = users.stream().map(shareToUser -> UserBusinessProfile.createWithBusinessProfile(shareToUser, businessProfile)).collect(Collectors.toList());
-        userBusinessProfileRepository.saveAll(userBusinessProfileList);
+        userBusinessProfileRepository.save(userBusinessProfile);
     }
 
-    public void cancelShare(Long businessProfileId, BusinessProfileRequest.ShareOrExpel request, User user) {
+    public void cancelShare(Long businessProfileId, Long userId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         permissionCheck(user, businessProfile);
 
-        userBusinessProfileRepository.deleteAllByIdAndBusinessProfileIdInQuery(request.getUserIdList(), businessProfileId);
+        UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userId, businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
+        userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
     }
 
     public void transferOfAuthority(Long businessProfileId, Long userId, User user) {

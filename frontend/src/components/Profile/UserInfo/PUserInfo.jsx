@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 import * as S from "../style";
 import PropTypes from "prop-types";
+import ProfileEditModal from "../ProfileEditModal";
 
 PUserInfo.propTypes = {
   userData: PropTypes.shape({
@@ -17,6 +18,7 @@ PUserInfo.propTypes = {
 
 export default function PUserInfo({ userData }) {
   const history = useHistory();
+  const [modalSwitch, setModalSwitch] = useState(false);
   return (
     <S.UserInfoContainer>
       <S.ImgBox>
@@ -27,27 +29,49 @@ export default function PUserInfo({ userData }) {
         )}
       </S.ImgBox>
       <br />
-      <button
-        onClick={() => {
-          history.push(`/user/${userData.id}/edit`);
-        }}
-      >
-        프로필 수정
-      </button>
-      <S.UserName>이름 : {userData.name}</S.UserName>
-      <S.UserInfo>닉네임 : {userData.nickname}</S.UserInfo>
-      <S.UserInfo>
-        성별 :{" "}
-        {userData.gender === "FEMALE"
-          ? "여자"
-          : userData.gender === "MALE"
-          ? "남자"
-          : null}
-      </S.UserInfo>
-      <S.UserInfo>생년월일 : {userData.birth}</S.UserInfo>
-      <S.UserInfo>직업 : {userData.job}</S.UserInfo>
-      <S.UserInfo>전화번호 : {userData.phoneNum}</S.UserInfo>
-      <S.UserInfo>관심학교 : {userData.schoolName}</S.UserInfo>
+      <S.UserEditBtn onClick={() => setModalSwitch(true)}>
+        수정하기
+      </S.UserEditBtn>
+      {modalSwitch ? (
+        <ProfileEditModal setModalSwitch={setModalSwitch} />
+      ) : null}
+
+      <S.UserInfoBox>
+        <S.UserInfo>
+          <p>이름</p>
+          <p>{userData.name}</p>
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>닉네임 </p>
+          <p>{userData.nickname}</p>
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>성별</p>
+          <p>
+            {userData.gender === "FEMALE"
+              ? "여자"
+              : userData.gender === "MALE"
+              ? "남자"
+              : null}
+          </p>
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>생년월일</p>
+          <p>{userData.birth}</p>
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>관심학교 </p>
+          <p>{userData.schoolName}</p>
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>직업</p>
+          <p>{userData.job}</p>
+        </S.UserInfo>
+        <S.UserInfo>
+          <p>전화번호</p>
+          <p>{userData.phoneNum}</p>
+        </S.UserInfo>
+      </S.UserInfoBox>
     </S.UserInfoContainer>
   );
 }

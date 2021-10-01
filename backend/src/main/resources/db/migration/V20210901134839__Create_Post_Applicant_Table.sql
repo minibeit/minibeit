@@ -5,7 +5,6 @@ CREATE TABLE `post_applicant`
     `user_id`         BIGINT      NOT NULL,
     `post_do_date_id` BIGINT      NOT NULL,
     `apply_status`    VARCHAR(50) NOT NULL,
-    `reject_comment`  VARCHAR(50),
     `my_finish`       TINYINT(1)  NOT NULL,
     `business_finish` TINYINT(1)  NOT NULL,
     `write_review`    TINYINT(1)  NOT NULL,

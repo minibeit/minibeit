@@ -5,6 +5,7 @@ import com.minibeit.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -28,31 +29,24 @@ public class PostApplicant extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ApplyStatus applyStatus;
 
-    private String rejectComment;
-
     private boolean myFinish;
 
     private boolean businessFinish;
 
     private boolean writeReview;
 
-
     private void setPostDoDate(PostDoDate postDoDate) {
         postDoDate.getPostApplicantList().add(this);
         this.postDoDate = postDoDate;
     }
 
-    public void updateStatusApprove() {
-        this.applyStatus = ApplyStatus.APPROVE;
+    public void updateStatus(ApplyStatus applyStatus) {
+        this.applyStatus = applyStatus;
     }
 
-    public void updateStatusReject(String rejectComment) {
-        this.applyStatus = ApplyStatus.REJECT;
-        this.rejectComment = rejectComment;
-    }
-
-    public boolean writeReviewIsPossible() {
-        return this.applyStatus.equals(ApplyStatus.APPROVE) && !this.writeReview && this.businessFinish;
+    public boolean writeReviewIsPossible(LocalDateTime now) {
+        return this.applyStatus.equals(ApplyStatus.APPROVE) && !this.writeReview &&
+                this.businessFinish && this.myFinish && postDoDate.getDoDate().plusDays(6).isAfter(now);
     }
 
     public void updateMyFinish() {
@@ -61,6 +55,10 @@ public class PostApplicant extends BaseEntity {
 
     public void updateWriteReview() {
         this.writeReview = true;
+    }
+
+    public void changeBusinessFinish(Boolean isAttend) {
+        this.businessFinish = isAttend;
     }
 
     public static PostApplicant create(PostDoDate postDoDate, User user) {

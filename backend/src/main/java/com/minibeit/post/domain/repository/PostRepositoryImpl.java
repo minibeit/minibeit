@@ -3,8 +3,10 @@ package com.minibeit.post.domain.repository;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.dto.QPostResponse_GetMyApplyList;
+import com.minibeit.post.dto.QPostResponse_GetMyCompletedList;
 import com.minibeit.user.domain.User;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -17,9 +19,11 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.minibeit.businessprofile.domain.QBusinessProfileReview.businessProfileReview;
 import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostApplicant.postApplicant;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
@@ -30,23 +34,70 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, Pageable pageable) {
-        //TODO 이렇게 distinct를 사용한경우와 service layer에서 로직을 사용해서 구분하는 경우 뭐가 좋은지 성능 테스트 해보면 좋을 것 같음.
+    public Page<Post> findAllBySchoolIdAndDoDate(Long schoolId, LocalDate doDate, Payment paymentType, String category, LocalTime startTime, LocalTime endTime, Integer minPay, Integer doTime, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post).distinct()
-                .join(post.postDoDateList, postDoDate).on(postDoDate.doDate.year().eq(doDate.getYear())
-                        .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
-                        .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
+                .join(post.postDoDateList, postDoDate)
                 .join(post.businessProfile).fetchJoin()
-                .leftJoin(post.postLikeList).fetchJoin()
                 .where(post.school.id.eq(schoolId)
-                        .and(paymentTypeEq(paymentType)))
+                        .and(postDoDate.doDate.year().eq(doDate.getYear())
+                                .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
+                                .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
+                        .and(post.postStatus.eq(PostStatus.RECRUIT))
+                        .and(paymentTypeEq(paymentType))
+                        .and(categoryEq(category))
+                        .and(minPayGoe(minPay))
+                        .and(doTimeLoe(doTime))
+                        .and(startEndTimeBetween(doDate, startTime, endTime)))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
-
+                .limit(pageable.getPageSize())
+                .orderBy(post.id.desc());
 
         QueryResults<Post> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    private BooleanExpression paymentTypeEq(Payment paymentType) {
+        if (Objects.nonNull(paymentType) && !paymentType.equals(Payment.ALL)) {
+            return post.payment.eq(paymentType);
+        }
+        return null;
+    }
+
+    private BooleanExpression categoryEq(String category) {
+        if (Objects.nonNull(category) && !category.equals("ALL")) {
+            return post.category.eq(category);
+        }
+        return null;
+    }
+
+    private BooleanExpression startEndTimeBetween(LocalDate doDate, LocalTime startTime, LocalTime endTime) {
+        if (Objects.nonNull(startTime) && Objects.nonNull(endTime)) {
+            LocalDateTime startDateTime = LocalDateTime.of(doDate.getYear(), doDate.getMonthValue(), doDate.getDayOfMonth(), startTime.getHour(), startTime.getMinute());
+            LocalDateTime endDateTime = LocalDateTime.of(doDate.getYear(), doDate.getMonthValue(), doDate.getDayOfMonth(), endTime.getHour(), endTime.getMinute());
+            return postDoDate.doDate.between(startDateTime, endDateTime);
+        }
+        return null;
+    }
+
+    private BooleanExpression minPayGoe(Integer minPay) {
+        if (Objects.nonNull(minPay) && post.paymentCache != null && minPay == 9999) {
+            return post.paymentCache.lt(10000);
+        }
+        if (Objects.nonNull(minPay) && post.paymentCache != null) {
+            return post.paymentCache.goe(minPay);
+        }
+        return null;
+    }
+
+    private BooleanExpression doTimeLoe(Integer doTime) {
+        if (Objects.nonNull(doTime) && doTime == 181) {
+            return post.doTime.goe(180);
+        }
+        if (Objects.nonNull(doTime)) {
+            return post.doTime.loe(doTime);
+        }
+        return null;
     }
 
     @Override
@@ -59,12 +110,37 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
+    public Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, Pageable pageable) {
+        JPAQuery<Post> query = queryFactory.selectFrom(post)
+                .join(post.businessProfile)
+                .where(post.businessProfile.id.eq(businessProfileId)
+                        .and(postStatusEq(postStatus)))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .orderBy(post.id.desc());
+        QueryResults<Post> results = query.fetchResults();
+
+        return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    private BooleanExpression postStatusEq(PostStatus postStatus) {
+        if (postStatus.equals(PostStatus.RECRUIT)) {
+            return post.postStatus.eq(postStatus).and(post.endDate.after(LocalDateTime.now()));
+        }
+        if (postStatus.equals(PostStatus.COMPLETE)) {
+            return post.postStatus.eq(postStatus).or(post.endDate.before(LocalDateTime.now()));
+        }
+        return null;
+    }
+
+    @Override
     public Page<Post> findAllByLike(User user, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.postLikeList, postLike)
                 .where(postLike.createdBy.eq(user))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .limit(pageable.getPageSize())
+                .orderBy(post.id.desc());
 
         QueryResults<Post> results = query.fetchResults();
 
@@ -72,48 +148,52 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<PostResponse.GetMyApplyList> findByApplyIsApproveOrWait(User user, Pageable pageable) {
-        JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue()
+    public Page<PostResponse.GetMyCompletedList> findAllByMyCompleted(User user, Pageable pageable) {
+        JPAQuery<PostResponse.GetMyCompletedList> query = queryFactory.select(new QPostResponse_GetMyCompletedList(
+                        post.id, postDoDate.id, post.title, businessProfileReview.id, businessProfileReview.content,postDoDate.doDate
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)
+                .leftJoin(postDoDate.businessProfileReviewList, businessProfileReview).on(businessProfileReview.createdBy.eq(user))
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
-                        .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE).or(postApplicant.applyStatus.eq(ApplyStatus.WAIT))
-                                .and(postDoDate.doDate.before(LocalDateTime.now()))))
+                        .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE)
+                                .and(postApplicant.myFinish.isTrue())
+                                .and(postApplicant.businessFinish.isTrue())))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .limit(pageable.getPageSize())
+                .orderBy(postApplicant.updatedAt.desc());
 
-        QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
+        QueryResults<PostResponse.GetMyCompletedList> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
     @Override
-    public Page<PostResponse.GetMyApplyList> findByApplyAndFinishedWithoutReview(User user, Pageable pageable) {
+    public Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus applyStatus, User user, Pageable pageable) {
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue()
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue(), postApplicant.businessFinish
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
-                        .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE)
-                                .and(postApplicant.myFinish.isTrue())
-                                .and(postApplicant.businessFinish.isTrue())
-                                .and(postApplicant.writeReview.isFalse())))
+                        .and(applyStatusEq(applyStatus)))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .limit(pageable.getPageSize())
+                .orderBy(postDoDate.doDate.asc());
 
         QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
-    private BooleanExpression paymentTypeEq(Payment paymentType) {
-        if (Objects.nonNull(paymentType) && !paymentType.equals(Payment.ALL)) {
-            return post.payment.eq(paymentType);
+    private BooleanExpression applyStatusEq(ApplyStatus applyStatus) {
+        if (applyStatus.equals(ApplyStatus.WAIT)) {
+            return postApplicant.applyStatus.eq(ApplyStatus.WAIT).and(postDoDate.doDate.after(LocalDateTime.now()));
+        }
+        if (applyStatus.equals(ApplyStatus.APPROVE)) {
+            return postApplicant.applyStatus.eq(ApplyStatus.APPROVE).and(postApplicant.myFinish.isFalse());
         }
         return null;
     }

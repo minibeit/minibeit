@@ -38,8 +38,16 @@ public class PostApplicantController {
     }
 
     @PostMapping("/{postId}/date/{postDoDateId}/apply/approve/{userId}")
-    public ResponseEntity<Void> applyApprove(@PathVariable Long postId, @PathVariable Long postDoDateId, @PathVariable Long userId, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<Void> applyApprove(@PathVariable Long postId, @PathVariable Long postDoDateId,
+                                             @PathVariable Long userId, @CurrentUser CustomUserDetails customUserDetails) {
         postApplicantService.applyApprove(postId, postDoDateId, userId, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{postId}/date/{postDoDateId}/apply/approve/cancel/{userId}")
+    public ResponseEntity<Void> applyApproveCancel(@PathVariable Long postId, @PathVariable Long postDoDateId,
+                                                   @PathVariable Long userId, @CurrentUser CustomUserDetails customUserDetails) {
+        postApplicantService.applyApproveCancel(postId, postDoDateId, userId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 
@@ -51,11 +59,24 @@ public class PostApplicantController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/{postId}/applicant/list")
-    public ResponseEntity<List<PostApplicantResponse.UserInfo>> applicantListByDate(@PathVariable Long postId,
-                                                                                    @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate) {
+    @PostMapping("/{postId}/date/{postDoDateId}/attend/change/{userId}")
+    public ResponseEntity<Void> attendChange(@PathVariable Long postId, @PathVariable Long postDoDateId,
+                                             @PathVariable Long userId, @RequestBody PostApplicantRequest.AttendChange request, @CurrentUser CustomUserDetails customUserDetails) {
+        postApplicantService.attendChange(postId, postDoDateId, userId, request, customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
 
-        List<PostApplicantResponse.UserInfo> response = postApplicantService.getApplicantListByDate(postId, doDate);
+    @GetMapping("/{postId}/applicant/list")
+    public ResponseEntity<List<PostApplicantResponse.ApplicantInfo>> applicantListByDate(@PathVariable Long postId,
+                                                                                         @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate) {
+        List<PostApplicantResponse.ApplicantInfo> response = postApplicantService.getApplicantListByDate(postId, doDate);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/{postId}/applicant/confirm/list")
+    public ResponseEntity<List<PostApplicantResponse.ApplicantInfo>> approveApplicantListByDate(@PathVariable Long postId,
+                                                                                                @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate) {
+        List<PostApplicantResponse.ApplicantInfo> response = postApplicantService.getApproveApplicantListByDate(postId, doDate);
         return ResponseEntity.ok().body(response);
     }
 }

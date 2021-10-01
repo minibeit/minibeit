@@ -3,11 +3,13 @@ import { withAuthInstance, withoutAuthInstance } from "./common";
 
 const {
   FEED_NEW,
+  FEED_DELETE,
   FEED_DATE_NEW,
   GET_FEEDLIST,
   GET_FEEDDETAIL,
   APPLY_POST,
   BOOKMARK_POST,
+  STATE_COMPLETE,
 } = API_URLS;
 
 export const feedCreateApi = async (infoinputs, files) => {
@@ -49,11 +51,7 @@ export const feedDateCreateApi = async (postId, dateinputs) => {
   );
 };
 
-export const feedDeleteApi = async (postId) => {
-  return await withAuthInstance.delete(
-    `http://3.36.95.15:8080/api/board/${postId}`
-  );
-};
+
 
 export const feedDetailApi = async (feedId) => {
   return await withoutAuthInstance.get(GET_FEEDDETAIL + feedId);
@@ -107,4 +105,16 @@ export const applyApi = async (postId, postDoDateId) => {
 
 export const bookmarkApi = async (postId) => {
   return await withAuthInstance.post(BOOKMARK_POST + `${postId}/like`);
+};
+
+export const stateCompleteApi = async (postId) => {
+  return await withAuthInstance.post(
+   STATE_COMPLETE + postId+"/completed",
+  );
+};
+
+export const feedDeleteApi = async (postId) => {
+  return await withAuthInstance.delete(
+    FEED_DELETE + postId
+  );
 };

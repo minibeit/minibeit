@@ -11,10 +11,6 @@ Content-Disposition: form-data; name="place";
 
 고려대
 --boundary
-Content-Disposition: form-data; name="introduce";
-
-고려대 실험실 입니다!
---boundary
 Content-Disposition: form-data; name="contact";
 
 010-1234-1234
@@ -24,9 +20,8 @@ Content-Disposition: form-data; name="contact";
 
 ###< ./../main/resources/mock/images/enjoy.png
 
-
 ###
-GET {{apiUrl}}/business/profile/list/2
+GET {{apiUrl}}/business/profile/mine/list
 Authorization: {{authorizationToken}}
 
 ###
@@ -69,25 +64,25 @@ Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business/profile/2/share
+POST {{apiUrl}}/business/profile/2/share/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
-
-{
-  "userIdList": [2,3]
-}
 
 ###
-POST {{apiUrl}}/business/profile/2/expel
+DELETE {{apiUrl}}/business/profile/1/expel/3
+
+###
+POST {{apiUrl}}/business/profile/1/expel/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
-
-{
-  "userIdList": [2,3]
-}
 
 ###
 POST {{apiUrl}}/business/profile/3/change/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/business/profile/1
+Authorization: {{authorizationToken}}
+
 

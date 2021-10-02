@@ -19,7 +19,6 @@ public class RejectPostController {
     @GetMapping("/list")
     public ResponseEntity<Page<RejectPostResponse.GetList>> getList(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
         Page<RejectPostResponse.GetList> response = rejectPostService.getList(pageDto, customUserDetails.getUser());
-
         return ResponseEntity.ok().body(response);
     }
 

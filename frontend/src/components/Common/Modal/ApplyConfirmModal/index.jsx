@@ -18,7 +18,6 @@ export default function ApplyConfirmModal({ setModalSwitch }) {
   const user = useRecoilValue(userState);
   const history = useHistory();
   const [completedApply, setCompletedApply] = useState(false);
-  console.log(apply);
 
   const applyForPost = async (feedId, postDoDateId) => {
     applyApi(feedId, postDoDateId)

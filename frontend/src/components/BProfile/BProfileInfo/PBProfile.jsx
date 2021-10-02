@@ -1,10 +1,6 @@
 import React, { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
-import { userState } from "../../../recoil/userState";
-import { deleteBprofile } from "../../../utils/bprofileApi";
 import * as S from "../style";
-import { useHistory } from "react-router";
 import BProfileJoin from "../BProfileJoin";
 import BProfileEditCont from "../../BProfileEdit/BProfileEditCont";
 

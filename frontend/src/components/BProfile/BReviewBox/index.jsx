@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { reviewListGetApi } from "../../../utils";
 import PBReviewBox from "./PBReviewBox";
@@ -10,14 +10,14 @@ export default function BReviewBox({ businessId }) {
     first: "",
     last: "",
   });
-  const getReviewlist = async () => {
+  const getReviewlist = useCallback(async () => {
     await reviewListGetApi(businessId, page)
       .then((res) => {
         setReviewlist(res.data.content);
         setPaging({ first: res.data.first, last: res.data.last });
       })
       .catch((err) => console.log(err));
-  };
+  }, [businessId, page]);
   const handlepage = async (order) => {
     if (order === "PREV") {
       setPage(page - 1);
@@ -27,7 +27,7 @@ export default function BReviewBox({ businessId }) {
   };
   useEffect(() => {
     getReviewlist();
-  }, [page]);
+  }, [getReviewlist]);
 
   return (
     <PBReviewBox

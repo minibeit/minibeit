@@ -3,10 +3,7 @@ package com.minibeit.post.web;
 import com.minibeit.MvcTest;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.*;
-import com.minibeit.post.dto.PostDto;
-import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.PostService;
 import com.minibeit.school.domain.School;
@@ -17,30 +14,24 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.fileUpload;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -109,133 +100,8 @@ class PostControllerTest extends MvcTest {
 
         postList.add(post1);
         postList.add(post2);
-        postDoDate1 = PostDoDate.builder().id(1L).full(false).post(post1).doDate(LocalDateTime.of(2021, 9, 5, 9, 30)).build();
-        postDoDate2 = PostDoDate.builder().id(2L).full(true).post(post1).doDate(LocalDateTime.of(2021, 9, 5, 10, 30)).build();
-    }
-
-    @Test
-    @DisplayName("게시물 정보입력(생성) 문서화")
-    public void createInfo() throws Exception {
-        PostRequest.CreateInfo request = PostRequest.CreateInfo.builder()
-                .title("커피를 얼마나 마셔야 잠을 못잘까~?")
-                .content("실험 내용")
-                .place("고려대학교 연구실")
-                .contact("010-1234-1234")
-                .category("미디어")
-                .headcount(10)
-                .payment(Payment.CACHE)
-                .cache(10000)
-                .goods(null)
-                .paymentDetail("계좌로 지급해드립니다.")
-                .condition(true)
-                .conditionDetail("커피 많이 드시는 사람|")
-                .doTime(60)
-                .schoolId(1L)
-                .businessProfileId(1L)
-                .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
-                .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().groupId(1).doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
-                .build();
-        PostResponse.OnlyId response = PostResponse.OnlyId.builder().id(1L).build();
-
-        given(postService.createInfo(any(), any())).willReturn(response);
-
-        ResultActions results = mvc.perform(post("/api/post/info")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
-                .characterEncoding("UTF-8")
-        );
-
-        results.andExpect(status().isCreated())
-                .andDo(print())
-                .andDo(document("post-create-info",
-                        requestFields(
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("place").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("contact").type(JsonFieldType.STRING).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("category").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("headcount").type(JsonFieldType.NUMBER).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("payment").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("cache").description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("goods").description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("paymentDetail").type(JsonFieldType.STRING).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("condition").type(JsonFieldType.BOOLEAN).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("conditionDetail").description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("doTime").type(JsonFieldType.NUMBER).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("businessProfileId").type(JsonFieldType.NUMBER).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("startDate").type(JsonFieldType.STRING).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("endDate").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("doDateList[].groupId").type(JsonFieldType.NUMBER).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("doDateList[].doDate").type(JsonFieldType.STRING).description("참여 가능 날짜(시간포함)")
-                        ),
-                        responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("생성된 게시물 식별자")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("게시물 파일 추가")
-    public void addFiles() throws Exception {
-        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
-        MockMultipartFile files = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is.readAllBytes());
-        PostResponse.OnlyId response = PostResponse.OnlyId.builder().id(1L).build();
-
-        given(postService.addFiles(any(), any(), any())).willReturn(response);
-
-        ResultActions results = mvc.perform(
-                fileUpload("/api/post/{postId}/files", 1)
-                        .file(files)
-                        .contentType(MediaType.MULTIPART_FORM_DATA)
-                        .characterEncoding("UTF-8")
-        );
-
-        results.andExpect(status().isCreated())
-                .andDo(document("post-add-files",
-                        pathParameters(
-                                parameterWithName("postId").description("게시물 식별자")
-                        ),
-                        requestParts(
-                                partWithName("files").description("게시물에 추가할 파일")
-                        ),
-                        responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시물 식별자")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("게시물 세부내용 수정")
-    public void updateContent() throws Exception {
-        PostRequest.UpdateContent request = PostRequest.UpdateContent.builder()
-                .updatedContent("수정된 내용 추가")
-                .build();
-        PostResponse.OnlyId response = PostResponse.OnlyId.builder().id(1L).build();
-
-        given(postService.updateContent(any(), any(), any())).willReturn(response);
-
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .put("/api/post/{postId}", 1)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
-                .characterEncoding("UTF-8")
-        );
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("post-update-content",
-                        pathParameters(
-                                parameterWithName("postId").description("게시물 식별자")
-                        ),
-                        requestFields(
-                                fieldWithPath("updatedContent").type(JsonFieldType.STRING).description("수정된 내용")
-                        ),
-                        responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시물 식별자")
-                        )
-                ));
+        postDoDate1 = PostDoDate.builder().id(1L).isFull(false).post(post1).doDate(LocalDateTime.of(2021, 9, 5, 9, 30)).build();
+        postDoDate2 = PostDoDate.builder().id(2L).isFull(true).post(post1).doDate(LocalDateTime.of(2021, 9, 5, 10, 30)).build();
     }
 
     @Test
@@ -335,8 +201,10 @@ class PostControllerTest extends MvcTest {
     @Test
     @DisplayName("게시물 목록 조회 문서화(학교 id,실험날짜 기준)")
     public void getList() throws Exception {
+        CustomUserDetails customUserDetails = CustomUserDetails.create(user);
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 5), postList.size());
-        given(postService.getList(any(), any(), any(), any(), any(), any(), any(), any(), any())).willReturn(postPage);
+        Page<PostResponse.GetList> response = postPage.map(post1 -> PostResponse.GetList.build(post1, customUserDetails));
+        given(postService.getList(any(), any(), any(), any(), any(), any(), any(), any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/list/{schoolId}", 1)
@@ -387,7 +255,9 @@ class PostControllerTest extends MvcTest {
     @DisplayName("자신이 즐겨찾기한 게시물 목록 조회")
     public void getListByLike() throws Exception {
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 6), postList.size());
-        given(postService.getListByLike(any(), any())).willReturn(postPage);
+        Page<PostResponse.GetLikeList> response = postPage.map(PostResponse.GetLikeList::build);
+
+        given(postService.getListByLike(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/like/list")
@@ -483,6 +353,7 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(1L)
                 .reviewId(1L)
                 .review("내가 작성한 첫번째 후기")
+                .isWritable(true)
                 .build();
         PostResponse.GetMyCompletedList getMyCompletedList2 = PostResponse.GetMyCompletedList.builder()
                 .postId(2L)
@@ -490,6 +361,7 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(2L)
                 .reviewId(2L)
                 .review("내가 작성한 두번째 후기")
+                .isWritable(true)
                 .build();
         PostResponse.GetMyCompletedList getMyCompletedList3 = PostResponse.GetMyCompletedList.builder()
                 .postId(2L)
@@ -497,6 +369,7 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(2L)
                 .reviewId(3L)
                 .review("내가 작성한 세번째 후기")
+                .isWritable(false)
                 .build();
         response.add(getMyCompletedList1);
         response.add(getMyCompletedList2);
@@ -522,78 +395,10 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("content[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 시작 시간 식별자"),
                                 fieldWithPath("content[].reviewId").description("리뷰 식별자 (없다면 null)"),
                                 fieldWithPath("content[].review").description("리뷰 내용 (없다면 null)"),
+                                fieldWithPath("content[].isWritable").description("리뷰를 작성하거나 수정할 수 있다면 true(실험후 일주일동안 가능)"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("비즈니스 프로필로 생성한 실험 리스트 문서화")
-    public void getListByBusinessProfile() throws Exception {
-        List<Post> postList = new ArrayList<>();
-        postList.add(post1);
-        postList.add(post2);
-        List<PostResponse.GetListByBusinessProfile> collect = postList.stream().map(PostResponse.GetListByBusinessProfile::build).collect(Collectors.toList());
-        PageDto pageDto = new PageDto(1, 5);
-
-        Page<PostResponse.GetListByBusinessProfile> postPage = new PageImpl<>(collect, pageDto.of(), postList.size());
-
-        given(postService.getListByBusinessProfile(any(), any(), any())).willReturn(postPage);
-
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/business/profile/{businessProfileId}/list", 1)
-                .param("page", "1")
-                .param("size", "5")
-                .param("status", "RECRUIT"));
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("post-getList-business-profile",
-                        pathParameters(
-                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
-                        ),
-                        requestParameters(
-                                parameterWithName("page").description("조회할 페이지"),
-                                parameterWithName("size").description("조회할 사이즈"),
-                                parameterWithName("status").description("RECRUIT(모집중) or COMPLETE(모집완료)")
-                        ),
-                        relaxedResponseFields(
-                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
-                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("제목"),
-                                fieldWithPath("content[].likes").type(JsonFieldType.NUMBER).description("즐겨찾기 수"),
-                                fieldWithPath("totalElements").description("전체 개수"),
-                                fieldWithPath("last").description("마지막 페이지인지 식별"),
-                                fieldWithPath("totalPages").description("전체 페이지")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("게시물 삭제 문서화")
-    public void deleteOne() throws Exception {
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.delete("/api/post/{postId}", 1));
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("post-deleteOne",
-                        pathParameters(
-                                parameterWithName("postId").description("삭제할 게시물 식별자")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("게시물 모집상태 변화 문서화")
-    public void completed() throws Exception {
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.post("/api/post/{postId}/completed", 1));
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("post-recruitment-Completed",
-                        pathParameters(
-                                parameterWithName("postId").description("모집완료 할 게시물 식별자")
                         )
                 ));
     }

@@ -133,7 +133,7 @@ function ReviewFeedBlock({ feedInfo }) {
 }
 
 function FinishFeedBlock({ feedInfo, getMakelist }) {
-  const [change, setChange] = useRecoilState(changeState);
+  const [change] = useRecoilState(changeState);
   if (change === 1) {
     getMakelist();
   }

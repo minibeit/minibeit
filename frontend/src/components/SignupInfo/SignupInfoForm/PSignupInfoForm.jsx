@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import PropTypes, { object, shape } from "prop-types";
+import PropTypes from "prop-types";
 import { PVImg, SchoolSearch } from "../../Common";
 import { handleCompressImg } from "../../../utils/imgCompress";
 import Portal from "../../Common/Modal/Portal";
 import ProgressBar from "../../Common/Progressbar";
 
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { signupState } from "../../../recoil/signupState";
 import { nickCheckApi } from "../../../utils/auth";
 import * as S from "../style";
@@ -46,11 +46,9 @@ function PSignupInfoForm({ signupHandler }) {
     if (name === "nickname") {
       setNick("notyet");
     }
-    console.log(value, name);
     setInputs({ ...inputs, [name]: value });
   };
   const handleJob = async (jobName) => {
-    console.log(jobName);
     setInputs({ ...inputs, job: jobName });
     setMsg("시작하기");
   };
@@ -68,7 +66,6 @@ function PSignupInfoForm({ signupHandler }) {
     setImg(undefined);
   };
   const singupInfoFunc = (e) => {
-    console.log(index);
     if (index < 1) {
       for (const key in inputs) {
         if (
@@ -146,11 +143,8 @@ function PSignupInfoForm({ signupHandler }) {
           <S.FormsignupContainer>
             {index === 0 ? (
               <>
-                <S.SICont1_2>
-                  <p>
-                    {" "}
-                    프로필 사진<p>(필수아님*)</p>{" "}
-                  </p>
+                <S.SICont12>
+                  <p> 프로필 사진(필수아님*) </p>
 
                   <S.ImgBox>
                     {img ? (
@@ -169,9 +163,9 @@ function PSignupInfoForm({ signupHandler }) {
                     type="file"
                     onChange={fileChange}
                   />
-                </S.SICont1_2>
-                <S.SICont1_1>
-                  <S.SICont1_1_1>
+                </S.SICont12>
+                <S.SICont11>
+                  <S.SICont111>
                     <S.SILabel width="82px">
                       이름
                       <S.SignupInput
@@ -236,8 +230,8 @@ function PSignupInfoForm({ signupHandler }) {
                         onChange={onChange}
                       />
                     </S.SILabel>
-                  </S.SICont1_1_1>
-                  <S.SICont1_1_2>
+                  </S.SICont111>
+                  <S.SICont112>
                     <S.SILabel width="130px">
                       전화번호
                       <S.SignupInput
@@ -248,8 +242,8 @@ function PSignupInfoForm({ signupHandler }) {
                         onChange={onChange}
                       />
                     </S.SILabel>
-                  </S.SICont1_1_2>
-                </S.SICont1_1>
+                  </S.SICont112>
+                </S.SICont11>
               </>
             ) : index === 1 ? (
               <>

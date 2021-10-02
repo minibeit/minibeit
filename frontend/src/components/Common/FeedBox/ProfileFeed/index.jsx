@@ -74,7 +74,6 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
       })
       .catch((err) => console.log(err));
   };
-  console.log(feedInfo);
   const postInfo = {
     id: feedInfo.id,
     postTitle: feedInfo.title,

@@ -48,9 +48,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                         .and(minPayGoe(minPay))
                         .and(doTimeLoe(doTime))
                         .and(startEndTimeBetween(doDate, startTime, endTime)))
-                .orderBy(post.id.desc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .limit(pageable.getPageSize())
+                .orderBy(post.id.desc());
 
         QueryResults<Post> results = query.fetchResults();
 
@@ -115,9 +115,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(post.businessProfile)
                 .where(post.businessProfile.id.eq(businessProfileId)
                         .and(postStatusEq(postStatus)))
-                .orderBy(post.id.desc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .limit(pageable.getPageSize())
+                .orderBy(post.id.desc());
         QueryResults<Post> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
@@ -125,10 +125,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private BooleanExpression postStatusEq(PostStatus postStatus) {
         if (postStatus.equals(PostStatus.RECRUIT)) {
-            return post.postStatus.eq(postStatus).and(post.endDate.after(LocalDateTime.now().minusDays(1)));
+            return post.postStatus.eq(postStatus).and(post.endDate.after(LocalDateTime.now()));
         }
         if (postStatus.equals(PostStatus.COMPLETE)) {
-            return post.postStatus.eq(postStatus).or(post.endDate.before(LocalDateTime.now().minusDays(1)));
+            return post.postStatus.eq(postStatus).or(post.endDate.before(LocalDateTime.now()));
         }
         return null;
     }
@@ -150,7 +150,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<PostResponse.GetMyCompletedList> findAllByMyCompleted(User user, Pageable pageable) {
         JPAQuery<PostResponse.GetMyCompletedList> query = queryFactory.select(new QPostResponse_GetMyCompletedList(
-                        post.id, postDoDate.id, post.title, businessProfileReview.id, businessProfileReview.content
+                        post.id, postDoDate.id, post.title, businessProfileReview.id, businessProfileReview.content,postDoDate.doDate
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)
@@ -161,7 +161,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                                 .and(postApplicant.myFinish.isTrue())
                                 .and(postApplicant.businessFinish.isTrue())))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .limit(pageable.getPageSize())
+                .orderBy(postApplicant.updatedAt.desc());
 
         QueryResults<PostResponse.GetMyCompletedList> results = query.fetchResults();
 
@@ -178,9 +179,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
                         .and(applyStatusEq(applyStatus)))
-                .orderBy(postDoDate.doDate.asc())
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize());
+                .limit(pageable.getPageSize())
+                .orderBy(postDoDate.doDate.asc());
 
         QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
 
@@ -189,7 +190,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private BooleanExpression applyStatusEq(ApplyStatus applyStatus) {
         if (applyStatus.equals(ApplyStatus.WAIT)) {
-            return postApplicant.applyStatus.eq(ApplyStatus.WAIT).and(postDoDate.doDate.after(LocalDateTime.now().minusDays(1)));
+            return postApplicant.applyStatus.eq(ApplyStatus.WAIT).and(postDoDate.doDate.after(LocalDateTime.now()));
         }
         if (applyStatus.equals(ApplyStatus.APPROVE)) {
             return postApplicant.applyStatus.eq(ApplyStatus.APPROVE).and(postApplicant.myFinish.isFalse());

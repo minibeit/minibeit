@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,10 +32,10 @@ public class BusinessProfileReviewService {
     private final PostApplicantRepository postApplicantRepository;
     private final BusinessProfileReviewRepository businessProfileReviewRepository;
 
-    public BusinessProfileReviewResponse.ReviewId create(Long postId, Long postDoDateId, BusinessProfilesReviewRequest.Create request, User user) {
+    public BusinessProfileReviewResponse.ReviewId create(Long postId, Long postDoDateId, BusinessProfilesReviewRequest.Create request, LocalDateTime now, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         PostApplicant postApplicant = postApplicantRepository.findByUserIdAndPostDoDateId(user.getId(), postDoDateId).orElseThrow(PostApplicantNotFoundException::new);
-        if (!postApplicant.writeReviewIsPossible()) {
+        if (!postApplicant.writeReviewIsPossible(now)) {
             throw new PermissionException();
         }
         postApplicant.updateWriteReview();
@@ -58,9 +59,12 @@ public class BusinessProfileReviewService {
         return new PageImpl<>(getOneList, pageDto.of(), businessProfileReviewList.getTotalElements());
     }
 
-    public BusinessProfileReviewResponse.ReviewId update(Long businessProfileReviewId, BusinessProfilesReviewRequest.Update request, User user) {
+    public BusinessProfileReviewResponse.ReviewId update(Long businessProfileReviewId, BusinessProfilesReviewRequest.Update request, LocalDateTime now, User user) {
         BusinessProfileReview businessProfileReview = businessProfileReviewRepository.findById(businessProfileReviewId).orElseThrow(BusinessProfileReviewNotFoundException::new);
         permissionCheck(user, businessProfileReview);
+        if (!businessProfileReview.updateReviewIsPossible(now)) {
+            throw new PermissionException();
+        }
         businessProfileReview.update(request.getContent());
         return BusinessProfileReviewResponse.ReviewId.build(businessProfileReview);
     }

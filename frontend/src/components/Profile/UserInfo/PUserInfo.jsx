@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
 import * as S from "../style";
 import PropTypes from "prop-types";
 import ProfileEditModal from "../ProfileEditModal";
@@ -17,7 +16,6 @@ PUserInfo.propTypes = {
 };
 
 export default function PUserInfo({ userData }) {
-  const history = useHistory();
   const [modalSwitch, setModalSwitch] = useState(false);
   return (
     <S.UserInfoContainer>

@@ -291,16 +291,3 @@ include::{snippets}/post-applicant-list/request-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-applicant-list/http-response.adoc[]
 include::{snippets}/post-applicant-list/response-fields.adoc[]
-
-=== 게시물에 해당하는 확정자 목록 날짜 기준으로 조회하기(실험모집하는 연구실)
-
-`GET /api/post/{postId}/applicant/confirm/list`
-
-요청 HTTP
-include::{snippets}/post-applicant-confirm-list/http-request.adoc[]
-include::{snippets}/post-applicant-confirm-list/path-parameters.adoc[]
-include::{snippets}/post-applicant-confirm-list/request-parameters.adoc[]
-
-성공 응답 HTTP
-include::{snippets}/post-applicant-confirm-list/http-response.adoc[]
-include::{snippets}/post-applicant-confirm-list/response-fields.adoc[]

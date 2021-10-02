@@ -27,7 +27,7 @@ export default function FeedInfoContainer({ feedId, date }) {
   useEffect(() => {
     getFeedDetail(feedId);
     resetApply();
-  }, []);
+  }, [feedId, resetApply]);
   return (
     <>
       {feedDetailData ? (

@@ -5,8 +5,8 @@ import { LoadingSpinner } from "../../Common";
 
 export default function UserInfo() {
   const [userData, setUserData] = useState();
-  useEffect(async () => {
-    await getMyInfo()
+  useEffect(() => {
+    getMyInfo()
       .then((res) => {
         setUserData(res.data);
       })

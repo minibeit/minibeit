@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import PTimeSelectBox from "./PTimeSelectBox";
 
@@ -42,7 +42,6 @@ export default function PFeedInfoContainer({
     id,
     businessProfileInfo,
     title,
-    doTime,
     startDate,
     endDate,
     content,
@@ -50,8 +49,6 @@ export default function PFeedInfoContainer({
     cache,
     goods,
     place,
-    schoolName,
-    contact,
     files,
     recruitCondition,
     recruitConditionDetail,
@@ -80,14 +77,14 @@ export default function PFeedInfoContainer({
         <h4>상세모집요강</h4>
         <p>{content}</p>
       </S.ContentBox>
-      <S.recruitConditionBox>
+      <S.RecruitConditionBox>
         <h4>지원조건</h4>
         {recruitCondition ? (
           <p>{recruitConditionDetail}</p>
         ) : (
           <p>누구나 지원가능!</p>
         )}
-      </S.recruitConditionBox>
+      </S.RecruitConditionBox>
       <S.PaymentBox>
         <h4>금액 및 지급 분류</h4>
         {payment === "CACHE" ? <p>보상: {cache}원</p> : <p>보상: {goods}</p>}

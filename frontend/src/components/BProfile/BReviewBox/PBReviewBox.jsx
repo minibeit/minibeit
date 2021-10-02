@@ -6,7 +6,6 @@ import * as S from "../style";
 export default function PBReviewBox({ reviewlist, handlepage, paging }) {
   return (
     <>
-      <S.BoxTitle>후기 모아보기</S.BoxTitle>
       {reviewlist.length > 0 ? (
         <>
           {reviewlist.map((reviewEle) => (

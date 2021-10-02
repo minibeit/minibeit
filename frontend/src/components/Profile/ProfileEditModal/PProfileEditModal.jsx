@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { PVImg, SchoolSearch } from "../../Common";
 import { signupState } from "../../../recoil/signupState";
@@ -29,7 +28,6 @@ PProfileEditModal.propTypes = {
 };
 
 export default function PProfileEditModal({ userData, editUserDataHandler }) {
-  const history = useHistory();
   const [inputs, setInputs] = useState({
     name: userData.name,
     pre_nickname: userData.nickname,
@@ -43,7 +41,7 @@ export default function PProfileEditModal({ userData, editUserDataHandler }) {
   const [basicImg, setBasicImg] = useState(false);
   const school = useRecoilValue(signupState).schoolId;
 
-  const { name, pre_nickname, new_nickname, phoneNum, job, birth } = inputs;
+  const { name, new_nickname, phoneNum, job, birth } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
     console.log(value, name);
@@ -56,20 +54,7 @@ export default function PProfileEditModal({ userData, editUserDataHandler }) {
       setInputs({ ...inputs, [name]: value });
     }
   };
-  useEffect(() => {
-    if (phoneNum.length === 10) {
-      setInputs({
-        ...inputs,
-        ["phoneNum"]: phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"),
-      });
-    }
-    if (phoneNum.length === 13) {
-      setInputs({
-        ...inputs,
-        ["phoneNum"]: phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"),
-      });
-    }
-  }, [phoneNum]);
+
   const fileChange = (e) => {
     setBasicImg(false);
     handleCompressImg(e.target.files[0]).then((res) => setNewImg(res));
@@ -80,73 +65,104 @@ export default function PProfileEditModal({ userData, editUserDataHandler }) {
   };
 
   return (
-    <S.EditContainer>
-      <S.EditInput
-        value={name}
-        name="name"
-        type="text"
-        placeholder="이름"
-        onChange={onChange}
-      />
-      <br />
-      <S.EditInput value={pre_nickname} type="hidden" />
-      <S.EditInput
-        value={new_nickname}
-        name="new_nickname"
-        type="text"
-        placeholder="닉네임"
-        onChange={onChange}
-      />
-      <br />
-      <S.EditSelect onChange={onChange} defaultValue={"DEFAULT"} name="gender">
-        <option value="DEFAULT" disabled>
-          {userData.gender === "MALE" ? "남자" : "여자"}
-        </option>
-        <option value="MALE" key={0}>
-          남자
-        </option>
-        <option value="FEMALE" key={1}>
-          여자
-        </option>
-      </S.EditSelect>
-      <br />
-      <S.ImgBox>
-        {basicImg === false ? (
-          newImg ? (
-            <PVImg img={newImg} />
-          ) : userData.avatar ? (
-            <S.Img src={userData.avatar} />
+    <>
+      <S.EditContainer1>
+        <S.ImgBox>
+          {basicImg === false ? (
+            newImg ? (
+              <PVImg img={newImg} />
+            ) : userData.avatar ? (
+              <S.Img src={userData.avatar} />
+            ) : (
+              <S.Img src="/기본프로필.png" />
+            )
           ) : (
             <S.Img src="/기본프로필.png" />
-          )
-        ) : (
-          <S.Img src="/기본프로필.png" />
-        )}
-      </S.ImgBox>
-      <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
-      <br />
-      <S.EditInput name="img" type="file" onChange={fileChange} />
-      <br />
-      <S.EditInput
-        value={phoneNum}
-        name="phoneNum"
-        type="text"
-        placeholder="전화번호"
-        onChange={onNumChange}
-      />
-      <br />
-      <S.EditInput
-        value={job}
-        name="job"
-        type="text"
-        placeholder="직업"
-        onChange={onChange}
-      />
-      <br />
-      <S.EditInput value={birth} name="birth" type="date" onChange={onChange} />
-      <br />
-      <SchoolSearch use="Signup" />
-      <br />
+          )}
+        </S.ImgBox>
+        <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
+        <S.FileLabel htmlFor="input-file">사진 업로드 하기</S.FileLabel>
+        <S.EditFInput
+          name="img"
+          id="input-file"
+          type="file"
+          onChange={fileChange}
+        />
+      </S.EditContainer1>
+      <S.EditContainer2>
+        <S.PELabel>
+          이름
+          <S.EditInput
+            value={name}
+            name="name"
+            type="text"
+            placeholder="이름"
+            onChange={onChange}
+          />
+        </S.PELabel>
+      </S.EditContainer2>
+      <S.PELabel>
+        닉네임
+        <S.EditInput
+          value={new_nickname}
+          name="new_nickname"
+          type="text"
+          placeholder="닉네임"
+          onChange={onChange}
+        />
+      </S.PELabel>
+      <S.PELabel>
+        생년월일
+        <S.EditInput
+          value={birth}
+          name="birth"
+          type="date"
+          onChange={onChange}
+        />
+      </S.PELabel>
+      <S.PELabel>
+        관심학교
+        <SchoolSearch use="Signup" />
+      </S.PELabel>
+      <S.PELabel>
+        직업
+        <S.EditInput
+          value={job}
+          name="job"
+          type="text"
+          placeholder="직업"
+          onChange={onChange}
+        />
+      </S.PELabel>
+      <S.PELabel>
+        성별
+        <S.EditSelect
+          onChange={onChange}
+          defaultValue={"DEFAULT"}
+          name="gender"
+        >
+          <option value="DEFAULT" disabled>
+            {userData.gender === "MALE" ? "남자" : "여자"}
+          </option>
+          <option value="MALE" key={0}>
+            남자
+          </option>
+          <option value="FEMALE" key={1}>
+            여자
+          </option>
+        </S.EditSelect>
+      </S.PELabel>
+      <S.PELabel>
+        연락처
+        <S.EditInput
+          value={phoneNum}
+          name="phoneNum"
+          type="text"
+          placeholder="전화번호"
+          onChange={onNumChange}
+        />
+      </S.PELabel>
+
       <S.EditButton
         type="submit"
         onClick={async (e) => {
@@ -154,15 +170,8 @@ export default function PProfileEditModal({ userData, editUserDataHandler }) {
           editUserDataHandler(inputs, school, newImg, basicImg);
         }}
       >
-        수정
+        <p>수정</p>
       </S.EditButton>
-      <S.EditButton
-        onClick={() => {
-          history.push(`/user/${pre_nickname}`);
-        }}
-      >
-        수정 취소
-      </S.EditButton>
-    </S.EditContainer>
+    </>
   );
 }

@@ -69,18 +69,18 @@ export const SITitle = styled.div`
     font-weight: 600;
   }
 `;
-export const SICont1_1 = styled.div``;
-export const SICont1_1_1 = styled.div`
+export const SICont11 = styled.div``;
+export const SICont111 = styled.div`
   display: flex;
   align-items: start;
   flex-wrap: wrap;
 `;
-export const SICont1_1_2 = styled.div`
+export const SICont112 = styled.div`
   margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
 `;
-export const SICont1_2 = styled.div`
+export const SICont12 = styled.div`
   width: 174px;
 
   margin: 18px 0px;

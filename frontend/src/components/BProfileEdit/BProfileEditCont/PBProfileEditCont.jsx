@@ -4,6 +4,9 @@ import { PVImg } from "../../Common";
 
 import * as S from "../style";
 import { handleCompressImg } from "../../../utils/imgCompress";
+import Address from "../../Common/Address";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../../recoil/userState";
 
 PBProfileEditCont.propTypes = {
   bpEditHandler: PropTypes.func.isRequired,
@@ -11,23 +14,28 @@ PBProfileEditCont.propTypes = {
     avatar: PropTypes.string,
     contact: PropTypes.string.isRequired,
     id: PropTypes.number.isRequired,
-    introduce: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     place: PropTypes.string.isRequired,
   }),
 };
 
 export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
+  const admin = useRecoilValue(userState).name;
   const [inputs, setInputs] = useState({
     name: BProfileData.name,
     place: BProfileData.place,
-    introduce: BProfileData.introduce,
     contact: BProfileData.contact,
   });
+  const [admodalSwitch, setadModalSwitch] = useState(false);
   const [basicImg, setBasicImg] = useState(false);
   const [newImg, setNewImg] = useState();
-
-  const { name, place, introduce, contact } = inputs;
+  const handleAddress = async (fullAddress) => {
+    setInputs({
+      ...inputs,
+      place: fullAddress,
+    });
+  };
+  const { name, place, contact } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
     setInputs({ ...inputs, [name]: value });
@@ -42,36 +50,7 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
   };
   return (
     <>
-      <S.BPEditCont>
-        <S.BPEditInput
-          value={name}
-          name="name"
-          type="text"
-          placeholder="실험실 이름"
-          onChange={onChange}
-        />
-
-        <S.BPEditInput
-          value={place || ""}
-          name="place"
-          type="text"
-          placeholder="장소"
-          onChange={onChange}
-        />
-        <S.BPEditInput
-          value={introduce || ""}
-          name="introduce"
-          type="text"
-          placeholder="실험실 소개"
-          onChange={onChange}
-        />
-        <S.BPEditInput
-          value={contact || ""}
-          name="contact"
-          type="text"
-          placeholder="연락처"
-          onChange={onChange}
-        />
+      <S.BNCont1>
         <S.ImgBox>
           {basicImg === false ? (
             newImg ? (
@@ -86,7 +65,63 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
           )}
         </S.ImgBox>
         <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
-        <S.BPEditInput name="img" type="file" onChange={fileChange} />
+        <S.FileLabel htmlFor="input-file">사진 업로드 하기</S.FileLabel>
+        <S.BPEditFileInput
+          name="img"
+          id="input-file"
+          type="file"
+          onChange={fileChange}
+        />
+      </S.BNCont1>
+      <S.BNCont2>
+        <S.BNCont21>
+          <S.BNLabel>
+            이름
+            <S.BPEditInput
+              value={name}
+              name="name"
+              type="text"
+              placeholder="이름"
+              onChange={onChange}
+            />
+          </S.BNLabel>{" "}
+          <S.BNLabel>
+            담당자
+            <S.BPEditInput value={admin} name="admin" type="text" readOnly />
+          </S.BNLabel>
+        </S.BNCont21>
+        <S.BNCont22>
+          {" "}
+          <S.BNLabel>
+            주소
+            <S.BPEditInput
+              value={place}
+              name="place"
+              type="text"
+              placeholder="장소"
+              onClick={() => setadModalSwitch(true)}
+              readOnly
+            />
+          </S.BNLabel>
+          {admodalSwitch ? (
+            <Address
+              setModalSwitch={setadModalSwitch}
+              handleAddress={handleAddress}
+            />
+          ) : null}
+        </S.BNCont22>
+        <S.BNCont23>
+          <S.BNLabel>
+            연락처
+            <S.BPEditInput
+              value={contact}
+              name="contact"
+              type="text"
+              placeholder="연락처"
+              onChange={onChange}
+            />
+          </S.BNLabel>
+        </S.BNCont23>
         <S.BPEditButton
           type="submit"
           onClick={async (e) => {
@@ -94,9 +129,9 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
             bpEditHandler(inputs, newImg, basicImg);
           }}
         >
-          수정하기
+          <p>수정하기</p>
         </S.BPEditButton>
-      </S.BPEditCont>
+      </S.BNCont2>
     </>
   );
 }

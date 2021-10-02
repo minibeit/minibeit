@@ -8,7 +8,6 @@ import * as S from "../style";
 export default function NicknameCombo({ handleJoin }) {
   const [user, setUser] = useState([]);
   const getUser = async (input) => {
-    console.log(input, "input");
     await getSearchUser(input)
       .then((res) => setUser(res.data))
       .catch((err) => console.log(err));
@@ -17,7 +16,7 @@ export default function NicknameCombo({ handleJoin }) {
   const [clear, setClear] = useState(false);
   const [previnput, setprevinput] = useState("");
   return (
-    <>
+    <S.NicknameBox>
       <Autocomplete
         disablePortal
         clearOnEscape={clear}
@@ -27,17 +26,43 @@ export default function NicknameCombo({ handleJoin }) {
           setUserId(option.id);
           return option.nickname;
         }}
-        sx={{ width: 300 }}
+        sx={{
+          width: 191,
+          "& > div > label": {
+            fontSize: 13,
+            color: "black!important",
+          },
+          "& > div > div": {
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 0,
+            borderBottomLeftRadius: 8,
+            borderBottomRightRadius: 0,
+            padding: "0!important",
+            color: "black!important",
+            "& > input": {
+              height: "25px!important",
+              color: "black!important",
+            },
+            "& > div": {
+              display: "none",
+            },
+            "& > fieldset": {
+              border: "none",
+              background: "lightgray",
+              zIndex: -1,
+            },
+          },
+        }}
         renderInput={(params) => {
           const input = params.inputProps.value;
-          if (input != previnput) {
-            console.log(input, previnput);
+          if (input !== previnput) {
             getUser(input);
             setprevinput(input);
           }
           return <TextField {...params} label="닉네임" />;
         }}
       />
+
       <S.BPJoinBtn
         onClick={async (e) => {
           e.preventDefault();
@@ -46,8 +71,8 @@ export default function NicknameCombo({ handleJoin }) {
           setClear(false);
         }}
       >
-        초대하기
+        <p>초대</p>
       </S.BPJoinBtn>
-    </>
+    </S.NicknameBox>
   );
 }

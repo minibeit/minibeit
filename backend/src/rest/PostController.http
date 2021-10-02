@@ -102,7 +102,6 @@ Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/post/list/1?doDate=2021-10-01&page=1&size=15&paymentType=&category=&startTime=09:00&endTime=12:35&minPay=9999&doTime=
 
-
 ###
 GET {{apiUrl}}/post/2/start?doDate=2021-09-27
 

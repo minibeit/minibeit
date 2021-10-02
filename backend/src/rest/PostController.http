@@ -58,7 +58,7 @@ Content-Disposition: form-data; name="files"; filename="enjoy.png"
 < ./../main/resources/mock/images/enjoy.png
 
 ###
-POST {{apiUrl}}/post/4/like
+POST {{apiUrl}}/post/1/like
 Authorization: {{authorizationToken}}
 
 ###

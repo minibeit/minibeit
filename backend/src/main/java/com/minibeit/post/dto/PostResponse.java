@@ -49,6 +49,7 @@ public class PostResponse {
         private String[] recruitConditionDetail;
         private Integer doTime;
         private String schoolName;
+        private Integer likes;
         private Boolean isLike;
         private Boolean isMine;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
@@ -78,7 +79,8 @@ public class PostResponse {
                     .files(post.getPostFileList().stream().map(PostFileDto.Image::build).collect(Collectors.toList()))
                     .businessProfileInfo(PostDto.BusinessProfileInfo.build(post.getBusinessProfile()))
                     .isMine(post.isMine(customUserDetails))
-                    .isLike(post.isLike(customUserDetails));
+                    .isLike(post.isLike(customUserDetails))
+                    .likes(post.getPostLikeList().size());
             if (post.getRecruitConditionDetail() != null) {
                 getOneBuilder.recruitConditionDetail(post.getRecruitConditionDetail().split("\\|"));
             }

@@ -162,7 +162,8 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("businessProfileInfo.contact").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 연락처"),
                                 fieldWithPath("businessProfileInfo.address").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 주소"),
                                 fieldWithPath("isLike").type(JsonFieldType.BOOLEAN).description("자신이 해당 게시물에 즐겨찾기를 한 상태라면 true 아니면 false"),
-                                fieldWithPath("isMine").type(JsonFieldType.BOOLEAN).description("게시물이 자신이 것인지")
+                                fieldWithPath("isMine").type(JsonFieldType.BOOLEAN).description("게시물이 자신이 것인지"),
+                                fieldWithPath("likes").type(JsonFieldType.NUMBER).description("게시물의 북마크 수")
                         )
                 ));
     }

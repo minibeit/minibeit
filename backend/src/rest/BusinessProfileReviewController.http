@@ -1,4 +1,4 @@
-POST {{apiUrl}}/post/2/review/8
+POST {{apiUrl}}/post/1/review/1
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
@@ -6,7 +6,7 @@ Authorization: {{authorizationToken}}
   "postTitle": "게시물 제목",
   "content": "후기작성",
   "time": "60",
-  "doDate": "2021-09-09T09:30"
+  "doDate": "2021-10-02T09:30"
 }
 
 ###
@@ -17,7 +17,7 @@ GET {{apiUrl}}/business/profile/1/review/list?page=1&size=5
 Authorization: {{authorizationToken}}
 
 ###
-PUT {{apiUrl}}/business/profile/review/1
+PUT {{apiUrl}}/business/profile/review/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 

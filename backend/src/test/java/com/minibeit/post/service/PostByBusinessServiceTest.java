@@ -11,6 +11,9 @@ import com.minibeit.common.dto.SavedFile;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostApplicant;
+import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostFileRepository;
 import com.minibeit.post.domain.repository.PostRepository;
@@ -51,7 +54,7 @@ import static org.mockito.Mockito.verify;
 
 @SpringBootTest
 @Transactional
-@DisplayName("비즈니스 프로필 Post Service 테스트")
+@DisplayName("비즈니스 프로필 Post Service 생성, 수정, 삭제 테스트")
 class PostByBusinessServiceTest {
     @Autowired
     private PostByBusinessService postByBusinessService;
@@ -59,6 +62,8 @@ class PostByBusinessServiceTest {
     private PostRepository postRepository;
     @Autowired
     private PostDoDateRepository postDoDateRepository;
+    @Autowired
+    private PostApplicantRepository postApplicantRepository;
     @Autowired
     private SchoolRepository schoolRepository;
     @Autowired
@@ -76,6 +81,11 @@ class PostByBusinessServiceTest {
 
     private User userInBusinessProfile;
     private User anotherUser;
+    private User applicant1;
+    private User applicant2;
+    private User applicant3;
+    private User applicant4;
+    private User applicant5;
     private School school;
     private BusinessProfile businessProfile;
     private PostRequest.CreateInfo createInfoRequest;
@@ -111,7 +121,42 @@ class PostByBusinessServiceTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
-        userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser));
+        applicant1 = User.builder()
+                .oauthId("3")
+                .nickname("지원자1")
+                .role(Role.USER)
+                .signupCheck(true)
+                .provider(SignupProvider.KAKAO)
+                .build();
+        applicant2 = User.builder()
+                .oauthId("4")
+                .nickname("지원자2")
+                .role(Role.USER)
+                .signupCheck(true)
+                .provider(SignupProvider.KAKAO)
+                .build();
+        applicant3 = User.builder()
+                .oauthId("5")
+                .nickname("지원자3")
+                .role(Role.USER)
+                .signupCheck(true)
+                .provider(SignupProvider.KAKAO)
+                .build();
+        applicant4 = User.builder()
+                .oauthId("6")
+                .nickname("지원자4")
+                .role(Role.USER)
+                .signupCheck(true)
+                .provider(SignupProvider.KAKAO)
+                .build();
+        applicant5 = User.builder()
+                .oauthId("7")
+                .nickname("지원자5")
+                .role(Role.USER)
+                .signupCheck(true)
+                .provider(SignupProvider.KAKAO)
+                .build();
+        userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser, applicant1, applicant2, applicant3, applicant4, applicant5));
 
         businessProfile = BusinessProfile.builder()
                 .name("동그라미 실험실")
@@ -149,6 +194,19 @@ class PostByBusinessServiceTest {
     private void initPost() {
         Post createdPost = Post.create(createInfoRequest, school, businessProfile);
         post = postRepository.save(createdPost);
+
+        PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
+        PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 1, 9, 30), createdPost);
+        PostDoDate postDoDate3 = PostDoDate.create(LocalDateTime.of(2021, 10, 2, 9, 30), createdPost);
+        PostDoDate postDoDate4 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
+        postDoDateRepository.saveAll(Arrays.asList(postDoDate1, postDoDate2, postDoDate3, postDoDate4));
+        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applicant1);
+        PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, applicant2);
+        PostApplicant postApplicant3 = PostApplicant.create(postDoDate3, applicant3);
+        PostApplicant postApplicant4 = PostApplicant.create(postDoDate4, applicant4);
+        PostApplicant postApplicant5 = PostApplicant.create(postDoDate3, applicant5);
+
+        postApplicantRepository.saveAll(Arrays.asList(postApplicant1, postApplicant2, postApplicant3, postApplicant4, postApplicant5));
     }
 
     @Test
@@ -194,4 +252,14 @@ class PostByBusinessServiceTest {
         assertThatThrownBy(() -> postByBusinessService.addFiles(9999L, addFileRequest, userInBusinessProfile))
                 .isExactlyInstanceOf(PostNotFoundException.class);
     }
+
+//    @Test
+//    @DisplayName("게시글 모집완료 - 성공")
+//    void recruitmentCompleted() {
+//        PostResponse.OnlyId response = postByBusinessService.recruitmentCompleted(createInfoRequest, userInBusinessProfile);
+//
+//        Post findPost = postRepository.findById(response.getId()).orElseThrow(PostNotFoundException::new);
+//
+//        assertThat(findPost.getTitle()).isEqualTo(createInfoRequest.getTitle());
+//    }
 }

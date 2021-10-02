@@ -33,9 +33,15 @@ public class UserService {
     }
 
     public UserResponse.CreateOrUpdate update(UserRequest.Update request, User user) {
+
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         findUser.nicknameDuplicateCheck(request.isNicknameChanged(), request.getNickname());
+
+        if (request.isNicknameChanged()) {
+            UserRequest.Nickname requestNickname = UserRequest.Nickname.builder().nickname(request.getNickname()).build();
+            nicknameCheck(requestNickname);
+        }
 
         User updatedUser = findUser.update(request, school);
         updateAvatar(request, user, findUser);

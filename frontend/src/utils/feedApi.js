@@ -105,9 +105,12 @@ export const bookmarkApi = async (postId, req) => {
   }
 };
 
-export const stateCompleteApi = async (postId) => {
+export const stateCompleteApi = async (postId, rejectComment) => {
+  const data = {
+    rejectComment : rejectComment
+  }
   return await withAuthInstance.post(
-   STATE_COMPLETE + postId+"/completed",
+   STATE_COMPLETE + postId+"/completed",data
   );
 };
 

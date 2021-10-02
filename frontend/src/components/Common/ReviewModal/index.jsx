@@ -4,6 +4,7 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { editReviewApi, reviewNewApi } from "../../../utils";
 import Portal from "../Modal/Portal";
+import CloseIcon from "@mui/icons-material/Close";
 
 import * as S from "./style";
 
@@ -23,6 +24,7 @@ export default function ReviewModal({
     setReviewContent(value);
   };
   const newReview = async (content) => {
+    await doJoin(postInfo.postDoDateId);
     const newReviewInfo = {
       postTitle: postInfo.postTitle,
       content: content,
@@ -31,11 +33,15 @@ export default function ReviewModal({
     };
     await reviewNewApi(postInfo.id, postInfo.postDoDateId, newReviewInfo)
       .then(async () => {
-        await doJoin(postInfo.postDoDateId);
         alert("후기가 등록되었습니다");
         window.location.replace("/user/" + userName);
       })
       .catch((err) => console.log(err));
+  };
+  const nextReview = async () => {
+    await doJoin(postInfo.postDoDateId);
+    alert("참여완료 상태가 되었습니다.");
+    window.location.replace("/user/" + userName);
   };
   const editReview = async (content) => {
     await editReviewApi(postInfo.id, content)
@@ -51,7 +57,9 @@ export default function ReviewModal({
         <S.ModalBox>
           <S.ModalHeader>
             {state === "NEW" ? null : (
-              <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
+              <S.CloseModalBtn>
+                <CloseIcon onClick={closeModal} />
+              </S.CloseModalBtn>
             )}
           </S.ModalHeader>
           <S.ModalContent>
@@ -97,14 +105,24 @@ export default function ReviewModal({
                 </S.ReviewTimecont>
               </S.ReviewInfo>
               {state === "NEW" ? (
-                <S.ReviewBtn
-                  onClick={async (e) => {
-                    e.preventDefault();
-                    await newReview(ReviewContent);
-                  }}
-                >
-                  <p>작성완료</p>
-                </S.ReviewBtn>
+                <>
+                  <S.ReviewBtn
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      await newReview(ReviewContent);
+                    }}
+                  >
+                    <p>작성완료</p>
+                  </S.ReviewBtn>
+                  <S.ReviewBtn
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      await nextReview();
+                    }}
+                  >
+                    <p>다음에 작성하기</p>
+                  </S.ReviewBtn>
+                </>
               ) : state === "EDIT" ? (
                 <S.ReviewBtn
                   onClick={async (e) => {
@@ -112,7 +130,7 @@ export default function ReviewModal({
                     await editReview(ReviewContent);
                   }}
                 >
-                  <p>작성완료</p>
+                  <p>수정완료</p>
                 </S.ReviewBtn>
               ) : null}
             </S.ReviewSecond>

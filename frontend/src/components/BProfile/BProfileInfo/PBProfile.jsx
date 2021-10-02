@@ -19,16 +19,8 @@ PBProfile.propTypes = {
 };
 
 export default function PBProfile({ buserData }) {
-  const [user, setUser] = useRecoilState(userState);
-  const nickname = useRecoilValue(userState).name;
   const [modalSwitch, setModalSwitch] = useState(false);
   const [modal2Switch, setModal2Switch] = useState(false);
-  const doDelete = async () => {
-    await deleteBprofile(buserData.id);
-    setUser({ ...user, bpId: 0 });
-    alert("삭제되었습니다.");
-    window.location.replace("/user/" + nickname);
-  };
 
   return (
     <S.UserInfoContainer>

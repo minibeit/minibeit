@@ -78,11 +78,11 @@ export const getMakelistApi = async (businessId, page,status) => {
   return await withAuthInstance.get(BPROFILE_MAKE_LIST+businessId+ "/list?page="+page+"&size=3&status="+status);
 };
 export const getWaitListApi = async (postId, doDate) => {
-  return await withAuthInstance.get(GET_WAIT_LIST+postId+ "/applicant/list?doDate="+doDate);
+  return await withAuthInstance.get(GET_WAIT_LIST+postId+ "/applicant/list?doDate="+doDate+"&status=WAIT");
 };
 
 export const getApproveListApi = async (postId, doDate) => {
-  return await withAuthInstance.get(GET_APPROVE_LIST+postId+ "/applicant/confirm/list?doDate="+doDate);
+  return await withAuthInstance.get(GET_APPROVE_LIST+postId+ "/applicant/list?doDate="+doDate+"&status=APPROVE");
 };
 
 export const approveOneApi = async (postId, postdoDateId, userId) => {

@@ -169,6 +169,18 @@ class BusinessProfileServiceTest {
         );
     }
 
+    @Test
+    @DisplayName("비즈니스 프로필 목록 조회 - 성공(어드민이 아닐 때)")
+    void getListIsMineWhenNotAdmin() {
 
+        final int businessProfiles = 1;
+        List<BusinessProfileResponse.GetList> listIsMine = businessProfileService.getListIsMine(userInBusinessProfile);
+
+        assertAll(
+                () -> assertThat(listIsMine.size()).isEqualTo(businessProfiles),
+                () -> assertThat(listIsMine.get(0).getName()).isEqualTo(businessProfile.getName()),
+                () -> assertThat(listIsMine.get(0).getId()).isEqualTo(businessProfile.getId())
+        );
+    }
 
 }

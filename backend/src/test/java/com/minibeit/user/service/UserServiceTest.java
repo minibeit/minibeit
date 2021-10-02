@@ -6,7 +6,6 @@ import com.minibeit.avatar.domain.AvatarType;
 import com.minibeit.avatar.domain.repository.AvatarRepository;
 import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.domain.QUserBusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
@@ -18,24 +17,16 @@ import com.minibeit.user.domain.Role;
 import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
-import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.exception.DuplicateNickNameException;
 import com.minibeit.user.service.exception.UserNotFoundException;
-import lombok.Getter;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.scheduling.config.ScheduledTaskHolder;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,10 +43,10 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-@ActiveProfiles("dev")
 @SpringBootTest
 @Transactional
 @DisplayName("사용자 비즈니스 흐름 테스트")
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserServiceTest {
 
     @Autowired
@@ -90,11 +81,10 @@ class UserServiceTest {
         avatar = Avatar.create(savedFile);
         avatarRepository.save(avatar);
 
-        school = School.builder().id(1L).name("고려대학교").build();
+        school = School.builder().name("고려대학교").build();
         schoolRepository.save(school);
 
         user1 = User.builder()
-                .id(1L)
                 .name("홍길동")
                 .nickname("테스터1")
                 .oauthId("1")
@@ -108,9 +98,8 @@ class UserServiceTest {
                 .avatar(avatar)
                 .school(school)
                 .build();
-
+        user1.setCreatedBy(user1);
         user2 = User.builder()
-                .id(2L)
                 .name("전우치")
                 .nickname("테스터2")
                 .oauthId("1")
@@ -124,13 +113,14 @@ class UserServiceTest {
                 .avatar(avatar)
                 .school(school)
                 .build();
-
+        user2.setCreatedBy(user2);
         userRepository.save(user1);
         userRepository.save(user2);
     }
 
     @Test
     @DisplayName("닉네임 중복 체크 - 성공")
+    @Order(1)
     void nicknameCheck() {
         //given//when//then
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("중복안된이름").build();
@@ -144,6 +134,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("닉네임 중복 체크 - 실패(중복된 이름)")
+    @Order(2)
     void nicknameCheckFailureWhenDuplicateNickname() {
 
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("테스터1").build();
@@ -156,9 +147,10 @@ class UserServiceTest {
 
     @Test
     @DisplayName("유저 정보 업데이트 - 성공(다른 정보로 업데이트)")
+    @Order(3)
     void allUpdate() throws IOException {
         //given
-        User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
 
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MultipartFile multipartFile = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is);
@@ -170,7 +162,7 @@ class UserServiceTest {
                 .gender(Gender.MALE)
                 .phoneNum("010-1234-5432")
                 .job("대학생")
-                .schoolId(1L)
+                .schoolId(school.getId())
                 .birth(LocalDate.of(2222, 1, 1))
                 .avatar(multipartFile)
                 .avatarChanged(true).build();
@@ -193,9 +185,10 @@ class UserServiceTest {
 
     @Test
     @DisplayName("유저 정보 업데이트 - 성공(정보 그대로 업데이트)")
+    @Order(4)
     void updateToSameData() throws IOException {
         //given
-        User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MultipartFile multipartFile = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is);
 
@@ -206,7 +199,7 @@ class UserServiceTest {
                 .gender(Gender.MALE)
                 .phoneNum("010-1234-1234")
                 .job("테스트하는사람")
-                .schoolId(1L)
+                .schoolId(school.getId())
                 .birth(LocalDate.of(2000, 12, 12))
                 .avatar(multipartFile)
                 .avatarChanged(true).build();
@@ -229,9 +222,10 @@ class UserServiceTest {
 
     @Test
     @DisplayName("유저 정보 업데이트 - 실패(중복된 닉네임 사용)")
+    @Order(5)
     void updateFailureWhenNicknameDuplicate() throws IOException {
         //given
-        User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
 
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MultipartFile multipartFile = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is);
@@ -243,7 +237,7 @@ class UserServiceTest {
                 .gender(Gender.MALE)
                 .phoneNum("010-1234-5678")
                 .job("테스트하는사람")
-                .schoolId(1L)
+                .schoolId(school.getId())
                 .birth(LocalDate.of(2000, 12, 12))
                 .avatar(multipartFile)
                 .avatarChanged(true).build();
@@ -252,7 +246,7 @@ class UserServiceTest {
         assertThatThrownBy(() -> userService.update(updateInfo, user))
                 .isInstanceOf(DuplicateNickNameException.class);
         //then
-        User noUpdatedUser = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+        User noUpdatedUser = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
         assertThat(noUpdatedUser.getNickname()).isEqualTo("테스터1");
         assertThat(noUpdatedUser.getPhoneNum()).isEqualTo("010-1234-1234");
 
@@ -260,22 +254,23 @@ class UserServiceTest {
 
     @Test
     @DisplayName("내정보 조회 - 성공")
+    @Order(6)
     void getMe() {
         //given
-        User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
 
         //when
         UserResponse.GetOne me = userService.getMe(user);
 
         //then
         assertAll(
-                () ->  assertThat(user.getNickname()).isEqualTo(me.getNickname()),
-                () ->  assertThat(user.getBirth()).isEqualTo(me.getBirth()),
-                () ->  assertThat(user.getJob()).isEqualTo(me.getJob()),
-                () ->  assertThat(user.getPhoneNum()).isEqualTo(me.getPhoneNum()),
-                () ->  assertThat(user.getName()).isEqualTo(me.getName()),
-                () ->  assertThat(user.getGender().name()).isEqualTo(me.getGender()),
-                () ->  assertThat(user.getAvatar().getUrl()).isEqualTo(me.getAvatar())
+                () -> assertThat(user.getNickname()).isEqualTo(me.getNickname()),
+                () -> assertThat(user.getBirth()).isEqualTo(me.getBirth()),
+                () -> assertThat(user.getJob()).isEqualTo(me.getJob()),
+                () -> assertThat(user.getPhoneNum()).isEqualTo(me.getPhoneNum()),
+                () -> assertThat(user.getName()).isEqualTo(me.getName()),
+                () -> assertThat(user.getGender().name()).isEqualTo(me.getGender()),
+                () -> assertThat(user.getAvatar().getUrl()).isEqualTo(me.getAvatar())
         );
 
 
@@ -283,6 +278,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("비즈니스 프로필 조회 - 성공")
+    @Order(7)
     void getListInBusinessProfile() {
         //given
         final int sharedBusinessProfileUsers = 1;
@@ -313,6 +309,7 @@ class UserServiceTest {
 
     @Test
     @DisplayName("비즈니스 프로필 조회 - 성공(유저가 아무도 없을 때)")
+    @Order(8)
     void getListInBusinessProfileWhenNoUser() {
         //given
         final int sharedBusinessProfileUsers = 0;
@@ -340,8 +337,9 @@ class UserServiceTest {
 
     @Test
     @DisplayName("유저 정보 업데이트하고 이전 닉네임으로 중복 확인하기 - 성공")
+    @Order(9)
     void userUpdateAndCheckPreviousNickname() throws IOException {
-        User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MultipartFile multipartFile = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is);
 
@@ -352,7 +350,7 @@ class UserServiceTest {
                 .gender(Gender.MALE)
                 .phoneNum("010-1234-1234")
                 .job("테스트하는사람")
-                .schoolId(1L)
+                .schoolId(school.getId())
                 .birth(LocalDate.of(2000, 12, 12))
                 .avatar(multipartFile)
                 .avatarChanged(true).build();
@@ -362,9 +360,37 @@ class UserServiceTest {
         UserRequest.Nickname originalNickName = UserRequest.Nickname.builder().nickname("테스터1").build();
 
         assertDoesNotThrow(
-                ()->  userService.nicknameCheck(originalNickName)
+                () -> userService.nicknameCheck(originalNickName)
         );
 
+    }
+
+    @Test
+    @DisplayName("유저 정보 업데이트하고 업데이트한 닉네임으로 중복 확인하기 - 실패")
+    @Order(10)
+    void updateFailureWhenCheckUpdatedNickname() throws IOException {
+        User user = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
+        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MultipartFile multipartFile = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is);
+
+        UserRequest.Update updateInfo = UserRequest.Update.builder()
+                .name("테스터1")
+                .nickname("새로운 닉네임")
+                .nicknameChanged(true)
+                .gender(Gender.MALE)
+                .phoneNum("010-1234-1234")
+                .job("테스트하는사람")
+                .schoolId(school.getId())
+                .birth(LocalDate.of(2000, 12, 12))
+                .avatar(multipartFile)
+                .avatarChanged(true).build();
+
+        userService.update(updateInfo, user);
+
+        UserRequest.Nickname updatedNickName = UserRequest.Nickname.builder().nickname("새로운 닉네임").build();
+
+        assertThatThrownBy(() -> userService.nicknameCheck(updatedNickName))
+                .isInstanceOf(DuplicateNickNameException.class);
     }
 
 }

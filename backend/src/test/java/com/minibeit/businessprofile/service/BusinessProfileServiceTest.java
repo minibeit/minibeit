@@ -8,6 +8,7 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.common.component.file.S3Uploader;
+import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostFileRepository;
 import com.minibeit.post.domain.repository.PostRepository;
@@ -25,9 +26,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.naming.NoPermissionException;
 import java.util.Arrays;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -58,11 +61,22 @@ class BusinessProfileServiceTest {
 
     private BusinessProfile businessProfile;
     private User userInBusinessProfile, anotherUser, admin;
+    private BusinessProfileRequest.Update request;
 
     @BeforeEach
-    void set(){
+    void set() {
         initUsersAndBusinessProfile();
+        initUpdateRequest();
     }
+
+    private void initUpdateRequest() {
+        request = BusinessProfileRequest.Update.builder()
+                .name("업데이트 실험실")
+                .place("업데이트 장소")
+                .contact("010-1235-5786")
+                .build();
+    }
+
     private void initUsersAndBusinessProfile() {
         userInBusinessProfile = User.builder()
                 .oauthId("1")
@@ -115,11 +129,7 @@ class BusinessProfileServiceTest {
     @Test
     @DisplayName("비즈니스프로필 업데이트 - 성공 (admin 유저)")
     void update() {
-        BusinessProfileRequest.Update request = BusinessProfileRequest.Update.builder()
-                .name("업데이트 실험실")
-                .place("업데이트 장소")
-                .contact("010-1235-5786")
-                .build();
+
         businessProfileService.update(businessProfile.getId(), request, admin);
 
         assertAll(
@@ -127,6 +137,21 @@ class BusinessProfileServiceTest {
                 () -> assertThat(businessProfile.getPlace()).isEqualTo(request.getPlace()),
                 () -> assertThat(businessProfile.getContact()).isEqualTo(request.getContact())
         );
+
+    }
+
+    @Test
+    @DisplayName("비즈니스프로필 업데이트 - 실패 (admin이 아닌 유저)")
+    void updateFailureWhenNotAdmin() {
+
+        businessProfileService.update(businessProfile.getId(), request, admin);
+
+        assertThatThrownBy(
+                () -> businessProfileService.update(businessProfile.getId(), request, userInBusinessProfile)
+        ).isInstanceOf(PermissionException.class);
+        assertThatThrownBy(
+                () -> businessProfileService.update(businessProfile.getId(), request, anotherUser)
+        ).isInstanceOf(PermissionException.class);
 
     }
 

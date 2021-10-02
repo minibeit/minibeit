@@ -46,7 +46,6 @@ import static org.mockito.BDDMockito.given;
 @SpringBootTest
 @Transactional
 @DisplayName("사용자 비즈니스 흐름 테스트")
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class UserServiceTest {
 
     @Autowired
@@ -120,7 +119,6 @@ class UserServiceTest {
 
     @Test
     @DisplayName("닉네임 중복 체크 - 성공")
-    @Order(1)
     void nicknameCheck() {
         //given//when//then
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("중복안된이름").build();
@@ -134,7 +132,6 @@ class UserServiceTest {
 
     @Test
     @DisplayName("닉네임 중복 체크 - 실패(중복된 이름)")
-    @Order(2)
     void nicknameCheckFailureWhenDuplicateNickname() {
 
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("테스터1").build();
@@ -147,7 +144,6 @@ class UserServiceTest {
 
     @Test
     @DisplayName("유저 정보 업데이트 - 성공(다른 정보로 업데이트)")
-    @Order(3)
     void allUpdate() throws IOException {
         //given
         User user = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
@@ -185,7 +181,6 @@ class UserServiceTest {
 
     @Test
     @DisplayName("유저 정보 업데이트 - 성공(정보 그대로 업데이트)")
-    @Order(4)
     void updateToSameData() throws IOException {
         //given
         User user = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
@@ -222,7 +217,6 @@ class UserServiceTest {
 
     @Test
     @DisplayName("유저 정보 업데이트 - 실패(중복된 닉네임 사용)")
-    @Order(5)
     void updateFailureWhenNicknameDuplicate() throws IOException {
         //given
         User user = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
@@ -254,7 +248,6 @@ class UserServiceTest {
 
     @Test
     @DisplayName("내정보 조회 - 성공")
-    @Order(6)
     void getMe() {
         //given
         User user = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
@@ -278,7 +271,6 @@ class UserServiceTest {
 
     @Test
     @DisplayName("비즈니스 프로필 조회 - 성공")
-    @Order(7)
     void getListInBusinessProfile() {
         //given
         final int sharedBusinessProfileUsers = 1;
@@ -309,7 +301,6 @@ class UserServiceTest {
 
     @Test
     @DisplayName("비즈니스 프로필 조회 - 성공(유저가 아무도 없을 때)")
-    @Order(8)
     void getListInBusinessProfileWhenNoUser() {
         //given
         final int sharedBusinessProfileUsers = 0;
@@ -337,7 +328,6 @@ class UserServiceTest {
 
     @Test
     @DisplayName("유저 정보 업데이트하고 이전 닉네임으로 중복 확인하기 - 성공")
-    @Order(9)
     void userUpdateAndCheckPreviousNickname() throws IOException {
         User user = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
@@ -367,7 +357,6 @@ class UserServiceTest {
 
     @Test
     @DisplayName("유저 정보 업데이트하고 업데이트한 닉네임으로 중복 확인하기 - 실패")
-    @Order(10)
     void updateFailureWhenCheckUpdatedNickname() throws IOException {
         User user = userRepository.findById(user1.getId()).orElseThrow(UserNotFoundException::new);
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();

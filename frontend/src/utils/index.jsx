@@ -35,5 +35,11 @@ export {
   getCancellistApi,
   getJoinlistApi,
   deleteCancelApi,
+  getFinishlistApi,
 } from "./profileApi";
-export { reviewNewApi, reviewListGetApi, reviewOneReadApi } from "./reviewApi";
+export {
+  reviewNewApi,
+  reviewListGetApi,
+  reviewOneReadApi,
+  editReviewApi,
+} from "./reviewApi";

@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
-import { reviewNewApi } from "../../../utils";
+import { editReviewApi, reviewNewApi } from "../../../utils";
 import Portal from "../Modal/Portal";
 
 import * as S from "./style";
@@ -33,6 +33,14 @@ export default function ReviewModal({
       .then(async () => {
         await doJoin(postInfo.postDoDateId);
         alert("후기가 등록되었습니다");
+        window.location.replace("/user/" + userName);
+      })
+      .catch((err) => console.log(err));
+  };
+  const editReview = async (content) => {
+    await editReviewApi(postInfo.id, content)
+      .then(async () => {
+        alert("후기가 수정되었습니다");
         window.location.replace("/user/" + userName);
       })
       .catch((err) => console.log(err));
@@ -95,11 +103,16 @@ export default function ReviewModal({
                     await newReview(ReviewContent);
                   }}
                 >
-                  작성완료
+                  <p>작성완료</p>
                 </S.ReviewBtn>
               ) : state === "EDIT" ? (
-                <S.ReviewBtn>
-                  <p>수정완료</p>
+                <S.ReviewBtn
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await editReview(ReviewContent);
+                  }}
+                >
+                  <p>작성완료</p>
                 </S.ReviewBtn>
               ) : null}
             </S.ReviewSecond>

@@ -30,6 +30,7 @@ export const UserInfoBox = styled.div`
 `;
 export const UserEditBtn = styled.div`
   width: 57px;
+  margin-top: 10px;
   cursor: pointer;
   padding: 4px 7px;
   background: white;

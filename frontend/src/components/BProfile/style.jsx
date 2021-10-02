@@ -25,6 +25,7 @@ export const BProfileDelete = styled.div`
 export const BProfileEdit = styled.div`
   width: 57px;
   cursor: pointer;
+  margin-top: 10px;
   padding: 4px 7px;
   background: white;
   border-radius: 8px;

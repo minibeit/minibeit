@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
@@ -22,13 +22,15 @@ export default function PBOtherProfile({ originalId }) {
   const doDelete = async (businessId) => {
     await deleteBprofile(businessId);
     alert("삭제되었습니다.");
+    setdisplay("none");
+    setmsg("수정");
     getBprofileList();
   };
-  const getBprofileList = async () => {
+  const getBprofileList = useCallback(async () => {
     bprofileListGet(UserId)
       .then(async (res) => setbprofiles(res.data))
       .catch((err) => console.log(err));
-  };
+  }, [UserId]);
   const CreateBProfile = (inputs, img) => {
     bprofileNew(inputs, img)
       .then(() => {
@@ -41,7 +43,7 @@ export default function PBOtherProfile({ originalId }) {
   };
   const editfunc = () => {
     if (display === "none") {
-      setdisplay("block");
+      setdisplay("flex");
       setmsg("완료");
     } else {
       setdisplay("none");
@@ -51,7 +53,7 @@ export default function PBOtherProfile({ originalId }) {
 
   useEffect(() => {
     getBprofileList();
-  }, []);
+  }, [getBprofileList]);
   const goBProfile = async (businessId) => {
     await setUser({ ...user, bpId: businessId });
     window.location.replace("/business/" + businessId);
@@ -60,44 +62,62 @@ export default function PBOtherProfile({ originalId }) {
     <S.BPContainer>
       <S.BOtherHead>
         <p>프로필 목록</p>
+        {bprofiles.length === 1 ? null : (
+          <S.BIEdit>
+            <p onClick={editfunc}>{msg}</p>
+          </S.BIEdit>
+        )}
       </S.BOtherHead>
+
       {modalSwitch ? (
         <BCreateCont
           setModalSwitch={setModalSwitch}
           CreateBProfile={CreateBProfile}
         />
       ) : null}
-      {bprofiles.map((bprofile) => {
-        if (parseInt(bprofile.id) !== originalId) {
-          return (
-            <div key={bprofile.id}>
-              {bprofile.admin ? (
-                <S.BIdelete
-                  display={display}
-                  onClick={async () => await doDelete(bprofile.id)}
-                >
-                  <CloseIcon />
-                </S.BIdelete>
-              ) : null}
-              <S.BIeleCont onClick={async () => await goBProfile(bprofile.id)}>
-                <S.ImgBox>
-                  {bprofile.avatar !== null ? (
-                    <S.UserImg src={bprofile.avatar} />
-                  ) : (
-                    <S.UserImg src="/기본비즈니스프로필.jpeg" />
-                  )}
-                </S.ImgBox>
-                <S.BIeleName>
-                  <p>{bprofile.name}</p>
-                </S.BIeleName>
-              </S.BIeleCont>
-            </div>
-          );
-        }
-      })}
-      <S.BPbtn onClick={onClick}>
-        <AddIcon />
-      </S.BPbtn>
+      {bprofiles.length === 1 ? (
+        <S.BPbtn onClick={onClick}>
+          <AddIcon />
+        </S.BPbtn>
+      ) : (
+        <S.BIWrapper>
+          {bprofiles.map((bprofile) => {
+            if (parseInt(bprofile.id) !== originalId) {
+              return (
+                <div key={bprofile.id}>
+                  {bprofile.admin ? (
+                    <S.BIdelete
+                      display={display}
+                      onClick={async () => await doDelete(bprofile.id)}
+                    >
+                      <CloseIcon />
+                    </S.BIdelete>
+                  ) : null}
+                  <S.BIeleCont
+                    onClick={async () => await goBProfile(bprofile.id)}
+                  >
+                    <S.ImgBox>
+                      {bprofile.avatar !== null ? (
+                        <S.UserImg src={bprofile.avatar} />
+                      ) : (
+                        <S.UserImg src="/기본비즈니스프로필.jpeg" />
+                      )}
+                    </S.ImgBox>
+                    <S.BIeleName>
+                      <p>{bprofile.name}</p>
+                    </S.BIeleName>
+                  </S.BIeleCont>
+                </div>
+              );
+            } else {
+              return null;
+            }
+          })}
+          <S.BPbtn onClick={onClick}>
+            <AddIcon />
+          </S.BPbtn>
+        </S.BIWrapper>
+      )}
     </S.BPContainer>
   );
 }

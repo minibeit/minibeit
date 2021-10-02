@@ -30,7 +30,7 @@ export default function BCreateCont({ setModalSwitch, CreateBProfile }) {
       place: fullAddress,
     });
   };
-  const { name, place, introduce, contact } = inputs;
+  const { name, place, contact } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
     setInputs({
@@ -67,7 +67,7 @@ export default function BCreateCont({ setModalSwitch, CreateBProfile }) {
                 )}
               </S.ImgBox>
               <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
-              <S.FileLabel for="input-file">사진 업로드 하기</S.FileLabel>
+              <S.FileLabel htmlFor="input-file">사진 업로드 하기</S.FileLabel>
               <S.BPEditFileInput
                 id="input-file"
                 name="img"
@@ -76,7 +76,7 @@ export default function BCreateCont({ setModalSwitch, CreateBProfile }) {
               />
             </S.BNCont1>
             <S.BNCont2>
-              <S.BNCont2_1>
+              <S.BNCont21>
                 <S.BNLabel>
                   이름
                   <S.BPEditInput
@@ -96,8 +96,8 @@ export default function BCreateCont({ setModalSwitch, CreateBProfile }) {
                     readOnly
                   />
                 </S.BNLabel>
-              </S.BNCont2_1>
-              <S.BNCont2_2>
+              </S.BNCont21>
+              <S.BNCont22>
                 {" "}
                 <S.BNLabel>
                   주소
@@ -116,8 +116,8 @@ export default function BCreateCont({ setModalSwitch, CreateBProfile }) {
                     handleAddress={handleAddress}
                   />
                 ) : null}
-              </S.BNCont2_2>
-              <S.BNCont2_3>
+              </S.BNCont22>
+              <S.BNCont23>
                 <S.BNLabel>
                   연락처
                   <S.BPEditInput
@@ -128,7 +128,7 @@ export default function BCreateCont({ setModalSwitch, CreateBProfile }) {
                     onChange={onChange}
                   />
                 </S.BNLabel>
-              </S.BNCont2_3>
+              </S.BNCont23>
             </S.BNCont2>
           </S.ModalContent>
           <S.BPEditButton

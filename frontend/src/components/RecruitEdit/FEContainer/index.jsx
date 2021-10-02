@@ -15,7 +15,7 @@ function FEContainer({ postId }) {
 
   useEffect(() => {
     getFeedDetail();
-  }, []);
+  });
 
   const FEHandler = async (inputs, files) => {
     await feedEditApi(inputs, files, postId)

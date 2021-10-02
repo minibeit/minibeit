@@ -62,7 +62,7 @@ public class BusinessProfileReviewService {
     public BusinessProfileReviewResponse.ReviewId update(Long businessProfileReviewId, BusinessProfilesReviewRequest.Update request, LocalDateTime now, User user) {
         BusinessProfileReview businessProfileReview = businessProfileReviewRepository.findById(businessProfileReviewId).orElseThrow(BusinessProfileReviewNotFoundException::new);
         permissionCheck(user, businessProfileReview);
-        if (businessProfileReview.updateReviewIsPossible(now)) {
+        if (!businessProfileReview.updateReviewIsPossible(now)) {
             throw new PermissionException();
         }
         businessProfileReview.update(request.getContent());

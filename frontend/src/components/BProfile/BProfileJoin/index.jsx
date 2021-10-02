@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { bprofileJoin, bprofileJoinDel, getBPusergroup } from "../../../utils";
 import Portal from "../../Common/Modal/Portal";
 import PBProfileJoin from "./PBProfileJoin";
 import * as S from "../style";
 import NicknameCombo from "./NicknameCombo";
+import CloseIcon from "@mui/icons-material/Close";
 import { assignChange } from "../../../utils/bprofileApi";
 
 export default function BProfileJoin({ businessId, setModalSwitch }) {
@@ -39,23 +40,26 @@ export default function BProfileJoin({ businessId, setModalSwitch }) {
         .catch((err) => console.log(err));
     }
   };
-  const getUsergroup = async () => {
+  const getUsergroup = useCallback(async () => {
     await getBPusergroup(businessId)
       .then(async (res) => setUsergroup(res.data))
       .catch((err) => console.log(err));
-  };
+  }, [businessId]);
   const closeModal = () => {
     setModalSwitch(false);
   };
   useEffect(() => {
     getUsergroup();
-  }, []);
+  }, [getUsergroup]);
   return (
     <Portal>
       <S.ModalBackground>
         <S.ModalBox>
           <S.ModalHeader>
-            <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
+            <p>소속인원 목록</p>
+            <S.CloseModalBtn onClick={closeModal}>
+              <CloseIcon />
+            </S.CloseModalBtn>
           </S.ModalHeader>
           <S.ModalContent>
             <NicknameCombo handleJoin={handleJoin} />

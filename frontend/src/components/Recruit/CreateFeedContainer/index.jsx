@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { bprofileListGet } from "../../../utils";
@@ -44,15 +44,15 @@ export default function CreateFeedContainer() {
   const userId = useRecoilValue(userState).id;
   const [bpList, setbpList] = useState([]);
 
-  const getbpList = async () => {
+  const getbpList = useCallback(async () => {
     await bprofileListGet(userId)
       .then(async (res) => setbpList(res.data))
       .catch((err) => console.log(err));
-  };
+  }, [userId]);
 
   useEffect(() => {
     getbpList();
-  }, []);
+  }, [getbpList]);
 
   return (
     <>

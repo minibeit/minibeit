@@ -1,6 +1,11 @@
 import React from "react";
 import { useState } from "react";
-import { doJoinApi, doNotJoinApi, deleteCancelApi } from "../../../../utils";
+import {
+  doJoinApi,
+  doNotJoinApi,
+  deleteCancelApi,
+  reviewOneReadApi,
+} from "../../../../utils";
 import ReviewModal from "../../ReviewModal";
 import * as S from "../style";
 
@@ -11,6 +16,7 @@ export default function ProfileFeed({
   feedInfo,
   getJoinlist,
   getCancellist,
+  getFinishlist,
   tag,
 }) {
   return (
@@ -32,7 +38,10 @@ export default function ProfileFeed({
             />
           ) : state === "finish" ? (
             finish ? (
-              <FinishFeedBlock feedInfo={feedInfo} />
+              <FinishFeedBlock
+                getFinishlist={getFinishlist}
+                feedInfo={feedInfo}
+              />
             ) : (
               <CancelFeedBlock
                 getCancellist={getCancellist}
@@ -63,7 +72,6 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
       })
       .catch((err) => console.log(err));
   };
-  console.log(feedInfo);
   const postInfo = {
     id: feedInfo.id,
     postTitle: feedInfo.title,
@@ -131,10 +139,31 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
 }
 
 function FinishFeedBlock({ feedInfo }) {
+  const [modalSwitch, setModalSwitch] = useState(false);
+  const [postInfo, setPostInfo] = useState({});
+  const editReview = async () => {
+    await reviewOneReadApi(feedInfo.reviewId).then((res) =>
+      setPostInfo(res.data)
+    );
+    setModalSwitch(true);
+  };
+
   return (
     <>
-      <S.Over></S.Over>
-      <S.FeedBtn>후기수정</S.FeedBtn>
+      {modalSwitch ? (
+        <ReviewModal setModalSwitch={setModalSwitch} postInfo={postInfo} />
+      ) : null}
+      <S.Over>
+        <p>{feedInfo.review}</p>
+      </S.Over>
+      <S.FeedBtn
+        onClick={async (e) => {
+          e.preventDefault();
+          await editReview();
+        }}
+      >
+        <p>후기수정</p>
+      </S.FeedBtn>
     </>
   );
 }
@@ -142,7 +171,10 @@ function FinishFeedBlock({ feedInfo }) {
 function CancelFeedBlock({ feedInfo, getCancellist }) {
   const doDelete = async () => {
     await deleteCancelApi(feedInfo.id)
-      .then(() => getCancellist())
+      .then(async () => {
+        window.alert("반려 게시물이 삭제되었습니다");
+        await getCancellist();
+      })
       .catch((err) => console.log(err));
   };
   return (

@@ -54,6 +54,7 @@ dependencies {
 	 */
 	runtimeOnly 'mysql:mysql-connector-java'
 	implementation "org.flywaydb:flyway-core"
+	runtimeOnly 'com.h2database:h2'
 
 	/**
 	 * QueryDSL

@@ -1,8 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import * as S from "../style";
-
 PSelectBProfile.propTypes = {
   bplist: PropTypes.arrayOf(
     PropTypes.shape({

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import PBProfileSection from "./PBProfileSection";
 
 export default function BProfileSection() {

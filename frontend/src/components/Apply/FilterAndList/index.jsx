@@ -21,9 +21,7 @@ export default function FilterAndList() {
 
   const postBookmark = async (postId, req) => {
     await bookmarkApi(postId, req)
-      .then((res) => {
-        console.log(res);
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
       });

@@ -56,7 +56,7 @@ export default function PProfileCont() {
           ) : tabIndex === 2 ? (
             <JoinListBox state="APPROVE" />
           ) : tabIndex === 3 ? (
-            <div>완료 실험 리스트</div>
+            <JoinListBox state="FINISH" />
           ) : tabIndex === 4 ? (
             <JoinListBox state="CANCEL" />
           ) : tabIndex === 5 ? (

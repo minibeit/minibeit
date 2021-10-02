@@ -1,8 +1,6 @@
 import React from "react";
 import { SchoolSearch } from "../../Common";
 
-import * as S from "../style";
-
 export default function PSchoolSelect({ recruit, setRecruit }) {
   return (
     <>

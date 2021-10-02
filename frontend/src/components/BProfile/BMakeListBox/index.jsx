@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { changeState } from "../../../recoil/changeState";
 import { getMakelistApi } from "../../../utils";
@@ -7,16 +7,15 @@ import PBMakeListBox from "./PBMakeListBox";
 export default function BMakeListBox({ businessId, state, status }) {
   const [makelist, setMakelist] = useState([]);
   const [page, setPage] = useState(1);
-  const [change, setChange] = useRecoilState(changeState);
+  const [, setChange] = useRecoilState(changeState);
   const [paging, setPaging] = useState({
     first: "",
     last: "",
   });
-  const getMakelist = async () => {
+  const getMakelist = useCallback(async () => {
     await getMakelistApi(businessId, page, status)
       .then(async (res) => {
         if (res.data.content.length === 0) {
-          console.log(res.data.content.length === 0);
           await getMakelistApi(businessId, 1, status).then((res) => {
             setMakelist(res.data.content);
             setPaging({ first: res.data.first, last: res.data.last });
@@ -29,7 +28,7 @@ export default function BMakeListBox({ businessId, state, status }) {
         }
       })
       .catch((err) => console.log(err));
-  };
+  }, [businessId, page, setChange, status]);
   const handlepage = async (order) => {
     if (order === "PREV") {
       setPage(page - 1);
@@ -39,7 +38,7 @@ export default function BMakeListBox({ businessId, state, status }) {
   };
   useEffect(() => {
     getMakelist();
-  }, [page, state]);
+  }, [getMakelist]);
   return (
     <PBMakeListBox
       makelist={makelist}

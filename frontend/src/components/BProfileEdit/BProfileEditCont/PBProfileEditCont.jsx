@@ -35,7 +35,7 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
       place: fullAddress,
     });
   };
-  const { name, place, introduce, contact } = inputs;
+  const { name, place, contact } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
     setInputs({ ...inputs, [name]: value });
@@ -74,7 +74,7 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
         />
       </S.BNCont1>
       <S.BNCont2>
-        <S.BNCont2_1>
+        <S.BNCont21>
           <S.BNLabel>
             이름
             <S.BPEditInput
@@ -89,8 +89,8 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
             담당자
             <S.BPEditInput value={admin} name="admin" type="text" readOnly />
           </S.BNLabel>
-        </S.BNCont2_1>
-        <S.BNCont2_2>
+        </S.BNCont21>
+        <S.BNCont22>
           {" "}
           <S.BNLabel>
             주소
@@ -109,8 +109,8 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
               handleAddress={handleAddress}
             />
           ) : null}
-        </S.BNCont2_2>
-        <S.BNCont2_3>
+        </S.BNCont22>
+        <S.BNCont23>
           <S.BNLabel>
             연락처
             <S.BPEditInput
@@ -121,7 +121,7 @@ export default function PBProfileEditCont({ bpEditHandler, BProfileData }) {
               onChange={onChange}
             />
           </S.BNLabel>
-        </S.BNCont2_3>
+        </S.BNCont23>
         <S.BPEditButton
           type="submit"
           onClick={async (e) => {

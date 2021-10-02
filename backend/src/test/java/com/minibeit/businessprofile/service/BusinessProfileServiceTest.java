@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.naming.NoPermissionException;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -152,7 +153,22 @@ class BusinessProfileServiceTest {
         assertThatThrownBy(
                 () -> businessProfileService.update(businessProfile.getId(), request, anotherUser)
         ).isInstanceOf(PermissionException.class);
-
     }
+
+    @Test
+    @DisplayName("비즈니스 프로필 목록 조회 - 성공")
+    void getListIsMine() {
+
+        final int businessProfiles = 1;
+        List<BusinessProfileResponse.GetList> listIsMine = businessProfileService.getListIsMine(admin);
+
+        assertAll(
+                () -> assertThat(listIsMine.size()).isEqualTo(businessProfiles),
+                () -> assertThat(listIsMine.get(0).getName()).isEqualTo(businessProfile.getName()),
+                () -> assertThat(listIsMine.get(0).getId()).isEqualTo(businessProfile.getId())
+        );
+    }
+
+
 
 }

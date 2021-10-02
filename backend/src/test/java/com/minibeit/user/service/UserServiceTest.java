@@ -155,7 +155,7 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("유저 정보 업데이트 - 성공")
+    @DisplayName("유저 정보 업데이트 - 성공(다른 정보로 업데이트)")
     void allUpdate() throws IOException {
         //given
         User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
@@ -247,11 +247,7 @@ class UserServiceTest {
                 .birth(LocalDate.of(2000, 12, 12))
                 .avatar(multipartFile)
                 .avatarChanged(true).build();
-        SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, AvatarType.IMAGE, AvatarServer.S3);
 
-        Avatar avatar = Avatar.create(savedFile);
-
-        given(avatarService.upload(any())).willReturn(avatar);
         //when
         assertThatThrownBy(() -> userService.update(updateInfo, user))
                 .isInstanceOf(DuplicateNickNameException.class);
@@ -338,6 +334,35 @@ class UserServiceTest {
         assertAll(
                 () -> assertThat(listInBusinessProfile.size()).isEqualTo(sharedBusinessProfileUsers),
                 () -> assertDoesNotThrow(UserNotFoundException::new)
+        );
+
+    }
+
+    @Test
+    @DisplayName("유저 정보 업데이트하고 이전 닉네임으로 중복 확인하기 - 성공")
+    void userUpdateAndCheckPreviousNickname() throws IOException {
+        User user = userRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MultipartFile multipartFile = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is);
+
+        UserRequest.Update updateInfo = UserRequest.Update.builder()
+                .name("테스터1")
+                .nickname("새로운 닉네임")
+                .nicknameChanged(true)
+                .gender(Gender.MALE)
+                .phoneNum("010-1234-1234")
+                .job("테스트하는사람")
+                .schoolId(1L)
+                .birth(LocalDate.of(2000, 12, 12))
+                .avatar(multipartFile)
+                .avatarChanged(true).build();
+
+        userService.update(updateInfo, user);
+
+        UserRequest.Nickname originalNickName = UserRequest.Nickname.builder().nickname("테스터1").build();
+
+        assertDoesNotThrow(
+                ()->  userService.nicknameCheck(originalNickName)
         );
 
     }

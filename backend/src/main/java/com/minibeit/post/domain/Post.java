@@ -60,7 +60,7 @@ public class Post extends BaseEntity {
     private PostStatus postStatus;
 
     @Builder.Default
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<PostFile> postFileList = new ArrayList<>();
 
     @Builder.Default

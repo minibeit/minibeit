@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class PostByBusinessService {
-    private static final String REJECT_MSG = "모집이 완료되었습니다.";
     private final PostRepository postRepository;
     private final SchoolRepository schoolRepository;
     private final BusinessProfileRepository businessProfileRepository;
@@ -49,7 +48,7 @@ public class PostByBusinessService {
         Post post = Post.create(request, school, businessProfile);
         Post savedPost = postRepository.save(post);
 
-        List<PostDoDate> postDoDateList = request.getDoDateList().stream().map(doDate -> PostDoDate.create(doDate.getGroupId(), doDate.getDoDate(), post)).collect(Collectors.toList());
+        List<PostDoDate> postDoDateList = request.getDoDateList().stream().map(doDate -> PostDoDate.create(doDate.getDoDate(), post)).collect(Collectors.toList());
         postDoDateRepository.saveAll(postDoDateList);
 
         return PostResponse.OnlyId.build(savedPost);

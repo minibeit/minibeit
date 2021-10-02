@@ -20,8 +20,6 @@ public class PostDoDate extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Integer groupId;
-
     private LocalDateTime doDate;
 
     private boolean isFull;
@@ -47,8 +45,8 @@ public class PostDoDate extends BaseEntity {
         this.isFull = this.post.getRecruitPeople() <= approvedPostApplicant.size();
     }
 
-    public static PostDoDate create(Integer groupId, LocalDateTime doDate, Post post) {
-        PostDoDate postDoDate = PostDoDate.builder().groupId(groupId).doDate(doDate).isFull(false).build();
+    public static PostDoDate create(LocalDateTime doDate, Post post) {
+        PostDoDate postDoDate = PostDoDate.builder().doDate(doDate).isFull(false).build();
         postDoDate.setPost(post);
         return postDoDate;
     }

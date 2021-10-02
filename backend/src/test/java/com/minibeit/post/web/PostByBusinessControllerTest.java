@@ -128,7 +128,7 @@ class PostByBusinessControllerTest extends MvcTest {
                 .businessProfileId(1L)
                 .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
                 .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().groupId(1).doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
                 .build();
         PostResponse.OnlyId response = PostResponse.OnlyId.builder().id(1L).build();
 
@@ -144,25 +144,24 @@ class PostByBusinessControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("post-create-info",
                         requestFields(
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("place").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("contact").type(JsonFieldType.STRING).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("category").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("headcount").type(JsonFieldType.NUMBER).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("payment").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("cache").description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("goods").description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("paymentDetail").type(JsonFieldType.STRING).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("condition").type(JsonFieldType.BOOLEAN).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("conditionDetail").description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("doTime").type(JsonFieldType.NUMBER).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("businessProfileId").type(JsonFieldType.NUMBER).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("startDate").type(JsonFieldType.STRING).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("endDate").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간"),
-                                fieldWithPath("doDateList[].groupId").type(JsonFieldType.NUMBER).description("모집 마감 날짜 및 시간"),
-                                fieldWithPath("doDateList[].doDate").type(JsonFieldType.STRING).description("참여 가능 날짜(시간포함)")
+                                fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
+                                fieldWithPath("place").type(JsonFieldType.STRING).description("장소"),
+                                fieldWithPath("contact").type(JsonFieldType.STRING).description("연락처"),
+                                fieldWithPath("category").type(JsonFieldType.STRING).description("분야"),
+                                fieldWithPath("headcount").type(JsonFieldType.NUMBER).description("인원수"),
+                                fieldWithPath("payment").type(JsonFieldType.STRING).description("CACHE or GOODS"),
+                                fieldWithPath("cache").description("현금 payment가 GOODS라면 null"),
+                                fieldWithPath("goods").description("물품 payment가 CACHE라면 null"),
+                                fieldWithPath("paymentDetail").type(JsonFieldType.STRING).description("지급 방법 및 세부사항"),
+                                fieldWithPath("condition").type(JsonFieldType.BOOLEAN).description("모집조건이 있다면 true"),
+                                fieldWithPath("conditionDetail").description("모집 조건 세부사항 조건 1개당 | 로 구분지어주세요!"),
+                                fieldWithPath("doTime").type(JsonFieldType.NUMBER).description("게시물 실험 소요시간"),
+                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("학교 식별자"),
+                                fieldWithPath("businessProfileId").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
+                                fieldWithPath("startDate").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간 ex)2021-09-27T09:30"),
+                                fieldWithPath("endDate").type(JsonFieldType.STRING).description("모집 마감 날짜 및 시간 ex)2021-09-27T09:30"),
+                                fieldWithPath("doDateList[].doDate").type(JsonFieldType.STRING).description("참여 가능 날짜(시간포함) ex)2021-09-27T09:30")
                         ),
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("생성된 게시물 식별자")

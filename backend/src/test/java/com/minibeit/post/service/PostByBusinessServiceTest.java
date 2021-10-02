@@ -142,7 +142,7 @@ class PostByBusinessServiceTest {
                 .businessProfileId(businessProfile.getId())
                 .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
                 .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().groupId(1).doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
                 .build();
     }
 

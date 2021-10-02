@@ -15,6 +15,7 @@ export default function FilterAndList() {
     await feedlistApi(page, schoolId, date, payment, user.isLogin)
       .then((res) => {
         setFeedList(res.data.content);
+        console.log(res.data.content);
         setTotalPages(res.data.totalPages);
       })
       .catch((err) => {

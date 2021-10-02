@@ -28,7 +28,7 @@ PFeedInfoContainer.propTypes = {
       address: PropTypes.string.isRequired,
       avatar: PropTypes.string,
       contact: PropTypes.string.isRequired,
-      introduce: PropTypes.string.isRequired,
+      introduce: PropTypes.string,
     }),
   }),
   date: PropTypes.string,

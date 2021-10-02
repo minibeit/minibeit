@@ -13,5 +13,5 @@ export default function PVImg({ img }) {
   if (img) {
     imgUrl = URL.createObjectURL(img);
   }
-  return <img src={imgUrl} style={style} />;
+  return <img src={imgUrl} style={style} alt="" />;
 }

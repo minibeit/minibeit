@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { bprofileJoin, bprofileJoinDel, getBPusergroup } from "../../../utils";
 import Portal from "../../Common/Modal/Portal";
 import PBProfileJoin from "./PBProfileJoin";
@@ -40,17 +40,17 @@ export default function BProfileJoin({ businessId, setModalSwitch }) {
         .catch((err) => console.log(err));
     }
   };
-  const getUsergroup = async () => {
+  const getUsergroup = useCallback(async () => {
     await getBPusergroup(businessId)
       .then(async (res) => setUsergroup(res.data))
       .catch((err) => console.log(err));
-  };
+  }, [businessId]);
   const closeModal = () => {
     setModalSwitch(false);
   };
   useEffect(() => {
     getUsergroup();
-  }, []);
+  }, [getUsergroup]);
   return (
     <Portal>
       <S.ModalBackground>

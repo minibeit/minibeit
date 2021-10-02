@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   approveOneApi,
   cancelOneApi,
@@ -25,7 +25,7 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
     setDate(e.target.value);
   };
   const [waitlist, setWaitlist] = useState([]);
-  const getList = async () => {
+  const getList = useCallback(async () => {
     if (state === "WAIT") {
       await getWaitListApi(postId, date)
         .then((res) => {
@@ -39,7 +39,7 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
         })
         .catch((err) => console.log(err));
     }
-  };
+  }, [date, postId, state]);
   const handleState = async () => {
     if (state === "APPROVE") {
       setState("WAIT");
@@ -82,7 +82,7 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
   };
   useEffect(() => {
     getList();
-  }, [state, date]);
+  }, [getList]);
   return (
     <Portal>
       <S.ModalBackground>

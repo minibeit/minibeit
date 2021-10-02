@@ -29,8 +29,17 @@ function PFEContainer({ post, FEHandler }) {
       content: content,
       phoneNum: contact,
     });
-    console.log(inputs);
-  }, []);
+  }, [
+    contact,
+    content,
+    inputs,
+    pay,
+    place,
+    post.doDate,
+    post.dueDate,
+    post.title,
+    time,
+  ]);
 
   const [files, setFiles] = useState();
 
@@ -39,7 +48,7 @@ function PFEContainer({ post, FEHandler }) {
     console.log(inputs);
     const { value, name } = e.target;
     console.log(name, value);
-    if (name == "doDate") {
+    if (name === "doDate") {
       setInputs({
         ...inputs,
         [name]: value + ":00",

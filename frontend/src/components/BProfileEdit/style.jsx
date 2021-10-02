@@ -1,18 +1,18 @@
 import styled from "styled-components";
 
 export const BPEditCont = styled.div``;
-export const BNCont2_1 = styled.div`
+export const BNCont21 = styled.div`
 display: flex;
 margin: 7px;
 width: -webkit-fill-available;
 flex-wrap: wrap;
 }
 `;
-export const BNCont2_2 = styled.div`
+export const BNCont22 = styled.div`
   margin: 7px;
   width: 97%;
 `;
-export const BNCont2_3 = styled.div`
+export const BNCont23 = styled.div`
   margin: 7px;
   width: 50%;
 `;

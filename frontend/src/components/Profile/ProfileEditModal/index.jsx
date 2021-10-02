@@ -37,7 +37,6 @@ export default function ProfileEditModal({ setModalSwitch }) {
   };
   useEffect(() => {
     getUserData();
-    console.log(userData);
   }, []);
 
   return (

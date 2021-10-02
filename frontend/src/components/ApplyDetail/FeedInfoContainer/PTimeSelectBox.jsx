@@ -54,7 +54,7 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
 
   useEffect(() => {
     getFeedDetailTime(feedId, viewDoDate);
-  }, []);
+  }, [feedId, viewDoDate]);
 
   return (
     <>

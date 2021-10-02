@@ -9,7 +9,7 @@ export default function PBProfileJoin({
   handleDelete,
   usergroup,
 }) {
-  const [nickname, setNickname] = useState("");
+  const [, setNickname] = useState("");
   const [state, setState] = useState("None");
   const [cheifId, setCheifId] = useState();
   const currentUser = useRecoilValue(userState).name;

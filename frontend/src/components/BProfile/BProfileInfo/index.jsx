@@ -19,7 +19,7 @@ export default function BProfileInfo({ businessId }) {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [businessId]);
   console.log(buserData);
   return (
     <>{buserData ? <PBProfile buserData={buserData} /> : <LoadingSpinner />}</>

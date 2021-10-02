@@ -56,7 +56,7 @@ export default function NicknameCombo({ handleJoin }) {
         }}
         renderInput={(params) => {
           const input = params.inputProps.value;
-          if (input != previnput) {
+          if (input !== previnput) {
             console.log(input, previnput);
             getUser(input);
             setprevinput(input);

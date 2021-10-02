@@ -1,10 +1,11 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import moment from "moment";
 import PropTypes from "prop-types";
 
 import * as S from "../style";
 import { useRecoilValue } from "recoil";
-import { filterState } from "../../../recoil/filterState";
+import { dateState } from "../../../recoil/filterState";
 
 PListContainer.propTypes = {
   feedList: PropTypes.arrayOf(
@@ -24,20 +25,10 @@ PListContainer.propTypes = {
 };
 
 export default function PListContainer({ feedList, postBookmark }) {
-  const filter = useRecoilValue(filterState);
+  const date = useRecoilValue(dateState).date;
   const history = useHistory();
   const goToDetailPage = (e) => {
-    history.push(
-      `/apply/${e.target.id}?${filter.date.getFullYear()}-${
-        filter.date.getMonth() + 1 < 10
-          ? "0" + (filter.date.getMonth() + 1)
-          : filter.date.getMonth() + 1
-      }-${
-        filter.date.getDate() < 10
-          ? "0" + filter.date.getDate()
-          : filter.date.getDate()
-      }`
-    );
+    history.push(`/apply/${e.target.id}?${moment(date).format("YYYY-MM-DD")}`);
   };
 
   const clickBookmark = (e) => {

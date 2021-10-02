@@ -57,7 +57,7 @@ class BusinessProfileServiceTest {
     private AvatarRepository avatarRepository;
 
     private BusinessProfile businessProfile;
-    private User userInBusinessProfile, anotherUser;
+    private User userInBusinessProfile, anotherUser, admin;
 
     @BeforeEach
     void set(){
@@ -66,27 +66,36 @@ class BusinessProfileServiceTest {
     private void initUsersAndBusinessProfile() {
         userInBusinessProfile = User.builder()
                 .oauthId("1")
-                .nickname("동그라미")
+                .nickname("테스터1")
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
         anotherUser = User.builder()
                 .oauthId("2")
-                .nickname("세모")
+                .nickname("테스터2")
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
-        userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser));
+        admin = User.builder()
+                .oauthId("3")
+                .nickname("테스터3")
+                .role(Role.USER)
+                .signupCheck(true)
+                .provider(SignupProvider.KAKAO)
+                .build();
+
+        userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser, admin));
 
         businessProfile = BusinessProfile.builder()
                 .name("동그라미 실험실")
                 .place("고려대")
                 .contact("010-1234-5786")
-                .admin(userInBusinessProfile)
+                .admin(admin)
                 .build();
         businessProfileRepository.save(businessProfile);
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(admin, businessProfile));
         userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
     }
 
@@ -101,6 +110,24 @@ class BusinessProfileServiceTest {
         BusinessProfileResponse.IdAndName newBusinessProfile = businessProfileService.create(request, anotherUser);
 
         assertThat(newBusinessProfile.getName()).isEqualTo("새로운 실험실");
+    }
+
+    @Test
+    @DisplayName("비즈니스프로필 업데이트 - 성공 (admin 유저)")
+    void update() {
+        BusinessProfileRequest.Update request = BusinessProfileRequest.Update.builder()
+                .name("업데이트 실험실")
+                .place("업데이트 장소")
+                .contact("010-1235-5786")
+                .build();
+        businessProfileService.update(businessProfile.getId(), request, admin);
+
+        assertAll(
+                () -> assertThat(businessProfile.getName()).isEqualTo(request.getName()),
+                () -> assertThat(businessProfile.getPlace()).isEqualTo(request.getPlace()),
+                () -> assertThat(businessProfile.getContact()).isEqualTo(request.getContact())
+        );
+
     }
 
 }

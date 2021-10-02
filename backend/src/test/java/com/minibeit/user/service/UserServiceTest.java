@@ -47,6 +47,8 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
@@ -270,13 +272,16 @@ class UserServiceTest {
         UserResponse.GetOne me = userService.getMe(user);
 
         //then
-        assertThat(user.getNickname()).isEqualTo(me.getNickname());
-        assertThat(user.getBirth()).isEqualTo(me.getBirth());
-        assertThat(user.getJob()).isEqualTo(me.getJob());
-        assertThat(user.getPhoneNum()).isEqualTo(me.getPhoneNum());
-        assertThat(user.getName()).isEqualTo(me.getName());
-        assertThat(user.getGender().name()).isEqualTo(me.getGender());
-        assertThat(user.getAvatar().getUrl()).isEqualTo(me.getAvatar());
+        assertAll(
+                () ->  assertThat(user.getNickname()).isEqualTo(me.getNickname()),
+                () ->  assertThat(user.getBirth()).isEqualTo(me.getBirth()),
+                () ->  assertThat(user.getJob()).isEqualTo(me.getJob()),
+                () ->  assertThat(user.getPhoneNum()).isEqualTo(me.getPhoneNum()),
+                () ->  assertThat(user.getName()).isEqualTo(me.getName()),
+                () ->  assertThat(user.getGender().name()).isEqualTo(me.getGender()),
+                () ->  assertThat(user.getAvatar().getUrl()).isEqualTo(me.getAvatar())
+        );
+
 
     }
 
@@ -307,6 +312,33 @@ class UserServiceTest {
         assertThat(listInBusinessProfile.get(0).getId()).isEqualTo(user2.getId());
         assertThat(listInBusinessProfile.get(0).getNickname()).isEqualTo(user2.getNickname());
         assertThat(listInBusinessProfile.size()).isEqualTo(sharedBusinessProfileUsers);
+
+    }
+
+    @Test
+    @DisplayName("비즈니스 프로필 조회 - 성공(유저가 아무도 없을 때)")
+    void getListInBusinessProfileWhenNoUser() {
+        //given
+        final int sharedBusinessProfileUsers = 0;
+
+        BusinessProfile businessProfile = BusinessProfile.builder()
+                .id(1L)
+                .name("연구소")
+                .place("고려대")
+                .contact("연락처")
+                .admin(user1)
+                .avatar(avatar)
+                .build();
+        businessProfile.setCreatedBy(user1);
+        businessProfileRepository.save(businessProfile);
+
+        //when
+        List<UserResponse.IdAndNickname> listInBusinessProfile = userService.getListInBusinessProfile(businessProfile.getId());
+
+        assertAll(
+                () -> assertThat(listInBusinessProfile.size()).isEqualTo(sharedBusinessProfileUsers),
+                () -> assertDoesNotThrow(UserNotFoundException::new)
+        );
 
     }
 

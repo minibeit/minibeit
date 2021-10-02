@@ -8,7 +8,6 @@ import * as S from "../style";
 export default function NicknameCombo({ handleJoin }) {
   const [user, setUser] = useState([]);
   const getUser = async (input) => {
-    console.log(input, "input");
     await getSearchUser(input)
       .then((res) => setUser(res.data))
       .catch((err) => console.log(err));
@@ -57,7 +56,6 @@ export default function NicknameCombo({ handleJoin }) {
         renderInput={(params) => {
           const input = params.inputProps.value;
           if (input !== previnput) {
-            console.log(input, previnput);
             getUser(input);
             setprevinput(input);
           }

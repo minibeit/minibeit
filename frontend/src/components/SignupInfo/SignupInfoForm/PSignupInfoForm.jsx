@@ -46,11 +46,9 @@ function PSignupInfoForm({ signupHandler }) {
     if (name === "nickname") {
       setNick("notyet");
     }
-    console.log(value, name);
     setInputs({ ...inputs, [name]: value });
   };
   const handleJob = async (jobName) => {
-    console.log(jobName);
     setInputs({ ...inputs, job: jobName });
     setMsg("시작하기");
   };
@@ -68,7 +66,6 @@ function PSignupInfoForm({ signupHandler }) {
     setImg(undefined);
   };
   const singupInfoFunc = (e) => {
-    console.log(index);
     if (index < 1) {
       for (const key in inputs) {
         if (

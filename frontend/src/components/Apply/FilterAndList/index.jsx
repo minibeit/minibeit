@@ -12,7 +12,6 @@ export default function FilterAndList() {
     await feedlistApi(page, schoolId, date, payment)
       .then((res) => {
         setFeedList(res.data.content);
-        console.log(res.data.content);
         setTotalPages(res.data.totalPages);
       })
       .catch((err) => {
@@ -22,9 +21,7 @@ export default function FilterAndList() {
 
   const postBookmark = async (postId, req) => {
     await bookmarkApi(postId, req)
-      .then((res) => {
-        console.log(res);
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log(err);
       });

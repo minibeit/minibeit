@@ -48,7 +48,6 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
     }
   };
   const changeState = async (order, postdoDateId, userId, rejectValue) => {
-    console.log(order, postdoDateId, userId, rejectValue);
     if (order === "approve") {
       await approveOneApi(postId, postdoDateId, userId)
         .then((res) => {
@@ -105,7 +104,6 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
             </S.ModalTopContent>
             <S.ModalSecondContent>
               {waitlist.map((timeBox) => {
-                console.log(timeBox);
                 return (
                   <S.BMTimeBox key={timeBox.postDoDateId}>
                     <hr />

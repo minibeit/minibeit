@@ -16,7 +16,6 @@ export default function BMakeListBox({ businessId, state, status }) {
     await getMakelistApi(businessId, page, status)
       .then(async (res) => {
         if (res.data.content.length === 0) {
-          console.log(res.data.content.length === 0);
           await getMakelistApi(businessId, 1, status).then((res) => {
             setMakelist(res.data.content);
             setPaging({ first: res.data.first, last: res.data.last });

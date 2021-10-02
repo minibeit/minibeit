@@ -13,14 +13,12 @@ export default function BProfileInfo({ businessId }) {
   useEffect(() => {
     getBprofileInfo(businessId)
       .then((res) => {
-        console.log(res);
         setBUserData(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, [businessId]);
-  console.log(buserData);
   return (
     <>{buserData ? <PBProfile buserData={buserData} /> : <LoadingSpinner />}</>
   );

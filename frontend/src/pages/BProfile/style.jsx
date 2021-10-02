@@ -43,4 +43,5 @@ export const BTabContent = styled.div`
 `;
 export const TabBox = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;

@@ -28,7 +28,6 @@ export default function PUserInfo({ userData }) {
           <S.UserImg src="/기본프로필.png" />
         )}
       </S.ImgBox>
-      <br />
       <S.UserEditBtn onClick={() => setModalSwitch(true)}>
         수정하기
       </S.UserEditBtn>

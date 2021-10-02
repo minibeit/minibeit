@@ -7,10 +7,10 @@ export default function PJoinListBox({
   getJoinlist,
   handlepage,
   paging,
-  getCancelist,
+  getCancellist,
+  getFinishlist,
   state,
 }) {
-  console.log(joinlist);
   return (
     <>
       {joinlist.length > 0 ? (
@@ -21,7 +21,17 @@ export default function PJoinListBox({
                   finish={false}
                   state="finish"
                   tag="참여 반려"
-                  getCancelist={getCancelist}
+                  getCancellist={getCancellist}
+                  feedInfo={joinEle}
+                />
+              ))
+            : state === "FINISH"
+            ? joinlist.map((joinEle) => (
+                <ProfileFeed
+                  finish={true}
+                  state="finish"
+                  tag="참여 완료"
+                  getFinishlist={getFinishlist}
                   feedInfo={joinEle}
                 />
               ))
@@ -47,10 +57,20 @@ export default function PJoinListBox({
         </>
       ) : (
         <S.IfNoneWordCont>
-          <p>아직 실험에 참여하지 않으셨네요.</p>
-          <S.IfNoneBtn onClick={() => window.location.replace("/apply")}>
-            실험에 참여하러 가기
-          </S.IfNoneBtn>
+          {state === "WAIT" ? (
+            <>
+              <p>아직 실험에 참여하지 않으셨네요.</p>
+              <S.IfNoneBtn onClick={() => window.location.replace("/apply")}>
+                실험에 참여하러 가기
+              </S.IfNoneBtn>
+            </>
+          ) : state === "APPROVE" ? (
+            <p>아직 확정된 실험이 없습니다.</p>
+          ) : state === "CANCEL" ? (
+            <p>아직 반려된 실험이 없습니다.</p>
+          ) : state === "FINISH" ? (
+            <p>아직 완료된 실험이 없습니다.</p>
+          ) : null}
         </S.IfNoneWordCont>
       )}
     </>

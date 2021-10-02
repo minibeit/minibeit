@@ -42,6 +42,7 @@ export const BPEditInput = styled.input`
 
 export const BPEditButton = styled.div`
   display: flex;
+  width: 100%;
   justify-content: end;
   & > p {
     background: blue;

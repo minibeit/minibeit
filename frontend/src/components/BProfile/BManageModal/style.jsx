@@ -14,10 +14,13 @@ export const ModalBox = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  background-color: white;
-  width: 20rem;
-  height: 15rem;
+  width: 57%;
   overflow: scroll;
+  max-width: 41rem;
+  border-radius: 20px;
+  padding: 32px 36px;
+  height: 26rem;
+  background-color: white;
 `;
 export const ModalHeader = styled.div`
   display: flex;

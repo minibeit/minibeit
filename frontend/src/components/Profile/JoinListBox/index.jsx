@@ -1,6 +1,10 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { getCancellistApi, getJoinlistApi } from "../../../utils";
+import {
+  getCancellistApi,
+  getFinishlistApi,
+  getJoinlistApi,
+} from "../../../utils";
 import PJoinListBox from "./PJoinListBox";
 
 export default function JoinListBox({ state }) {
@@ -26,6 +30,14 @@ export default function JoinListBox({ state }) {
       })
       .catch((err) => console.log(err));
   };
+  const getFinishlist = async () => {
+    await getFinishlistApi(page)
+      .then((res) => {
+        setJoinlist(res.data.content);
+        setPaging({ first: res.data.first, last: res.data.last });
+      })
+      .catch((err) => console.log(err));
+  };
   const handlepage = async (order) => {
     if (order === "PREV") {
       setPage(page - 1);
@@ -36,6 +48,8 @@ export default function JoinListBox({ state }) {
   useEffect(() => {
     if (state === "CANCEL") {
       getCancellist();
+    } else if (state === "FINISH") {
+      getFinishlist();
     } else {
       getJoinlist();
     }
@@ -46,6 +60,7 @@ export default function JoinListBox({ state }) {
       joinlist={joinlist}
       getCancellist={getCancellist}
       getJoinlist={getJoinlist}
+      getFinishlist={getFinishlist}
       state={state}
       handlepage={handlepage}
       paging={paging}

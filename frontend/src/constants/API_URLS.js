@@ -39,11 +39,13 @@ const API_URLS = {
   FEED_DELETE :"/api/post/",
   GET_WAIT_LIST: "/api/post/",
   GET_APPROVE_LIST : "/api/post/",
+  GET_FINISH_LIST : "/api/post/myComplete/list?",
   APPROVE_ONE : "/api/post/",
   CANCEL_ONE :"/api/post/",
   REJECT_ONE :"/api/post/",
   SET_ATTEND :"/api/post/",
   GET_CANCEL_LIST : "/api/rejectPost/list",
   DELETE_CANCEL:"/api/rejectPost/",
+  EDIT_REVIEW:"/api/business/profile/review/",
 };
 export default API_URLS;

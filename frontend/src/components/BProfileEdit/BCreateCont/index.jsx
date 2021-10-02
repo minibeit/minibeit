@@ -67,7 +67,7 @@ export default function BCreateCont({ setModalSwitch, CreateBProfile }) {
                 )}
               </S.ImgBox>
               <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
-              <S.FileLabel for="input-file">사진 업로드 하기</S.FileLabel>
+              <S.FileLabel htmlFor="input-file">사진 업로드 하기</S.FileLabel>
               <S.BPEditFileInput
                 id="input-file"
                 name="img"

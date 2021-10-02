@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
+import CloseIcon from "@mui/icons-material/Close";
 import * as S from "../style";
 
 export default function PBProfileJoin({
@@ -9,8 +10,7 @@ export default function PBProfileJoin({
   usergroup,
 }) {
   const [nickname, setNickname] = useState("");
-  const [editState, setEditState] = useState(false);
-  const [assignState, setAssignState] = useState(false);
+  const [state, setState] = useState("None");
   const [cheifId, setCheifId] = useState();
   const currentUser = useRecoilValue(userState).name;
 
@@ -18,56 +18,71 @@ export default function PBProfileJoin({
     <>
       <S.JoinContainer>
         <S.JoinBox1>
-          {editState ? (
-            <S.JoinEdit
-              onClick={() => {
-                setEditState(false);
-              }}
-            >
-              완료
-            </S.JoinEdit>
-          ) : (
-            <S.JoinEdit
-              onClick={() => {
-                setEditState(true);
-              }}
-            >
-              수정
-            </S.JoinEdit>
-          )}
-          <S.JoinAssign>
-            {assignState ? (
+          <S.JoinEditCont>
+            <p>소속인원 /{usergroup.length}명</p>
+            {state === "EDIT" ? (
               <S.JoinEdit
-                onClick={async () => {
-                  await handleAssign(cheifId);
-                  setAssignState(false);
+                onClick={() => {
+                  setState("None");
                   setCheifId();
                 }}
               >
-                완료
+                <p>완료</p>
               </S.JoinEdit>
             ) : (
               <S.JoinEdit
                 onClick={() => {
-                  setAssignState(true);
+                  setState("EDIT");
+                  setCheifId();
                 }}
               >
-                관리자 양도
+                <p>수정</p>
+              </S.JoinEdit>
+            )}
+          </S.JoinEditCont>
+          <S.JoinAssign>
+            {state === "ASSIGN" ? (
+              <S.JoinEdit
+                onClick={async () => {
+                  await handleAssign(cheifId);
+                  setState("None");
+                  setCheifId();
+                }}
+              >
+                <p>완료</p>
+              </S.JoinEdit>
+            ) : (
+              <S.JoinEdit
+                onClick={() => {
+                  setState("ASSIGN");
+                }}
+              >
+                <p>관리자 양도</p>
               </S.JoinEdit>
             )}
           </S.JoinAssign>
         </S.JoinBox1>
         <S.JoinBox2>
-          <p>소속인원 /{usergroup.length}명</p>
           {usergroup.length >= 1
             ? usergroup.map((user) => (
                 <div key={user.id}>
-                  {" "}
+                  {state !== "EDIT" ? null : currentUser ===
+                    user.nickname ? null : (
+                    <S.BPuserdelete
+                      onClick={async (e) => {
+                        e.preventDefault();
+                        await handleDelete(user.id, user.nickname);
+                        setNickname("");
+                      }}
+                    >
+                      <CloseIcon />
+                    </S.BPuserdelete>
+                  )}{" "}
                   {cheifId === user.id ? (
                     <S.BPuser2
                       onClick={async (e) => {
                         e.preventDefault();
-                        if (assignState) {
+                        if (state === "ASSIGN") {
                           setCheifId(user.id);
                         }
                       }}
@@ -79,25 +94,13 @@ export default function PBProfileJoin({
                     <S.BPuser
                       onClick={async (e) => {
                         e.preventDefault();
-                        if (assignState) {
+                        if (state === "ASSIGN") {
                           setCheifId(user.id);
                         }
                       }}
                     >
                       {user.nickname}
                     </S.BPuser>
-                  )}
-                  {editState === false ? null : currentUser ===
-                    user.nickname ? null : (
-                    <S.BPuserdelete
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        await handleDelete(user.id, user.nickname);
-                        setNickname("");
-                      }}
-                    >
-                      x
-                    </S.BPuserdelete>
                   )}
                 </div>
               ))

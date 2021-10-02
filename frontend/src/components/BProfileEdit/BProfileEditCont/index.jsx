@@ -3,6 +3,7 @@ import { editBprofile, getBprofileInfo } from "../../../utils/bprofileApi";
 import PBProfileEditCont from "./PBProfileEditCont";
 import { LoadingSpinner } from "../../Common";
 import Portal from "../../Common/Modal/Portal";
+import CloseIcon from "@mui/icons-material/Close";
 import * as S from "../style";
 
 export default function BProfileEditCont({ businessId, setModal2Switch }) {
@@ -32,7 +33,10 @@ export default function BProfileEditCont({ businessId, setModal2Switch }) {
           <S.ModalBackground>
             <S.ModalBox>
               <S.ModalHeader>
-                <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
+                <p>비즈니스 프로필 수정하기</p>
+                <S.CloseModalBtn onClick={closeModal}>
+                  <CloseIcon />
+                </S.CloseModalBtn>
               </S.ModalHeader>
               <S.ModalContent>
                 <PBProfileEditCont

@@ -79,9 +79,14 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-POST {{apiUrl}}/post/2/completed
+POST {{apiUrl}}/post/1/completed
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
+
+{
+  "rejectComment": "모집완료되었습니다."
+}
+
 
 ###
 PUT {{apiUrl}}/post/1

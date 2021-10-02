@@ -5,7 +5,7 @@ CREATE TABLE `post_do_date`
     `post_id`    BIGINT     NOT NULL,
     `group_id`   INT        NOT NULL,
     `do_date`    DATETIME   NOT NULL,
-    `isFull`     TINYINT(1) NOT NULL,
+    `is_full`     TINYINT(1) NOT NULL,
     `created_at` DATETIME   NOT NULL,
     `updated_at` DATETIME DEFAULT NULL,
     `deleted_at` DATETIME DEFAULT NULL,

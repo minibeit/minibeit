@@ -38,8 +38,8 @@ public class PostByBusinessController {
     }
 
     @PostMapping("/{postId}/completed")
-    public ResponseEntity<Void> recruitmentCompleted(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
-        postByBusinessService.recruitmentCompleted(postId, customUserDetails.getUser());
+    public ResponseEntity<Void> recruitmentCompleted(@PathVariable Long postId, @RequestBody PostRequest.RejectComment request, @CurrentUser CustomUserDetails customUserDetails) {
+        postByBusinessService.recruitmentCompleted(postId, request, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 

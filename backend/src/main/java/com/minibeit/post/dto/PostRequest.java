@@ -53,4 +53,12 @@ public class PostRequest {
     public static class UpdateContent {
         private String updatedContent;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class RejectComment {
+        private String rejectComment;
+    }
 }

@@ -203,13 +203,22 @@ class PostByBusinessControllerTest extends MvcTest {
     @Test
     @DisplayName("게시물 모집상태 변화 문서화")
     public void completed() throws Exception {
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.post("/api/post/{postId}/completed", 1));
+        PostRequest.RejectComment request = PostRequest.RejectComment.builder().rejectComment("모집완료 되었습니다.").build();
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/post/{postId}/completed", 1)
+                .content(objectMapper.writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
 
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("post-recruitment-Completed",
                         pathParameters(
                                 parameterWithName("postId").description("모집완료 할 게시물 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("rejectComment").type(JsonFieldType.STRING).description("반려 사유")
                         )
                 ));
     }

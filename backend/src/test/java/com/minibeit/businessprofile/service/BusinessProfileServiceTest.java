@@ -95,6 +95,7 @@ class BusinessProfileServiceTest {
                 .build();
         admin = User.builder()
                 .oauthId("3")
+                .name("어드민")
                 .nickname("테스터3")
                 .role(Role.USER)
                 .signupCheck(true)
@@ -183,4 +184,18 @@ class BusinessProfileServiceTest {
         );
     }
 
+    @Test
+    @DisplayName("비즈니스 프로필 단건 조회 - 성공")
+    void getOne() {
+
+        BusinessProfileResponse.GetOne getOne = businessProfileService.getOne(businessProfile.getId(), admin);
+
+        assertAll(
+                () -> assertThat(getOne.getAdminNickName()).isEqualTo(businessProfile.getAdmin().getNickname()),
+                () -> assertThat(getOne.getName()).isEqualTo(businessProfile.getName()),
+                () -> assertThat(getOne.getContact()).isEqualTo(businessProfile.getContact()),
+                () -> assertThat(getOne.getPlace()).isEqualTo(businessProfile.getPlace()),
+                () -> assertThat(getOne.getNumberOfEmployees()).isEqualTo(businessProfile.getUserBusinessProfileList().size())
+        );
+    }
 }

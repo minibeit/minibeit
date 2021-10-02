@@ -1,7 +1,6 @@
 package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Sets;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
@@ -195,28 +194,37 @@ public class PostResponse {
     }
 
     @Getter
+    @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @Builder
     public static class GetMyCompletedList {
         private Long postId;
         private Long postDoDateId;
         private String title;
+        private Integer time;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+        private LocalDateTime doDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime startTime;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime endTime;
         private Long reviewId;
         private String review;
         private Boolean isWritable;
-        @JsonIgnore
-        private LocalDateTime postDoDate;
 
         @Builder
         @QueryProjection
-        public GetMyCompletedList(Long postId, Long postDoDateId, String title, Long reviewId, String review, LocalDateTime postDoDate) {
+        public GetMyCompletedList(Long postId, Long postDoDateId, String title, Integer time, Long reviewId, String review, LocalDateTime doDate) {
             this.postId = postId;
             this.postDoDateId = postDoDateId;
             this.title = title;
             this.reviewId = reviewId;
             this.review = review;
-            this.isWritable = postDoDate.plusDays(7).isAfter(LocalDateTime.now());
+            this.time = time;
+            this.doDate = doDate;
+            this.startTime = doDate;
+            this.endTime = doDate.plusMinutes(time);
+            this.isWritable = doDate.plusDays(7).isAfter(LocalDateTime.now());
         }
     }
 

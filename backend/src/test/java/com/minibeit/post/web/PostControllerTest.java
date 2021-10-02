@@ -351,6 +351,10 @@ class PostControllerTest extends MvcTest {
                 .postId(1L)
                 .title("간단한 실험")
                 .postDoDateId(1L)
+                .time(120)
+                .doDate(LocalDateTime.of(2021,10,2,9,30))
+                .startTime(LocalDateTime.of(2021,10,2,9,30))
+                .endTime(LocalDateTime.of(2021,10,2,11,30))
                 .reviewId(1L)
                 .review("내가 작성한 첫번째 후기")
                 .isWritable(true)
@@ -359,6 +363,10 @@ class PostControllerTest extends MvcTest {
                 .postId(2L)
                 .title("간단한 실험2")
                 .postDoDateId(2L)
+                .time(120)
+                .doDate(LocalDateTime.of(2021,10,2,9,30))
+                .startTime(LocalDateTime.of(2021,10,2,9,30))
+                .endTime(LocalDateTime.of(2021,10,2,11,30))
                 .reviewId(2L)
                 .review("내가 작성한 두번째 후기")
                 .isWritable(true)
@@ -367,6 +375,10 @@ class PostControllerTest extends MvcTest {
                 .postId(2L)
                 .title("간단한 실험2")
                 .postDoDateId(2L)
+                .time(120)
+                .doDate(LocalDateTime.of(2021,10,2,9,30))
+                .startTime(LocalDateTime.of(2021,10,2,9,30))
+                .endTime(LocalDateTime.of(2021,10,2,11,30))
                 .reviewId(3L)
                 .review("내가 작성한 세번째 후기")
                 .isWritable(false)
@@ -393,6 +405,10 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("content[].postId").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
                                 fieldWithPath("content[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 시작 시간 식별자"),
+                                fieldWithPath("content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
+                                fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
+                                fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
+                                fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
                                 fieldWithPath("content[].reviewId").description("리뷰 식별자 (없다면 null)"),
                                 fieldWithPath("content[].review").description("리뷰 내용 (없다면 null)"),
                                 fieldWithPath("content[].isWritable").description("리뷰를 작성하거나 수정할 수 있다면 true(실험후 일주일동안 가능)"),

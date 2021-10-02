@@ -9,17 +9,12 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.common.component.file.S3Uploader;
 import com.minibeit.common.dto.SavedFile;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.Payment;
-import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostApplicant;
-import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
-import com.minibeit.post.domain.repository.PostDoDateRepository;
-import com.minibeit.post.domain.repository.PostFileRepository;
-import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.domain.*;
+import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
@@ -44,6 +39,7 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -74,23 +70,29 @@ class PostByBusinessServiceTest {
     private UserRepository userRepository;
     @Autowired
     private UserBusinessProfileRepository userBusinessProfileRepository;
+    @Autowired
+    private RejectPostRepository rejectPostRepository;
     @MockBean
     private S3Uploader s3Uploader;
     @PersistenceContext
-    private EntityManager entityManager;
+    private EntityManager em;
 
     private User userInBusinessProfile;
     private User anotherUser;
-    private User applicant1;
-    private User applicant2;
-    private User applicant3;
-    private User applicant4;
-    private User applicant5;
+    private User approveUser1;
+    private User approveUser2;
+    private User waitUser1;
+    private User waitUser2;
+    private User waitUser3;
+    private PostApplicant approvePostApplicant1;
+    private PostApplicant approvePostApplicant2;
+    private PostApplicant waitPostApplicant1;
+    private PostApplicant waitPostApplicant2;
+    private PostApplicant waitPostApplicant3;
     private School school;
     private BusinessProfile businessProfile;
     private PostRequest.CreateInfo createInfoRequest;
     private Post post;
-    private Post postWithImage;
     private final SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, AvatarType.IMAGE, AvatarServer.S3);
 
     @BeforeEach
@@ -121,42 +123,42 @@ class PostByBusinessServiceTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
-        applicant1 = User.builder()
+        approveUser1 = User.builder()
                 .oauthId("3")
                 .nickname("지원자1")
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
-        applicant2 = User.builder()
+        approveUser2 = User.builder()
                 .oauthId("4")
                 .nickname("지원자2")
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
-        applicant3 = User.builder()
+        waitUser1 = User.builder()
                 .oauthId("5")
                 .nickname("지원자3")
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
-        applicant4 = User.builder()
+        waitUser2 = User.builder()
                 .oauthId("6")
                 .nickname("지원자4")
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
-        applicant5 = User.builder()
+        waitUser3 = User.builder()
                 .oauthId("7")
                 .nickname("지원자5")
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
-        userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser, applicant1, applicant2, applicant3, applicant4, applicant5));
+        userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser, approveUser1, approveUser2, waitUser1, waitUser2, waitUser3));
 
         businessProfile = BusinessProfile.builder()
                 .name("동그라미 실험실")
@@ -200,13 +202,17 @@ class PostByBusinessServiceTest {
         PostDoDate postDoDate3 = PostDoDate.create(LocalDateTime.of(2021, 10, 2, 9, 30), createdPost);
         PostDoDate postDoDate4 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
         postDoDateRepository.saveAll(Arrays.asList(postDoDate1, postDoDate2, postDoDate3, postDoDate4));
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applicant1);
-        PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, applicant2);
-        PostApplicant postApplicant3 = PostApplicant.create(postDoDate3, applicant3);
-        PostApplicant postApplicant4 = PostApplicant.create(postDoDate4, applicant4);
-        PostApplicant postApplicant5 = PostApplicant.create(postDoDate3, applicant5);
 
-        postApplicantRepository.saveAll(Arrays.asList(postApplicant1, postApplicant2, postApplicant3, postApplicant4, postApplicant5));
+        approvePostApplicant1 = PostApplicant.create(postDoDate1, approveUser1);
+        approvePostApplicant1.updateStatus(ApplyStatus.APPROVE);
+        approvePostApplicant2 = PostApplicant.create(postDoDate3, approveUser2);
+        approvePostApplicant2.updateStatus(ApplyStatus.APPROVE);
+
+        waitPostApplicant1 = PostApplicant.create(postDoDate2, waitUser3);
+        waitPostApplicant2 = PostApplicant.create(postDoDate3, waitUser1);
+        waitPostApplicant3 = PostApplicant.create(postDoDate4, waitUser2);
+
+        postApplicantRepository.saveAll(Arrays.asList(approvePostApplicant1, approvePostApplicant2, waitPostApplicant1, waitPostApplicant2, waitPostApplicant3));
     }
 
     @Test
@@ -253,13 +259,31 @@ class PostByBusinessServiceTest {
                 .isExactlyInstanceOf(PostNotFoundException.class);
     }
 
-//    @Test
-//    @DisplayName("게시글 모집완료 - 성공")
-//    void recruitmentCompleted() {
-//        PostResponse.OnlyId response = postByBusinessService.recruitmentCompleted(createInfoRequest, userInBusinessProfile);
-//
-//        Post findPost = postRepository.findById(response.getId()).orElseThrow(PostNotFoundException::new);
-//
-//        assertThat(findPost.getTitle()).isEqualTo(createInfoRequest.getTitle());
-//    }
+    @Test
+    @DisplayName("게시글 모집완료 - 성공")
+    void recruitmentCompleted() {
+        PostRequest.RejectComment request = PostRequest.RejectComment.builder().rejectComment("모집이 완료되었습니다.").build();
+        postByBusinessService.recruitmentCompleted(post.getId(), request, userInBusinessProfile);
+        resetEntityManager();
+        Post findPost = postRepository.findById(post.getId()).orElseThrow(PostNotFoundException::new);
+        PostApplicant findApprovePostApplicant1 = postApplicantRepository.findById(approvePostApplicant1.getId()).orElseThrow(PostApplicantNotFoundException::new);
+        PostApplicant findApprovePostApplicant2 = postApplicantRepository.findById(approvePostApplicant2.getId()).orElseThrow(PostApplicantNotFoundException::new);
+        PostApplicant findWaitPostApplicant1 = postApplicantRepository.findById(waitPostApplicant1.getId()).orElseThrow(PostApplicantNotFoundException::new);
+        PostApplicant findWaitPostApplicant2 = postApplicantRepository.findById(waitPostApplicant2.getId()).orElseThrow(PostApplicantNotFoundException::new);
+        PostApplicant findWaitPostApplicant3 = postApplicantRepository.findById(waitPostApplicant3.getId()).orElseThrow(PostApplicantNotFoundException::new);
+        List<RejectPost> rejectPosts = rejectPostRepository.findAll();
+
+        assertThat(findPost.getPostStatus()).isEqualTo(PostStatus.COMPLETE);
+        assertThat(findApprovePostApplicant1.getApplyStatus()).isEqualTo(ApplyStatus.APPROVE);
+        assertThat(findApprovePostApplicant2.getApplyStatus()).isEqualTo(ApplyStatus.APPROVE);
+        assertThat(findWaitPostApplicant1.getApplyStatus()).isEqualTo(ApplyStatus.REJECT);
+        assertThat(findWaitPostApplicant2.getApplyStatus()).isEqualTo(ApplyStatus.REJECT);
+        assertThat(findWaitPostApplicant3.getApplyStatus()).isEqualTo(ApplyStatus.REJECT);
+        assertThat(rejectPosts.size()).isEqualTo(3);
+    }
+
+    private void resetEntityManager() {
+        em.flush();
+        em.clear();
+    }
 }

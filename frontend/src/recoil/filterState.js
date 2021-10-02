@@ -2,24 +2,29 @@ import { atom } from "recoil";
 
 const today = new Date();
 
+export const dateState = atom({
+  key: "dateState",
+  default: {
+    date: today,
+  },
+});
+
 export const filterState = atom({
   key: "filterState",
   default: {
     schoolId: null,
     schoolName: null,
-    date: today,
-    category: null,
     paymentType: "",
-    minPay: null,
-    doTime: null,
+    minPay: "",
+    doTime: "",
     startAndEnd: [0, 24],
-    startTime: "00:00",
-    endTime: "00:00",
+    startTime: "",
+    endTime: "",
   },
 });
 export const categoryState = atom({
   key: "categoryState",
   default: {
-    category: null,
+    category: "",
   },
 });

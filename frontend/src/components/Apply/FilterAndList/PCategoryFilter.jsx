@@ -11,7 +11,13 @@ export default function DetailFilter({
   const clickCategory = (e) => {
     const value = e.target.textContent;
     const copy = { ...category };
-    copy.category = value.slice(2, value.length);
+    if (value === "전체") {
+      copy.category = "";
+    } else if (value.slice(2, value.length) === "") {
+      copy.category = "기타";
+    } else {
+      copy.category = value.slice(2, value.length);
+    }
     setCategory(copy);
   };
   console.log(category);
@@ -26,6 +32,7 @@ export default function DetailFilter({
         닫기
       </button>
       <S.DetailBox>
+        <button onClick={clickCategory}>전체</button>
         <button onClick={clickCategory}>📔경영/마케팅</button>
         <button onClick={clickCategory}>🖥IT/모바일</button>
         <button onClick={clickCategory}>🎨디자인</button>️

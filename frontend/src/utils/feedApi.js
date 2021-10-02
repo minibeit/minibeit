@@ -1,5 +1,6 @@
 import { API_URLS } from "../constants";
 import { withAuthInstance, withoutAuthInstance } from "./common";
+import moment from "moment";
 
 const {
   FEED_NEW,
@@ -51,8 +52,6 @@ export const feedDateCreateApi = async (postId, dateinputs) => {
   );
 };
 
-
-
 export const feedDetailApi = async (feedId) => {
   return await withoutAuthInstance.get(GET_FEEDDETAIL + feedId);
 };
@@ -80,14 +79,11 @@ export const feedEditApi = async (inputs, files, postId) => {
   );
 };
 
-export const feedlistApi = async (page, schoolId, date, payment) => {
-  // 일단 페이지와 사이즈 고정으로 해놓음
-  const doDate = `${date.getFullYear()}-${
-    date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1
-  }-${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
+export const feedlistApi = async (page, schoolId, date, filter, category) => {
+  const doDate = moment(date.date).format("YYYY-MM-DD");
   return await withoutAuthInstance.get(
     GET_FEEDLIST +
-      `${schoolId}?page=${page}&size=10&paymentType=${payment}&doDate=${doDate}`
+      `${schoolId}?page=${page}&size=10&category=${category.category}&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${filter.minPay}&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${filter.endTime}`
   );
 };
 
@@ -106,13 +102,9 @@ export const bookmarkApi = async (postId, req) => {
 };
 
 export const stateCompleteApi = async (postId) => {
-  return await withAuthInstance.post(
-   STATE_COMPLETE + postId+"/completed",
-  );
+  return await withAuthInstance.post(STATE_COMPLETE + postId + "/completed");
 };
 
 export const feedDeleteApi = async (postId) => {
-  return await withAuthInstance.delete(
-    FEED_DELETE + postId
-  );
+  return await withAuthInstance.delete(FEED_DELETE + postId);
 };

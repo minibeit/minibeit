@@ -8,11 +8,10 @@ export default function FilterAndList() {
   const [feedList, setFeedList] = useState();
   const [totalPages, setTotalPages] = useState();
 
-  const getFeedList = async (page, schoolId, date, payment) => {
-    await feedlistApi(page, schoolId, date, payment)
+  const getFeedList = async (page, schoolId, date, filter, category) => {
+    await feedlistApi(page, schoolId, date, filter, category)
       .then((res) => {
         setFeedList(res.data.content);
-        console.log(res.data.content);
         setTotalPages(res.data.totalPages);
       })
       .catch((err) => {

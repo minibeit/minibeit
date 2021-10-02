@@ -75,6 +75,14 @@ export default function DetailFilter({
           <>
             <S.SelectBtn
               name="minPay"
+              value=""
+              disabled={filter["minPay"] === "" ? true : false}
+              onClick={changeFilter}
+            >
+              전체
+            </S.SelectBtn>
+            <S.SelectBtn
+              name="minPay"
               value="9999"
               disabled={filter["minPay"] === "9999" ? true : false}
               onClick={changeFilter}
@@ -110,6 +118,14 @@ export default function DetailFilter({
       </S.DetailBox>
       <S.DetailBox>
         <h4>소요기간</h4>
+        <S.SelectBtn
+          name="doTime"
+          value=""
+          disabled={filter["doTime"] === "" ? true : false}
+          onClick={changeFilter}
+        >
+          전체
+        </S.SelectBtn>
         <S.SelectBtn
           name="doTime"
           value="30"
@@ -156,8 +172,13 @@ export default function DetailFilter({
           onChange={(e) => {
             const copy = { ...filter };
             copy["startAndEnd"] = e;
-            copy["startTime"] = timeArr[e[0]];
-            copy["endTime"] = timeArr[e[1]];
+            if (e[0] === 0 && e[1] === 24) {
+              copy["startTime"] = "";
+              copy["endTime"] = "";
+            } else {
+              copy["startTime"] = timeArr[e[0]];
+              copy["endTime"] = timeArr[e[1]];
+            }
             setFilter(copy);
           }}
         />

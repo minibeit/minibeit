@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
-import { categoryState, filterState } from "../../../recoil/filterState";
+import {
+  dateState,
+  categoryState,
+  filterState,
+} from "../../../recoil/filterState";
 import { userState } from "../../../recoil/userState";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,6 +23,7 @@ PFilterContainer.propTypes = {
 export default function PFilterContainer({ getFeedList }) {
   const [filter, setFilter] = useRecoilState(filterState);
   const [category, setCategory] = useRecoilState(categoryState);
+  const [date, setDate] = useRecoilState(dateState);
   const [filterSwitch, setFilterSwitch] = useState(false);
   const [categorySwitch, setCategorySwitch] = useState(false);
 
@@ -36,9 +41,9 @@ export default function PFilterContainer({ getFeedList }) {
 
   const search = () => {
     if (filter.schoolId) {
-      getFeedList(1, filter.schoolId, filter.date, filter.payment);
+      getFeedList(1, filter.schoolId, date, filter, category);
     } else if (user.schoolId) {
-      getFeedList(1, user.schoolId, filter.date, filter.payment);
+      getFeedList(1, user.schoolId, date, filter, category);
     } else {
       alert("학교를 선택해주세요");
     }
@@ -50,11 +55,11 @@ export default function PFilterContainer({ getFeedList }) {
     <>
       <SchoolSearch use="ApplyList" />
       <DatePicker
-        selected={filter["date"]}
+        selected={date["date"]}
         onChange={(date) => {
-          const filter_cp = { ...filter };
-          filter_cp["date"] = date;
-          setFilter(filter_cp);
+          const copy = { ...date };
+          copy["date"] = date;
+          setDate(copy);
         }}
       />
       <S.SearchBtn onClick={search}>검색</S.SearchBtn>

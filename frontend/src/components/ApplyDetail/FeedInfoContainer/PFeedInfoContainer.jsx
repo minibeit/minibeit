@@ -32,11 +32,15 @@ PFeedInfoContainer.propTypes = {
     }),
   }),
   date: PropTypes.string,
+  postBookmark: PropTypes.func.isRequired,
+  isLogin: PropTypes.bool.isRequired,
 };
 export default function PFeedInfoContainer({
   setModalSwitch,
   feedDetailData,
   date,
+  postBookmark,
+  isLogin,
 }) {
   const {
     id,
@@ -50,6 +54,8 @@ export default function PFeedInfoContainer({
     goods,
     place,
     files,
+    isLike,
+    likes,
     recruitCondition,
     recruitConditionDetail,
   } = feedDetailData;
@@ -58,12 +64,30 @@ export default function PFeedInfoContainer({
   const openModal = () => {
     setModalSwitch(true);
   };
+  const clickBookmark = (e) => {
+    postBookmark(e.target.id);
+    if (e.target.textContent === "북마크 중") {
+      e.target.textContent = "북마크";
+      e.target.nextSibling.textContent =
+        parseInt(e.target.nextSibling.textContent) - 1;
+    } else {
+      e.target.textContent = "북마크 중";
+      e.target.nextSibling.textContent =
+        parseInt(e.target.nextSibling.textContent) + 1;
+    }
+  };
 
   return (
     <S.DetailContainer>
       <S.TitleBox>
         <h3>제목: {title}</h3>
         <p>작성자: {businessProfileInfo.name}</p>
+        {isLogin ? (
+          <button id={id} onClick={clickBookmark}>
+            {isLike ? "북마크 중" : "북마크"}
+          </button>
+        ) : null}
+        <p>{likes}</p>
       </S.TitleBox>
       <S.DateInfoBox>
         <PTimeSelectBox

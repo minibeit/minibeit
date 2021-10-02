@@ -51,10 +51,12 @@ export const feedDateCreateApi = async (postId, dateinputs) => {
   );
 };
 
-
-
-export const feedDetailApi = async (feedId) => {
-  return await withoutAuthInstance.get(GET_FEEDDETAIL + feedId);
+export const feedDetailApi = async (feedId, isLogin) => {
+  if (isLogin) {
+    return await withAuthInstance.get(GET_FEEDDETAIL + feedId);
+  } else {
+    return await withoutAuthInstance.get(GET_FEEDDETAIL + feedId);
+  }
 };
 
 export const feedDetailTimeApi = async (feedId, doDate) => {
@@ -108,13 +110,9 @@ export const bookmarkApi = async (postId) => {
 };
 
 export const stateCompleteApi = async (postId) => {
-  return await withAuthInstance.post(
-   STATE_COMPLETE + postId+"/completed",
-  );
+  return await withAuthInstance.post(STATE_COMPLETE + postId + "/completed");
 };
 
 export const feedDeleteApi = async (postId) => {
-  return await withAuthInstance.delete(
-    FEED_DELETE + postId
-  );
+  return await withAuthInstance.delete(FEED_DELETE + postId);
 };

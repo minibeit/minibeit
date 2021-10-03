@@ -7,6 +7,7 @@ import PBMakeListBox from "./PBMakeListBox";
 export default function BMakeListBox({ businessId, state, status }) {
   const [makelist, setMakelist] = useState([]);
   const [page, setPage] = useState(1);
+  const [count, setCount] = useState();
   const [, setChange] = useRecoilState(changeState);
   const [paging, setPaging] = useState({
     first: "",
@@ -19,22 +20,20 @@ export default function BMakeListBox({ businessId, state, status }) {
           await getMakelistApi(businessId, 1, status).then((res) => {
             setMakelist(res.data.content);
             setPaging({ first: res.data.first, last: res.data.last });
+            setCount(res.data.totalElements);
             setChange(0);
           });
         } else {
           setMakelist(res.data.content);
           setPaging({ first: res.data.first, last: res.data.last });
+          setCount(res.data.totalElements);
           setChange(0);
         }
       })
       .catch((err) => console.log(err));
   }, [businessId, page, setChange, status]);
-  const handlepage = async (order) => {
-    if (order === "PREV") {
-      setPage(page - 1);
-    } else if (order === "NEXT") {
-      setPage(page + 1);
-    }
+  const handlepage = async (page) => {
+    setPage(page);
   };
   useEffect(() => {
     getMakelist();
@@ -43,6 +42,8 @@ export default function BMakeListBox({ businessId, state, status }) {
     <PBMakeListBox
       makelist={makelist}
       paging={paging}
+      page={page}
+      count={count}
       handlepage={handlepage}
       state={state}
       getMakelist={getMakelist}

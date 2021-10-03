@@ -67,6 +67,7 @@ class PostControllerTest extends MvcTest {
                 .paymentDetail("계좌이체로 지급")
                 .doTime(120)
                 .category("디자인")
+                .postStatus(PostStatus.RECRUIT)
                 .startDate(LocalDateTime.of(2021, 9, 3, 9, 30))
                 .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
                 .school(School.builder().id(1L).name("고려대학교").build())
@@ -89,6 +90,7 @@ class PostControllerTest extends MvcTest {
                 .paymentDetail("핸드폰으로 전송")
                 .recruitCondition(false)
                 .doTime(120)
+                .postStatus(PostStatus.RECRUIT)
                 .startDate(LocalDateTime.of(2021, 9, 3, 9, 30))
                 .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
                 .school(School.builder().id(1L).name("고려대학교").build())
@@ -274,6 +276,13 @@ class PostControllerTest extends MvcTest {
                         relaxedResponseFields(
                                 fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
+                                fieldWithPath("content[].place").type(JsonFieldType.STRING).description("실험 장소"),
+                                fieldWithPath("content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
+                                fieldWithPath("content[].payment").type(JsonFieldType.STRING).description("지급 방식"),
+                                fieldWithPath("content[].goods").description("지급 수단이 GOODS 인 경우 물품 보상").optional(),
+                                fieldWithPath("content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
+                                fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
+                                fieldWithPath("content[].postStatus").type(JsonFieldType.STRING).description("게시물 모집 상태"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")

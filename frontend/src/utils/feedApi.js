@@ -52,8 +52,12 @@ export const feedDateCreateApi = async (postId, dateinputs) => {
   );
 };
 
-export const feedDetailApi = async (feedId) => {
-  return await withoutAuthInstance.get(GET_FEEDDETAIL + feedId);
+export const feedDetailApi = async (feedId, isLogin) => {
+  if (isLogin) {
+    return await withAuthInstance.get(GET_FEEDDETAIL + feedId);
+  } else {
+    return await withoutAuthInstance.get(GET_FEEDDETAIL + feedId);
+  }
 };
 
 export const feedDetailTimeApi = async (feedId, doDate) => {
@@ -79,12 +83,26 @@ export const feedEditApi = async (inputs, files, postId) => {
   );
 };
 
-export const feedlistApi = async (page, schoolId, date, filter, category) => {
+export const feedlistApi = async (
+  page,
+  schoolId,
+  date,
+  filter,
+  category,
+  isLogin
+) => {
   const doDate = moment(date.date).format("YYYY-MM-DD");
-  return await withoutAuthInstance.get(
-    GET_FEEDLIST +
-      `${schoolId}?page=${page}&size=10&category=${category.category}&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${filter.minPay}&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${filter.endTime}`
-  );
+  if (isLogin) {
+    return await withAuthInstance.get(
+      GET_FEEDLIST +
+        `${schoolId}?page=${page}&size=10&category=${category.category}&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${filter.minPay}&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${filter.endTime}`
+    );
+  } else {
+    return await withoutAuthInstance.get(
+      GET_FEEDLIST +
+        `${schoolId}?page=${page}&size=10&category=${category.category}&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${filter.minPay}&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${filter.endTime}`
+    );
+  }
 };
 
 export const applyApi = async (postId, postDoDateId) => {
@@ -93,12 +111,8 @@ export const applyApi = async (postId, postDoDateId) => {
   );
 };
 
-export const bookmarkApi = async (postId, req) => {
-  if (req === "post") {
-    return await withAuthInstance.post(BOOKMARK_POST + `${postId}/like`);
-  } else if (req === "delete") {
-    return await withAuthInstance.delete(BOOKMARK_POST + `${postId}`);
-  }
+export const bookmarkApi = async (postId) => {
+  return await withAuthInstance.post(BOOKMARK_POST + `${postId}/like`);
 };
 
 export const stateCompleteApi = async (postId) => {

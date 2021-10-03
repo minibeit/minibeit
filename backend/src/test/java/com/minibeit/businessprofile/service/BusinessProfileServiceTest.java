@@ -256,4 +256,17 @@ class BusinessProfileServiceTest {
         ).isInstanceOf(PermissionException.class);
 
     }
+
+    @Test
+    @DisplayName("비즈니스 프로필 공유 - 성공(어드민일때)")
+    void sharingBusinessProfile() {
+
+        businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), admin);
+        final int sharedBusinessProfileUser = 3;
+
+        assertAll(
+                () -> assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(sharedBusinessProfileUser),
+                () -> assertThat(businessProfile.getUserBusinessProfileList().get(2).getUser().getId()).isEqualTo(anotherUser.getId())
+        );
+    }
 }

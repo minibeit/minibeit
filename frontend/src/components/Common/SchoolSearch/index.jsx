@@ -16,7 +16,7 @@ export default function SchoolSearch({ use, recruit, setRecruit }) {
   const [filter, setFilter] = useRecoilState(filterState);
   const [signup, setSignup] = useRecoilState(signupState);
   const user = useRecoilValue(userState);
-  const [schoolItem, setSchoolItem] = useState();
+  const [schoolItem, setSchoolItem] = useState({ id: "", name: "" });
   const [listSwitch, setListSwitch] = useState(false);
 
   const searchSchool = (e) => {
@@ -31,7 +31,12 @@ export default function SchoolSearch({ use, recruit, setRecruit }) {
     } else {
       schoolGetApi(e.target.value)
         .then((res) => {
-          setSchoolItem(res.data);
+          console.log(res.data);
+          if (res.data.length === 0) {
+            setSchoolItem({ id: "", name: "" });
+          } else {
+            setSchoolItem(res.data);
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -41,6 +46,9 @@ export default function SchoolSearch({ use, recruit, setRecruit }) {
 
   const onFocus = () => {
     setListSwitch(true);
+  };
+  const onBlur = () => {
+    setListSwitch(false);
   };
 
   const selectSchool = async (e) => {
@@ -69,7 +77,6 @@ export default function SchoolSearch({ use, recruit, setRecruit }) {
         alert("다시 시도해주세요");
     }
     e.target.parentNode.previousSibling.value = e.target.textContent;
-    setListSwitch(false);
   };
   useEffect(() => {
     searchSchool();
@@ -78,8 +85,10 @@ export default function SchoolSearch({ use, recruit, setRecruit }) {
     <S.SchoolSearchBox>
       <S.SearchInput
         defaultValue={
-          user.schoolId && schoolItem
-            ? schoolItem.find((ele) => ele.id === user.schoolId).name
+          user.schoolId && schoolItem.id !== ""
+            ? schoolItem.find((ele) => ele.id === user.schoolId)
+              ? schoolItem.find((ele) => ele.id === user.schoolId).name
+              : null
             : null
         }
         onFocus={onFocus}
@@ -87,10 +96,18 @@ export default function SchoolSearch({ use, recruit, setRecruit }) {
       ></S.SearchInput>
       {listSwitch ? (
         <S.SchoolList>
-          {schoolItem &&
+          {schoolItem.id !== "" &&
             schoolItem.map((a) => {
               return (
-                <S.SchoolItem key={a.id} id={a.id} onClick={selectSchool}>
+                <S.SchoolItem
+                  key={a.id}
+                  id={a.id}
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    await selectSchool(e);
+                    onBlur(e);
+                  }}
+                >
                   {a.name}
                 </S.SchoolItem>
               );

@@ -55,7 +55,19 @@ export const UserImg = styled.img`
   height: 100%;
   border-radius: 50%;
 `;
-export const EditButton = styled.button``;
+export const EditButton = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  & > p {
+    background: blue;
+    color: white;
+    padding: 8px 30px;
+    border-radius: 25px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+`;
 export const EditContainer1 = styled.div`
   width: 174px;
   flex: 1;
@@ -65,9 +77,40 @@ export const EditContainer1 = styled.div`
   align-items: center;
   justify-content: center;
 `;
-export const EditContainer2 = styled.div``;
-export const EditInput = styled.input``;
-export const PELabel = styled.label``;
+export const EditContainer2 = styled.div`
+  flex: 2;
+  margin: 27px 12px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+export const EditInput = styled.input`
+  border: none;
+  border-radius: 8px;
+  padding: 4px 0 8px 5px;
+  font-size: 14px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.14px;
+  text-align: left;
+  margin-top: 7px;
+  outline: none;
+  color: #707070;
+  text-decoration: none;
+`;
+export const PELabel = styled.label`
+  font-size: 13px;
+  display: flex;
+  margin: 0 3px;
+  flex-direction: column;
+  flex: ${(props) => props.flex};
+`;
+export const EditContainerSub = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex: ${(props) => props.width};
+`;
 export const EditFInput = styled.input`
   display: none;
 `;
@@ -81,7 +124,25 @@ export const FileLabel = styled.label`
   font-size: 12px;
   text-align: center;
 `;
-export const EditSelect = styled.select``;
+export const EditSelect = styled.select`
+  -webkit-appearance: none;
+  height: 32px;
+  margin: 0 3px;
+  border-radius: initial;
+  font-size: 14px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  width: 48px;
+  margin-top: 7px;
+  letter-spacing: 0.14px;
+  text-align: left;
+  border: none;
+  padding: 0px 0 6px 5px;
+  color: #707070;
+  outline: none;
+  border-radius: 8px;
+`;
 export const ImgDel = styled.div`
   padding: 5px;
   cursor: pointer;
@@ -192,12 +253,12 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   width: 57%;
+  background: #efefef;
   overflow: scroll;
   max-width: 41rem;
   border-radius: 20px;
   padding: 32px 36px;
   height: 26rem;
-  background-color: white;
 `;
 export const ModalHeader = styled.div`
   display: flex;

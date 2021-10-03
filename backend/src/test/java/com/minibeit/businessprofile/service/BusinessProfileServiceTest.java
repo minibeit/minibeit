@@ -7,6 +7,7 @@ import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
+import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.common.component.file.S3Uploader;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
@@ -227,5 +228,18 @@ class BusinessProfileServiceTest {
                 () -> assertThat(getOne.getPlace()).isEqualTo(businessProfile.getPlace()),
                 () -> assertThat(getOne.getNumberOfEmployees()).isEqualTo(businessProfile.getUserBusinessProfileList().size())
         );
+    }
+
+    @Test
+    @DisplayName("비즈니스 프로필 삭제 - 성공(어드민일 때)")
+    void delete() {
+
+        assertDoesNotThrow(
+                () -> businessProfileService.delete(businessProfile.getId(), admin)
+        );
+        assertThatThrownBy(
+                () -> businessProfileService.getOne(businessProfile.getId(), anotherUser)
+        ).isInstanceOf(BusinessProfileNotFoundException.class);
+
     }
 }

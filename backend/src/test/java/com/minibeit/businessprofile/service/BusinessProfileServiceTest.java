@@ -262,11 +262,25 @@ class BusinessProfileServiceTest {
     void sharingBusinessProfile() {
 
         businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), admin);
-        final int sharedBusinessProfileUser = 3;
+        final int afterSharedBusinessProfileUser = 3;
 
         assertAll(
-                () -> assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(sharedBusinessProfileUser),
+                () -> assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(afterSharedBusinessProfileUser),
                 () -> assertThat(businessProfile.getUserBusinessProfileList().get(2).getUser().getId()).isEqualTo(anotherUser.getId())
         );
+    }
+
+    @Test
+    @DisplayName("비즈니스 프로필 공유 - 실패(어드민이 아닐때)")
+    void sharingBusinessProfileFailureWhenNotAdmin() {
+        final int beforeSharedBusinessProfileUser = 2;
+        assertThatThrownBy(
+                () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), userInBusinessProfile)
+        ).isInstanceOf(PermissionException.class);
+        assertThatThrownBy(
+                () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), anotherUser)
+        ).isInstanceOf(PermissionException.class);
+
+        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(beforeSharedBusinessProfileUser);
     }
 }

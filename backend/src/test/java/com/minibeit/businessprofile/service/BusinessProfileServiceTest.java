@@ -19,6 +19,7 @@ import com.minibeit.user.domain.Role;
 import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
+import com.minibeit.user.service.exception.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -262,10 +263,10 @@ class BusinessProfileServiceTest {
     void sharingBusinessProfile() {
 
         businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), admin);
-        final int afterSharedBusinessProfileUser = 3;
+        final int afterSharedBusinessProfileUsers = 3;
 
         assertAll(
-                () -> assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(afterSharedBusinessProfileUser),
+                () -> assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(afterSharedBusinessProfileUsers),
                 () -> assertThat(businessProfile.getUserBusinessProfileList().get(2).getUser().getId()).isEqualTo(anotherUser.getId())
         );
     }
@@ -273,7 +274,7 @@ class BusinessProfileServiceTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 - 실패(어드민이 아닐때)")
     void sharingBusinessProfileFailureWhenNotAdmin() {
-        final int beforeSharedBusinessProfileUser = 2;
+        final int beforeSharedBusinessProfileUsers = 2;
         assertThatThrownBy(
                 () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), userInBusinessProfile)
         ).isInstanceOf(PermissionException.class);
@@ -281,6 +282,19 @@ class BusinessProfileServiceTest {
                 () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), anotherUser)
         ).isInstanceOf(PermissionException.class);
 
-        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(beforeSharedBusinessProfileUser);
+        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(beforeSharedBusinessProfileUsers);
+    }
+
+    @Test
+    @DisplayName("비즈니스 프로필 공유 - 실패(없는 유저 초대할 때)")
+    void sharingBusinessProfileFailureWhenNotUserSharing() {
+        final int beforeSharedBusinessProfileUsers = 2;
+        Long notUserId = 100L;
+
+        assertThatThrownBy(
+                () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), notUserId, admin)
+        ).isInstanceOf(UserNotFoundException.class);
+
+        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(beforeSharedBusinessProfileUsers);
     }
 }

@@ -13,6 +13,8 @@ export default function PDateSelect({
   setRecruit,
   switchCalendar,
   setSwitchCalendar,
+  createdGroup,
+  setCreatedGroup,
 }) {
   const [group] = useState([
     { id: 1, color: "#0be881", dateList: [] },
@@ -21,7 +23,6 @@ export default function PDateSelect({
     { id: 4, color: "#574b90", dateList: [] },
     { id: 5, color: "#63cdda", dateList: [] },
   ]);
-  const [createdGroup, setCreatedGroup] = useState([]);
   const [selectGroup, setSelectGroup] = useState();
 
   /* 제외된 날짜를 block해주는 로직 */
@@ -61,9 +62,10 @@ export default function PDateSelect({
     if (view === "month") {
       const dateString = moment(date).format("YYYY-MM-DD");
       if (
-        group.filter((ele) => ele.dateList.includes(dateString)).length !== 0
+        createdGroup.filter((ele) => ele.dateList.includes(dateString))
+          .length !== 0
       ) {
-        const color = group.filter((ele) =>
+        const color = createdGroup.filter((ele) =>
           ele.dateList.includes(dateString)
         )[0].color;
         return <S.ColorView color={color}></S.ColorView>;
@@ -89,6 +91,45 @@ export default function PDateSelect({
       setSelectGroup(selectGroup_cp);
       setCreatedGroup(createdGroup_cp);
     }
+  };
+
+  /* 설정한 그룹과, 그룹이외의 날짜, 시간에 따른 설정을 계산을 해주는 로직 */
+  const createDoDateList = (dateList, createdGroup, timeList) => {
+    const new_dateList = [];
+    const groupDateList = [];
+    const doDateList = [];
+    createdGroup.map((a) => groupDateList.push(...a.dateList));
+    /* dateList에서 그룹으로 설정된 날짜를 제거하여 새로운 배열에 담는 작업 */
+    for (var i = 0; i < dateList.length; i++) {
+      if (groupDateList.includes(dateList[i]) !== true) {
+        new_dateList.push(dateList[i]);
+      }
+    }
+    /*new dateList의 날짜와 timeList의 시간 합치는 작업 */
+    for (var j = 0; j < new_dateList.length; j++) {
+      for (var k = 0; k < timeList.length; k++) {
+        doDateList.push({
+          doDate: `${new_dateList[j]}T${timeList[k].slice(0, 5)}`,
+        });
+      }
+    }
+    /* 그룹의 날짜와 그룹의 시간 합쳐서 새로운 배열을 만드는 작업 */
+    const groupDoDateList = createdGroup.map((a) => {
+      var arr = [];
+      for (var i = 0; i < a.dateList.length; i++) {
+        for (var j = 0; j < a.timeList.length; j++) {
+          arr.push({
+            doDate: `${a.dateList[i]}T${a.timeList[j].slice(0, 5)}`,
+          });
+        }
+      }
+      return arr;
+    });
+    /* 합쳐진 groupDoDateList를 doDateList에 넣는 작업 */
+    for (var f = 0; f < groupDoDateList.length; f++) {
+      doDateList.push(...groupDoDateList[f]);
+    }
+    return doDateList;
   };
 
   return (
@@ -126,7 +167,7 @@ export default function PDateSelect({
           onClick={() => {
             if (createdGroup.length < 5) {
               const copy = { ...group[createdGroup.length] };
-              copy.timeList = [...recruit.doTimeList];
+              copy.timeList = [...recruit.timeList];
               setCreatedGroup([...createdGroup, copy]);
             } else {
               alert(`그룹은 최대 ${group.length}개 입니다.`);
@@ -156,7 +197,7 @@ export default function PDateSelect({
         </>
         <>
           {selectGroup &&
-            recruit.doTimeList.map((a, i) => {
+            recruit.timeList.map((a, i) => {
               return (
                 <div key={`${selectGroup.id}_${i}`}>
                   <input
@@ -177,6 +218,13 @@ export default function PDateSelect({
         <button
           onClick={() => {
             setSwitchCalendar(!switchCalendar);
+            const copy = { ...recruit };
+            copy.doDateList = createDoDateList(
+              recruit.dateList,
+              createdGroup,
+              recruit.timeList
+            );
+            setRecruit(copy);
           }}
         >
           저장

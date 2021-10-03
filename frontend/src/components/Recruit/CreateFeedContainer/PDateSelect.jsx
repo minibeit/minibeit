@@ -11,7 +11,7 @@ import PTimeSelect from "./PTimeSelect";
 import * as S from "../style";
 
 export default function PDateSelect({ recruit, setRecruit }) {
-  const { startDate, endDate, doDateList, exceptDateList, doTime } = recruit;
+  const { startDate, endDate, dateList, exceptDateList, doTime } = recruit;
 
   /* range calendar state */
   const [focusedInput, setFocusedInput] = useState(null);
@@ -24,7 +24,9 @@ export default function PDateSelect({ recruit, setRecruit }) {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
 
+  /* time select calendar */
   const [switchCalendar, setSwitchCalendar] = useState(false);
+  const [createdGroup, setCreatedGroup] = useState([]);
 
   /* 모집인원 카운트 로직 */
   const changeHeadCount = (e) => {
@@ -76,16 +78,13 @@ export default function PDateSelect({ recruit, setRecruit }) {
     const copy = recruit;
     if (startDate.format("YYYY-MM-DD") === date.format("YYYY-MM-DD")) {
       alert("실험 첫날은 지울수 없습니다");
-    } else if (copy.doDateList.includes(date.format("YYYY-MM-DD"))) {
-      copy.doDateList.splice(
-        copy.doDateList.indexOf(date.format("YYYY-MM-DD")),
-        1
-      );
+    } else if (copy.dateList.includes(date.format("YYYY-MM-DD"))) {
+      copy.dateList.splice(copy.dateList.indexOf(date.format("YYYY-MM-DD")), 1);
       copy.exceptDateList = [...copy.exceptDateList, date.format("YYYY-MM-DD")];
       setCheck(!check);
       setRecruit(copy);
     } else {
-      copy.doDateList = [...copy.doDateList, date.format("YYYY-MM-DD")];
+      copy.dateList = [...copy.dateList, date.format("YYYY-MM-DD")];
       copy.exceptDateList.splice(
         copy.exceptDateList.indexOf(date.format("YYYY-MM-DD")),
         1
@@ -107,7 +106,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
       );
     }
     const copy = recruit;
-    copy.doTimeList = timeArr;
+    copy.timeList = timeArr;
     setRecruit(copy);
   };
 
@@ -136,7 +135,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
             setRecruit(copy);
             if (startDate && endDate !== null) {
               const copy = recruit;
-              copy.doDateList = createDateArr(startDate, endDate);
+              copy.dateList = createDateArr(startDate, endDate);
               setRecruit(copy);
             }
           }}
@@ -176,8 +175,8 @@ export default function PDateSelect({ recruit, setRecruit }) {
           }
           renderCalendarDay={(props) => {
             const { day, modifiers } = props;
-            if (day && doDateList.length !== 0) {
-              if (doDateList.find((ele) => ele === day.format("YYYY-MM-DD"))) {
+            if (day && dateList.length !== 0) {
+              if (dateList.find((ele) => ele === day.format("YYYY-MM-DD"))) {
                 modifiers && modifiers.add("selected");
               }
             }
@@ -245,6 +244,8 @@ export default function PDateSelect({ recruit, setRecruit }) {
           setRecruit={setRecruit}
           setSwitchCalendar={setSwitchCalendar}
           switchCalendar={switchCalendar}
+          createdGroup={createdGroup}
+          setCreatedGroup={setCreatedGroup}
         />
       )}
     </>

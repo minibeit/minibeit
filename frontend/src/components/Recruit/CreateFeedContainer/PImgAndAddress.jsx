@@ -42,9 +42,10 @@ PImgAndAddress.propTypes = {
     contact: PropTypes.string,
   }),
   setRecruit: PropTypes.func.isRequired,
+  submit: PropTypes.func.isRequired,
 };
 
-export default function PImgAndAddress({ recruit, setRecruit }) {
+export default function PImgAndAddress({ recruit, setRecruit, submit }) {
   const [modalSwitch, setModalSwitch] = useState(false);
 
   const fileChange = (e) => {
@@ -94,6 +95,7 @@ export default function PImgAndAddress({ recruit, setRecruit }) {
           setRecruit(copy);
         }}
       />
+      <button onClick={() => submit(recruit)}>작성완료</button>
     </>
   );
 }

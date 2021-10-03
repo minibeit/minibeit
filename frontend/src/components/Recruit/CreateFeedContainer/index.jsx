@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
-import { bprofileListGet } from "../../../utils";
+import { bprofileListGet, feedCreateApi } from "../../../utils";
 
 import PSelectBProfile from "./PSelectBProfile";
 import PSchoolSelect from "./PSchoolSelect";
@@ -51,6 +51,10 @@ export default function CreateFeedContainer() {
       .catch((err) => console.log(err));
   }, [userId]);
 
+  const submit = (recruit) => {
+    feedCreateApi(recruit);
+  };
+
   useEffect(() => {
     getbpList();
   }, [getbpList]);
@@ -68,7 +72,11 @@ export default function CreateFeedContainer() {
       <PDateSelect recruit={recruit} setRecruit={setRecruit} />
       <PCategorySelect recruit={recruit} setRecruit={setRecruit} />
       <PInfoData recruit={recruit} setRecruit={setRecruit} />
-      <PImgAndAddress recruit={recruit} setRecruit={setRecruit} />
+      <PImgAndAddress
+        recruit={recruit}
+        setRecruit={setRecruit}
+        submit={submit}
+      />
     </>
   );
 }

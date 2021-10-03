@@ -3,7 +3,6 @@ export {
   feedDetailApi,
   feedEditApi,
   feedlistApi,
-  feedDateCreateApi,
   stateCompleteApi,
   feedDeleteApi,
 } from "./feedApi";

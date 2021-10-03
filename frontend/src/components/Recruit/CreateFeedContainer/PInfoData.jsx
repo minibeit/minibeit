@@ -115,14 +115,14 @@ export default function PInfoData({ recruit, setRecruit }) {
         }}
         aria-label="text alignment"
       >
-        <ToggleButton value="cache" aria-label="cache">
+        <ToggleButton value="CACHE" aria-label="cache">
           현금
         </ToggleButton>
-        <ToggleButton value="goods" aria-label="goods">
+        <ToggleButton value="GOODS" aria-label="goods">
           보상
         </ToggleButton>
       </ToggleButtonGroup>
-      {recruit.payment === "cache" ? (
+      {recruit.payment === "CACHE" ? (
         <>
           <S.PaymentInput
             name="pay"

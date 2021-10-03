@@ -379,5 +379,14 @@ class BusinessProfileServiceTest {
         assertThat(businessProfile.getAdmin().getId()).isEqualTo(admin.getId());
     }
 
+    @Test
+    @DisplayName("어드민 권한 양도 - 실패(권한없는 유저가 시도할때)")
+    void transferOfAuthorityFailureWhenNotAdmin() {
+
+        assertThatThrownBy(
+                () -> businessProfileService.transferOfAuthority(businessProfile.getId(), userInBusinessProfile.getId(), userInBusinessProfile)
+        ).isInstanceOf(PermissionException.class);
+        assertThat(businessProfile.getAdmin().getId()).isEqualTo(admin.getId());
+    }
 
 }

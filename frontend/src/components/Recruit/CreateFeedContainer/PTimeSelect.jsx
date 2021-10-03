@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import PropTypes from "prop-types";
 import Calendar from "react-calendar";
 import "../react-calendar.css";
 
@@ -8,7 +8,50 @@ import "moment/locale/ko";
 
 import * as S from "../style";
 
-export default function PDateSelect({
+PTimeSelect.propTypes = {
+  recruit: PropTypes.shape({
+    businessProfile: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+    school: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+    startDate: PropTypes.string,
+    endDate: PropTypes.string,
+    headCount: PropTypes.number,
+    doTime: PropTypes.number,
+    startTime: PropTypes.string,
+    endTime: PropTypes.string,
+    timeList: PropTypes.arrayOf(PropTypes.string),
+    dateList: PropTypes.arrayOf(PropTypes.string),
+    exceptDateList: PropTypes.arrayOf(PropTypes.string),
+    doDateList: PropTypes.arrayOf(
+      PropTypes.shape({
+        dodate: PropTypes.string,
+      })
+    ),
+    category: PropTypes.string,
+    title: PropTypes.string,
+    content: PropTypes.string,
+    condition: PropTypes.bool,
+    conditionDetail: PropTypes.array,
+    payment: PropTypes.string,
+    pay: PropTypes.string,
+    payMemo: PropTypes.string,
+    images: PropTypes.array,
+    address: PropTypes.string,
+    contact: PropTypes.string,
+  }),
+  setRecruit: PropTypes.func.isRequired,
+  switchCalendar: PropTypes.bool.isRequired,
+  setSwitchCalendar: PropTypes.func.isRequired,
+  createdGroup: PropTypes.array.isRequired,
+  setCreatedGroup: PropTypes.func.isRequired,
+};
+
+export default function PTimeSelect({
   recruit,
   setRecruit,
   switchCalendar,

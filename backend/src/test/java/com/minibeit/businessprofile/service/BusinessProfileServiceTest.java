@@ -317,13 +317,13 @@ class BusinessProfileServiceTest {
 //    @Test
 //    @DisplayName("비즈니스 프로필 공유 취소 - 성공")
 //    void sharingCancel() {
-//        final int beforeSharedBusinessProfileUsers = businessProfile.getUserBusinessProfileList().size();
 //
 //        businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), admin);
-//        final int afterSharedBusinessProfileUsers = beforeSharedBusinessProfileUsers - 1;
+//        final int afterSharedBusinessProfileUsers = originalSharedBusinessProfileUsers - 1;
 //
 //        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(afterSharedBusinessProfileUsers);
 //    }
+//
     @Test
     @DisplayName("비즈니스 프로필 공유 취소 - 실패(어드민이 아닐때)")
     void sharingCancelFailureWhenNotAdmin() {
@@ -368,4 +368,16 @@ class BusinessProfileServiceTest {
 
         assertThat(businessProfile.getAdmin().getId()).isEqualTo(userInBusinessProfile.getId());
     }
+
+    @Test
+    @DisplayName("어드민 권한 양도 - 실패(공유된 유저가 아닐때)")
+    void transferOfAuthorityFailureWhenNotSharedUser() {
+
+        assertThatThrownBy(
+                () -> businessProfileService.transferOfAuthority(businessProfile.getId(), anotherUser.getId(), admin)
+        ).isInstanceOf(UserNotFoundException.class);
+        assertThat(businessProfile.getAdmin().getId()).isEqualTo(admin.getId());
+    }
+
+
 }

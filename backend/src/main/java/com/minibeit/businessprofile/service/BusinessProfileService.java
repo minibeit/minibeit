@@ -84,7 +84,7 @@ public class BusinessProfileService {
 
         User userToShare = userRepository.findById(invitedUserId).orElseThrow(UserNotFoundException::new);
 
-        if (userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(userToShare.getId(), businessProfileId)) {
+        if (isExistInBusinessProfile(businessProfileId, userToShare.getId())) {
             throw new DuplicateShareException();
         }
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
@@ -106,13 +106,21 @@ public class BusinessProfileService {
     public void transferOfAuthority(Long businessProfileId, Long userId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         permissionCheck(user, businessProfile);
+        if(!isExistInBusinessProfile(businessProfileId, userId)){
+            throw new UserNotFoundException();
+        }
         User changeUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         businessProfile.changeAdmin(changeUser);
     }
+
 
     private void permissionCheck(User user, BusinessProfile businessProfile) {
         if (!businessProfile.getAdmin().getId().equals(user.getId())) {
             throw new PermissionException();
         }
+    }
+
+    private boolean isExistInBusinessProfile(Long businessProfileId, Long userId) {
+        return userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(userId, businessProfileId);
     }
 }

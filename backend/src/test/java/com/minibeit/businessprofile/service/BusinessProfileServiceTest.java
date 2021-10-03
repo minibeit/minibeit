@@ -9,6 +9,7 @@ import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
+import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.component.file.S3Uploader;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
@@ -307,6 +308,20 @@ class BusinessProfileServiceTest {
         assertThatThrownBy(
                 () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), userInBusinessProfile.getId(), admin)
         ).isInstanceOf(DuplicateShareException.class);
+
+        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(beforeSharedBusinessProfileUsers);
+    }
+
+    @Test
+    @DisplayName("비즈니스 프로필 공유 취소 - 실패(어드민이 아닐때)")
+    void sharingCancelFailureWhenNotAdmin() {
+        final int beforeSharedBusinessProfileUsers = 2;
+        assertThatThrownBy(
+                ()->  businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), userInBusinessProfile)
+        ).isInstanceOf(PermissionException.class);
+        assertThatThrownBy(
+                ()->  businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), anotherUser)
+        ).isInstanceOf(PermissionException.class);
 
         assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(beforeSharedBusinessProfileUsers);
     }

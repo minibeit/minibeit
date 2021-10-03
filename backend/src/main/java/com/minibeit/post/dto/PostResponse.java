@@ -150,11 +150,25 @@ public class PostResponse {
     public static class GetLikeList {
         private Long id;
         private String title;
+        private String place;
+        private String payment;
+        private String goods;
+        private Integer cache;
+        private boolean recruitCondition;
+        private Integer doTime;
+        private String postStatus;
 
         public static PostResponse.GetLikeList build(Post post) {
             return GetLikeList.builder()
                     .id(post.getId())
                     .title(post.getTitle())
+                    .place(post.getPlace())
+                    .payment(post.getPayment().name())
+                    .goods(post.getPaymentGoods())
+                    .cache(post.getPaymentCache())
+                    .recruitCondition(post.isRecruitCondition())
+                    .doTime(post.getDoTime())
+                    .postStatus(post.getPostStatus().name())
                     .build();
         }
     }

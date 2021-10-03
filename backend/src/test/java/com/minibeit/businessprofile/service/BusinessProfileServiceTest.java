@@ -359,4 +359,13 @@ class BusinessProfileServiceTest {
 
         assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
     }
+
+    @Test
+    @DisplayName("어드민 권한 양도 - 성공")
+    void transferOfAuthority() {
+
+        businessProfileService.transferOfAuthority(businessProfile.getId(), userInBusinessProfile.getId(), admin);
+
+        assertThat(businessProfile.getAdmin().getId()).isEqualTo(userInBusinessProfile.getId());
+    }
 }

@@ -51,10 +51,12 @@ export const feedDateCreateApi = async (postId, dateinputs) => {
   );
 };
 
-
-
-export const feedDetailApi = async (feedId) => {
-  return await withoutAuthInstance.get(GET_FEEDDETAIL + feedId);
+export const feedDetailApi = async (feedId, isLogin) => {
+  if (isLogin) {
+    return await withAuthInstance.get(GET_FEEDDETAIL + feedId);
+  } else {
+    return await withoutAuthInstance.get(GET_FEEDDETAIL + feedId);
+  }
 };
 
 export const feedDetailTimeApi = async (feedId, doDate) => {
@@ -80,15 +82,21 @@ export const feedEditApi = async (inputs, files, postId) => {
   );
 };
 
-export const feedlistApi = async (page, schoolId, date, payment) => {
-  // 일단 페이지와 사이즈 고정으로 해놓음
+export const feedlistApi = async (page, schoolId, date, payment, isLogin) => {
   const doDate = `${date.getFullYear()}-${
     date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1
   }-${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
-  return await withoutAuthInstance.get(
-    GET_FEEDLIST +
-      `${schoolId}?page=${page}&size=10&paymentType=${payment}&doDate=${doDate}`
-  );
+  if (isLogin) {
+    return await withAuthInstance.get(
+      GET_FEEDLIST +
+        `${schoolId}?page=${page}&size=10&paymentType=${payment}&doDate=${doDate}`
+    );
+  } else {
+    return await withoutAuthInstance.get(
+      GET_FEEDLIST +
+        `${schoolId}?page=${page}&size=10&paymentType=${payment}&doDate=${doDate}`
+    );
+  }
 };
 
 export const applyApi = async (postId, postDoDateId) => {
@@ -97,22 +105,14 @@ export const applyApi = async (postId, postDoDateId) => {
   );
 };
 
-export const bookmarkApi = async (postId, req) => {
-  if (req === "post") {
-    return await withAuthInstance.post(BOOKMARK_POST + `${postId}/like`);
-  } else if (req === "delete") {
-    return await withAuthInstance.delete(BOOKMARK_POST + `${postId}`);
-  }
+export const bookmarkApi = async (postId) => {
+  return await withAuthInstance.post(BOOKMARK_POST + `${postId}/like`);
 };
 
 export const stateCompleteApi = async (postId) => {
-  return await withAuthInstance.post(
-   STATE_COMPLETE + postId+"/completed",
-  );
+  return await withAuthInstance.post(STATE_COMPLETE + postId + "/completed");
 };
 
 export const feedDeleteApi = async (postId) => {
-  return await withAuthInstance.delete(
-    FEED_DELETE + postId
-  );
+  return await withAuthInstance.delete(FEED_DELETE + postId);
 };

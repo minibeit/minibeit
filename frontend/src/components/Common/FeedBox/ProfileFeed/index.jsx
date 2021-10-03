@@ -152,7 +152,7 @@ function FinishFeedBlock({ feedInfo }) {
   };
   const newReview = async () => {
     setPostInfo({
-      id: feedInfo.id,
+      id: feedInfo.postId,
       postTitle: feedInfo.title,
       content: "",
       doDate: feedInfo.doDate,

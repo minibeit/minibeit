@@ -6,6 +6,7 @@ import PBReviewBox from "./PBReviewBox";
 export default function BReviewBox({ businessId }) {
   const [reviewlist, setReviewlist] = useState([]);
   const [page, setPage] = useState(1);
+  const [count, setCount] = useState();
   const [paging, setPaging] = useState({
     first: "",
     last: "",
@@ -14,16 +15,13 @@ export default function BReviewBox({ businessId }) {
     await reviewListGetApi(businessId, page)
       .then((res) => {
         setReviewlist(res.data.content);
+        setCount(res.data.totalElements);
         setPaging({ first: res.data.first, last: res.data.last });
       })
       .catch((err) => console.log(err));
   }, [businessId, page]);
-  const handlepage = async (order) => {
-    if (order === "PREV") {
-      setPage(page - 1);
-    } else if (order === "NEXT") {
-      setPage(page + 1);
-    }
+  const handlepage = async (page) => {
+    setPage(page);
   };
   useEffect(() => {
     getReviewlist();
@@ -31,6 +29,8 @@ export default function BReviewBox({ businessId }) {
 
   return (
     <PBReviewBox
+      page={page}
+      count={count}
       reviewlist={reviewlist}
       handlepage={handlepage}
       paging={paging}

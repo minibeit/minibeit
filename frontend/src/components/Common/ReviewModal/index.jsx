@@ -14,6 +14,7 @@ export default function ReviewModal({
   postInfo,
   state,
 }) {
+  console.log(postInfo);
   const userName = useRecoilValue(userState).name;
   const closeModal = () => {
     setModalSwitch(false);
@@ -24,7 +25,9 @@ export default function ReviewModal({
     setReviewContent(value);
   };
   const newReview = async (content) => {
-    await doJoin(postInfo.postDoDateId);
+    if (doJoin !== undefined) {
+      await doJoin(postInfo.postDoDateId);
+    }
     const newReviewInfo = {
       postTitle: postInfo.postTitle,
       content: content,

@@ -1,5 +1,6 @@
 import React from "react";
 import ProfileFeed from "../../Common/FeedBox/ProfileFeed";
+import Paging from "../../Common/Pagination";
 import * as S from "../style";
 
 export default function PJoinListBox({
@@ -10,6 +11,8 @@ export default function PJoinListBox({
   getCancellist,
   getFinishlist,
   state,
+  page,
+  count,
 }) {
   return (
     <>
@@ -18,6 +21,7 @@ export default function PJoinListBox({
           {state === "CANCEL"
             ? joinlist.map((joinEle) => (
                 <ProfileFeed
+                  key={joinEle.id}
                   finish={false}
                   state="finish"
                   tag="참여 반려"
@@ -28,6 +32,7 @@ export default function PJoinListBox({
             : state === "FINISH"
             ? joinlist.map((joinEle) => (
                 <ProfileFeed
+                  key={joinEle.postDoDateId}
                   finish={true}
                   state="finish"
                   tag="참여 완료"
@@ -46,14 +51,7 @@ export default function PJoinListBox({
                   feedInfo={joinEle}
                 />
               ))}
-          <S.ListPaging>
-            {paging.first ? null : (
-              <p onClick={async () => await handlepage("PREV")}>이전</p>
-            )}
-            {paging.last ? null : (
-              <p onClick={async () => await handlepage("NEXT")}>다음</p>
-            )}
-          </S.ListPaging>
+          <Paging page={page} count={count} setPage={handlepage} />
         </>
       ) : (
         <S.IfNoneWordCont>

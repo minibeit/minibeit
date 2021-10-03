@@ -98,12 +98,15 @@ export default function PDateSelect({ recruit, setRecruit }) {
     const startMoment = moment(startTime, "HH:mm");
     const endMoment = moment(endTime, "HH:mm");
     const timeArr = [];
-    while (startMoment <= endMoment) {
+    const moveMoment = startMoment.clone();
+    while (moveMoment.clone().add(doTime, "minutes") <= endMoment) {
       timeArr.push(
-        `${startMoment.format("HH:mm")}~${startMoment
+        `${moveMoment.clone().format("HH:mm")}~${moveMoment
+          .clone()
           .add(doTime, "minutes")
           .format("HH:mm")}`
       );
+      moveMoment.add(doTime, "minutes");
     }
     const copy = recruit;
     copy.timeList = timeArr;

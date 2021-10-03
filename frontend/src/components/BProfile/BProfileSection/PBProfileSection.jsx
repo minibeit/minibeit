@@ -116,9 +116,11 @@ export default function PBProfileSection() {
             </S.BIeleCont>
           </div>
         ))}
-        <S.BPbtn display={display} onClick={onClick}>
-          <AddIcon />
-        </S.BPbtn>
+        {bprofiles.length >= 3 ? null : (
+          <S.BPbtn display={display} onClick={onClick}>
+            <AddIcon />
+          </S.BPbtn>
+        )}
       </S.BIWrapper>
     </S.BPContainer2>
   );

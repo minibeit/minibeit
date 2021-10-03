@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import PTimeSelectBox from "./PTimeSelectBox";
 
@@ -28,21 +28,24 @@ PFeedInfoContainer.propTypes = {
       address: PropTypes.string.isRequired,
       avatar: PropTypes.string,
       contact: PropTypes.string.isRequired,
-      introduce: PropTypes.string.isRequired,
+      introduce: PropTypes.string,
     }),
   }),
   date: PropTypes.string,
+  postBookmark: PropTypes.func.isRequired,
+  isLogin: PropTypes.bool.isRequired,
 };
 export default function PFeedInfoContainer({
   setModalSwitch,
   feedDetailData,
   date,
+  postBookmark,
+  isLogin,
 }) {
   const {
     id,
     businessProfileInfo,
     title,
-    doTime,
     startDate,
     endDate,
     content,
@@ -50,9 +53,9 @@ export default function PFeedInfoContainer({
     cache,
     goods,
     place,
-    schoolName,
-    contact,
     files,
+    isLike,
+    likes,
     recruitCondition,
     recruitConditionDetail,
   } = feedDetailData;
@@ -61,13 +64,30 @@ export default function PFeedInfoContainer({
   const openModal = () => {
     setModalSwitch(true);
   };
+  const clickBookmark = (e) => {
+    postBookmark(e.target.id);
+    if (e.target.textContent === "북마크 중") {
+      e.target.textContent = "북마크";
+      e.target.nextSibling.textContent =
+        parseInt(e.target.nextSibling.textContent) - 1;
+    } else {
+      e.target.textContent = "북마크 중";
+      e.target.nextSibling.textContent =
+        parseInt(e.target.nextSibling.textContent) + 1;
+    }
+  };
 
   return (
     <S.DetailContainer>
       <S.TitleBox>
         <h3>제목: {title}</h3>
         <p>작성자: {businessProfileInfo.name}</p>
-        <button>북마크하기</button>
+        {isLogin ? (
+          <button id={id} onClick={clickBookmark}>
+            {isLike ? "북마크 중" : "북마크"}
+          </button>
+        ) : null}
+        <p>{likes}</p>
       </S.TitleBox>
       <S.DateInfoBox>
         <PTimeSelectBox
@@ -81,14 +101,14 @@ export default function PFeedInfoContainer({
         <h4>상세모집요강</h4>
         <p>{content}</p>
       </S.ContentBox>
-      <S.recruitConditionBox>
+      <S.RecruitConditionBox>
         <h4>지원조건</h4>
         {recruitCondition ? (
           <p>{recruitConditionDetail}</p>
         ) : (
           <p>누구나 지원가능!</p>
         )}
-      </S.recruitConditionBox>
+      </S.RecruitConditionBox>
       <S.PaymentBox>
         <h4>금액 및 지급 분류</h4>
         {payment === "CACHE" ? <p>보상: {cache}원</p> : <p>보상: {goods}</p>}

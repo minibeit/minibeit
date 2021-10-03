@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { PVImg, SchoolSearch } from "../../Common";
 import { signupState } from "../../../recoil/signupState";
@@ -29,7 +28,6 @@ PProfileEditModal.propTypes = {
 };
 
 export default function PProfileEditModal({ userData, editUserDataHandler }) {
-  const history = useHistory();
   const [inputs, setInputs] = useState({
     name: userData.name,
     pre_nickname: userData.nickname,
@@ -43,7 +41,7 @@ export default function PProfileEditModal({ userData, editUserDataHandler }) {
   const [basicImg, setBasicImg] = useState(false);
   const school = useRecoilValue(signupState).schoolId;
 
-  const { name, pre_nickname, new_nickname, phoneNum, job, birth } = inputs;
+  const { name, new_nickname, phoneNum, job, birth } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
     console.log(value, name);
@@ -56,20 +54,7 @@ export default function PProfileEditModal({ userData, editUserDataHandler }) {
       setInputs({ ...inputs, [name]: value });
     }
   };
-  useEffect(() => {
-    if (phoneNum.length === 10) {
-      setInputs({
-        ...inputs,
-        ["phoneNum"]: phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"),
-      });
-    }
-    if (phoneNum.length === 13) {
-      setInputs({
-        ...inputs,
-        ["phoneNum"]: phoneNum.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3"),
-      });
-    }
-  }, [phoneNum]);
+
   const fileChange = (e) => {
     setBasicImg(false);
     handleCompressImg(e.target.files[0]).then((res) => setNewImg(res));

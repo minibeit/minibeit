@@ -41,7 +41,6 @@ export function setInterceptors(instance) {
             "http://3.36.95.15:8080/api/user/refreshtoken",
             {} // token refresh api
           );
-          console.log(data2);
           // 새로운 토큰 저장
 
           localStorage.setItem("accessToken", data2.data.AccessToken);

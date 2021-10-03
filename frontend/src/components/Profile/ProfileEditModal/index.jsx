@@ -14,19 +14,16 @@ export default function ProfileEditModal({ setModalSwitch }) {
 
   const getUserData = async () => {
     await getMyInfo().then((res) => {
-      console.log(res);
       setUserData(res.data);
     });
   };
 
   const editUserDataHandler = async (inputs, school, newImg, basicImg) => {
     await editMyInfo(inputs, school, newImg, basicImg).then(async (res) => {
-      console.log(res);
       const user_cp = { ...user };
       user_cp["schoolId"] = parseInt(school);
       user_cp["name"] = inputs.new_nickname;
       setUser(user_cp);
-      console.log(setUser);
       window.alert("회원정보가 수정되었습니다.");
       window.location.replace(`/user/${inputs.new_nickname}`);
       setModalSwitch(false);
@@ -37,7 +34,6 @@ export default function ProfileEditModal({ setModalSwitch }) {
   };
   useEffect(() => {
     getUserData();
-    console.log(userData);
   }, []);
 
   return (

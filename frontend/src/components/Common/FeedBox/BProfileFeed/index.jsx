@@ -38,7 +38,7 @@ export default function BProfileFeed({ state, feedInfo, getMakelist }) {
 }
 function NewFeedBlock({ feedInfo, getMakelist }) {
   const [modalSwitch, setModalSwitch] = useState(false);
-  const [change, setChange] = useRecoilState(changeState);
+  const [, setChange] = useRecoilState(changeState);
   const stateComplete = async (postId) => {
     await stateCompleteApi(postId)
       .then(async () => {
@@ -124,7 +124,7 @@ function ReviewFeedBlock({ feedInfo }) {
 }
 
 function FinishFeedBlock({ feedInfo, getMakelist }) {
-  const [change, setChange] = useRecoilState(changeState);
+  const [change] = useRecoilState(changeState);
   if (change === 1) {
     getMakelist();
   }

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import {
   getCancellistApi,
@@ -14,30 +14,30 @@ export default function JoinListBox({ state }) {
     first: "",
     last: "",
   });
-  const getJoinlist = async () => {
+  const getJoinlist = useCallback(async () => {
     await getJoinlistApi(page, state)
       .then((res) => {
         setJoinlist(res.data.content);
         setPaging({ first: res.data.first, last: res.data.last });
       })
       .catch((err) => console.log(err));
-  };
-  const getCancellist = async () => {
+  }, [page, state]);
+  const getCancellist = useCallback(async () => {
     await getCancellistApi(page)
       .then((res) => {
         setJoinlist(res.data.content);
         setPaging({ first: res.data.first, last: res.data.last });
       })
       .catch((err) => console.log(err));
-  };
-  const getFinishlist = async () => {
+  }, [page]);
+  const getFinishlist = useCallback(async () => {
     await getFinishlistApi(page)
       .then((res) => {
         setJoinlist(res.data.content);
         setPaging({ first: res.data.first, last: res.data.last });
       })
       .catch((err) => console.log(err));
-  };
+  }, [page]);
   const handlepage = async (order) => {
     if (order === "PREV") {
       setPage(page - 1);
@@ -53,7 +53,7 @@ export default function JoinListBox({ state }) {
     } else {
       getJoinlist();
     }
-  }, [page, state]);
+  }, [state, getCancellist, getFinishlist, getJoinlist]);
 
   return (
     <PJoinListBox

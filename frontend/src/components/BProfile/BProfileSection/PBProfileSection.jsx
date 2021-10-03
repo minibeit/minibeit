@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { bprofileListGet, bprofileNew, deleteBprofile } from "../../../utils";
 import * as S from "../../BProfile/style";

@@ -242,4 +242,18 @@ class BusinessProfileServiceTest {
         ).isInstanceOf(BusinessProfileNotFoundException.class);
 
     }
+
+    @Test
+    @DisplayName("비즈니스 프로필 삭제 - 실패(어드민이 아닐때)")
+    void deleteFailureWhenNotAdmin() {
+
+        assertThatThrownBy(
+                () -> businessProfileService.delete(businessProfile.getId(), anotherUser)
+        ).isInstanceOf(PermissionException.class);
+
+        assertThatThrownBy(
+                () -> businessProfileService.delete(businessProfile.getId(), userInBusinessProfile)
+        ).isInstanceOf(PermissionException.class);
+
+    }
 }

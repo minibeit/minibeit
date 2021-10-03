@@ -25,7 +25,7 @@ export const feedCreateApi = async (recruit) => {
     place: recruit.address,
     contact: recruit.contact,
     category: recruit.category,
-    headCount: recruit.headCount,
+    headcount: recruit.headCount,
     payment: recruit.payment,
     cache: recruit.payment === "CACHE" ? recruit.pay : null,
     goods: recruit.payment === "GOODS" ? recruit.pay : null,
@@ -39,7 +39,7 @@ export const feedCreateApi = async (recruit) => {
     endDate: `${recruit.endDate.format("YYYY-MM-DD")}T${recruit.endTime}`,
     doDateList: recruit.doDateList,
   };
-  console.log(data);
+  return await withAuthInstance.post(CREATE_FEED, data);
 };
 
 export const feedDetailApi = async (feedId, isLogin) => {

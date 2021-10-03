@@ -8,9 +8,9 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
+import com.minibeit.businessprofile.service.exception.BusinessProfileNotPermission;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
-import com.minibeit.common.component.file.S3Uploader;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostFileRepository;
@@ -30,7 +30,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.NoPermissionException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -67,6 +66,7 @@ class BusinessProfileServiceTest {
     private BusinessProfile businessProfile;
     private User userInBusinessProfile, anotherUser, admin;
     private BusinessProfileRequest.Update request;
+    private final int originalSharedBusinessProfileUsers = 2;
 
     @BeforeEach
     void set() {
@@ -265,7 +265,7 @@ class BusinessProfileServiceTest {
     void sharingBusinessProfile() {
 
         businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), admin);
-        final int afterSharedBusinessProfileUsers = 3;
+        final int afterSharedBusinessProfileUsers = originalSharedBusinessProfileUsers + 1;
 
         assertAll(
                 () -> assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(afterSharedBusinessProfileUsers),
@@ -276,7 +276,7 @@ class BusinessProfileServiceTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 - 실패(어드민이 아닐때)")
     void sharingBusinessProfileFailureWhenNotAdmin() {
-        final int beforeSharedBusinessProfileUsers = 2;
+
         assertThatThrownBy(
                 () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), userInBusinessProfile)
         ).isInstanceOf(PermissionException.class);
@@ -284,45 +284,79 @@ class BusinessProfileServiceTest {
                 () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), anotherUser)
         ).isInstanceOf(PermissionException.class);
 
-        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(beforeSharedBusinessProfileUsers);
+        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
     }
 
     @Test
     @DisplayName("비즈니스 프로필 공유 - 실패(없는 유저 초대할 때)")
     void sharingBusinessProfileFailureWhenNotUserSharing() {
-        final int beforeSharedBusinessProfileUsers = 2;
+
         Long notUserId = 100L;
 
         assertThatThrownBy(
                 () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), notUserId, admin)
         ).isInstanceOf(UserNotFoundException.class);
 
-        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(beforeSharedBusinessProfileUsers);
+        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
     }
 
     @Test
     @DisplayName("비즈니스 프로필 공유 - 실패(이미 공유된 유저 초대할 때)")
     void sharingBusinessProfileFailureWhenInviteSharedUser() {
-        final int beforeSharedBusinessProfileUsers = 2;
 
         assertThatThrownBy(
                 () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), userInBusinessProfile.getId(), admin)
         ).isInstanceOf(DuplicateShareException.class);
 
-        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(beforeSharedBusinessProfileUsers);
+        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
     }
 
+    /**
+     * controller 테스트는 되는데 service에서는 삭제가 안되네요..
+     */
+//    @Test
+//    @DisplayName("비즈니스 프로필 공유 취소 - 성공")
+//    void sharingCancel() {
+//        final int beforeSharedBusinessProfileUsers = businessProfile.getUserBusinessProfileList().size();
+//
+//        businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), admin);
+//        final int afterSharedBusinessProfileUsers = beforeSharedBusinessProfileUsers - 1;
+//
+//        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(afterSharedBusinessProfileUsers);
+//    }
     @Test
     @DisplayName("비즈니스 프로필 공유 취소 - 실패(어드민이 아닐때)")
     void sharingCancelFailureWhenNotAdmin() {
-        final int beforeSharedBusinessProfileUsers = 2;
+
         assertThatThrownBy(
-                ()->  businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), userInBusinessProfile)
+                () -> businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), userInBusinessProfile)
         ).isInstanceOf(PermissionException.class);
         assertThatThrownBy(
-                ()->  businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), anotherUser)
+                () -> businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), anotherUser)
         ).isInstanceOf(PermissionException.class);
 
-        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(beforeSharedBusinessProfileUsers);
+        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
+    }
+
+    @Test
+    @DisplayName("비즈니스 프로필 공유 취소 - 실패(공유된 유저가 아닐때)")
+    void sharingCancelFailureWhenNotSharedUser() {
+
+        assertThatThrownBy(
+                () -> businessProfileService.cancelShare(businessProfile.getId(), anotherUser.getId(), admin)
+        ).isInstanceOf(UserBusinessProfileNotFoundException.class);
+
+        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
+    }
+
+    @Test
+    @DisplayName("비즈니스 프로필 공유 취소 - 실패(자신의 id가 들어갈 때)")
+    void sharingCancelFailureWhenAdminId() {
+
+        assertThatThrownBy(
+                () -> businessProfileService.cancelShare(businessProfile.getId(), admin.getId(), admin)
+        ).isInstanceOf(BusinessProfileNotPermission.class);
+
+        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
     }
 }

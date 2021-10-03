@@ -9,6 +9,7 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
+import com.minibeit.businessprofile.service.exception.BusinessProfileNotPermission;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
@@ -94,6 +95,9 @@ public class BusinessProfileService {
     public void cancelShare(Long businessProfileId, Long userId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         permissionCheck(user, businessProfile);
+        if(businessProfile.getAdmin().getId().equals(userId)){
+            throw new BusinessProfileNotPermission();
+        }
 
         UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userId, businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());

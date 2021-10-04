@@ -10,6 +10,7 @@ import PJoinListBox from "./PJoinListBox";
 export default function JoinListBox({ state }) {
   const [joinlist, setJoinlist] = useState([]);
   const [page, setPage] = useState(1);
+  const [count, setCount] = useState();
   const [paging, setPaging] = useState({
     first: "",
     last: "",
@@ -19,6 +20,7 @@ export default function JoinListBox({ state }) {
       .then((res) => {
         setJoinlist(res.data.content);
         setPaging({ first: res.data.first, last: res.data.last });
+        setCount(res.data.totalElements);
       })
       .catch((err) => console.log(err));
   }, [page, state]);
@@ -27,6 +29,7 @@ export default function JoinListBox({ state }) {
       .then((res) => {
         setJoinlist(res.data.content);
         setPaging({ first: res.data.first, last: res.data.last });
+        setCount(res.data.totalElements);
       })
       .catch((err) => console.log(err));
   }, [page]);
@@ -35,15 +38,12 @@ export default function JoinListBox({ state }) {
       .then((res) => {
         setJoinlist(res.data.content);
         setPaging({ first: res.data.first, last: res.data.last });
+        setCount(res.data.totalElements);
       })
       .catch((err) => console.log(err));
   }, [page]);
-  const handlepage = async (order) => {
-    if (order === "PREV") {
-      setPage(page - 1);
-    } else if (order === "NEXT") {
-      setPage(page + 1);
-    }
+  const handlepage = async (page) => {
+    setPage(page);
   };
   useEffect(() => {
     if (state === "CANCEL") {
@@ -62,6 +62,8 @@ export default function JoinListBox({ state }) {
       getJoinlist={getJoinlist}
       getFinishlist={getFinishlist}
       state={state}
+      page={page}
+      count={count}
       handlepage={handlepage}
       paging={paging}
     />

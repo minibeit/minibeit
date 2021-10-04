@@ -1,5 +1,6 @@
 import { API_URLS } from "../constants";
 import { withAuthInstance, withoutAuthInstance } from "./common";
+import moment from "moment";
 
 const {
   CREATE_FEED,
@@ -73,19 +74,24 @@ export const feedEditApi = async (inputs, files, postId) => {
   );
 };
 
-export const feedlistApi = async (page, schoolId, date, payment, isLogin) => {
-  const doDate = `${date.getFullYear()}-${
-    date.getMonth() + 1 < 10 ? "0" + (date.getMonth() + 1) : date.getMonth() + 1
-  }-${date.getDate() < 10 ? "0" + date.getDate() : date.getDate()}`;
+export const feedlistApi = async (
+  page,
+  schoolId,
+  date,
+  filter,
+  category,
+  isLogin
+) => {
+  const doDate = moment(date.date).format("YYYY-MM-DD");
   if (isLogin) {
     return await withAuthInstance.get(
       GET_FEEDLIST +
-        `${schoolId}?page=${page}&size=10&paymentType=${payment}&doDate=${doDate}`
+        `${schoolId}?page=${page}&size=10&category=${category.category}&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${filter.minPay}&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${filter.endTime}`
     );
   } else {
     return await withoutAuthInstance.get(
       GET_FEEDLIST +
-        `${schoolId}?page=${page}&size=10&paymentType=${payment}&doDate=${doDate}`
+        `${schoolId}?page=${page}&size=10&category=${category.category}&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${filter.minPay}&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${filter.endTime}`
     );
   }
 };
@@ -100,8 +106,14 @@ export const bookmarkApi = async (postId) => {
   return await withAuthInstance.post(BOOKMARK_POST + `${postId}/like`);
 };
 
-export const stateCompleteApi = async (postId) => {
-  return await withAuthInstance.post(STATE_COMPLETE + postId + "/completed");
+export const stateCompleteApi = async (postId, rejectComment) => {
+  const data = {
+    rejectComment: rejectComment,
+  };
+  return await withAuthInstance.post(
+    STATE_COMPLETE + postId + "/completed",
+    data
+  );
 };
 
 export const feedDeleteApi = async (postId) => {

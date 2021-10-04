@@ -28,9 +28,12 @@ export const ModalHeader = styled.div`
   height: 2rem;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
 `;
-export const CloseModalBtn = styled.button`
+export const CloseModalBtn = styled.div`
   margin-left: auto;
-  margin-right: 0.5rem;
+  height: -webkit-fill-available;
+  & > svg {
+    cursor: pointer;
+  }
 `;
 export const ModalContent = styled.div`
   display: flex;

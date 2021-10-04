@@ -115,8 +115,14 @@ export const bookmarkApi = async (postId) => {
   return await withAuthInstance.post(BOOKMARK_POST + `${postId}/like`);
 };
 
-export const stateCompleteApi = async (postId) => {
-  return await withAuthInstance.post(STATE_COMPLETE + postId + "/completed");
+export const stateCompleteApi = async (postId, rejectComment) => {
+  const data = {
+    rejectComment: rejectComment,
+  };
+  return await withAuthInstance.post(
+    STATE_COMPLETE + postId + "/completed",
+    data
+  );
 };
 
 export const feedDeleteApi = async (postId) => {

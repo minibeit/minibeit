@@ -1,10 +1,13 @@
 import React from "react";
 import BProfileFeed from "../../Common/FeedBox/BProfileFeed";
+import Paging from "../../Common/Pagination";
 import * as S from "../style";
 
 export default function PBMakeListBox({
   makelist,
   paging,
+  page,
+  count,
   handlepage,
   state,
   getMakelist,
@@ -21,14 +24,7 @@ export default function PBMakeListBox({
               getMakelist={getMakelist}
             />
           ))}
-          <S.ListPaging>
-            {paging.first ? null : (
-              <p onClick={async () => await handlepage("PREV")}>이전</p>
-            )}
-            {paging.last ? null : (
-              <p onClick={async () => await handlepage("NEXT")}>다음</p>
-            )}
-          </S.ListPaging>
+          <Paging page={page} count={count} setPage={handlepage} />
         </>
       ) : (
         <S.IfNoneWordCont>

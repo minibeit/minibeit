@@ -52,7 +52,9 @@ export default function CreateFeedContainer() {
   }, [userId]);
 
   const submit = (recruit) => {
-    feedCreateApi(recruit).then((res) => console.log(res));
+    return feedCreateApi(recruit)
+      .then((res) => res)
+      .catch((err) => err);
   };
 
   useEffect(() => {

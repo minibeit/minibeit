@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { PVImg } from "../../Common";
 import Address from "../../Common/Address";
+import RecruitConfirmModal from "../../Common/Modal/RecruitConfirmModal";
 
 import * as S from "../style";
 
@@ -46,7 +47,8 @@ PImgAndAddress.propTypes = {
 };
 
 export default function PImgAndAddress({ recruit, setRecruit, submit }) {
-  const [modalSwitch, setModalSwitch] = useState(false);
+  const [addressModal, setAddressModal] = useState(false);
+  const [confirmModal, setConfirmModal] = useState(false);
 
   const fileChange = (e) => {
     const copy = { ...recruit };
@@ -73,12 +75,12 @@ export default function PImgAndAddress({ recruit, setRecruit, submit }) {
       <S.AddressInput
         type="text"
         readOnly
-        onClick={() => setModalSwitch(!modalSwitch)}
+        onClick={() => setAddressModal(!addressModal)}
         value={recruit.address}
       />
-      {modalSwitch ? (
+      {addressModal ? (
         <Address
-          setModalSwitch={setModalSwitch}
+          setModalSwitch={setAddressModal}
           handleAddress={(address) => {
             const copy = { ...recruit };
             copy.address = address;
@@ -95,7 +97,14 @@ export default function PImgAndAddress({ recruit, setRecruit, submit }) {
           setRecruit(copy);
         }}
       />
-      <button onClick={() => submit(recruit)}>작성완료</button>
+      <button onClick={() => setConfirmModal(!confirmModal)}>작성완료</button>
+      {confirmModal && (
+        <RecruitConfirmModal
+          setModalSwitch={setConfirmModal}
+          submit={submit}
+          recruit={recruit}
+        />
+      )}
     </>
   );
 }

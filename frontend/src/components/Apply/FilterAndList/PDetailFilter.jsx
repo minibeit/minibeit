@@ -2,11 +2,28 @@ import React, { useState } from "react";
 import Slider from "rc-slider";
 import "../range.css";
 import moment from "moment";
+import PropTypes, { number } from "prop-types";
 
 import * as S from "../style";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
+
+DetailFilter.propTypes = {
+  filter: PropTypes.shape({
+    schoolId: PropTypes.number,
+    schoolName: PropTypes.string,
+    paymentType: PropTypes.string,
+    minPay: PropTypes.string,
+    doTime: PropTypes.string,
+    startAndEnd: PropTypes.arrayOf(number),
+    startTime: PropTypes.string,
+    endTime: PropTypes.string,
+  }),
+  setFilter: PropTypes.func.isRequired,
+  setFilterSwitch: PropTypes.func.isRequired,
+  filterReset: PropTypes.func.isRequired,
+};
 
 export default function DetailFilter({
   filter,

@@ -1,6 +1,14 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import * as S from "../style";
+
+DetailFilter.propTypes = {
+  category: PropTypes.object.isRequired,
+  setCategory: PropTypes.func.isRequired,
+  setCategorySwitch: PropTypes.func.isRequired,
+  categoryReset: PropTypes.func.isRequired,
+};
 
 export default function DetailFilter({
   category,
@@ -20,7 +28,7 @@ export default function DetailFilter({
     }
     setCategory(copy);
   };
-  console.log(category);
+
   return (
     <S.FilterBox>
       <button

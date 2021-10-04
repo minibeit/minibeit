@@ -1,14 +1,9 @@
 import React, { useState } from "react";
-import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
-import {
-  dateState,
-  categoryState,
-  filterState,
-} from "../../../recoil/filterState";
-import { userState } from "../../../recoil/userState";
+import { useResetRecoilState } from "recoil";
+import { categoryState, filterState } from "../../../recoil/filterState";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import PropTypes from "prop-types";
+import PropTypes, { number } from "prop-types";
 
 import DetailFilter from "./PDetailFilter";
 import CategoryFilter from "./PCategoryFilter";
@@ -17,13 +12,34 @@ import * as S from "../style";
 import { SchoolSearch } from "../../Common";
 
 PFilterContainer.propTypes = {
-  getFeedList: PropTypes.func.isRequired,
+  getFeedList: PropTypes.func,
+  search: PropTypes.func.isRequired,
+  filter: PropTypes.shape({
+    schoolId: PropTypes.number,
+    schoolName: PropTypes.string,
+    paymentType: PropTypes.string,
+    minPay: PropTypes.string,
+    doTime: PropTypes.string,
+    startAndEnd: PropTypes.arrayOf(number),
+    startTime: PropTypes.string,
+    endTime: PropTypes.string,
+  }),
+  setFilter: PropTypes.func.isRequired,
+  category: PropTypes.object.isRequired,
+  setCategory: PropTypes.func.isRequired,
+  date: PropTypes.object.isRequired,
+  setDate: PropTypes.func.isRequired,
 };
 
-export default function PFilterContainer({ getFeedList }) {
-  const [filter, setFilter] = useRecoilState(filterState);
-  const [category, setCategory] = useRecoilState(categoryState);
-  const [date, setDate] = useRecoilState(dateState);
+export default function PFilterContainer({
+  search,
+  filter,
+  setFilter,
+  category,
+  setCategory,
+  date,
+  setDate,
+}) {
   const [filterSwitch, setFilterSwitch] = useState(false);
   const [categorySwitch, setCategorySwitch] = useState(false);
 
@@ -39,18 +55,6 @@ export default function PFilterContainer({ getFeedList }) {
     setFilterSwitch(false);
   };
 
-  const search = () => {
-    if (filter.schoolId) {
-      getFeedList(1, filter.schoolId, date, filter, category);
-    } else if (user.schoolId) {
-      getFeedList(1, user.schoolId, date, filter, category);
-    } else {
-      alert("학교를 선택해주세요");
-    }
-  };
-
-  const user = useRecoilValue(userState);
-
   return (
     <>
       <SchoolSearch use="ApplyList" />
@@ -58,7 +62,7 @@ export default function PFilterContainer({ getFeedList }) {
         selected={date["date"]}
         onChange={(date) => {
           const copy = { ...date };
-          copy["date"] = date;
+          copy.date = date;
           setDate(copy);
         }}
       />

@@ -8,10 +8,13 @@ import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
+import com.minibeit.businessprofile.service.exception.BusinessProfileInWork;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
+import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
@@ -29,6 +32,7 @@ public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
     private final AvatarService avatarService;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
@@ -72,6 +76,10 @@ public class BusinessProfileService {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
         permissionCheck(user, businessProfile);
+
+        if (postRepository.existsByBusinessProfileId(businessProfileId)) {
+            throw new BusinessProfileInWork();
+        }
 
         businessProfileRepository.deleteById(businessProfileId);
     }

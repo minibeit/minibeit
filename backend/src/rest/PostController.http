@@ -37,7 +37,7 @@ Content-Type: application/json;charset=UTF-8
       "doDate": "2021-10-01T12:30"
     },
     {
-      "doDate": "2021-10-02T09:30"
+      "doDate": "2021-10-06T09:30"
     }
   ]
 }
@@ -58,7 +58,7 @@ Content-Disposition: form-data; name="files"; filename="enjoy.png"
 < ./../main/resources/mock/images/enjoy.png
 
 ###
-POST {{apiUrl}}/post/4/like
+POST {{apiUrl}}/post/1/like
 Authorization: {{authorizationToken}}
 
 ###
@@ -92,7 +92,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-DELETE {{apiUrl}}/post/1
+DELETE {{apiUrl}}/post/2
 Authorization: {{authorizationToken}}
 
 ###

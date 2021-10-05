@@ -212,4 +212,14 @@ class UserControllerTest extends MvcTest {
                         )
                 ));
     }
+
+    @Test
+    @DisplayName("회원 탈퇴 문서화")
+    public void deleteOne() throws Exception {
+        ResultActions results = mvc.perform(delete("/api/user"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("user-deleteOne"));
+    }
 }

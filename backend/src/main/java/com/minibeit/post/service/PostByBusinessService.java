@@ -10,6 +10,7 @@ import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.exception.ExistApprovedApplicant;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
@@ -20,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,8 +87,8 @@ public class PostByBusinessService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfile(Long businessProfileId, PostStatus postStatus, PageDto pageDto) {
-        Page<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, postStatus, pageDto.of());
+    public Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfile(Long businessProfileId, PostStatus postStatus, LocalDateTime now, PageDto pageDto) {
+        Page<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, postStatus, now, pageDto.of());
         return posts.map(PostResponse.GetListByBusinessProfile::build);
     }
 
@@ -105,9 +107,13 @@ public class PostByBusinessService {
         return PostResponse.OnlyId.build(updatedPost);
     }
 
-    public void deleteOne(Long postId, User user) {
+    public void deleteOne(Long postId, LocalDateTime now, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
+
+        if(postApplicantRepository.existsApproveAfterNow(postId,now)){
+            throw new ExistApprovedApplicant();
+        }
 
         postRepository.deleteById(postId);
     }

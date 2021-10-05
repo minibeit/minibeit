@@ -105,11 +105,29 @@ export const PaymentMemo = styled.input`
 `;
 
 /* img and address */
+export const ImgForm = styled.div`
+  position: relative;
+  display: flex;
+  width: 50rem;
+  overflow-x: scroll;
+  & > div {
+    display: flex;
+    gap: 20px;
+  }
+`;
 export const ImgBox = styled.div`
-  background-color: gray;
+  background: #ffffff;
+  box-shadow: 10px 10px 30px rgba(189, 189, 189, 0.2);
+  border: rgba(189, 189, 189, 0.2) 0.5px solid;
+  border-radius: 30px;
   overflow: hidden;
-  width: 40rem;
+  width: 15rem;
+  height: 15rem;
   display: inline-block;
+`;
+export const DeleteImg = styled.button`
+  position: absolute;
+  transform: translate(14rem, 0);
 `;
 export const Img = styled.img`
   object-fit: fill;
@@ -117,10 +135,13 @@ export const Img = styled.img`
   height: 100%;
 `;
 export const FileLabel = styled.label`
-  background-color: gray;
+  background: #ffffff;
+  box-shadow: 10px 10px 30px rgba(189, 189, 189, 0.2);
+  border: rgba(189, 189, 189, 0.2) 0.5px solid;
+  border-radius: 30px;
   overflow: hidden;
-  width: 10rem;
-  height: 10rem;
+  width: 15rem;
+  height: 15rem;
   display: inline-block;
 `;
 export const FileInput = styled.input`

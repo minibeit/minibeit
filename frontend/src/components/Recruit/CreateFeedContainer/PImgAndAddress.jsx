@@ -58,19 +58,34 @@ export default function PImgAndAddress({ recruit, setRecruit, submit }) {
       setRecruit(copy);
     }
   };
+  const deleteImg = (e) => {
+    var targetId = e.target.id;
+    const copy = { ...recruit };
+    copy.images.splice(targetId, 1);
+    setRecruit(copy);
+  };
 
   return (
     <>
       <h2>게시글 자료&이미지</h2>
-      <S.ImgBox>
-        {recruit.images.length !== 0
-          ? recruit.images.map((a, i) => {
-              return <PVImg key={i} img={recruit.images[i]} />;
-            })
-          : null}
-      </S.ImgBox>
-      <S.FileLabel htmlFor="file">사진 추가</S.FileLabel>
-      <S.FileInput id="file" type="file" onChange={fileChange} />
+      <S.ImgForm>
+        <div>
+          <S.FileLabel htmlFor="file">사진 추가</S.FileLabel>
+          <S.FileInput id="file" type="file" onChange={fileChange} />
+          {recruit.images.length !== 0
+            ? recruit.images.map((a, i) => {
+                return (
+                  <S.ImgBox key={i}>
+                    <S.DeleteImg id={i} onClick={deleteImg}>
+                      삭제
+                    </S.DeleteImg>
+                    <PVImg img={recruit.images[i]} />
+                  </S.ImgBox>
+                );
+              })
+            : null}
+        </div>
+      </S.ImgForm>
       <h2>실험실 주소</h2>
       <S.AddressInput
         type="text"

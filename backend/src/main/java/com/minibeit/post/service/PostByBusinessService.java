@@ -10,6 +10,7 @@ import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.exception.ExistApprovedApplicant;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
@@ -106,10 +107,13 @@ public class PostByBusinessService {
         return PostResponse.OnlyId.build(updatedPost);
     }
 
-    public void deleteOne(Long postId, User user) {
-        //TODO 게시물 관련 도메인 삭제
+    public void deleteOne(Long postId, LocalDateTime now, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
+
+        if(postApplicantRepository.existsApproveAfterNow(postId,now)){
+            throw new ExistApprovedApplicant();
+        }
 
         postRepository.deleteById(postId);
     }

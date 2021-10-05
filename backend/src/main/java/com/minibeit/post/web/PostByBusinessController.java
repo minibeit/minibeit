@@ -68,7 +68,7 @@ public class PostByBusinessController {
 
     @DeleteMapping("/{postId}")
     public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
-        postByBusinessService.deleteOne(postId, customUserDetails.getUser());
+        postByBusinessService.deleteOne(postId, LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 }

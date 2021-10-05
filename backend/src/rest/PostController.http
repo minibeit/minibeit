@@ -37,7 +37,7 @@ Content-Type: application/json;charset=UTF-8
       "doDate": "2021-10-01T12:30"
     },
     {
-      "doDate": "2021-10-02T09:30"
+      "doDate": "2021-10-06T09:30"
     }
   ]
 }
@@ -92,7 +92,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-DELETE {{apiUrl}}/post/1
+DELETE {{apiUrl}}/post/2
 Authorization: {{authorizationToken}}
 
 ###

@@ -15,6 +15,7 @@ import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.exception.ExistApprovedApplicant;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
@@ -39,6 +40,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -61,6 +63,8 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
     private SchoolRepository schoolRepository;
     @Autowired
     private PostFileRepository postFileRepository;
+    @Autowired
+    private PostLikeRepository postLikeRepository;
     @Autowired
     private BusinessProfileRepository businessProfileRepository;
     @Autowired
@@ -90,6 +94,11 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
     private BusinessProfile businessProfile;
     private PostRequest.CreateInfo createInfoRequest;
     private Post post;
+    private PostFile postFile;
+    private PostLike postLike;
+    private PostDoDate postDoDate1;
+    private PostDoDate postDoDate2;
+    private PostDoDate postDoDate3;
     private final SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, AvatarType.IMAGE, AvatarServer.S3);
 
     @BeforeEach
@@ -194,20 +203,27 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
         Post createdPost = Post.create(createInfoRequest, school, businessProfile);
         post = postRepository.save(createdPost);
 
-        PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
-        PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 1, 9, 30), createdPost);
-        PostDoDate postDoDate3 = PostDoDate.create(LocalDateTime.of(2021, 10, 2, 9, 30), createdPost);
-        PostDoDate postDoDate4 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
-        postDoDateRepository.saveAll(Arrays.asList(postDoDate1, postDoDate2, postDoDate3, postDoDate4));
+        PostFile createdPostFile = PostFile.create(post, savedFile);
+        postFile = postFileRepository.save(createdPostFile);
+
+        PostLike createdPostLike = PostLike.create(createdPost);
+        postLike = postLikeRepository.save(createdPostLike);
+
+        PostDoDate createdPostDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
+        PostDoDate createdPostDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 1, 9, 30), createdPost);
+        PostDoDate createdPostDoDate3 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
+        postDoDate1 = postDoDateRepository.save(createdPostDoDate1);
+        postDoDate2 = postDoDateRepository.save(createdPostDoDate2);
+        postDoDate3 = postDoDateRepository.save(createdPostDoDate3);
 
         approvePostApplicant1 = PostApplicant.create(postDoDate1, approveUser1);
         approvePostApplicant1.updateStatus(ApplyStatus.APPROVE);
-        approvePostApplicant2 = PostApplicant.create(postDoDate3, approveUser2);
+        approvePostApplicant2 = PostApplicant.create(this.postDoDate3, approveUser2);
         approvePostApplicant2.updateStatus(ApplyStatus.APPROVE);
 
         waitPostApplicant1 = PostApplicant.create(postDoDate2, waitUser3);
-        waitPostApplicant2 = PostApplicant.create(postDoDate3, waitUser1);
-        waitPostApplicant3 = PostApplicant.create(postDoDate4, waitUser2);
+        waitPostApplicant2 = PostApplicant.create(this.postDoDate3, waitUser1);
+        waitPostApplicant3 = PostApplicant.create(postDoDate3, waitUser2);
 
         postApplicantRepository.saveAll(Arrays.asList(approvePostApplicant1, approvePostApplicant2, waitPostApplicant1, waitPostApplicant2, waitPostApplicant3));
     }
@@ -324,6 +340,44 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
 
         assertThatThrownBy(() -> postByBusinessService.updateContent(post.getId(), request, anotherUser))
                 .isExactlyInstanceOf(PermissionException.class);
+    }
+
+    @Test
+    @DisplayName("게시물 삭제 - 실패(게시물이 없는 경우)")
+    void deleteOneNotFoundPost() {
+        assertThatThrownBy(() -> postByBusinessService.deleteOne(9999L, LocalDateTime.of(2021, 9, 29, 0, 0), userInBusinessProfile))
+                .isExactlyInstanceOf(PostNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("게시물 삭제 - 실패(비즈니스 프로필 소속원이 아닌 경우)")
+    void deleteOneUserNotInBusinessProfile() {
+        assertThatThrownBy(() -> postByBusinessService.deleteOne(post.getId(), LocalDateTime.of(2021, 9, 29, 0, 0), anotherUser))
+                .isExactlyInstanceOf(PermissionException.class);
+    }
+
+    @Test
+    @DisplayName("게시물 삭제 - 실패(실험이 끝나지 않은 날짜에 확정자가 남아있는 경우)")
+    void deleteOneExistApprovedApplicant() {
+        assertThatThrownBy(() -> postByBusinessService.deleteOne(post.getId(), LocalDateTime.of(2021, 9, 29, 0, 0), userInBusinessProfile))
+                .isExactlyInstanceOf(ExistApprovedApplicant.class);
+    }
+
+    @Test
+    @DisplayName("게시물 삭제 시 관련 도메인 모두 삭제(postLike,PostDoDate,PostFile,PostApplicant) - 성공")
+    void deleteOne() {
+        postByBusinessService.deleteOne(post.getId(), LocalDateTime.of(2021, 10, 4, 0, 0), userInBusinessProfile);
+        assertThat(postRepository.findById(post.getId())).isEqualTo(Optional.empty());
+        assertThat(postFileRepository.findById(postFile.getId())).isEqualTo(Optional.empty());
+        assertThat(postLikeRepository.findById(postLike.getId())).isEqualTo(Optional.empty());
+        assertThat(postDoDateRepository.findById(postDoDate1.getId())).isEqualTo(Optional.empty());
+        assertThat(postDoDateRepository.findById(postDoDate2.getId())).isEqualTo(Optional.empty());
+        assertThat(postDoDateRepository.findById(postDoDate3.getId())).isEqualTo(Optional.empty());
+        assertThat(postApplicantRepository.findById(waitPostApplicant1.getId())).isEqualTo(Optional.empty());
+        assertThat(postApplicantRepository.findById(waitPostApplicant2.getId())).isEqualTo(Optional.empty());
+        assertThat(postApplicantRepository.findById(waitPostApplicant3.getId())).isEqualTo(Optional.empty());
+        assertThat(postApplicantRepository.findById(approvePostApplicant1.getId())).isEqualTo(Optional.empty());
+        assertThat(postApplicantRepository.findById(approvePostApplicant2.getId())).isEqualTo(Optional.empty());
     }
 
     private void resetEntityManager() {

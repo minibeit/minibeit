@@ -2,6 +2,7 @@ package com.minibeit.user.service;
 
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.avatar.service.AvatarService;
+import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.User;
@@ -10,6 +11,7 @@ import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.exception.DuplicateNickNameException;
 import com.minibeit.user.service.exception.SchoolNotFoundException;
+import com.minibeit.user.service.exception.UserHaveBusinessProfile;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +27,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final SchoolRepository schoolRepository;
     private final AvatarService avatarService;
+    private final BusinessProfileRepository businessProfileRepository;
 
     public void nicknameCheck(UserRequest.Nickname request) {
         if (userRepository.findByNickname(request.getNickname()).isPresent()) {
@@ -65,6 +68,13 @@ public class UserService {
     public List<UserResponse.IdAndNickname> searchByNickname(String nickname) {
         List<User> users = userRepository.findByNicknameStartsWith(nickname);
         return users.stream().map(UserResponse.IdAndNickname::build).collect(Collectors.toList());
+    }
+
+    public void deleteOne(User user) {
+        if (!businessProfileRepository.findAllByAdminId(user.getId()).isEmpty()) {
+            throw new UserHaveBusinessProfile();
+        }
+        userRepository.delete(user);
     }
 
     private void updateAvatar(UserRequest.Update request, User user, User findUser) {

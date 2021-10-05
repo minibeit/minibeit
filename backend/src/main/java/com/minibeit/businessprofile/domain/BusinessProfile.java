@@ -27,7 +27,7 @@ public class BusinessProfile extends BaseEntity {
 
     private String contact;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "avatar_id")
     private Avatar avatar;
 
@@ -39,7 +39,7 @@ public class BusinessProfile extends BaseEntity {
     @JoinColumn(name = "admin_id")
     private User admin;
 
-    public void changeAdmin(User changedAdmin){
+    public void changeAdmin(User changedAdmin) {
         this.admin = changedAdmin;
     }
 

@@ -106,6 +106,7 @@ public class PostByBusinessService {
     }
 
     public void deleteOne(Long postId, User user) {
+        //TODO 게시물 관련 도메인 삭제
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 

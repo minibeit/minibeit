@@ -60,6 +60,7 @@ export default function CreateFeedContainer() {
   useEffect(() => {
     getbpList();
   }, [getbpList]);
+  console.log(recruit);
 
   return (
     <>

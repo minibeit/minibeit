@@ -6,7 +6,7 @@ import { CalendarDay, DateRangePicker, SingleDatePicker } from "react-dates";
 import "../react-dates.css";
 import moment from "moment";
 import "moment/locale/ko";
-import PTimeSelect from "./PTimeSelect";
+import PTimeSelectModal from "./PTimeSelectModal";
 
 import * as S from "../style";
 
@@ -50,7 +50,8 @@ PDateSelect.propTypes = {
 };
 
 export default function PDateSelect({ recruit, setRecruit }) {
-  const { startDate, endDate, dateList, exceptDateList, doTime } = recruit;
+  const { startDate, endDate, dateList, exceptDateList, doTime, timeList } =
+    recruit;
 
   /* range calendar state */
   const [focusedInput, setFocusedInput] = useState(null);
@@ -64,7 +65,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
   const [endTime, setEndTime] = useState(null);
 
   /* time select calendar */
-  const [switchCalendar, setSwitchCalendar] = useState(false);
+  const [modalSwitch, setModalSwitch] = useState(false);
   const [createdGroup, setCreatedGroup] = useState([]);
 
   /* 모집인원 카운트 로직 */
@@ -150,6 +151,45 @@ export default function PDateSelect({ recruit, setRecruit }) {
     const copy = recruit;
     copy.timeList = timeArr;
     setRecruit(copy);
+  };
+
+  /* 설정한 그룹과, 그룹이외의 날짜, 시간에 따른 설정을 계산을 해주는 로직 */
+  const createDoDateList = (dateList, createdGroup, timeList) => {
+    const new_dateList = [];
+    const groupDateList = [];
+    const doDateList = [];
+    createdGroup.map((a) => groupDateList.push(...a.dateList));
+    /* dateList에서 그룹으로 설정된 날짜를 제거하여 새로운 배열에 담는 작업 */
+    for (var i = 0; i < dateList.length; i++) {
+      if (groupDateList.includes(dateList[i]) !== true) {
+        new_dateList.push(dateList[i]);
+      }
+    }
+    /*new dateList의 날짜와 timeList의 시간 합치는 작업 */
+    for (var j = 0; j < new_dateList.length; j++) {
+      for (var k = 0; k < timeList.length; k++) {
+        doDateList.push({
+          doDate: `${new_dateList[j]}T${timeList[k].slice(0, 5)}`,
+        });
+      }
+    }
+    /* 그룹의 날짜와 그룹의 시간 합쳐서 새로운 배열을 만드는 작업 */
+    const groupDoDateList = createdGroup.map((a) => {
+      var arr = [];
+      for (var i = 0; i < a.dateList.length; i++) {
+        for (var j = 0; j < a.timeList.length; j++) {
+          arr.push({
+            doDate: `${a.dateList[i]}T${a.timeList[j].slice(0, 5)}`,
+          });
+        }
+      }
+      return arr;
+    });
+    /* 합쳐진 groupDoDateList를 doDateList에 넣는 작업 */
+    for (var f = 0; f < groupDoDateList.length; f++) {
+      doDateList.push(...groupDoDateList[f]);
+    }
+    return doDateList;
   };
 
   useEffect(() => {
@@ -275,21 +315,31 @@ export default function PDateSelect({ recruit, setRecruit }) {
         key={recruit}
         disabled={startTime && endTime && startDate && endDate ? false : true}
         onClick={() => {
-          setSwitchCalendar(!switchCalendar);
+          setModalSwitch(!modalSwitch);
         }}
       >
-        {switchCalendar ? "접기" : "펼쳐보기"}
+        날짜별 시간 설정하기
       </button>
-      {switchCalendar && (
-        <PTimeSelect
+      {modalSwitch && (
+        <PTimeSelectModal
           recruit={recruit}
           setRecruit={setRecruit}
-          setSwitchCalendar={setSwitchCalendar}
-          switchCalendar={switchCalendar}
+          setModalSwitch={setModalSwitch}
+          modalSwitch={modalSwitch}
           createdGroup={createdGroup}
           setCreatedGroup={setCreatedGroup}
+          createDoDateList={createDoDateList}
         />
       )}
+      <button
+        onClick={() => {
+          const copy = { ...recruit };
+          copy.doDateList = createDoDateList(dateList, createdGroup, timeList);
+          setRecruit(copy);
+        }}
+      >
+        저장
+      </button>
     </>
   );
 }

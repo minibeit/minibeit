@@ -1,5 +1,6 @@
 package com.minibeit.post.service;
 
+import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.avatar.domain.AvatarServer;
 import com.minibeit.avatar.domain.AvatarType;
 import com.minibeit.businessprofile.domain.BusinessProfile;
@@ -26,11 +27,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -48,10 +47,8 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@SpringBootTest
-@Transactional
 @DisplayName("비즈니스 프로필 Post Service 생성, 수정, 삭제 테스트")
-class PostByBusinessServiceTest {
+class PostByBusinessServiceTest extends ServiceIntegrationTest {
     @Autowired
     private PostByBusinessService postByBusinessService;
     @Autowired
@@ -216,7 +213,7 @@ class PostByBusinessServiceTest {
     }
 
     @Test
-    @DisplayName("게시글 생성 - 성공")
+    @DisplayName("게시물 생성 - 성공")
     void createInfo() {
         PostResponse.OnlyId response = postByBusinessService.createInfo(createInfoRequest, userInBusinessProfile);
 
@@ -226,14 +223,14 @@ class PostByBusinessServiceTest {
     }
 
     @Test
-    @DisplayName("게시글 생성 - 실패(비즈니스프로필에 없는 유저)")
+    @DisplayName("게시물 생성 - 실패(비즈니스프로필에 없는 유저)")
     void createInfoNotBusinessProfile() {
         assertThatThrownBy(() -> postByBusinessService.createInfo(createInfoRequest, anotherUser))
                 .isExactlyInstanceOf(PermissionException.class);
     }
 
     @Test
-    @DisplayName("게시글에 파일 추가 - 성공")
+    @DisplayName("게시물에 파일 추가 - 성공")
     void addFiles() throws IOException {
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MockMultipartFile file = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is.readAllBytes());
@@ -247,7 +244,7 @@ class PostByBusinessServiceTest {
     }
 
     @Test
-    @DisplayName("게시글에 파일 추가 - 실패(게시물이 없는 경우)")
+    @DisplayName("게시물에 파일 추가 - 실패(게시물이 없는 경우)")
     void addFilesNotFoundPost() throws IOException {
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MockMultipartFile file = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is.readAllBytes());
@@ -260,7 +257,7 @@ class PostByBusinessServiceTest {
     }
 
     @Test
-    @DisplayName("게시글 모집완료 - 성공")
+    @DisplayName("게시물 모집완료 - 성공")
     void recruitmentCompleted() {
         PostRequest.RejectComment request = PostRequest.RejectComment.builder().rejectComment("모집이 완료되었습니다.").build();
         postByBusinessService.recruitmentCompleted(post.getId(), request, userInBusinessProfile);
@@ -280,6 +277,53 @@ class PostByBusinessServiceTest {
         assertThat(findWaitPostApplicant2.getApplyStatus()).isEqualTo(ApplyStatus.REJECT);
         assertThat(findWaitPostApplicant3.getApplyStatus()).isEqualTo(ApplyStatus.REJECT);
         assertThat(rejectPosts.size()).isEqualTo(3);
+    }
+
+    @Test
+    @DisplayName("게시물 모집완료 - 실패(게시물이 없는 경우)")
+    void recruitmentCompletedNotFoundPost() {
+        PostRequest.RejectComment request = PostRequest.RejectComment.builder().rejectComment("모집이 완료되었습니다.").build();
+
+        assertThatThrownBy(() -> postByBusinessService.recruitmentCompleted(9999L, request, userInBusinessProfile))
+                .isExactlyInstanceOf(PostNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("게시물 모집완료 - 실패(비즈니스 프로필 소속원이 아닌 경우)")
+    void recruitmentCompletedUserNotInBusinessProfile() {
+        PostRequest.RejectComment request = PostRequest.RejectComment.builder().rejectComment("모집이 완료되었습니다.").build();
+
+        assertThatThrownBy(() -> postByBusinessService.recruitmentCompleted(post.getId(), request, anotherUser))
+                .isExactlyInstanceOf(PermissionException.class);
+    }
+
+    @Test
+    @DisplayName("게시물 세부사항 수정 - 성공")
+    void updateContent() {
+        PostRequest.UpdateContent request = PostRequest.UpdateContent.builder().updatedContent("게시글 세부사항 수정").build();
+        postByBusinessService.updateContent(post.getId(), request, userInBusinessProfile);
+
+        Post findPost = postRepository.findById(post.getId()).orElseThrow(PostNotFoundException::new);
+
+        assertThat(findPost.getUpdatedContent()).isEqualTo(request.getUpdatedContent());
+    }
+
+    @Test
+    @DisplayName("게시물 세부사항 수정 - 실패(게시물이 없는 경우)")
+    void updateContentUserNotInBusinessProfile() {
+        PostRequest.UpdateContent request = PostRequest.UpdateContent.builder().updatedContent("게시글 세부사항 수정").build();
+
+        assertThatThrownBy(() -> postByBusinessService.updateContent(9999L, request, userInBusinessProfile))
+                .isExactlyInstanceOf(PostNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("게시물 세부사항 수정 - 실패(비즈니스 프로필 소속원이 아닌 경우)")
+    void updateContentNotFoundPost() {
+        PostRequest.UpdateContent request = PostRequest.UpdateContent.builder().updatedContent("게시글 세부사항 수정").build();
+
+        assertThatThrownBy(() -> postByBusinessService.updateContent(post.getId(), request, anotherUser))
+                .isExactlyInstanceOf(PermissionException.class);
     }
 
     private void resetEntityManager() {

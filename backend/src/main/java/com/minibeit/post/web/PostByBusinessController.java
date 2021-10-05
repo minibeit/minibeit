@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
 
 @RestController
@@ -47,7 +48,7 @@ public class PostByBusinessController {
     public ResponseEntity<Page<PostResponse.GetListByBusinessProfile>> getListByBusinessProfile(@PathVariable Long businessProfileId,
                                                                                                 @RequestParam(defaultValue = "RECRUIT", name = "status") PostStatus postStatus,
                                                                                                 PageDto pageDto) {
-        Page<PostResponse.GetListByBusinessProfile> response = postByBusinessService.getListByBusinessProfile(businessProfileId, postStatus, pageDto);
+        Page<PostResponse.GetListByBusinessProfile> response = postByBusinessService.getListByBusinessProfile(businessProfileId, postStatus, LocalDateTime.now(), pageDto);
         return ResponseEntity.ok().body(response);
     }
 

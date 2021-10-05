@@ -40,7 +40,18 @@ export const feedCreateApi = async (recruit) => {
     endDate: `${recruit.endDate.format("YYYY-MM-DD")}T${recruit.endTime}`,
     doDateList: recruit.doDateList,
   };
-  return await withAuthInstance.post(CREATE_FEED, data);
+  return await withAuthInstance.post(CREATE_FEED + "/info", data);
+};
+
+export const feedAddfileApi = async (postId, files) => {
+  const formData = new FormData();
+  for (var i = 0; i < files.length; i++) {
+    formData.append("files", files[i]);
+  }
+  return await withAuthInstance.post(
+    CREATE_FEED + `/${postId}/files`,
+    formData
+  );
 };
 
 export const feedDetailApi = async (feedId, isLogin) => {

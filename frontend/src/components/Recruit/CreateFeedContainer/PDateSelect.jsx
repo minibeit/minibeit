@@ -192,6 +192,17 @@ export default function PDateSelect({ recruit, setRecruit }) {
     return doDateList;
   };
 
+  const askResetGroup = () => {
+    if (createdGroup.length !== 0) {
+      var answer = window.confirm(
+        "날짜, 시간을 변경하면 시간선택 그룹이 초기화됩니다. 변경하시겠습니까?"
+      );
+      if (answer === true) {
+        setCreatedGroup([]);
+      }
+    }
+  };
+
   useEffect(() => {
     createTimeArr(startTime, endTime, doTime);
   });
@@ -211,6 +222,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
           displayFormat="YYYY-MM-DD"
           hideKeyboardShortcutsPanel={true}
           onDatesChange={({ startDate, endDate }) => {
+            askResetGroup();
             const copy = recruit;
             copy.startDate = startDate;
             copy.endDate = endDate;
@@ -235,7 +247,10 @@ export default function PDateSelect({ recruit, setRecruit }) {
         <p>날짜 빼기</p>
         <SingleDatePicker
           date={startDate}
-          onDateChange={createExceptDate}
+          onDateChange={(e) => {
+            askResetGroup();
+            createExceptDate(e);
+          }}
           focused={focused}
           onFocusChange={({ focused }) => {
             setFocused(focused);
@@ -284,6 +299,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
         <DatePicker
           selected={startTime}
           onChange={(date) => {
+            askResetGroup();
             const copy = { ...recruit };
             copy.startTime = moment(date).format("HH:mm");
             setStartTime(date);
@@ -299,6 +315,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
         <DatePicker
           selected={endTime}
           onChange={(date) => {
+            askResetGroup();
             const copy = { ...recruit };
             copy.endTime = moment(date).format("HH:mm");
             setEndTime(date);
@@ -332,6 +349,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
         />
       )}
       <button
+        disabled={startTime && endTime && startDate && endDate ? false : true}
         onClick={() => {
           const copy = { ...recruit };
           copy.doDateList = createDoDateList(dateList, createdGroup, timeList);

@@ -10,7 +10,7 @@ const API_URLS = {
   N_CHECK: "/api/user/nickname/check",
   TOKEN_OBTAIN: "/account/token/obtain/",
   TOKEN_BLACKLIST: "/account/token/blacklist/",
-  CREATE_FEED: "/api/post/info",
+  CREATE_FEED: "/api/post",
   GET_SCHOOL: "/api/school/search",
   GET_FEEDLIST: "/api/post/list/",
   GET_FEEDDETAIL: "/api/post/",

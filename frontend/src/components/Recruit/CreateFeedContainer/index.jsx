@@ -9,6 +9,7 @@ import PDateSelect from "./PDateSelect";
 import PCategorySelect from "./PCategorySelect";
 import PInfoData from "./PInfoData";
 import PImgAndAddress from "./PImgAndAddress";
+import { feedAddfileApi } from "../../../utils/feedApi";
 
 export default function CreateFeedContainer() {
   const [recruit, setRecruit] = useState({
@@ -53,14 +54,21 @@ export default function CreateFeedContainer() {
 
   const submit = (recruit) => {
     return feedCreateApi(recruit)
-      .then((res) => res)
+      .then((res) => {
+        if (recruit.images.length !== 0) {
+          return feedAddfileApi(res.data.id, recruit.images)
+            .then((res) => res)
+            .catch((err) => err);
+        } else {
+          return res;
+        }
+      })
       .catch((err) => err);
   };
 
   useEffect(() => {
     getbpList();
   }, [getbpList]);
-  console.log(recruit);
 
   return (
     <>

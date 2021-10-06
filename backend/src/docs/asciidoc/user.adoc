@@ -56,3 +56,13 @@ include::{snippets}/user-search-nickname/request-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/user-search-nickname/http-response.adoc[]
 include::{snippets}/user-search-nickname/response-fields.adoc[]
+
+=== 회원탈퇴 (자신이 관리자인 비즈니스 프로필이 없어야합니다.)
+
+`DELETE /api/user`
+
+요청 HTTP
+include::{snippets}/user-deleteOne/http-request.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/user-deleteOne/http-response.adoc[]

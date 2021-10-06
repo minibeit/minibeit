@@ -71,7 +71,6 @@ public class BusinessProfileController {
         return ResponseEntity.ok().build();
     }
 
-
     @DeleteMapping("/{businessProfileId}")
     public ResponseEntity<Void> delete(@PathVariable Long businessProfileId,
                                        @CurrentUser CustomUserDetails customUserDetails) {

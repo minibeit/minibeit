@@ -260,7 +260,7 @@ class PostByBusinessControllerTest extends MvcTest {
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 6), postList.size());
         Page<PostResponse.GetListByBusinessProfile> response = postPage.map(PostResponse.GetListByBusinessProfile::build);
 
-        given(postByBusinessService.getListByBusinessProfile(any(), any(), any())).willReturn(response);
+        given(postByBusinessService.getListByBusinessProfile(any(), any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/business/profile/{businessProfileId}/list", 1)

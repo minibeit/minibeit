@@ -110,11 +110,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, Pageable pageable) {
+    public Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, LocalDateTime now, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
-                .join(post.businessProfile)
                 .where(post.businessProfile.id.eq(businessProfileId)
-                        .and(postStatusEq(postStatus)))
+                        .and(postStatusEq(postStatus, now)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(post.id.desc());
@@ -123,12 +122,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
-    private BooleanExpression postStatusEq(PostStatus postStatus) {
+    private BooleanExpression postStatusEq(PostStatus postStatus, LocalDateTime now) {
         if (postStatus.equals(PostStatus.RECRUIT)) {
-            return post.postStatus.eq(postStatus).and(post.endDate.after(LocalDateTime.now()));
+            return post.postStatus.eq(postStatus).and(post.endDate.after(now));
         }
         if (postStatus.equals(PostStatus.COMPLETE)) {
-            return post.postStatus.eq(postStatus).or(post.endDate.before(LocalDateTime.now()));
+            return post.postStatus.eq(postStatus).or(post.endDate.before(now));
         }
         return null;
     }
@@ -150,7 +149,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<PostResponse.GetMyCompletedList> findAllByMyCompleted(User user, Pageable pageable) {
         JPAQuery<PostResponse.GetMyCompletedList> query = queryFactory.select(new QPostResponse_GetMyCompletedList(
-                        post.id, postDoDate.id, post.title, businessProfileReview.id, businessProfileReview.content,postDoDate.doDate
+                        post.id, postDoDate.id, post.title, post.doTime, businessProfileReview.id, businessProfileReview.content, postDoDate.doDate
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)

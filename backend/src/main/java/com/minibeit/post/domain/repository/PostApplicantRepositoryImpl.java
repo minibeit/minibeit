@@ -77,4 +77,16 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
                 .where(postDoDate.doDate.lt(now).and(postApplicant.applyStatus.eq(ApplyStatus.WAIT)))
                 .fetch();
     }
+
+    @Override
+    public boolean existsApproveAfterNow(Long postId, LocalDateTime now) {
+        Integer fetchOne = queryFactory.selectOne()
+                .from(postApplicant)
+                .join(postApplicant.postDoDate, postDoDate)
+                .where(postDoDate.post.id.eq(postId)
+                        .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE).and(postDoDate.doDate.after(now))))
+                .fetchFirst();
+        return fetchOne != null;
+
+    }
 }

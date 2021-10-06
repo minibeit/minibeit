@@ -59,3 +59,8 @@ Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/user/search?nickname=테스터1
 Authorization: {{authorizationToken}}
+
+###
+
+DELETE {{apiUrl}}/user
+Authorization: {{authorizationToken}}

@@ -47,4 +47,10 @@ public class UserController {
         List<UserResponse.IdAndNickname> response = userService.getListInBusinessProfile(businessProfileId);
         return ResponseEntity.ok().body(response);
     }
+
+    @DeleteMapping
+    public ResponseEntity<Void> deleteOne(@CurrentUser CustomUserDetails customUserDetails){
+        userService.deleteOne(customUserDetails.getUser());
+        return ResponseEntity.ok().build();
+    }
 }

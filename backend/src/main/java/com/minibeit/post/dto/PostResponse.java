@@ -1,7 +1,6 @@
 package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.collect.Sets;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
@@ -50,6 +49,7 @@ public class PostResponse {
         private String[] recruitConditionDetail;
         private Integer doTime;
         private String schoolName;
+        private Integer likes;
         private Boolean isLike;
         private Boolean isMine;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
@@ -79,7 +79,8 @@ public class PostResponse {
                     .files(post.getPostFileList().stream().map(PostFileDto.Image::build).collect(Collectors.toList()))
                     .businessProfileInfo(PostDto.BusinessProfileInfo.build(post.getBusinessProfile()))
                     .isMine(post.isMine(customUserDetails))
-                    .isLike(post.isLike(customUserDetails));
+                    .isLike(post.isLike(customUserDetails))
+                    .likes(post.getPostLikeList().size());
             if (post.getRecruitConditionDetail() != null) {
                 getOneBuilder.recruitConditionDetail(post.getRecruitConditionDetail().split("\\|"));
             }
@@ -150,11 +151,25 @@ public class PostResponse {
     public static class GetLikeList {
         private Long id;
         private String title;
+        private String place;
+        private String payment;
+        private String goods;
+        private Integer cache;
+        private boolean recruitCondition;
+        private Integer doTime;
+        private String postStatus;
 
         public static PostResponse.GetLikeList build(Post post) {
             return GetLikeList.builder()
                     .id(post.getId())
                     .title(post.getTitle())
+                    .place(post.getPlace())
+                    .payment(post.getPayment().name())
+                    .goods(post.getPaymentGoods())
+                    .cache(post.getPaymentCache())
+                    .recruitCondition(post.isRecruitCondition())
+                    .doTime(post.getDoTime())
+                    .postStatus(post.getPostStatus().name())
                     .build();
         }
     }
@@ -195,28 +210,37 @@ public class PostResponse {
     }
 
     @Getter
+    @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    @Builder
     public static class GetMyCompletedList {
         private Long postId;
         private Long postDoDateId;
         private String title;
+        private Integer time;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+        private LocalDateTime doDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime startTime;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime endTime;
         private Long reviewId;
         private String review;
         private Boolean isWritable;
-        @JsonIgnore
-        private LocalDateTime postDoDate;
 
         @Builder
         @QueryProjection
-        public GetMyCompletedList(Long postId, Long postDoDateId, String title, Long reviewId, String review, LocalDateTime postDoDate) {
+        public GetMyCompletedList(Long postId, Long postDoDateId, String title, Integer time, Long reviewId, String review, LocalDateTime doDate) {
             this.postId = postId;
             this.postDoDateId = postDoDateId;
             this.title = title;
             this.reviewId = reviewId;
             this.review = review;
-            this.isWritable = postDoDate.plusDays(7).isAfter(LocalDateTime.now());
+            this.time = time;
+            this.doDate = doDate;
+            this.startTime = doDate;
+            this.endTime = doDate.plusMinutes(time);
+            this.isWritable = doDate.plusDays(7).isAfter(LocalDateTime.now());
         }
     }
 

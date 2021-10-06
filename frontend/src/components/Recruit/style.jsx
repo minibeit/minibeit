@@ -34,6 +34,38 @@ export const StartEndTimeBox = styled.div`
 `;
 
 /* TimeSelect */
+export const ModalBackground = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 99;
+`;
+export const ModalBox = styled.div`
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: white;
+  width: 50rem;
+  height: 30rem;
+`;
+export const ModalHeader = styled.div`
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
+`;
+export const CloseModalBtn = styled.button`
+  margin-left: auto;
+  margin-right: 0.5rem;
+`;
+export const ModalContent = styled.div`
+  display: flex;
+`;
+export const CalendarView = styled.div``;
 export const GroupBox = styled.div``;
 export const GroupBtn = styled.button`
   width: 2rem;
@@ -73,11 +105,29 @@ export const PaymentMemo = styled.input`
 `;
 
 /* img and address */
+export const ImgForm = styled.div`
+  position: relative;
+  display: flex;
+  width: 50rem;
+  overflow-x: scroll;
+  & > div {
+    display: flex;
+    gap: 20px;
+  }
+`;
 export const ImgBox = styled.div`
-  background-color: gray;
+  background: #ffffff;
+  box-shadow: 10px 10px 30px rgba(189, 189, 189, 0.2);
+  border: rgba(189, 189, 189, 0.2) 0.5px solid;
+  border-radius: 30px;
   overflow: hidden;
-  width: 40rem;
+  width: 15rem;
+  height: 15rem;
   display: inline-block;
+`;
+export const DeleteImg = styled.button`
+  position: absolute;
+  transform: translate(14rem, 0);
 `;
 export const Img = styled.img`
   object-fit: fill;
@@ -85,10 +135,13 @@ export const Img = styled.img`
   height: 100%;
 `;
 export const FileLabel = styled.label`
-  background-color: gray;
+  background: #ffffff;
+  box-shadow: 10px 10px 30px rgba(189, 189, 189, 0.2);
+  border: rgba(189, 189, 189, 0.2) 0.5px solid;
+  border-radius: 30px;
   overflow: hidden;
-  width: 10rem;
-  height: 10rem;
+  width: 15rem;
+  height: 15rem;
   display: inline-block;
 `;
 export const FileInput = styled.input`

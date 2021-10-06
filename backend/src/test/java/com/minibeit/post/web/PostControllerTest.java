@@ -66,6 +66,7 @@ class PostControllerTest extends MvcTest {
                 .recruitConditionDetail("운전면허 있는 사람만")
                 .paymentDetail("계좌이체로 지급")
                 .doTime(120)
+                .postStatus(PostStatus.RECRUIT)
                 .category("디자인")
                 .startDate(LocalDateTime.of(2021, 9, 3, 9, 30))
                 .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
@@ -89,6 +90,7 @@ class PostControllerTest extends MvcTest {
                 .paymentDetail("핸드폰으로 전송")
                 .recruitCondition(false)
                 .doTime(120)
+                .postStatus(PostStatus.RECRUIT)
                 .startDate(LocalDateTime.of(2021, 9, 3, 9, 30))
                 .endDate(LocalDateTime.of(2021, 9, 10, 10, 0))
                 .school(School.builder().id(1L).name("고려대학교").build())
@@ -162,7 +164,8 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("businessProfileInfo.contact").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 연락처"),
                                 fieldWithPath("businessProfileInfo.address").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 주소"),
                                 fieldWithPath("isLike").type(JsonFieldType.BOOLEAN).description("자신이 해당 게시물에 즐겨찾기를 한 상태라면 true 아니면 false"),
-                                fieldWithPath("isMine").type(JsonFieldType.BOOLEAN).description("게시물이 자신이 것인지")
+                                fieldWithPath("isMine").type(JsonFieldType.BOOLEAN).description("게시물이 자신이 것인지"),
+                                fieldWithPath("likes").type(JsonFieldType.NUMBER).description("게시물의 북마크 수")
                         )
                 ));
     }
@@ -274,6 +277,13 @@ class PostControllerTest extends MvcTest {
                         relaxedResponseFields(
                                 fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
+                                fieldWithPath("content[].place").type(JsonFieldType.STRING).description("실험 장소"),
+                                fieldWithPath("content[].payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
+                                fieldWithPath("content[].goods").description("지급 수단이 GOODS 인 경우 물품 보상").optional(),
+                                fieldWithPath("content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
+                                fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
+                                fieldWithPath("content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
+                                fieldWithPath("content[].postStatus").type(JsonFieldType.STRING).description("게시물 모집 상태"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")
@@ -351,6 +361,10 @@ class PostControllerTest extends MvcTest {
                 .postId(1L)
                 .title("간단한 실험")
                 .postDoDateId(1L)
+                .time(120)
+                .doDate(LocalDateTime.of(2021,10,2,9,30))
+                .startTime(LocalDateTime.of(2021,10,2,9,30))
+                .endTime(LocalDateTime.of(2021,10,2,11,30))
                 .reviewId(1L)
                 .review("내가 작성한 첫번째 후기")
                 .isWritable(true)
@@ -359,6 +373,10 @@ class PostControllerTest extends MvcTest {
                 .postId(2L)
                 .title("간단한 실험2")
                 .postDoDateId(2L)
+                .time(120)
+                .doDate(LocalDateTime.of(2021,10,2,9,30))
+                .startTime(LocalDateTime.of(2021,10,2,9,30))
+                .endTime(LocalDateTime.of(2021,10,2,11,30))
                 .reviewId(2L)
                 .review("내가 작성한 두번째 후기")
                 .isWritable(true)
@@ -367,6 +385,10 @@ class PostControllerTest extends MvcTest {
                 .postId(2L)
                 .title("간단한 실험2")
                 .postDoDateId(2L)
+                .time(120)
+                .doDate(LocalDateTime.of(2021,10,2,9,30))
+                .startTime(LocalDateTime.of(2021,10,2,9,30))
+                .endTime(LocalDateTime.of(2021,10,2,11,30))
                 .reviewId(3L)
                 .review("내가 작성한 세번째 후기")
                 .isWritable(false)
@@ -393,6 +415,10 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("content[].postId").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
                                 fieldWithPath("content[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 시작 시간 식별자"),
+                                fieldWithPath("content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
+                                fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
+                                fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
+                                fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
                                 fieldWithPath("content[].reviewId").description("리뷰 식별자 (없다면 null)"),
                                 fieldWithPath("content[].review").description("리뷰 내용 (없다면 null)"),
                                 fieldWithPath("content[].isWritable").description("리뷰를 작성하거나 수정할 수 있다면 true(실험후 일주일동안 가능)"),

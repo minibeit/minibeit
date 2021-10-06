@@ -8,7 +8,7 @@ db_volume
 /src/main/resources/static/docs/**
 /src/main/resources/application-aws.yml
 /src/main/generated
-
+spy.log
 ### STS ###
 .apt_generated
 .classpath

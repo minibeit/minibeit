@@ -28,4 +28,8 @@ public class PageDto {
     public Pageable of() {
         return PageRequest.of(this.page - 1, this.size);
     }
+
+    public Pageable ofWithSortDesc(String sort) {
+        return PageRequest.of(this.page - 1, this.size, Sort.by(sort).descending());
+    }
 }

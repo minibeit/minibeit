@@ -38,7 +38,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("비즈니스 프로필 Post Service 조회 테스트")
+@DisplayName("비즈니스 프로필 Post Service 조회 흐름 테스트")
 public class PostByBusinessFindServiceTest extends ServiceIntegrationTest {
     @Autowired
     private PostByBusinessService postByBusinessService;
@@ -125,7 +125,7 @@ public class PostByBusinessFindServiceTest extends ServiceIntegrationTest {
             PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
             postDoDateRepository.saveAll(Arrays.asList(postDoDate1, postDoDate2));
 
-            PostLike postLike = PostLike.create(createdPost);
+            PostLike postLike = PostLike.create(createdPost, userInBusinessProfile);
             postLikeRepository.save(postLike);
         }
         for (int i = 1; i <= 3; i++) {
@@ -196,6 +196,6 @@ public class PostByBusinessFindServiceTest extends ServiceIntegrationTest {
         YearMonth yearMonth = YearMonth.of(2021, 9);
         PostResponse.DoDateList response = postByBusinessService.getDoDateListByYearMonth(post.getId(), yearMonth);
         assertThat(response.getDoDateList().size()).isEqualTo(1);
-        assertThat(response.getDoDateList()).containsExactly(LocalDate.of(2021,9,29));
+        assertThat(response.getDoDateList()).containsExactly(LocalDate.of(2021, 9, 29));
     }
 }

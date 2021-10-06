@@ -25,5 +25,5 @@ public interface PostRepositoryCustom {
 
     Page<PostResponse.GetMyCompletedList> findAllByMyCompleted(User user, Pageable of);
 
-    Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus applyStatus, User user, Pageable of);
+    Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus applyStatus, User user, LocalDateTime now, Pageable of);
 }

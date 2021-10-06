@@ -49,7 +49,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
-@DisplayName("비즈니스 프로필 Post Service 생성, 수정, 삭제 테스트")
+@DisplayName("비즈니스 프로필 Post Service 생성, 수정, 삭제 흐름 테스트")
 class PostByBusinessServiceTest extends ServiceIntegrationTest {
     @Autowired
     private PostByBusinessService postByBusinessService;
@@ -206,7 +206,7 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
         PostFile createdPostFile = PostFile.create(post, savedFile);
         postFile = postFileRepository.save(createdPostFile);
 
-        PostLike createdPostLike = PostLike.create(createdPost);
+        PostLike createdPostLike = PostLike.create(createdPost,userInBusinessProfile);
         postLike = postLikeRepository.save(createdPostLike);
 
         PostDoDate createdPostDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
@@ -218,11 +218,11 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
 
         approvePostApplicant1 = PostApplicant.create(postDoDate1, approveUser1);
         approvePostApplicant1.updateStatus(ApplyStatus.APPROVE);
-        approvePostApplicant2 = PostApplicant.create(this.postDoDate3, approveUser2);
+        approvePostApplicant2 = PostApplicant.create(postDoDate3, approveUser2);
         approvePostApplicant2.updateStatus(ApplyStatus.APPROVE);
 
         waitPostApplicant1 = PostApplicant.create(postDoDate2, waitUser3);
-        waitPostApplicant2 = PostApplicant.create(this.postDoDate3, waitUser1);
+        waitPostApplicant2 = PostApplicant.create(postDoDate3, waitUser1);
         waitPostApplicant3 = PostApplicant.create(postDoDate3, waitUser2);
 
         postApplicantRepository.saveAll(Arrays.asList(approvePostApplicant1, approvePostApplicant2, waitPostApplicant1, waitPostApplicant2, waitPostApplicant3));

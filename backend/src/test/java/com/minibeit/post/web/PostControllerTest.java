@@ -318,7 +318,7 @@ class PostControllerTest extends MvcTest {
         response.add(approveAndWaitList1);
         response.add(approveAndWaitList2);
         Page<PostResponse.GetMyApplyList> postPage = new PageImpl<>(response, PageRequest.of(1, 6), postList.size());
-        given(postService.getListByApplyStatus(any(), any(), any())).willReturn(postPage);
+        given(postService.getListByApplyStatus(any(), any(), any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/apply/list")
@@ -362,9 +362,9 @@ class PostControllerTest extends MvcTest {
                 .title("간단한 실험")
                 .postDoDateId(1L)
                 .time(120)
-                .doDate(LocalDateTime.of(2021,10,2,9,30))
-                .startTime(LocalDateTime.of(2021,10,2,9,30))
-                .endTime(LocalDateTime.of(2021,10,2,11,30))
+                .doDate(LocalDateTime.of(2021, 10, 2, 9, 30))
+                .startTime(LocalDateTime.of(2021, 10, 2, 9, 30))
+                .endTime(LocalDateTime.of(2021, 10, 2, 11, 30))
                 .reviewId(1L)
                 .review("내가 작성한 첫번째 후기")
                 .isWritable(true)
@@ -374,9 +374,9 @@ class PostControllerTest extends MvcTest {
                 .title("간단한 실험2")
                 .postDoDateId(2L)
                 .time(120)
-                .doDate(LocalDateTime.of(2021,10,2,9,30))
-                .startTime(LocalDateTime.of(2021,10,2,9,30))
-                .endTime(LocalDateTime.of(2021,10,2,11,30))
+                .doDate(LocalDateTime.of(2021, 10, 2, 9, 30))
+                .startTime(LocalDateTime.of(2021, 10, 2, 9, 30))
+                .endTime(LocalDateTime.of(2021, 10, 2, 11, 30))
                 .reviewId(2L)
                 .review("내가 작성한 두번째 후기")
                 .isWritable(true)
@@ -386,9 +386,9 @@ class PostControllerTest extends MvcTest {
                 .title("간단한 실험2")
                 .postDoDateId(2L)
                 .time(120)
-                .doDate(LocalDateTime.of(2021,10,2,9,30))
-                .startTime(LocalDateTime.of(2021,10,2,9,30))
-                .endTime(LocalDateTime.of(2021,10,2,11,30))
+                .doDate(LocalDateTime.of(2021, 10, 2, 9, 30))
+                .startTime(LocalDateTime.of(2021, 10, 2, 9, 30))
+                .endTime(LocalDateTime.of(2021, 10, 2, 11, 30))
                 .reviewId(3L)
                 .review("내가 작성한 세번째 후기")
                 .isWritable(false)

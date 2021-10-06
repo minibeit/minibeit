@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -66,7 +67,7 @@ public class PostController {
     public ResponseEntity<Page<PostResponse.GetMyApplyList>> getListByApplyStatus(@RequestParam(name = "status") ApplyStatus applyStatus,
                                                                                   PageDto pageDto,
                                                                                   @CurrentUser CustomUserDetails customUserDetails) {
-        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyStatus(applyStatus, customUserDetails.getUser(), pageDto);
+        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyStatus(applyStatus, customUserDetails.getUser(), LocalDateTime.now(), pageDto);
         return ResponseEntity.ok().body(response);
     }
 

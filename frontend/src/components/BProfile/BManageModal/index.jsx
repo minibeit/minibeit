@@ -84,7 +84,7 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
   }, [getList]);
   return (
     <Portal>
-      <S.ModalBackground>
+      <S.ModalBackground onClick={(e) => e.stopPropagation()}>
         <S.ModalBox>
           <S.ModalHeader>
             <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>

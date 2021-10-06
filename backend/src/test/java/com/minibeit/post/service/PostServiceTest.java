@@ -65,7 +65,6 @@ class PostServiceTest extends ServiceIntegrationTest {
     @Autowired
     private UserBusinessProfileRepository userBusinessProfileRepository;
 
-
     private User userInBusinessProfile;
     private User anotherUser;
     private User testUser;
@@ -100,28 +99,30 @@ class PostServiceTest extends ServiceIntegrationTest {
     }
 
     private void initUsersAndBusinessProfile() {
-        userInBusinessProfile = User.builder()
+        User user1 = User.builder()
                 .oauthId("1")
                 .nickname("동그라미")
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
-        anotherUser = User.builder()
+        User user2 = User.builder()
                 .oauthId("2")
                 .nickname("세모")
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
-        testUser = User.builder()
+        User user3 = User.builder()
                 .oauthId("3")
                 .nickname("네모")
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
-        userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser, testUser));
+        userInBusinessProfile = userRepository.save(user1);
+        anotherUser = userRepository.save(user2);
+        testUser = userRepository.save(user3);
 
         businessProfile = BusinessProfile.builder()
                 .name("동그라미 실험실")

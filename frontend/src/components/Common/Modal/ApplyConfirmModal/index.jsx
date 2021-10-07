@@ -19,8 +19,8 @@ export default function ApplyConfirmModal({ setModalSwitch }) {
   const history = useHistory();
   const [completedApply, setCompletedApply] = useState(false);
 
-  const applyForPost = async (feedId, postDoDateId) => {
-    applyApi(feedId, postDoDateId)
+  const applyForPost = async (postDoDateId) => {
+    applyApi(postDoDateId)
       .then((res) => {
         setCompletedApply(true);
       })
@@ -34,7 +34,7 @@ export default function ApplyConfirmModal({ setModalSwitch }) {
     setModalSwitch(false);
   };
   const clickYes = () => {
-    applyForPost(apply["postId"], apply["postDoDateId"]);
+    applyForPost(apply["postDoDateId"]);
   };
 
   return (

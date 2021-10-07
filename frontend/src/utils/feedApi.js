@@ -107,10 +107,8 @@ export const feedlistApi = async (
   }
 };
 
-export const applyApi = async (postId, postDoDateId) => {
-  return await withAuthInstance.post(
-    APPLY_POST + `${postId}/date/${postDoDateId}/apply`
-  );
+export const applyApi = async (postDoDateId) => {
+  return await withAuthInstance.post(APPLY_POST + `date/${postDoDateId}/apply`);
 };
 
 export const bookmarkApi = async (postId) => {

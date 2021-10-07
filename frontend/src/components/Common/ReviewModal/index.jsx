@@ -34,7 +34,7 @@ export default function ReviewModal({
       time: postInfo.time,
       doDate: postInfo.doDate + "T" + postInfo.startTime,
     };
-    await reviewNewApi(postInfo.id, postInfo.postDoDateId, newReviewInfo)
+    await reviewNewApi(postInfo.postDoDateId, newReviewInfo)
       .then(async () => {
         alert("후기가 등록되었습니다");
         window.location.replace("/user/" + userName);

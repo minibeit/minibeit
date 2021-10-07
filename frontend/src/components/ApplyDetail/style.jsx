@@ -8,21 +8,18 @@ export const TitleBox = styled.div`
 export const DateInfoBox = styled.div`
   border: 1px solid grey;
 `;
-export const ContentBox = styled.div`
+export const DataBox = styled.div`
   border: 1px solid grey;
 `;
-export const RecruitConditionBox = styled.div`
-  border: 1px solid grey;
+export const ImgBox = styled.div`
+  background-color: gray;
+  overflow: hidden;
+  width: 10rem;
+  height: 10rem;
+  display: inline-block;
 `;
-export const PaymentBox = styled.div`
-  border: 1px solid grey;
-`;
-export const LocationBox = styled.div`
-  border: 1px solid grey;
-`;
-export const BusinessProfileBox = styled.div`
-  border: 1px solid grey;
-`;
-export const ApplyBox = styled.div`
-  border: 1px solid grey;
+export const Img = styled.img`
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
 `;

@@ -58,10 +58,7 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
 
   return (
     <>
-      <h4>실험 날짜 및 시간 선택</h4>
-      <p>
-        모집기간 : {startDate.slice(0, 10)}~{endDate.slice(0, 10)}
-      </p>
+      <h4>참여 날짜 및 시간 선택하기</h4>
       <button value="pre" onClick={moveDate}>
         이전날짜
       </button>

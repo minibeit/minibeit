@@ -62,10 +62,10 @@ class BusinessProfileReviewControllerTest extends MvcTest {
     public void create() throws Exception {
         BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder().postTitle("게시물 제목").content("게시물 후기 내용").time(60).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build();
         BusinessProfileReviewResponse.ReviewId response = BusinessProfileReviewResponse.ReviewId.builder().id(1L).build();
-        given(businessProfileReviewService.create(any(), any(), any(), any(), any())).willReturn(response);
+        given(businessProfileReviewService.create(any(), any(), any(), any())).willReturn(response);
 
         ResultActions result = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/post/{postId}/review/{postDoDateId}", 1, 2)
+                .post("/api/post/date/{postDoDateId}/review", 1, 2)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
@@ -75,7 +75,6 @@ class BusinessProfileReviewControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("business-review-create",
                         pathParameters(
-                                parameterWithName("postId").description("후기 작성할 게시물 식별자"),
                                 parameterWithName("postDoDateId").description("후기 작성할 게시물 시작 날짜 식별자")
                         ),
                         requestFields(

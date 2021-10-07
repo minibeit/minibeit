@@ -236,7 +236,7 @@ include::{snippets}/post-apply-cancel/http-response.adoc[]
 
 === 지원자 참여 허락하기(실험모집하는 연구실)
 
-`POST /api/post/{postId}/date/{postDoDateId}/apply/approve/{userId}`
+`POST /api/post/date/{postDoDateId}/apply/approve/{userId}`
 
 요청 HTTP
 include::{snippets}/post-apply-approve/http-request.adoc[]
@@ -247,7 +247,7 @@ include::{snippets}/post-apply-approve/http-response.adoc[]
 
 === 지원자 참여 허락 취소하기(실험모집하는 연구실)
 
-`POST /api/post/{postId}/date/{postDoDateId}/apply/approve/cancel/{userId}`
+`POST /api/post/date/{postDoDateId}/apply/approve/cancel/{userId}`
 
 요청 HTTP
 include::{snippets}/post-apply-approve-cancel/http-request.adoc[]
@@ -258,7 +258,7 @@ include::{snippets}/post-apply-approve-cancel/http-response.adoc[]
 
 === 지원자 참여 거절하기(실험모집하는 연구실)
 
-`POST /api/post/{postId}/date/{postDoDateId}/apply/reject/{userId}`
+`POST /api/post/date/{postDoDateId}/apply/reject/{userId}`
 
 요청 HTTP
 include::{snippets}/post-apply-reject/http-request.adoc[]
@@ -269,7 +269,7 @@ include::{snippets}/post-apply-reject/http-response.adoc[]
 
 === 지원자 참여 여부 결정하기(실험모집하는 연구실)
 
-`POST /api/post/{postId}/date/{postDoDateId}/attend/change/{userId}`
+`POST /api/post/date/{postDoDateId}/attend/change/{userId}`
 
 요청 HTTP
 include::{snippets}/post-attend-change/http-request.adoc[]

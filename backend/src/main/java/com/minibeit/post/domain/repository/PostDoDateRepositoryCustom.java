@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface PostDoDateRepositoryCustom {
     List<PostDoDate> findAllByPostIdAndDoDate(Long postId, LocalDate doDate);
 
-    Optional<PostDoDate> findByIdWithPost(Long postDoDateId);
-
     List<PostDoDate> findAllByPostIdAndYearMonth(Long postId, YearMonth yearMonth);
+
+    Optional<PostDoDate> findByIdWithPostAndApplicant(Long postDoDateId);
 }

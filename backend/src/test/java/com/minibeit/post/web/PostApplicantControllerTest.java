@@ -25,7 +25,7 @@ class PostApplicantControllerTest extends MvcTest {
     @Test
     @DisplayName("게시물 지원 문서화")
     public void applyPost() throws Exception {
-        ResultActions results = mvc.perform(post("/api/post/{postId}/date/{postDoDateId}/apply", 1, 5)
+        ResultActions results = mvc.perform(post("/api/post/date/{postDoDateId}/apply", 1, 5)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8"));
 
@@ -33,7 +33,6 @@ class PostApplicantControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("post-apply",
                         pathParameters(
-                                parameterWithName("postId").description("참여할 게시물 식별자"),
                                 parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자")
                         )
                 ));

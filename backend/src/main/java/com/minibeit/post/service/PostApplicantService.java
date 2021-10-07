@@ -7,8 +7,10 @@ import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
-import com.minibeit.post.domain.repository.PostRepository;
-import com.minibeit.post.service.exception.*;
+import com.minibeit.post.service.exception.DuplicateApplyException;
+import com.minibeit.post.service.exception.PostApplicantNotFoundException;
+import com.minibeit.post.service.exception.PostDoDateIsFullException;
+import com.minibeit.post.service.exception.PostDoDateNotFoundException;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,35 +18,35 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class PostApplicantService {
-    private final PostRepository postRepository;
     private final PostDoDateRepository postDoDateRepository;
     private final PostApplicantRepository postApplicantRepository;
 
-    public void apply(Long postId, Long postDoDateId, User user) {
-        PostDoDate postDoDate = postDoDateRepository.findById(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
-        if (postApplicantRepository.findByPostDoDateIdAndUserId(postDoDate.getId(), user.getId()).isPresent()) {
+    public void apply(Long postDoDateId, User user) {
+        PostDoDate postDoDate = postDoDateRepository.findByIdWithPostAndApplicant(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
+        List<Long> postApplicantUserIdList = postDoDate.getPostApplicantList().stream().map(postApplicant -> postApplicant.getUser().getId()).collect(Collectors.toList());
+
+        if (postApplicantUserIdList.contains(user.getId())) {
             throw new DuplicateApplyException();
         }
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        List<PostApplicant> postApplicants = postDoDate.getPostApplicantList();
-        if (!post.applyPossible(postApplicants)) {
-            throw new PostIsFullException();
+        if (!postDoDate.applyIsPossible(postDoDate.getPost())) {
+            throw new PostDoDateIsFullException();
         }
 
         PostApplicant postApplicant = PostApplicant.create(postDoDate, user);
         postApplicantRepository.save(postApplicant);
     }
 
-    public void applyMyFinish(Long postDoDateId, User user) {
-        PostDoDate postDoDate = postDoDateRepository.findByIdWithPost(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
+    public void applyMyFinish(Long postDoDateId, LocalDateTime now, User user) {
+        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
+        PostDoDate postDoDate = postApplicant.getPostDoDate();
         Post post = postDoDate.getPost();
-        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
-        if (!postDoDate.getDoDate().plusMinutes(post.getDoTime()).isBefore(LocalDateTime.now()) || !postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
+        if (!postDoDate.getDoDate().plusMinutes(post.getDoTime()).isBefore(now) || !postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
             throw new PermissionException();
         }
         postApplicant.updateMyFinish();

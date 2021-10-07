@@ -25,8 +25,6 @@ public class AuthService {
     private final UserRepository userRepository;
     private final RefreshTokenService refreshTokenService;
     private final TokenProvider tokenProvider;
-    private final SchoolRepository schoolRepository;
-    private final AvatarService avatarService;
 
     //테스트용
     public UserResponse.Login login(AuthRequest.Login request) {
@@ -34,18 +32,6 @@ public class AuthService {
 
         Token refreshToken = refreshTokenService.createOrUpdateRefreshToken(user);
         return UserResponse.Login.build(user.getId(), user.getName(), tokenProvider.generateAccessToken(user), refreshToken);
-    }
-
-    public UserResponse.CreateOrUpdate signup(AuthRequest.Signup request, User user) {
-        if (userRepository.findByNickname(request.getNickname()).isPresent()) {
-            throw new DuplicateNickNameException();
-        }
-        User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
-        School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
-        Avatar avatar = avatarService.upload(request.getAvatar());
-        User updatedUser = findUser.signup(request, school, avatar);
-
-        return UserResponse.CreateOrUpdate.build(updatedUser, request.getSchoolId());
     }
 
     public void logout(User user) {

@@ -2,6 +2,7 @@ package com.minibeit.user.web;
 
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
+import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.UserService;
@@ -16,6 +17,12 @@ import java.util.List;
 @RequestMapping(path = "/api/user")
 public class UserController {
     private final UserService userService;
+
+    @PostMapping("/signup")
+    public ResponseEntity<UserResponse.CreateOrUpdate> signup(AuthRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
+        UserResponse.CreateOrUpdate response = userService.signup(request, customUserDetails.getUser());
+        return ResponseEntity.ok().body(response);
+    }
 
     @PostMapping("/update")
     public ResponseEntity<UserResponse.CreateOrUpdate> update(UserRequest.Update request, @CurrentUser CustomUserDetails customUserDetails) {
@@ -36,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<UserResponse.IdAndNickname>> searchByNickname(@RequestParam("nickname")String nickname) {
+    public ResponseEntity<List<UserResponse.IdAndNickname>> searchByNickname(@RequestParam("nickname") String nickname) {
         List<UserResponse.IdAndNickname> response = userService.searchByNickname(nickname);
 
         return ResponseEntity.ok().body(response);
@@ -49,7 +56,7 @@ public class UserController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteOne(@CurrentUser CustomUserDetails customUserDetails){
+    public ResponseEntity<Void> deleteOne(@CurrentUser CustomUserDetails customUserDetails) {
         userService.deleteOne(customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }

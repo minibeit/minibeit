@@ -58,32 +58,6 @@ public class BusinessProfileService {
         return BusinessProfileResponse.IdAndName.build(businessProfile);
     }
 
-    @Transactional(readOnly = true)
-    public List<BusinessProfileResponse.GetList> getListIsMine(User user) {
-        List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(user.getId());
-
-        return businessProfileList.stream().map(businessProfile -> BusinessProfileResponse.GetList.build(businessProfile, user)).collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public BusinessProfileResponse.GetOne getOne(Long businessProfileId, User user) {
-        BusinessProfile businessProfile = businessProfileRepository.findByIdWithAdmin(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-
-        return BusinessProfileResponse.GetOne.build(businessProfile, user);
-    }
-
-    public void delete(Long businessProfileId, User user) {
-        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-
-        permissionCheck(user, businessProfile);
-
-        if (postRepository.existsByBusinessProfileId(businessProfileId)) {
-            throw new BusinessProfileInWork();
-        }
-
-        businessProfileRepository.deleteById(businessProfileId);
-    }
-
     public void shareBusinessProfile(Long businessProfileId, Long invitedUserId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
@@ -112,6 +86,32 @@ public class BusinessProfileService {
         permissionCheck(user, businessProfile);
         User changeUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         businessProfile.changeAdmin(changeUser);
+    }
+
+    @Transactional(readOnly = true)
+    public List<BusinessProfileResponse.GetList> getListIsMine(User user) {
+        List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(user.getId());
+
+        return businessProfileList.stream().map(businessProfile -> BusinessProfileResponse.GetList.build(businessProfile, user)).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public BusinessProfileResponse.GetOne getOne(Long businessProfileId, User user) {
+        BusinessProfile businessProfile = businessProfileRepository.findByIdWithAdmin(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+
+        return BusinessProfileResponse.GetOne.build(businessProfile, user);
+    }
+
+    public void delete(Long businessProfileId, User user) {
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+
+        permissionCheck(user, businessProfile);
+
+        if (postRepository.existsByBusinessProfileId(businessProfileId)) {
+            throw new BusinessProfileInWork();
+        }
+
+        businessProfileRepository.deleteById(businessProfileId);
     }
 
     private void permissionCheck(User user, BusinessProfile businessProfile) {

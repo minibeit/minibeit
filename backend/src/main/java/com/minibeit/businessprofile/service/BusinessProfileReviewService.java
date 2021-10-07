@@ -9,10 +9,9 @@ import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostApplicant;
+import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
-import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
-import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,13 +27,13 @@ import java.util.stream.Collectors;
 @Transactional
 @RequiredArgsConstructor
 public class BusinessProfileReviewService {
-    private final PostRepository postRepository;
     private final PostApplicantRepository postApplicantRepository;
     private final BusinessProfileReviewRepository businessProfileReviewRepository;
 
-    public BusinessProfileReviewResponse.ReviewId create(Long postId, Long postDoDateId, BusinessProfilesReviewRequest.Create request, LocalDateTime now, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        PostApplicant postApplicant = postApplicantRepository.findByUserIdAndPostDoDateId(user.getId(), postDoDateId).orElseThrow(PostApplicantNotFoundException::new);
+    public BusinessProfileReviewResponse.ReviewId create(Long postDoDateId, BusinessProfilesReviewRequest.Create request, LocalDateTime now, User user) {
+        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
+        PostDoDate postDoDate = postApplicant.getPostDoDate();
+        Post post = postDoDate.getPost();
         if (!postApplicant.writeReviewIsPossible(now)) {
             throw new PermissionException();
         }

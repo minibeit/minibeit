@@ -18,6 +18,7 @@ public class BusinessProfileRepositoryImpl implements BusinessProfileRepositoryC
     public List<BusinessProfile> findAllByUserId(Long userId) {
         return queryFactory.selectFrom(businessProfile)
                 .join(businessProfile.userBusinessProfileList, userBusinessProfile)
+                .leftJoin(businessProfile.avatar).fetchJoin()
                 .where(userBusinessProfile.user.id.eq(userId))
                 .fetch();
     }
@@ -27,6 +28,7 @@ public class BusinessProfileRepositoryImpl implements BusinessProfileRepositoryC
         return Optional.ofNullable(
                 queryFactory.selectFrom(businessProfile)
                         .join(businessProfile.admin).fetchJoin()
+                        .leftJoin(businessProfile.avatar).fetchJoin()
                         .where(businessProfile.id.eq(businessProfileId))
                         .fetchOne()
         );

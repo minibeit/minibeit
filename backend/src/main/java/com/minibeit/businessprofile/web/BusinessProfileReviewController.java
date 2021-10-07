@@ -22,12 +22,10 @@ public class BusinessProfileReviewController {
     private final BusinessProfileReviewService businessProfileReviewService;
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/post/{postId}/review/{postDoDateId}")
-    public ResponseEntity<BusinessProfileReviewResponse.ReviewId> create(@PathVariable Long postId,
-                                                                         @PathVariable Long postDoDateId,
-                                                                         @RequestBody BusinessProfilesReviewRequest.Create request,
+    @PostMapping("/post/date/{postDoDateId}/review")
+    public ResponseEntity<BusinessProfileReviewResponse.ReviewId> create(@PathVariable Long postDoDateId, @RequestBody BusinessProfilesReviewRequest.Create request,
                                                                          @CurrentUser CustomUserDetails customUserDetails) {
-        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.create(postId, postDoDateId, request, LocalDateTime.now(), customUserDetails.getUser());
+        BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.create(postDoDateId, request, LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/review/" + response.getId())).body(response);
     }
 

@@ -18,11 +18,11 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="name";
 
-테스터1
+테스트0
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-테스터022
+2
 --boundary
 Content-Disposition: form-data; name="gender";
 

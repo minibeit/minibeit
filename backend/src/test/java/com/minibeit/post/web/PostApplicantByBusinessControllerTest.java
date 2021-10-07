@@ -38,7 +38,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
     @DisplayName("비즈니스쪽에서 해당 지원자 게시물 참여 허가 문서화")
     public void applyApprove() throws Exception {
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/post/{postId}/date/{postDoDateId}/apply/approve/{userId}", 1, 1, 2)
+                .post("/api/post/date/{postDoDateId}/apply/approve/{userId}", 1, 1, 2)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8"));
 
@@ -46,7 +46,6 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("post-apply-approve",
                         pathParameters(
-                                parameterWithName("postId").description("게시물 식별자"),
                                 parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자"),
                                 parameterWithName("userId").description("유저(지원자) 식별자")
                         )
@@ -57,7 +56,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
     @DisplayName("비즈니스쪽에서 해당 지원자 게시물 참여 허가 취소 문서화")
     public void applyApproveCancel() throws Exception {
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/post/{postId}/date/{postDoDateId}/apply/approve/cancel/{userId}", 1, 1, 2)
+                .post("/api/post/date/{postDoDateId}/apply/approve/cancel/{userId}", 1, 1, 2)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8"));
 
@@ -65,7 +64,6 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("post-apply-approve-cancel",
                         pathParameters(
-                                parameterWithName("postId").description("게시물 식별자"),
                                 parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자"),
                                 parameterWithName("userId").description("유저(지원자) 식별자")
                         )
@@ -78,7 +76,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
         PostApplicantRequest.ApplyReject request = PostApplicantRequest.ApplyReject.builder().comment("조건에 해당하지 않습니다.").build();
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/post/{postId}/date/{postDoDateId}/apply/reject/{userId}", 1, 1, 2)
+                .post("/api/post/date/{postDoDateId}/apply/reject/{userId}", 1, 1, 2)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8"));
@@ -87,7 +85,6 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("post-apply-reject",
                         pathParameters(
-                                parameterWithName("postId").description("게시물 식별자"),
                                 parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자"),
                                 parameterWithName("userId").description("유저(지원자) 식별자")
                         ),
@@ -103,7 +100,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
         PostApplicantRequest.AttendChange request = PostApplicantRequest.AttendChange.builder().isAttend(false).build();
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/post/{postId}/date/{postDoDateId}/attend/change/{userId}", 1, 1, 2)
+                .post("/api/post/date/{postDoDateId}/attend/change/{userId}", 1, 1, 2)
                 .content(objectMapper.writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8"));
@@ -112,7 +109,6 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("post-attend-change",
                         pathParameters(
-                                parameterWithName("postId").description("게시물 식별자"),
                                 parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자"),
                                 parameterWithName("userId").description("유저(지원자) 식별자")
                         ),

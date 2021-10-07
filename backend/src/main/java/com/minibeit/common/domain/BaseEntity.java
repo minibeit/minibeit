@@ -32,12 +32,12 @@ public class BaseEntity {
 
     @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "created_by", referencedColumnName = "id", updatable = false)
+    @JoinColumn(name = "created_by", updatable = false)
     private User createdBy;
 
     @LastModifiedBy
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "updated_by", referencedColumnName = "id")
+    @JoinColumn(name = "updated_by")
     private User updatedBy;
 
 }

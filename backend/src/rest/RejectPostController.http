@@ -1,4 +1,4 @@
-GET {{apiUrl}}/rejectPost/list?page=1&size=6
+GET {{apiUrl}}/rejectPost/list?page=1&size=2
 Authorization: {{authorizationToken}}
 
 ###

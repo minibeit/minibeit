@@ -18,7 +18,8 @@ public class RejectPostService {
 
     @Transactional(readOnly = true)
     public Page<RejectPostResponse.GetList> getList(PageDto pageDto, User user) {
-        Page<RejectPost> rejectPostList = rejectPostRepository.getListByUser(user, pageDto.of());
+        Page<RejectPost> rejectPostList = rejectPostRepository.findAllByUserId(user.getId(), pageDto.ofWithSortDesc("id"));
+
         return rejectPostList.map(RejectPostResponse.GetList::build);
     }
 

@@ -3,6 +3,11 @@ import { withoutAuthInstance } from "./common";
 
 const { GET_SCHOOL } = API_URLS;
 
-export const schoolGetApi = async (schoolName) => {
-  return await withoutAuthInstance.get(GET_SCHOOL + `?name=${schoolName}`);
+export const schoolGetApi = async(schoolName) => {
+    if (schoolName === undefined || schoolName === null || schoolName === "") {
+        return await withoutAuthInstance.get(GET_SCHOOL + `?name=`);
+    } else {
+        return await withoutAuthInstance.get(GET_SCHOOL + `?name=${schoolName}`);
+    }
+
 };

@@ -1,10 +1,11 @@
 import styled from "styled-components";
 
 export const SchoolSearchBox = styled.div`
-  width: 20rem;
+  width: 100%;
 `;
 export const SearchInput = styled.input`
-  width: 100%;
+  width: -webkit-fill-available;
+
   border: none;
   border-radius: 8px;
   padding: 4px 0 8px 5px;
@@ -20,12 +21,14 @@ export const SearchInput = styled.input`
   text-decoration: none;
 `;
 export const SchoolList = styled.div`
-  background: #808080a3;
+  background: #b5b5b5;
   color: white;
-  width: 100%;
-  height: 10rem;
   overflow-y: scroll;
+  position: absolute;
+  width: 54%;
+  max-height: 10rem;
 `;
 export const SchoolItem = styled.div`
-  border: 0.5px solid grey;
+  padding: 8px 5px;
+  border-bottom: 1px solid white;
 `;

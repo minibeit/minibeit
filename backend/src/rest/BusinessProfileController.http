@@ -56,7 +56,8 @@ Content-Disposition: form-data; name="contact";
 --boundary
 Content-Disposition: form-data; name="avatarChanged";
 
-false
+true
+
 
 ###
 DELETE {{apiUrl}}/business/profile/2

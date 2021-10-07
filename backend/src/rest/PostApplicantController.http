@@ -1,14 +1,14 @@
-POST {{apiUrl}}/post/1/date/2/apply
+POST {{apiUrl}}/post/date/8/apply
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/date/8/finish
+POST {{apiUrl}}/post/date/80/finish
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/1/date/1/apply/approve/2
+POST {{apiUrl}}/post/1/date/7/apply/approve/7
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 

@@ -10,7 +10,7 @@ import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostApplicantResponse;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostDoDateNotFoundException;
-import com.minibeit.post.service.exception.PostIsFullException;
+import com.minibeit.post.service.exception.PostDoDateIsFullException;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +36,8 @@ public class PostApplicantByBusinessService {
 
         PostDoDate postDoDate = postDoDateRepository.findById(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
         List<PostApplicant> postApplicants = postDoDate.getPostApplicantList();
-        if (!post.applyPossible(postApplicants)) {
-            throw new PostIsFullException();
+        if (!postDoDate.applyIsPossible(postDoDate.getPost())) {
+            throw new PostDoDateIsFullException();
         }
 
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
@@ -60,7 +60,7 @@ public class PostApplicantByBusinessService {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
-        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDate(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
+        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
         postApplicant.updateStatus(ApplyStatus.REJECT);
 

@@ -203,7 +203,7 @@ include::{snippets}/post-getList-business-profile/response-fields.adoc[]
 == 게시물 지원 관련 API
 === 게시물 참여 신청하기
 
-`POST /api/post/{postId}/date/{postDoDateId}/apply`
+`POST /api/post/date/{postDoDateId}/apply`
 
 요청 HTTP
 include::{snippets}/post-apply/http-request.adoc[]

@@ -63,7 +63,6 @@ function PSignupInfoForm({ signupHandler }) {
     await nickCheckApi(nickname)
       .then(() => setNick(true))
       .catch((err) => setNick(false));
-    setImg(undefined);
   };
   const singupInfoFunc = (e) => {
     if (index < 1) {

@@ -1,7 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../../recoil/userState";
 import { editReviewApi, reviewNewApi } from "../../../utils";
 import Portal from "../Modal/Portal";
 import CloseIcon from "@mui/icons-material/Close";
@@ -10,12 +8,13 @@ import * as S from "./style";
 
 export default function ReviewModal({
   doJoin,
+  getJoinlist,
+  getFinishlist,
   setModalSwitch,
   postInfo,
   state,
 }) {
   console.log(postInfo);
-  const userName = useRecoilValue(userState).name;
   const closeModal = () => {
     setModalSwitch(false);
   };
@@ -37,20 +36,37 @@ export default function ReviewModal({
     await reviewNewApi(postInfo.postDoDateId, newReviewInfo)
       .then(async () => {
         alert("후기가 등록되었습니다");
-        window.location.replace("/user/" + userName);
+        if (getFinishlist !== undefined) {
+          getFinishlist();
+        } else if (getJoinlist !== undefined) {
+          getJoinlist();
+        }
+        setModalSwitch(false);
       })
       .catch((err) => console.log(err));
   };
   const nextReview = async () => {
-    await doJoin(postInfo.postDoDateId);
-    alert("참여완료 상태가 되었습니다.");
-    window.location.replace("/user/" + userName);
+    if (doJoin !== undefined) {
+      await doJoin(postInfo.postDoDateId);
+      alert("참여완료 상태가 되었습니다.");
+    }
+    if (getFinishlist !== undefined) {
+      getFinishlist();
+    } else if (getJoinlist !== undefined) {
+      getJoinlist();
+    }
+    setModalSwitch(false);
   };
   const editReview = async (content) => {
     await editReviewApi(postInfo.id, content)
       .then(async () => {
         alert("후기가 수정되었습니다");
-        window.location.replace("/user/" + userName);
+        if (getFinishlist !== undefined) {
+          getFinishlist();
+        } else if (getJoinlist !== undefined) {
+          getJoinlist();
+        }
+        setModalSwitch(false);
       })
       .catch((err) => console.log(err));
   };
@@ -120,7 +136,7 @@ export default function ReviewModal({
                   <S.ReviewBtn
                     onClick={async (e) => {
                       e.preventDefault();
-                      await nextReview();
+                      await nextReview(ReviewContent);
                     }}
                   >
                     <p>다음에 작성하기</p>

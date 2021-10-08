@@ -1,6 +1,5 @@
 package com.minibeit.post.domain.repository;
 
-import com.minibeit.businessprofile.domain.QBusinessProfile;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
@@ -24,7 +23,7 @@ import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.minibeit.businessprofile.domain.QBusinessProfile.*;
+import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
 import static com.minibeit.businessprofile.domain.QBusinessProfileReview.businessProfileReview;
 import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostApplicant.postApplicant;
@@ -107,6 +106,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return Optional.ofNullable(queryFactory.selectFrom(post)
                 .join(post.school).fetchJoin()
                 .join(post.businessProfile, businessProfile).fetchJoin()
+                .join(businessProfile.admin).fetchJoin()
                 .leftJoin(businessProfile.avatar).fetchJoin()
                 .where(post.id.eq(postId))
                 .fetchOne());

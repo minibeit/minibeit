@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class BusinessProfileReviewResponse {
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class ReviewId {
         private Long id;
@@ -21,7 +21,7 @@ public class BusinessProfileReviewResponse {
 
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetOne {
         private Long id;
@@ -42,6 +42,27 @@ public class BusinessProfileReviewResponse {
                     .doDate(businessProfileReview.getDoDate())
                     .startTime(businessProfileReview.getDoDate())
                     .endTime(businessProfileReview.getDoDate().plusMinutes(businessProfileReview.getTime()))
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetList {
+        private Long id;
+        private String content;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+        private LocalDateTime createdDate;
+        private String writer;
+
+        public static BusinessProfileReviewResponse.GetList build(BusinessProfileReview businessProfileReview) {
+            return GetList.builder()
+                    .id(businessProfileReview.getId())
+                    .content(businessProfileReview.getContent())
+                    .writer(businessProfileReview.getCreatedBy().getNickname())
+                    .createdDate(businessProfileReview.getCreatedAt())
                     .build();
         }
     }

@@ -51,9 +51,9 @@ public class BusinessProfileReviewService {
     }
 
     @Transactional(readOnly = true)
-    public Page<BusinessProfileReviewResponse.GetOne> getList(Long businessProfileId, PageDto pageDto) {
+    public Page<BusinessProfileReviewResponse.GetList> getList(Long businessProfileId, PageDto pageDto) {
         Page<BusinessProfileReview> businessProfileReviewList = businessProfileReviewRepository.findAllByBusinessProfileId(businessProfileId, pageDto.of());
-        List<BusinessProfileReviewResponse.GetOne> getOneList = businessProfileReviewList.stream().map(BusinessProfileReviewResponse.GetOne::build).collect(Collectors.toList());
+        List<BusinessProfileReviewResponse.GetList> getOneList = businessProfileReviewList.stream().map(BusinessProfileReviewResponse.GetList::build).collect(Collectors.toList());
 
         return new PageImpl<>(getOneList, pageDto.of(), businessProfileReviewList.getTotalElements());
     }

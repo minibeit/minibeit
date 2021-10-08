@@ -13,6 +13,7 @@ public class PostDto {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class BusinessProfileInfo {
         private Long id;
+        private String adminName;
         private String name;
         private String avatar;
         private String contact;
@@ -21,6 +22,7 @@ public class PostDto {
         public static PostDto.BusinessProfileInfo build(BusinessProfile businessProfile) {
             final BusinessProfileInfoBuilder businessProfileInfoBuilder = BusinessProfileInfo.builder()
                     .id(businessProfile.getId())
+                    .adminName(businessProfile.getAdmin().getName())
                     .name(businessProfile.getName())
                     .address(businessProfile.getContact())
                     .contact(businessProfile.getContact());

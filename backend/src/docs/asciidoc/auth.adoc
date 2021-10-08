@@ -21,7 +21,7 @@
 
 [source]
 ----
-http://localhost:3000/callback/userId/nickname/accessToken/schoolId/signupCheck 으로 redirect
+http://localhost:3000/callback/userId/nickname/accessToken/schoolId/signupCheck/avatar 으로 redirect
 ----
 
 [cols=2*]

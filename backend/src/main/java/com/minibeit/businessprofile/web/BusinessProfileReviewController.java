@@ -36,9 +36,9 @@ public class BusinessProfileReviewController {
     }
 
     @GetMapping("/business/profile/{businessProfileId}/review/list")
-    public ResponseEntity<Page<BusinessProfileReviewResponse.GetOne>> getReviewList(@PathVariable Long businessProfileId,
+    public ResponseEntity<Page<BusinessProfileReviewResponse.GetList>> getReviewList(@PathVariable Long businessProfileId,
                                                                                     PageDto pageDto) {
-        Page<BusinessProfileReviewResponse.GetOne> response = businessProfileReviewService.getList(businessProfileId, pageDto);
+        Page<BusinessProfileReviewResponse.GetList> response = businessProfileReviewService.getList(businessProfileId, pageDto);
         return ResponseEntity.ok().body(response);
     }
 

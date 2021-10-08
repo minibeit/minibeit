@@ -5,11 +5,8 @@ import PReveiwBox from "./PReviewBox";
 import { PVImg } from "../../Common";
 
 import * as S from "../style";
-import { useRecoilValue } from "recoil";
-import { applyState } from "../../../recoil/applyState";
 
 PFeedInfoContainer.propTypes = {
-  setModalSwitch: PropTypes.func.isRequired,
   feedDetailData: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
@@ -34,20 +31,11 @@ PFeedInfoContainer.propTypes = {
     }),
   }),
   date: PropTypes.string,
-  postBookmark: PropTypes.func.isRequired,
-  isLogin: PropTypes.bool.isRequired,
 };
-export default function PFeedInfoContainer({
-  setModalSwitch,
-  feedDetailData,
-  date,
-  postBookmark,
-  isLogin,
-}) {
+export default function PFeedInfoContainer({ feedDetailData, date }) {
   const {
     id,
     businessProfileInfo,
-    title,
     startDate,
     endDate,
     content,
@@ -58,98 +46,66 @@ export default function PFeedInfoContainer({
     place,
     contact,
     files,
-    isLike,
-    likes,
     recruitCondition,
     recruitConditionDetail,
   } = feedDetailData;
 
-  const apply = useRecoilValue(applyState);
-  const openModal = () => {
-    setModalSwitch(true);
-  };
-  const clickBookmark = (e) => {
-    postBookmark(e.target.id);
-    if (e.target.textContent === "북마크 중") {
-      e.target.textContent = "북마크";
-      e.target.nextSibling.textContent =
-        parseInt(e.target.nextSibling.textContent) - 1;
-    } else {
-      e.target.textContent = "북마크 중";
-      e.target.nextSibling.textContent =
-        parseInt(e.target.nextSibling.textContent) + 1;
-    }
-  };
-
   return (
-    <S.DetailContainer>
-      <S.TitleBox>
-        <h3>{title}</h3>
-        <p>{businessProfileInfo.name}</p>
-        {isLogin ? (
-          <button id={id} onClick={clickBookmark}>
-            {isLike ? "북마크 중" : "북마크"}
-          </button>
-        ) : null}
-        <p>{likes}</p>
-      </S.TitleBox>
-      <S.DateInfoBox>
+    <div>
+      <S.DataBox>
         <PTimeSelectBox
           feedId={id}
           date={date}
           startDate={startDate}
           endDate={endDate}
         />
-      </S.DateInfoBox>
+      </S.DataBox>
       <S.DataBox>
         {files.length === 0 ? (
           <p>파일없음</p>
         ) : (
           <p>파일있는데 아직 구현 안됨</p>
         )}
-        <h4>상세내용</h4>
+        <S.DataTitle>상세내용</S.DataTitle>
         <p>{content}</p>
       </S.DataBox>
       <S.DataBox>
-        <h4>지원조건</h4>
+        <S.DataTitle>지원조건</S.DataTitle>
         {recruitCondition ? (
-          recruitConditionDetail.map((a, i) => <p key={i}>- {a}</p>)
+          recruitConditionDetail.map((a, i) => (
+            <S.Condition key={i}>{a}</S.Condition>
+          ))
         ) : (
           <p>누구나 지원가능!</p>
         )}
       </S.DataBox>
       <S.DataBox>
-        <h4>지급방식 및 상세내용</h4>
+        <S.DataTitle>지급방식 및 상세내용</S.DataTitle>
         <p>금액 : {payment === "CACHE" ? `${cache}원` : goods}</p>
         <p>지급 : {paymentDetail}</p>
       </S.DataBox>
       <S.DataBox>
-        <h4>참여 장소 및 연락처</h4>
+        <S.DataTitle>참여 장소 및 연락처</S.DataTitle>
         <p>주소 : {place}</p>
         <p>연락처 : {contact}</p>
       </S.DataBox>
       <S.DataBox>
-        <h4>모집자 정보</h4>
-        <S.ImgBox>
-          {businessProfileInfo.avatar ? (
-            <PVImg img={businessProfileInfo.avatar} />
-          ) : (
-            <S.Img src="/기본비즈니스프로필.jpeg" />
-          )}
-        </S.ImgBox>
-        <h5>{businessProfileInfo.name}</h5>
+        <S.DataTitle>모집자 정보</S.DataTitle>
+        <S.BusinessInfoBox>
+          <S.ImgBox>
+            {businessProfileInfo.avatar ? (
+              <PVImg img={businessProfileInfo.avatar} />
+            ) : (
+              <S.Img src="/기본비즈니스프로필.jpeg" />
+            )}
+          </S.ImgBox>
+          <h3>{businessProfileInfo.name}</h3>
+        </S.BusinessInfoBox>
       </S.DataBox>
       <S.DataBox>
-        <h4>실험실 후기</h4>
+        <S.DataTitle>실험실 후기</S.DataTitle>
         <PReveiwBox businessId={businessProfileInfo.id} />
       </S.DataBox>
-      <S.DataBox>
-        <p>날짜: {apply.doDate}</p>
-        <p>시간: {apply.doTime}</p>
-        {payment === "CACHE" ? <p>보상: {cache}원</p> : <p>보상: {goods}</p>}
-        <button onClick={openModal}>지원하기</button>
-        <button>공유하기</button>
-      </S.DataBox>
-    </S.DetailContainer>
+    </div>
   );
 }

@@ -6,7 +6,7 @@ import * as S from "../style";
 
 export default function PReveiwBox({ businessId }) {
   const [page, setPage] = useState(1);
-  const [reviewList, setReviewList] = useState();
+  const [reviewList, setReviewList] = useState([]);
   const [totalReview, setTotalReview] = useState(0);
 
   const getReview = useCallback(() => {
@@ -21,14 +21,17 @@ export default function PReveiwBox({ businessId }) {
   }, [getReview]);
   return (
     <S.ReviewBox>
-      {reviewList &&
+      {reviewList.length !== 0 ? (
         reviewList.map((a) => (
           <div key={a.id}>
             <p>이름</p>
             <p>{a.doDate}</p>
             <p>{a.content}</p>
           </div>
-        ))}
+        ))
+      ) : (
+        <p>리뷰 없음</p>
+      )}
       <Pagination page={page} count={totalReview} setPage={setPage} />
     </S.ReviewBox>
   );

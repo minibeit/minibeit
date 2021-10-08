@@ -4,6 +4,8 @@ import { feedDetailTimeApi } from "../../../utils/feedApi";
 import { useRecoilState } from "recoil";
 import { applyState } from "../../../recoil/applyState";
 
+import * as S from "../style";
+
 PTimeSelectBox.propTypes = {
   feedId: PropTypes.number.isRequired,
   date: PropTypes.string,
@@ -58,34 +60,40 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
 
   return (
     <>
-      <h4>참여 날짜 및 시간 선택하기</h4>
-      <button value="pre" onClick={moveDate}>
-        이전날짜
-      </button>
-      <span>{viewDoDate}</span>
-      <button value="next" onClick={moveDate}>
-        다음날짜
-      </button>
-      <div>
-        {doTimeList ? (
-          doTimeList.map((a) => {
-            return (
-              <button
-                key={a.id}
-                id={a.id}
-                onClick={selectDate}
-                disabled={
-                  a.id === parseInt(apply["postDoDateId"]) ? true : false
-                }
-              >
-                {a.startTime}~{a.endTime}
-              </button>
-            );
-          })
-        ) : (
-          <p>이 날은 실험이 없습니다</p>
-        )}
-      </div>
+      <S.DataTitle>참여 날짜 및 시간 선택하기</S.DataTitle>
+      <S.TimeSelectBox>
+        <S.DateView>
+          <div>
+            <button value="pre" onClick={moveDate}>
+              이전날짜
+            </button>
+            <span>{viewDoDate}</span>
+            <button value="next" onClick={moveDate}>
+              다음날짜
+            </button>
+          </div>
+        </S.DateView>
+        <S.TimeView>
+          {doTimeList ? (
+            doTimeList.map((a) => {
+              return (
+                <button
+                  key={a.id}
+                  id={a.id}
+                  onClick={selectDate}
+                  disabled={
+                    a.id === parseInt(apply["postDoDateId"]) ? true : false
+                  }
+                >
+                  {a.startTime}~{a.endTime}
+                </button>
+              );
+            })
+          ) : (
+            <p>이 날은 실험이 없습니다</p>
+          )}
+        </S.TimeView>
+      </S.TimeSelectBox>
     </>
   );
 }

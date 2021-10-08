@@ -36,7 +36,10 @@ http://localhost:3000/callback/userId/nickname/accessToken/schoolId/signupCheck 
 |관심학교 default schooId 회원정보를 입력하지 않았다면 null
 |signupCheck
 |회원가입을 한 유저라면 true 안한 유저라면 false
+|avatar
+|프로필 이미지가 없다면 null
 |===
+
 
 === 회원가입(회원 정보 입력)
 

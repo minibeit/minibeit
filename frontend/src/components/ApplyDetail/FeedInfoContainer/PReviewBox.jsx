@@ -10,7 +10,7 @@ export default function PReveiwBox({ businessId }) {
   const [totalReview, setTotalReview] = useState(0);
 
   const getReview = useCallback(() => {
-    reviewListGetApi(businessId, 1).then((res) => {
+    reviewListGetApi(businessId, 1, 3).then((res) => {
       setReviewList(res.data.content);
       setTotalReview(res.data.numberOfElements);
     });
@@ -20,7 +20,7 @@ export default function PReveiwBox({ businessId }) {
     getReview();
   }, [getReview]);
   return (
-    <>
+    <S.ReviewBox>
       {reviewList &&
         reviewList.map((a) => (
           <div key={a.id}>
@@ -30,6 +30,6 @@ export default function PReveiwBox({ businessId }) {
           </div>
         ))}
       <Pagination page={page} count={totalReview} setPage={setPage} />
-    </>
+    </S.ReviewBox>
   );
 }

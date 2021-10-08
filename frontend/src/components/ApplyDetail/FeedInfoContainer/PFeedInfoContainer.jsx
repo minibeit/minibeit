@@ -102,18 +102,18 @@ export default function PFeedInfoContainer({
         />
       </S.DateInfoBox>
       <S.DataBox>
-        <h4>상세내용</h4>
         {files.length === 0 ? (
           <p>파일없음</p>
         ) : (
           <p>파일있는데 아직 구현 안됨</p>
         )}
+        <h4>상세내용</h4>
         <p>{content}</p>
       </S.DataBox>
       <S.DataBox>
         <h4>지원조건</h4>
         {recruitCondition ? (
-          <p>{recruitConditionDetail}</p>
+          recruitConditionDetail.map((a, i) => <p key={i}>- {a}</p>)
         ) : (
           <p>누구나 지원가능!</p>
         )}
@@ -138,8 +138,6 @@ export default function PFeedInfoContainer({
           )}
         </S.ImgBox>
         <h5>{businessProfileInfo.name}</h5>
-        <p>주소: {businessProfileInfo.address}</p>
-        <p>소개: {businessProfileInfo.introduce}</p>
       </S.DataBox>
       <S.DataBox>
         <h4>실험실 후기</h4>

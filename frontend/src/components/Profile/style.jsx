@@ -84,6 +84,16 @@ export const EditContainer2 = styled.div`
   flex-direction: column;
   width: 100%;
 `;
+export const SignupNickBtn = styled.div`
+  height: 15px;
+  width: 21px;
+  cursor: pointer;
+  font-size: 11px;
+  background: white;
+  padding: 8px;
+  border-radius: 9px;
+  color: #0642ff;
+`;
 export const EditInput = styled.input`
   border: none;
   border-radius: 8px;
@@ -393,4 +403,17 @@ export const FeedTimeCheck = styled.div`
   & > p:nth-child(2n + 1) {
     font-size: 12px;
   }
+`;
+export const SignupMSG = styled.div`
+  color: ${(props) => props.color};
+  font-size: 10px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+export const NickBox = styled.div``;
+export const NicknameCont = styled.div`
+  display: flex;
+  align-items: end;
 `;

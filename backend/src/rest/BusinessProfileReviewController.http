@@ -11,10 +11,8 @@ Authorization: {{authorizationToken}}
 
 ###
 GET {{apiUrl}}/business/profile/review/1
-Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/business/profile/1/review/list?page=1&size=5
-Authorization: {{authorizationToken}}
 
 ###
 PUT {{apiUrl}}/business/profile/review/2

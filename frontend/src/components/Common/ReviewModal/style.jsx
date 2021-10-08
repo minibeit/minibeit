@@ -40,7 +40,19 @@ export const ModalContent = styled.div`
   flex-direction: column;
   height: inherit;
 `;
-export const ReviewBtn = styled.div``;
+export const ReviewBtn = styled.div`
+  cursor: pointer;
+  margin-left: 12px;
+  & > p {
+    font-size: 13px;
+    background: blue;
+    padding: 5px 17px;
+    color: white;
+    border-radius: 21px;
+    white-space: pre;
+    cursor: pointer;
+  }
+`;
 export const ReviewContentCont = styled.div`
   flex: 2;
   margin: 30px 0px 0px 0;

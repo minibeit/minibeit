@@ -22,7 +22,6 @@ export const editMyInfo = async(inputs, school, newImg, basicImg) => {
     formData.append("name", inputs.name);
     formData.append("gender", inputs.gender);
     formData.append("job", inputs.job);
-    formData.append("age", inputs.age);
     formData.append("phoneNum", inputs.phoneNum);
     formData.append("schoolId", school);
     formData.append("birth", inputs.birth);

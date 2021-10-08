@@ -111,6 +111,7 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
           </S.FeedBtn>
           {modalSwitch ? (
             <ReviewModal
+              getJoinlist={getJoinlist}
               doJoin={doJoin}
               setModalSwitch={setModalSwitch}
               state="NEW"
@@ -140,7 +141,7 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
   );
 }
 
-function FinishFeedBlock({ feedInfo }) {
+function FinishFeedBlock({ feedInfo, getFinishlist }) {
   const [modalSwitch, setModalSwitch] = useState(false);
   const [modalSwitch2, setModalSwitch2] = useState(false);
   const [postInfo, setPostInfo] = useState({});
@@ -167,6 +168,7 @@ function FinishFeedBlock({ feedInfo }) {
     <>
       {modalSwitch ? (
         <ReviewModal
+          getFinishlist={getFinishlist}
           setModalSwitch={setModalSwitch}
           state="EDIT"
           postInfo={postInfo}
@@ -174,6 +176,7 @@ function FinishFeedBlock({ feedInfo }) {
       ) : null}
       {modalSwitch2 ? (
         <ReviewModal
+          getFinishlist={getFinishlist}
           setModalSwitch={setModalSwitch2}
           state="NEW"
           postInfo={postInfo}

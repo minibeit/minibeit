@@ -104,4 +104,14 @@ export const FeedBookmark = styled.div`
 `;
 export const FeedBookmarkCont = styled.div``;
 export const FeedWrap = styled.div``;
-export const Review = styled.div``;
+export const Review = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  & > p {
+    white-space: pre;
+    margin-right: 7px;
+  }
+  & > p:nth-child(2n + 1) {
+    font-size: 12px;
+  }
+`;

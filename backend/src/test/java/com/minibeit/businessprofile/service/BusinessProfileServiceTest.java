@@ -490,4 +490,15 @@ class BusinessProfileServiceTest {
         assertThat(businessProfile.getAdmin().getId()).isEqualTo(admin.getId());
     }
 
+    @Test
+    @DisplayName("리뷰 생성 - 성공(비즈니스프로필과 일치)")
+    void createReview() {
+        BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder().postTitle("제목").content("후기내용").time(30).doDate(LocalDateTime.of(2021, 10, 1, 9, 30)).build();
+        ArrayList<PostDoDate> postDoDates = new ArrayList<>(post.getPostDoDateList());
+
+        BusinessProfileReviewResponse.ReviewId review = businessProfileReviewService.create(postDoDates.get(0).getId(), request, request.getDoDate(), approveUser1);
+        BusinessProfileReviewResponse.GetOne one = businessProfileReviewService.getOne(review.getId());
+        assertThat(one.getDoDate()).isEqualTo(request.getDoDate());
+    }
+
 }

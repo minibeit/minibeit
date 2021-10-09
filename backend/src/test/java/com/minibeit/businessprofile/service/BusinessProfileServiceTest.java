@@ -22,6 +22,7 @@ import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.service.PostByBusinessService;
+import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -37,6 +38,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.naming.NoPermissionException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -85,6 +87,9 @@ class BusinessProfileServiceTest {
     private User approveUser2;
     private User waitUser1;
     private User waitUser2;
+
+    PostApplicant postApplicant1;
+    PostApplicant postApplicant2;
 
     private School school;
 
@@ -137,11 +142,10 @@ class BusinessProfileServiceTest {
         PostDoDate postDoDate3 = PostDoDate.create(LocalDateTime.of(2021, 10, 2, 9, 30), createdPost);
         PostDoDate postDoDate4 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
         postDoDateRepository.saveAll(Arrays.asList(postDoDate1, postDoDate2, postDoDate3, postDoDate4));
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, approveUser1);
-        PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, approveUser2);
+        postApplicant1 = PostApplicant.create(postDoDate1, approveUser1);
+        postApplicant2 = PostApplicant.create(postDoDate2, approveUser2);
         PostApplicant postApplicant3 = PostApplicant.create(postDoDate3, waitUser1);
         PostApplicant postApplicant4 = PostApplicant.create(postDoDate4, waitUser2);
-        postApplicant1.updateMyFinish();
         postApplicant1.updateStatus(ApplyStatus.APPROVE);
         postApplicant2.updateStatus(ApplyStatus.APPROVE);
         postApplicantRepository.saveAll(Arrays.asList(postApplicant1, postApplicant2, postApplicant3, postApplicant4));
@@ -495,10 +499,28 @@ class BusinessProfileServiceTest {
     void createReview() {
         BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder().postTitle("제목").content("후기내용").time(30).doDate(LocalDateTime.of(2021, 10, 1, 9, 30)).build();
         ArrayList<PostDoDate> postDoDates = new ArrayList<>(post.getPostDoDateList());
+        postApplicant1.updateMyFinish();
 
         BusinessProfileReviewResponse.ReviewId review = businessProfileReviewService.create(postDoDates.get(0).getId(), request, request.getDoDate(), approveUser1);
         BusinessProfileReviewResponse.GetOne one = businessProfileReviewService.getOne(review.getId());
         assertThat(one.getDoDate()).isEqualTo(request.getDoDate());
     }
 
+    @Test
+    @DisplayName("리뷰 생성 - 실패(권한없는 유저 작성)")
+    void createReviewFailureWhenNoPermission() {
+        BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder().postTitle("제목").content("후기내용").time(30).doDate(LocalDateTime.of(2021, 10, 1, 9, 30)).build();
+        ArrayList<PostDoDate> postDoDates = new ArrayList<>(post.getPostDoDateList());
+
+        //아직 실험이 끝나지 않은 참가자
+        assertThatThrownBy(
+                () -> businessProfileReviewService.create(postDoDates.get(0).getId(), request, request.getDoDate(), approveUser1)
+        ).isInstanceOf(PermissionException.class);
+
+        //실험에 지원하지 않은 참가자
+        assertThatThrownBy(
+                () -> businessProfileReviewService.create(postDoDates.get(0).getId(), request, request.getDoDate(), approveUser2)
+        ).isInstanceOf(PostApplicantNotFoundException.class);
+
+    }
 }

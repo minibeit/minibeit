@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { geustState, userState } from "../../../recoil/userState";
 import PSignupInfoForm from "./PSignupInfoForm";
 import { signupInfoApi } from "../../../utils/auth";
+import SignupFinish from "../SignupFinish";
 
 export default function SignupForm() {
   const history = useHistory();
@@ -14,7 +15,6 @@ export default function SignupForm() {
   const signupHandler = async (inputs2, img) => {
     await signupInfoApi(inputs2, img, guest.accessToken)
       .then((res) => {
-        window.alert("회원가입에 성공!");
         const guest_cp = { ...guest };
         localStorage.setItem("accessToken", guest.accessToken);
         delete guest_cp.accessToken;
@@ -23,10 +23,17 @@ export default function SignupForm() {
         guest_cp.schoolId = res.data.schoolId;
         setLoginState(guest_cp);
         history.push("/");
+        setModalSwitch(true);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  return <PSignupInfoForm signupHandler={signupHandler} />;
+  const [modalSwitch, setModalSwitch] = useState(false);
+  return (
+    <>
+      <PSignupInfoForm signupHandler={signupHandler} />
+      {modalSwitch ? <SignupFinish setModalSwitch={setModalSwitch} /> : null}
+    </>
+  );
 }

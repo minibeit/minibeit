@@ -33,6 +33,9 @@ public class BusinessProfileReviewResponse {
         private LocalDateTime startTime;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime endTime;
+        private String writer;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+        private LocalDateTime createdDate;
 
         public static BusinessProfileReviewResponse.GetOne build(BusinessProfileReview businessProfileReview) {
             return GetOne.builder()
@@ -42,6 +45,8 @@ public class BusinessProfileReviewResponse {
                     .doDate(businessProfileReview.getDoDate())
                     .startTime(businessProfileReview.getDoDate())
                     .endTime(businessProfileReview.getDoDate().plusMinutes(businessProfileReview.getTime()))
+                    .writer(businessProfileReview.getCreatedBy().getNickname())
+                    .createdDate(businessProfileReview.getCreatedAt())
                     .build();
         }
     }

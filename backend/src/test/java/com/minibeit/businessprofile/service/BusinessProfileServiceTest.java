@@ -523,4 +523,16 @@ class BusinessProfileServiceTest {
         ).isInstanceOf(PostApplicantNotFoundException.class);
 
     }
+
+    @Test
+    @DisplayName("리뷰 생성 - 실패(날짜 초과)")
+    void createReviewFailureWhenOverTime() {
+        BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder().postTitle("제목").content("후기내용").time(30).doDate(LocalDateTime.of(2021, 10, 10, 9, 30)).build();
+        ArrayList<PostDoDate> postDoDates = new ArrayList<>(post.getPostDoDateList());
+
+        assertThatThrownBy(
+                () -> businessProfileReviewService.create(postDoDates.get(0).getId(), request, request.getDoDate(), approveUser1)
+        ).isInstanceOf(PermissionException.class);
+
+    }
 }

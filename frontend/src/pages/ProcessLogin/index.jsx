@@ -14,7 +14,14 @@ function ProcessLogin({ match }) {
     schoolId: parseInt(match.params.schoolId),
     bpId: 0,
     avatar:
-      "https://" + match.params.a + "/" + match.params.b + "/" + match.params.c,
+      match.params.a !== "0"
+        ? "https://" +
+          match.params.a +
+          "/" +
+          match.params.b +
+          "/" +
+          match.params.c
+        : "noImg",
   });
   console.log(data);
   console.log(match);

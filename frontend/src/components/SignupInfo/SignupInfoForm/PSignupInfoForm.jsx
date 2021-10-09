@@ -63,7 +63,6 @@ function PSignupInfoForm({ signupHandler }) {
     await nickCheckApi(nickname)
       .then(() => setNick(true))
       .catch((err) => setNick(false));
-    setImg(undefined);
   };
   const singupInfoFunc = (e) => {
     if (index < 1) {
@@ -262,6 +261,7 @@ function PSignupInfoForm({ signupHandler }) {
   );
 }
 export default PSignupInfoForm;
+
 
 function JobGrid({ handleJob }) {
   const jobList = [

@@ -46,21 +46,21 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
   };
   const changeState = async (order, postdoDateId, userId, rejectValue) => {
     if (order === "approve") {
-      await approveOneApi(postId, postdoDateId, userId)
+      await approveOneApi(postdoDateId, userId)
         .then((res) => {
           window.alert("참여가 허락되었습니다.");
           getList();
         })
         .catch((err) => console.log(err));
     } else if (order === "cancel") {
-      await cancelOneApi(postId, postdoDateId, userId)
+      await cancelOneApi(postdoDateId, userId)
         .then((res) => {
           window.alert("참여 허락이 취소되었습니다.");
           getList();
         })
         .catch((err) => console.log(err));
     } else if (order === "reject") {
-      await rejectOneApi(postId, postdoDateId, userId, rejectValue)
+      await rejectOneApi(postdoDateId, userId, rejectValue)
         .then((res) => {
           window.alert("참여가 반려되었습니다.");
           getList();
@@ -68,7 +68,7 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
         .catch((err) => console.log(err));
     } else {
       const attend = order === "Attend" ? true : false;
-      await setAttendApi(postId, postdoDateId, userId, attend)
+      await setAttendApi(postdoDateId, userId, attend)
         .then((res) => {
           window.alert("참여여부가 변경되었습니다");
           getList();

@@ -123,7 +123,7 @@ class UserServiceTest {
         //given//when//then
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("중복안된이름").build();
 
-        userService.nicknameCheck(request);
+        userService.nickNameCheck(request);
 
         Optional<User> user = userRepository.findByNickname(request.getNickname());
         assertThat(user).isEmpty();
@@ -136,7 +136,7 @@ class UserServiceTest {
 
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("테스터1").build();
 
-        assertThatThrownBy(() -> userService.nicknameCheck(request)).isInstanceOf(DuplicateNickNameException.class);
+        assertThatThrownBy(() -> userService.nickNameCheck(request)).isInstanceOf(DuplicateNickNameException.class);
 
         User findUser = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
         assertThat(findUser.getNickname()).isEqualTo(request.getNickname());
@@ -350,7 +350,7 @@ class UserServiceTest {
         UserRequest.Nickname originalNickName = UserRequest.Nickname.builder().nickname("테스터1").build();
 
         assertDoesNotThrow(
-                () -> userService.nicknameCheck(originalNickName)
+                () -> userService.nickNameCheck(originalNickName)
         );
 
     }
@@ -378,7 +378,7 @@ class UserServiceTest {
 
         UserRequest.Nickname updatedNickName = UserRequest.Nickname.builder().nickname("새로운 닉네임").build();
 
-        assertThatThrownBy(() -> userService.nicknameCheck(updatedNickName))
+        assertThatThrownBy(() -> userService.nickNameCheck(updatedNickName))
                 .isInstanceOf(DuplicateNickNameException.class);
     }
 

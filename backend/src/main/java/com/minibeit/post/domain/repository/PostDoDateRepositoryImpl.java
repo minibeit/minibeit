@@ -28,21 +28,21 @@ public class PostDoDateRepositoryImpl implements PostDoDateRepositoryCustom {
     }
 
     @Override
-    public Optional<PostDoDate> findByIdWithPost(Long postDoDateId) {
-        return Optional.ofNullable(
-                queryFactory.selectFrom(postDoDate)
-                        .join(postDoDate.post).fetchJoin()
-                        .where(postDoDate.id.eq(postDoDateId))
-                        .fetchOne()
-        );
-    }
-
-    @Override
     public List<PostDoDate> findAllByPostIdAndYearMonth(Long postId, YearMonth yearMonth) {
         return queryFactory.selectFrom(postDoDate)
                 .where(postDoDate.post.id.eq(postId)
                         .and(postDoDate.doDate.year().eq(yearMonth.getYear())
                                 .and(postDoDate.doDate.month().eq(yearMonth.getMonthValue()))))
                 .fetch();
+    }
+
+    @Override
+    public Optional<PostDoDate> findByIdWithPostAndApplicant(Long postDoDateId) {
+        return Optional.ofNullable(
+                queryFactory.selectFrom(postDoDate).distinct()
+                        .join(postDoDate.post).fetchJoin()
+                        .leftJoin(postDoDate.postApplicantList).fetchJoin()
+                        .where(postDoDate.id.eq(postDoDateId))
+                        .fetchOne());
     }
 }

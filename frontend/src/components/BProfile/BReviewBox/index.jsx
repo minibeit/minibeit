@@ -12,7 +12,7 @@ export default function BReviewBox({ businessId }) {
     last: "",
   });
   const getReviewlist = useCallback(async () => {
-    await reviewListGetApi(businessId, page)
+    await reviewListGetApi(businessId, page, 10)
       .then((res) => {
         setReviewlist(res.data.content);
         setCount(res.data.totalElements);

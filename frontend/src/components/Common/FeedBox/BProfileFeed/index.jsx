@@ -113,18 +113,30 @@ function ReviewFeedBlock({ feedInfo }) {
   return (
     <>
       <S.FeedTitle>{feedInfo.postTitle}</S.FeedTitle>
-      <S.FeedDateNum>
-        실험날짜 {feedInfo.doDate}/실험시간 {feedInfo.startTime}~
-        {feedInfo.endTime}
-      </S.FeedDateNum>
-      <S.Review>{feedInfo.content}</S.Review>
-      <S.FeedBtn
-        onClick={async () => {
-          await readReview(feedInfo.id);
-        }}
-      >
-        더보기
-      </S.FeedBtn>
+      <S.FeedContent>
+        <S.FeedDateNum>
+          <p>실험날짜</p>
+          <p> {feedInfo.doDate} /</p>
+          <p>실험실 시간 </p>
+          <p>
+            {" "}
+            {feedInfo.startTime}~{feedInfo.endTime}
+          </p>
+        </S.FeedDateNum>
+        <S.Review>
+          {" "}
+          <p>후기</p>
+          <p> {feedInfo.content} </p>
+        </S.Review>
+        <S.FeedBtn
+          onClick={async () => {
+            await readReview(feedInfo.id);
+          }}
+        >
+          <p>더보기</p>
+        </S.FeedBtn>
+      </S.FeedContent>
+
       {modalSwitch ? (
         <ReviewModal
           setModalSwitch={setModalSwitch}

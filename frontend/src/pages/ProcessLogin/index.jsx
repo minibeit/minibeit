@@ -13,8 +13,18 @@ function ProcessLogin({ match }) {
     didSignup: JSON.parse(match.params.signupCheck),
     schoolId: parseInt(match.params.schoolId),
     bpId: 0,
+    avatar:
+      match.params.a !== "0"
+        ? "https://" +
+          match.params.a +
+          "/" +
+          match.params.b +
+          "/" +
+          match.params.c
+        : "noImg",
   });
-
+  console.log(data);
+  console.log(match);
   const signupCheck = useCallback(() => {
     if (data.didSignup) {
       localStorage.setItem("accessToken", match.params.accessToken);

@@ -50,4 +50,8 @@ public class PostDoDate extends BaseEntity {
         postDoDate.setPost(post);
         return postDoDate;
     }
+
+    public boolean applyIsPossible(Post post) {
+        return !this.isFull && post.getPostStatus().equals(PostStatus.RECRUIT);
+    }
 }

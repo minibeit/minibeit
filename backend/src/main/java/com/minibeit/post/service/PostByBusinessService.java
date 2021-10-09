@@ -71,7 +71,7 @@ public class PostByBusinessService {
     }
 
     public void recruitmentCompleted(Long postId, PostRequest.RejectComment request, User user) {
-        Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
+        Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
         List<PostApplicant> postApplicantList = postApplicantRepository.findAllByApplyStatusIsWait(postId);
@@ -111,7 +111,7 @@ public class PostByBusinessService {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
-        if(postApplicantRepository.existsApproveAfterNow(postId,now)){
+        if (postApplicantRepository.existsApproveAfterNow(postId, now)) {
             throw new ExistApprovedApplicant();
         }
 

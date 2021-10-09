@@ -1,5 +1,5 @@
 import { API_URLS } from "../constants";
-import { withAuthInstance } from "./common";
+import { withAuthInstance, withoutAuthInstance } from "./common";
 
 const { REVIEW_NEW, REVIEW_LIST_GET, REVIEW_ONE_READ, EDIT_REVIEW } = API_URLS;
 
@@ -10,13 +10,15 @@ export const reviewNewApi = async (postDoDateId, newReviewInfo) => {
   );
 };
 
-export const reviewListGetApi = async (businessId, page) => {
-  return await withAuthInstance.get(
-    REVIEW_LIST_GET + businessId + "/review/list?page=" + page + "&size=10"
+export const reviewListGetApi = async (businessId, page, size) => {
+  return await withoutAuthInstance.get(
+    REVIEW_LIST_GET + businessId + "/review/list?page=" + page + "&size=" + size
   );
 };
 export const reviewOneReadApi = async (businessProfileReviewId) => {
-  return await withAuthInstance.get(REVIEW_ONE_READ + businessProfileReviewId);
+  return await withoutAuthInstance.get(
+    REVIEW_ONE_READ + businessProfileReviewId
+  );
 };
 
 export const editReviewApi = async (businessProfileReviewId, content) => {

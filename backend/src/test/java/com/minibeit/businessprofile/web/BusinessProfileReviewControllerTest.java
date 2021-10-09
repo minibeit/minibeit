@@ -6,6 +6,7 @@ import com.minibeit.businessprofile.dto.BusinessProfileReviewResponse;
 import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
 import com.minibeit.businessprofile.service.BusinessProfileReviewService;
 import com.minibeit.common.dto.PageDto;
+import com.minibeit.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -36,11 +37,13 @@ class BusinessProfileReviewControllerTest extends MvcTest {
     @MockBean
     private BusinessProfileReviewService businessProfileReviewService;
 
+    private User user;
     private BusinessProfileReview businessProfileReview1;
     private BusinessProfileReview businessProfileReview2;
 
     @BeforeEach
     public void setup() {
+        user = User.builder().id(1L).name("동그라미").nickname("동그라미").build();
         businessProfileReview1 = BusinessProfileReview.builder()
                 .id(1L)
                 .postTitle("실험 주제")
@@ -48,6 +51,8 @@ class BusinessProfileReviewControllerTest extends MvcTest {
                 .time(60)
                 .doDate(LocalDateTime.of(2021, 9, 15, 9, 30))
                 .build();
+        businessProfileReview1.setCreatedAt(LocalDateTime.of(2021,9,18,9,30));
+        businessProfileReview1.setCreatedBy(user);
         businessProfileReview2 = BusinessProfileReview.builder()
                 .id(2L)
                 .postTitle("실험 주제2")
@@ -55,6 +60,8 @@ class BusinessProfileReviewControllerTest extends MvcTest {
                 .time(120)
                 .doDate(LocalDateTime.of(2021, 9, 18, 9, 30))
                 .build();
+        businessProfileReview2.setCreatedAt(LocalDateTime.of(2021,9,18,9,30));
+        businessProfileReview2.setCreatedBy(user);
     }
 
     @Test
@@ -124,6 +131,8 @@ class BusinessProfileReviewControllerTest extends MvcTest {
                                 fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("실험 참가 날짜"),
                                 fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
                                 fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("실험 마친 시간"),
+                                fieldWithPath("content[].writer").type(JsonFieldType.STRING).description("후기 작성자"),
+                                fieldWithPath("content[].createdDate").type(JsonFieldType.STRING).description("후기 작성일"),
                                 fieldWithPath("totalElements").description("전체 개수"),
                                 fieldWithPath("last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("totalPages").description("전체 페이지")
@@ -153,7 +162,9 @@ class BusinessProfileReviewControllerTest extends MvcTest {
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("후기 내용"),
                                 fieldWithPath("doDate").type(JsonFieldType.STRING).description("실험 참가 날짜"),
                                 fieldWithPath("startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
-                                fieldWithPath("endTime").type(JsonFieldType.STRING).description("실험 마친 시간")
+                                fieldWithPath("endTime").type(JsonFieldType.STRING).description("실험 마친 시간"),
+                                fieldWithPath("writer").type(JsonFieldType.STRING).description("후기 작성자"),
+                                fieldWithPath("createdDate").type(JsonFieldType.STRING).description("후기 작성일")
                         )
                 ));
     }

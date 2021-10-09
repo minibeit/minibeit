@@ -11,4 +11,6 @@ public interface UserRepositoryCustom {
     List<User> findAllInBusinessProfile(Long businessProfileId);
 
     Optional<User> findByIdWithSchool(Long userId);
+
+    Optional<User> findByIdWithAvatar(Long userId);
 }

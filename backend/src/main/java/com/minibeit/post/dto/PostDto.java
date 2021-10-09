@@ -17,13 +17,15 @@ public class PostDto {
         private String avatar;
         private String contact;
         private String address;
+        private String adminName;
 
         public static PostDto.BusinessProfileInfo build(BusinessProfile businessProfile) {
             final BusinessProfileInfoBuilder businessProfileInfoBuilder = BusinessProfileInfo.builder()
                     .id(businessProfile.getId())
                     .name(businessProfile.getName())
                     .address(businessProfile.getContact())
-                    .contact(businessProfile.getContact());
+                    .contact(businessProfile.getContact())
+                    .adminName(businessProfile.getAdmin().getName());
             if (businessProfile.getAvatar() != null) {
                 return businessProfileInfoBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
             }

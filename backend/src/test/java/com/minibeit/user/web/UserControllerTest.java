@@ -74,7 +74,7 @@ class UserControllerTest extends MvcTest {
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
 
-        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.builder().id(1L).nickname("동그라미").schoolId(1L).build();
+        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.build(user1, 2L, Avatar.builder().id(1L).url("profile url.").build());
 
         given(userService.signup(any(), any())).willReturn(response);
 
@@ -86,7 +86,7 @@ class UserControllerTest extends MvcTest {
                         .param("gender", "MALE")
                         .param("phoneNum", "010-1234-5678")
                         .param("job", "대학생")
-                        .param("birth","2000-11-11")
+                        .param("birth", "2000-11-11")
                         .param("schoolId", "1")
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .characterEncoding("UTF-8")
@@ -109,7 +109,8 @@ class UserControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원가입한 유저 식별자"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("회원가입한 유저 닉네임"),
-                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자")
+                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자"),
+                                fieldWithPath("avatar").type(JsonFieldType.STRING).description("프로필 이미지 없다면 null")
                         )
                 ));
     }
@@ -168,7 +169,7 @@ class UserControllerTest extends MvcTest {
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
 
-        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.build(user1, 2L);
+        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.build(user1, 2L, Avatar.builder().id(1L).url("profile url.").build());
 
         given(userService.update(any(), any())).willReturn(response);
 
@@ -207,7 +208,8 @@ class UserControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("유저 식별자"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
-                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자")
+                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자"),
+                                fieldWithPath("avatar").type(JsonFieldType.STRING).description("프로필 이미지 없다면 null")
                         )
                 ));
     }

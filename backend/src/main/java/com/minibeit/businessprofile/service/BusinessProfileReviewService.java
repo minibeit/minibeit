@@ -46,7 +46,7 @@ public class BusinessProfileReviewService {
 
     @Transactional(readOnly = true)
     public BusinessProfileReviewResponse.GetOne getOne(Long businessProfileReviewId) {
-        BusinessProfileReview businessProfileReview = businessProfileReviewRepository.findById(businessProfileReviewId).orElseThrow(BusinessProfileReviewNotFoundException::new);
+        BusinessProfileReview businessProfileReview = businessProfileReviewRepository.findByIdWithUser(businessProfileReviewId).orElseThrow(BusinessProfileReviewNotFoundException::new);
         return BusinessProfileReviewResponse.GetOne.build(businessProfileReview);
     }
 

@@ -92,17 +92,19 @@ class BusinessProfileServiceTest {
     private User waitUser1;
     private User waitUser2;
 
-    PostApplicant postApplicant1;
-    PostApplicant postApplicant2;
+    private PostApplicant postApplicant1;
+    private PostApplicant postApplicant2;
 
+    private BusinessProfileReview businessProfileReview;
     private School school;
 
     private PostRequest.CreateInfo createInfoRequest;
     private BusinessProfilesReviewRequest.Create createReviewRequest;
-    ArrayList<PostDoDate> postDoDates;
+    private ArrayList<PostDoDate> postDoDates;
 
     private final int originalSharedBusinessProfileUsers = 2;
     private final int firstPost = 0;
+
     @BeforeEach
     void set() {
         initSchool();
@@ -162,7 +164,7 @@ class BusinessProfileServiceTest {
 
     }
 
-    private void initCreateReviewAndRequest(){
+    private void initCreateReviewAndRequest() {
 
         BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder()
                 .postTitle("첫 리뷰 제목")
@@ -171,7 +173,7 @@ class BusinessProfileServiceTest {
                 .doDate(LocalDateTime.of(2021, 9, 29, 9, 30))
                 .build();
 
-        BusinessProfileReview businessProfileReview = BusinessProfileReview.create(postDoDates.get(0), businessProfile, request);
+        businessProfileReview = BusinessProfileReview.create(postDoDates.get(0), businessProfile, request);
         businessProfileReview.setCreatedBy(approveUser1);
         businessProfileReviewRepository.save(businessProfileReview);
 
@@ -609,6 +611,18 @@ class BusinessProfileServiceTest {
                 () -> businessProfileReviewService.update(review.getId(), updateRequest, review.getDoDate().plusDays(14), approveUser1)
         ).isInstanceOf(PermissionException.class);
 
+    }
+
+    @Test
+    @DisplayName("리뷰 조회 - 성공")
+    void getOneReview() {
+
+        BusinessProfileReviewResponse.GetOne one = businessProfileReviewService.getOne(businessProfile.getId());
+        assertAll(
+                () -> assertThat(businessProfileReview.getContent()).isEqualTo(one.getContent()),
+                () -> assertThat(businessProfileReview.getDoDate()).isEqualTo(one.getDoDate()),
+                () -> assertThat(businessProfileReview.getPostTitle()).isEqualTo(one.getPostTitle())
+        );
     }
 
 

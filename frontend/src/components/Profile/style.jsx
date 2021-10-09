@@ -55,7 +55,19 @@ export const UserImg = styled.img`
   height: 100%;
   border-radius: 50%;
 `;
-export const EditButton = styled.button``;
+export const EditButton = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  & > p {
+    background: blue;
+    color: white;
+    padding: 8px 30px;
+    border-radius: 25px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+`;
 export const EditContainer1 = styled.div`
   width: 174px;
   flex: 1;
@@ -65,9 +77,50 @@ export const EditContainer1 = styled.div`
   align-items: center;
   justify-content: center;
 `;
-export const EditContainer2 = styled.div``;
-export const EditInput = styled.input``;
-export const PELabel = styled.label``;
+export const EditContainer2 = styled.div`
+  flex: 2;
+  margin: 27px 12px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+export const SignupNickBtn = styled.div`
+  height: 15px;
+  width: 21px;
+  cursor: pointer;
+  font-size: 11px;
+  background: white;
+  padding: 8px;
+  border-radius: 9px;
+  color: #0642ff;
+`;
+export const EditInput = styled.input`
+  border: none;
+  border-radius: 8px;
+  padding: 4px 0 8px 5px;
+  font-size: 14px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.14px;
+  text-align: left;
+  margin-top: 7px;
+  outline: none;
+  color: #707070;
+  text-decoration: none;
+`;
+export const PELabel = styled.label`
+  font-size: 13px;
+  display: flex;
+  margin: 0 3px;
+  flex-direction: column;
+  flex: ${(props) => props.flex};
+`;
+export const EditContainerSub = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  flex: ${(props) => props.width};
+`;
 export const EditFInput = styled.input`
   display: none;
 `;
@@ -81,7 +134,25 @@ export const FileLabel = styled.label`
   font-size: 12px;
   text-align: center;
 `;
-export const EditSelect = styled.select``;
+export const EditSelect = styled.select`
+  -webkit-appearance: none;
+  height: 32px;
+  margin: 0 3px;
+  border-radius: initial;
+  font-size: 14px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  width: 48px;
+  margin-top: 7px;
+  letter-spacing: 0.14px;
+  text-align: left;
+  border: none;
+  padding: 0px 0 6px 5px;
+  color: #707070;
+  outline: none;
+  border-radius: 8px;
+`;
 export const ImgDel = styled.div`
   padding: 5px;
   cursor: pointer;
@@ -192,12 +263,12 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   width: 57%;
+  background: #efefef;
   overflow: scroll;
   max-width: 41rem;
   border-radius: 20px;
   padding: 32px 36px;
   height: 26rem;
-  background-color: white;
 `;
 export const ModalHeader = styled.div`
   display: flex;
@@ -244,3 +315,105 @@ export const IfNoneBtn = styled.div`
 `;
 
 export const ListPaging = styled.div``;
+
+export const FeedTag = styled.div`
+  position: relative;
+  top: 24px;
+  & > p {
+    background: lightgray;
+    width: fit-content;
+    white-space: pre;
+    padding: 2px 10px;
+    border-radius: 21px;
+    border: 1px solid gray;
+    font-size: 12px;
+    z-index: 3;
+  }
+`;
+export const FeedCont = styled.div`
+  background: white;
+  padding: 16px 11px;
+  border-radius: 8px;
+  display: flex;
+  margin: 16px 0;
+`;
+export const FeedTitle = styled.div`
+  flex: 1;
+  flex-direction: column;
+  align-items: baseline;
+  display: flex;
+  justify-content: center;
+  padding: 0 15px;
+  & > p:first-child {
+    font-size: 12px;
+  }
+  & > p {
+    white-space: pre;
+  }
+`;
+export const FeedContent = styled.div`
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+`;
+export const Over = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  & > p {
+    white-space: pre;
+  }
+  & > p:first-child {
+    margin-right: 10px;
+  }
+`;
+export const FeedBtn = styled.div`
+  align-self: end;
+  cursor: pointer;
+  margin-left: 12px;
+  margin-top: 28px;
+  & > p {
+    font-size: 13px;
+    background: blue;
+    padding: 5px 17px;
+    color: white;
+    border-radius: 21px;
+    white-space: pre;
+    cursor: pointer;
+  }
+`;
+export const Notyet = styled.div``;
+export const FeedDateNum = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  & > p {
+    white-space: pre;
+    margin-right: 7px;
+  }
+  & > p:nth-child(2n + 1) {
+    font-size: 12px;
+  }
+`;
+export const FeedTimeCheck = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  & > p {
+    white-space: pre;
+    margin-right: 7px;
+  }
+  & > p:nth-child(2n + 1) {
+    font-size: 12px;
+  }
+`;
+export const SignupMSG = styled.div`
+  color: ${(props) => props.color};
+  font-size: 10px;
+  height: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+export const NickBox = styled.div``;
+export const NicknameCont = styled.div`
+  display: flex;
+  align-items: end;
+`;

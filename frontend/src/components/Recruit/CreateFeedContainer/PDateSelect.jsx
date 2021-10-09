@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import PropTypes from "prop-types";
 import "react-dates/initialize";
@@ -50,8 +50,7 @@ PDateSelect.propTypes = {
 };
 
 export default function PDateSelect({ recruit, setRecruit }) {
-  const { startDate, endDate, dateList, exceptDateList, doTime, timeList } =
-    recruit;
+  const { startDate, endDate, dateList, exceptDateList, doTime } = recruit;
 
   /* range calendar state */
   const [focusedInput, setFocusedInput] = useState(null);
@@ -136,21 +135,16 @@ export default function PDateSelect({ recruit, setRecruit }) {
 
   const createTimeArr = (startTime, endTime, doTime) => {
     const startMoment = moment(startTime, "HH:mm");
-    const endMoment = moment(endTime, "HH:mm");
+    const endMoment = moment(endTime, "HH:mm").clone().add(1, "minutes");
     const timeArr = [];
-    const moveMoment = startMoment.clone();
-    while (moveMoment.clone().add(doTime, "minutes") <= endMoment) {
+    while (startMoment.clone().add(doTime, "minutes") <= endMoment) {
       timeArr.push(
-        `${moveMoment.clone().format("HH:mm")}~${moveMoment
-          .clone()
+        `${startMoment.format("HH:mm")}~${startMoment
           .add(doTime, "minutes")
           .format("HH:mm")}`
       );
-      moveMoment.add(doTime, "minutes");
     }
-    const copy = recruit;
-    copy.timeList = timeArr;
-    setRecruit(copy);
+    return timeArr;
   };
 
   /* 설정한 그룹과, 그룹이외의 날짜, 시간에 따른 설정을 계산을 해주는 로직 */
@@ -189,6 +183,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
     for (var f = 0; f < groupDoDateList.length; f++) {
       doDateList.push(...groupDoDateList[f]);
     }
+
     return doDateList;
   };
 
@@ -202,10 +197,6 @@ export default function PDateSelect({ recruit, setRecruit }) {
       }
     }
   };
-
-  useEffect(() => {
-    createTimeArr(startTime, endTime, doTime);
-  });
 
   return (
     <>
@@ -332,6 +323,9 @@ export default function PDateSelect({ recruit, setRecruit }) {
         key={recruit}
         disabled={startTime && endTime && startDate && endDate ? false : true}
         onClick={() => {
+          const copy = { ...recruit };
+          copy.timeList = createTimeArr(startTime, endTime, doTime);
+          setRecruit(copy);
           setModalSwitch(!modalSwitch);
         }}
       >
@@ -352,7 +346,12 @@ export default function PDateSelect({ recruit, setRecruit }) {
         disabled={startTime && endTime && startDate && endDate ? false : true}
         onClick={() => {
           const copy = { ...recruit };
-          copy.doDateList = createDoDateList(dateList, createdGroup, timeList);
+          copy.timeList = createTimeArr(startTime, endTime, doTime);
+          copy.doDateList = createDoDateList(
+            dateList,
+            createdGroup,
+            createTimeArr(startTime, endTime, doTime)
+          );
           setRecruit(copy);
         }}
       >

@@ -8,7 +8,7 @@ Content-Type: application/json;charset=UTF-8
   "place": "고려대학교 연구실",
   "contact": "010-1234-1234",
   "category": "미디어",
-  "headcount": 10,
+  "headcount": 5,
   "payment": "CACHE",
   "cache": 5000,
   "goods": null,
@@ -43,7 +43,7 @@ Content-Type: application/json;charset=UTF-8
 }
 
 ###
-POST {{apiUrl}}/post/4/files
+POST {{apiUrl}}/post/1/files
 Authorization: {{authorizationToken}}
 Content-Type: multipart/form-data; boundary=boundary
 
@@ -100,17 +100,13 @@ GET {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/list/1?doDate=2021-10-01&page=1&size=15&paymentType=&category=&startTime=09:00&endTime=12:35&minPay=9999&doTime=
+GET {{apiUrl}}/post/list/1?doDate=2021-10-01&page=1&size=15&paymentType=&category=&startTime=&endTime=&minPay=&doTime=
 
 ###
 GET {{apiUrl}}/post/2/start?doDate=2021-09-27
 
 ###
 GET {{apiUrl}}/post/like/list?page=1&size=6
-Authorization: {{authorizationToken}}
-
-###
-GET {{apiUrl}}/post/apply/approve/list?page=1&size=4
 Authorization: {{authorizationToken}}
 
 ###

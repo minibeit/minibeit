@@ -80,7 +80,7 @@ public class Post extends BaseEntity {
     private School school;
 
     public boolean isLike(CustomUserDetails customUserDetails) {
-        return customUserDetails != null && this.postLikeList.stream().anyMatch(postLike -> postLike.getCreatedBy().getId().equals(customUserDetails.getUser().getId()));
+        return customUserDetails != null && this.postLikeList.stream().anyMatch(postLike -> postLike.getUser().getId().equals(customUserDetails.getUser().getId()));
     }
 
     public boolean isMine(CustomUserDetails customUserDetails) {

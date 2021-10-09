@@ -1,5 +1,6 @@
 package com.minibeit.post.domain.repository;
 
+import com.minibeit.businessprofile.domain.QBusinessProfile;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
@@ -23,6 +24,7 @@ import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.minibeit.businessprofile.domain.QBusinessProfile.*;
 import static com.minibeit.businessprofile.domain.QBusinessProfileReview.businessProfileReview;
 import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostApplicant.postApplicant;
@@ -104,7 +106,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Optional<Post> findByIdWithBusinessProfile(Long postId) {
         return Optional.ofNullable(queryFactory.selectFrom(post)
                 .join(post.school).fetchJoin()
-                .join(post.businessProfile).fetchJoin()
+                .join(post.businessProfile, businessProfile).fetchJoin()
+                .leftJoin(businessProfile.avatar).fetchJoin()
                 .where(post.id.eq(postId))
                 .fetchOne());
     }
@@ -136,7 +139,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     public Page<Post> findAllByLike(User user, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.postLikeList, postLike)
-                .where(postLike.createdBy.eq(user))
+                .where(postLike.user.id.eq(user.getId()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(post.id.desc());
@@ -169,7 +172,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus applyStatus, User user, Pageable pageable) {
+    public Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus applyStatus, User user, LocalDateTime now, Pageable pageable) {
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
                         post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue(), postApplicant.businessFinish
                 ))
@@ -177,7 +180,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(post.postDoDateList, postDoDate)
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
-                        .and(applyStatusEq(applyStatus)))
+                        .and(applyStatusEq(applyStatus, now)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(postDoDate.doDate.asc());
@@ -187,9 +190,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
-    private BooleanExpression applyStatusEq(ApplyStatus applyStatus) {
+    private BooleanExpression applyStatusEq(ApplyStatus applyStatus, LocalDateTime now) {
         if (applyStatus.equals(ApplyStatus.WAIT)) {
-            return postApplicant.applyStatus.eq(ApplyStatus.WAIT).and(postDoDate.doDate.after(LocalDateTime.now()));
+            return postApplicant.applyStatus.eq(ApplyStatus.WAIT).and(postDoDate.doDate.after(now));
         }
         if (applyStatus.equals(ApplyStatus.APPROVE)) {
             return postApplicant.applyStatus.eq(ApplyStatus.APPROVE).and(postApplicant.myFinish.isFalse());

@@ -7,15 +7,22 @@ import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
+import com.minibeit.businessprofile.dto.BusinessProfileReviewResponse;
+import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotPermission;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
+import com.minibeit.post.domain.*;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostFileRepository;
 import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.dto.PostDto;
+import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.service.PostByBusinessService;
+import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
 import com.minibeit.user.domain.SignupProvider;
@@ -30,7 +37,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +53,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BusinessProfileServiceTest {
 
     @Autowired
-    private PostByBusinessService postByBusinessService;
+    private PostApplicantRepository postApplicantRepository;
     @Autowired
     private PostRepository postRepository;
     @Autowired
@@ -55,6 +65,8 @@ class BusinessProfileServiceTest {
     @Autowired
     private BusinessProfileRepository businessProfileRepository;
     @Autowired
+    private BusinessProfileReviewService businessProfileReviewService;
+    @Autowired
     private UserRepository userRepository;
     @Autowired
     private UserBusinessProfileRepository userBusinessProfileRepository;
@@ -64,14 +76,75 @@ class BusinessProfileServiceTest {
     private AvatarRepository avatarRepository;
 
     private BusinessProfile businessProfile;
-    private User userInBusinessProfile, anotherUser, admin;
     private BusinessProfileRequest.Update request;
+
+    private User userInBusinessProfile, anotherUser, admin;
+    private Post post;
+
+    private User approveUser1;
+    private User approveUser2;
+    private User waitUser1;
+    private User waitUser2;
+
+    private School school;
+
+    private PostRequest.CreateInfo createInfoRequest;
     private final int originalSharedBusinessProfileUsers = 2;
 
     @BeforeEach
     void set() {
+        initSchool();
         initUsersAndBusinessProfile();
+        initPostRequest();
+        initPost();
         initUpdateRequest();
+    }
+
+    private void initSchool() {
+        school = School.builder().name("고려대").build();
+        schoolRepository.save(school);
+    }
+
+    private void initPostRequest() {
+        createInfoRequest = PostRequest.CreateInfo.builder()
+                .title("커피를 얼마나 마셔야 잠을 못잘까~?")
+                .content("실험 내용")
+                .place("고려대학교 연구실")
+                .contact("010-1234-1234")
+                .category("미디어")
+                .headcount(10)
+                .payment(Payment.CACHE)
+                .cache(10000)
+                .goods(null)
+                .paymentDetail("계좌로 지급해드립니다.")
+                .condition(true)
+                .conditionDetail("커피 많이 드시는 사람|")
+                .doTime(60)
+                .schoolId(school.getId())
+                .businessProfileId(businessProfile.getId())
+                .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
+                .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
+                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                .build();
+    }
+
+    private void initPost() {
+        Post createdPost = Post.create(createInfoRequest, school, businessProfile);
+        post = postRepository.save(createdPost);
+
+        PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
+        PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 1, 9, 30), createdPost);
+        PostDoDate postDoDate3 = PostDoDate.create(LocalDateTime.of(2021, 10, 2, 9, 30), createdPost);
+        PostDoDate postDoDate4 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
+        postDoDateRepository.saveAll(Arrays.asList(postDoDate1, postDoDate2, postDoDate3, postDoDate4));
+        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, approveUser1);
+        PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, approveUser2);
+        PostApplicant postApplicant3 = PostApplicant.create(postDoDate3, waitUser1);
+        PostApplicant postApplicant4 = PostApplicant.create(postDoDate4, waitUser2);
+        postApplicant1.updateMyFinish();
+        postApplicant1.updateStatus(ApplyStatus.APPROVE);
+        postApplicant2.updateStatus(ApplyStatus.APPROVE);
+        postApplicantRepository.saveAll(Arrays.asList(postApplicant1, postApplicant2, postApplicant3, postApplicant4));
     }
 
     private void initUpdateRequest() {
@@ -105,8 +178,36 @@ class BusinessProfileServiceTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
+        approveUser1 = User.builder()
+                .oauthId("3")
+                .nickname("지원자1")
+                .role(Role.USER)
+                .signupCheck(true)
+                .provider(SignupProvider.KAKAO)
+                .build();
+        approveUser2 = User.builder()
+                .oauthId("4")
+                .nickname("지원자2")
+                .role(Role.USER)
+                .signupCheck(true)
+                .provider(SignupProvider.KAKAO)
+                .build();
+        waitUser1 = User.builder()
+                .oauthId("5")
+                .nickname("지원자3")
+                .role(Role.USER)
+                .signupCheck(true)
+                .provider(SignupProvider.KAKAO)
+                .build();
+        waitUser2 = User.builder()
+                .oauthId("6")
+                .nickname("지원자4")
+                .role(Role.USER)
+                .signupCheck(true)
+                .provider(SignupProvider.KAKAO)
+                .build();
 
-        userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser, admin));
+        userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser, admin, approveUser1, approveUser2, waitUser1, waitUser2));
 
         businessProfile = BusinessProfile.builder()
                 .name("동그라미 실험실")

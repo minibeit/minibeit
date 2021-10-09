@@ -64,7 +64,7 @@ public class BusinessProfileResponse {
                     .name(businessProfile.getName())
                     .isAdmin(user.isAdminInBusinessProfile(businessProfile));
             if (businessProfile.getAvatar() != null) {
-                getListBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
+                getListBuilder.avatar(businessProfile.getAvatar().getUrl());
             }
             return getListBuilder.build();
         }

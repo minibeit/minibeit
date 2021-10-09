@@ -30,12 +30,6 @@ public class AuthController {
         return ResponseEntity.ok().body(loginResponse);
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<UserResponse.CreateOrUpdate> signup(AuthRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
-        UserResponse.CreateOrUpdate response = authService.signup(request, customUserDetails.getUser());
-        return ResponseEntity.ok().body(response);
-    }
-
     @PostMapping("/refreshtoken")
     public ResponseEntity<UserResponse.Login> refreshToken(@CookieValue(REFRESH_TOKEN) String refreshToken, HttpServletResponse response) {
         UserResponse.Login loginResponse = refreshTokenService.createAccessToken(refreshToken);

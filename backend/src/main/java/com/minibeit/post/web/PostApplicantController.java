@@ -10,21 +10,23 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/post")
 public class PostApplicantController {
     private final PostApplicantService postApplicantService;
 
-    @PostMapping("/{postId}/date/{postDoDateId}/apply")
-    public ResponseEntity<Void> applyPost(@PathVariable Long postId, @PathVariable Long postDoDateId, @CurrentUser CustomUserDetails customUserDetails) {
-        postApplicantService.apply(postId, postDoDateId, customUserDetails.getUser());
+    @PostMapping("/date/{postDoDateId}/apply")
+    public ResponseEntity<Void> applyPost(@PathVariable Long postDoDateId, @CurrentUser CustomUserDetails customUserDetails) {
+        postApplicantService.apply(postDoDateId, customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 
     @PostMapping("/date/{postDoDateId}/finish")
     public ResponseEntity<Void> applyMyFinish(@PathVariable Long postDoDateId, @CurrentUser CustomUserDetails customUserDetails) {
-        postApplicantService.applyMyFinish(postDoDateId, customUserDetails.getUser());
+        postApplicantService.applyMyFinish(postDoDateId, LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.ok().build();
     }
 

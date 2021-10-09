@@ -298,7 +298,7 @@ export const BPLeftCont = styled.div`
   flex: 1;
   margin-bottom: 55px;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
 `;
 export const BPRightCont = styled.div`

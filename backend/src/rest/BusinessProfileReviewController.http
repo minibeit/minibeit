@@ -1,4 +1,4 @@
-POST {{apiUrl}}/post/1/review/1
+POST {{apiUrl}}/post/date/5/review
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
@@ -11,10 +11,8 @@ Authorization: {{authorizationToken}}
 
 ###
 GET {{apiUrl}}/business/profile/review/1
-Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/business/profile/1/review/list?page=1&size=5
-Authorization: {{authorizationToken}}
 
 ###
 PUT {{apiUrl}}/business/profile/review/2

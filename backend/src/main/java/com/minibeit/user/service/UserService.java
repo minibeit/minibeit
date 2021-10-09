@@ -7,6 +7,7 @@ import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
+import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.exception.DuplicateNickNameException;
@@ -29,14 +30,19 @@ public class UserService {
     private final AvatarService avatarService;
     private final BusinessProfileRepository businessProfileRepository;
 
-    public void nicknameCheck(UserRequest.Nickname request) {
+    public UserResponse.CreateOrUpdate signup(AuthRequest.Signup request, User user) {
         if (userRepository.findByNickname(request.getNickname()).isPresent()) {
             throw new DuplicateNickNameException();
         }
+        User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
+        School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
+        Avatar avatar = avatarService.upload(request.getAvatar());
+        User updatedUser = findUser.signup(request, school, avatar);
+
+        return UserResponse.CreateOrUpdate.build(updatedUser, request.getSchoolId());
     }
 
     public UserResponse.CreateOrUpdate update(UserRequest.Update request, User user) {
-
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         findUser.nicknameDuplicateCheck(request.isNicknameChanged(), request.getNickname());
@@ -50,6 +56,13 @@ public class UserService {
         updateAvatar(request, user, findUser);
 
         return UserResponse.CreateOrUpdate.build(updatedUser, school.getId());
+    }
+
+    @Transactional(readOnly = true)
+    public void nicknameCheck(UserRequest.Nickname request) {
+        if (userRepository.findByNickname(request.getNickname()).isPresent()) {
+            throw new DuplicateNickNameException();
+        }
     }
 
     @Transactional(readOnly = true)

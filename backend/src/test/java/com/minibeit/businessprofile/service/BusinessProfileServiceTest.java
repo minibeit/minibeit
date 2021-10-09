@@ -625,5 +625,29 @@ class BusinessProfileServiceTest {
         );
     }
 
+    @Test
+    @DisplayName("리뷰 조회 - 실패(권한없는 리뷰 조회)")
+    void getOneReviewFailureWhenNoPermission() {
+
+        BusinessProfileReviewResponse.GetOne review = businessProfileReviewService.getOne(businessProfile.getId());
+        assertAll(
+                () -> assertThat(businessProfileReview.getContent()).isEqualTo(review.getContent()),
+                () -> assertThat(businessProfileReview.getDoDate()).isEqualTo(review.getDoDate()),
+                () -> assertThat(businessProfileReview.getPostTitle()).isEqualTo(review.getPostTitle())
+        );
+    }
+
+    @Test
+    @DisplayName("리뷰 삭제 - 성공(조회 후 삭제하고 다시 조회)")
+    void deleteReview() {
+
+        BusinessProfileReviewResponse.GetOne review = businessProfileReviewService.getOne(businessProfile.getId());
+        businessProfileReviewService.deleteOne(review.getId(), approveUser1);
+        assertThatThrownBy(
+                () -> businessProfileReviewService.getOne(businessProfile.getId())
+        ).isInstanceOf(BusinessProfileReviewNotFoundException.class);
+
+    }
+
 
 }

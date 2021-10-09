@@ -51,7 +51,7 @@ export default function NavBar() {
         {data.didSignup === true ? (
           <>
             <img
-              src={data.avatar !== "https:" ? data.avatar : "/기본프로필.png"}
+              src={data.avatar !== "noImg" ? data.avatar : "/기본프로필.png"}
               alt="사진"
             />
             <Link to={`/user/${username}`}>{username}</Link>

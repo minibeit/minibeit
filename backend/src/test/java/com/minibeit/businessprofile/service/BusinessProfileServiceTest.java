@@ -580,4 +580,36 @@ class BusinessProfileServiceTest {
 
     }
 
+    @Test
+    @DisplayName("리뷰 수정 - 실패(권한없는 유저 수정)")
+    void updateReviewFailureWhenNoPermission() {
+
+        BusinessProfilesReviewRequest.Update updateRequest = BusinessProfilesReviewRequest.Update.builder()
+                .content("업데이트한 새로운 내용")
+                .build();
+
+        BusinessProfileReview review = businessProfileReviewRepository.findByIdWithUser(businessProfile.getId()).orElseThrow(BusinessProfileReviewNotFoundException::new);
+        assertThatThrownBy(
+                () -> businessProfileReviewService.update(review.getId(), updateRequest, review.getDoDate().plusDays(6), waitUser1)
+        ).isInstanceOf(PermissionException.class);
+
+    }
+
+    @Test
+    @DisplayName("리뷰 수정 - 실패(시간 초과)")
+    void updateReviewFailureWhenOverTime() {
+
+        postApplicant1.updateMyFinish();
+        BusinessProfilesReviewRequest.Update updateRequest = BusinessProfilesReviewRequest.Update.builder()
+                .content("업데이트한 새로운 내용")
+                .build();
+
+        BusinessProfileReview review = businessProfileReviewRepository.findByIdWithUser(businessProfile.getId()).orElseThrow(BusinessProfileReviewNotFoundException::new);
+        assertThatThrownBy(
+                () -> businessProfileReviewService.update(review.getId(), updateRequest, review.getDoDate().plusDays(14), approveUser1)
+        ).isInstanceOf(PermissionException.class);
+
+    }
+
+
 }

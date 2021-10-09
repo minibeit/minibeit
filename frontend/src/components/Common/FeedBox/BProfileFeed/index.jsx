@@ -1,6 +1,6 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { changeState } from "../../../../recoil/changeState";
 import {
@@ -15,7 +15,6 @@ import * as S from "../style";
 import BCompleteModal from "../../../BProfile/BCompleteModal";
 
 export default function BProfileFeed({ state, feedInfo, getMakelist }) {
-  const history = useHistory();
   return (
     <>
       <S.FeedTag>
@@ -27,7 +26,7 @@ export default function BProfileFeed({ state, feedInfo, getMakelist }) {
             : "후기"}
         </p>
       </S.FeedTag>
-      <S.FeedCont onClick={() => history.push(`/apply/${feedInfo.id}`)}>
+      <S.FeedCont>
         {state === "new" ? (
           <NewFeedBlock feedInfo={feedInfo} getMakelist={getMakelist} />
         ) : state === "review" ? (
@@ -57,7 +56,9 @@ function NewFeedBlock({ feedInfo, getMakelist }) {
     <>
       <S.FeedTitle>
         <p>실험명</p>
-        <p>{feedInfo.title}</p>
+        <Link to={`/apply/${feedInfo.id}`}>
+          <p>{feedInfo.title}</p>
+        </Link>
       </S.FeedTitle>
       <S.FeedContent>
         {modalSwitch ? (
@@ -80,7 +81,6 @@ function NewFeedBlock({ feedInfo, getMakelist }) {
         <S.BtnCont>
           <S.FeedBtn
             onClick={(e) => {
-              e.stopPropagation();
               e.preventDefault();
               setModalSwitch(true);
             }}
@@ -89,7 +89,6 @@ function NewFeedBlock({ feedInfo, getMakelist }) {
           </S.FeedBtn>
           <S.FeedBtn
             onClick={async (e) => {
-              e.stopPropagation();
               e.preventDefault();
               setModalSwitch2(true);
             }}
@@ -112,7 +111,9 @@ function ReviewFeedBlock({ feedInfo }) {
   };
   return (
     <>
-      <S.FeedTitle>{feedInfo.postTitle}</S.FeedTitle>
+      <Link to={`/apply/${feedInfo.id}`}>
+        <S.FeedTitle>{feedInfo.postTitle}</S.FeedTitle>
+      </Link>
       <S.FeedContent>
         <S.FeedDateNum>
           <p>실험날짜</p>
@@ -165,7 +166,9 @@ function FinishFeedBlock({ feedInfo, getMakelist }) {
     <>
       <S.FeedTitle>
         <p>실험명</p>
-        <p>{feedInfo.title}</p>
+        <Link to={`/apply/${feedInfo.id}`}>
+          <p>{feedInfo.title}</p>
+        </Link>
       </S.FeedTitle>
       <S.FeedContent>
         <S.FeedBookmark>

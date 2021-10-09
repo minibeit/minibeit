@@ -17,57 +17,34 @@ import RecruitEdit from "./pages/RecruitEdit";
 import ManageApply from "./pages/ManageApply";
 
 function App() {
-    return ( < >
-        <
-        RecoilRoot >
-        <
-        GlobalStyle / >
-        <
-        Switch >
-        <
-        Route path = "/"
-        exact component = { Main }
-        /> <
-        Route path = "/callback/:id/:nickname/:accessToken/:schoolId/:signupCheck/:a/:b/:c"
-        component = { ProcessLogin }
-        /> <
-        Route path = "/ProcessLogin"
-        component = { ProcessLogin }
-        /> <
-        Route path = "/signupInfo"
-        component = { SignupInfo }
-        /> <
-        Route path = "/user/:userId"
-        exact component = { Profile }
-        /> <
-        Route path = "/business/:businessId"
-        exact component = { BProfile }
-        /> <
-        Route path = "/apply/:postId"
-        exact component = { ApplyDetail }
-        /> <
-        Route path = "/apply"
-        component = { Apply }
-        /> <
-        Route path = "/recruit"
-        exact component = { Recruit }
-        /> <
-        Route path = "/recruit/:postId/edit"
-        exact component = { RecruitEdit }
-        /> <
-        Route path = "/manageApply/:postId"
-        component = { ManageApply }
-        />  < /
-        Switch > < /
-        RecoilRoot >
-        <
-        />
-    );
+  return (
+    <>
+      <RecoilRoot>
+        <GlobalStyle />
+        <Switch>
+          <Route path="/" exact component={Main} />{" "}
+          <Route
+            path="/callback/:id/:nickname/:accessToken/:schoolId/:signupCheck/:a/:b/:c"
+            component={ProcessLogin}
+          />{" "}
+          <Route path="/ProcessLogin" component={ProcessLogin} />{" "}
+          <Route path="/signupInfo" component={SignupInfo} />{" "}
+          <Route path="/user/:userId" exact component={Profile} />{" "}
+          <Route path="/business/:businessId" exact component={BProfile} />{" "}
+          <Route path="/apply/:postId" exact component={ApplyDetail} />{" "}
+          <Route path="/apply" component={Apply} />{" "}
+          <Route path="/recruit" exact component={Recruit} />{" "}
+          <Route path="/recruit/:postId/edit" exact component={RecruitEdit} />{" "}
+          <Route path="/manageApply/:postId" component={ManageApply} />{" "}
+        </Switch>{" "}
+      </RecoilRoot>
+    </>
+  );
 }
 
 export default App;
 
-const GlobalStyle = createGlobalStyle `
+const GlobalStyle = createGlobalStyle`
   /* http://meyerweb.com/eric/tools/css/reset/ 
     v2.0 | 20110126
     License: none (public domain)

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import PFeedInfoContainer from "./PFeedInfoContainer";
 import PropTypes from "prop-types";
+import HomeIcon from "@mui/icons-material/Home";
 import { bookmarkApi, feedDetailApi } from "../../../utils/feedApi";
 import ApplyConfirmModal from "../../Common/Modal/ApplyConfirmModal";
 import { LoadingSpinner } from "../../Common";
@@ -63,8 +64,11 @@ export default function FeedInfoContainer({ feedId, date }) {
         <S.TitleBox>
           <S.TitleContent>
             <p>카테고리</p>
-            <h1>{feedDetailData.title}</h1>
-            <p>{feedDetailData.businessProfileInfo.name}</p>
+            <p>{feedDetailData.title}</p>
+            <div>
+              <HomeIcon />
+              <p>{feedDetailData.businessProfileInfo.name}</p>
+            </div>
           </S.TitleContent>
           <S.TitleBookMark>
             {isLogin ? (

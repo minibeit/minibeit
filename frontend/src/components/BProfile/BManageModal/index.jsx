@@ -81,7 +81,7 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
   }, [getList]);
   return (
     <Portal>
-      <S.ModalBackground onClick={(e) => e.stopPropagation()}>
+      <S.ModalBackground>
         <S.ModalTab>
           <S.BMBtn2
             state={state === "WAIT" ? "white" : "gray"}

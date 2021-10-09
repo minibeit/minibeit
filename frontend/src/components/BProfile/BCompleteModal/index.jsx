@@ -18,7 +18,7 @@ export default function BCompleteModal({ stateComplete, setModalSwitch2 }) {
   };
   return (
     <Portal>
-      <S.ModalBackground onClick={(e) => e.stopPropagation()}>
+      <S.ModalBackground>
         <S.ModalBox>
           <S.ModalHeader>
             <S.CloseModalBtn onClick={closeModal}>

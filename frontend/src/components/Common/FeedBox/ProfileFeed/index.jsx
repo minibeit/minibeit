@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   doJoinApi,
   doNotJoinApi,
@@ -27,7 +28,9 @@ export default function ProfileFeed({
       <S.FeedCont>
         <S.FeedTitle>
           <p>실험명</p>
-          <p>{feedInfo.title}</p>
+          <Link>
+            <p>{feedInfo.title}</p>
+          </Link>
         </S.FeedTitle>
         <S.FeedContent>
           {state === "Join" ? (

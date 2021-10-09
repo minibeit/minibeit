@@ -10,7 +10,27 @@ export const TitleBox = styled.div`
   border-bottom: 1px solid grey;
   display: flex;
 `;
-export const TitleContent = styled.div``;
+export const TitleContent = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  & > p:first-child {
+    font-size: 20px;
+    font-weight: 600;
+    color: #8c8c8c;
+  }
+  & > p:nth-child(2) {
+    font-weight: 600;
+    font-size: 35px;
+  }
+  & > div:nth-child(3) {
+    display: flex;
+    gap: 2px;
+  }
+  & > div:nth-child(3) > p {
+    font-size: 20px;
+  }
+`;
 export const TitleBookMark = styled.div`
   margin-left: auto;
 `;
@@ -88,34 +108,39 @@ export const ReviewBox = styled.div``;
 
 /* apply remote controller */
 export const ApplyRemote = styled.div`
-  display: grid;
-  border: 1px solid grey;
+  left: 81%;
+  top: 36%;
+  display: flex;
   width: 15rem;
-  height: 17rem;
-  border-radius: 1rem;
   position: fixed;
-  left: 80%;
-  z-index: 99;
-  top: 30%;
-  & > button {
-    margin: auto;
-    width: 80%;
-    height: 2.5rem;
-    border-radius: 3rem;
-    font-weight: bold;
+  height: 21rem;
+  border-radius: 10px;
+  border: 1px solid grey;
+  flex-direction: column;
+  & > p:first-child {
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 10px;
   }
-  & > h3 {
-    margin: auto;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+  & > div:nth-child(3) {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  & > div:nth-child(3) > button {
+    height: 36px;
+    margin: 5px;
   }
 `;
 export const ApplyData = styled.div`
-  height: 50px;
-  border: 1px solid grey;
-  margin: 0.5rem;
-  border-radius: 0.3rem;
+  display: flex;
+  margin-top: 60px;
+  flex-direction: column;
   & > p {
-    height: 50%;
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid grey;
+    margin: 5px;
   }
 `;

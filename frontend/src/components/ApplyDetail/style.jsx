@@ -48,7 +48,7 @@ export const DateView = styled.div`
 export const TimeView = styled.div`
   background-color: lightgray;
   text-align: center;
-  height: 10rem;
+  min-height: 10rem;
   border-radius: 0 0 20px 20px;
   & > button {
     margin: 0.5rem;
@@ -66,7 +66,7 @@ export const BusinessInfoBox = styled.div`
     margin: 10px;
   }
 `;
-export const ImgBox = styled.div`
+export const BussinessImgBox = styled.div`
   margin: 10px;
   background-color: gray;
   overflow: hidden;

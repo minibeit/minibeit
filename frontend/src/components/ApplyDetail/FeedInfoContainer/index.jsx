@@ -56,6 +56,7 @@ export default function FeedInfoContainer({ feedId, date }) {
     getFeedDetail(feedId);
     resetApply();
   }, [feedId, getFeedDetail, resetApply]);
+
   return (
     <S.FeedContainer>
       {feedDetailData && (

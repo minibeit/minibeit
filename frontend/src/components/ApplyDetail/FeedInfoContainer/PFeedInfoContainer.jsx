@@ -61,11 +61,9 @@ export default function PFeedInfoContainer({ feedDetailData, date }) {
         />
       </S.DataBox>
       <S.DataBox>
-        {files.length === 0 ? (
-          <p>파일없음</p>
-        ) : (
-          <p>파일있는데 아직 구현 안됨</p>
-        )}
+        {feedDetailData && files.map((a, i) => <S.Img key={i} src={a.url} />)}
+      </S.DataBox>
+      <S.DataBox>
         <S.DataTitle>상세내용</S.DataTitle>
         <p>{content}</p>
       </S.DataBox>
@@ -92,13 +90,13 @@ export default function PFeedInfoContainer({ feedDetailData, date }) {
       <S.DataBox>
         <S.DataTitle>모집자 정보</S.DataTitle>
         <S.BusinessInfoBox>
-          <S.ImgBox>
+          <S.BussinessImgBox>
             {businessProfileInfo.avatar ? (
               <PVImg img={businessProfileInfo.avatar} />
             ) : (
               <S.Img src="/기본비즈니스프로필.jpeg" />
             )}
-          </S.ImgBox>
+          </S.BussinessImgBox>
           <h3>{businessProfileInfo.name}</h3>
         </S.BusinessInfoBox>
       </S.DataBox>

@@ -649,5 +649,16 @@ class BusinessProfileServiceTest {
 
     }
 
+    @Test
+    @DisplayName("리뷰 삭제 - 실패(권한 없는 유저)")
+    void deleteReviewFailureWhenNoPermission() {
+
+        BusinessProfileReviewResponse.GetOne review = businessProfileReviewService.getOne(businessProfile.getId());
+
+        assertThatThrownBy(
+                () ->         businessProfileReviewService.deleteOne(review.getId(), approveUser2)
+        ).isInstanceOf(PermissionException.class);
+
+    }
 
 }

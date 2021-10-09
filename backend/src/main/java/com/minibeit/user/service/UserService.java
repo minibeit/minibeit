@@ -39,30 +39,30 @@ public class UserService {
         Avatar avatar = avatarService.upload(request.getAvatar());
         User updatedUser = findUser.signup(request, school, avatar);
 
-        return UserResponse.CreateOrUpdate.build(updatedUser, request.getSchoolId());
+        return UserResponse.CreateOrUpdate.build(updatedUser, request.getSchoolId(), avatar);
     }
 
     public UserResponse.CreateOrUpdate update(UserRequest.Update request, User user) {
-        User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
+        User findUser = userRepository.findByIdWithAvatar(user.getId()).orElseThrow(UserNotFoundException::new);
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
-        findUser.nicknameDuplicateCheck(request.isNicknameChanged(), request.getNickname());
+        //findUser.nicknameDuplicateCheck(request.isNicknameChanged(), request.getNickname());
 
         if (request.isNicknameChanged()) {
-            UserRequest.Nickname requestNickname = UserRequest.Nickname.builder().nickname(request.getNickname()).build();
-            nicknameCheck(requestNickname);
+            nickCheck(request.getNickname());
+        }
+        User updatedUser = findUser.update(request, school);
+
+        Avatar avatar = findUser.getAvatar();
+        if (request.isAvatarChanged()) {
+            avatar = updateAvatar(request, findUser);
         }
 
-        User updatedUser = findUser.update(request, school);
-        updateAvatar(request, user, findUser);
-
-        return UserResponse.CreateOrUpdate.build(updatedUser, school.getId());
+        return UserResponse.CreateOrUpdate.build(updatedUser, school.getId(), avatar);
     }
 
     @Transactional(readOnly = true)
-    public void nicknameCheck(UserRequest.Nickname request) {
-        if (userRepository.findByNickname(request.getNickname()).isPresent()) {
-            throw new DuplicateNickNameException();
-        }
+    public void nickNameCheck(UserRequest.Nickname request) {
+        nickCheck(request.getNickname());
     }
 
     @Transactional(readOnly = true)
@@ -90,11 +90,16 @@ public class UserService {
         userRepository.delete(user);
     }
 
-    private void updateAvatar(UserRequest.Update request, User user, User findUser) {
-        if (request.isAvatarChanged()) {
-            avatarService.deleteOne(user.getAvatar());
-            Avatar file = avatarService.upload(request.getAvatar());
-            findUser.updateAvatar(file);
+    private Avatar updateAvatar(UserRequest.Update request, User findUser) {
+        avatarService.deleteOne(findUser.getAvatar());
+        Avatar avatar = avatarService.upload(request.getAvatar());
+        findUser.updateAvatar(avatar);
+        return avatar;
+    }
+
+    private void nickCheck(String nickname) {
+        if (userRepository.findByNickname(nickname).isPresent()) {
+            throw new DuplicateNickNameException();
         }
     }
 }

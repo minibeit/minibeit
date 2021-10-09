@@ -39,4 +39,14 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .where(user.id.eq(userId))
                 .fetchOne());
     }
+
+    @Override
+    public Optional<User> findByIdWithAvatar(Long userId) {
+        return Optional.ofNullable(
+                queryFactory.selectFrom(user)
+                        .leftJoin(user.avatar).fetchJoin()
+                        .where(user.id.eq(userId))
+                        .fetchOne()
+        );
+    }
 }

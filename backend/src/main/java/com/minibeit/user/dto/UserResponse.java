@@ -2,6 +2,7 @@ package com.minibeit.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.security.token.Token;
 import com.minibeit.user.domain.User;
 import lombok.*;
@@ -11,25 +12,29 @@ import java.time.LocalDate;
 public class UserResponse {
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CreateOrUpdate {
         private Long id;
         private String nickname;
         private Long schoolId;
+        private String avatar;
 
-        public static CreateOrUpdate build(User user, Long schoolId) {
-            return CreateOrUpdate.builder()
+        public static CreateOrUpdate build(User user, Long schoolId, Avatar avatar) {
+            CreateOrUpdateBuilder createOrUpdateBuilder = CreateOrUpdate.builder()
                     .id(user.getId())
                     .nickname(user.getNickname())
-                    .schoolId(schoolId)
-                    .build();
+                    .schoolId(schoolId);
+            if (avatar != null) {
+                createOrUpdateBuilder.avatar(avatar.getUrl());
+            }
+            return createOrUpdateBuilder.build();
         }
     }
 
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class IdAndNickname {
         private Long id;
@@ -45,7 +50,7 @@ public class UserResponse {
 
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Login {
         private Long id;
@@ -66,7 +71,7 @@ public class UserResponse {
 
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetOne {
         private Long id;
@@ -90,7 +95,7 @@ public class UserResponse {
                     .job(user.getJob())
                     .phoneNum(user.getPhoneNum())
                     .schoolName(user.getSchool().getName());
-            if(user.getAvatar()!=null){
+            if (user.getAvatar() != null) {
                 return getOneBuilder.avatar(user.getAvatar().getUrl()).build();
             }
             return getOneBuilder.build();

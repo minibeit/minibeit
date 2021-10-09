@@ -15,7 +15,6 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   width: 57%;
-  overflow: scroll;
   max-width: 41rem;
   border-radius: 20px;
   padding: 46px 55px;
@@ -59,6 +58,11 @@ export const ReviewContentCont = styled.div`
   background: lightgray;
   border-radius: 17px;
   padding: 20px;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
   & > p {
     font-size: 12px;
   }

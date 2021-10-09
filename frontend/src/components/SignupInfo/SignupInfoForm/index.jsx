@@ -21,6 +21,7 @@ export default function SignupForm() {
         guest_cp.didSignup = true;
         guest_cp.name = res.data.nickname;
         guest_cp.schoolId = res.data.schoolId;
+        guest_cp.avatar = res.data.avatar === null ? "noImg" : res.data.avatar;
         setLoginState(guest_cp);
         history.push("/");
         setModalSwitch(true);

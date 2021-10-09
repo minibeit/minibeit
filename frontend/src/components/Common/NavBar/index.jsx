@@ -50,11 +50,12 @@ export default function NavBar() {
       <S.NavBarMenuContainer>
         {data.didSignup === true ? (
           <>
-            <img
-              src={data.avatar !== "noImg" ? data.avatar : "/기본프로필.png"}
-              alt="사진"
-            />
-            <Link to={`/user/${username}`}>{username}</Link>
+            <Link to={`/user/${username}`}>
+              <img
+                src={data.avatar !== "noImg" ? data.avatar : "/기본프로필.png"}
+                alt="사진"
+              />
+            </Link>
             <S.NavBarAuth>
               <p onClick={logout}>로그아웃</p>
             </S.NavBarAuth>

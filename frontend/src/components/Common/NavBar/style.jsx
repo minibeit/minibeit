@@ -20,18 +20,10 @@ export const NavBarLogoContainer = styled.div`
 export const NavBarMenuContainer = styled.div`
   display: flex;
   align-items: center;
-  & > img {
-    width: 10px;
-  }
-  & > a {
-    text-decoration: none;
-    background: black;
-    color: white;
-    padding: 7px;
+  & > a > img {
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    overflow: hidden;
-    width: 17px;
-    height: 17px;
   }
 `;
 export const NavBarMenu = styled.div`

@@ -20,6 +20,9 @@ export const NavBarLogoContainer = styled.div`
 export const NavBarMenuContainer = styled.div`
   display: flex;
   align-items: center;
+  & > img {
+    width: 10px;
+  }
   & > a {
     text-decoration: none;
     background: black;

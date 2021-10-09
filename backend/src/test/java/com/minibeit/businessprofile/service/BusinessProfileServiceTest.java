@@ -2,18 +2,18 @@ package com.minibeit.businessprofile.service;
 
 import com.minibeit.avatar.domain.repository.AvatarRepository;
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
+import com.minibeit.businessprofile.domain.repository.BusinessProfileReviewRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.dto.BusinessProfileReviewResponse;
 import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
-import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
-import com.minibeit.businessprofile.service.exception.BusinessProfileNotPermission;
-import com.minibeit.businessprofile.service.exception.DuplicateShareException;
-import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
+import com.minibeit.businessprofile.service.exception.*;
 import com.minibeit.common.exception.PermissionException;
+import com.minibeit.config.jpa.AuditorAwareImpl;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
@@ -30,10 +30,12 @@ import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
+import org.hibernate.annotations.Filter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,6 +69,8 @@ class BusinessProfileServiceTest {
     @Autowired
     private BusinessProfileRepository businessProfileRepository;
     @Autowired
+    private BusinessProfileReviewRepository businessProfileReviewRepository;
+    @Autowired
     private BusinessProfileReviewService businessProfileReviewService;
     @Autowired
     private UserRepository userRepository;
@@ -94,8 +98,11 @@ class BusinessProfileServiceTest {
     private School school;
 
     private PostRequest.CreateInfo createInfoRequest;
-    private final int originalSharedBusinessProfileUsers = 2;
+    private BusinessProfilesReviewRequest.Create createReviewRequest;
+    ArrayList<PostDoDate> postDoDates;
 
+    private final int originalSharedBusinessProfileUsers = 2;
+    private final int firstPost = 0;
     @BeforeEach
     void set() {
         initSchool();
@@ -103,6 +110,7 @@ class BusinessProfileServiceTest {
         initPostRequest();
         initPost();
         initUpdateRequest();
+        initCreateReviewAndRequest();
     }
 
     private void initSchool() {
@@ -149,6 +157,30 @@ class BusinessProfileServiceTest {
         postApplicant1.updateStatus(ApplyStatus.APPROVE);
         postApplicant2.updateStatus(ApplyStatus.APPROVE);
         postApplicantRepository.saveAll(Arrays.asList(postApplicant1, postApplicant2, postApplicant3, postApplicant4));
+
+        postDoDates = new ArrayList<>(post.getPostDoDateList());
+
+    }
+
+    private void initCreateReviewAndRequest(){
+
+        BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder()
+                .postTitle("첫 리뷰 제목")
+                .content("첫 번째 후기내용")
+                .time(30)
+                .doDate(LocalDateTime.of(2021, 9, 29, 9, 30))
+                .build();
+
+        BusinessProfileReview businessProfileReview = BusinessProfileReview.create(postDoDates.get(0), businessProfile, request);
+        businessProfileReview.setCreatedBy(approveUser1);
+        businessProfileReviewRepository.save(businessProfileReview);
+
+        createReviewRequest = BusinessProfilesReviewRequest.Create.builder()
+                .postTitle("리뷰 요청 제목")
+                .content("후기내용")
+                .time(30)
+                .doDate(LocalDateTime.of(2021, 10, 10, 9, 30))
+                .build();
     }
 
     private void initUpdateRequest() {
@@ -497,29 +529,26 @@ class BusinessProfileServiceTest {
     @Test
     @DisplayName("리뷰 생성 - 성공(비즈니스프로필과 일치)")
     void createReview() {
-        BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder().postTitle("제목").content("후기내용").time(30).doDate(LocalDateTime.of(2021, 10, 1, 9, 30)).build();
-        ArrayList<PostDoDate> postDoDates = new ArrayList<>(post.getPostDoDateList());
+
         postApplicant1.updateMyFinish();
 
-        BusinessProfileReviewResponse.ReviewId review = businessProfileReviewService.create(postDoDates.get(0).getId(), request, request.getDoDate(), approveUser1);
+        BusinessProfileReviewResponse.ReviewId review = businessProfileReviewService.create(postDoDates.get(firstPost).getId(), createReviewRequest, createReviewRequest.getDoDate(), approveUser1);
         BusinessProfileReviewResponse.GetOne one = businessProfileReviewService.getOne(review.getId());
-        assertThat(one.getDoDate()).isEqualTo(request.getDoDate());
+        assertThat(one.getDoDate()).isEqualTo(createReviewRequest.getDoDate());
     }
 
     @Test
     @DisplayName("리뷰 생성 - 실패(권한없는 유저 작성)")
     void createReviewFailureWhenNoPermission() {
-        BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder().postTitle("제목").content("후기내용").time(30).doDate(LocalDateTime.of(2021, 10, 1, 9, 30)).build();
-        ArrayList<PostDoDate> postDoDates = new ArrayList<>(post.getPostDoDateList());
 
         //아직 실험이 끝나지 않은 참가자
         assertThatThrownBy(
-                () -> businessProfileReviewService.create(postDoDates.get(0).getId(), request, request.getDoDate(), approveUser1)
+                () -> businessProfileReviewService.create(postDoDates.get(firstPost).getId(), createReviewRequest, createReviewRequest.getDoDate(), approveUser1)
         ).isInstanceOf(PermissionException.class);
 
         //실험에 지원하지 않은 참가자
         assertThatThrownBy(
-                () -> businessProfileReviewService.create(postDoDates.get(0).getId(), request, request.getDoDate(), approveUser2)
+                () -> businessProfileReviewService.create(postDoDates.get(firstPost).getId(), createReviewRequest, createReviewRequest.getDoDate(), approveUser2)
         ).isInstanceOf(PostApplicantNotFoundException.class);
 
     }
@@ -527,12 +556,28 @@ class BusinessProfileServiceTest {
     @Test
     @DisplayName("리뷰 생성 - 실패(날짜 초과)")
     void createReviewFailureWhenOverTime() {
-        BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder().postTitle("제목").content("후기내용").time(30).doDate(LocalDateTime.of(2021, 10, 10, 9, 30)).build();
-        ArrayList<PostDoDate> postDoDates = new ArrayList<>(post.getPostDoDateList());
 
         assertThatThrownBy(
-                () -> businessProfileReviewService.create(postDoDates.get(0).getId(), request, request.getDoDate(), approveUser1)
+                () -> businessProfileReviewService.create(postDoDates.get(firstPost).getId(), createReviewRequest, createReviewRequest.getDoDate(), approveUser1)
         ).isInstanceOf(PermissionException.class);
 
     }
+
+    @Test
+    @DisplayName("리뷰 수정 - 성공")
+    void updateReview() {
+        postApplicant1.updateMyFinish();
+
+        BusinessProfilesReviewRequest.Update updateRequest = BusinessProfilesReviewRequest.Update.builder()
+                .content("업데이트한 새로운 내용")
+                .build();
+
+        BusinessProfileReview review = businessProfileReviewRepository.findByIdWithUser(businessProfile.getId()).orElseThrow(BusinessProfileReviewNotFoundException::new);
+        BusinessProfileReviewResponse.ReviewId updatedReviewId = businessProfileReviewService.update(review.getId(), updateRequest, review.getDoDate().plusDays(6), approveUser1);
+        BusinessProfileReview updatedReview = businessProfileReviewRepository.findByIdWithUser(updatedReviewId.getId()).orElseThrow(BusinessProfileReviewNotFoundException::new);
+
+        assertThat(updatedReview.getContent()).isEqualTo(updateRequest.getContent());
+
+    }
+
 }

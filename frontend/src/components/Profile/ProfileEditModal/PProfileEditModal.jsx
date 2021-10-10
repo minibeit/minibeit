@@ -50,8 +50,17 @@ export default function PProfileEditModal({ userData, editUserDataHandler }) {
     console.log(value, name);
     if (name === "new_nickname") {
       setNick("notyet");
+      if (value.length > 8) {
+        window.alert("대/소문자 영어 및 숫자 8글자 이내로 입력해 주세요");
+      } else {
+        setInputs({
+          ...inputs,
+          new_nickname: value.replace(/[^a-z0-9]/gi, ""),
+        });
+      }
+    } else {
+      setInputs({ ...inputs, [name]: value });
     }
-    setInputs({ ...inputs, [name]: value });
   };
   const nickCheck = async () => {
     await nickCheckApi(new_nickname)

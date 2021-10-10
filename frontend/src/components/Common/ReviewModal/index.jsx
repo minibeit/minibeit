@@ -21,7 +21,11 @@ export default function ReviewModal({
   const [ReviewContent, setReviewContent] = useState(postInfo.content);
   const onChange = (e) => {
     const { value } = e.target;
-    setReviewContent(value);
+    if (value.length >= 500) {
+      window.alert("500자이상 작성하실수 없습니다");
+    } else {
+      setReviewContent(value);
+    }
   };
   const newReview = async (content) => {
     if (doJoin !== undefined) {
@@ -108,6 +112,7 @@ export default function ReviewModal({
                     value={ReviewContent}
                   />
                 )}
+                <p>{ReviewContent.length}/500</p>
               </S.ReviewContentCont>
             </S.ReviewTop>
             <S.ReviewSecond>

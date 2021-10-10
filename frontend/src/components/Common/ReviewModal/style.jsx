@@ -63,8 +63,12 @@ export const ReviewContentCont = styled.div`
   &::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
   }
-  & > p {
+  & > p:first-child {
     font-size: 12px;
+  }
+  & > p:nth-child(3) {
+    font-size: 12px;
+    text-align: end;
   }
 `;
 export const ReviewDate = styled.div``;

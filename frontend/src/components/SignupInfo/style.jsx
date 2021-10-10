@@ -181,12 +181,17 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   width: 57%;
-
+  overflow: scroll;
   max-width: 41rem;
   border-radius: 20px;
   padding: 46px 55px;
   height: 26rem;
   background: #f1f0f0;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
 `;
 export const ModalHeader = styled.div`
   display: flex;

@@ -1,5 +1,6 @@
 package com.minibeit.user.service;
 
+import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.avatar.domain.AvatarServer;
 import com.minibeit.avatar.domain.AvatarType;
@@ -21,13 +22,13 @@ import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.exception.DuplicateNickNameException;
 import com.minibeit.user.service.exception.UserNotFoundException;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -43,10 +44,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-@SpringBootTest
-@Transactional
 @DisplayName("사용자 비즈니스 흐름 테스트")
-class UserServiceTest {
+class UserServiceTest extends ServiceIntegrationTest {
 
     @Autowired
     private UserService userService;
@@ -123,7 +122,7 @@ class UserServiceTest {
         //given//when//then
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("중복안된이름").build();
 
-        userService.nicknameCheck(request);
+        userService.nickNameCheck(request);
 
         Optional<User> user = userRepository.findByNickname(request.getNickname());
         assertThat(user).isEmpty();
@@ -136,7 +135,7 @@ class UserServiceTest {
 
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("테스터1").build();
 
-        assertThatThrownBy(() -> userService.nicknameCheck(request)).isInstanceOf(DuplicateNickNameException.class);
+        assertThatThrownBy(() -> userService.nickNameCheck(request)).isInstanceOf(DuplicateNickNameException.class);
 
         User findUser = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
         assertThat(findUser.getNickname()).isEqualTo(request.getNickname());
@@ -350,7 +349,7 @@ class UserServiceTest {
         UserRequest.Nickname originalNickName = UserRequest.Nickname.builder().nickname("테스터1").build();
 
         assertDoesNotThrow(
-                () -> userService.nicknameCheck(originalNickName)
+                () -> userService.nickNameCheck(originalNickName)
         );
 
     }
@@ -378,7 +377,7 @@ class UserServiceTest {
 
         UserRequest.Nickname updatedNickName = UserRequest.Nickname.builder().nickname("새로운 닉네임").build();
 
-        assertThatThrownBy(() -> userService.nicknameCheck(updatedNickName))
+        assertThatThrownBy(() -> userService.nickNameCheck(updatedNickName))
                 .isInstanceOf(DuplicateNickNameException.class);
     }
 

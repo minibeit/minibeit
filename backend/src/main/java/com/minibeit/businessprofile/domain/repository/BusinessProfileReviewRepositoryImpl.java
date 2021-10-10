@@ -9,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Optional;
+
 import static com.minibeit.businessprofile.domain.QBusinessProfile.*;
 import static com.minibeit.businessprofile.domain.QBusinessProfileReview.businessProfileReview;
 
@@ -23,11 +25,22 @@ public class BusinessProfileReviewRepositoryImpl implements BusinessProfileRevie
         QueryResults<BusinessProfileReview> results = queryFactory
                 .selectFrom(businessProfileReview)
                 .join(businessProfileReview.businessProfile, businessProfile)
+                .join(businessProfileReview.createdBy).fetchJoin()
                 .where(businessProfile.id.eq(businessProfileId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(businessProfileReview.id.desc())
                 .fetchResults();
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    @Override
+    public Optional<BusinessProfileReview> findByIdWithUser(Long businessProfileReviewId) {
+        return Optional.ofNullable(
+                queryFactory.selectFrom(businessProfileReview)
+                        .join(businessProfileReview.createdBy).fetchJoin()
+                        .where(businessProfileReview.id.eq(businessProfileReviewId))
+                        .fetchOne()
+        );
     }
 }

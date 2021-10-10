@@ -66,6 +66,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .maxAge(14 * 24 * 60 * 60)
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
-        response.sendRedirect(url + user.getId() + "/" + nickname + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/" + avatar);
+        if (user.getAvatar() != null) {
+            response.sendRedirect(url + user.getId() + "/" + nickname + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/" + avatar);
+        } else {
+            response.sendRedirect(url + user.getId() + "/" + nickname + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/0/0/0");
+        }
     }
 }

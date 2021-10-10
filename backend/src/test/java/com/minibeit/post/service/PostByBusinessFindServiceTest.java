@@ -48,7 +48,6 @@ public class PostByBusinessFindServiceTest extends ServiceIntegrationTest {
     private PostDoDateRepository postDoDateRepository;
     @Autowired
     private SchoolRepository schoolRepository;
-
     @Autowired
     private BusinessProfileRepository businessProfileRepository;
     @Autowired

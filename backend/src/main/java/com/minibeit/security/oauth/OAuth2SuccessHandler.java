@@ -55,7 +55,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         }
         String avatar = null;
         if (user.getAvatar() != null) {
-            avatar = user.getAvatar().getUrl();
+            avatar = user.getAvatar().getUrl().substring(8);
         }
         Token token = tokenProvider.generateAccessToken(user);
         Token refreshToken = refreshTokenService.createOrUpdateRefreshToken(user);

@@ -10,7 +10,7 @@ Content-Disposition: form-data; name="name";
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-3
+5
 --boundary
 Content-Disposition: form-data; name="gender";
 
@@ -34,7 +34,7 @@ Content-Disposition: form-data; name="schoolId";
 --boundary
 Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
 
-< ./../main/resources/mock/images/enjoy.png
+< ./../main/resources/mock/images/test.jpg
 ###
 POST {{apiUrl}}/user/nickname/check
 Authorization: {{authorizationToken}}

@@ -339,7 +339,7 @@ class BusinessProfileServiceTest {
         BusinessProfileResponse.GetOne getOne = businessProfileService.getOne(businessProfile.getId(), admin);
 
         assertAll(
-                () -> assertThat(getOne.getAdminNickName()).isEqualTo(businessProfile.getAdmin().getNickname()),
+                () -> assertThat(getOne.getAdminNickname()).isEqualTo(businessProfile.getAdmin().getNickname()),
                 () -> assertThat(getOne.getName()).isEqualTo(businessProfile.getName()),
                 () -> assertThat(getOne.getContact()).isEqualTo(businessProfile.getContact()),
                 () -> assertThat(getOne.getPlace()).isEqualTo(businessProfile.getPlace()),
@@ -354,7 +354,7 @@ class BusinessProfileServiceTest {
         BusinessProfileResponse.GetOne getOne = businessProfileService.getOne(businessProfile.getId(), userInBusinessProfile);
 
         assertAll(
-                () -> assertThat(getOne.getAdminNickName()).isEqualTo(businessProfile.getAdmin().getNickname()),
+                () -> assertThat(getOne.getAdminNickname()).isEqualTo(businessProfile.getAdmin().getNickname()),
                 () -> assertThat(getOne.getName()).isEqualTo(businessProfile.getName()),
                 () -> assertThat(getOne.getContact()).isEqualTo(businessProfile.getContact()),
                 () -> assertThat(getOne.getPlace()).isEqualTo(businessProfile.getPlace()),
@@ -369,7 +369,7 @@ class BusinessProfileServiceTest {
         BusinessProfileResponse.GetOne getOne = businessProfileService.getOne(businessProfile.getId(), anotherUser);
 
         assertAll(
-                () -> assertThat(getOne.getAdminNickName()).isEqualTo(businessProfile.getAdmin().getNickname()),
+                () -> assertThat(getOne.getAdminNickname()).isEqualTo(businessProfile.getAdmin().getNickname()),
                 () -> assertThat(getOne.getName()).isEqualTo(businessProfile.getName()),
                 () -> assertThat(getOne.getContact()).isEqualTo(businessProfile.getContact()),
                 () -> assertThat(getOne.getPlace()).isEqualTo(businessProfile.getPlace()),

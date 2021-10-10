@@ -25,7 +25,7 @@ public class BusinessProfileResponse {
     public static class GetOne {
         private Long id;
         private String name;
-        private String adminNickName;
+        private String adminNickname;
         private String place;
         private String contact;
         private Integer numberOfEmployees;
@@ -36,7 +36,7 @@ public class BusinessProfileResponse {
             GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(businessProfile.getId())
                     .name(businessProfile.getName())
-                    .adminNickName(businessProfile.getAdmin().getNickname())
+                    .adminNickname(businessProfile.getAdmin().getNickname())
                     .place(businessProfile.getPlace())
                     .contact(businessProfile.getContact())
                     .isAdmin(user.isAdminInBusinessProfile(businessProfile))

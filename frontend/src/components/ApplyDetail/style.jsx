@@ -41,14 +41,24 @@ export const FeedInfoBox = styled.div`
 `;
 export const DataBox = styled.div`
   margin-bottom: 5rem;
+`;
+export const DataHeader = styled.div`
+  display: flex;
+  border-bottom: 1px solid grey;
+  padding: 0 0 10px 10px;
+  & > p {
+    font-size: 25px;
+    font-weight: 800;
+  }
+  & > button {
+    margin-left: 30px;
+  }
+`;
+export const DataBody = styled.div`
+  margin: 10px;
   & > p {
     margin: 1rem;
-`;
-export const DataTitle = styled.div`
-  font-size: 20px;
-  font-weight: bold;
-  border-bottom: 1px solid grey;
-  margin-bottom: 2rem;
+  }
 `;
 
 export const TimeSelectBox = styled.div`
@@ -73,6 +83,15 @@ export const TimeView = styled.div`
   & > button {
     margin: 0.5rem;
   }
+`;
+export const DetailContent = styled.div`
+  & > p {
+    white-space: pre-wrap;
+  }
+`;
+export const EditTextArea = styled.textarea`
+  width: 100%;
+  height: 13rem;
 `;
 export const Condition = styled.p`
   display: list-item;

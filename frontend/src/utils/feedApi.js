@@ -68,21 +68,10 @@ export const feedDetailTimeApi = async (feedId, doDate) => {
   );
 };
 
-export const feedEditApi = async (inputs, files, postId) => {
-  const formData = new FormData();
-  formData.append("title", inputs.title);
-  formData.append("content", inputs.content);
-  formData.append("place", inputs.place);
-  formData.append("pay", inputs.pay);
-  formData.append("time", inputs.time);
-  formData.append("files", files);
-  formData.append("phoneNum", inputs.phoneNum);
-  formData.append("dueDate", inputs.dueDate);
-  formData.append("doDate", inputs.doDate);
-  return await withAuthInstance.post(
-    `http://3.36.95.15:8080/api/board/${postId}`,
-    formData
-  );
+export const feedEditApi = async (postId, data) => {
+  return await withAuthInstance.put(APPLY_POST + postId, {
+    updatedContent: data,
+  });
 };
 
 export const feedlistApi = async (

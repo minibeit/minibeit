@@ -13,7 +13,6 @@ import BProfile from "./pages/BProfile";
 import Apply from "./pages/Apply";
 import ApplyDetail from "./pages/ApplyDetail";
 import Recruit from "./pages/Recruit";
-import RecruitEdit from "./pages/RecruitEdit";
 import ManageApply from "./pages/ManageApply";
 
 function App() {
@@ -34,7 +33,6 @@ function App() {
           <Route path="/apply/:postId" exact component={ApplyDetail} />{" "}
           <Route path="/apply" component={Apply} />{" "}
           <Route path="/recruit" exact component={Recruit} />{" "}
-          <Route path="/recruit/:postId/edit" exact component={RecruitEdit} />{" "}
           <Route path="/manageApply/:postId" component={ManageApply} />{" "}
         </Switch>{" "}
       </RecoilRoot>

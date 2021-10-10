@@ -45,9 +45,14 @@ function PSignupInfoForm({ signupHandler }) {
     if (name === "nickname") {
       setNick("notyet");
       if (value.length > 8) {
-        window.alert("대/소문자 영어 및 숫자 8글자 이내로 입력해 주세요");
+        window.alert(
+          "대/소문자 영어 및 한글, 숫자로 8글자 이내로 입력해 주세요"
+        );
       } else {
-        setInputs({ ...inputs, nickname: value.replace(/[^a-z0-9]/gi, "") });
+        setInputs({
+          ...inputs,
+          nickname: value.replace(/^[^ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/, ""),
+        });
       }
     } else {
       setInputs({ ...inputs, [name]: value });

@@ -98,21 +98,24 @@ export default function ReviewModal({
                 {state === "READ" ? (
                   <S.ReviewInputView>{postInfo.content}</S.ReviewInputView>
                 ) : state === "NEW" ? (
-                  <S.ReviewInput
-                    cols="50"
-                    rows="10"
-                    onChange={onChange}
-                    placeholder="후기작성"
-                  />
+                  <>
+                    <S.ReviewInput
+                      rows="10"
+                      onChange={onChange}
+                      placeholder="후기작성"
+                    />
+                    <p>{ReviewContent.length}/500</p>
+                  </>
                 ) : (
-                  <S.ReviewInput
-                    cols="50"
-                    rows="10"
-                    onChange={onChange}
-                    value={ReviewContent}
-                  />
+                  <>
+                    <S.ReviewInput
+                      rows="10"
+                      onChange={onChange}
+                      value={ReviewContent}
+                    />{" "}
+                    <p>{ReviewContent.length}/500</p>
+                  </>
                 )}
-                <p>{ReviewContent.length}/500</p>
               </S.ReviewContentCont>
             </S.ReviewTop>
             <S.ReviewSecond>

@@ -28,7 +28,7 @@ export default function ProfileFeed({
       <S.FeedCont>
         <S.FeedTitle>
           <p>실험명</p>
-          <Link>
+          <Link to={`/apply/${feedInfo.id}`}>
             <p>{feedInfo.title}</p>
           </Link>
         </S.FeedTitle>

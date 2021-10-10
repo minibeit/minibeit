@@ -60,7 +60,6 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
 
   return (
     <>
-      <S.DataTitle>참여 날짜 및 시간 선택하기</S.DataTitle>
       <S.TimeSelectBox>
         <S.DateView>
           <div>

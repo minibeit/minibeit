@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PostApplicantRepository extends JpaRepository<PostApplicant, Long>, PostApplicantRepositoryCustom {
     @Query("select pa from PostApplicant pa where pa.postDoDate.id=:postDoDateId and pa.applyStatus='APPROVE'")
@@ -17,4 +18,6 @@ public interface PostApplicantRepository extends JpaRepository<PostApplicant, Lo
     @Modifying
     @Query("update PostApplicant pa set pa.applyStatus=:status where pa.id in :applicantIdList")
     void updateReject(List<Long> applicantIdList, ApplyStatus status);
+
+    Optional<PostApplicant> findByPostDoDateIdAndUserId(Long postDoDateId, Long userId);
 }

@@ -1,5 +1,6 @@
 package com.minibeit.user.service;
 
+import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.avatar.domain.AvatarServer;
 import com.minibeit.avatar.domain.AvatarType;
@@ -21,13 +22,13 @@ import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.exception.DuplicateNickNameException;
 import com.minibeit.user.service.exception.UserNotFoundException;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -43,10 +44,8 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
-@SpringBootTest
-@Transactional
 @DisplayName("사용자 비즈니스 흐름 테스트")
-class UserServiceTest {
+class UserServiceTest extends ServiceIntegrationTest {
 
     @Autowired
     private UserService userService;

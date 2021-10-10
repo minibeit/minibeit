@@ -1,7 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import PFeedInfoContainer from "./PFeedInfoContainer";
 import PropTypes from "prop-types";
-import { bookmarkApi, feedDetailApi } from "../../../utils/feedApi";
+import HomeIcon from "@mui/icons-material/Home";
+import {
+  bookmarkApi,
+  feedDetailApi,
+  feedEditApi,
+} from "../../../utils/feedApi";
 import ApplyConfirmModal from "../../Common/Modal/ApplyConfirmModal";
 import { LoadingSpinner } from "../../Common";
 import { useRecoilValue, useResetRecoilState } from "recoil";
@@ -34,9 +39,7 @@ export default function FeedInfoContainer({ feedId, date }) {
   );
 
   const postBookmark = async (postId) => {
-    await bookmarkApi(postId)
-      .then()
-      .catch((err) => console.log(err));
+    await bookmarkApi(postId).then().catch();
   };
 
   const clickBookmark = (e) => {
@@ -52,6 +55,10 @@ export default function FeedInfoContainer({ feedId, date }) {
     }
   };
 
+  const editDetail = (postId, data) => {
+    feedEditApi(postId, data).then((res) => getFeedDetail(res.data.id));
+  };
+
   useEffect(() => {
     getFeedDetail(feedId);
     resetApply();
@@ -63,8 +70,11 @@ export default function FeedInfoContainer({ feedId, date }) {
         <S.TitleBox>
           <S.TitleContent>
             <p>카테고리</p>
-            <h1>{feedDetailData.title}</h1>
-            <p>{feedDetailData.businessProfileInfo.name}</p>
+            <p>{feedDetailData.title}</p>
+            <div>
+              <HomeIcon />
+              <p>{feedDetailData.businessProfileInfo.name}</p>
+            </div>
           </S.TitleContent>
           <S.TitleBookMark>
             {isLogin ? (
@@ -79,7 +89,11 @@ export default function FeedInfoContainer({ feedId, date }) {
 
       <S.FeedContainer>
         {feedDetailData ? (
-          <PFeedInfoContainer feedDetailData={feedDetailData} date={date} />
+          <PFeedInfoContainer
+            feedDetailData={feedDetailData}
+            date={date}
+            editDetail={editDetail}
+          />
         ) : (
           <LoadingSpinner />
         )}

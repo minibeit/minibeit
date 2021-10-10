@@ -9,7 +9,9 @@ const style = {
 export default function PVImg({ img }) {
   var imgUrl;
 
-  if (img) {
+  if (typeof img === "string") {
+    imgUrl = img;
+  } else {
     imgUrl = URL.createObjectURL(img);
   }
   return <img src={imgUrl} style={style} alt="" />;

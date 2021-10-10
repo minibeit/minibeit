@@ -36,7 +36,7 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
                                 .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
                                 .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
                         .and(byApplyStatus(applyStatus)))
-                .orderBy(postDoDate.doDate.asc())
+                .orderBy(postDoDate.doDate.asc(), postApplicant.createdAt.asc())
                 .fetch();
     }
 

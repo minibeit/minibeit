@@ -8,10 +8,13 @@ import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
+import com.minibeit.businessprofile.service.exception.BusinessProfileInWork;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
+import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
@@ -29,6 +32,7 @@ public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final UserRepository userRepository;
+    private final PostRepository postRepository;
     private final AvatarService avatarService;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
@@ -52,28 +56,6 @@ public class BusinessProfileService {
         }
         businessProfile.update(request);
         return BusinessProfileResponse.IdAndName.build(businessProfile);
-    }
-
-    @Transactional(readOnly = true)
-    public List<BusinessProfileResponse.GetList> getListIsMine(User user) {
-        List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(user.getId());
-
-        return businessProfileList.stream().map(businessProfile -> BusinessProfileResponse.GetList.build(businessProfile, user)).collect(Collectors.toList());
-    }
-
-    @Transactional(readOnly = true)
-    public BusinessProfileResponse.GetOne getOne(Long businessProfileId, User user) {
-        BusinessProfile businessProfile = businessProfileRepository.findByIdWithAdmin(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-
-        return BusinessProfileResponse.GetOne.build(businessProfile, user);
-    }
-
-    public void delete(Long businessProfileId, User user) {
-        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-
-        permissionCheck(user, businessProfile);
-
-        businessProfileRepository.deleteById(businessProfileId);
     }
 
     public void shareBusinessProfile(Long businessProfileId, Long invitedUserId, User user) {
@@ -104,6 +86,32 @@ public class BusinessProfileService {
         permissionCheck(user, businessProfile);
         User changeUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         businessProfile.changeAdmin(changeUser);
+    }
+
+    @Transactional(readOnly = true)
+    public List<BusinessProfileResponse.GetList> getListIsMine(User user) {
+        List<BusinessProfile> businessProfileList = businessProfileRepository.findAllByUserId(user.getId());
+
+        return businessProfileList.stream().map(businessProfile -> BusinessProfileResponse.GetList.build(businessProfile, user)).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public BusinessProfileResponse.GetOne getOne(Long businessProfileId, User user) {
+        BusinessProfile businessProfile = businessProfileRepository.findByIdWithAdmin(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+
+        return BusinessProfileResponse.GetOne.build(businessProfile, user);
+    }
+
+    public void delete(Long businessProfileId, User user) {
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+
+        permissionCheck(user, businessProfile);
+
+        if (postRepository.existsByBusinessProfileId(businessProfileId)) {
+            throw new BusinessProfileInWork();
+        }
+
+        businessProfileRepository.deleteById(businessProfileId);
     }
 
     private void permissionCheck(User user, BusinessProfile businessProfile) {

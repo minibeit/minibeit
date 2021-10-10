@@ -1,11 +1,15 @@
 import styled from "styled-components";
 
 /*filter*/
-export const FilterBox = styled.div``;
-export const ViewSelect = styled.div``;
+export const FilterBox = styled.div`
+  width: 20rem;
+  border: 1px solid #c4c4c4;
+  text-align: center;
+`;
+export const SearchBtn = styled.button``;
+export const DetailBox = styled.div``;
+
 export const SelectBtn = styled.button``;
-export const FilterSubmitBtn = styled.button``;
-export const PaymentSelect = styled.select``;
 
 /*list*/
 export const FeedBox = styled.div`

@@ -4,7 +4,6 @@ const style = {
   objectFit: "fill",
   width: "100%",
   height: "100%",
-  borderRadius: "50%",
 };
 
 export default function PVImg({ img }) {
@@ -13,5 +12,5 @@ export default function PVImg({ img }) {
   if (img) {
     imgUrl = URL.createObjectURL(img);
   }
-  return <img src={imgUrl} style={style} />;
+  return <img src={imgUrl} style={style} alt="" />;
 }

@@ -1,10 +1,6 @@
 import React, { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
 import PropTypes from "prop-types";
-import { userState } from "../../../recoil/userState";
-import { deleteBprofile } from "../../../utils/bprofileApi";
 import * as S from "../style";
-import { useHistory } from "react-router";
 import BProfileJoin from "../BProfileJoin";
 import BProfileEditCont from "../../BProfileEdit/BProfileEditCont";
 
@@ -19,16 +15,8 @@ PBProfile.propTypes = {
 };
 
 export default function PBProfile({ buserData }) {
-  const [user, setUser] = useRecoilState(userState);
-  const nickname = useRecoilValue(userState).name;
   const [modalSwitch, setModalSwitch] = useState(false);
   const [modal2Switch, setModal2Switch] = useState(false);
-  const doDelete = async () => {
-    await deleteBprofile(buserData.id);
-    setUser({ ...user, bpId: 0 });
-    alert("삭제되었습니다.");
-    window.location.replace("/user/" + nickname);
-  };
 
   return (
     <S.UserInfoContainer>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   approveOneApi,
   cancelOneApi,
@@ -8,6 +8,7 @@ import {
   setAttendApi,
 } from "../../../utils";
 import Portal from "../../Common/Modal/Portal";
+import CloseIcon from "@mui/icons-material/Close";
 import * as S from "./style";
 
 export default function BManageModal({ title, postId, setModalSwitch }) {
@@ -25,7 +26,7 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
     setDate(e.target.value);
   };
   const [waitlist, setWaitlist] = useState([]);
-  const getList = async () => {
+  const getList = useCallback(async () => {
     if (state === "WAIT") {
       await getWaitListApi(postId, date)
         .then((res) => {
@@ -39,32 +40,27 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
         })
         .catch((err) => console.log(err));
     }
-  };
-  const handleState = async () => {
-    if (state === "APPROVE") {
-      setState("WAIT");
-    } else if (state === "WAIT") {
-      setState("APPROVE");
-    }
+  }, [date, postId, state]);
+  const handleState = async (order) => {
+    setState(order);
   };
   const changeState = async (order, postdoDateId, userId, rejectValue) => {
-    console.log(order, postdoDateId, userId, rejectValue);
     if (order === "approve") {
-      await approveOneApi(postId, postdoDateId, userId)
+      await approveOneApi(postdoDateId, userId)
         .then((res) => {
           window.alert("참여가 허락되었습니다.");
           getList();
         })
         .catch((err) => console.log(err));
     } else if (order === "cancel") {
-      await cancelOneApi(postId, postdoDateId, userId)
+      await cancelOneApi(postdoDateId, userId)
         .then((res) => {
           window.alert("참여 허락이 취소되었습니다.");
           getList();
         })
         .catch((err) => console.log(err));
     } else if (order === "reject") {
-      await rejectOneApi(postId, postdoDateId, userId, rejectValue)
+      await rejectOneApi(postdoDateId, userId, rejectValue)
         .then((res) => {
           window.alert("참여가 반려되었습니다.");
           getList();
@@ -72,7 +68,7 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
         .catch((err) => console.log(err));
     } else {
       const attend = order === "Attend" ? true : false;
-      await setAttendApi(postId, postdoDateId, userId, attend)
+      await setAttendApi(postdoDateId, userId, attend)
         .then((res) => {
           window.alert("참여여부가 변경되었습니다");
           getList();
@@ -82,17 +78,35 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
   };
   useEffect(() => {
     getList();
-  }, [state, date]);
+  }, [getList]);
   return (
     <Portal>
       <S.ModalBackground>
+        <S.ModalTab>
+          <S.BMBtn2
+            state={state === "WAIT" ? "white" : "gray"}
+            onClick={async (e) => {
+              e.preventDefault();
+              await handleState("WAIT");
+            }}
+          >
+            <p>대기자 명단</p>
+          </S.BMBtn2>
+          <S.BMBtn2
+            state={state === "APPROVE" ? "white" : "gray"}
+            onClick={async (e) => {
+              e.preventDefault();
+              await handleState("APPROVE");
+            }}
+          >
+            <p>확정자 명단</p>
+          </S.BMBtn2>
+        </S.ModalTab>
         <S.ModalBox>
           <S.ModalHeader>
-            <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
-          </S.ModalHeader>
-          <S.ModalContent>
-            <S.ModalTopContent>
-              <p>{title}</p>
+            <p>{title}</p>
+            <S.CloseModalBtn>
+              <CloseIcon onClick={closeModal} />
               <S.BMDate
                 type="date"
                 id="start"
@@ -102,38 +116,48 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
                 min="2021-01-01"
                 max="2021-12-31"
               ></S.BMDate>
-            </S.ModalTopContent>
+            </S.CloseModalBtn>
+          </S.ModalHeader>
+          <S.ModalContent>
             <S.ModalSecondContent>
-              {waitlist.map((timeBox) => {
-                console.log(timeBox);
-                return (
-                  <S.BMTimeBox key={timeBox.postDoDateId}>
-                    <hr />
-                    <S.BMTime>
-                      {timeBox.userInfoList[0].startTime}~
-                      {timeBox.userInfoList[0].endTime}
-                    </S.BMTime>
-                    {state === "WAIT" ? (
-                      <ManageWaitBox
-                        key={timeBox.postDoDateId}
-                        dateId={timeBox.postDoDateId}
-                        waitpeople={timeBox.userInfoList}
-                        changeState={changeState}
-                      />
-                    ) : (
-                      <ManageApproveBox
-                        key={timeBox.postDoDateId}
-                        approvepeople={timeBox.userInfoList}
-                        changeState={changeState}
-                      />
-                    )}
-                  </S.BMTimeBox>
-                );
-              })}
+              <S.ModalSecondTopBox>
+                <p>실명</p>
+                <p>생년월일</p>
+                <p>성별</p>
+                <p>연락처</p>
+                <p>직업</p>
+                <p>처리상태</p>
+              </S.ModalSecondTopBox>
+              <S.ModalSecondBottomBox>
+                {waitlist.map((timeBox) => {
+                  return (
+                    <S.BMTimeBox key={timeBox.postDoDateId}>
+                      <S.BMTime>
+                        <p>
+                          {" "}
+                          {timeBox.userInfoList[0].startTime}~
+                          {timeBox.userInfoList[0].endTime}
+                        </p>
+                      </S.BMTime>
+                      {state === "WAIT" ? (
+                        <ManageWaitBox
+                          key={timeBox.postDoDateId}
+                          dateId={timeBox.postDoDateId}
+                          waitpeople={timeBox.userInfoList}
+                          changeState={changeState}
+                        />
+                      ) : (
+                        <ManageApproveBox
+                          key={timeBox.postDoDateId}
+                          approvepeople={timeBox.userInfoList}
+                          changeState={changeState}
+                        />
+                      )}
+                    </S.BMTimeBox>
+                  );
+                })}
+              </S.ModalSecondBottomBox>
             </S.ModalSecondContent>
-            <S.BMBtn onClick={handleState}>
-              {state === "WAIT" ? " 확정자 명단" : "대기자 명단 "}
-            </S.BMBtn>
           </S.ModalContent>
         </S.ModalBox>
       </S.ModalBackground>
@@ -167,7 +191,7 @@ function ManageWaitBox({ dateId, waitpeople, changeState }) {
           <p>{waitEle.phoneNum}</p>
           <p>{waitEle.job}</p>
           {waitEle.status === "WAIT" ? (
-            <>
+            <S.BMBtnWrapper>
               <S.BMBtn
                 onClick={async (e) => {
                   e.preventDefault();
@@ -178,7 +202,7 @@ function ManageWaitBox({ dateId, waitpeople, changeState }) {
                   );
                 }}
               >
-                확정
+                <p>확정</p>
               </S.BMBtn>
               <S.BMBtn
                 onClick={async (e) => {
@@ -186,11 +210,11 @@ function ManageWaitBox({ dateId, waitpeople, changeState }) {
                   await rejectFunc(waitEle.id);
                 }}
               >
-                반려
+                <p>반려</p>
               </S.BMBtn>
-            </>
+            </S.BMBtnWrapper>
           ) : (
-            <>
+            <S.BMBtnWrapper>
               <p>확정</p>
               <S.BMBtn
                 onClick={async (e) => {
@@ -198,30 +222,38 @@ function ManageWaitBox({ dateId, waitpeople, changeState }) {
                   await changeState("cancel", waitEle.postDoDateId, waitEle.id);
                 }}
               >
-                취소
+                <p>취소</p>
               </S.BMBtn>
-            </>
+            </S.BMBtnWrapper>
           )}
-          {reject.state && reject.id === waitEle.id ? (
-            <>
-              <p>반려사유</p>
-              <S.BMrejectInput value={rejectValue} onChange={onChange} />
-              <S.BMBtn
-                onClick={async (e) => {
-                  e.preventDefault();
+        </S.BMperson>
+        {reject.state && reject.id === waitEle.id ? (
+          <S.BMrejectbox>
+            <p>반려사유</p>
+            <S.BMrejectInput
+              placeholder="반려사유를 입력하세요"
+              value={rejectValue}
+              onChange={onChange}
+            />
+            <S.BMBtn
+              onClick={async (e) => {
+                e.preventDefault();
+                if (rejectValue === "") {
+                  window.alert("반려사유를 입력하지 않으셨습니다.");
+                } else {
                   await changeState(
                     "reject",
                     waitEle.postDoDateId,
                     waitEle.id,
                     rejectValue
                   );
-                }}
-              >
-                확인
-              </S.BMBtn>{" "}
-            </>
-          ) : null}
-        </S.BMperson>
+                }
+              }}
+            >
+              <p>확인</p>
+            </S.BMBtn>{" "}
+          </S.BMrejectbox>
+        ) : null}
       </S.BMBoxCont>
     );
   });
@@ -238,7 +270,7 @@ function ManageApproveBox({ approvepeople, changeState }) {
         <p>{person.job}</p>
 
         {person.isAttend ? (
-          <>
+          <S.BMBtnWrapper>
             <p>확정</p>
             <S.BMBtn
               onClick={async (e) => {
@@ -246,11 +278,11 @@ function ManageApproveBox({ approvepeople, changeState }) {
                 await changeState("notAttend", person.postDoDateId, person.id);
               }}
             >
-              불참
+              <p>불참</p>
             </S.BMBtn>
-          </>
+          </S.BMBtnWrapper>
         ) : (
-          <>
+          <S.BMBtnWrapper>
             <p>불참</p>
             <S.BMBtn
               onClick={async (e) => {
@@ -258,9 +290,9 @@ function ManageApproveBox({ approvepeople, changeState }) {
                 await changeState("Attend", person.postDoDateId, person.id);
               }}
             >
-              확정
+              <p>확정</p>
             </S.BMBtn>
-          </>
+          </S.BMBtnWrapper>
         )}
       </S.BMperson>
     );

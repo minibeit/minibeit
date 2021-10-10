@@ -41,7 +41,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         } else {
             oAuthId = String.valueOf(oauth2User.getAttributes().get("id"));
         }
-        User user = userRepository.findByOauthId(oAuthId).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByOauthIdWithAvatar(oAuthId).orElseThrow(UserNotFoundException::new);
         //관심있는 학교 하나 default로 주기
         Long schoolId = null;
         School school = user.getSchool();
@@ -53,6 +53,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         if (nickname != null) {
             nickname = URLEncoder.encode(nickname, StandardCharsets.UTF_8);
         }
+        String avatar = null;
+        if (user.getAvatar() != null) {
+            avatar = user.getAvatar().getUrl().substring(8);
+        }
         Token token = tokenProvider.generateAccessToken(user);
         Token refreshToken = refreshTokenService.createOrUpdateRefreshToken(user);
 
@@ -62,6 +66,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
                 .maxAge(14 * 24 * 60 * 60)
                 .build();
         response.addHeader("Set-Cookie", cookie.toString());
-        response.sendRedirect(url + user.getId() + "/" + nickname + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck());
+        if (user.getAvatar() != null) {
+            response.sendRedirect(url + user.getId() + "/" + nickname + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/" + avatar);
+        } else {
+            response.sendRedirect(url + user.getId() + "/" + nickname + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/0/0/0");
+        }
     }
 }

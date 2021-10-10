@@ -71,6 +71,12 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.0.1.RELEASE'
 
 	/**
+	 * AOP
+	 */
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+
+	/**
 	 * Test Dependencies
 	 */
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

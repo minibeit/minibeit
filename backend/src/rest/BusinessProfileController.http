@@ -25,7 +25,7 @@ GET {{apiUrl}}/business/profile/mine/list
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/business/profile/1
+GET {{apiUrl}}/business/profile/2
 Authorization: {{authorizationToken}}
 
 ###
@@ -56,10 +56,11 @@ Content-Disposition: form-data; name="contact";
 --boundary
 Content-Disposition: form-data; name="avatarChanged";
 
-false
+true
+
 
 ###
-DELETE {{apiUrl}}/business/profile/3
+DELETE {{apiUrl}}/business/profile/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 

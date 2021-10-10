@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { bprofileListGet, bprofileNew, deleteBprofile } from "../../../utils";
 import * as S from "../../BProfile/style";
@@ -116,9 +116,11 @@ export default function PBProfileSection() {
             </S.BIeleCont>
           </div>
         ))}
-        <S.BPbtn display={display} onClick={onClick}>
-          <AddIcon />
-        </S.BPbtn>
+        {bprofiles.length >= 3 ? null : (
+          <S.BPbtn display={display} onClick={onClick}>
+            <AddIcon />
+          </S.BPbtn>
+        )}
       </S.BIWrapper>
     </S.BPContainer2>
   );

@@ -4,34 +4,29 @@ import PLikeListBox from "./PLikeListBox";
 
 export default function LikeListBox() {
   const [page, setPage] = useState(1);
-  const [last, setLast] = useState();
+  const [count, setCount] = useState();
   const [likeList, setLikeList] = useState([]);
   const getLikeList = async (page) => {
     await getLikeListApi(page)
       .then((res) => {
-        console.log(res);
         setLikeList(res.data["content"]);
-        setLast(res.data.last);
+        setCount(res.data.totalElements);
       })
       .catch((err) => console.log(err));
   };
   useEffect(() => {
     getLikeList(page);
   }, [page]);
-  const handlepage = async (msg) => {
-    console.log(msg);
-    if (msg === "prev") {
-      setPage(page - 1);
-    } else if (msg === "next") {
-      setPage(page + 1);
-    }
+  const handlepage = async (page) => {
+    setPage(page);
   };
   return (
     <PLikeListBox
       likeList={likeList}
       handlepage={handlepage}
       page={page}
-      last={last}
+      count={count}
+      getLikeList={getLikeList}
     />
   );
 }

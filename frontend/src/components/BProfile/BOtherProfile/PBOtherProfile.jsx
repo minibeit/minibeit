@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
@@ -26,11 +26,11 @@ export default function PBOtherProfile({ originalId }) {
     setmsg("수정");
     getBprofileList();
   };
-  const getBprofileList = async () => {
+  const getBprofileList = useCallback(async () => {
     bprofileListGet(UserId)
       .then(async (res) => setbprofiles(res.data))
       .catch((err) => console.log(err));
-  };
+  }, [UserId]);
   const CreateBProfile = (inputs, img) => {
     bprofileNew(inputs, img)
       .then(() => {
@@ -53,7 +53,7 @@ export default function PBOtherProfile({ originalId }) {
 
   useEffect(() => {
     getBprofileList();
-  }, []);
+  }, [getBprofileList]);
   const goBProfile = async (businessId) => {
     await setUser({ ...user, bpId: businessId });
     window.location.replace("/business/" + businessId);
@@ -109,11 +109,15 @@ export default function PBOtherProfile({ originalId }) {
                   </S.BIeleCont>
                 </div>
               );
+            } else {
+              return null;
             }
           })}
-          <S.BPbtn onClick={onClick}>
-            <AddIcon />
-          </S.BPbtn>
+          {bprofiles.length >= 3 ? null : (
+            <S.BPbtn onClick={onClick}>
+              <AddIcon />
+            </S.BPbtn>
+          )}
         </S.BIWrapper>
       )}
     </S.BPContainer>

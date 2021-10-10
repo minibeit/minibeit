@@ -13,13 +13,11 @@ public interface PostApplicantRepository extends JpaRepository<PostApplicant, Lo
     @Query("select pa from PostApplicant pa where pa.postDoDate.id=:postDoDateId and pa.applyStatus='APPROVE'")
     List<PostApplicant> findAllByPostDoDateIdAndStatusIsApprove(Long postDoDateId);
 
-    Optional<PostApplicant> findByPostDoDateIdAndUserId(Long postDoDateId, Long userId);
-
     void deleteByPostDoDateIdAndUserId(Long postDoDateId, Long userId);
-
-    Optional<PostApplicant> findByUserIdAndPostDoDateId(Long userId, Long postDoDateId);
 
     @Modifying
     @Query("update PostApplicant pa set pa.applyStatus=:status where pa.id in :applicantIdList")
     void updateReject(List<Long> applicantIdList, ApplyStatus status);
+
+    Optional<PostApplicant> findByPostDoDateIdAndUserId(Long postDoDateId, Long userId);
 }

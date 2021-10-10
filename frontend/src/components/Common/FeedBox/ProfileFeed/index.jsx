@@ -39,11 +39,13 @@ export default function ProfileFeed({
           ) : state === "finish" ? (
             finish ? (
               <FinishFeedBlock
+                key={feedInfo.reviewId}
                 getFinishlist={getFinishlist}
                 feedInfo={feedInfo}
               />
             ) : (
               <CancelFeedBlock
+                key={feedInfo.id}
                 getCancellist={getCancellist}
                 feedInfo={feedInfo}
               />
@@ -72,7 +74,6 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
       })
       .catch((err) => console.log(err));
   };
-  console.log(feedInfo);
   const postInfo = {
     id: feedInfo.id,
     postTitle: feedInfo.title,
@@ -110,6 +111,7 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
           </S.FeedBtn>
           {modalSwitch ? (
             <ReviewModal
+              getJoinlist={getJoinlist}
               doJoin={doJoin}
               setModalSwitch={setModalSwitch}
               state="NEW"
@@ -139,8 +141,9 @@ function JoinFeedBlock({ feedInfo, allow, getJoinlist }) {
   );
 }
 
-function FinishFeedBlock({ feedInfo }) {
+function FinishFeedBlock({ feedInfo, getFinishlist }) {
   const [modalSwitch, setModalSwitch] = useState(false);
+  const [modalSwitch2, setModalSwitch2] = useState(false);
   const [postInfo, setPostInfo] = useState({});
   const editReview = async () => {
     await reviewOneReadApi(feedInfo.reviewId).then((res) =>
@@ -148,23 +151,59 @@ function FinishFeedBlock({ feedInfo }) {
     );
     setModalSwitch(true);
   };
-
+  const newReview = async () => {
+    setPostInfo({
+      id: feedInfo.postId,
+      postTitle: feedInfo.title,
+      content: "",
+      doDate: feedInfo.doDate,
+      startTime: feedInfo.startTime,
+      endTime: feedInfo.endTime,
+      postDoDateId: feedInfo.postDoDateId,
+      time: feedInfo.time,
+    });
+    setModalSwitch2(true);
+  };
   return (
     <>
       {modalSwitch ? (
-        <ReviewModal setModalSwitch={setModalSwitch} postInfo={postInfo} />
+        <ReviewModal
+          getFinishlist={getFinishlist}
+          setModalSwitch={setModalSwitch}
+          state="EDIT"
+          postInfo={postInfo}
+        />
+      ) : null}
+      {modalSwitch2 ? (
+        <ReviewModal
+          getFinishlist={getFinishlist}
+          setModalSwitch={setModalSwitch2}
+          state="NEW"
+          postInfo={postInfo}
+        />
       ) : null}
       <S.Over>
         <p>{feedInfo.review}</p>
       </S.Over>
-      <S.FeedBtn
-        onClick={async (e) => {
-          e.preventDefault();
-          await editReview();
-        }}
-      >
-        <p>후기수정</p>
-      </S.FeedBtn>
+      {feedInfo.reviewId === null ? (
+        <S.FeedBtn
+          onClick={async (e) => {
+            e.preventDefault();
+            await newReview();
+          }}
+        >
+          <p>후기작성</p>
+        </S.FeedBtn>
+      ) : feedInfo.isWritable ? (
+        <S.FeedBtn
+          onClick={async (e) => {
+            e.preventDefault();
+            await editReview();
+          }}
+        >
+          <p>후기수정</p>
+        </S.FeedBtn>
+      ) : null}
     </>
   );
 }

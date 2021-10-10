@@ -46,7 +46,7 @@ public class PostApplicant extends BaseEntity {
 
     public boolean writeReviewIsPossible(LocalDateTime now) {
         return this.applyStatus.equals(ApplyStatus.APPROVE) && !this.writeReview &&
-                this.businessFinish && this.myFinish && postDoDate.getDoDate().plusDays(6).isAfter(now);
+                this.businessFinish && this.myFinish && this.postDoDate.getDoDate().plusDays(7).isAfter(now);
     }
 
     public void updateMyFinish() {

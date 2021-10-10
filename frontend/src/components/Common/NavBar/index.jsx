@@ -28,10 +28,9 @@ export default function NavBar() {
     <S.NavBarContainer>
       <S.NavBarLogoContainer>
         <Link to="/">
-          <p>MiNiBEiT</p>
+          <div />
+          <p>MINI</p>
         </Link>
-      </S.NavBarLogoContainer>
-      <S.NavBarMenuContainer>
         <S.NavBarMenu>
           <Link to="/apply">
             <p>지원하기</p>
@@ -42,21 +41,33 @@ export default function NavBar() {
             <p>모집하기</p>
           </Link>
         </S.NavBarMenu>
-        <S.NavBarAuth>
-          {data.didSignup === true ? (
+        <S.NavBarMenu>
+          <Link to="/">
+            <p>이용하기</p>
+          </Link>
+        </S.NavBarMenu>
+      </S.NavBarLogoContainer>
+      <S.NavBarMenuContainer>
+        {data.didSignup === true ? (
+          <>
+            <Link to={`/user/${username}`}>
+              <img
+                src={data.avatar !== "noImg" ? data.avatar : "/기본프로필.png"}
+                alt="사진"
+              />
+            </Link>
             <S.NavBarAuth>
-              <Link to={`/user/${username}`}>{username}님 안녕하세요</Link>
               <p onClick={logout}>로그아웃</p>
             </S.NavBarAuth>
-          ) : (
-            <S.NavBarAuth>
-              <p onClick={onClick}>시작하기</p>
-              {modalSwitch ? (
-                <CreateAuthModal setModalSwitch={setModalSwitch} />
-              ) : null}
-            </S.NavBarAuth>
-          )}
-        </S.NavBarAuth>
+          </>
+        ) : (
+          <S.NavBarAuth>
+            <p onClick={onClick}>시작하기</p>
+            {modalSwitch ? (
+              <CreateAuthModal setModalSwitch={setModalSwitch} />
+            ) : null}
+          </S.NavBarAuth>
+        )}
       </S.NavBarMenuContainer>
     </S.NavBarContainer>
   );

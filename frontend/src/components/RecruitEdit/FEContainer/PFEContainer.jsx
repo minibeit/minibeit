@@ -5,7 +5,7 @@ import * as S from "../style";
 
 function PFEContainer({ post, FEHandler }) {
   const author = useRecoilValue(userState).name;
-  const { content, doDate, dueDate, contact, pay, place, time, title } = post;
+  const { content, doDate, dueDate, contact, pay, place, time } = post;
   const [inputs, setInputs] = useState({
     title: post.title,
     dueDate: dueDate,
@@ -17,7 +17,6 @@ function PFEContainer({ post, FEHandler }) {
     phoneNum: contact || "",
   });
 
-  console.log(inputs);
   useEffect(() => {
     setInputs({
       title: post.title,
@@ -29,17 +28,23 @@ function PFEContainer({ post, FEHandler }) {
       content: content,
       phoneNum: contact,
     });
-    console.log(inputs);
-  }, []);
+  }, [
+    contact,
+    content,
+    inputs,
+    pay,
+    place,
+    post.doDate,
+    post.dueDate,
+    post.title,
+    time,
+  ]);
 
   const [files, setFiles] = useState();
 
-  console.log(title);
   const onChange = (e) => {
-    console.log(inputs);
     const { value, name } = e.target;
-    console.log(name, value);
-    if (name == "doDate") {
+    if (name === "doDate") {
       setInputs({
         ...inputs,
         [name]: value + ":00",
@@ -53,7 +58,6 @@ function PFEContainer({ post, FEHandler }) {
   };
   const fileChange = (e) => {
     setFiles(e.target.files[0]);
-    console.log(e.target.files[0]);
   };
   return (
     <>

@@ -6,8 +6,6 @@ import * as S from "../style";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import JoinListBox from "../JoinListBox";
-import StarOutlineIcon from "@mui/icons-material/StarOutline";
-import StarIcon from "@mui/icons-material/Star";
 
 export default function PProfileCont() {
   const bpId = useRecoilValue(userState).bpId;
@@ -41,14 +39,10 @@ export default function PProfileCont() {
               <S.PrightTabele tabIndex={tabIndex} index={4}>
                 <p onClick={() => setTabIndex(4)}>반려된 목록</p>
               </S.PrightTabele>
+              <S.PrightTabele tabIndex={tabIndex} index={5}>
+                <p onClick={() => setTabIndex(5)}>즐겨찾기 목록</p>
+              </S.PrightTabele>
             </S.PrightTab>
-            <S.PFavorite>
-              {tabIndex === 5 ? (
-                <StarIcon />
-              ) : (
-                <StarOutlineIcon onClick={() => setTabIndex(5)} />
-              )}
-            </S.PFavorite>
           </S.PrightTopBox>
 
           {tabIndex === 1 ? (

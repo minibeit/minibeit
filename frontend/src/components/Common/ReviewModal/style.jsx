@@ -15,7 +15,6 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   width: 57%;
-  overflow: scroll;
   max-width: 41rem;
   border-radius: 20px;
   padding: 46px 55px;
@@ -28,24 +27,48 @@ export const ModalHeader = styled.div`
   height: 2rem;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
 `;
-export const CloseModalBtn = styled.button`
+export const CloseModalBtn = styled.div`
   margin-left: auto;
-  margin-right: 0.5rem;
+  height: -webkit-fill-available;
+  & > svg {
+    cursor: pointer;
+  }
 `;
 export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   height: inherit;
 `;
-export const ReviewBtn = styled.div``;
+export const ReviewBtn = styled.div`
+  cursor: pointer;
+  margin-left: 12px;
+  & > p {
+    font-size: 13px;
+    background: blue;
+    padding: 5px 17px;
+    color: white;
+    border-radius: 21px;
+    white-space: pre;
+    cursor: pointer;
+  }
+`;
 export const ReviewContentCont = styled.div`
   flex: 2;
   margin: 30px 0px 0px 0;
   background: lightgray;
   border-radius: 17px;
   padding: 20px;
-  & > p {
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
+  & > p:first-child {
     font-size: 12px;
+  }
+  & > p:nth-child(3) {
+    font-size: 12px;
+    text-align: end;
   }
 `;
 export const ReviewDate = styled.div``;

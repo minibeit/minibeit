@@ -1,10 +1,12 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import moment from "moment";
 import PropTypes from "prop-types";
 
 import * as S from "../style";
 import { useRecoilValue } from "recoil";
-import { filterState } from "../../../recoil/filterState";
+import { dateState } from "../../../recoil/filterState";
+import { userState } from "../../../recoil/userState";
 
 PListContainer.propTypes = {
   feedList: PropTypes.arrayOf(
@@ -13,6 +15,8 @@ PListContainer.propTypes = {
       title: PropTypes.string.isRequired,
       cache: PropTypes.number,
       doTime: PropTypes.number.isRequired,
+      isLike: PropTypes.bool.isRequired,
+      likes: PropTypes.number.isRequired,
       goods: PropTypes.string,
       payment: PropTypes.string.isRequired,
       recruitCondition: PropTypes.bool.isRequired,
@@ -24,24 +28,25 @@ PListContainer.propTypes = {
 };
 
 export default function PListContainer({ feedList, postBookmark }) {
-  const filter = useRecoilValue(filterState);
+  const date = useRecoilValue(dateState).date;
+  const user = useRecoilValue(userState);
   const history = useHistory();
+
   const goToDetailPage = (e) => {
-    history.push(
-      `/apply/${e.target.id}?${filter.date.getFullYear()}-${
-        filter.date.getMonth() + 1 < 10
-          ? "0" + (filter.date.getMonth() + 1)
-          : filter.date.getMonth() + 1
-      }-${
-        filter.date.getDate() < 10
-          ? "0" + filter.date.getDate()
-          : filter.date.getDate()
-      }`
-    );
+    history.push(`/apply/${e.target.id}?${moment(date).format("YYYY-MM-DD")}`);
   };
 
   const clickBookmark = (e) => {
-    postBookmark(e.target.id, e.target.value);
+    postBookmark(e.target.id);
+    if (e.target.textContent === "북마크 중") {
+      e.target.textContent = "북마크";
+      e.target.nextSibling.textContent =
+        parseInt(e.target.nextSibling.textContent) - 1;
+    } else {
+      e.target.textContent = "북마크 중";
+      e.target.nextSibling.textContent =
+        parseInt(e.target.nextSibling.textContent) + 1;
+    }
   };
 
   return (
@@ -53,16 +58,12 @@ export default function PListContainer({ feedList, postBookmark }) {
               <S.FeedTitle id={a.id} onClick={goToDetailPage}>
                 {a.title}
               </S.FeedTitle>
-              {a.like !== true ? (
-                <button id={a.id} value="post" onClick={clickBookmark}>
-                  북마크
+              {user.isLogin ? (
+                <button id={a.id} onClick={clickBookmark}>
+                  {a.isLike ? "북마크 중" : "북마크"}
                 </button>
-              ) : (
-                <button id={a.id} value="delete" onClick={clickBookmark}>
-                  북마크 중
-                </button>
-              )}
-
+              ) : null}
+              <p>{a.likes}</p>
               <S.FeedAuthor>{a.businessProfileName}</S.FeedAuthor>
               <S.FeedInfoData>
                 <S.DataItem>소요시간: {a.doTime}분</S.DataItem>

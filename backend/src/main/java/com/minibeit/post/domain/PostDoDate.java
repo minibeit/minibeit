@@ -25,7 +25,7 @@ public class PostDoDate extends BaseEntity {
     private boolean isFull;
 
     @Builder.Default
-    @OneToMany(mappedBy = "postDoDate")
+    @OneToMany(mappedBy = "postDoDate", cascade = CascadeType.REMOVE)
     private List<PostApplicant> postApplicantList = new ArrayList<>();
 
     @Builder.Default
@@ -49,5 +49,9 @@ public class PostDoDate extends BaseEntity {
         PostDoDate postDoDate = PostDoDate.builder().doDate(doDate).isFull(false).build();
         postDoDate.setPost(post);
         return postDoDate;
+    }
+
+    public boolean applyIsPossible(Post post) {
+        return !this.isFull && post.getPostStatus().equals(PostStatus.RECRUIT);
     }
 }

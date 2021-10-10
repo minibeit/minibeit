@@ -245,7 +245,6 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   width: 57%;
-  overflow: scroll;
   max-width: 41rem;
   border-radius: 20px;
   padding: 32px 36px;
@@ -283,6 +282,11 @@ export const JoinBox2 = styled.div`
   height: 227px;
   margin: 10px 0;
   overflow-y: scroll;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
 `;
 export const JoinEdit = styled.div`
   margin-left: 12px;
@@ -298,7 +302,7 @@ export const BPLeftCont = styled.div`
   flex: 1;
   margin-bottom: 55px;
   display: flex;
-  align-items: center;
+  align-items: start;
   justify-content: center;
 `;
 export const BPRightCont = styled.div`

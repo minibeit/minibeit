@@ -1,47 +1,76 @@
 import React from "react";
 import { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../../recoil/userState";
 import { editReviewApi, reviewNewApi } from "../../../utils";
 import Portal from "../Modal/Portal";
+import CloseIcon from "@mui/icons-material/Close";
 
 import * as S from "./style";
 
 export default function ReviewModal({
   doJoin,
+  getJoinlist,
+  getFinishlist,
   setModalSwitch,
   postInfo,
   state,
 }) {
-  const userName = useRecoilValue(userState).name;
+  console.log(postInfo);
   const closeModal = () => {
     setModalSwitch(false);
   };
   const [ReviewContent, setReviewContent] = useState(postInfo.content);
   const onChange = (e) => {
     const { value } = e.target;
-    setReviewContent(value);
+    if (value.length >= 500) {
+      window.alert("500자이상 작성하실수 없습니다");
+    } else {
+      setReviewContent(value);
+    }
   };
   const newReview = async (content) => {
+    if (doJoin !== undefined) {
+      await doJoin(postInfo.postDoDateId);
+    }
     const newReviewInfo = {
       postTitle: postInfo.postTitle,
       content: content,
       time: postInfo.time,
       doDate: postInfo.doDate + "T" + postInfo.startTime,
     };
-    await reviewNewApi(postInfo.id, postInfo.postDoDateId, newReviewInfo)
+    await reviewNewApi(postInfo.postDoDateId, newReviewInfo)
       .then(async () => {
-        await doJoin(postInfo.postDoDateId);
         alert("후기가 등록되었습니다");
-        window.location.replace("/user/" + userName);
+        if (getFinishlist !== undefined) {
+          getFinishlist();
+        } else if (getJoinlist !== undefined) {
+          getJoinlist();
+        }
+        setModalSwitch(false);
       })
       .catch((err) => console.log(err));
+  };
+  const nextReview = async () => {
+    if (doJoin !== undefined) {
+      await doJoin(postInfo.postDoDateId);
+      alert("참여완료 상태가 되었습니다.");
+    }
+    if (getFinishlist !== undefined) {
+      getFinishlist();
+    } else if (getJoinlist !== undefined) {
+      getJoinlist();
+    }
+    setModalSwitch(false);
   };
   const editReview = async (content) => {
     await editReviewApi(postInfo.id, content)
       .then(async () => {
         alert("후기가 수정되었습니다");
-        window.location.replace("/user/" + userName);
+        if (getFinishlist !== undefined) {
+          getFinishlist();
+        } else if (getJoinlist !== undefined) {
+          getJoinlist();
+        }
+        setModalSwitch(false);
       })
       .catch((err) => console.log(err));
   };
@@ -51,7 +80,9 @@ export default function ReviewModal({
         <S.ModalBox>
           <S.ModalHeader>
             {state === "NEW" ? null : (
-              <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
+              <S.CloseModalBtn>
+                <CloseIcon onClick={closeModal} />
+              </S.CloseModalBtn>
             )}
           </S.ModalHeader>
           <S.ModalContent>
@@ -67,19 +98,23 @@ export default function ReviewModal({
                 {state === "READ" ? (
                   <S.ReviewInputView>{postInfo.content}</S.ReviewInputView>
                 ) : state === "NEW" ? (
-                  <S.ReviewInput
-                    cols="50"
-                    rows="10"
-                    onChange={onChange}
-                    placeholder="후기작성"
-                  />
+                  <>
+                    <S.ReviewInput
+                      rows="10"
+                      onChange={onChange}
+                      placeholder="후기작성"
+                    />
+                    <p>{ReviewContent.length}/500</p>
+                  </>
                 ) : (
-                  <S.ReviewInput
-                    cols="50"
-                    rows="10"
-                    onChange={onChange}
-                    value={ReviewContent}
-                  />
+                  <>
+                    <S.ReviewInput
+                      rows="10"
+                      onChange={onChange}
+                      value={ReviewContent}
+                    />{" "}
+                    <p>{ReviewContent.length}/500</p>
+                  </>
                 )}
               </S.ReviewContentCont>
             </S.ReviewTop>
@@ -97,14 +132,24 @@ export default function ReviewModal({
                 </S.ReviewTimecont>
               </S.ReviewInfo>
               {state === "NEW" ? (
-                <S.ReviewBtn
-                  onClick={async (e) => {
-                    e.preventDefault();
-                    await newReview(ReviewContent);
-                  }}
-                >
-                  <p>작성완료</p>
-                </S.ReviewBtn>
+                <>
+                  <S.ReviewBtn
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      await newReview(ReviewContent);
+                    }}
+                  >
+                    <p>작성완료</p>
+                  </S.ReviewBtn>
+                  <S.ReviewBtn
+                    onClick={async (e) => {
+                      e.preventDefault();
+                      await nextReview(ReviewContent);
+                    }}
+                  >
+                    <p>다음에 작성하기</p>
+                  </S.ReviewBtn>
+                </>
               ) : state === "EDIT" ? (
                 <S.ReviewBtn
                   onClick={async (e) => {
@@ -112,7 +157,7 @@ export default function ReviewModal({
                     await editReview(ReviewContent);
                   }}
                 >
-                  <p>작성완료</p>
+                  <p>수정완료</p>
                 </S.ReviewBtn>
               ) : null}
             </S.ReviewSecond>

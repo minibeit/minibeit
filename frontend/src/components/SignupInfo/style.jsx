@@ -69,18 +69,18 @@ export const SITitle = styled.div`
     font-weight: 600;
   }
 `;
-export const SICont1_1 = styled.div``;
-export const SICont1_1_1 = styled.div`
+export const SICont11 = styled.div``;
+export const SICont111 = styled.div`
   display: flex;
   align-items: start;
   flex-wrap: wrap;
 `;
-export const SICont1_1_2 = styled.div`
+export const SICont112 = styled.div`
   margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
 `;
-export const SICont1_2 = styled.div`
+export const SICont12 = styled.div`
   width: 174px;
 
   margin: 18px 0px;
@@ -187,6 +187,11 @@ export const ModalBox = styled.div`
   padding: 46px 55px;
   height: 26rem;
   background: #f1f0f0;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
 `;
 export const ModalHeader = styled.div`
   display: flex;
@@ -244,3 +249,18 @@ export const JobBlock = styled.div`
 `;
 export const JobEmoji = styled.div``;
 export const JobName = styled.div``;
+
+export const SignupInfoBox = styled.div`
+  width: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: lightgrey;
+  padding: 1rem 0;
+  justify-content: space-around;
+  height: auto;
+  position: relative;
+  bottom: 1rem;
+  z-index: -1;
+  height: 19rem;
+`;

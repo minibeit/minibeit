@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { editBprofile, getBprofileInfo } from "../../../utils/bprofileApi";
 import PBProfileEditCont from "./PBProfileEditCont";
 import { LoadingSpinner } from "../../Common";
@@ -17,12 +17,12 @@ export default function BProfileEditCont({ businessId, setModal2Switch }) {
         console.log(err);
       });
   };
-  const getProfile = async () => {
+  const getProfile = useCallback(async () => {
     getBprofileInfo(businessId).then((res) => setBProfileData(res.data));
-  };
+  }, [businessId]);
   useEffect(() => {
     getProfile();
-  }, []);
+  }, [getProfile]);
   const closeModal = () => {
     setModal2Switch(false);
   };

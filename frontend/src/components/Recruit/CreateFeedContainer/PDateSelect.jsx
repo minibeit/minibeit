@@ -1,17 +1,56 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
-
+import PropTypes from "prop-types";
 import "react-dates/initialize";
 import { CalendarDay, DateRangePicker, SingleDatePicker } from "react-dates";
 import "../react-dates.css";
 import moment from "moment";
 import "moment/locale/ko";
-import PTimeSelect from "./PTimeSelect";
+import PTimeSelectModal from "./PTimeSelectModal";
 
 import * as S from "../style";
 
+PDateSelect.propTypes = {
+  recruit: PropTypes.shape({
+    businessProfile: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+    school: PropTypes.shape({
+      id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+    startDate: PropTypes.object,
+    endDate: PropTypes.object,
+    headCount: PropTypes.number,
+    doTime: PropTypes.number,
+    startTime: PropTypes.string,
+    endTime: PropTypes.string,
+    timeList: PropTypes.arrayOf(PropTypes.string),
+    dateList: PropTypes.arrayOf(PropTypes.string),
+    exceptDateList: PropTypes.arrayOf(PropTypes.string),
+    doDateList: PropTypes.arrayOf(
+      PropTypes.shape({
+        dodate: PropTypes.string,
+      })
+    ),
+    category: PropTypes.string,
+    title: PropTypes.string,
+    content: PropTypes.string,
+    condition: PropTypes.bool,
+    conditionDetail: PropTypes.array,
+    payment: PropTypes.string,
+    pay: PropTypes.string,
+    payMemo: PropTypes.string,
+    images: PropTypes.array,
+    address: PropTypes.string,
+    contact: PropTypes.string,
+  }),
+  setRecruit: PropTypes.func.isRequired,
+};
+
 export default function PDateSelect({ recruit, setRecruit }) {
-  const { startDate, endDate, doDateList, exceptDateList, doTime } = recruit;
+  const { startDate, endDate, dateList, exceptDateList, doTime } = recruit;
 
   /* range calendar state */
   const [focusedInput, setFocusedInput] = useState(null);
@@ -24,7 +63,9 @@ export default function PDateSelect({ recruit, setRecruit }) {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
 
-  const [switchCalendar, setSwitchCalendar] = useState(false);
+  /* time select calendar */
+  const [modalSwitch, setModalSwitch] = useState(false);
+  const [createdGroup, setCreatedGroup] = useState([]);
 
   /* 모집인원 카운트 로직 */
   const changeHeadCount = (e) => {
@@ -76,16 +117,13 @@ export default function PDateSelect({ recruit, setRecruit }) {
     const copy = recruit;
     if (startDate.format("YYYY-MM-DD") === date.format("YYYY-MM-DD")) {
       alert("실험 첫날은 지울수 없습니다");
-    } else if (copy.doDateList.includes(date.format("YYYY-MM-DD"))) {
-      copy.doDateList.splice(
-        copy.doDateList.indexOf(date.format("YYYY-MM-DD")),
-        1
-      );
+    } else if (copy.dateList.includes(date.format("YYYY-MM-DD"))) {
+      copy.dateList.splice(copy.dateList.indexOf(date.format("YYYY-MM-DD")), 1);
       copy.exceptDateList = [...copy.exceptDateList, date.format("YYYY-MM-DD")];
       setCheck(!check);
       setRecruit(copy);
     } else {
-      copy.doDateList = [...copy.doDateList, date.format("YYYY-MM-DD")];
+      copy.dateList = [...copy.dateList, date.format("YYYY-MM-DD")];
       copy.exceptDateList.splice(
         copy.exceptDateList.indexOf(date.format("YYYY-MM-DD")),
         1
@@ -97,23 +135,68 @@ export default function PDateSelect({ recruit, setRecruit }) {
 
   const createTimeArr = (startTime, endTime, doTime) => {
     const startMoment = moment(startTime, "HH:mm");
-    const endMoment = moment(endTime, "HH:mm");
+    const endMoment = moment(endTime, "HH:mm").clone().add(1, "minutes");
     const timeArr = [];
-    while (startMoment <= endMoment) {
+    while (startMoment.clone().add(doTime, "minutes") <= endMoment) {
       timeArr.push(
         `${startMoment.format("HH:mm")}~${startMoment
           .add(doTime, "minutes")
           .format("HH:mm")}`
       );
     }
-    const copy = recruit;
-    copy.doTimeList = timeArr;
-    setRecruit(copy);
+    return timeArr;
   };
 
-  useEffect(() => {
-    createTimeArr(startTime, endTime, doTime);
-  });
+  /* 설정한 그룹과, 그룹이외의 날짜, 시간에 따른 설정을 계산을 해주는 로직 */
+  const createDoDateList = (dateList, createdGroup, timeList) => {
+    const new_dateList = [];
+    const groupDateList = [];
+    const doDateList = [];
+    createdGroup.map((a) => groupDateList.push(...a.dateList));
+    /* dateList에서 그룹으로 설정된 날짜를 제거하여 새로운 배열에 담는 작업 */
+    for (var i = 0; i < dateList.length; i++) {
+      if (groupDateList.includes(dateList[i]) !== true) {
+        new_dateList.push(dateList[i]);
+      }
+    }
+    /*new dateList의 날짜와 timeList의 시간 합치는 작업 */
+    for (var j = 0; j < new_dateList.length; j++) {
+      for (var k = 0; k < timeList.length; k++) {
+        doDateList.push({
+          doDate: `${new_dateList[j]}T${timeList[k].slice(0, 5)}`,
+        });
+      }
+    }
+    /* 그룹의 날짜와 그룹의 시간 합쳐서 새로운 배열을 만드는 작업 */
+    const groupDoDateList = createdGroup.map((a) => {
+      var arr = [];
+      for (var i = 0; i < a.dateList.length; i++) {
+        for (var j = 0; j < a.timeList.length; j++) {
+          arr.push({
+            doDate: `${a.dateList[i]}T${a.timeList[j].slice(0, 5)}`,
+          });
+        }
+      }
+      return arr;
+    });
+    /* 합쳐진 groupDoDateList를 doDateList에 넣는 작업 */
+    for (var f = 0; f < groupDoDateList.length; f++) {
+      doDateList.push(...groupDoDateList[f]);
+    }
+
+    return doDateList;
+  };
+
+  const askResetGroup = () => {
+    if (createdGroup.length !== 0) {
+      var answer = window.confirm(
+        "날짜, 시간을 변경하면 시간선택 그룹이 초기화됩니다. 변경하시겠습니까?"
+      );
+      if (answer === true) {
+        setCreatedGroup([]);
+      }
+    }
+  };
 
   return (
     <>
@@ -130,13 +213,14 @@ export default function PDateSelect({ recruit, setRecruit }) {
           displayFormat="YYYY-MM-DD"
           hideKeyboardShortcutsPanel={true}
           onDatesChange={({ startDate, endDate }) => {
+            askResetGroup();
             const copy = recruit;
             copy.startDate = startDate;
             copy.endDate = endDate;
             setRecruit(copy);
             if (startDate && endDate !== null) {
               const copy = recruit;
-              copy.doDateList = createDateArr(startDate, endDate);
+              copy.dateList = createDateArr(startDate, endDate);
               setRecruit(copy);
             }
           }}
@@ -154,7 +238,10 @@ export default function PDateSelect({ recruit, setRecruit }) {
         <p>날짜 빼기</p>
         <SingleDatePicker
           date={startDate}
-          onDateChange={createExceptDate}
+          onDateChange={(e) => {
+            askResetGroup();
+            createExceptDate(e);
+          }}
           focused={focused}
           onFocusChange={({ focused }) => {
             setFocused(focused);
@@ -176,8 +263,8 @@ export default function PDateSelect({ recruit, setRecruit }) {
           }
           renderCalendarDay={(props) => {
             const { day, modifiers } = props;
-            if (day && doDateList.length !== 0) {
-              if (doDateList.find((ele) => ele === day.format("YYYY-MM-DD"))) {
+            if (day && dateList.length !== 0) {
+              if (dateList.find((ele) => ele === day.format("YYYY-MM-DD"))) {
                 modifiers && modifiers.add("selected");
               }
             }
@@ -203,6 +290,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
         <DatePicker
           selected={startTime}
           onChange={(date) => {
+            askResetGroup();
             const copy = { ...recruit };
             copy.startTime = moment(date).format("HH:mm");
             setStartTime(date);
@@ -218,6 +306,7 @@ export default function PDateSelect({ recruit, setRecruit }) {
         <DatePicker
           selected={endTime}
           onChange={(date) => {
+            askResetGroup();
             const copy = { ...recruit };
             copy.endTime = moment(date).format("HH:mm");
             setEndTime(date);
@@ -234,19 +323,40 @@ export default function PDateSelect({ recruit, setRecruit }) {
         key={recruit}
         disabled={startTime && endTime && startDate && endDate ? false : true}
         onClick={() => {
-          setSwitchCalendar(!switchCalendar);
+          const copy = { ...recruit };
+          copy.timeList = createTimeArr(startTime, endTime, doTime);
+          setRecruit(copy);
+          setModalSwitch(!modalSwitch);
         }}
       >
-        {switchCalendar ? "접기" : "펼쳐보기"}
+        날짜별 시간 설정하기
       </button>
-      {switchCalendar && (
-        <PTimeSelect
+      {modalSwitch && (
+        <PTimeSelectModal
           recruit={recruit}
           setRecruit={setRecruit}
-          setSwitchCalendar={setSwitchCalendar}
-          switchCalendar={switchCalendar}
+          setModalSwitch={setModalSwitch}
+          modalSwitch={modalSwitch}
+          createdGroup={createdGroup}
+          setCreatedGroup={setCreatedGroup}
+          createDoDateList={createDoDateList}
         />
       )}
+      <button
+        disabled={startTime && endTime && startDate && endDate ? false : true}
+        onClick={() => {
+          const copy = { ...recruit };
+          copy.timeList = createTimeArr(startTime, endTime, doTime);
+          copy.doDateList = createDoDateList(
+            dateList,
+            createdGroup,
+            createTimeArr(startTime, endTime, doTime)
+          );
+          setRecruit(copy);
+        }}
+      >
+        저장
+      </button>
     </>
   );
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
@@ -30,10 +31,10 @@ public class PostService {
 
     @Transactional
     public void createOrDeletePostLike(Long postId, User user) {
-        Optional<PostLike> findPostLike = postLikeRepository.findByPostIdAndCreatedBy(postId, user);
+        Optional<PostLike> findPostLike = postLikeRepository.findByPostIdAndUserId(postId, user.getId());
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         if (findPostLike.isEmpty()) {
-            PostLike postLike = PostLike.create(post);
+            PostLike postLike = PostLike.create(post, user);
             postLikeRepository.save(postLike);
         } else {
             postLikeRepository.delete(findPostLike.get());
@@ -57,13 +58,12 @@ public class PostService {
     }
 
     public Page<PostResponse.GetLikeList> getListByLike(User user, PageDto pageDto) {
-        final Page<Post> posts = postRepository.findAllByLike(user, pageDto.of());
+        Page<Post> posts = postRepository.findAllByLike(user, pageDto.of());
         return posts.map(PostResponse.GetLikeList::build);
     }
 
-    @Transactional(readOnly = true)
-    public Page<PostResponse.GetMyApplyList> getListByApplyStatus(ApplyStatus applyStatus, User user, PageDto pageDto) {
-        return postRepository.findAllByApplyStatus(applyStatus, user, pageDto.of());
+    public Page<PostResponse.GetMyApplyList> getListByApplyStatus(ApplyStatus applyStatus, User user, LocalDateTime now, PageDto pageDto) {
+        return postRepository.findAllByApplyStatus(applyStatus, user, now, pageDto.of());
     }
 
     public Page<PostResponse.GetMyCompletedList> getListByMyCompleteList(User user, PageDto pageDto) {

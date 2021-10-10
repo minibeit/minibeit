@@ -120,7 +120,7 @@ include::{snippets}/user-list-in-businessprofile/http-response.adoc[]
 
 === 비즈니스 프로필 후기 작성하기
 
-`POST /api/post/{postId}/review/{postDoDateId}`
+`POST /api/post/date/{postDoDateId}/review`
 
 요청 HTTP
 include::{snippets}/business-review-create/http-request.adoc[]

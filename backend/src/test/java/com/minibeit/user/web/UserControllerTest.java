@@ -69,6 +69,54 @@ class UserControllerTest extends MvcTest {
     }
 
     @Test
+    @DisplayName("회원가입 문서화")
+    public void signup() throws Exception {
+        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
+
+        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.build(user1, 2L, Avatar.builder().id(1L).url("profile url.").build());
+
+        given(userService.signup(any(), any())).willReturn(response);
+
+        ResultActions results = mvc.perform(
+                multipart("/api/user/signup")
+                        .file(avatar)
+                        .param("name", "실명")
+                        .param("nickname", "동그라미")
+                        .param("gender", "MALE")
+                        .param("phoneNum", "010-1234-5678")
+                        .param("job", "대학생")
+                        .param("birth", "2000-11-11")
+                        .param("schoolId", "1")
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
+                        .characterEncoding("UTF-8")
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(document("auth-signup",
+                        requestParameters(
+                                parameterWithName("name").description("실명"),
+                                parameterWithName("nickname").description("닉네임"),
+                                parameterWithName("gender").description("성별(MALE or FEMALE)"),
+                                parameterWithName("phoneNum").description("전화번호"),
+                                parameterWithName("birth").description("생년월일 (2000-11-11)"),
+                                parameterWithName("job").description("직업"),
+                                parameterWithName("schoolId").description("관심있는 학교 식별자")
+                        ),
+                        requestParts(
+                                partWithName("avatar").description("사용자 프로필 이미지")
+                        ),
+                        responseFields(
+                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원가입한 유저 식별자"),
+                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("회원가입한 유저 닉네임"),
+                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자"),
+                                fieldWithPath("avatar").type(JsonFieldType.STRING).description("프로필 이미지 없다면 null")
+                        )
+                ));
+    }
+
+
+    @Test
     @DisplayName("닉네임 중복체크 문서화")
     public void createDateRule() throws Exception {
         UserRequest.Nickname request = UserRequest.Nickname.builder()
@@ -121,7 +169,7 @@ class UserControllerTest extends MvcTest {
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
 
-        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.build(user1, 2L);
+        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.build(user1, 2L, Avatar.builder().id(1L).url("profile url.").build());
 
         given(userService.update(any(), any())).willReturn(response);
 
@@ -160,7 +208,8 @@ class UserControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("유저 식별자"),
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
-                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자")
+                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자"),
+                                fieldWithPath("avatar").type(JsonFieldType.STRING).description("프로필 이미지 없다면 null")
                         )
                 ));
     }
@@ -211,5 +260,15 @@ class UserControllerTest extends MvcTest {
                                 fieldWithPath("[].nickname").type(JsonFieldType.STRING).description("유저 닉네임")
                         )
                 ));
+    }
+
+    @Test
+    @DisplayName("회원 탈퇴 문서화")
+    public void deleteOne() throws Exception {
+        ResultActions results = mvc.perform(delete("/api/user"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("user-deleteOne"));
     }
 }

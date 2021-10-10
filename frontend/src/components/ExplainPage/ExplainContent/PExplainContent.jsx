@@ -3,8 +3,6 @@ import * as S from "../style";
 
 function PExplainContent({ dummycontent }) {
   const { explain, src } = dummycontent;
-  console.log(explain);
-  console.log(src);
   return (
     <S.ExplainContentWrapper>
       <S.ExplainContentText>

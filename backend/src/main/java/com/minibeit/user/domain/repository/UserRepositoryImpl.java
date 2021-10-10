@@ -15,6 +15,16 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
+    public Optional<User> findByOauthIdWithAvatar(String oauthId) {
+        return Optional.ofNullable(
+                queryFactory.selectFrom(user)
+                        .leftJoin(user.avatar).fetchJoin()
+                        .where(user.oauthId.eq(oauthId))
+                        .fetchOne()
+        );
+    }
+
+    @Override
     public List<User> findAllInBusinessProfile(Long businessProfileId) {
         return queryFactory.selectFrom(user)
                 .join(user.userBusinessProfileList, userBusinessProfile)
@@ -28,5 +38,15 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                 .join(user.school).fetchJoin()
                 .where(user.id.eq(userId))
                 .fetchOne());
+    }
+
+    @Override
+    public Optional<User> findByIdWithAvatar(Long userId) {
+        return Optional.ofNullable(
+                queryFactory.selectFrom(user)
+                        .leftJoin(user.avatar).fetchJoin()
+                        .where(user.id.eq(userId))
+                        .fetchOne()
+        );
     }
 }

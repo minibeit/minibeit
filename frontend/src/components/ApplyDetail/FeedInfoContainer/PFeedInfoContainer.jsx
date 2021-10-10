@@ -88,7 +88,7 @@ export default function PFeedInfoContainer({
       <S.DataBox>
         <S.DataHeader>
           <p>상세내용</p>
-          {isMine && (
+          {isMine && editSwitch === false && (
             <button onClick={() => setEditSwitch(!editSwitch)}>수정하기</button>
           )}
         </S.DataHeader>

@@ -42,10 +42,14 @@ public class PostApplicantByBusinessService {
 
     public void applyApproveCancel(Long postDoDateId, Long userId, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
-        Post post = postApplicant.getPostDoDate().getPost();
+        PostDoDate postDoDate = postApplicant.getPostDoDate();
+        Post post = postDoDate.getPost();
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
         postApplicant.updateStatus(ApplyStatus.WAIT);
+
+        List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
+        postDoDate.updateFull(approvedPostApplicant);
     }
 
     public void applyReject(Long postDoDateId, Long userId, PostApplicantRequest.ApplyReject request, User user) {

@@ -160,8 +160,8 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
         Post createdPost = Post.create(createRequest, school, businessProfile);
         recruitPost = postRepository.save(createdPost);
 
-        PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
-        PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
+        PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), recruitPost);
+        PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), recruitPost);
         recruitPostPostDoDate1 = postDoDateRepository.save(postDoDate1);
         recruitPostPostDoDate2 = postDoDateRepository.save(postDoDate2);
     }

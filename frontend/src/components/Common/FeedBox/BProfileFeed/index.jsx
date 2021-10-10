@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { changeState } from "../../../../recoil/changeState";
 import {
@@ -55,7 +56,9 @@ function NewFeedBlock({ feedInfo, getMakelist }) {
     <>
       <S.FeedTitle>
         <p>실험명</p>
-        <p>{feedInfo.title}</p>
+        <Link to={`/apply/${feedInfo.id}`}>
+          <p>{feedInfo.title}</p>
+        </Link>
       </S.FeedTitle>
       <S.FeedContent>
         {modalSwitch ? (
@@ -108,7 +111,9 @@ function ReviewFeedBlock({ feedInfo }) {
   };
   return (
     <>
-      <S.FeedTitle>{feedInfo.postTitle}</S.FeedTitle>
+      <Link to={`/apply/${feedInfo.id}`}>
+        <S.FeedTitle>{feedInfo.postTitle}</S.FeedTitle>
+      </Link>
       <S.FeedContent>
         <S.FeedDateNum>
           <p>실험날짜</p>
@@ -161,7 +166,9 @@ function FinishFeedBlock({ feedInfo, getMakelist }) {
     <>
       <S.FeedTitle>
         <p>실험명</p>
-        <p>{feedInfo.title}</p>
+        <Link to={`/apply/${feedInfo.id}`}>
+          <p>{feedInfo.title}</p>
+        </Link>
       </S.FeedTitle>
       <S.FeedContent>
         <S.FeedBookmark>

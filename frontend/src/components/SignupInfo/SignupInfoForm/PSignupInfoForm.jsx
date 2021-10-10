@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { useHistory } from "react-router";
 import { PVImg, SchoolSearch } from "../../Common";
 import { handleCompressImg } from "../../../utils/imgCompress";
 import Portal from "../../Common/Modal/Portal";
@@ -9,8 +8,6 @@ import { useRecoilValue } from "recoil";
 import { signupState } from "../../../recoil/signupState";
 import { nickCheckApi } from "../../../utils/auth";
 import * as S from "../style";
-import CloseIcon from "@mui/icons-material/Close";
-import SignupFinish from "../SignupFinish";
 
 PSignupInfoForm.propTypes = {
   schoollist: PropTypes.arrayOf(
@@ -153,7 +150,6 @@ function PSignupInfoForm({ signupHandler }) {
                 <>
                   <S.SICont12>
                     <p> 프로필 사진(필수아님*) </p>
-
                     <S.ImgBox>
                       {img ? (
                         <PVImg img={img} />

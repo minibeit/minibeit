@@ -181,7 +181,7 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   width: 57%;
-  overflow: scroll;
+
   max-width: 41rem;
   border-radius: 20px;
   padding: 46px 55px;
@@ -244,3 +244,18 @@ export const JobBlock = styled.div`
 `;
 export const JobEmoji = styled.div``;
 export const JobName = styled.div``;
+
+export const SignupInfoBox = styled.div`
+  width: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: lightgrey;
+  padding: 1rem 0;
+  justify-content: space-around;
+  height: auto;
+  position: relative;
+  bottom: 1rem;
+  z-index: -1;
+  height: 19rem;
+`;

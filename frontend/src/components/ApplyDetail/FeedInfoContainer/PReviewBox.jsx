@@ -19,20 +19,25 @@ export default function PReveiwBox({ businessId }) {
   useEffect(() => {
     getReview();
   }, [getReview]);
+
   return (
-    <S.ReviewBox>
+    <>
       {reviewList.length !== 0 ? (
         reviewList.map((a) => (
-          <div key={a.id}>
-            <p>이름</p>
-            <p>{a.doDate}</p>
-            <p>{a.content}</p>
-          </div>
+          <S.ReviewBox key={a.id}>
+            <S.ReviewHeader>
+              <p>{a.writer}</p>
+              <p>{a.doDate}</p>
+            </S.ReviewHeader>
+            <S.ReviewContent>
+              <p>{a.content}</p>
+            </S.ReviewContent>
+          </S.ReviewBox>
         ))
       ) : (
         <p>리뷰 없음</p>
       )}
       <Pagination page={page} count={totalReview} setPage={setPage} />
-    </S.ReviewBox>
+    </>
   );
 }

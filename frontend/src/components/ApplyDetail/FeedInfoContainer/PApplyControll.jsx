@@ -43,14 +43,15 @@ export default function PApplyControll({
 }) {
   return (
     <S.ApplyRemote>
-      <h3>선택 일정</h3>
+      <p>선택 일정</p>
       <S.ApplyData key={apply}>
         <p>날짜: {apply.doDate}</p>
-        <hr />
         <p>시간: {apply.doTime}</p>
       </S.ApplyData>
-      <button onClick={() => setModalSwitch(true)}>신청하기</button>
-      <button>공유하기</button>
+      <div>
+        <button onClick={() => setModalSwitch(true)}>신청하기</button>
+        <button>공유하기</button>
+      </div>
     </S.ApplyRemote>
   );
 }

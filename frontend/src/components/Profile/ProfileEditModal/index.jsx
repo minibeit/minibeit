@@ -30,6 +30,8 @@ export default function ProfileEditModal({ setModalSwitch }) {
         async (res) => {
           const user_cp = { ...user };
           user_cp["name"] = inputs.new_nickname;
+          user_cp["avatar"] =
+            res.data.avatar === null ? "noImg" : res.data.avatar;
           setUser(user_cp);
           window.alert("회원정보가 수정되었습니다.");
           window.location.replace(`/user/${inputs.new_nickname}`);
@@ -41,6 +43,8 @@ export default function ProfileEditModal({ setModalSwitch }) {
         const user_cp = { ...user };
         user_cp["schoolId"] = parseInt(school);
         user_cp["name"] = inputs.new_nickname;
+        user_cp["avatar"] =
+          res.data.avatar === null ? "noImg" : res.data.avatar;
         setUser(user_cp);
         window.alert("회원정보가 수정되었습니다.");
         window.location.replace(`/user/${inputs.new_nickname}`);

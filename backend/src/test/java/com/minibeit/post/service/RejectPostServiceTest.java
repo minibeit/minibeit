@@ -31,7 +31,6 @@ class RejectPostServiceTest extends ServiceIntegrationTest {
     private RejectPostRepository rejectPostRepository;
 
     private User testUser;
-
     private RejectPost rejectPost;
 
     @BeforeEach

@@ -68,7 +68,6 @@ class PostServiceTest extends ServiceIntegrationTest {
     private User userInBusinessProfile;
     private User anotherUser;
     private User testUser;
-
     private School KSchool;
     private School YSchool;
     private BusinessProfile businessProfile;

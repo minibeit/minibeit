@@ -12,7 +12,7 @@ export const ModalBackground = styled.div`
 export const ModalTab = styled.div`
   position: absolute;
   transform: translate(-50%, -50%);
-  top: 24%;
+  top: 12.5rem;
   width: 64%;
   left: 50%;
   height: 3rem;
@@ -23,10 +23,9 @@ export const ModalTab = styled.div`
 export const ModalBox = styled.div`
   transform: translate(-50%, -50%);
   position: absolute;
-  top: 50%;
+  top: 29rem;
   left: 50%;
   width: 57%;
-  overflow: scroll;
   max-width: 41rem;
   border-radius: 0 20px 20px 20px;
   padding: 32px 36px;
@@ -70,6 +69,7 @@ export const ModalSecondTopBox = styled.div`
 `;
 export const ModalSecondBottomBox = styled.div`
   display: flex;
+  overflow: scroll;
   flex-direction: column;
   align-items: center;
   justify-content: start;
@@ -78,6 +78,11 @@ export const ModalSecondBottomBox = styled.div`
   height: 93%;
   display: flex;
   width: -webkit-fill-available;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
 `;
 export const BMperson = styled.div`
   display: flex;

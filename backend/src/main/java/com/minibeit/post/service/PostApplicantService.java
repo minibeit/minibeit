@@ -53,11 +53,15 @@ public class PostApplicantService {
     }
 
     public void applyCancel(Long postDoDateId, User user) {
+        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
+
         postApplicantRepository.deleteByPostDoDateIdAndUserId(postDoDateId, user.getId());
 
-        PostDoDate postDoDate = postDoDateRepository.findById(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
+        if (postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
+            PostDoDate postDoDate = postDoDateRepository.findById(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
 
-        List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
-        postDoDate.updateFull(approvedPostApplicant);
+            List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
+            postDoDate.updateFull(approvedPostApplicant);
+        }
     }
 }

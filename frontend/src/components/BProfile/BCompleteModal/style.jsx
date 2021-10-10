@@ -21,6 +21,11 @@ export const ModalBox = styled.div`
   padding: 32px 36px;
   height: 26rem;
   background-color: white;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
 `;
 export const ModalHeader = styled.div`
   display: flex;

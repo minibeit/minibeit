@@ -13,7 +13,6 @@ import com.minibeit.businessprofile.dto.BusinessProfileReviewResponse;
 import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
 import com.minibeit.businessprofile.service.exception.*;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.config.jpa.AuditorAwareImpl;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
@@ -21,7 +20,6 @@ import com.minibeit.post.domain.repository.PostFileRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
-import com.minibeit.post.service.PostByBusinessService;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
@@ -30,17 +28,18 @@ import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
-import org.hibernate.annotations.Filter;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.naming.NoPermissionException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -78,14 +77,12 @@ class BusinessProfileServiceTest {
     private UserBusinessProfileRepository userBusinessProfileRepository;
     @Autowired
     private BusinessProfileService businessProfileService;
-    @MockBean
-    private AvatarRepository avatarRepository;
 
     private BusinessProfile businessProfile;
+    private BusinessProfile emptyBusinessProfile;
     private BusinessProfileRequest.Update request;
 
     private User userInBusinessProfile, anotherUser, admin;
-    private Post post;
 
     private User approveUser1;
     private User approveUser2;
@@ -145,7 +142,7 @@ class BusinessProfileServiceTest {
 
     private void initPost() {
         Post createdPost = Post.create(createInfoRequest, school, businessProfile);
-        post = postRepository.save(createdPost);
+        Post post = postRepository.save(createdPost);
 
         PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
         PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 1, 9, 30), createdPost);
@@ -247,13 +244,21 @@ class BusinessProfileServiceTest {
 
         userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser, admin, approveUser1, approveUser2, waitUser1, waitUser2));
 
-        businessProfile = BusinessProfile.builder()
+        BusinessProfile businessProfile1 = BusinessProfile.builder()
                 .name("동그라미 실험실")
                 .place("고려대")
                 .contact("010-1234-5786")
                 .admin(admin)
                 .build();
-        businessProfileRepository.save(businessProfile);
+        emptyBusinessProfile = BusinessProfile.builder()
+                .name("빈 실험실")
+                .place("고려대")
+                .contact("010-0101-0011")
+                .admin(admin)
+                .build();
+
+        businessProfile = businessProfileRepository.save(businessProfile1);
+        businessProfileRepository.save(emptyBusinessProfile);
         userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(admin, businessProfile));
         userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
     }
@@ -375,12 +380,11 @@ class BusinessProfileServiceTest {
     @Test
     @DisplayName("비즈니스 프로필 삭제 - 성공(어드민일 때)")
     void delete() {
-
         assertDoesNotThrow(
-                () -> businessProfileService.delete(businessProfile.getId(), admin)
+                () -> businessProfileService.delete(emptyBusinessProfile.getId(), admin)
         );
         assertThatThrownBy(
-                () -> businessProfileService.getOne(businessProfile.getId(), anotherUser)
+                () -> businessProfileService.getOne(emptyBusinessProfile.getId(), anotherUser)
         ).isInstanceOf(BusinessProfileNotFoundException.class);
 
     }
@@ -450,19 +454,19 @@ class BusinessProfileServiceTest {
         assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
     }
 
-    /**
-     * controller 테스트는 되는데 service에서는 삭제가 안되네요..
-     */
 //    @Test
 //    @DisplayName("비즈니스 프로필 공유 취소 - 성공")
 //    void sharingCancel() {
 //
+//
+//        UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userInBusinessProfile.getId(), businessProfile.getId()).orElseThrow(UserBusinessProfileNotFoundException::new);
+//
 //        businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), admin);
-//        final int afterSharedBusinessProfileUsers = originalSharedBusinessProfileUsers - 1;
 //
-//        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(afterSharedBusinessProfileUsers);
+//        UserBusinessProfile userBusinessProfile1 = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userInBusinessProfile.getId(), businessProfile.getId()).orElseThrow(UserBusinessProfileNotFoundException::new);
+//
 //    }
-//
+
     @Test
     @DisplayName("비즈니스 프로필 공유 취소 - 실패(어드민이 아닐때)")
     void sharingCancelFailureWhenNotAdmin() {
@@ -470,6 +474,7 @@ class BusinessProfileServiceTest {
         assertThatThrownBy(
                 () -> businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), userInBusinessProfile)
         ).isInstanceOf(PermissionException.class);
+
         assertThatThrownBy(
                 () -> businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), anotherUser)
         ).isInstanceOf(PermissionException.class);
@@ -526,139 +531,6 @@ class BusinessProfileServiceTest {
                 () -> businessProfileService.transferOfAuthority(businessProfile.getId(), userInBusinessProfile.getId(), userInBusinessProfile)
         ).isInstanceOf(PermissionException.class);
         assertThat(businessProfile.getAdmin().getId()).isEqualTo(admin.getId());
-    }
-
-    @Test
-    @DisplayName("리뷰 생성 - 성공(비즈니스프로필과 일치)")
-    void createReview() {
-
-        postApplicant1.updateMyFinish();
-
-        BusinessProfileReviewResponse.ReviewId review = businessProfileReviewService.create(postDoDates.get(firstPost).getId(), createReviewRequest, createReviewRequest.getDoDate(), approveUser1);
-        BusinessProfileReviewResponse.GetOne one = businessProfileReviewService.getOne(review.getId());
-        assertThat(one.getDoDate()).isEqualTo(createReviewRequest.getDoDate());
-    }
-
-    @Test
-    @DisplayName("리뷰 생성 - 실패(권한없는 유저 작성)")
-    void createReviewFailureWhenNoPermission() {
-
-        //아직 실험이 끝나지 않은 참가자
-        assertThatThrownBy(
-                () -> businessProfileReviewService.create(postDoDates.get(firstPost).getId(), createReviewRequest, createReviewRequest.getDoDate(), approveUser1)
-        ).isInstanceOf(PermissionException.class);
-
-        //실험에 지원하지 않은 참가자
-        assertThatThrownBy(
-                () -> businessProfileReviewService.create(postDoDates.get(firstPost).getId(), createReviewRequest, createReviewRequest.getDoDate(), approveUser2)
-        ).isInstanceOf(PostApplicantNotFoundException.class);
-
-    }
-
-    @Test
-    @DisplayName("리뷰 생성 - 실패(날짜 초과)")
-    void createReviewFailureWhenOverTime() {
-
-        assertThatThrownBy(
-                () -> businessProfileReviewService.create(postDoDates.get(firstPost).getId(), createReviewRequest, createReviewRequest.getDoDate(), approveUser1)
-        ).isInstanceOf(PermissionException.class);
-
-    }
-
-    @Test
-    @DisplayName("리뷰 수정 - 성공")
-    void updateReview() {
-        postApplicant1.updateMyFinish();
-
-        BusinessProfilesReviewRequest.Update updateRequest = BusinessProfilesReviewRequest.Update.builder()
-                .content("업데이트한 새로운 내용")
-                .build();
-
-        BusinessProfileReview review = businessProfileReviewRepository.findByIdWithUser(businessProfile.getId()).orElseThrow(BusinessProfileReviewNotFoundException::new);
-        BusinessProfileReviewResponse.ReviewId updatedReviewId = businessProfileReviewService.update(review.getId(), updateRequest, review.getDoDate().plusDays(6), approveUser1);
-        BusinessProfileReview updatedReview = businessProfileReviewRepository.findByIdWithUser(updatedReviewId.getId()).orElseThrow(BusinessProfileReviewNotFoundException::new);
-
-        assertThat(updatedReview.getContent()).isEqualTo(updateRequest.getContent());
-
-    }
-
-    @Test
-    @DisplayName("리뷰 수정 - 실패(권한없는 유저 수정)")
-    void updateReviewFailureWhenNoPermission() {
-
-        BusinessProfilesReviewRequest.Update updateRequest = BusinessProfilesReviewRequest.Update.builder()
-                .content("업데이트한 새로운 내용")
-                .build();
-
-        BusinessProfileReview review = businessProfileReviewRepository.findByIdWithUser(businessProfile.getId()).orElseThrow(BusinessProfileReviewNotFoundException::new);
-        assertThatThrownBy(
-                () -> businessProfileReviewService.update(review.getId(), updateRequest, review.getDoDate().plusDays(6), waitUser1)
-        ).isInstanceOf(PermissionException.class);
-
-    }
-
-    @Test
-    @DisplayName("리뷰 수정 - 실패(시간 초과)")
-    void updateReviewFailureWhenOverTime() {
-
-        postApplicant1.updateMyFinish();
-        BusinessProfilesReviewRequest.Update updateRequest = BusinessProfilesReviewRequest.Update.builder()
-                .content("업데이트한 새로운 내용")
-                .build();
-
-        BusinessProfileReview review = businessProfileReviewRepository.findByIdWithUser(businessProfile.getId()).orElseThrow(BusinessProfileReviewNotFoundException::new);
-        assertThatThrownBy(
-                () -> businessProfileReviewService.update(review.getId(), updateRequest, review.getDoDate().plusDays(14), approveUser1)
-        ).isInstanceOf(PermissionException.class);
-
-    }
-
-    @Test
-    @DisplayName("리뷰 조회 - 성공")
-    void getOneReview() {
-
-        BusinessProfileReviewResponse.GetOne one = businessProfileReviewService.getOne(businessProfile.getId());
-        assertAll(
-                () -> assertThat(businessProfileReview.getContent()).isEqualTo(one.getContent()),
-                () -> assertThat(businessProfileReview.getDoDate()).isEqualTo(one.getDoDate()),
-                () -> assertThat(businessProfileReview.getPostTitle()).isEqualTo(one.getPostTitle())
-        );
-    }
-
-    @Test
-    @DisplayName("리뷰 조회 - 실패(권한없는 리뷰 조회)")
-    void getOneReviewFailureWhenNoPermission() {
-
-        BusinessProfileReviewResponse.GetOne review = businessProfileReviewService.getOne(businessProfile.getId());
-        assertAll(
-                () -> assertThat(businessProfileReview.getContent()).isEqualTo(review.getContent()),
-                () -> assertThat(businessProfileReview.getDoDate()).isEqualTo(review.getDoDate()),
-                () -> assertThat(businessProfileReview.getPostTitle()).isEqualTo(review.getPostTitle())
-        );
-    }
-
-    @Test
-    @DisplayName("리뷰 삭제 - 성공(조회 후 삭제하고 다시 조회)")
-    void deleteReview() {
-
-        BusinessProfileReviewResponse.GetOne review = businessProfileReviewService.getOne(businessProfile.getId());
-        businessProfileReviewService.deleteOne(review.getId(), approveUser1);
-        assertThatThrownBy(
-                () -> businessProfileReviewService.getOne(businessProfile.getId())
-        ).isInstanceOf(BusinessProfileReviewNotFoundException.class);
-
-    }
-
-    @Test
-    @DisplayName("리뷰 삭제 - 실패(권한 없는 유저)")
-    void deleteReviewFailureWhenNoPermission() {
-
-        BusinessProfileReviewResponse.GetOne review = businessProfileReviewService.getOne(businessProfile.getId());
-
-        assertThatThrownBy(
-                () ->         businessProfileReviewService.deleteOne(review.getId(), approveUser2)
-        ).isInstanceOf(PermissionException.class);
-
     }
 
 }

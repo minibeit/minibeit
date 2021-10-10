@@ -5,8 +5,8 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.minibeit.avatar.domain.AvatarServer;
 import com.minibeit.avatar.domain.AvatarType;
-import com.minibeit.common.dto.SavedFile;
 import com.minibeit.common.component.exception.S3FileUploadException;
+import com.minibeit.common.dto.SavedFile;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -14,8 +14,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -45,7 +48,9 @@ public class S3Uploader {
         Integer width = null;
         Integer height = null;
         try {
-            putS3(file, s3FileName);
+            File uploadFile = convert(file)
+                    .orElseThrow(() -> new IllegalArgumentException("MultipartFile -> File로 전환이 실패했습니다."));
+            putS3(uploadFile, s3FileName);
             if (isImage) {
                 BufferedImage image = ImageIO.read(file.getInputStream());
                 width = image.getWidth();
@@ -70,13 +75,24 @@ public class S3Uploader {
         return savedFileBuilder.avatarType(AvatarType.FILE).build();
     }
 
-    private void putS3(MultipartFile uploadFile, String fileName) throws IOException {
-        s3Client.putObject(new PutObjectRequest(s3Bucket, fileName, uploadFile.getInputStream(), null).withCannedAcl(CannedAccessControlList.PublicRead));
+    private void putS3(File uploadFile, String fileName) throws IOException {
+        s3Client.putObject(new PutObjectRequest(s3Bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
     private boolean isImage(String extension) {
         return Optional.ofNullable(extension)
                 .map(s -> s.toLowerCase().matches("png|jpeg|jpg|bmp|gif|svg"))
                 .orElse(false);
+    }
+
+    private Optional<File> convert(MultipartFile file) throws IOException {
+        File convertFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+        if (convertFile.createNewFile()) {
+            try (FileOutputStream fos = new FileOutputStream(convertFile)) {
+                fos.write(file.getBytes());
+            }
+            return Optional.of(convertFile);
+        }
+        return Optional.empty();
     }
 }

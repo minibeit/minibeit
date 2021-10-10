@@ -140,6 +140,7 @@ export default function PFeedInfoContainer({
         <S.DataBody>
           <p>주소 : {place}</p>
           <p>연락처 : {contact}</p>
+          <p>담당자 : {businessProfileInfo.adminName}</p>
         </S.DataBody>
       </S.DataBox>
       <S.DataBox>

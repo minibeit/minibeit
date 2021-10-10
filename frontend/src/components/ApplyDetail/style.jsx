@@ -123,7 +123,16 @@ export const Img = styled.img`
 `;
 
 /* review */
-export const ReviewBox = styled.div``;
+export const ReviewBox = styled.div`
+  border-bottom: 1px solid grey;
+  padding: 10px;
+`;
+export const ReviewHeader = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-bottom: 10px;
+`;
+export const ReviewContent = styled.div``;
 
 /* apply remote controller */
 export const ApplyRemote = styled.div`

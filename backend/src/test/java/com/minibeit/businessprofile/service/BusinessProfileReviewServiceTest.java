@@ -1,5 +1,6 @@
 package com.minibeit.businessprofile.service;
 
+import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
@@ -39,11 +40,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-@SpringBootTest
-@Transactional
 @DisplayName("비즈니스프로필 후기 흐름 테스트")
-public class BusinessProfileReviewServiceTest {
-
+public class BusinessProfileReviewServiceTest extends ServiceIntegrationTest {
     @Autowired
     private PostRepository postRepository;
     @Autowired
@@ -290,7 +288,7 @@ public class BusinessProfileReviewServiceTest {
                 .build();
 
         BusinessProfileReview review = businessProfileReviewRepository.findByIdWithUser(businessProfile.getId()).orElseThrow(BusinessProfileReviewNotFoundException::new);
-        BusinessProfileReviewResponse.ReviewId updatedReviewId = businessProfileReviewService.update(review.getId(), updateRequest, review.getDoDate().plusDays(6), approveUser1);
+        businessProfileReviewService.update(review.getId(), updateRequest, review.getDoDate().plusDays(6), approveUser1);
         BusinessProfileReview updatedReview = businessProfileReviewRepository.findByIdWithUser(businessProfile.getId()).orElseThrow(BusinessProfileReviewNotFoundException::new);
 
         assertThat(updatedReview.getContent()).isEqualTo(updateRequest.getContent());
@@ -312,11 +310,9 @@ public class BusinessProfileReviewServiceTest {
     @DisplayName("리뷰 생성 - 실패(권한없는 유저 작성)")
     void createReviewFailureWhenNoPermission() {
 
-        //실험에 참여하지 않은 참가자
         assertThatThrownBy(
                 () -> businessProfileReviewService.create(postDoDates.get(firstPost).getId(), createReviewRequest, createReviewRequest.getDoDate(), approveUser2)
         ).isInstanceOf(PostApplicantNotFoundException.class);
-
 
     }
 
@@ -329,8 +325,4 @@ public class BusinessProfileReviewServiceTest {
         ).isInstanceOf(PermissionException.class);
 
     }
-
-
-
-
 }

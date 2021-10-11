@@ -1,6 +1,6 @@
 package com.minibeit.businessprofile.service;
 
-import com.minibeit.avatar.domain.repository.AvatarRepository;
+import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
@@ -9,18 +9,18 @@ import com.minibeit.businessprofile.domain.repository.BusinessProfileReviewRepos
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
-import com.minibeit.businessprofile.dto.BusinessProfileReviewResponse;
 import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
-import com.minibeit.businessprofile.service.exception.*;
+import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
+import com.minibeit.businessprofile.service.exception.BusinessProfileNotPermission;
+import com.minibeit.businessprofile.service.exception.DuplicateShareException;
+import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
-import com.minibeit.post.domain.repository.PostFileRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
-import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -28,33 +28,22 @@ import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
-@SpringBootTest
-@Transactional
+
 @DisplayName("비즈니스프로필 흐름 테스트")
-class BusinessProfileServiceTest {
-
+class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Autowired
     private PostApplicantRepository postApplicantRepository;
     @Autowired
@@ -64,13 +53,9 @@ class BusinessProfileServiceTest {
     @Autowired
     private SchoolRepository schoolRepository;
     @Autowired
-    private PostFileRepository postFileRepository;
-    @Autowired
     private BusinessProfileRepository businessProfileRepository;
     @Autowired
     private BusinessProfileReviewRepository businessProfileReviewRepository;
-    @Autowired
-    private BusinessProfileReviewService businessProfileReviewService;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -83,11 +68,12 @@ class BusinessProfileServiceTest {
     private BusinessProfileRequest.Update request;
 
     private User userInBusinessProfile, anotherUser, admin;
-
     private User approveUser1;
     private User approveUser2;
     private User waitUser1;
     private User waitUser2;
+
+    private UserBusinessProfile cancelUserBusinessProfile;
 
     private PostApplicant postApplicant1;
     private PostApplicant postApplicant2;
@@ -96,11 +82,9 @@ class BusinessProfileServiceTest {
     private School school;
 
     private PostRequest.CreateInfo createInfoRequest;
-    private BusinessProfilesReviewRequest.Create createReviewRequest;
     private ArrayList<PostDoDate> postDoDates;
 
     private final int originalSharedBusinessProfileUsers = 2;
-    private final int firstPost = 0;
 
     @BeforeEach
     void set() {
@@ -174,12 +158,6 @@ class BusinessProfileServiceTest {
         businessProfileReview.setCreatedBy(approveUser1);
         businessProfileReviewRepository.save(businessProfileReview);
 
-        createReviewRequest = BusinessProfilesReviewRequest.Create.builder()
-                .postTitle("리뷰 요청 제목")
-                .content("후기내용")
-                .time(30)
-                .doDate(LocalDateTime.of(2021, 10, 10, 9, 30))
-                .build();
     }
 
     private void initUpdateRequest() {
@@ -260,7 +238,7 @@ class BusinessProfileServiceTest {
         businessProfile = businessProfileRepository.save(businessProfile1);
         businessProfileRepository.save(emptyBusinessProfile);
         userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(admin, businessProfile));
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
+        cancelUserBusinessProfile = userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
     }
 
     @Test
@@ -454,18 +432,17 @@ class BusinessProfileServiceTest {
         assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
     }
 
-//    @Test
-//    @DisplayName("비즈니스 프로필 공유 취소 - 성공")
-//    void sharingCancel() {
-//
-//
-//        UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userInBusinessProfile.getId(), businessProfile.getId()).orElseThrow(UserBusinessProfileNotFoundException::new);
-//
-//        businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), admin);
-//
-//        UserBusinessProfile userBusinessProfile1 = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userInBusinessProfile.getId(), businessProfile.getId()).orElseThrow(UserBusinessProfileNotFoundException::new);
-//
-//    }
+    @Test
+    @DisplayName("비즈니스 프로필 공유 취소 - 성공")
+    void sharingCancel() {
+        UserBusinessProfile response = userBusinessProfileRepository.findById(cancelUserBusinessProfile.getId()).orElseThrow(UserBusinessProfileNotFoundException::new);
+        assertThat(response.getBusinessProfile().getId()).isEqualTo(businessProfile.getId());
+        businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), admin);
+
+        Optional<UserBusinessProfile> response2 = userBusinessProfileRepository.findById(cancelUserBusinessProfile.getId());
+
+        assertThat(response2).isEqualTo(Optional.empty());
+    }
 
     @Test
     @DisplayName("비즈니스 프로필 공유 취소 - 실패(어드민이 아닐때)")
@@ -532,5 +509,4 @@ class BusinessProfileServiceTest {
         ).isInstanceOf(PermissionException.class);
         assertThat(businessProfile.getAdmin().getId()).isEqualTo(admin.getId());
     }
-
 }

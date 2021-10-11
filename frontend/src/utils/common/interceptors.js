@@ -1,6 +1,4 @@
 import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../recoil/userState";
 
 export function setInterceptors(instance) {
   //요청 인터셉터
@@ -28,26 +26,23 @@ export function setInterceptors(instance) {
         config,
         response: { status },
       } = error;
-
-      if (status === 401) {
+      if (status === 401 ) {
         //리코일이 문제임
-        const islogin = await useRecoilValue(userState);
-        if (!islogin) {
-          alert("로그인을 해주세요!");
-          window.location.replace("/login");
-        } else {
-          const originalRequest = config;
-          const data2 = await axios.post(
-            "http://3.36.95.15:8080/api/user/refreshtoken",
-            {} // token refresh api
-          );
-          // 새로운 토큰 저장
-
-          localStorage.setItem("accessToken", data2.data.AccessToken);
-          originalRequest.headers.Authorization = `Bearer ${data2.data.AccessToken}`;
-          // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
-          return axios(originalRequest);
+        const originalRequest = config;
+        const refreshData = await axios.post(
+          process.env.REACT_APP_API_URL + "/api/user/refreshtoken",
+          {} // token refresh api
+        );
+        if (refreshData.data.error === "Unauthorized") {
+          alert("다시 로그인 해주세요!")
+          localStorage.removeItem("recoil-persist")
+          window.location.replace("/");
         }
+        // 새로운 토큰 저장
+        localStorage.setItem("accessToken", refreshData.data.accessToken);
+        originalRequest.headers.Authorization = `Bearer ${refreshData.data.accessToken}`;
+        // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
+        return axios(originalRequest);
       }
       return Promise.reject(error);
     }

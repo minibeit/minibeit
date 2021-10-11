@@ -10,10 +10,10 @@ import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileInWork;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
+import com.minibeit.businessprofile.service.exception.BusinessProfileNotPermission;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
@@ -65,7 +65,7 @@ public class BusinessProfileService {
 
         User userToShare = userRepository.findById(invitedUserId).orElseThrow(UserNotFoundException::new);
 
-        if (userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(userToShare.getId(), businessProfileId)) {
+        if (isExistInBusinessProfile(businessProfileId, userToShare.getId())) {
             throw new DuplicateShareException();
         }
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
@@ -76,6 +76,9 @@ public class BusinessProfileService {
     public void cancelShare(Long businessProfileId, Long userId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         permissionCheck(user, businessProfile);
+        if(businessProfile.getAdmin().getId().equals(userId)){
+            throw new BusinessProfileNotPermission();
+        }
 
         UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userId, businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
@@ -84,6 +87,9 @@ public class BusinessProfileService {
     public void transferOfAuthority(Long businessProfileId, Long userId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         permissionCheck(user, businessProfile);
+        if(!isExistInBusinessProfile(businessProfileId, userId)){
+            throw new UserNotFoundException();
+        }
         User changeUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         businessProfile.changeAdmin(changeUser);
     }
@@ -118,5 +124,9 @@ public class BusinessProfileService {
         if (!businessProfile.getAdmin().getId().equals(user.getId())) {
             throw new PermissionException();
         }
+    }
+
+    private boolean isExistInBusinessProfile(Long businessProfileId, Long userId) {
+        return userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(userId, businessProfileId);
     }
 }

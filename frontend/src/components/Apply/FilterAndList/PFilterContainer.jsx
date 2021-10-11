@@ -7,9 +7,9 @@ import PropTypes, { number } from "prop-types";
 
 import DetailFilter from "./PDetailFilter";
 import CategoryFilter from "./PCategoryFilter";
+import SchoolSelect from "../../Common/SchoolSelect";
 
 import * as S from "../style";
-import { SchoolSearch } from "../../Common";
 
 PFilterContainer.propTypes = {
   getFeedList: PropTypes.func,
@@ -57,7 +57,7 @@ export default function PFilterContainer({
 
   return (
     <>
-      <SchoolSearch use="ApplyList" />
+      <SchoolSelect />
       <DatePicker
         selected={date["date"]}
         onChange={(date) => {

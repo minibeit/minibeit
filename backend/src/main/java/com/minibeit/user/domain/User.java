@@ -4,11 +4,9 @@ import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.post.domain.Post;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserRequest;
-import com.minibeit.user.service.exception.DuplicateNickNameException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -51,7 +49,7 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private Role role;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "school_id")
     private School school;
 
@@ -89,12 +87,6 @@ public class User extends BaseEntity {
 
     public void updateAvatar(Avatar avatar) {
         this.avatar = avatar;
-    }
-
-    public void nicknameDuplicateCheck(boolean nicknameChanged, String nickname) {
-        if (nicknameChanged && this.nickname.equals(nickname)) {
-            throw new DuplicateNickNameException();
-        }
     }
 
     public boolean isAdminInBusinessProfile(BusinessProfile businessProfile) {

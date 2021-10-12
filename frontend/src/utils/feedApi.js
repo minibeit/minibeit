@@ -86,12 +86,24 @@ export const feedlistApi = async (
   if (isLogin) {
     return await withAuthInstance.get(
       GET_FEEDLIST +
-        `${schoolId}?page=${page}&size=10&category=${category.category}&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${filter.minPay}&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${filter.endTime}`
+        `${schoolId}?page=${page}&size=10&category=${
+          category.category
+        }&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${
+          filter.paymentType === "CACHE" ? filter.minPay : ""
+        }&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${
+          filter.endTime
+        }`
     );
   } else {
     return await withoutAuthInstance.get(
       GET_FEEDLIST +
-        `${schoolId}?page=${page}&size=10&category=${category.category}&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${filter.minPay}&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${filter.endTime}`
+        `${schoolId}?page=${page}&size=10&category=${
+          category.category
+        }&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${
+          filter.paymentType === "CACHE" ? filter.minPay : ""
+        }&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${
+          filter.endTime
+        }`
     );
   }
 };

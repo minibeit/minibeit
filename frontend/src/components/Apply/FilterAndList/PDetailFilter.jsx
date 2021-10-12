@@ -30,6 +30,7 @@ export default function DetailFilter({
   setFilter,
   setFilterSwitch,
   filterReset,
+  search,
 }) {
   const createTimeArr = () => {
     var timeArr = ["00:00"];
@@ -86,52 +87,78 @@ export default function DetailFilter({
       </S.DetailBox>
       <S.DetailBox>
         <h4>보상금액</h4>
-        {filter["paymentType"] === "GOODS" ? (
-          <p>물품일때는 보상금액을 선택할수 없습니다.</p>
-        ) : (
-          <>
-            <S.SelectBtn
-              name="minPay"
-              value=""
-              disabled={filter["minPay"] === "" ? true : false}
-              onClick={changeFilter}
-            >
-              전체
-            </S.SelectBtn>
-            <S.SelectBtn
-              name="minPay"
-              value="9999"
-              disabled={filter["minPay"] === "9999" ? true : false}
-              onClick={changeFilter}
-            >
-              1만원 미만
-            </S.SelectBtn>
-            <S.SelectBtn
-              name="minPay"
-              value="10000"
-              disabled={filter["minPay"] === "10000" ? true : false}
-              onClick={changeFilter}
-            >
-              1만원 이상
-            </S.SelectBtn>
-            <S.SelectBtn
-              name="minPay"
-              value="30000"
-              disabled={filter["minPay"] === "30000" ? true : false}
-              onClick={changeFilter}
-            >
-              3만원 이상
-            </S.SelectBtn>
-            <S.SelectBtn
-              name="minPay"
-              value="50000"
-              disabled={filter["minPay"] === "50000" ? true : false}
-              onClick={changeFilter}
-            >
-              5만원 이상
-            </S.SelectBtn>
-          </>
-        )}
+        <>
+          <S.SelectBtn
+            name="minPay"
+            value=""
+            disabled={
+              filter["minPay"] === "" ||
+              filter["paymentType"] === "GOODS" ||
+              filter["paymentType"] === ""
+                ? true
+                : false
+            }
+            onClick={changeFilter}
+          >
+            전체
+          </S.SelectBtn>
+          <S.SelectBtn
+            name="minPay"
+            value="9999"
+            disabled={
+              filter["minPay"] === "9999" ||
+              filter["paymentType"] === "GOODS" ||
+              filter["paymentType"] === ""
+                ? true
+                : false
+            }
+            onClick={changeFilter}
+          >
+            1만원 미만
+          </S.SelectBtn>
+          <S.SelectBtn
+            name="minPay"
+            value="10000"
+            disabled={
+              filter["minPay"] === "10000" ||
+              filter["paymentType"] === "GOODS" ||
+              filter["paymentType"] === ""
+                ? true
+                : false
+            }
+            onClick={changeFilter}
+          >
+            1만원 이상
+          </S.SelectBtn>
+          <S.SelectBtn
+            name="minPay"
+            value="30000"
+            disabled={
+              filter["minPay"] === "30000" ||
+              filter["paymentType"] === "GOODS" ||
+              filter["paymentType"] === ""
+                ? true
+                : false
+            }
+            onClick={changeFilter}
+          >
+            3만원 이상
+          </S.SelectBtn>
+          <S.SelectBtn
+            name="minPay"
+            value="50000"
+            disabled={
+              filter["minPay"] === "50000" ||
+              filter["paymentType"] === "GOODS" ||
+              filter["paymentType"] === ""
+                ? true
+                : false
+            }
+            onClick={changeFilter}
+          >
+            5만원 이상
+          </S.SelectBtn>
+        </>
       </S.DetailBox>
       <S.DetailBox>
         <h4>소요기간</h4>
@@ -201,7 +228,14 @@ export default function DetailFilter({
         />
       </S.DetailBox>
       <button onClick={filterReset}>필터 초기화</button>
-      <button onClick={() => setFilterSwitch(false)}>필터 적용하기</button>
+      <button
+        onClick={() => {
+          search();
+          setFilterSwitch(false);
+        }}
+      >
+        필터 적용하기
+      </button>
     </S.FilterBox>
   );
 }

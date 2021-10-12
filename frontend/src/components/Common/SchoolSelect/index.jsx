@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { schoolGetApi } from "../../../utils/schoolApi";
 
-export default function SchoolSelect() {
+export default function SchoolSelect({ onChange, defaultValue }) {
   const [schools, setSchools] = useState();
 
   const getSchool = (text) => {
@@ -15,10 +15,6 @@ export default function SchoolSelect() {
     });
   };
 
-  const onChange = (e) => {
-    console.log(e);
-  };
-
   useEffect(() => {
     getSchool();
   }, []);
@@ -29,6 +25,7 @@ export default function SchoolSelect() {
         <Select
           options={schools}
           onChange={onChange}
+          defaultValue={schools[defaultValue - 1]}
           isClearable={true}
           placeholder="위치"
           onInputChange={getSchool}

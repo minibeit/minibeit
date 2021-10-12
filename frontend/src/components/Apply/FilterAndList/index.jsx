@@ -1,9 +1,11 @@
-import React, { useCallback, useEffect, useState } from "react";
-import PFilterContainer from "./PFilterContainer";
+import React, { useCallback, useState } from "react";
+import PSearchFilter from "./PSearchFilter";
 import PListContainer from "./PListContainer";
+import PDetailFilter from "./PDetailFilter";
+import PCategoryFilter from "./PCategoryFilter";
 import { Pagination } from "../../Common";
 import { bookmarkApi, feedlistApi } from "../../../utils/feedApi";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { userState } from "../../../recoil/userState";
 import {
   categoryState,
@@ -19,6 +21,12 @@ export default function FilterAndList() {
   const [feedList, setFeedList] = useState();
   const [page, setPage] = useState(1);
   const [totalElements, setTotalElements] = useState(0);
+
+  const [filterSwitch, setFilterSwitch] = useState(false);
+  const [categorySwitch, setCategorySwitch] = useState(false);
+
+  const filterReset = useResetRecoilState(filterState);
+  const categoryReset = useResetRecoilState(categoryState);
 
   const getFeedList = useCallback(
     async (page, schoolId, date, filter, category) => {
@@ -38,6 +46,15 @@ export default function FilterAndList() {
       .catch((err) => console.log(err));
   };
 
+  const clickDetailFilter = () => {
+    setFilterSwitch(!filterSwitch);
+    setCategorySwitch(false);
+  };
+  const clickCategoryFilter = () => {
+    setCategorySwitch(!categorySwitch);
+    setFilterSwitch(false);
+  };
+
   const search = () => {
     if (filter.schoolId) {
       getFeedList(page, filter.schoolId, date, filter, category);
@@ -47,13 +64,11 @@ export default function FilterAndList() {
       alert("학교를 선택해주세요");
     }
   };
-  useEffect(() => {
-    getFeedList(page, filter.schoolId, date, filter, category);
-  }, [category, filter, date, getFeedList, page]);
 
   return (
     <>
-      <PFilterContainer
+      <PSearchFilter
+        feedList={feedList}
         search={search}
         filter={filter}
         setFilter={setFilter}
@@ -62,10 +77,32 @@ export default function FilterAndList() {
         date={date}
         setDate={setDate}
       />
-      {feedList ? (
-        <PListContainer feedList={feedList} postBookmark={postBookmark} />
-      ) : null}
-      <Pagination page={page} count={totalElements} setPage={setPage} />
+      {feedList && <button onClick={clickDetailFilter}>상세필터</button>}
+      {feedList && <button onClick={clickCategoryFilter}>실험분야</button>}
+      {filterSwitch && (
+        <PDetailFilter
+          filter={filter}
+          setFilter={setFilter}
+          setFilterSwitch={setFilterSwitch}
+          filterReset={filterReset}
+          search={search}
+        />
+      )}
+      {categorySwitch && (
+        <PCategoryFilter
+          category={category}
+          setCategory={setCategory}
+          setCategorySwitch={setCategorySwitch}
+          categoryReset={categoryReset}
+          search={search}
+        />
+      )}
+      {feedList && (
+        <>
+          <PListContainer feedList={feedList} postBookmark={postBookmark} />
+          <Pagination page={page} count={totalElements} setPage={setPage} />
+        </>
+      )}
     </>
   );
 }

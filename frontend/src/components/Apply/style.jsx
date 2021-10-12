@@ -1,12 +1,15 @@
 import styled from "styled-components";
 
 export const ListPageContainer = styled.div`
-  margin: 8rem;
+  margin: 4rem 8rem 4rem 8rem;
 `;
 /*search filter*/
 export const SearchBox = styled.div`
   display: flex;
   flex-direction: column;
+  position: initial;
+  transform: translate(13rem, 9rem);
+  width: 100%;
   gap: 15px;
   & > p:first-child {
     color: #0642ff;
@@ -21,20 +24,25 @@ export const SearchBox = styled.div`
     gap: 10px;
     margin-bottom: 2rem;
   }
+  &.move-exit-active {
+    width: 30rem;
+    transform: translate(0);
+    transition: all 500ms;
+  }
+  &.move-exit-done {
+    transform: translate(0);
+    width: 30rem;
+  }
 `;
 export const SchoolSelect = styled.div`
   width: 25rem;
   height: 38px;
+  cursor: pointer;
 `;
 export const DateSelect = styled.div`
   width: 25rem;
   height: 38px;
-`;
-
-export const FilterBox = styled.div`
-  width: 20rem;
-  border: 1px solid #c4c4c4;
-  text-align: center;
+  cursor: pointer;
 `;
 export const SearchBtn = styled.button`
   width: 160px;
@@ -45,10 +53,84 @@ export const SearchBtn = styled.button`
   border: none;
   font-size: 15px;
   font-weight: 600;
+  cursor: pointer;
 `;
-export const DetailBox = styled.div``;
 
-export const SelectBtn = styled.button``;
+/* detail filter */
+export const FilterBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  position: absolute;
+  width: 28rem;
+  margin-top: 16px;
+  background-color: white;
+  border: 1px solid #c4c4c4;
+  border-radius: 15px;
+  text-align: center;
+  & > div:first-child {
+    text-align: end;
+  }
+  & > div:first-child > svg {
+    margin: 10px 10px 0 0;
+    cursor: pointer;
+  }
+  & > div:nth-child(5) {
+    margin-top: 30px;
+    font-size: 15px;
+    color: #c4c4c4;
+    cursor: pointer;
+  }
+`;
+
+export const DetailBox = styled.div`
+  margin: 10px;
+  text-align: start;
+  & > p:first-child {
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  &.fade-enter {
+    opacity: 0;
+  }
+  &.fade-enter-active {
+    opacity: 1;
+    transition: all 500ms;
+  }
+  &.fade-exit {
+    opacity: 1;
+  }
+  &.fade-exit-active {
+    opacity: 0;
+    transition: all 500ms;
+  }
+`;
+
+export const SelectBtn = styled.button`
+  background: white;
+  border: 1px solid #c4c4c4;
+  border-radius: 10px;
+  height: 35px;
+  min-width: 80px;
+  margin: 0 2px 0 2px;
+  cursor: pointer;
+  &:disabled {
+    background: #b4c6ff;
+  }
+`;
+export const FilterSaveBtn = styled.button`
+  width: 100%;
+  height: 3rem;
+  margin-top: 1rem;
+  background: #0642ff;
+  border: none;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 0 0 15px 15px;
+  color: white;
+  cursor: pointer;
+`;
 
 /*list*/
 export const ListContainer = styled.div`
@@ -79,6 +161,9 @@ export const FeedHeader = styled.div`
   }
   & > div:nth-child(2) > p:nth-child(2) {
     text-align: center;
+  }
+  & svg {
+    cursor: pointer;
   }
 `;
 export const FeedInfoData = styled.div`

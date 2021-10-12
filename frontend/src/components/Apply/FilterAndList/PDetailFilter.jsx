@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Slider from "rc-slider";
 import "../range.css";
+import CloseIcon from "@mui/icons-material/Close";
 import moment from "moment";
+import { CSSTransition } from "react-transition-group";
 import PropTypes, { number } from "prop-types";
 
 import * as S from "../style";
@@ -50,16 +52,16 @@ export default function DetailFilter({
 
   return (
     <S.FilterBox>
-      <button
+      <div
         onClick={() => {
           filterReset();
           setFilterSwitch(false);
         }}
       >
-        닫기
-      </button>
+        <CloseIcon />
+      </div>
       <S.DetailBox>
-        <h4>지급방식</h4>
+        <p>지급방식</p>
         <S.SelectBtn
           name="paymentType"
           value=""
@@ -85,19 +87,18 @@ export default function DetailFilter({
           물품
         </S.SelectBtn>
       </S.DetailBox>
-      <S.DetailBox>
-        <h4>보상금액</h4>
-        <>
+      <CSSTransition
+        in={filter["paymentType"] === "CACHE"}
+        classNames="fade"
+        timeout={500}
+        unmountOnExit
+      >
+        <S.DetailBox>
+          <p>보상금액</p>
           <S.SelectBtn
             name="minPay"
             value=""
-            disabled={
-              filter["minPay"] === "" ||
-              filter["paymentType"] === "GOODS" ||
-              filter["paymentType"] === ""
-                ? true
-                : false
-            }
+            disabled={filter["minPay"] === "" ? true : false}
             onClick={changeFilter}
           >
             전체
@@ -105,13 +106,7 @@ export default function DetailFilter({
           <S.SelectBtn
             name="minPay"
             value="9999"
-            disabled={
-              filter["minPay"] === "9999" ||
-              filter["paymentType"] === "GOODS" ||
-              filter["paymentType"] === ""
-                ? true
-                : false
-            }
+            disabled={filter["minPay"] === "9999" ? true : false}
             onClick={changeFilter}
           >
             1만원 미만
@@ -119,13 +114,7 @@ export default function DetailFilter({
           <S.SelectBtn
             name="minPay"
             value="10000"
-            disabled={
-              filter["minPay"] === "10000" ||
-              filter["paymentType"] === "GOODS" ||
-              filter["paymentType"] === ""
-                ? true
-                : false
-            }
+            disabled={filter["minPay"] === "10000" ? true : false}
             onClick={changeFilter}
           >
             1만원 이상
@@ -133,13 +122,7 @@ export default function DetailFilter({
           <S.SelectBtn
             name="minPay"
             value="30000"
-            disabled={
-              filter["minPay"] === "30000" ||
-              filter["paymentType"] === "GOODS" ||
-              filter["paymentType"] === ""
-                ? true
-                : false
-            }
+            disabled={filter["minPay"] === "30000" ? true : false}
             onClick={changeFilter}
           >
             3만원 이상
@@ -147,21 +130,15 @@ export default function DetailFilter({
           <S.SelectBtn
             name="minPay"
             value="50000"
-            disabled={
-              filter["minPay"] === "50000" ||
-              filter["paymentType"] === "GOODS" ||
-              filter["paymentType"] === ""
-                ? true
-                : false
-            }
+            disabled={filter["minPay"] === "50000" ? true : false}
             onClick={changeFilter}
           >
             5만원 이상
           </S.SelectBtn>
-        </>
-      </S.DetailBox>
+        </S.DetailBox>
+      </CSSTransition>
       <S.DetailBox>
-        <h4>소요기간</h4>
+        <p>소요기간</p>
         <S.SelectBtn
           name="doTime"
           value=""
@@ -204,8 +181,8 @@ export default function DetailFilter({
         </S.SelectBtn>
       </S.DetailBox>
       <S.DetailBox>
-        <h4>실험 시작시간</h4>
-        <p>{`${filter["startTime"]}~${filter["endTime"]}`}</p>
+        <p>실험 시작시간 {`${filter["startTime"]}~${filter["endTime"]}`}</p>
+
         <Range
           min={0}
           max={24}
@@ -227,15 +204,15 @@ export default function DetailFilter({
           }}
         />
       </S.DetailBox>
-      <button onClick={filterReset}>필터 초기화</button>
-      <button
+      <div onClick={filterReset}>모든 선택 초기화하기</div>
+      <S.FilterSaveBtn
         onClick={() => {
           search();
           setFilterSwitch(false);
         }}
       >
         필터 적용하기
-      </button>
+      </S.FilterSaveBtn>
     </S.FilterBox>
   );
 }

@@ -29,6 +29,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@DisplayName("게시물 지원 by 비즈니스 API 문서화")
 @WebMvcTest(PostApplicantByBusinessController.class)
 class PostApplicantByBusinessControllerTest extends MvcTest {
     @MockBean

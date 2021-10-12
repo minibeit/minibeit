@@ -1,6 +1,9 @@
 spring:
   profiles:
     group:
+      local:
+        - local
+        - aws
       dev:
         - dev
         - aws
@@ -13,7 +16,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-        default_batch_fetch_size: 50
+        default_batch_fetch_size: 100
   servlet:
     multipart:
       max-file-size: 10MB

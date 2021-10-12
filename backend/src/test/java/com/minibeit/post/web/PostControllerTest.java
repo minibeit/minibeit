@@ -35,6 +35,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@DisplayName("게시물 by 유저 API 문서화")
 @WebMvcTest(PostController.class)
 class PostControllerTest extends MvcTest {
     @MockBean

@@ -13,6 +13,8 @@ import {
   filterState,
 } from "../../../recoil/filterState";
 
+import * as S from "../style";
+
 export default function FilterAndList() {
   const user = useRecoilValue(userState);
   const [filter, setFilter] = useRecoilState(filterState);
@@ -66,7 +68,7 @@ export default function FilterAndList() {
   };
 
   return (
-    <>
+    <S.ListPageContainer>
       <PSearchFilter
         feedList={feedList}
         search={search}
@@ -103,6 +105,6 @@ export default function FilterAndList() {
           <Pagination page={page} count={totalElements} setPage={setPage} />
         </>
       )}
-    </>
+    </S.ListPageContainer>
   );
 }

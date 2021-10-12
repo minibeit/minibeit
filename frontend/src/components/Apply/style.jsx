@@ -1,13 +1,16 @@
 import styled from "styled-components";
 
-/*filter*/
+export const ListPageContainer = styled.div`
+  margin: 8rem;
+`;
+/*search filter*/
 export const SearchBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 15px;
   & > p:first-child {
     color: #0642ff;
-    font-size: 30px;
+    font-size: 2rem;
     font-weight: bold;
   }
   & > p:nth-child(2) {
@@ -16,20 +19,8 @@ export const SearchBox = styled.div`
   & > div:nth-child(3) {
     display: flex;
     gap: 10px;
-    width: 30rem;
+    margin-bottom: 2rem;
   }
-  ${({ fullScreen }) => {
-    if (fullScreen) {
-      return `
-      position: absolute;
-      top: 18rem;
-      left: 22rem;
-      & > div:nth-child(3) {
-        width: 50rem;
-      }
-      `;
-    }
-  }}
 `;
 export const SchoolSelect = styled.div`
   width: 25rem;
@@ -60,22 +51,41 @@ export const DetailBox = styled.div``;
 export const SelectBtn = styled.button``;
 
 /*list*/
-export const FeedBox = styled.div`
-  border: 1px solid grey;
-`;
-export const FeedTitle = styled.h2``;
-export const FeedAuthor = styled.div``;
-export const FeedInfoData = styled.div`
+export const ListContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
 `;
-export const DataItem = styled.span`
-  margin-right: 20px;
+export const FeedBox = styled.div`
+  background-color: #f8f8f8;
+  border-radius: 14px;
+  padding: 1.5rem;
+  height: 7rem;
 `;
-
-/* button */
-export const BtnContainer = styled.div``;
-export const PageBtn = styled.button`
-  &:disabled {
+export const FeedHeader = styled.div`
+  display: flex;
+  & > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
-  width: 20px;
+  & > div:first-child > p:first-child {
+    font-size: 25px;
+    font-weight: 600;
+  }
+  & > div:nth-child(2) {
+    margin-left: auto;
+  }
+  & > div:nth-child(2) > p:nth-child(2) {
+    text-align: center;
+  }
+`;
+export const FeedInfoData = styled.div`
+  & > p {
+    color: #c4c4c4;
+  }
+  display: flex;
+  gap: 20px;
+  margin-top: 3rem;
 `;

@@ -1,6 +1,6 @@
 import React from "react";
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
+import "../date-picker.css";
 import PropTypes, { number } from "prop-types";
 
 import SchoolSelect from "../../Common/SchoolSelect";
@@ -27,6 +27,7 @@ PSearchFilter.propTypes = {
 };
 
 export default function PSearchFilter({
+  feedList,
   search,
   filter,
   setFilter,
@@ -34,28 +35,39 @@ export default function PSearchFilter({
   setDate,
 }) {
   const userSchoolId = useRecoilValue(userState).schoolId;
+
   return (
-    <>
-      <SchoolSelect
-        defaultValue={userSchoolId}
-        onChange={(e) => {
-          if (e) {
-            const copy = { ...filter };
-            copy.schoolId = e.value;
-            copy.schoolName = e.label;
-            setFilter(copy);
-          }
-        }}
-      />
-      <DatePicker
-        selected={date["date"]}
-        onChange={(date) => {
-          const copy = { ...date };
-          copy.date = date;
-          setDate(copy);
-        }}
-      />
-      <S.SearchBtn onClick={search}>검색</S.SearchBtn>
-    </>
+    <S.SearchBox fullScreen={feedList ? false : true}>
+      <p>참여하기</p>
+      <p>내 일정에 맞는 리서치를 검색하시고 보상을 획득하세요!</p>
+      <div>
+        <S.SchoolSelect>
+          <SchoolSelect
+            defaultValue={userSchoolId}
+            onChange={(e) => {
+              if (e) {
+                const copy = { ...filter };
+                copy.schoolId = e.value;
+                copy.schoolName = e.label;
+                setFilter(copy);
+              }
+            }}
+          />
+        </S.SchoolSelect>
+        <S.DateSelect>
+          <DatePicker
+            selected={date["date"]}
+            onChange={(date) => {
+              const copy = { ...date };
+              copy.date = date;
+              setDate(copy);
+            }}
+            dateFormat="yyyy.MM.dd"
+            className="datePickerInput"
+          />
+        </S.DateSelect>
+        <S.SearchBtn onClick={search}>검색하기</S.SearchBtn>
+      </div>
+    </S.SearchBox>
   );
 }

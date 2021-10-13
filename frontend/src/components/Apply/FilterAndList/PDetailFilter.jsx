@@ -50,6 +50,26 @@ export default function DetailFilter({
     setFilter(copy);
   };
 
+  const paymentType = [
+    { name: "전체", value: "" },
+    { name: "현금", value: "CACHE" },
+    { name: "물품", value: "GOODS" },
+  ];
+  const minPay = [
+    { name: "전체", value: "" },
+    { name: "1만원 미만", value: "9999" },
+    { name: "1만원 이상", value: "10000" },
+    { name: "3만원 이상", value: "30000" },
+    { name: "5만원 이상", value: "50000" },
+  ];
+  const doTime = [
+    { name: "전체", value: "" },
+    { name: "30분 이내", value: "30" },
+    { name: "1시간 이내", value: "60" },
+    { name: "3시간 이내", value: "180" },
+    { name: "3시간 이상", value: "181" },
+  ];
+
   return (
     <S.FilterBox>
       <div
@@ -62,30 +82,19 @@ export default function DetailFilter({
       </div>
       <S.DetailBox>
         <p>지급방식</p>
-        <S.SelectBtn
-          name="paymentType"
-          value=""
-          disabled={filter["paymentType"] === "" ? true : false}
-          onClick={changeFilter}
-        >
-          전체
-        </S.SelectBtn>
-        <S.SelectBtn
-          name="paymentType"
-          value="CACHE"
-          disabled={filter["paymentType"] === "CACHE" ? true : false}
-          onClick={changeFilter}
-        >
-          현금
-        </S.SelectBtn>
-        <S.SelectBtn
-          name="paymentType"
-          value="GOODS"
-          disabled={filter["paymentType"] === "GOODS" ? true : false}
-          onClick={changeFilter}
-        >
-          물품
-        </S.SelectBtn>
+        {paymentType.map((a, i) => {
+          return (
+            <S.SelectBtn
+              key={i}
+              name="paymentType"
+              value={a.value}
+              disabled={filter["paymentType"] === a.value ? true : false}
+              onClick={changeFilter}
+            >
+              {a.name}
+            </S.SelectBtn>
+          );
+        })}
       </S.DetailBox>
       <CSSTransition
         in={filter["paymentType"] === "CACHE"}
@@ -95,90 +104,36 @@ export default function DetailFilter({
       >
         <S.DetailBox>
           <p>보상금액</p>
-          <S.SelectBtn
-            name="minPay"
-            value=""
-            disabled={filter["minPay"] === "" ? true : false}
-            onClick={changeFilter}
-          >
-            전체
-          </S.SelectBtn>
-          <S.SelectBtn
-            name="minPay"
-            value="9999"
-            disabled={filter["minPay"] === "9999" ? true : false}
-            onClick={changeFilter}
-          >
-            1만원 미만
-          </S.SelectBtn>
-          <S.SelectBtn
-            name="minPay"
-            value="10000"
-            disabled={filter["minPay"] === "10000" ? true : false}
-            onClick={changeFilter}
-          >
-            1만원 이상
-          </S.SelectBtn>
-          <S.SelectBtn
-            name="minPay"
-            value="30000"
-            disabled={filter["minPay"] === "30000" ? true : false}
-            onClick={changeFilter}
-          >
-            3만원 이상
-          </S.SelectBtn>
-          <S.SelectBtn
-            name="minPay"
-            value="50000"
-            disabled={filter["minPay"] === "50000" ? true : false}
-            onClick={changeFilter}
-          >
-            5만원 이상
-          </S.SelectBtn>
+          {minPay.map((a, i) => {
+            return (
+              <S.SelectBtn
+                key={i}
+                name="minPay"
+                value={a.value}
+                disabled={filter["minPay"] === a.value ? true : false}
+                onClick={changeFilter}
+              >
+                {a.name}
+              </S.SelectBtn>
+            );
+          })}
         </S.DetailBox>
       </CSSTransition>
       <S.DetailBox>
         <p>소요기간</p>
-        <S.SelectBtn
-          name="doTime"
-          value=""
-          disabled={filter["doTime"] === "" ? true : false}
-          onClick={changeFilter}
-        >
-          전체
-        </S.SelectBtn>
-        <S.SelectBtn
-          name="doTime"
-          value="30"
-          disabled={filter["doTime"] === "30" ? true : false}
-          onClick={changeFilter}
-        >
-          30분 이내
-        </S.SelectBtn>
-        <S.SelectBtn
-          name="doTime"
-          value="60"
-          disabled={filter["doTime"] === "60" ? true : false}
-          onClick={changeFilter}
-        >
-          1시간 이내
-        </S.SelectBtn>
-        <S.SelectBtn
-          name="doTime"
-          value="180"
-          disabled={filter["doTime"] === "180" ? true : false}
-          onClick={changeFilter}
-        >
-          3시간 이내
-        </S.SelectBtn>
-        <S.SelectBtn
-          name="doTime"
-          value="181"
-          disabled={filter["doTime"] === "181" ? true : false}
-          onClick={changeFilter}
-        >
-          3시간 이상
-        </S.SelectBtn>
+        {doTime.map((a, i) => {
+          return (
+            <S.SelectBtn
+              key={i}
+              name="doTime"
+              value={a.value}
+              disabled={filter["doTime"] === a.value ? true : false}
+              onClick={changeFilter}
+            >
+              {a.name}
+            </S.SelectBtn>
+          );
+        })}
       </S.DetailBox>
       <S.DetailBox>
         <p>실험 시작시간 {`${filter["startTime"]}~${filter["endTime"]}`}</p>

@@ -74,7 +74,7 @@ export default function PSelectBProfile({
         <p>모집하기에서</p>
         <p>어떤 프로필을 사용할 것인가요?</p>
         <p>사용하실 비즈니스 프로필을 선택하세요</p>
-        <div>
+        <S.BProfileListBox>
           {bpList.map((a) => {
             return (
               <div key={a.id}>
@@ -91,7 +91,7 @@ export default function PSelectBProfile({
               </div>
             );
           })}
-        </div>
+        </S.BProfileListBox>
       </div>
     </S.BProfilePage>
   );

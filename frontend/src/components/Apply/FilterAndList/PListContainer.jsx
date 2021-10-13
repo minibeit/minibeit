@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 import PropTypes from "prop-types";
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 
 import * as S from "../style";
 import { useRecoilValue } from "recoil";
@@ -37,44 +38,58 @@ export default function PListContainer({ feedList, postBookmark }) {
   };
 
   const clickBookmark = (e) => {
-    postBookmark(e.target.id);
-    if (e.target.textContent === "북마크 중") {
-      e.target.textContent = "북마크";
-      e.target.nextSibling.textContent =
-        parseInt(e.target.nextSibling.textContent) - 1;
+    var target;
+    if (e.target.nodeName === "path") {
+      target = e.target.parentNode;
     } else {
-      e.target.textContent = "북마크 중";
-      e.target.nextSibling.textContent =
-        parseInt(e.target.nextSibling.textContent) + 1;
+      target = e.target;
+    }
+    postBookmark(target.id);
+    if (target.style.color === "rgb(6, 66, 255)") {
+      target.style.color = "";
+      target.nextSibling.textContent =
+        parseInt(target.nextSibling.textContent) - 1;
+    } else {
+      target.style.color = "rgb(6, 66, 255)";
+      target.nextSibling.textContent =
+        parseInt(target.nextSibling.textContent) + 1;
     }
   };
 
   return (
-    <>
+    <S.ListContainer>
       {feedList.length !== 0 ? (
         feedList.map((a) => {
           return (
             <S.FeedBox key={a.id}>
-              <S.FeedTitle id={a.id} onClick={goToDetailPage}>
-                {a.title}
-              </S.FeedTitle>
-              {user.isLogin ? (
-                <button id={a.id} onClick={clickBookmark}>
-                  {a.isLike ? "북마크 중" : "북마크"}
-                </button>
-              ) : null}
-              <p>{a.likes}</p>
-              <S.FeedAuthor>{a.businessProfileName}</S.FeedAuthor>
+              <S.FeedHeader>
+                <div>
+                  <p id={a.id} onClick={goToDetailPage}>
+                    {a.title}
+                  </p>
+                  <p>{a.businessProfileName}</p>
+                </div>
+                <div>
+                  {user.isLogin ? (
+                    <BookmarkBorderIcon
+                      id={a.id}
+                      onClick={clickBookmark}
+                      style={{ color: `${a.isLike ? "rgb(6, 66, 255)" : ""}` }}
+                    />
+                  ) : (
+                    <BookmarkBorderIcon />
+                  )}
+                  <p>{a.likes}</p>
+                </div>
+              </S.FeedHeader>
               <S.FeedInfoData>
-                <S.DataItem>소요시간: {a.doTime}분</S.DataItem>
+                <p>소요시간: {a.doTime}분</p>
                 {a.payment === "CACHE" ? (
-                  <S.DataItem>지급: {a.cache}원</S.DataItem>
+                  <p>지급: {a.cache}원</p>
                 ) : (
-                  <S.DataItem>지급: 상품</S.DataItem>
+                  <p>지급: 상품</p>
                 )}
-                <S.DataItem>
-                  필수조건: {a.recruitCondition ? "있음" : "없음"}
-                </S.DataItem>
+                <p>필수조건: {a.recruitCondition ? "있음" : "없음"}</p>
               </S.FeedInfoData>
             </S.FeedBox>
           );
@@ -82,6 +97,6 @@ export default function PListContainer({ feedList, postBookmark }) {
       ) : (
         <p>실험이 없습니다</p>
       )}
-    </>
+    </S.ListContainer>
   );
 }

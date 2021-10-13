@@ -1,4 +1,5 @@
 import React from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
 
 import * as S from "../style";
@@ -32,145 +33,145 @@ export default function DetailFilter({
 
   return (
     <S.FilterBox>
-      <button
+      <div
         onClick={() => {
           categoryReset();
           setCategorySwitch(false);
         }}
       >
-        닫기
-      </button>
+        <CloseIcon />
+      </div>
       <S.DetailBox>
-        <button
+        <S.SelectBtn
           disabled={category["category"] === "" ? true : false}
           onClick={clickCategory}
         >
           전체
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "경영/마케팅" ? true : false}
           onClick={clickCategory}
         >
           📔경영/마케팅
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "IT/모바일" ? true : false}
           onClick={clickCategory}
         >
           🖥IT/모바일
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "디자인" ? true : false}
           onClick={clickCategory}
         >
           🎨디자인
-        </button>
+        </S.SelectBtn>
         ️
-        <button
+        <S.SelectBtn
           disabled={category["category"] === "체육" ? true : false}
           onClick={clickCategory}
         >
           ⚽체육
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "음악" ? true : false}
           onClick={clickCategory}
         >
           🎶음악
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "교육" ? true : false}
           onClick={clickCategory}
         >
           📖교육
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "건설" ? true : false}
           onClick={clickCategory}
         >
           🔨건설
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "미디어/사회" ? true : false}
           onClick={clickCategory}
         >
           🎞미디어/사회
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "인지/심리" ? true : false}
           onClick={clickCategory}
         >
           🏥️인지/심리
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "의료/헬스케어" ? true : false}
           onClick={clickCategory}
         >
           💉의료/헬스케어
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "모빌리티" ? true : false}
           onClick={clickCategory}
         >
           🚘모빌리티
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "경제" ? true : false}
           onClick={clickCategory}
         >
           💰경제
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "정치" ? true : false}
           onClick={clickCategory}
         >
           🖌정치
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "생활/문화" ? true : false}
           onClick={clickCategory}
         >
           🍿생활/문화
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "패션/뷰티" ? true : false}
           onClick={clickCategory}
         >
           💄패션/뷰티
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "식품" ? true : false}
           onClick={clickCategory}
         >
           🍽식품
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "종교" ? true : false}
           onClick={clickCategory}
         >
           🙏종교
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "제조/공업" ? true : false}
           onClick={clickCategory}
         >
           🏭제조/공업
-        </button>
-        <button
+        </S.SelectBtn>
+        <S.SelectBtn
           disabled={category["category"] === "기타" ? true : false}
           onClick={clickCategory}
         >
           기타
-        </button>
+        </S.SelectBtn>
       </S.DetailBox>
-      <button
+      <S.FilterSaveBtn
         onClick={() => {
           search();
           setCategorySwitch(false);
         }}
       >
         카테고리 적용하기
-      </button>
+      </S.FilterSaveBtn>
     </S.FilterBox>
   );
 }

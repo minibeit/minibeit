@@ -70,12 +70,14 @@ export default function PListContainer({ feedList, postBookmark }) {
                   <p>{a.businessProfileName}</p>
                 </div>
                 <div>
-                  {user.isLogin && (
+                  {user.isLogin ? (
                     <BookmarkBorderIcon
                       id={a.id}
                       onClick={clickBookmark}
                       style={{ color: `${a.isLike ? "rgb(6, 66, 255)" : ""}` }}
                     />
+                  ) : (
+                    <BookmarkBorderIcon />
                   )}
                   <p>{a.likes}</p>
                 </div>

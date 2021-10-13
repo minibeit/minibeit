@@ -79,8 +79,10 @@ export default function FilterAndList() {
         date={date}
         setDate={setDate}
       />
-      {feedList && <button onClick={clickDetailFilter}>상세필터</button>}
-      {feedList && <button onClick={clickCategoryFilter}>실험분야</button>}
+      <div>
+        {feedList && <button onClick={clickDetailFilter}>상세필터</button>}
+        {feedList && <button onClick={clickCategoryFilter}>실험분야</button>}
+      </div>
       {filterSwitch && (
         <PDetailFilter
           filter={filter}

@@ -2,13 +2,28 @@ import styled from "styled-components";
 
 export const ListPageContainer = styled.div`
   margin: 4rem 8rem 4rem 8rem;
+  & > div:nth-child(2) {
+    display: flex;
+    gap: 10px;
+    & > button {
+      background: white;
+      border: 1px solid #c4c4c4;
+      width: 6rem;
+      height: 29px;
+      font-size: 15px;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  }
 `;
+
 /*search filter*/
 export const SearchBox = styled.div`
   display: flex;
   flex-direction: column;
   position: initial;
-  transform: translate(13rem, 9rem);
+  transform: translate(10%, 90%);
   width: 100%;
   gap: 15px;
   & > p:first-child {
@@ -139,6 +154,7 @@ export const ListContainer = styled.div`
   gap: 2rem;
   margin-top: 2rem;
 `;
+
 export const FeedBox = styled.div`
   background-color: #f8f8f8;
   border-radius: 14px;

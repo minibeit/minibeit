@@ -14,29 +14,7 @@ export default function SchoolSelect({ onChange, defaultValue }) {
       setSchools(arr);
     });
   };
-
-  //   clearIndicator
-  // container
-  // control
-  // dropdownIndicator
-  // group
-  // groupHeading
-  // indicatorsContainer
-  // indicatorSeparator
-  // input
-  // loadingIndicator
-  // loadingMessage
-  // menu
-  // menuList
-  // menuPortal
-  // multiValue
-  // multiValueLabel
-  // multiValueRemove
-  // noOptionsMessage
-  // option
-  // placeholder
-  // singleValue
-  // valueContainer
+  
   const customStyles = {
     option: (provided, state) => ({
       ...provided,

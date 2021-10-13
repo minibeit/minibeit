@@ -1,23 +1,61 @@
 import styled from "styled-components";
 
-export const FNBottomWrapper = styled.div``;
-export const FNTitle = styled.input``;
-export const FNSchool = styled.select``;
-export const FNType = styled.div``;
-export const FNauthor = styled.select``;
-export const FNdueDate = styled.input``;
-export const FNdoDate = styled.input``;
-export const FNpayment = styled.select``;
-export const FNcache = styled.input``;
-export const FNdoTime = styled.select``;
-export const FNcondition = styled.select``;
-export const FNconditionDetail = styled.input``;
-export const FNcontact = styled.input``;
-export const FNplace = styled.input``;
-export const FNFile = styled.input``;
-export const FNdetailInfo = styled.textarea``;
-export const FNcreateBtn = styled.button``;
-export const FNLabel = styled.label``;
+/* Bussiness Profile Select*/
+export const BProfilePage = styled.div`
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+  & > div:first-child {
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    & > p:first-child {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+    & > p:nth-child(2) {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+    & > p:nth-child(3) {
+      color: #c4c4c4;
+    }
+    & > div:nth-child(4) {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      & > div {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+`;
+
+export const BProfileImgBox = styled.div`
+  display: inline-block;
+  border-radius: 50%;
+  overflow: hidden;
+  width: 10rem;
+  height: 10rem;
+  cursor: pointer;
+  background-color: rgba(6, 66, 255, 0.5);
+  &.selected img {
+    mix-blend-mode: color-burn;
+  }
+`;
+
+/* School Select */
+export const SchoolSelectPage = styled.div`
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+`;
 
 /* DateSelect */
 export const DateBox = styled.div`

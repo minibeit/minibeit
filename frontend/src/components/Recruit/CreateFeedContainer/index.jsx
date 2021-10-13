@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { bprofileListGet, feedCreateApi } from "../../../utils";
@@ -66,28 +66,47 @@ export default function CreateFeedContainer() {
       .catch((err) => err);
   };
 
+  const page = useRef();
+  const movePage = (e) => {
+    const elementArr = page.current.childNodes;
+    elementArr[e].scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
+  };
+
   useEffect(() => {
     getbpList();
   }, [getbpList]);
 
   return (
-    <>
-      {bpList && (
+    <div ref={page}>
+      <div>
         <PSelectBProfile
+          movePage={movePage}
           bpList={bpList}
           recruit={recruit}
           setRecruit={setRecruit}
         />
-      )}
-      <PSchoolSelect recruit={recruit} setRecruit={setRecruit} />
-      <PDateSelect recruit={recruit} setRecruit={setRecruit} />
-      <PCategorySelect recruit={recruit} setRecruit={setRecruit} />
-      <PInfoData recruit={recruit} setRecruit={setRecruit} />
-      <PImgAndAddress
-        recruit={recruit}
-        setRecruit={setRecruit}
-        submit={submit}
-      />
-    </>
+      </div>
+      <div>
+        <PSchoolSelect recruit={recruit} setRecruit={setRecruit} />
+      </div>
+      <div>
+        <PDateSelect recruit={recruit} setRecruit={setRecruit} />
+      </div>
+      <div>
+        <PCategorySelect recruit={recruit} setRecruit={setRecruit} />
+      </div>
+      <div>
+        <PInfoData recruit={recruit} setRecruit={setRecruit} />
+        <PImgAndAddress
+          recruit={recruit}
+          setRecruit={setRecruit}
+          submit={submit}
+        />
+      </div>
+    </div>
   );
 }

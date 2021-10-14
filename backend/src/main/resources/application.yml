@@ -43,7 +43,7 @@ oauth2:
     redirect:
       url: http://localhost:3000/callback/
 ---
-spring.config.activate.on-profile: dev
+spring.config.activate.on-profile: local
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

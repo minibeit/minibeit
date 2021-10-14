@@ -30,6 +30,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@DisplayName("반려게시물 API 문서화")
 @WebMvcTest(RejectPostController.class)
 class RejectPostControllerTest extends MvcTest {
     @MockBean

@@ -25,6 +25,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@DisplayName("학교 API 문서화")
 @WebMvcTest(SchoolController.class)
 class SchoolControllerTest extends MvcTest {
     @MockBean

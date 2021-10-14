@@ -1,5 +1,6 @@
 package com.minibeit.school.service;
 
+import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.school.dto.SchoolResponse;
@@ -7,17 +8,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
-@Transactional
 @DisplayName("학교 조회 테스트")
-class SchoolServiceTest {
+class SchoolServiceTest extends ServiceIntegrationTest {
 
     @Autowired
     private SchoolRepository schoolRepository;
@@ -27,9 +24,10 @@ class SchoolServiceTest {
     private School kSchool, kSchool2;
 
     @BeforeEach
-    void set(){
+    void set() {
         initSchool();
     }
+
     private void initSchool() {
         School school1 = School.builder().name("고려대").build();
         kSchool = schoolRepository.save(school1);

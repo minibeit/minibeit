@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@DisplayName("인증 API 문서화")
 @WebMvcTest(AuthController.class)
 class AuthControllerTest extends MvcTest {
     @MockBean

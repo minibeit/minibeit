@@ -44,6 +44,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@DisplayName("비즈니스 프로필 API 문서화")
 @WebMvcTest(BusinessProfileController.class)
 class BusinessProfileControllerTest extends MvcTest {
     @MockBean

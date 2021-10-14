@@ -29,11 +29,9 @@ function PMainJumbotron() {
           <S.MComment>가장 쉽고 빠르게 <br/> 원하는 스케줄로 모집하기 </S.MComment>
           <PSlider/>
       </S.Section>
-      <div background-color="#F9F9F9">
       <S.Jumbo>
       <S.JComment>세상에 없었던<br/>새로운 <S.Dot>구인구직</S.Dot> 서비스,<br/>미니바이트</S.JComment>
       </S.Jumbo>
-      </div>
 
     </S.BackGround>
   );

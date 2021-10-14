@@ -43,6 +43,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@DisplayName("게시물 by 비즈니스 API 문서화")
 @WebMvcTest(PostByBusinessController.class)
 class PostByBusinessControllerTest extends MvcTest {
     @MockBean

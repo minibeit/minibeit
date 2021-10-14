@@ -1,5 +1,6 @@
 import React from "react";
 import { bookmarkApi } from "../../../utils/feedApi";
+import { Link } from "react-router-dom";
 import Paging from "../../Common/Pagination";
 import * as S from "../style";
 
@@ -42,6 +43,7 @@ function LikeBox({ postInfo, getLikeList, page }) {
       })
       .catch((err) => console.log(err));
   };
+
   return (
     <>
       <S.FeedTag>
@@ -50,7 +52,9 @@ function LikeBox({ postInfo, getLikeList, page }) {
       <S.FeedCont>
         <S.FeedTitle>
           <p>실험명</p>
-          <p>{postInfo.title}</p>
+          <Link to={`/apply/${postInfo.id}`}>
+            <p>{postInfo.title}</p>
+          </Link>
         </S.FeedTitle>
         <S.FeedContent>
           <S.FeedDateNum>

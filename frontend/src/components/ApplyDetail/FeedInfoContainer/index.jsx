@@ -15,6 +15,7 @@ import { userState } from "../../../recoil/userState";
 import PApplyControll from "./PApplyControll";
 
 import * as S from "../style";
+import { useHistory } from "react-router";
 
 FeedInfoContainer.propTypes = {
   feedId: PropTypes.number.isRequired,
@@ -26,6 +27,7 @@ export default function FeedInfoContainer({ feedId, date }) {
   const [modalSwitch, setModalSwitch] = useState(false);
   const isLogin = useRecoilValue(userState).isLogin;
   const apply = useRecoilValue(applyState);
+  const history = useHistory();
 
   const resetApply = useResetRecoilState(applyState);
 
@@ -33,9 +35,14 @@ export default function FeedInfoContainer({ feedId, date }) {
     (feedId) => {
       feedDetailApi(feedId, isLogin)
         .then((res) => setFeedDetailData(res.data))
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          if (err.response.status === 400) {
+            alert("삭제된 게시물 입니다.");
+            history.goBack();
+          }
+        });
     },
-    [isLogin]
+    [isLogin, history]
   );
 
   const postBookmark = async (postId) => {

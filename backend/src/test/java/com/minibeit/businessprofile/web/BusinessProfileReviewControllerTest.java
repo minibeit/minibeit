@@ -32,6 +32,7 @@ import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@DisplayName("비즈니스 프로필 후기 API 문서화")
 @WebMvcTest(BusinessProfileReviewController.class)
 class BusinessProfileReviewControllerTest extends MvcTest {
     @MockBean

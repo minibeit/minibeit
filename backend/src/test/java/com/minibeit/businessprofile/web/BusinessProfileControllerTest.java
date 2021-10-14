@@ -44,6 +44,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@DisplayName("비즈니스 프로필 API 문서화")
 @WebMvcTest(BusinessProfileController.class)
 class BusinessProfileControllerTest extends MvcTest {
     @MockBean
@@ -184,7 +185,7 @@ class BusinessProfileControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
                                 fieldWithPath("name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
-                                fieldWithPath("adminName").type(JsonFieldType.STRING).description("비즈니스 프로필 책임자 닉네임"),
+                                fieldWithPath("adminNickname").type(JsonFieldType.STRING).description("비즈니스 프로필 책임자 닉네임"),
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
                                 fieldWithPath("numberOfEmployees").type(JsonFieldType.NUMBER).description("비즈니스 프로필 소속 인원 수"),

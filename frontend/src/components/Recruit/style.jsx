@@ -108,17 +108,109 @@ export const SchoolSearchBox = styled.div`
 `;
 
 /* DateSelect */
+export const DateSelectPage = styled.div`
+  height: 100vh;
+  width: 100vw;
+  max-width: 100%;
+  & > div:first-child {
+    text-align: center;
+    position: relative;
+    width: 60%;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+
+    flex-direction: column;
+    gap: 1rem;
+    & > div:first-child {
+      width: 55%;
+    }
+    & > p:nth-child(1) {
+      font-size: 2rem;
+      font-weight: 600;
+    }
+    & > p:nth-child(2) {
+      color: #c4c4c4;
+    }
+    & > button {
+      width: 10rem;
+      height: 3rem;
+      border-radius: 2rem;
+      background: #0642ff;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      border: none;
+      margin: auto;
+      cursor: pointer;
+      &:disabled {
+        background: #c4c4c4;
+        cursor: default;
+      }
+    }
+  }
+`;
 export const DateBox = styled.div`
   display: flex;
+  align-items: center;
+  width: 100%;
+  min-height: 3rem;
+  justify-content: center;
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border: solid 1px #c4c4c4;
+  border-radius: 1rem;
+  & > div:first-child {
+    & > p {
+      color: #0642ff;
+      font-weight: bold;
+    }
+    width: 50%;
+    border-right: solid #c4c4c4;
+  }
+  & > div:nth-child(2) {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    & > div:first-child {
+      width: 100%;
+    }
+  }
 `;
-export const HeadCountBox = styled.div`
+export const TimeContainer = styled.div`
   display: flex;
+  border: solid 1px #c4c4c4;
+  border-radius: 1rem;
 `;
 export const DoTimeBox = styled.div`
+  width: 50%;
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border-right: solid #c4c4c4;
+  & > p {
+    font-size: 14px;
+    color: #c4c4c4;
+  }
+  & > div:nth-child(2) {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+  }
+}
 `;
-export const StartEndTimeBox = styled.div`
+export const TimeBox = styled.div`
+  width: 50%;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  & > div {
+    width: 50%;
+  }
 `;
 
 /* TimeSelect */

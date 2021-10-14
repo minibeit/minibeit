@@ -98,7 +98,11 @@ export default function CreateFeedContainer() {
         />
       </div>
       <div>
-        <PDateSelect recruit={recruit} setRecruit={setRecruit} />
+        <PDateSelect
+          movePage={movePage}
+          recruit={recruit}
+          setRecruit={setRecruit}
+        />
       </div>
       <div>
         <PCategorySelect recruit={recruit} setRecruit={setRecruit} />

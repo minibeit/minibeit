@@ -49,7 +49,7 @@ PDateSelect.propTypes = {
   setRecruit: PropTypes.func.isRequired,
 };
 
-export default function PDateSelect({ recruit, setRecruit }) {
+export default function PDateSelect({ movePage, recruit, setRecruit }) {
   const { startDate, endDate, dateList, exceptDateList, doTime } = recruit;
 
   /* range calendar state */
@@ -199,164 +199,186 @@ export default function PDateSelect({ recruit, setRecruit }) {
   };
 
   return (
-    <>
-      <h2>리서치 정보를 알려주세요.</h2>
-      <p>정확한 정보를 입력해주세요.</p>
-      <S.DateBox>
-        <p>실험 기간</p>
-        <DateRangePicker
-          startDate={startDate}
-          startDateId="start_date"
-          endDate={endDate}
-          endDateId="end_date"
-          monthFormat={"YYYY년 MM월"}
-          displayFormat="YYYY-MM-DD"
-          hideKeyboardShortcutsPanel={true}
-          onDatesChange={({ startDate, endDate }) => {
-            askResetGroup();
-            const copy = recruit;
-            copy.startDate = startDate;
-            copy.endDate = endDate;
-            setRecruit(copy);
-            if (startDate && endDate !== null) {
+    <S.DateSelectPage>
+      <div>
+        <p>리서치 정보를 알려주세요.</p>
+        <p>정확한 정보를 입력해주세요.</p>
+        <S.DateBox>
+          <div>
+            <p>실험 기간</p>
+          </div>
+          <DateRangePicker
+            startDate={startDate}
+            startDateId="start_date"
+            endDate={endDate}
+            endDateId="end_date"
+            monthFormat={"YYYY년 MM월"}
+            displayFormat="YYYY-MM-DD"
+            hideKeyboardShortcutsPanel={true}
+            onDatesChange={({ startDate, endDate }) => {
+              askResetGroup();
               const copy = recruit;
-              copy.dateList = createDateArr(startDate, endDate);
+              copy.startDate = startDate;
+              copy.endDate = endDate;
               setRecruit(copy);
-            }
-          }}
-          focusedInput={focusedInput}
-          onFocusChange={(focusedInput) => {
-            setFocusedInput(focusedInput);
-            const copy = { ...recruit };
-            copy.exceptDateList = [];
-            setRecruit(copy);
-          }}
-        />
-      </S.DateBox>
-
-      <S.DateBox>
-        <p>날짜 빼기</p>
-        <SingleDatePicker
-          date={startDate}
-          onDateChange={(e) => {
-            askResetGroup();
-            createExceptDate(e);
-          }}
-          focused={focused}
-          onFocusChange={({ focused }) => {
-            setFocused(focused);
-          }}
-          key={check}
-          keepOpenOnDateSelect={true}
-          numberOfMonths={2}
-          isDayBlocked={(day) => {
-            if (startDate > day || endDate < day) {
-              return true;
-            }
-          }}
-          dayAriaLabelFormat="hi"
-          hideKeyboardShortcutsPanel
-          monthFormat="YYYY년 MM월"
-          disabled={startDate && endDate ? false : true}
-          displayFormat={
-            exceptDateList.length === 0 ? "없음" : `${exceptDateList.length}일`
-          }
-          renderCalendarDay={(props) => {
-            const { day, modifiers } = props;
-            if (day && dateList.length !== 0) {
-              if (dateList.find((ele) => ele === day.format("YYYY-MM-DD"))) {
-                modifiers && modifiers.add("selected");
+              if (startDate && endDate !== null) {
+                const copy = recruit;
+                copy.dateList = createDateArr(startDate, endDate);
+                setRecruit(copy);
               }
-            }
-            return <CalendarDay {...props} modifiers={modifiers} />;
-          }}
-        />
-      </S.DateBox>
+            }}
+            focusedInput={focusedInput}
+            onFocusChange={(focusedInput) => {
+              setFocusedInput(focusedInput);
+              const copy = { ...recruit };
+              copy.exceptDateList = [];
+              setRecruit(copy);
+            }}
+          />
+        </S.DateBox>
 
-      <S.HeadCountBox>
-        <p>모집 인원</p>
-        <button onClick={changeHeadCount}>-</button>
-        <p>{recruit.headCount}명</p>
-        <button onClick={changeHeadCount}>+</button>
-      </S.HeadCountBox>
-      <p>시간 단위</p>
-      <S.DoTimeBox>
-        <button onClick={changeDoTime}>-</button>
-        <p>{recruit.doTime}분</p>
-        <button onClick={changeDoTime}>+</button>
-      </S.DoTimeBox>
-      <S.StartEndTimeBox>
-        <p>시작시간</p>
-        <DatePicker
-          selected={startTime}
-          onChange={(date) => {
-            askResetGroup();
+        <S.DateBox>
+          <div>
+            <p>날짜 빼기</p>
+          </div>
+          <SingleDatePicker
+            date={startDate}
+            onDateChange={(e) => {
+              askResetGroup();
+              createExceptDate(e);
+            }}
+            focused={focused}
+            onFocusChange={({ focused }) => {
+              setFocused(focused);
+            }}
+            key={check}
+            keepOpenOnDateSelect={true}
+            numberOfMonths={2}
+            isDayBlocked={(day) => {
+              if (startDate > day || endDate < day) {
+                return true;
+              }
+            }}
+            dayAriaLabelFormat="hi"
+            hideKeyboardShortcutsPanel
+            monthFormat="YYYY년 MM월"
+            disabled={startDate && endDate ? false : true}
+            displayFormat={
+              exceptDateList.length === 0
+                ? "없음"
+                : `${exceptDateList.length}일`
+            }
+            renderCalendarDay={(props) => {
+              const { day, modifiers } = props;
+              if (day && dateList.length !== 0) {
+                if (dateList.find((ele) => ele === day.format("YYYY-MM-DD"))) {
+                  modifiers && modifiers.add("selected");
+                }
+              }
+              return <CalendarDay {...props} modifiers={modifiers} />;
+            }}
+          />
+        </S.DateBox>
+
+        <S.DateBox>
+          <div>
+            <p>실험당 모집인원</p>
+          </div>
+          <div>
+            <button onClick={changeHeadCount}>-</button>
+            <p>{recruit.headCount}명</p>
+            <button onClick={changeHeadCount}>+</button>
+          </div>
+        </S.DateBox>
+        <S.TimeContainer>
+          <S.DoTimeBox>
+            <p>시간 단위</p>
+            <div>
+              <button onClick={changeDoTime}>-</button>
+              <p>{recruit.doTime}분</p>
+              <button onClick={changeDoTime}>+</button>
+            </div>
+            <p>시간 단위를 수정하면 하단의 시간설정의 초기화 됩니다</p>
+          </S.DoTimeBox>
+          <S.TimeBox>
+            <div>
+              <p>시작시간</p>
+              <DatePicker
+                selected={startTime}
+                onChange={(date) => {
+                  askResetGroup();
+                  const copy = { ...recruit };
+                  copy.startTime = moment(date).format("HH:mm");
+                  setStartTime(date);
+                  setRecruit(copy);
+                }}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={30}
+                timeCaption="Time"
+                dateFormat="HH:mm"
+              />
+            </div>
+            <div>
+              <p>종료시간</p>
+              <DatePicker
+                selected={endTime}
+                onChange={(date) => {
+                  askResetGroup();
+                  const copy = { ...recruit };
+                  copy.endTime = moment(date).format("HH:mm");
+                  setEndTime(date);
+                  setRecruit(copy);
+                }}
+                showTimeSelect
+                showTimeSelectOnly
+                timeIntervals={30}
+                timeCaption="Time"
+                dateFormat="HH:mm"
+              />
+            </div>
+          </S.TimeBox>
+        </S.TimeContainer>
+        <button
+          key={recruit}
+          disabled={startTime && endTime && startDate && endDate ? false : true}
+          onClick={() => {
             const copy = { ...recruit };
-            copy.startTime = moment(date).format("HH:mm");
-            setStartTime(date);
+            copy.timeList = createTimeArr(startTime, endTime, doTime);
             setRecruit(copy);
+            setModalSwitch(!modalSwitch);
           }}
-          showTimeSelect
-          showTimeSelectOnly
-          timeIntervals={30}
-          timeCaption="Time"
-          dateFormat="HH:mm"
-        />
-        <p>종료시간</p>
-        <DatePicker
-          selected={endTime}
-          onChange={(date) => {
-            askResetGroup();
+        >
+          날짜별 시간 설정하기
+        </button>
+        {modalSwitch && (
+          <PTimeSelectModal
+            recruit={recruit}
+            setRecruit={setRecruit}
+            setModalSwitch={setModalSwitch}
+            modalSwitch={modalSwitch}
+            createdGroup={createdGroup}
+            setCreatedGroup={setCreatedGroup}
+            createDoDateList={createDoDateList}
+          />
+        )}
+        <button
+          disabled={startTime && endTime && startDate && endDate ? false : true}
+          onClick={() => {
             const copy = { ...recruit };
-            copy.endTime = moment(date).format("HH:mm");
-            setEndTime(date);
+            copy.timeList = createTimeArr(startTime, endTime, doTime);
+            copy.doDateList = createDoDateList(
+              dateList,
+              createdGroup,
+              createTimeArr(startTime, endTime, doTime)
+            );
             setRecruit(copy);
+            movePage(3);
           }}
-          showTimeSelect
-          showTimeSelectOnly
-          timeIntervals={30}
-          timeCaption="Time"
-          dateFormat="HH:mm"
-        />
-      </S.StartEndTimeBox>
-      <button
-        key={recruit}
-        disabled={startTime && endTime && startDate && endDate ? false : true}
-        onClick={() => {
-          const copy = { ...recruit };
-          copy.timeList = createTimeArr(startTime, endTime, doTime);
-          setRecruit(copy);
-          setModalSwitch(!modalSwitch);
-        }}
-      >
-        날짜별 시간 설정하기
-      </button>
-      {modalSwitch && (
-        <PTimeSelectModal
-          recruit={recruit}
-          setRecruit={setRecruit}
-          setModalSwitch={setModalSwitch}
-          modalSwitch={modalSwitch}
-          createdGroup={createdGroup}
-          setCreatedGroup={setCreatedGroup}
-          createDoDateList={createDoDateList}
-        />
-      )}
-      <button
-        disabled={startTime && endTime && startDate && endDate ? false : true}
-        onClick={() => {
-          const copy = { ...recruit };
-          copy.timeList = createTimeArr(startTime, endTime, doTime);
-          copy.doDateList = createDoDateList(
-            dateList,
-            createdGroup,
-            createTimeArr(startTime, endTime, doTime)
-          );
-          setRecruit(copy);
-        }}
-      >
-        저장
-      </button>
-    </>
+        >
+          저장
+        </button>
+      </div>
+    </S.DateSelectPage>
   );
 }

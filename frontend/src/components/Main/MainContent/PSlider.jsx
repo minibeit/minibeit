@@ -1,5 +1,8 @@
 import React from "react";
 import * as S from "../style";
+import Slider from "react-slick";
+import '../slick.css';
+import '../slick-theme.css';
 // import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 // import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
@@ -33,8 +36,8 @@ function PSlider () {
 
         return (
           <S.Container>
-            <S.StyledSlider {...settings}>
-              {items.map(item => {
+            <Slider {...settings}>
+            {items.map(item => {
                 return (
                   <div key={item.id}>
                     <S.ImageContainer>
@@ -43,7 +46,7 @@ function PSlider () {
                   </div>
                 )
               })}
-            </S.StyledSlider>
+              </Slider>
           </S.Container>
         );
       }

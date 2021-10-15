@@ -1,10 +1,14 @@
 import styled from "styled-components";
 
-/* Bussiness Profile Select*/
-export const BProfilePage = styled.div`
+/* Common */
+export const Page = styled.div`
   height: 100vh;
   width: 100vw;
   max-width: 100%;
+`;
+
+/* Bussiness Profile Select*/
+export const BProfilePage = styled(Page)`
   & > div:first-child {
     text-align: center;
     position: relative;
@@ -55,10 +59,7 @@ export const BProfileImgBox = styled.div`
 `;
 
 /* School Select */
-export const SchoolSelectPage = styled.div`
-  height: 100vh;
-  width: 100vw;
-  max-width: 100%;
+export const SchoolSelectPage = styled(Page)`
   & > div:first-child {
     text-align: center;
     position: relative;
@@ -108,10 +109,7 @@ export const SchoolSearchBox = styled.div`
 `;
 
 /* DateSelect */
-export const DateSelectPage = styled.div`
-  height: 100vh;
-  width: 100vw;
-  max-width: 100%;
+export const DateSelectPage = styled(Page)`
   & > div:first-child {
     text-align: center;
     position: relative;
@@ -120,7 +118,6 @@ export const DateSelectPage = styled.div`
     left: 50%;
     transform: translate(-50%, -50%);
     display: flex;
-
     flex-direction: column;
     gap: 1rem;
     & > div:first-child {
@@ -144,6 +141,7 @@ export const DateSelectPage = styled.div`
       border: none;
       margin: auto;
       cursor: pointer;
+      z-index: -10;
       &:disabled {
         background: #c4c4c4;
         cursor: default;
@@ -192,6 +190,7 @@ export const DoTimeBox = styled.div`
   flex-direction: column;
   gap: 1rem;
   border-right: solid #c4c4c4;
+  padding: 1rem;
   & > p {
     font-size: 14px;
     color: #c4c4c4;
@@ -209,7 +208,11 @@ export const TimeBox = styled.div`
   justify-content: center;
   align-items: center;
   & > div {
-    width: 50%;
+    width: 45%;
+    gap: 1rem;
+    & > div:nth-child(2) {
+      height: 2.5rem;
+    }
   }
 `;
 
@@ -229,14 +232,23 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   background-color: white;
-  width: 50rem;
-  height: 30rem;
+  width: 55rem;
 `;
 export const ModalHeader = styled.div`
   display: flex;
   align-items: center;
-  height: 2rem;
+  height: 8%;
+  padding: 10px;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
+  & > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    & > p:first-child {
+      font-size: 25px;
+      font-weight: bold;
+    }
+  }
 `;
 export const CloseModalBtn = styled.button`
   margin-left: auto;
@@ -244,16 +256,46 @@ export const CloseModalBtn = styled.button`
 `;
 export const ModalContent = styled.div`
   display: flex;
+  height: 30rem;
+  padding: 2rem;
 `;
-export const CalendarView = styled.div``;
-export const GroupBox = styled.div``;
+export const CalendarView = styled.div`
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+export const GroupBox = styled.div`
+  display: flex;
+  gap: 10px;
+  border: 1px solid #c4c4c4;
+  border-radius: 10px;
+  position: relative;
+  overflow-x: scroll;
+  & > div {
+    display: flex;
+    position: relative;
+    gap: 10px;
+  }
+`;
 export const GroupBtn = styled.button`
-  width: 2rem;
+  width: 5rem;
   height: 2rem;
   border: 0.5px solid grey;
+  outline: none;
   cursor: pointer;
-  background: ${(props) => props.color || "white"};
-  border-radius: 50%;
+  font-weight: bold;
+  background: ${(props) => {
+    return props.color ? "white" : "#0642FF";
+  }};
+  border: ${(props) => {
+    return props.color ? "1px solid" + props.color : "none";
+  }};
+  color: ${(props) => {
+    return props.color ? props.color : "white";
+  }};
+  border-radius: 20px;
 `;
 export const ColorView = styled.div`
   width: 0.5rem;
@@ -261,7 +303,33 @@ export const ColorView = styled.div`
   border-radius: 50%;
   background: ${(props) => props.color || "none"};
 `;
-export const TimeBtnBox = styled.div``;
+export const TimeBtnContainer = styled.div`
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  & > button:nth-child(3) {
+    width: 6rem;
+    height: 2rem;
+    margin-left: auto;
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+    background: #0642ff;
+    border: none;
+    color: white;
+    border-radius: 2rem;
+  }
+`;
+export const SelectDateView = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: #c4c4c4;
+`;
+export const TimeBtnBox = styled.div`
+  display: flex;
+  margin: auto;
+`;
 
 /* CategorySelect */
 export const CategoryBtn = styled.button``;

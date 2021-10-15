@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import "react-dates/initialize";
 import { CalendarDay, DateRangePicker, SingleDatePicker } from "react-dates";
 import "../react-dates.css";
+import "../date-picker.css";
 import moment from "moment";
 import "moment/locale/ko";
 import PTimeSelectModal from "./PTimeSelectModal";
@@ -317,6 +318,7 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
                 timeIntervals={30}
                 timeCaption="Time"
                 dateFormat="HH:mm"
+                className="datePickerInput"
               />
             </div>
             <div>
@@ -335,6 +337,7 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
                 timeIntervals={30}
                 timeCaption="Time"
                 dateFormat="HH:mm"
+                className="datePickerInput"
               />
             </div>
           </S.TimeBox>

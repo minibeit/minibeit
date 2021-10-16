@@ -58,8 +58,8 @@ export default function PSchoolSelect({ movePage, recruit, setRecruit }) {
     }
   };
   return (
-    <S.SchoolSelectPage>
-      <div>
+    <S.Page>
+      <S.SchoolSelectContainer>
         <p>{recruit.businessProfile.name}님!</p>
         <p>원하는 위치 근처의 학교를 선택하세요</p>
         <S.SchoolSearchBox>
@@ -74,7 +74,7 @@ export default function PSchoolSelect({ movePage, recruit, setRecruit }) {
             적용
           </button>
         </S.SchoolSearchBox>
-      </div>
-    </S.SchoolSelectPage>
+      </S.SchoolSelectContainer>
+    </S.Page>
   );
 }

@@ -202,11 +202,11 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
   };
 
   return (
-    <S.DateSelectPage>
-      <div>
+    <S.Page>
+      <S.DateSelectContainer>
         <p>리서치 정보를 알려주세요.</p>
         <p>정확한 정보를 입력해주세요.</p>
-        <S.DateBox style={{ zIndex: 3 }}>
+        <S.DateContainer style={{ zIndex: 3 }}>
           <div>
             <p>실험 기간</p>
           </div>
@@ -240,9 +240,9 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
               setRecruit(copy);
             }}
           />
-        </S.DateBox>
+        </S.DateContainer>
 
-        <S.DateBox style={{ zIndex: 2 }}>
+        <S.DateContainer style={{ zIndex: 2 }}>
           <div>
             <p>날짜 빼기</p>
           </div>
@@ -284,9 +284,9 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
               return <CalendarDay {...props} modifiers={modifiers} />;
             }}
           />
-        </S.DateBox>
+        </S.DateContainer>
 
-        <S.DateBox style={{ zIndex: 1 }}>
+        <S.DateContainer style={{ zIndex: 1 }}>
           <div>
             <p>실험당 모집인원</p>
           </div>
@@ -299,7 +299,7 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
               <AddIcon />
             </S.PlusBtn>
           </div>
-        </S.DateBox>
+        </S.DateContainer>
         <S.TimeContainer>
           <S.DoTimeBox>
             <p>시간 단위</p>
@@ -394,7 +394,7 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
         >
           저장
         </S.SaveBtn>
-      </div>
-    </S.DateSelectPage>
+      </S.DateSelectContainer>
+    </S.Page>
   );
 }

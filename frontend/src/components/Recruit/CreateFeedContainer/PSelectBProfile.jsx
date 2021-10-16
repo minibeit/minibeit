@@ -69,8 +69,8 @@ export default function PSelectBProfile({
   };
 
   return (
-    <S.BProfilePage>
-      <div>
+    <S.Page>
+      <S.BProfileContainer>
         <p>모집하기에서</p>
         <p>어떤 프로필을 사용할 것인가요?</p>
         <p>사용하실 비즈니스 프로필을 선택하세요</p>
@@ -92,7 +92,7 @@ export default function PSelectBProfile({
             );
           })}
         </S.BProfileListBox>
-      </div>
-    </S.BProfilePage>
+      </S.BProfileContainer>
+    </S.Page>
   );
 }

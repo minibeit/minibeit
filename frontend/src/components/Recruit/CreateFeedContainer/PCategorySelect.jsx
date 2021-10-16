@@ -53,7 +53,7 @@ export default function PCategorySelect({ movePage, recruit, setRecruit }) {
 
   return (
     <S.Page>
-      <S.CategoryBox>
+      <S.CategoryContainer>
         <p>카테고리</p>
         <p>모집하는 실험의 카테고리를 골라보세요.</p>
         <div>
@@ -72,7 +72,7 @@ export default function PCategorySelect({ movePage, recruit, setRecruit }) {
           })}
         </div>
         <S.SaveBtn onClick={() => movePage(4)}>확인</S.SaveBtn>
-      </S.CategoryBox>
+      </S.CategoryContainer>
     </S.Page>
   );
 }

@@ -8,7 +8,6 @@ import PSchoolSelect from "./PSchoolSelect";
 import PDateSelect from "./PDateSelect";
 import PCategorySelect from "./PCategorySelect";
 import PInfoData from "./PInfoData";
-import PImgAndAddress from "./PImgAndAddress";
 import { feedAddfileApi } from "../../../utils/feedApi";
 
 export default function CreateFeedContainer() {
@@ -82,43 +81,33 @@ export default function CreateFeedContainer() {
 
   return (
     <div ref={page}>
-      <div>
-        <PSelectBProfile
-          movePage={movePage}
-          bpList={bpList}
-          recruit={recruit}
-          setRecruit={setRecruit}
-        />
-      </div>
-      <div>
-        <PSchoolSelect
-          movePage={movePage}
-          recruit={recruit}
-          setRecruit={setRecruit}
-        />
-      </div>
-      <div>
-        <PDateSelect
-          movePage={movePage}
-          recruit={recruit}
-          setRecruit={setRecruit}
-        />
-      </div>
-      <div>
-        <PCategorySelect
-          movePage={movePage}
-          recruit={recruit}
-          setRecruit={setRecruit}
-        />
-      </div>
-      <div>
-        <PInfoData recruit={recruit} setRecruit={setRecruit} />
-        <PImgAndAddress
-          recruit={recruit}
-          setRecruit={setRecruit}
-          submit={submit}
-        />
-      </div>
+      <PSelectBProfile
+        movePage={movePage}
+        bpList={bpList}
+        recruit={recruit}
+        setRecruit={setRecruit}
+      />
+      <PSchoolSelect
+        movePage={movePage}
+        recruit={recruit}
+        setRecruit={setRecruit}
+      />
+      <PDateSelect
+        movePage={movePage}
+        recruit={recruit}
+        setRecruit={setRecruit}
+      />
+      <PCategorySelect
+        movePage={movePage}
+        recruit={recruit}
+        setRecruit={setRecruit}
+      />
+      <PInfoData
+        movePage={movePage}
+        recruit={recruit}
+        setRecruit={setRecruit}
+        submit={submit}
+      />
     </div>
   );
 }

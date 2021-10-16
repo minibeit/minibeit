@@ -6,6 +6,19 @@ export const Page = styled.div`
   width: 100vw;
   max-width: 100%;
 `;
+export const Container = styled.div`
+  position: relative;
+  top: 40%;
+  width: 70%;
+  height: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+  text-align: center;
+`;
 export const SaveBtn = styled.button`
   width: 10rem;
   height: 3rem;
@@ -25,33 +38,24 @@ export const SaveBtn = styled.button`
 `;
 
 /* Bussiness Profile Select*/
-export const BProfilePage = styled(Page)`
-  & > div:first-child {
-    text-align: center;
-    position: relative;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    & > p:first-child {
-      font-size: 2rem;
-      font-weight: 600;
-    }
-    & > p:nth-child(2) {
-      font-size: 2rem;
-      font-weight: 600;
-    }
-    & > p:nth-child(3) {
-      color: #c4c4c4;
-    }
+export const BProfileContainer = styled(Container)`
+  & > p:first-child {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  & > p:nth-child(2) {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  & > p:nth-child(3) {
+    color: #c4c4c4;
   }
 `;
 export const BProfileListBox = styled.div`
   display: flex;
   justify-content: center;
   gap: 2rem;
+  margin-top: 2rem;
   & > div {
     display: flex;
     flex-direction: column;
@@ -76,23 +80,22 @@ export const BProfileImgBox = styled.div`
 `;
 
 /* School Select */
-export const SchoolSelectPage = styled(Page)`
-  & > div:first-child {
-    text-align: center;
-    position: relative;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    & > p:first-child {
-      font-size: 2rem;
-      font-weight: 600;
-    }
-    & > p:nth-child(2) {
-      font-size: 2rem;
-    }
+
+export const SchoolSelectContainer = styled(Container)`
+  text-align: center;
+  position: relative;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  & > p:first-child {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  & > p:nth-child(2) {
+    font-size: 2rem;
   }
 `;
 
@@ -108,7 +111,7 @@ export const SchoolSearchBox = styled.div`
     justify-content: end;
   }
   & > div:nth-child(2) {
-    width: 40%;
+    width: 50%;
   }
   & > button:nth-child(3) {
     width: 4rem;
@@ -126,30 +129,28 @@ export const SchoolSearchBox = styled.div`
 `;
 
 /* DateSelect */
-export const DateSelectPage = styled(Page)`
+export const DateSelectContainer = styled(Container)`
+  text-align: center;
+  position: relative;
+  width: 60%;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
   & > div:first-child {
-    text-align: center;
-    position: relative;
-    width: 60%;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    & > div:first-child {
-      width: 55%;
-    }
-    & > p:nth-child(1) {
-      font-size: 2rem;
-      font-weight: 600;
-    }
-    & > p:nth-child(2) {
-      color: #c4c4c4;
-    }
+    width: 55%;
+  }
+  & > p:nth-child(1) {
+    font-size: 2rem;
+    font-weight: 600;
+  }
+  & > p:nth-child(2) {
+    color: #c4c4c4;
   }
 `;
-export const DateBox = styled.div`
+export const DateContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
@@ -390,16 +391,7 @@ export const TimeBtn = styled.div`
 `;
 
 /* CategorySelect */
-export const CategoryBox = styled.div`
-  position: relative;
-  top: 40%;
-  width: 70%;
-  height: 70%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+export const CategoryContainer = styled(Container)`
   & > p:first-child {
     font-size: 2rem;
     font-weight: bold;
@@ -431,22 +423,21 @@ export const CategoryBtn = styled.button`
 `;
 
 /* Info Data */
-export const TitleInput = styled.input`
-  width: 20rem;
+export const InputContainer = styled(Container)`
+  height: auto;
 `;
-export const ContentInput = styled.textarea`
-  width: 20rem;
-  height: 6rem;
+export const InputBox = styled.div`
+  width: 100%;
+  & > p:first-child {
+    font-size: 2rem;
+    font-weight: bold;
+  }
 `;
-export const ConditionInput = styled.input`
-  display: block;
-`;
-export const PaymentInput = styled.input`
-  width: 20rem;
-`;
-export const PaymentMemo = styled.input`
-  width: 20rem;
-`;
+export const TitleInput = styled(InputBox)``;
+export const ContentInput = styled(InputBox)``;
+export const ConditionInput = styled(InputBox)``;
+export const PaymentInput = styled(InputBox)``;
+export const PaymentMemo = styled(InputBox)``;
 
 /* img and address */
 export const ImgForm = styled.div`

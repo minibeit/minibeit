@@ -1,15 +1,16 @@
 import styled from "styled-components";
-
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 
 export const BackGround = styled.div`
 width: 100vw;
 background-color: #F9F9F9;
 padding-bottom: 10rem;
+overflow: hidden;
 `;
 
 export const MainJumbotron = styled.div`
 position: relative;
-margin-top: 30px;
 width: 100vw;
 height: 600px;
 background-color: #FFFFFF;
@@ -49,9 +50,10 @@ flex-wrap: wrap;
 
 const Button = styled.button`
 position: relative;
-width: 150px;
+margin-top: 30px;
+width: 120px;
 height: 50px;
-font-size: 25px;
+font-size: 20px;
 font-weight: bold;
 line-height: 50px;
 box-shadow: 10px 10px 30px rgba(189, 189, 189, 0.2);
@@ -74,30 +76,30 @@ background: #0642FF;
 
 export const Section = styled.div`
 position: relative;
-width: 100vw;
+width: 70vw;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: left;
 flex-wrap: wrap;
 gap: 20px;
-margin: 70px 0 100px 70px;
+margin: 70px 0;
+left: 150px;
 
 & > button:first-child {
-  margin-left: 100px;
+
 }
 
 & > p:nth-child(2) {
-  font-size: 27px;
-  font-weight: bold;
-  line-height: 50px;
+  font-size: 20px;
+  font-weight: 800;
+  line-height: 40px;
   color: #000000;
-  margin:0 120px;
-  flex: 1;
+  padding-left: 20px;
 }
 
 & > div:last-child {
-  margin-left: 100px;
+ left: 50px;
 }
 
 `;
@@ -144,67 +146,19 @@ text-align: center;
 // slider
 export const Container = styled.div`
   position: relative;
-  width: 80%;
-  overflow: visible;
-
-  /* .slick-next,
-  .slick-prev {
-    width: 100px !important;
-    top: 50% !important;
-
-  }
-  .slick-prev{
-    left: 10%;
-    z-index: 1;
-  }
-  .slick-next{
-    right: 40%;
-    z-index: 1;
-  }
-  .slick-prev:before {
-    content: '<';
-    color: #6F6F6F;
-    width: 101px;
-    padding: 5px 16px;
-    font-size: 43px;
-    font-weight: 700;
-  }
-
-  .slick-next:before {
-    content: '>';
-    color: #6F6F6F;
-    width: 101px;
-    padding: 5px 16px;
-    font-size: 43px;
-    font-weight: 700;
-  } */
-
+  width: 85vw;
+  overflow: hidden;
 `;
 
-// export const StyledSlider = styled(Slider)`
-// left: 30%;
-//   .slick-slide {
-//     width: 70%;
-//     padding: 0 !important;
-//     display: flex !important;
-//     justify-content: center !important;
-//     align-items: center !important;
-//   }
-//   .slick-slide div {
-//     outline: none;
-//   }
-//   .slick-list div {
-//     position: relative;
-//   }
-// `;
 
 export const ImageContainer = styled.div`
   position: relative;
-  width: 300px;
-  height: 300px;
+  width: 370px;
+  height: 370px;
   margin-bottom: 30px;
   border-radius: 25px;
   box-shadow: 10px 10px 30px rgba(189, 189, 189, 0.2);
+  margin-right: 0;
 `;
 
 export const Image = styled.img`
@@ -214,4 +168,40 @@ export const Image = styled.img`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+`;
+
+
+const ArrowButton = styled.button`
+  position: absolute;
+  top: calc(50% - 50px); 
+  padding: 0; 
+  width: 30px; 
+  height: 30px; 
+  line-height: 1; 
+  border: none; 
+  background: none; 
+  outline: none; 
+  cursor: pointer;
+`;
+
+export const PrevButton = styled(ArrowButton)`
+  left: 0;
+`;
+
+export const NextButton = styled(ArrowButton)`
+  right: 330px;
+`;
+
+export const PrevIcon = styled(ArrowBackIosIcon)`
+font-size: 22px; 
+color: gray; 
+&:focus, &:hover {
+  color: #666; }
+`; 
+
+export const NextIcon = styled(ArrowForwardIosIcon)` 
+font-size: 22px; 
+color: gray; 
+&:focus, &:hover {
+  color: #666; }
 `;

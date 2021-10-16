@@ -11,7 +11,7 @@ function PSlider () {
         const previous = useCallback(() => slickRef.current.slickPrev(), []);
         const next = useCallback(() => slickRef.current.slickNext(), []);
 
-        let [items, setItems] = useState(['/img2.png', '/img1.png', '/img2.png', '/img1.png', '/img2.png', '/img1.png']);
+        let [items] = useState(['/img2.png', '/img1.png', '/img2.png', '/img1.png', '/img2.png', '/img1.png']);
  
 
         const settings = {

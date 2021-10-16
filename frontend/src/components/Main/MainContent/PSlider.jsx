@@ -1,19 +1,7 @@
-import React, { useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import * as S from "../style";
 import Slider from "react-slick";
 import '../slick.css';
-
-
-
-
-const items = [
-  { id: 1, url: '/img2.png' },
-  { id: 2, url: '/img1.png' },
-  { id: 3, url: '/img2.png' },
-  { id: 4, url: '/img1.png' },
-  { id: 5, url: '/img2.png' },
-  { id: 6, url: '/img1.png' }
-];
 
 
 
@@ -22,6 +10,9 @@ function PSlider () {
 
         const previous = useCallback(() => slickRef.current.slickPrev(), []);
         const next = useCallback(() => slickRef.current.slickNext(), []);
+
+        let [items, setItems] = useState(['/img2.png', '/img1.png', '/img2.png', '/img1.png', '/img2.png', '/img1.png']);
+ 
 
         const settings = {
           arrows: false,
@@ -36,11 +27,11 @@ function PSlider () {
         return (
           <S.Container>
             <Slider ref={slickRef}  {...settings}>
-            {items.map(item => {
+            {items.map(function (a,i) {
                 return (
-                  <div key={item.id}>
+                  <div key={i}>
                     <S.ImageContainer>
-                      <S.Image src={item.url} />
+                      <S.Image src={a} />
                     </S.ImageContainer>
                   </div>
                 )

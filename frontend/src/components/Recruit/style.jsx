@@ -190,7 +190,7 @@ export const DoTimeBox = styled.div`
   flex-direction: column;
   gap: 1rem;
   border-right: solid #c4c4c4;
-  padding: 1rem;
+  padding: 1rem 0 1rem 0;
   & > p {
     font-size: 14px;
     color: #c4c4c4;
@@ -199,6 +199,10 @@ export const DoTimeBox = styled.div`
     display: flex;
     justify-content: center;
     gap: 1rem;
+    &>p{
+      display: flex;
+      align-items: center;
+    }
   }
 }
 `;
@@ -209,11 +213,39 @@ export const TimeBox = styled.div`
   align-items: center;
   & > div {
     width: 45%;
-    gap: 1rem;
+    & > p {
+      color: #c4c4c4;
+    }
+    padding: 0 1rem 0 1rem;
     & > div:nth-child(2) {
       height: 2.5rem;
     }
   }
+`;
+export const MinusBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #c4c4c4;
+  border-radius: 50%;
+  background: white;
+  color: #c4c4c4;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+`;
+
+export const PlusBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #c4c4c4;
+  border-radius: 50%;
+  background: #1c2362;
+  color: white;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 `;
 
 /* TimeSelect */
@@ -239,7 +271,6 @@ export const ModalHeader = styled.div`
   align-items: center;
   height: 8%;
   padding: 10px;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
   & > div:first-child {
     display: flex;
     flex-direction: column;
@@ -248,6 +279,9 @@ export const ModalHeader = styled.div`
       font-size: 25px;
       font-weight: bold;
     }
+  }
+  & > p:nth-child(2) {
+    color: #c4c4c4;
   }
 `;
 export const CloseModalBtn = styled.button`
@@ -329,6 +363,30 @@ export const SelectDateView = styled.div`
 export const TimeBtnBox = styled.div`
   display: flex;
   margin: auto;
+  flex-wrap: wrap;
+  gap: 10px;
+  overflow-y: scroll;
+`;
+export const TimeBtn = styled.div`
+  & > input {
+    display: none;
+  }
+  & > label {
+    margin: 1px;
+    padding: 10px;
+    display: flex;
+    border-radius: 10px;
+    background: #f8f8f8;
+    color: #c4c4c4;
+  }
+  & > input:checked + label {
+    margin: 0;
+    border: 1px solid #0642ff;
+    padding: 10px;
+    display: flex;
+    border-radius: 10px;
+    background: white;
+  }
 `;
 
 /* CategorySelect */

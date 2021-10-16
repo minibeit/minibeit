@@ -37,7 +37,6 @@
   direction: rtl;
 }
 .SingleDatePickerInput__disabled {
-  background-color: #f2f2f2;
 }
 .SingleDatePickerInput__block {
   display: block;
@@ -675,8 +674,8 @@
   color: #dbdbdb;
 }
 .DateInput_input {
-  font-weight: 200;
-  font-size: 19px;
+  font-weight: 600;
+  font-size: 17px;
   text-align: center;
   line-height: 24px;
   color: #484848;
@@ -715,8 +714,6 @@
   border-left: 0;
 }
 .DateInput_input__disabled {
-  background: #f2f2f2;
-  font-style: italic;
 }
 .DateInput_screenReaderMessage {
   border: 0;

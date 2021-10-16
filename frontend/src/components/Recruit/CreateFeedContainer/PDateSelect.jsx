@@ -8,6 +8,8 @@ import "../date-picker.css";
 import moment from "moment";
 import "moment/locale/ko";
 import PTimeSelectModal from "./PTimeSelectModal";
+import RemoveIcon from "@mui/icons-material/Remove";
+import AddIcon from "@mui/icons-material/Add";
 
 import * as S from "../style";
 
@@ -69,8 +71,8 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
   const [createdGroup, setCreatedGroup] = useState([]);
 
   /* 모집인원 카운트 로직 */
-  const changeHeadCount = (e) => {
-    if (e.target.textContent === "-") {
+  const changeHeadCount = (value) => {
+    if (value === "minus") {
       const copy = { ...recruit };
       if (copy.headCount > 1) {
         copy.headCount -= 1;
@@ -84,8 +86,8 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
   };
 
   /* 실험 시간 단위 로직 */
-  const changeDoTime = (e) => {
-    if (e.target.textContent === "-") {
+  const changeDoTime = (value) => {
+    if (value === "minus") {
       const copy = { ...recruit };
       if (copy.doTime > 30) {
         copy.doTime -= 30;
@@ -204,7 +206,7 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
       <div>
         <p>리서치 정보를 알려주세요.</p>
         <p>정확한 정보를 입력해주세요.</p>
-        <S.DateBox>
+        <S.DateBox style={{ zIndex: 3 }}>
           <div>
             <p>실험 기간</p>
           </div>
@@ -213,6 +215,8 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
             startDateId="start_date"
             endDate={endDate}
             endDateId="end_date"
+            startDatePlaceholderText="시작 날짜 선택"
+            endDatePlaceholderText="종료 날짜 선택"
             monthFormat={"YYYY년 MM월"}
             displayFormat="YYYY-MM-DD"
             hideKeyboardShortcutsPanel={true}
@@ -238,12 +242,13 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
           />
         </S.DateBox>
 
-        <S.DateBox>
+        <S.DateBox style={{ zIndex: 2 }}>
           <div>
             <p>날짜 빼기</p>
           </div>
           <SingleDatePicker
             date={startDate}
+            placeholder="날짜 제거"
             onDateChange={(e) => {
               askResetGroup();
               createExceptDate(e);
@@ -281,23 +286,31 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
           />
         </S.DateBox>
 
-        <S.DateBox>
+        <S.DateBox style={{ zIndex: 1 }}>
           <div>
             <p>실험당 모집인원</p>
           </div>
           <div>
-            <button onClick={changeHeadCount}>-</button>
+            <S.MinusBtn onClick={() => changeHeadCount("minus")}>
+              <RemoveIcon />
+            </S.MinusBtn>
             <p>{recruit.headCount}명</p>
-            <button onClick={changeHeadCount}>+</button>
+            <S.PlusBtn onClick={() => changeHeadCount("plus")}>
+              <AddIcon />
+            </S.PlusBtn>
           </div>
         </S.DateBox>
         <S.TimeContainer>
           <S.DoTimeBox>
             <p>시간 단위</p>
             <div>
-              <button onClick={changeDoTime}>-</button>
+              <S.MinusBtn onClick={() => changeDoTime("minus")}>
+                <RemoveIcon />
+              </S.MinusBtn>
               <p>{recruit.doTime}분</p>
-              <button onClick={changeDoTime}>+</button>
+              <S.PlusBtn onClick={() => changeDoTime("plus")}>
+                <AddIcon />
+              </S.PlusBtn>
             </div>
             <p>시간 단위를 수정하면 하단의 시간설정의 초기화 됩니다</p>
           </S.DoTimeBox>

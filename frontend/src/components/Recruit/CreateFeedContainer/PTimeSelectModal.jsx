@@ -60,9 +60,6 @@ export default function PTimeSelectModal({
   createdGroup,
   setCreatedGroup,
 }) {
-  const closeModal = () => {
-    setModalSwitch(false);
-  };
   const [group] = useState([
     { id: 1, color: "#0642FF", dateList: [] },
     { id: 2, color: "#1AE5DA", dateList: [] },
@@ -151,8 +148,10 @@ export default function PTimeSelectModal({
               <p>날짜별 시간 설정</p>
               <p>시간을 묶어서 설정하세요</p>
             </div>
-            <p>선택한 실험 날짜 : </p>
-            <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
+            <p>
+              선택한 실험 날짜 : {recruit.startDate.format("MM월DD일")}~
+              {recruit.endDate.format("MM월DD일")}
+            </p>
           </S.ModalHeader>
           <S.ModalContent>
             <S.CalendarView>
@@ -227,7 +226,7 @@ export default function PTimeSelectModal({
                 {selectGroup &&
                   recruit.timeList.map((a, i) => {
                     return (
-                      <div key={`${selectGroup.id}_${i}`}>
+                      <S.TimeBtn key={`${selectGroup.id}_${i}`}>
                         <input
                           type="checkbox"
                           id={`check_${a}`}
@@ -241,7 +240,7 @@ export default function PTimeSelectModal({
                           }
                         />
                         <label htmlFor={`check_${a}`}>{a}</label>
-                      </div>
+                      </S.TimeBtn>
                     );
                   })}
               </S.TimeBtnBox>

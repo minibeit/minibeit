@@ -355,7 +355,7 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
             </div>
           </S.TimeBox>
         </S.TimeContainer>
-        <button
+        <S.SaveBtn
           key={recruit}
           disabled={startTime && endTime && startDate && endDate ? false : true}
           onClick={() => {
@@ -366,7 +366,7 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
           }}
         >
           날짜별 시간 설정하기
-        </button>
+        </S.SaveBtn>
         {modalSwitch && (
           <PTimeSelectModal
             recruit={recruit}
@@ -378,7 +378,7 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
             createDoDateList={createDoDateList}
           />
         )}
-        <button
+        <S.SaveBtn
           disabled={startTime && endTime && startDate && endDate ? false : true}
           onClick={() => {
             const copy = { ...recruit };
@@ -393,7 +393,7 @@ export default function PDateSelect({ movePage, recruit, setRecruit }) {
           }}
         >
           저장
-        </button>
+        </S.SaveBtn>
       </div>
     </S.DateSelectPage>
   );

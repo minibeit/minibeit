@@ -6,6 +6,23 @@ export const Page = styled.div`
   width: 100vw;
   max-width: 100%;
 `;
+export const SaveBtn = styled.button`
+  width: 10rem;
+  height: 3rem;
+  border-radius: 2rem;
+  background: #0642ff;
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  margin: auto;
+  cursor: pointer;
+  z-index: -10;
+  &:disabled {
+    background: #c4c4c4;
+    cursor: default;
+  }
+`;
 
 /* Bussiness Profile Select*/
 export const BProfilePage = styled(Page)`
@@ -129,23 +146,6 @@ export const DateSelectPage = styled(Page)`
     }
     & > p:nth-child(2) {
       color: #c4c4c4;
-    }
-    & > button {
-      width: 10rem;
-      height: 3rem;
-      border-radius: 2rem;
-      background: #0642ff;
-      color: white;
-      font-size: 14px;
-      font-weight: bold;
-      border: none;
-      margin: auto;
-      cursor: pointer;
-      z-index: -10;
-      &:disabled {
-        background: #c4c4c4;
-        cursor: default;
-      }
     }
   }
 `;
@@ -390,7 +390,45 @@ export const TimeBtn = styled.div`
 `;
 
 /* CategorySelect */
-export const CategoryBtn = styled.button``;
+export const CategoryBox = styled.div`
+  position: relative;
+  top: 40%;
+  width: 70%;
+  height: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  & > p:first-child {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  & > p:nth-child(2) {
+    color: #c4c4c4;
+  }
+  & > div:nth-child(3) {
+    margin: 20px 0 20px 0;
+  }
+`;
+export const CategoryBtn = styled.button`
+  width: 8rem;
+  border: 1px solid #0642ff;
+  padding: 10px;
+  border-radius: 10px;
+  background: white;
+  font-weight: bold;
+  margin: 5px;
+  cursor: pointer;
+  &:disabled {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #f8f8f8;
+    color: #c4c4c4;
+  }
+`;
 
 /* Info Data */
 export const TitleInput = styled.input`

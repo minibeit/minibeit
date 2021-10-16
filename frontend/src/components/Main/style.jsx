@@ -206,3 +206,45 @@ color: gray;
 &:focus, &:hover {
   color: #666; }
 `;
+
+// img div
+// durl
+// durldurldurl
+// durl
+
+
+export const ImgContainer = styled.div`
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+gap: 5px;
+width: 430px;
+
+& > div:first-child {
+}
+
+& > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+`;
+
+export const Img = styled.img`
+  width: 316px;
+  height: 316px;
+  border-radius: 5px;
+  object-fit: contain;
+  border: 1px solid gray;
+  background-color: #000;
+`;
+
+export const SmImg = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  object-fit: contain;
+  flex-grow: 1;
+  border: 1px solid gray;
+  background-color: gray;
+`;

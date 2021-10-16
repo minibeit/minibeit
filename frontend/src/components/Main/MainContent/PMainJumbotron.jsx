@@ -32,6 +32,20 @@ function PMainJumbotron() {
       <S.LastJumbo id="3">
       <p>세상에 없었던<br/>새로운 <span>구인구직</span> 서비스,<br/>미니바이트</p>
       </S.LastJumbo>
+
+
+
+
+{/* durldurldurldurl
+durlurldurldurlw */}
+      <S.ImgContainer>
+        <div><S.Img src="/cloud.jpg"/></div>
+        <div>
+          <div><S.SmImg src="/cloud2.jpg"/></div>
+          <div><S.SmImg src="/cloud.jpg"/></div>
+          <div><S.SmImg src="/cloud2.jpg"/></div>
+        </div>
+        </S.ImgContainer>
     </S.BackGround>
   );
 }

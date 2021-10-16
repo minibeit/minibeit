@@ -103,3 +103,8 @@ Authorization: {{authorizationToken}}
 
 DELETE {{apiUrl}}/user
 Authorization: {{authorizationToken}}
+
+
+###
+GET {{apiUrl}}/user/rejectPost/alarm
+Authorization: {{authorizationToken}}

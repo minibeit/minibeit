@@ -3,11 +3,14 @@ package com.minibeit.user.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minibeit.avatar.domain.Avatar;
+import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.security.token.Token;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class UserResponse {
     @Getter
@@ -100,5 +103,21 @@ public class UserResponse {
             }
             return getOneBuilder.build();
         }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Alaram {
+
+       private boolean alarm;
+
+        public static Alaram build(boolean alarm) {
+            return Alaram.builder()
+                    .alarm(alarm)
+                    .build();
+        }
+
     }
 }

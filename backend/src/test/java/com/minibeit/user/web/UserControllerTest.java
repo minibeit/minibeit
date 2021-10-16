@@ -27,6 +27,7 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
@@ -271,5 +272,23 @@ class UserControllerTest extends MvcTest {
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("user-deleteOne"));
+    }
+
+    @Test
+    @DisplayName("거부된 게시물 알림 문서화")
+    public void getNews() throws Exception {
+
+        UserResponse.Alaram alaram = UserResponse.Alaram.build(false);
+        given(userService.getNews(any())).willReturn(alaram);
+
+        ResultActions results = mvc.perform(get("/api/user/rejectPost/alarm"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("user-rejected-post-alarm",
+                        responseFields(
+                                fieldWithPath("alarm").type(JsonFieldType.BOOLEAN).description("true 이면 알림을 띄워야 함")
+                        )));
+
     }
 }

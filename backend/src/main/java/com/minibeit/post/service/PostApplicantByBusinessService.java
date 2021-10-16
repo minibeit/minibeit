@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -58,6 +59,7 @@ public class PostApplicantByBusinessService {
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
         postApplicant.updateStatus(ApplyStatus.REJECT);
+        postApplicant.getUser().alarmOn(LocalDateTime.now());
 
         RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getComment(), postApplicant.getUser());
         rejectPostRepository.save(rejectPost);

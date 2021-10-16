@@ -7,12 +7,13 @@ width: 100vw;
 background-color: #F9F9F9;
 padding-bottom: 10rem;
 overflow: hidden;
+max-width: 100%;
 `;
 
 export const MainJumbotron = styled.div`
 position: relative;
 width: 100vw;
-height: 600px;
+height: 100vh;
 background-color: #FFFFFF;
 display: flex;
 flex-direction: column;

@@ -5,17 +5,17 @@ export const Page = styled.div`
   height: 100vh;
   width: 100vw;
   max-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 export const Container = styled.div`
   position: relative;
-  top: 40%;
-  width: 70%;
-  height: 70%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
   justify-content: center;
   text-align: center;
 `;
@@ -30,7 +30,7 @@ export const SaveBtn = styled.button`
   border: none;
   margin: auto;
   cursor: pointer;
-  z-index: -10;
+  z-index: 0;
   &:disabled {
     background: #c4c4c4;
     cursor: default;
@@ -62,7 +62,6 @@ export const BProfileListBox = styled.div`
     gap: 1rem;
   }
 `;
-
 export const BProfileImgBox = styled.div`
   display: inline-block;
   border-radius: 50%;
@@ -80,16 +79,7 @@ export const BProfileImgBox = styled.div`
 `;
 
 /* School Select */
-
 export const SchoolSelectContainer = styled(Container)`
-  text-align: center;
-  position: relative;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
   & > p:first-child {
     font-size: 2rem;
     font-weight: 600;
@@ -98,7 +88,6 @@ export const SchoolSelectContainer = styled(Container)`
     font-size: 2rem;
   }
 `;
-
 export const SchoolSearchBox = styled.div`
   display: flex;
   justify-content: center;
@@ -130,15 +119,6 @@ export const SchoolSearchBox = styled.div`
 
 /* DateSelect */
 export const DateSelectContainer = styled(Container)`
-  text-align: center;
-  position: relative;
-  width: 60%;
-  top: 40%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
   & > div:first-child {
     width: 55%;
   }
@@ -235,7 +215,6 @@ export const MinusBtn = styled.button`
   height: 30px;
   cursor: pointer;
 `;
-
 export const PlusBtn = styled.button`
   display: flex;
   justify-content: center;
@@ -423,21 +402,98 @@ export const CategoryBtn = styled.button`
 `;
 
 /* Info Data */
-export const InputContainer = styled(Container)`
-  height: auto;
+export const InputPage = styled(Page)`
+  height: 280vh;
+`;
+export const InputContainer = styled(Container)``;
+export const Input = styled.div`
+  width: 100%;
+  border-radius: 15px;
+  border: none;
+  background: #f8f8f8;
+  padding: 0 15px 0 15px;
+  display: flex;
+  & > input {
+    height: 2em;
+    background: none;
+    border: none;
+    width: 100%;
+    font-size: 21px;
+  }
+  & > input:focus {
+    outline: none;
+  }
 `;
 export const InputBox = styled.div`
-  width: 100%;
+  margin-bottom: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   & > p:first-child {
+    font-size: 2rem;
+    font-weight: bold;
+    text-align: start;
+  }
+`;
+export const TitleBox = styled(InputBox)`
+  & > input:nth-child(2) {
+    width: 100%;
+    height: 3em;
+    border-radius: 15px;
+    border: none;
+    font-size: 21px;
+    background: #f8f8f8;
+    padding: 0 15px 0 15px;
+  }
+`;
+export const ContentBox = styled(InputBox)`
+  & > textarea:nth-child(2) {
+    width: 100%;
+    height: 6em;
+    border-radius: 15px;
+    border: none;
+    font-size: 21px;
+    background: #f8f8f8;
+    padding: 15px;
+  }
+`;
+export const ConditionBox = styled(InputBox)`
+  & > div:first-child {
+    display: flex;
     font-size: 2rem;
     font-weight: bold;
   }
 `;
-export const TitleInput = styled(InputBox)``;
-export const ContentInput = styled(InputBox)``;
-export const ConditionInput = styled(InputBox)``;
-export const PaymentInput = styled(InputBox)``;
-export const PaymentMemo = styled(InputBox)``;
+export const ConditionInput = styled(Input)`
+  & > button {
+    background: none;
+    display: flex;
+    border: none;
+    align-items: center;
+    color: #0642ff;
+    cursor: pointer;
+  }
+  & > button:disabled {
+    color: #c4c4c4;
+  }
+`;
+export const PaymentBox = styled(InputBox)`
+  & > div:first-child {
+    display: flex;
+    font-size: 2rem;
+    font-weight: bold;
+    gap: 1rem;
+  }
+`;
+export const PayInput = styled(Input)`
+  & > span {
+    display: flex;
+    align-items: center;
+    font-size: 21px;
+    font-weight: bold;
+    color: #c4c4c4;
+  }
+`;
 
 /* img and address */
 export const ImgForm = styled.div`
@@ -481,7 +537,4 @@ export const FileLabel = styled.label`
 `;
 export const FileInput = styled.input`
   display: none;
-`;
-export const AddressInput = styled.input`
-  width: 20rem;
 `;

@@ -23,7 +23,7 @@ export const feedCreateApi = async (recruit) => {
   const data = {
     title: recruit.title,
     content: recruit.content,
-    place: recruit.address + recruit.detailAddress,
+    place: recruit.address + " " + recruit.detailAddress,
     contact: recruit.contact,
     category: recruit.category,
     headcount: recruit.headCount,

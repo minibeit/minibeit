@@ -85,15 +85,29 @@ export default function PInfoData({ recruit, setRecruit, submit }) {
   const fileChange = (e) => {
     const copy = { ...recruit };
     const imgArr = [...copy.images];
-    if (e.target.files[0]) {
-      copy.images = [...imgArr, e.target.files[0]];
-      setRecruit(copy);
+    if (imgArr.length >= 10) {
+      alert("이미지는 10개만 추가 가능합니다");
+      return;
+    } else {
+      if (e.target.files[0]) {
+        copy.images = [...imgArr, e.target.files[0]];
+        setRecruit(copy);
+      }
     }
   };
+
   const deleteImg = (e) => {
-    var targetId = e.target.id;
+    var target;
+    if (e.target.nodeName === "svg") {
+      target = e.target.parentNode;
+    } else if (e.target.nodeName === "path") {
+      target = e.target.parentNode.parentNode;
+    } else {
+      target = e.target;
+    }
     const copy = { ...recruit };
-    copy.images.splice(targetId, 1);
+    const targetFile = copy.images.find((ele) => ele.name === target.name);
+    copy.images.splice(copy.images.indexOf(targetFile), 1);
     setRecruit(copy);
   };
 
@@ -186,12 +200,17 @@ export default function PInfoData({ recruit, setRecruit, submit }) {
               <S.FileLabel htmlFor="file">
                 <AddIcon />
               </S.FileLabel>
-              <S.FileInput id="file" type="file" onChange={fileChange} />
+              <S.FileInput
+                id="file"
+                type="file"
+                accept="image/*"
+                onChange={fileChange}
+              />
               {recruit.images.length !== 0
                 ? recruit.images.map((a, i) => {
                     return (
                       <S.ImgBox key={i}>
-                        <S.DeleteImg id={i} onClick={deleteImg}>
+                        <S.DeleteImg name={a.name} onClick={deleteImg}>
                           <CloseIcon />
                         </S.DeleteImg>
                         <PVImg img={recruit.images[i]} />

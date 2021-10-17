@@ -403,7 +403,7 @@ export const CategoryBtn = styled.button`
 
 /* Info Data */
 export const InputPage = styled(Page)`
-  height: 130rem;
+  height: 140rem;
 `;
 export const InputContainer = styled(Container)``;
 export const Input = styled.div`
@@ -536,9 +536,6 @@ export const Img = styled.img`
   height: 100%;
 `;
 export const FileLabel = styled.label`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: #ffffff;
   box-shadow: 10px 10px 30px rgba(189, 189, 189, 0.2);
   border: rgba(189, 189, 189, 0.2) 0.5px solid;
@@ -546,7 +543,13 @@ export const FileLabel = styled.label`
   overflow: hidden;
   width: 15rem;
   height: 15rem;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  & > svg {
+    font-size: 45px;
+  }
 `;
 export const FileInput = styled.input`
   display: none;

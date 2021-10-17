@@ -34,12 +34,13 @@ export default function CreateFeedContainer() {
     title: "",
     content: "",
     condition: false,
-    conditionDetail: [],
+    conditionDetail: [""],
     payment: "cache",
     pay: null,
     payMemo: null,
     images: [],
     address: "",
+    detailAddress: "",
     contact: "",
   });
   const userId = useRecoilValue(userState).id;

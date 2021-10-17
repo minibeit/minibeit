@@ -7,6 +7,7 @@ import Switch from "@mui/material/Switch";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
 
 import * as S from "../style";
 
@@ -117,22 +118,11 @@ export default function PInfoData({ recruit, setRecruit, submit }) {
               color="primary"
             />
           </div>
-          <S.ConditionInput>
-            <input
-              disabled={recruit.condition ? false : true}
-              onChange={writeCondition}
-            />
-            <button
-              onClick={addConditionDetail}
-              disabled={recruit.condition ? false : true}
-            >
-              <AddIcon />
-            </button>
-          </S.ConditionInput>
           {recruit.conditionDetail.map((a, i) => {
             return (
               <S.ConditionInput key={i}>
                 <input
+                  id={i}
                   disabled={recruit.condition ? false : true}
                   onChange={writeCondition}
                 />
@@ -193,14 +183,16 @@ export default function PInfoData({ recruit, setRecruit, submit }) {
           <p>게시글 자료&이미지</p>
           <S.ImgForm>
             <div>
-              <S.FileLabel htmlFor="file">사진 추가</S.FileLabel>
+              <S.FileLabel htmlFor="file">
+                <AddIcon />
+              </S.FileLabel>
               <S.FileInput id="file" type="file" onChange={fileChange} />
               {recruit.images.length !== 0
                 ? recruit.images.map((a, i) => {
                     return (
                       <S.ImgBox key={i}>
                         <S.DeleteImg id={i} onClick={deleteImg}>
-                          삭제
+                          <CloseIcon />
                         </S.DeleteImg>
                         <PVImg img={recruit.images[i]} />
                       </S.ImgBox>
@@ -216,8 +208,16 @@ export default function PInfoData({ recruit, setRecruit, submit }) {
             <input
               type="text"
               readOnly
+              placeholder="주소 찾기"
               onClick={() => setAddressModal(!addressModal)}
               value={recruit.address}
+            />
+          </S.Input>
+          <S.Input>
+            <input
+              name="detailAddress"
+              placeholder="상세 주소를 입력해주세요."
+              onChange={onChange}
             />
           </S.Input>
           {addressModal ? (

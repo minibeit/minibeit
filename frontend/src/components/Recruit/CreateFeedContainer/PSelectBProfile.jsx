@@ -1,5 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { PVImg } from "../../Common";
+
+import * as S from "../style";
 
 PSelectBProfile.propTypes = {
   bplist: PropTypes.arrayOf(
@@ -47,33 +50,49 @@ PSelectBProfile.propTypes = {
   setRecruit: PropTypes.func.isRequired,
 };
 
-export default function PSelectBProfile({ bpList, recruit, setRecruit }) {
+export default function PSelectBProfile({
+  movePage,
+  bpList,
+  recruit,
+  setRecruit,
+}) {
   const selectBP = (e) => {
+    var id = parseInt(e.target.parentNode.id);
+    var name = e.target.parentNode.nextSibling.textContent;
     const copy = { ...recruit };
     copy.businessProfile = {
-      id: parseInt(e.target.id),
-      name: e.target.textContent,
+      id: id,
+      name: name,
     };
     setRecruit(copy);
+    movePage(1);
   };
+
   return (
-    <>
-      <h2>모집하기에서</h2>
-      <h2>어떤 프로필을 사용할 것인가요?</h2>
-      <p>사용하실 비즈니스 프로필을 선택하세요</p>
-      {bpList.map((a) => {
-        return (
-          <button
-            onClick={selectBP}
-            id={a.id}
-            key={a.id}
-            disabled={recruit.businessProfile.id === a.id ? true : false}
-          >
-            {a.name}
-          </button>
-        );
-      })}
-      {recruit.businessProfile.id ? <button>확인</button> : null}
-    </>
+    <S.Page>
+      <S.BProfileContainer>
+        <p>모집하기에서</p>
+        <p>어떤 프로필을 사용할 것인가요?</p>
+        <p>사용하실 비즈니스 프로필을 선택하세요</p>
+        <S.BProfileListBox>
+          {bpList.map((a) => {
+            return (
+              <div key={a.id}>
+                <S.BProfileImgBox
+                  onClick={selectBP}
+                  id={a.id}
+                  className={recruit.businessProfile.id === a.id && "selected"}
+                >
+                  <PVImg
+                    img={a.avatar ? a.avatar : "/기본비즈니스프로필.jpeg"}
+                  />
+                </S.BProfileImgBox>
+                <p>{a.name}</p>
+              </div>
+            );
+          })}
+        </S.BProfileListBox>
+      </S.BProfileContainer>
+    </S.Page>
   );
 }

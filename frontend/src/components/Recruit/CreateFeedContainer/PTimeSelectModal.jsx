@@ -60,15 +60,14 @@ export default function PTimeSelectModal({
   createdGroup,
   setCreatedGroup,
 }) {
-  const closeModal = () => {
-    setModalSwitch(false);
-  };
   const [group] = useState([
-    { id: 1, color: "#0be881", dateList: [] },
-    { id: 2, color: "#f7d794", dateList: [] },
-    { id: 3, color: "#cf6a87", dateList: [] },
-    { id: 4, color: "#574b90", dateList: [] },
-    { id: 5, color: "#63cdda", dateList: [] },
+    { id: 1, color: "#0642FF", dateList: [] },
+    { id: 2, color: "#1AE5DA", dateList: [] },
+    { id: 3, color: "#FFDB1D", dateList: [] },
+    { id: 4, color: "#1C2362", dateList: [] },
+    { id: 5, color: "#FF7C7C", dateList: [] },
+    { id: 6, color: "#7B68FF", dateList: [] },
+    { id: 7, color: "#FF9D43", dateList: [] },
   ]);
   const [selectGroup, setSelectGroup] = useState();
 
@@ -145,8 +144,14 @@ export default function PTimeSelectModal({
       <S.ModalBackground>
         <S.ModalBox>
           <S.ModalHeader>
-            <h2>정확한 실험 시간을 날짜마다 정해보세요</h2>
-            <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
+            <div>
+              <p>날짜별 시간 설정</p>
+              <p>시간을 묶어서 설정하세요</p>
+            </div>
+            <p>
+              선택한 실험 날짜 : {recruit.startDate.format("MM월DD일")}~
+              {recruit.endDate.format("MM월DD일")}
+            </p>
           </S.ModalHeader>
           <S.ModalContent>
             <S.CalendarView>
@@ -179,45 +184,49 @@ export default function PTimeSelectModal({
                 showNeighboringMonth={false}
                 tileContent={tileContent}
               />
+
               <S.GroupBox>
-                <S.GroupBtn
-                  onClick={() => {
-                    if (createdGroup.length < 5) {
-                      const copy = { ...group[createdGroup.length] };
-                      copy.timeList = [...recruit.timeList];
-                      setCreatedGroup([...createdGroup, copy]);
-                    } else {
-                      alert(`그룹은 최대 ${group.length}개 입니다.`);
-                    }
-                  }}
-                >
-                  +
-                </S.GroupBtn>
-                {createdGroup.map((a) => {
-                  return (
-                    <S.GroupBtn
-                      onClick={() => {
-                        setSelectGroup(a);
-                      }}
-                      color={a.color}
-                      key={a.id}
-                    >
-                      그룹 {a.id}
-                    </S.GroupBtn>
-                  );
-                })}
+                <div>
+                  <S.GroupBtn
+                    onClick={() => {
+                      if (createdGroup.length < 7) {
+                        const copy = { ...group[createdGroup.length] };
+                        copy.timeList = [...recruit.timeList];
+                        setCreatedGroup([...createdGroup, copy]);
+                      } else {
+                        alert(`그룹은 최대 ${group.length}개 입니다.`);
+                      }
+                    }}
+                  >
+                    +
+                  </S.GroupBtn>
+                  {createdGroup.map((a) => {
+                    return (
+                      <S.GroupBtn
+                        onClick={() => {
+                          setSelectGroup(a);
+                        }}
+                        color={a.color}
+                        key={a.id}
+                      >
+                        그룹 {a.id}
+                      </S.GroupBtn>
+                    );
+                  })}
+                </div>
               </S.GroupBox>
             </S.CalendarView>
-            <S.TimeBtnBox>
-              <>
+            <S.TimeBtnContainer>
+              <S.SelectDateView>
+                {selectGroup && <p>그룹 {selectGroup.id}.</p>}
                 {selectGroup &&
-                  selectGroup.dateList.map((a, i) => <span key={i}>{a} </span>)}
-              </>
-              <>
+                  selectGroup.dateList.map((a, i) => <p key={i}>{a} </p>)}
+              </S.SelectDateView>
+              <S.TimeBtnBox>
                 {selectGroup &&
                   recruit.timeList.map((a, i) => {
                     return (
-                      <div key={`${selectGroup.id}_${i}`}>
+                      <S.TimeBtn key={`${selectGroup.id}_${i}`}>
                         <input
                           type="checkbox"
                           id={`check_${a}`}
@@ -231,10 +240,10 @@ export default function PTimeSelectModal({
                           }
                         />
                         <label htmlFor={`check_${a}`}>{a}</label>
-                      </div>
+                      </S.TimeBtn>
                     );
                   })}
-              </>
+              </S.TimeBtnBox>
               <button
                 onClick={() => {
                   setModalSwitch(!modalSwitch);
@@ -242,7 +251,7 @@ export default function PTimeSelectModal({
               >
                 저장
               </button>
-            </S.TimeBtnBox>
+            </S.TimeBtnContainer>
           </S.ModalContent>
         </S.ModalBox>
       </S.ModalBackground>

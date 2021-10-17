@@ -14,10 +14,14 @@ export default function SchoolSelect({ onChange, defaultValue }) {
       setSchools(arr);
     });
   };
-  
+
   const customStyles = {
     option: (provided, state) => ({
       ...provided,
+    }),
+    input: (provided, state) => ({
+      ...provided,
+      justifyContent: "center",
     }),
     control: (provided, state) => ({
       ...provided,
@@ -37,6 +41,10 @@ export default function SchoolSelect({ onChange, defaultValue }) {
       textAlign: "center",
       fontSize: "15px",
       fontWeight: "600",
+    }),
+    menuList: (provided, state) => ({
+      ...provided,
+      height: "10rem",
     }),
   };
 

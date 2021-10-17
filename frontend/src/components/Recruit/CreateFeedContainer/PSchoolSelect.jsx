@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { SchoolSearch } from "../../Common";
+import SchoolSelect from "../../Common/SchoolSelect";
+
+import * as S from "../style";
 
 PSchoolSelect.propTypes = {
   recruit: PropTypes.shape({
@@ -41,13 +43,38 @@ PSchoolSelect.propTypes = {
   setRecruit: PropTypes.func.isRequired,
 };
 
-export default function PSchoolSelect({ recruit, setRecruit }) {
+export default function PSchoolSelect({ movePage, recruit, setRecruit }) {
+  const selectSchool = (e) => {
+    if (e) {
+      const copy = { ...recruit };
+      copy.school.id = e.value;
+      copy.school.name = e.label;
+      setRecruit(copy);
+    } else {
+      const copy = { ...recruit };
+      copy.school.id = null;
+      copy.school.name = null;
+      setRecruit(copy);
+    }
+  };
   return (
-    <>
-      <h2>{recruit.businessProfile.name}님!</h2>
-      <h2>원하는 위치 근처의 학교를 선택하세요 </h2>
-      <SchoolSearch use="recruit" recruit={recruit} setRecruit={setRecruit} />
-      {recruit.school.id ? <button>확인</button> : null}
-    </>
+    <S.Page>
+      <S.SchoolSelectContainer>
+        <p>{recruit.businessProfile.name}님!</p>
+        <p>원하는 위치 근처의 학교를 선택하세요</p>
+        <S.SchoolSearchBox>
+          <p>학교명</p>
+          <SchoolSelect onChange={selectSchool} />
+          <button
+            disabled={recruit.school.id ? false : true}
+            onClick={() => {
+              movePage(2);
+            }}
+          >
+            적용
+          </button>
+        </S.SchoolSearchBox>
+      </S.SchoolSelectContainer>
+    </S.Page>
   );
 }

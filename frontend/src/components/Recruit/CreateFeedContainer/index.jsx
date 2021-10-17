@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { bprofileListGet, feedCreateApi } from "../../../utils";
@@ -8,7 +8,6 @@ import PSchoolSelect from "./PSchoolSelect";
 import PDateSelect from "./PDateSelect";
 import PCategorySelect from "./PCategorySelect";
 import PInfoData from "./PInfoData";
-import PImgAndAddress from "./PImgAndAddress";
 import { feedAddfileApi } from "../../../utils/feedApi";
 
 export default function CreateFeedContainer() {
@@ -35,12 +34,13 @@ export default function CreateFeedContainer() {
     title: "",
     content: "",
     condition: false,
-    conditionDetail: [],
+    conditionDetail: [""],
     payment: "cache",
     pay: null,
     payMemo: null,
     images: [],
     address: "",
+    detailAddress: "",
     contact: "",
   });
   const userId = useRecoilValue(userState).id;
@@ -66,28 +66,49 @@ export default function CreateFeedContainer() {
       .catch((err) => err);
   };
 
+  const page = useRef();
+  const movePage = (e) => {
+    const elementArr = page.current.childNodes;
+    elementArr[e].scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
+  };
+
   useEffect(() => {
     getbpList();
   }, [getbpList]);
 
   return (
-    <>
-      {bpList && (
-        <PSelectBProfile
-          bpList={bpList}
-          recruit={recruit}
-          setRecruit={setRecruit}
-        />
-      )}
-      <PSchoolSelect recruit={recruit} setRecruit={setRecruit} />
-      <PDateSelect recruit={recruit} setRecruit={setRecruit} />
-      <PCategorySelect recruit={recruit} setRecruit={setRecruit} />
-      <PInfoData recruit={recruit} setRecruit={setRecruit} />
-      <PImgAndAddress
+    <div ref={page}>
+      <PSelectBProfile
+        movePage={movePage}
+        bpList={bpList}
+        recruit={recruit}
+        setRecruit={setRecruit}
+      />
+      <PSchoolSelect
+        movePage={movePage}
+        recruit={recruit}
+        setRecruit={setRecruit}
+      />
+      <PDateSelect
+        movePage={movePage}
+        recruit={recruit}
+        setRecruit={setRecruit}
+      />
+      <PCategorySelect
+        movePage={movePage}
+        recruit={recruit}
+        setRecruit={setRecruit}
+      />
+      <PInfoData
+        movePage={movePage}
         recruit={recruit}
         setRecruit={setRecruit}
         submit={submit}
       />
-    </>
+    </div>
   );
 }

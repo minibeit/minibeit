@@ -59,9 +59,9 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
   }, [feedId, viewDoDate]);
 
   return (
-    <>
+    <S.DateTimeBox>
       <S.TimeSelectBox>
-        <S.DateView>
+        <S.Navigation>
           <div>
             <button value="pre" onClick={moveDate}>
               이전날짜
@@ -71,7 +71,7 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
               다음날짜
             </button>
           </div>
-        </S.DateView>
+        </S.Navigation>
         <S.TimeView>
           {doTimeList ? (
             doTimeList.map((a) => {
@@ -93,7 +93,7 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
           )}
         </S.TimeView>
       </S.TimeSelectBox>
-    </>
+    </S.DateTimeBox>
   );
 }
 

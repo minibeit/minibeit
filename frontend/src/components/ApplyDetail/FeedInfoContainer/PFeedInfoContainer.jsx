@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import PTimeSelectBox from "./PTimeSelectBox";
 import PReveiwBox from "./PReviewBox";
-import { PVImg } from "../../Common";
 
 import * as S from "../style";
 
@@ -66,33 +65,42 @@ export default function PFeedInfoContainer({
   };
 
   return (
-    <div>
+    <S.ContentBox>
       <S.DataBox>
-        <S.DataHeader>
-          <p>참여날짜 및 시간 선택하기</p>
-        </S.DataHeader>
-        <S.DataBody>
-          <PTimeSelectBox
-            feedId={id}
-            date={date}
-            startDate={startDate}
-            endDate={endDate}
-          />
-        </S.DataBody>
+        <p>참여날짜 및 시간 선택하기</p>
+        <PTimeSelectBox
+          feedId={id}
+          date={date}
+          startDate={startDate}
+          endDate={endDate}
+        />
       </S.DataBox>
       <S.DataBox>
-        <S.DataBody>
-          {feedDetailData && files.map((a, i) => <S.Img key={i} src={a.url} />)}
-        </S.DataBody>
-      </S.DataBox>
-      <S.DataBox>
-        <S.DataHeader>
-          <p>상세내용</p>
-          {isMine && editSwitch === false && (
-            <button onClick={() => setEditSwitch(!editSwitch)}>수정하기</button>
+        <p>참여조건</p>
+        <div>
+          {recruitCondition ? (
+            recruitConditionDetail.map((a, i) => (
+              <S.Condition key={i}>{a}</S.Condition>
+            ))
+          ) : (
+            <p>누구나 지원가능!</p>
           )}
-        </S.DataHeader>
-        <S.DataBody>
+        </div>
+      </S.DataBox>
+      <S.DataBox>
+        <p>지급방식 및 상세내용</p>
+        <div>
+          <p>금액 : {payment === "CACHE" ? `${cache}원` : goods}</p>
+          <p>지급 : {paymentDetail}</p>
+        </div>
+      </S.DataBox>
+
+      <S.DataBox>
+        <p>상세내용</p>
+        {isMine && editSwitch === false && (
+          <button onClick={() => setEditSwitch(!editSwitch)}>수정하기</button>
+        )}
+        <div>
           {editSwitch ? (
             <div>
               <S.EditTextArea
@@ -108,66 +116,28 @@ export default function PFeedInfoContainer({
               {updatedContent ? <p>{updatedContent}</p> : <p>{content}</p>}
             </S.DetailContent>
           )}
-        </S.DataBody>
+        </div>
       </S.DataBox>
       <S.DataBox>
-        <S.DataHeader>
-          <p>지원조건</p>
-        </S.DataHeader>
-        <S.DataBody>
-          {recruitCondition ? (
-            recruitConditionDetail.map((a, i) => (
-              <S.Condition key={i}>{a}</S.Condition>
-            ))
-          ) : (
-            <p>누구나 지원가능!</p>
-          )}
-        </S.DataBody>
+        <div>
+          {feedDetailData && files.map((a, i) => <S.Img key={i} src={a.url} />)}
+        </div>
       </S.DataBox>
+
       <S.DataBox>
-        <S.DataHeader>
-          <p>지급방식 및 상세내용</p>
-        </S.DataHeader>
-        <S.DataBody>
-          <p>금액 : {payment === "CACHE" ? `${cache}원` : goods}</p>
-          <p>지급 : {paymentDetail}</p>
-        </S.DataBody>
-      </S.DataBox>
-      <S.DataBox>
-        <S.DataHeader>
-          <p>참여 장소 및 연락처</p>
-        </S.DataHeader>
-        <S.DataBody>
+        <p>참여 장소 및 연락처</p>
+        <div>
           <p>주소 : {place}</p>
           <p>연락처 : {contact}</p>
           <p>담당자 : {businessProfileInfo.adminName}</p>
-        </S.DataBody>
+        </div>
       </S.DataBox>
       <S.DataBox>
-        <S.DataHeader>
-          <p>모집자 정보</p>
-        </S.DataHeader>
-        <S.DataBody>
-          <S.BusinessInfoBox>
-            <S.BussinessImgBox>
-              {businessProfileInfo.avatar ? (
-                <PVImg img={businessProfileInfo.avatar} />
-              ) : (
-                <S.Img src="/기본비즈니스프로필.jpeg" />
-              )}
-            </S.BussinessImgBox>
-            <h3>{businessProfileInfo.name}</h3>
-          </S.BusinessInfoBox>
-        </S.DataBody>
-      </S.DataBox>
-      <S.DataBox>
-        <S.DataHeader>
-          <p>실험실 후기</p>
-        </S.DataHeader>
-        <S.DataBody>
+        <p>실험실 후기</p>
+        <div>
           <PReveiwBox businessId={businessProfileInfo.id} />
-        </S.DataBody>
+        </div>
       </S.DataBox>
-    </div>
+    </S.ContentBox>
   );
 }

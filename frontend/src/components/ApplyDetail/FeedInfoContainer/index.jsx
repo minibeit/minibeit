@@ -1,18 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
 import PFeedInfoContainer from "./PFeedInfoContainer";
 import PropTypes from "prop-types";
-import HomeIcon from "@mui/icons-material/Home";
+
 import {
   bookmarkApi,
   feedDetailApi,
   feedEditApi,
 } from "../../../utils/feedApi";
 import ApplyConfirmModal from "../../Common/Modal/ApplyConfirmModal";
-import { LoadingSpinner } from "../../Common";
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import { applyState } from "../../../recoil/applyState";
 import { userState } from "../../../recoil/userState";
 import PApplyControll from "./PApplyControll";
+import PTitleBox from "./PTitleBox";
 
 import * as S from "../style";
 import { useHistory } from "react-router";
@@ -74,47 +74,35 @@ export default function FeedInfoContainer({ feedId, date }) {
   return (
     <S.FeedContainer>
       {feedDetailData && (
-        <S.TitleBox>
-          <S.TitleContent>
-            <p>카테고리</p>
-            <p>{feedDetailData.title}</p>
-            <div>
-              <HomeIcon />
-              <p>{feedDetailData.businessProfileInfo.name}</p>
-            </div>
-          </S.TitleContent>
-          <S.TitleBookMark>
-            {isLogin ? (
-              <button id={feedDetailData.id} onClick={clickBookmark}>
-                {feedDetailData.isLike ? "북마크 중" : "북마크"}
-              </button>
-            ) : null}
-            <p>{feedDetailData.likes}</p>
-          </S.TitleBookMark>
-        </S.TitleBox>
+        <PTitleBox
+          title={feedDetailData.title}
+          businessProfileInfo={feedDetailData.businessProfileInfo}
+          clickBookmark={clickBookmark}
+          isLogin={isLogin}
+          id={feedDetailData.id}
+          isLike={feedDetailData.isLike}
+          likes={feedDetailData.likes}
+        />
       )}
-
-      <S.FeedContainer>
-        {feedDetailData ? (
+      {feedDetailData && (
+        <div>
           <PFeedInfoContainer
             feedDetailData={feedDetailData}
             date={date}
             editDetail={editDetail}
           />
-        ) : (
-          <LoadingSpinner />
-        )}
-      </S.FeedContainer>
-      {feedDetailData && (
-        <PApplyControll
-          apply={apply}
-          feedDetailData={feedDetailData}
-          setModalSwitch={setModalSwitch}
-        />
+          <>
+            <PApplyControll
+              apply={apply}
+              feedDetailData={feedDetailData}
+              setModalSwitch={setModalSwitch}
+            />
+            {modalSwitch ? (
+              <ApplyConfirmModal setModalSwitch={setModalSwitch} />
+            ) : null}
+          </>
+        </div>
       )}
-      {modalSwitch ? (
-        <ApplyConfirmModal setModalSwitch={setModalSwitch} />
-      ) : null}
     </S.FeedContainer>
   );
 }

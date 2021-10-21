@@ -6,7 +6,6 @@ export default function Main() {
   return (
     <>
       <NavBar />
-      무중단배포테스트~~
       <MainContent />
     </>
   );

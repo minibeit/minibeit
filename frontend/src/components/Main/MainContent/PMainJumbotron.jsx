@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
+import TestModal2 from "../../Common/Modal/TestModal2";
 import * as S from "../style";
 import PSlider from "./PSlider";
 import {Link} from "react-scroll";
@@ -6,6 +7,12 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 function PMainJumbotron() {
+// let [imgs] = useState(['/cloud.jpg', '/cloud2.jpg','/cloud.jpg', '/cloud2.jpg']);
+const [modalSwitch, setModalSwitch] = useState(false);
+
+const onClick = () => {
+  setModalSwitch(true);
+};
 
 
   return (
@@ -39,12 +46,15 @@ function PMainJumbotron() {
 {/* durldurldurldurl
 durlurldurldurlw */}
       <S.ImgContainer>
-        <div><S.Img src="/cloud.jpg"/></div>
+        <div><S.Img src="/cloud.jpg" onClick={onClick}/></div>
         <div>
           <div><S.SmImg src="/cloud2.jpg"/></div>
           <div><S.SmImg src="/cloud.jpg"/></div>
           <div><S.SmImg src="/cloud2.jpg"/></div>
         </div>
+        {modalSwitch ? (
+          <TestModal2 setModalSwitch={setModalSwitch}/>
+          ) : null }
         </S.ImgContainer>
     </S.BackGround>
   );

@@ -27,8 +27,6 @@ public class Post extends BaseEntity {
 
     private String content;
 
-    private String updatedContent;
-
     private String place;
 
     private String contact;
@@ -88,17 +86,12 @@ public class Post extends BaseEntity {
                 .anyMatch(userBusinessProfile -> userBusinessProfile.getUser().getId().equals(customUserDetails.getUser().getId()));
     }
 
-    public boolean applyPossible(List<PostApplicant> postApplicants) {
-        return (postApplicants.size() < this.recruitPeople) && postStatus.equals(PostStatus.RECRUIT);
-    }
-
     public void completed() {
         this.postStatus = PostStatus.COMPLETE;
     }
 
-    public Post updateContent(String updatedContent) {
-        this.updatedContent = updatedContent;
-        return this;
+    public void updateContent(String updatedContent) {
+        this.content = updatedContent;
     }
 
     public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile) {

@@ -62,7 +62,6 @@ class PostByBusinessControllerTest extends MvcTest {
                 .id(1L)
                 .title("개발자는 하루에 커피를 몇 잔 마실까..")
                 .content("실험실 세부사항")
-                .updatedContent("실험실 세부사항 수정")
                 .place("고려대")
                 .contact("010-1234-5786")
                 .recruitPeople(10)

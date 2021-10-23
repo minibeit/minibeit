@@ -38,7 +38,6 @@ public class PostResponse {
         private Long id;
         private String title;
         private String content;
-        private String updatedContent;
         private String place;
         private String contact;
         private String payment;
@@ -64,7 +63,6 @@ public class PostResponse {
                     .id(post.getId())
                     .title(post.getTitle())
                     .content(post.getContent())
-                    .updatedContent(post.getUpdatedContent())
                     .place(post.getPlace())
                     .contact(post.getContact())
                     .payment(post.getPayment().name())

@@ -321,7 +321,7 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
 
         Post findPost = postRepository.findById(post.getId()).orElseThrow(PostNotFoundException::new);
 
-        assertThat(findPost.getUpdatedContent()).isEqualTo(request.getUpdatedContent());
+        assertThat(findPost.getContent()).isEqualTo(request.getUpdatedContent());
     }
 
     @Test

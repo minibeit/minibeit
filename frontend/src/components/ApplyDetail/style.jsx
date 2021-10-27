@@ -42,7 +42,7 @@ export const TitleBookMark = styled.div`
 `;
 /* Content */
 export const ContentBox = styled.div`
-  width: 75%;
+  width: 80%;
   padding: 1rem;
 `;
 export const DataBox = styled.div`
@@ -138,5 +138,63 @@ export const ReviewBox = styled.div`
 `;
 
 /* apply remote controller */
-export const ApplyRemote = styled.div``;
-export const ApplyData = styled.div``;
+export const RemoteBox = styled.div`
+  width: 20%;
+`;
+export const Controller = styled.div`
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  padding: 1rem;
+  position: sticky;
+  height: 17rem;
+  margin-top: 4rem;
+  top: 4rem;
+  border: 1px solid #c4c4c4;
+  border-radius: 20px;
+  & > p:first-child {
+    font-size: 1.5rem;
+    text-align: center;
+    font-weight: bold;
+  }
+`;
+export const ApplyData = styled.div`
+  border: 1px solid #c4c4c4;
+  border-radius: 7px;
+  & > div {
+    padding: 8px;
+    font-size: 1rem;
+    font-weight: 100;
+    & > span {
+      font-weight: bold;
+    }
+  }
+  & > div:first-child {
+    border-bottom: 1px solid #c4c4c4;
+  }
+`;
+export const ApplyBtnGroup = styled.div`
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  & > button {
+    font-size: 1rem;
+    padding: 7px;
+    border: none;
+    border-radius: 20px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  & > button:first-child {
+    background: #0642ff;
+    color: white;
+    &:disabled {
+      background: #c4c4c4;
+    }
+  }
+  & > button:nth-child(2) {
+    background: #f1f1f1;
+    color: #c4c4c4;
+  }
+`;

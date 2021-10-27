@@ -42,16 +42,27 @@ export default function PApplyControll({
   setModalSwitch,
 }) {
   return (
-    <S.ApplyRemote>
-      <p>선택 일정</p>
-      <S.ApplyData key={apply}>
-        <p>날짜: {apply.doDate}</p>
-        <p>시간: {apply.doTime}</p>
-      </S.ApplyData>
-      <div>
-        <button onClick={() => setModalSwitch(true)}>신청하기</button>
-        <button>공유하기</button>
-      </div>
-    </S.ApplyRemote>
+    <S.RemoteBox>
+      <S.Controller>
+        <p>선택한 일정</p>
+        <S.ApplyData key={apply}>
+          <div>
+            <span>날짜 </span> {apply.doDate}
+          </div>
+          <div>
+            <span>시간 </span> {apply.doTime}
+          </div>
+        </S.ApplyData>
+        <S.ApplyBtnGroup>
+          <button
+            disabled={apply.postDoDateId ? false : true}
+            onClick={() => setModalSwitch(true)}
+          >
+            신청하기
+          </button>
+          <button>공유하기</button>
+        </S.ApplyBtnGroup>
+      </S.Controller>
+    </S.RemoteBox>
   );
 }

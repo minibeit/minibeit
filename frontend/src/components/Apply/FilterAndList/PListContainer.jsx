@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 import PropTypes from "prop-types";
-import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 import * as S from "../style";
 import { useRecoilValue } from "recoil";
@@ -71,13 +71,13 @@ export default function PListContainer({ feedList, postBookmark }) {
                 </div>
                 <div>
                   {user.isLogin ? (
-                    <BookmarkBorderIcon
+                    <StarBorderIcon
                       id={a.id}
                       onClick={clickBookmark}
                       style={{ color: `${a.isLike ? "rgb(6, 66, 255)" : ""}` }}
                     />
                   ) : (
-                    <BookmarkBorderIcon />
+                    <StarBorderIcon />
                   )}
                   <p>{a.likes}</p>
                 </div>

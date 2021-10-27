@@ -1,5 +1,7 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 import * as S from "../style";
 
@@ -17,17 +19,21 @@ export default function PTitleBox({
       <S.TitleContent>
         <p>카테고리</p>
         <p>{title}</p>
-        <div>
+        <Link to={`/business/${businessProfileInfo.id}`}>
           <HomeIcon />
           <p>{businessProfileInfo.name}</p>
-        </div>
+        </Link>
       </S.TitleContent>
       <S.TitleBookMark>
         {isLogin ? (
-          <button id={id} onClick={clickBookmark}>
-            {isLike ? "북마크 중" : "북마크"}
-          </button>
-        ) : null}
+          <StarBorderIcon
+            id={id}
+            onClick={clickBookmark}
+            style={{ color: `${isLike ? "rgb(6, 66, 255)" : ""}` }}
+          />
+        ) : (
+          <StarBorderIcon />
+        )}
         <p>{likes}</p>
       </S.TitleBookMark>
     </S.TitleBox>

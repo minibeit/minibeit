@@ -50,15 +50,21 @@ export default function FeedInfoContainer({ feedId, date }) {
   };
 
   const clickBookmark = (e) => {
-    postBookmark(e.target.id);
-    if (e.target.textContent === "북마크 중") {
-      e.target.textContent = "북마크";
-      e.target.nextSibling.textContent =
-        parseInt(e.target.nextSibling.textContent) - 1;
+    var target;
+    if (e.target.nodeName === "path") {
+      target = e.target.parentNode;
     } else {
-      e.target.textContent = "북마크 중";
-      e.target.nextSibling.textContent =
-        parseInt(e.target.nextSibling.textContent) + 1;
+      target = e.target;
+    }
+    postBookmark(target.id);
+    if (target.style.color === "rgb(6, 66, 255)") {
+      target.style.color = "";
+      target.nextSibling.textContent =
+        parseInt(target.nextSibling.textContent) - 1;
+    } else {
+      target.style.color = "rgb(6, 66, 255)";
+      target.nextSibling.textContent =
+        parseInt(target.nextSibling.textContent) + 1;
     }
   };
 

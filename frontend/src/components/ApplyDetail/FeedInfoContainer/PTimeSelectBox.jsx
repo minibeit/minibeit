@@ -27,7 +27,6 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
       .then(async (res) => await setDoTimeList(res.data))
       .catch((err) => console.log(err));
   };
-
   const moveDate = (e) => {
     if (e.target.value === "next") {
       if (doDateList.indexOf(viewDoDate) !== doDateList.length - 1) {

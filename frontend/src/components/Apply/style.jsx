@@ -171,6 +171,7 @@ export const FeedHeader = styled.div`
   & > div:first-child > p:first-child {
     font-size: 25px;
     font-weight: 600;
+    cursor: pointer;
   }
   & > div:nth-child(2) {
     margin-left: auto;

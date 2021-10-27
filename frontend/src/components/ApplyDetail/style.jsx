@@ -27,9 +27,11 @@ export const TitleContent = styled.div`
     font-size: 2rem;
     font-weight: 600;
   }
-  & > div:nth-child(3) {
+  & > a:nth-child(3) {
     display: flex;
     align-items: center;
+    color: black;
+    text-decoration: none;
   }
 `;
 export const TitleBookMark = styled.div`
@@ -39,6 +41,9 @@ export const TitleBookMark = styled.div`
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  & > svg {
+    cursor: pointer;
+  }
 `;
 /* Content */
 export const ContentBox = styled.div`

@@ -11,3 +11,6 @@ CREATE TABLE `user_business_profile`
     `updated_by`          BIGINT   DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
+
+CREATE INDEX `business_profile_id_index` ON `user_business_profile` (`business_profile_id`);
+CREATE INDEX `user_id_index` ON `user_business_profile` (`user_id`);

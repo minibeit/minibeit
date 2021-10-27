@@ -17,7 +17,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@Profile("dev")
+@Profile("local")
 public class DataLoader implements CommandLineRunner {
     private final UserRepository userRepository;
     private final SchoolRepository schoolRepository;

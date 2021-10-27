@@ -1,1 +1,0 @@
-ALTER TABLE `post` DROP `updated_content`;

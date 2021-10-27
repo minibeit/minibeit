@@ -21,5 +21,4 @@ CREATE TABLE `user`
     `updated_by`   BIGINT   DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
-CREATE
-    INDEX `nickname_index` ON `user` (`nickname`);
+CREATE INDEX `nickname_index` ON `user` (`nickname`);

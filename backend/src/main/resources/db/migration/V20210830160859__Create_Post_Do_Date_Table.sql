@@ -12,3 +12,6 @@ CREATE TABLE `post_do_date`
     `updated_by` BIGINT   DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
+
+CREATE INDEX `post_id_index` ON `post_do_date` (`post_id`);
+CREATE INDEX `do_date_index` ON `post_do_date` (`do_date`);

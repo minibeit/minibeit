@@ -88,6 +88,5 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
                         .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE).and(postDoDate.doDate.after(now))))
                 .fetchFirst();
         return fetchOne != null;
-
     }
 }

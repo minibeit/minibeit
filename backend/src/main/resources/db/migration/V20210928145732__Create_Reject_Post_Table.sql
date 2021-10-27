@@ -16,3 +16,5 @@ CREATE TABLE `reject_post`
     `updated_by`     BIGINT   DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
+
+CREATE INDEX `user_id_index` ON `reject_post` (`user_id`);

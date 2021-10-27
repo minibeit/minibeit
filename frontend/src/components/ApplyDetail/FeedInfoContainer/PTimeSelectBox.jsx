@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { feedDetailTimeApi } from "../../../utils/feedApi";
 import { useRecoilState } from "recoil";
 import { applyState } from "../../../recoil/applyState";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 import * as S from "../style";
 
@@ -25,7 +27,6 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
       .then(async (res) => await setDoTimeList(res.data))
       .catch((err) => console.log(err));
   };
-
   const moveDate = (e) => {
     if (e.target.value === "next") {
       if (doDateList.indexOf(viewDoDate) !== doDateList.length - 1) {
@@ -59,19 +60,15 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
   }, [feedId, viewDoDate]);
 
   return (
-    <>
+    <div>
       <S.TimeSelectBox>
-        <S.DateView>
+        <S.Navigation>
           <div>
-            <button value="pre" onClick={moveDate}>
-              이전날짜
-            </button>
-            <span>{viewDoDate}</span>
-            <button value="next" onClick={moveDate}>
-              다음날짜
-            </button>
+            <ArrowLeftIcon value="pre" onClick={moveDate} />
+            <p>{viewDoDate}</p>
+            <ArrowRightIcon value="next" onClick={moveDate} />
           </div>
-        </S.DateView>
+        </S.Navigation>
         <S.TimeView>
           {doTimeList ? (
             doTimeList.map((a) => {
@@ -93,7 +90,7 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
           )}
         </S.TimeView>
       </S.TimeSelectBox>
-    </>
+    </div>
   );
 }
 

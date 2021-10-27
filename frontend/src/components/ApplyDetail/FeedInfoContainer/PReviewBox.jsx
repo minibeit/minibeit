@@ -25,13 +25,11 @@ export default function PReveiwBox({ businessId }) {
       {reviewList.length !== 0 ? (
         reviewList.map((a) => (
           <S.ReviewBox key={a.id}>
-            <S.ReviewHeader>
+            <div>
               <p>{a.writer}</p>
               <p>{a.doDate}</p>
-            </S.ReviewHeader>
-            <S.ReviewContent>
-              <p>{a.content}</p>
-            </S.ReviewContent>
+            </div>
+            <p>{a.content}</p>
           </S.ReviewBox>
         ))
       ) : (

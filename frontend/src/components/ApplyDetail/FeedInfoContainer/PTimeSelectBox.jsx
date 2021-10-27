@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import { feedDetailTimeApi } from "../../../utils/feedApi";
 import { useRecoilState } from "recoil";
 import { applyState } from "../../../recoil/applyState";
+import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
+import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 import * as S from "../style";
 
@@ -59,17 +61,13 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
   }, [feedId, viewDoDate]);
 
   return (
-    <S.DateTimeBox>
+    <div>
       <S.TimeSelectBox>
         <S.Navigation>
           <div>
-            <button value="pre" onClick={moveDate}>
-              이전날짜
-            </button>
-            <span>{viewDoDate}</span>
-            <button value="next" onClick={moveDate}>
-              다음날짜
-            </button>
+            <ArrowLeftIcon value="pre" onClick={moveDate} />
+            <p>{viewDoDate}</p>
+            <ArrowRightIcon value="next" onClick={moveDate} />
           </div>
         </S.Navigation>
         <S.TimeView>
@@ -93,7 +91,7 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
           )}
         </S.TimeView>
       </S.TimeSelectBox>
-    </S.DateTimeBox>
+    </div>
   );
 }
 

@@ -78,20 +78,26 @@ export default function PFeedInfoContainer({
       <S.DataBox>
         <p>참여조건</p>
         <div>
-          {recruitCondition ? (
-            recruitConditionDetail.map((a, i) => (
-              <S.Condition key={i}>{a}</S.Condition>
-            ))
-          ) : (
-            <p>누구나 지원가능!</p>
-          )}
+          <ul>
+            {recruitCondition ? (
+              recruitConditionDetail.map((a, i) => <li key={i}>{a}</li>)
+            ) : (
+              <li>참여조건 없음</li>
+            )}
+          </ul>
         </div>
       </S.DataBox>
       <S.DataBox>
         <p>지급방식 및 상세내용</p>
         <div>
-          <p>금액 : {payment === "CACHE" ? `${cache}원` : goods}</p>
-          <p>지급 : {paymentDetail}</p>
+          <ul>
+            <li>
+              <span>금액</span> : {payment === "CACHE" ? `${cache}원` : goods}
+            </li>
+            <li>
+              <span>지급</span> : {paymentDetail}
+            </li>
+          </ul>
         </div>
       </S.DataBox>
 
@@ -127,9 +133,17 @@ export default function PFeedInfoContainer({
       <S.DataBox>
         <p>참여 장소 및 연락처</p>
         <div>
-          <p>주소 : {place}</p>
-          <p>연락처 : {contact}</p>
-          <p>담당자 : {businessProfileInfo.adminName}</p>
+          <ul>
+            <li>
+              <span>주소</span> : {place}
+            </li>
+            <li>
+              <span>연락처</span> : {contact}
+            </li>
+            <li>
+              <span>담당자</span> : {businessProfileInfo.adminName}
+            </li>
+          </ul>
         </div>
       </S.DataBox>
       <S.DataBox>

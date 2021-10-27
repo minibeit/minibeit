@@ -4,7 +4,7 @@ export const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 4rem 10rem 4rem 10rem;
+  margin: 4rem 12rem 4rem 12rem;
   & > div:nth-child(2) {
     display: flex;
   }
@@ -42,7 +42,7 @@ export const TitleBookMark = styled.div`
 `;
 /* Content */
 export const ContentBox = styled.div`
-  flex: 3;
+  width: 75%;
   padding: 1rem;
 `;
 export const DataBox = styled.div`
@@ -54,25 +54,88 @@ export const DataBox = styled.div`
   }
   & > div:nth-child(2) {
     padding: 1rem;
+    & > ul {
+      margin: 0 1rem 0 1rem;
+      list-style: disc;
+      & > li {
+        margin: 0.5rem 0 0.5rem 0;
+        & > span {
+          font-weight: bold;
+        }
+      }
+    }
   }
 `;
 
 /* date & time */
-export const DateTimeBox = styled.div``;
-export const TimeSelectBox = styled.div``;
-export const Navigation = styled.div``;
-export const TimeView = styled.div``;
+export const TimeSelectBox = styled.div`
+  border: 1px solid #c4c4c4;
+  border-radius: 20px;
+`;
+export const Navigation = styled.div`
+  height: 4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 500;
+  & > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    & > svg {
+      font-size: 2.5rem;
+      color: #aaaaaa;
+      cursor: pointer;
+    }
+  }
+`;
+export const TimeView = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  background: #f5f5f5;
+  border-radius: 0 0 20px 20px;
+  padding: 1rem;
+  & > button {
+    background: white;
+    border: none;
+    width: 8rem;
+    height: 3rem;
+    border-radius: 15px;
+    font-size: 17px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+`;
 
 export const DetailContent = styled.div``;
 export const EditTextArea = styled.textarea``;
-export const Condition = styled.p``;
 
-export const Img = styled.img``;
+export const Img = styled.img`
+  width: 100%;
+`;
 
 /* review */
-export const ReviewBox = styled.div``;
-export const ReviewHeader = styled.div``;
-export const ReviewContent = styled.div``;
+export const ReviewBox = styled.div`
+  padding: 1rem 0 1rem 0;
+  border-bottom: 1px solid #c4c4c4;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  & > div:first-child {
+    display: flex;
+    gap: 2rem;
+    & > p:first-child {
+      font-weight: bold;
+      color: grey;
+    }
+    & > p:nth-child(2) {
+      color: grey;
+    }
+  }
+`;
 
 /* apply remote controller */
 export const ApplyRemote = styled.div``;

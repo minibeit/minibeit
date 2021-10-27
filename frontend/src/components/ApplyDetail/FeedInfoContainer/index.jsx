@@ -91,16 +91,14 @@ export default function FeedInfoContainer({ feedId, date }) {
             date={date}
             editDetail={editDetail}
           />
-          <>
-            <PApplyControll
-              apply={apply}
-              feedDetailData={feedDetailData}
-              setModalSwitch={setModalSwitch}
-            />
-            {modalSwitch ? (
-              <ApplyConfirmModal setModalSwitch={setModalSwitch} />
-            ) : null}
-          </>
+          <PApplyControll
+            apply={apply}
+            feedDetailData={feedDetailData}
+            setModalSwitch={setModalSwitch}
+          />
+          {modalSwitch ? (
+            <ApplyConfirmModal setModalSwitch={setModalSwitch} />
+          ) : null}
         </div>
       )}
     </S.FeedContainer>

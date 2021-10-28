@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import { PVImg } from "../../Common";
 import Address from "../../Common/Address";
 import RecruitConfirmModal from "../../Common/Modal/RecruitConfirmModal";
@@ -11,106 +10,21 @@ import CloseIcon from "@mui/icons-material/Close";
 
 import * as S from "../style";
 
-PInfoData.propTypes = {
-  recruit: PropTypes.shape({
-    businessProfile: PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-    }),
-    school: PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-    }),
-    startDate: PropTypes.object,
-    endDate: PropTypes.object,
-    headCount: PropTypes.number,
-    doTime: PropTypes.number,
-    startTime: PropTypes.string,
-    endTime: PropTypes.string,
-    timeList: PropTypes.arrayOf(PropTypes.string),
-    dateList: PropTypes.arrayOf(PropTypes.string),
-    exceptDateList: PropTypes.arrayOf(PropTypes.string),
-    doDateList: PropTypes.arrayOf(
-      PropTypes.shape({
-        dodate: PropTypes.string,
-      })
-    ),
-    category: PropTypes.string,
-    title: PropTypes.string,
-    content: PropTypes.string,
-    condition: PropTypes.bool,
-    conditionDetail: PropTypes.array,
-    payment: PropTypes.string,
-    pay: PropTypes.string,
-    payMemo: PropTypes.string,
-    images: PropTypes.array,
-    address: PropTypes.string,
-    contact: PropTypes.string,
-  }),
-  setRecruit: PropTypes.func.isRequired,
-};
-
-export default function PInfoData({ recruit, setRecruit, submit }) {
-  const [addressModal, setAddressModal] = useState(false);
-  const [confirmModal, setConfirmModal] = useState(false);
-
-  const addConditionDetail = () => {
-    const copy = { ...recruit };
-    const arr = [...copy.conditionDetail];
-    arr.push("");
-    copy.conditionDetail = arr;
-    setRecruit(copy);
-  };
-  const writeCondition = (e) => {
-    const copy = { ...recruit };
-    const arr = [...copy.conditionDetail];
-    arr[e.target.id] = e.target.value;
-    copy.conditionDetail = arr;
-    setRecruit(copy);
-  };
-
-  const conditionSwitch = () => {
-    const copy = { ...recruit };
-    copy.condition = !recruit.condition;
-    setRecruit(copy);
-  };
-
-  const onChange = (e) => {
-    const name = e.target.name;
-    const copy = { ...recruit };
-    copy[name] = e.target.value;
-    setRecruit(copy);
-  };
-
-  const fileChange = (e) => {
-    const copy = { ...recruit };
-    const imgArr = [...copy.images];
-    if (imgArr.length >= 10) {
-      alert("이미지는 10개만 추가 가능합니다");
-      return;
-    } else {
-      if (e.target.files[0]) {
-        copy.images = [...imgArr, e.target.files[0]];
-        setRecruit(copy);
-      }
-    }
-  };
-
-  const deleteImg = (e) => {
-    var target;
-    if (e.target.nodeName === "svg") {
-      target = e.target.parentNode;
-    } else if (e.target.nodeName === "path") {
-      target = e.target.parentNode.parentNode;
-    } else {
-      target = e.target;
-    }
-    const copy = { ...recruit };
-    const targetFile = copy.images.find((ele) => ele.name === target.name);
-    copy.images.splice(copy.images.indexOf(targetFile), 1);
-    setRecruit(copy);
-  };
-
+export default function Presenter({
+  onChange,
+  recruit,
+  setRecruit,
+  conditionSwitch,
+  writeCondition,
+  addConditionDetail,
+  fileChange,
+  deleteImg,
+  setAddressModal,
+  addressModal,
+  setConfirmModal,
+  confirmModal,
+  submit,
+}) {
   return (
     <S.InputPage>
       <S.InputContainer>

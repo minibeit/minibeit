@@ -1,10 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import SchoolSelect from "../../Common/SchoolSelect";
+import Presenter from "./presenter";
 
-import * as S from "../style";
-
-PSchoolSelect.propTypes = {
+SchoolSelect.propTypes = {
   recruit: PropTypes.shape({
     businessProfile: PropTypes.shape({
       id: PropTypes.number,
@@ -43,7 +41,7 @@ PSchoolSelect.propTypes = {
   setRecruit: PropTypes.func.isRequired,
 };
 
-export default function PSchoolSelect({ movePage, recruit, setRecruit }) {
+export default function SchoolSelect({ movePage, recruit, setRecruit }) {
   const selectSchool = (e) => {
     if (e) {
       const copy = { ...recruit };
@@ -58,23 +56,10 @@ export default function PSchoolSelect({ movePage, recruit, setRecruit }) {
     }
   };
   return (
-    <S.Page>
-      <S.SchoolSelectContainer>
-        <p>{recruit.businessProfile.name}님!</p>
-        <p>원하는 위치 근처의 학교를 선택하세요</p>
-        <S.SchoolSearchBox>
-          <p>학교명</p>
-          <SchoolSelect onChange={selectSchool} />
-          <button
-            disabled={recruit.school.id ? false : true}
-            onClick={() => {
-              movePage(2);
-            }}
-          >
-            적용
-          </button>
-        </S.SchoolSearchBox>
-      </S.SchoolSelectContainer>
-    </S.Page>
+    <Presenter
+      recruit={recruit}
+      selectSchool={selectSchool}
+      movePage={movePage}
+    />
   );
 }

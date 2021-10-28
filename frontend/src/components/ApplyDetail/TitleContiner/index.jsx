@@ -5,7 +5,7 @@ import StarBorderIcon from "@mui/icons-material/StarBorder";
 
 import * as S from "../style";
 
-export default function PTitleBox({
+export default function TitleContainer({
   title,
   businessProfileInfo,
   clickBookmark,

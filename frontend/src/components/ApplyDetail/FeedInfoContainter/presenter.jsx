@@ -1,74 +1,38 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
-import PTimeSelectBox from "./PTimeSelectBox";
-import PReveiwBox from "./PReviewBox";
+import React from "react";
+import TimeSelectBox from "./TimeSelectBox";
+import ReveiwBox from "./ReviewBox";
 
 import * as S from "../style";
 
-PFeedInfoContainer.propTypes = {
-  feedDetailData: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    title: PropTypes.string.isRequired,
-    doTime: PropTypes.number.isRequired,
-    startDate: PropTypes.string.isRequired,
-    endDate: PropTypes.string.isRequired,
-    content: PropTypes.string.isRequired,
-    payment: PropTypes.string.isRequired,
-    cache: PropTypes.number,
-    goods: PropTypes.string,
-    place: PropTypes.string.isRequired,
-    schoolName: PropTypes.string.isRequired,
-    contact: PropTypes.string,
-    files: PropTypes.array,
-    businessProfileInfo: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-      address: PropTypes.string.isRequired,
-      avatar: PropTypes.string,
-      contact: PropTypes.string.isRequired,
-      introduce: PropTypes.string,
-    }),
-  }),
-  date: PropTypes.string,
-};
-export default function PFeedInfoContainer({
-  feedDetailData,
+export default function Presenter({
+  id,
   date,
-  editDetail,
+  startDate,
+  endDate,
+  recruitCondition,
+  recruitConditionDetail,
+  payment,
+  cache,
+  goods,
+  paymentDetail,
+  isMine,
+  editSwitch,
+  setEditSwitch,
+  updatedContent,
+  content,
+  setNewContent,
+  editSubmit,
+  feedDetailData,
+  files,
+  place,
+  contact,
+  businessProfileInfo,
 }) {
-  const {
-    id,
-    businessProfileInfo,
-    startDate,
-    endDate,
-    content,
-    payment,
-    paymentDetail,
-    cache,
-    isMine,
-    goods,
-    place,
-    contact,
-    files,
-    recruitCondition,
-    recruitConditionDetail,
-    updatedContent,
-  } = feedDetailData;
-  const [editSwitch, setEditSwitch] = useState(false);
-  const [newContent, setNewContent] = useState(
-    updatedContent ? updatedContent : content
-  );
-
-  const editSubmit = () => {
-    editDetail(id, newContent);
-    setEditSwitch(false);
-  };
-
   return (
     <S.ContentBox>
       <S.DataBox>
         <p>참여날짜 및 시간 선택하기</p>
-        <PTimeSelectBox
+        <TimeSelectBox
           feedId={id}
           date={date}
           startDate={startDate}
@@ -149,7 +113,7 @@ export default function PFeedInfoContainer({
       <S.DataBox>
         <p>실험실 후기</p>
         <div>
-          <PReveiwBox businessId={businessProfileInfo.id} />
+          <ReveiwBox businessId={businessProfileInfo.id} />
         </div>
       </S.DataBox>
     </S.ContentBox>

@@ -1,21 +1,11 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { feedDetailTimeApi } from "../../../utils/feedApi";
+import { feedDetailTimeApi } from "../../../../utils/feedApi";
 import { useRecoilState } from "recoil";
-import { applyState } from "../../../recoil/applyState";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import { applyState } from "../../../../recoil/applyState";
 
-import * as S from "../style";
+import Presenter from "./presenter";
 
-PTimeSelectBox.propTypes = {
-  feedId: PropTypes.number.isRequired,
-  date: PropTypes.string,
-  startDate: PropTypes.string.isRequired,
-  endDate: PropTypes.string.isRequired,
-};
-
-export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
+export default function TimeSelectBox({ feedId, date, startDate, endDate }) {
   const [apply, setApply] = useRecoilState(applyState);
   const [doTimeList, setDoTimeList] = useState();
   const [doDateList] = useState(createDoDateList(startDate, endDate));
@@ -62,37 +52,13 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
   }, [feedId, viewDoDate]);
 
   return (
-    <div>
-      <S.TimeSelectBox>
-        <S.Navigation>
-          <div>
-            <ArrowLeftIcon id="pre" onClick={moveDate} />
-            <p>{viewDoDate}</p>
-            <ArrowRightIcon id="next" onClick={moveDate} />
-          </div>
-        </S.Navigation>
-        <S.TimeView>
-          {doTimeList ? (
-            doTimeList.map((a) => {
-              return (
-                <button
-                  key={a.id}
-                  id={a.id}
-                  onClick={selectDate}
-                  disabled={
-                    a.id === parseInt(apply["postDoDateId"]) ? true : false
-                  }
-                >
-                  {a.startTime}~{a.endTime}
-                </button>
-              );
-            })
-          ) : (
-            <p>이 날은 실험이 없습니다</p>
-          )}
-        </S.TimeView>
-      </S.TimeSelectBox>
-    </div>
+    <Presenter
+      moveDate={moveDate}
+      viewDoDate={viewDoDate}
+      doTimeList={doTimeList}
+      selectDate={selectDate}
+      apply={apply}
+    />
   );
 }
 

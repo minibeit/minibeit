@@ -28,7 +28,9 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
       .catch((err) => console.log(err));
   };
   const moveDate = (e) => {
-    if (e.target.value === "next") {
+    let target = e.target.nodeName === "path" ? e.target.parentNode : e.target;
+
+    if (target.id === "next") {
       if (doDateList.indexOf(viewDoDate) !== doDateList.length - 1) {
         setViewDoDate(doDateList[doDateList.indexOf(viewDoDate) + 1]);
         getFeedDetailTime(
@@ -64,9 +66,9 @@ export default function PTimeSelectBox({ feedId, date, startDate, endDate }) {
       <S.TimeSelectBox>
         <S.Navigation>
           <div>
-            <ArrowLeftIcon value="pre" onClick={moveDate} />
+            <ArrowLeftIcon id="pre" onClick={moveDate} />
             <p>{viewDoDate}</p>
-            <ArrowRightIcon value="next" onClick={moveDate} />
+            <ArrowRightIcon id="next" onClick={moveDate} />
           </div>
         </S.Navigation>
         <S.TimeView>

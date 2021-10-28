@@ -1,30 +1,16 @@
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import PropTypes from "prop-types";
 import { FeedCategory } from "../../../constants";
 
 import * as S from "../style";
 
-PCategoryFilter.propTypes = {
-  category: PropTypes.object.isRequired,
-  setCategory: PropTypes.func.isRequired,
-  setCategorySwitch: PropTypes.func.isRequired,
-  categoryReset: PropTypes.func.isRequired,
-};
-
-export default function PCategoryFilter({
+export default function Presenter({
   category,
-  setCategory,
-  setCategorySwitch,
   categoryReset,
+  setCategorySwitch,
   search,
+  clickCategory,
 }) {
-  const clickCategory = (value) => {
-    const copy = { ...category };
-    copy.category = value;
-    setCategory(copy);
-  };
-
   return (
     <S.FilterBox>
       <div

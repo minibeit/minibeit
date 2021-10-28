@@ -89,7 +89,7 @@ export const feedlistApi = async (
     return await withAuthInstance.get(
       GET_FEEDLIST +
         `${schoolId}?page=${page}&size=10&category=${
-          category.category
+          category.category === "전체" ? "" : category.category
         }&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${
           filter.paymentType === "CACHE" ? filter.minPay : ""
         }&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${

@@ -3,11 +3,10 @@ import ProfileFeed from "../../Common/FeedBox/ProfileFeed";
 import Paging from "../../Common/Pagination";
 import * as S from "../style";
 
-export default function PJoinListBox({
+export default function Presenter({
   joinlist,
   getJoinlist,
   handlepage,
-  paging,
   getCancellist,
   getFinishlist,
   state,

@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import * as S from "../style";
 import PropTypes from "prop-types";
-import ProfileEditModal from "../ProfileEditModal";
+import ProfileEditModal from "./ProfileEditModal";
 
-PUserInfo.propTypes = {
+Presenter.propTypes = {
   userData: PropTypes.shape({
     name: PropTypes.string.isRequired,
     nickname: PropTypes.string.isRequired,
@@ -15,7 +15,7 @@ PUserInfo.propTypes = {
   }),
 };
 
-export default function PUserInfo({ userData }) {
+export default function Presenter({ userData }) {
   const [modalSwitch, setModalSwitch] = useState(false);
   return (
     <S.UserInfoContainer>

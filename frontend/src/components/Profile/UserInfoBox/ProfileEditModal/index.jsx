@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { editMyInfo, getMyInfo } from "../../../utils/profileApi";
-import { LoadingSpinner } from "../../Common";
+import { editMyInfo, getMyInfo } from "../../../../utils/profileApi";
+import { LoadingSpinner } from "../../../Common";
 import { useRecoilState } from "recoil";
-import { userState } from "../../../recoil/userState";
-import PProfileEditModal from "./PProfileEditModal";
+import { userState } from "../../../../recoil/userState";
+import Presenter from "./presenter";
 import CloseIcon from "@mui/icons-material/Close";
-import Portal from "../../Common/Modal/Portal";
-import * as S from "../style";
+import Portal from "../../../Common/Modal/Portal";
+import * as S from "../../style";
 
 export default function ProfileEditModal({ setModalSwitch }) {
   const [user, setUser] = useRecoilState(userState);
@@ -72,7 +72,7 @@ export default function ProfileEditModal({ setModalSwitch }) {
                 </S.CloseModalBtn>
               </S.ModalHeader>
               <S.ModalContent>
-                <PProfileEditModal
+                <Presenter
                   userData={userData}
                   editUserDataHandler={editUserDataHandler}
                 />

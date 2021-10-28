@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import PUserInfo from "./PUserInfo";
 import { getMyInfo } from "../../../utils/profileApi";
 import { LoadingSpinner } from "../../Common";
 
-export default function UserInfo() {
+import Presenter from "./presenter";
+
+export default function UserInfoBox() {
   const [userData, setUserData] = useState();
   useEffect(() => {
     getMyInfo()
@@ -15,6 +16,6 @@ export default function UserInfo() {
       });
   }, []);
   return (
-    <>{userData ? <PUserInfo userData={userData} /> : <LoadingSpinner />}</>
+    <>{userData ? <Presenter userData={userData} /> : <LoadingSpinner />}</>
   );
 }

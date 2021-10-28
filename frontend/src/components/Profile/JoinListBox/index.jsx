@@ -5,7 +5,8 @@ import {
   getFinishlistApi,
   getJoinlistApi,
 } from "../../../utils";
-import PJoinListBox from "./PJoinListBox";
+
+import Presenter from "./presenter";
 
 export default function JoinListBox({ state }) {
   const [joinlist, setJoinlist] = useState([]);
@@ -56,7 +57,7 @@ export default function JoinListBox({ state }) {
   }, [state, getCancellist, getFinishlist, getJoinlist]);
 
   return (
-    <PJoinListBox
+    <Presenter
       joinlist={joinlist}
       getCancellist={getCancellist}
       getJoinlist={getJoinlist}

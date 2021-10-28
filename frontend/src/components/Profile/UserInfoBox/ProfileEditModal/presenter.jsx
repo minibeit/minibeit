@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { PVImg, SchoolSearch } from "../../Common";
-import { signupState } from "../../../recoil/signupState";
+import { PVImg, SchoolSearch } from "../../../Common";
+import { signupState } from "../../../../recoil/signupState";
 import { useRecoilValue } from "recoil";
-import * as S from "../style";
-import { handleCompressImg } from "../../../utils/imgCompress";
-import { userState } from "../../../recoil/userState";
-import { nickCheckApi } from "../../../utils/auth";
+import * as S from "../../style";
+import { handleCompressImg } from "../../../../utils/imgCompress";
+import { userState } from "../../../../recoil/userState";
+import { nickCheckApi } from "../../../../utils/auth";
 
-PProfileEditModal.propTypes = {
+Presenter.propTypes = {
   schoollist: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -29,7 +29,7 @@ PProfileEditModal.propTypes = {
   editUserDataHandler: PropTypes.func.isRequired,
 };
 
-export default function PProfileEditModal({ userData, editUserDataHandler }) {
+export default function Presenter({ userData, editUserDataHandler }) {
   const [inputs, setInputs] = useState({
     name: userData.name,
     pre_nickname: userData.nickname,

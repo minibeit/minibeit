@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Paging from "../../Common/Pagination";
 import * as S from "../style";
 
-export default function PLikeListBox({
+export default function Presenter({
   likeList,
   handlepage,
   page,

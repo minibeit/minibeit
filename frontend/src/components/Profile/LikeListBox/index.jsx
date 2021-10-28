@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getLikeListApi } from "../../../utils";
-import PLikeListBox from "./PLikeListBox";
+
+import Presenter from "./presenter";
 
 export default function LikeListBox() {
   const [page, setPage] = useState(1);
@@ -21,7 +22,7 @@ export default function LikeListBox() {
     setPage(page);
   };
   return (
-    <PLikeListBox
+    <Presenter
       likeList={likeList}
       handlepage={handlepage}
       page={page}

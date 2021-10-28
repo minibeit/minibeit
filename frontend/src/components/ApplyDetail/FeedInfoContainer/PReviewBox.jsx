@@ -35,7 +35,9 @@ export default function PReveiwBox({ businessId }) {
       ) : (
         <p>리뷰 없음</p>
       )}
-      <Pagination page={page} count={totalReview} setPage={setPage} />
+      {reviewList.length !== 0 && (
+        <Pagination page={page} count={totalReview} setPage={setPage} />
+      )}
     </>
   );
 }

@@ -57,13 +57,23 @@ export default function FilterAndList() {
     setFilterSwitch(false);
   };
 
-  const search = () => {
-    if (filter.schoolId) {
-      getFeedList(page, filter.schoolId, date, filter, category);
-    } else if (user.schoolId) {
-      getFeedList(page, user.schoolId, date, filter, category);
+  const search = (e) => {
+    if (typeof e === "number") {
+      if (filter.schoolId) {
+        getFeedList(e, filter.schoolId, date, filter, category);
+      } else if (user.schoolId) {
+        getFeedList(e, user.schoolId, date, filter, category);
+      } else {
+        alert("학교를 선택해주세요");
+      }
     } else {
-      alert("학교를 선택해주세요");
+      if (filter.schoolId) {
+        getFeedList(page, filter.schoolId, date, filter, category);
+      } else if (user.schoolId) {
+        getFeedList(page, user.schoolId, date, filter, category);
+      } else {
+        alert("학교를 선택해주세요");
+      }
     }
   };
 
@@ -104,7 +114,12 @@ export default function FilterAndList() {
       {feedList && (
         <>
           <PListContainer feedList={feedList} postBookmark={postBookmark} />
-          <Pagination page={page} count={totalElements} setPage={setPage} />
+          <Pagination
+            page={page}
+            count={totalElements}
+            setPage={setPage}
+            onChange={search}
+          />
         </>
       )}
     </S.ListPageContainer>

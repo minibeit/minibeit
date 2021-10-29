@@ -1,63 +1,24 @@
-import React, { useCallback, useEffect, useState } from "react";
-
-import { useRecoilState, useRecoilValue } from "recoil";
-import { userState } from "../../../recoil/userState";
-import { bprofileListGet, bprofileNew, deleteBprofile } from "../../../utils";
+import React from "react";
 import AddIcon from "@mui/icons-material/Add";
-import * as S from "../../BProfile/style";
-import { BCreateCont } from "../../BProfileEdit";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function PBOtherProfile({ originalId }) {
-  const [bprofiles, setbprofiles] = useState([]);
-  const [modalSwitch, setModalSwitch] = useState(false);
-  const [user, setUser] = useRecoilState(userState);
-  const UserId = useRecoilValue(userState).id;
-  const [display, setdisplay] = useState("none");
-  const [msg, setmsg] = useState("수정");
+import BProfileCreateModal from "../BProfileMain/BProfileCreateModal";
 
-  const onClick = () => {
-    setModalSwitch(true);
-  };
-  const doDelete = async (businessId) => {
-    await deleteBprofile(businessId);
-    alert("삭제되었습니다.");
-    setdisplay("none");
-    setmsg("수정");
-    getBprofileList();
-  };
-  const getBprofileList = useCallback(async () => {
-    bprofileListGet(UserId)
-      .then(async (res) => setbprofiles(res.data))
-      .catch((err) => console.log(err));
-  }, [UserId]);
-  const CreateBProfile = (inputs, img) => {
-    bprofileNew(inputs, img)
-      .then(() => {
-        getBprofileList();
-        setModalSwitch(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const editfunc = () => {
-    if (display === "none") {
-      setdisplay("flex");
-      setmsg("완료");
-    } else {
-      setdisplay("none");
-      setmsg("수정");
-    }
-  };
+import * as S from "../style";
 
-  useEffect(() => {
-    getBprofileList();
-  }, [getBprofileList]);
-  const goBProfile = async (businessId) => {
-    await setUser({ ...user, bpId: businessId });
-    window.location.replace("/business/" + businessId);
-  };
+export default function PBOtherProfile({
+  bprofiles,
+  editfunc,
+  msg,
+  modalSwitch,
+  setModalSwitch,
+  CreateBProfile,
+  onClick,
+  originalId,
+  display,
+  doDelete,
+  goBProfile,
+}) {
   return (
     <S.BPContainer>
       <S.BOtherHead>
@@ -70,7 +31,7 @@ export default function PBOtherProfile({ originalId }) {
       </S.BOtherHead>
 
       {modalSwitch ? (
-        <BCreateCont
+        <BProfileCreateModal
           setModalSwitch={setModalSwitch}
           CreateBProfile={CreateBProfile}
         />

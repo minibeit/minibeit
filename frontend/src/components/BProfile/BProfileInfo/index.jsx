@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { LoadingSpinner } from "../../Common";
 import { getBprofileInfo } from "../../../utils/bprofileApi";
-import PBProfile from "./PBProfile";
+import Presenter from "./presenter";
 
 BProfileInfo.propTypes = {
   businessId: PropTypes.number.isRequired,
@@ -10,6 +10,8 @@ BProfileInfo.propTypes = {
 
 export default function BProfileInfo({ businessId }) {
   const [buserData, setBUserData] = useState();
+  const [modalSwitch, setModalSwitch] = useState(false);
+  const [modal2Switch, setModal2Switch] = useState(false);
   useEffect(() => {
     getBprofileInfo(businessId)
       .then((res) => {
@@ -20,6 +22,18 @@ export default function BProfileInfo({ businessId }) {
       });
   }, [businessId]);
   return (
-    <>{buserData ? <PBProfile buserData={buserData} /> : <LoadingSpinner />}</>
+    <>
+      {buserData ? (
+        <Presenter
+          buserData={buserData}
+          setModal2Switch={setModal2Switch}
+          setModalSwitch={setModalSwitch}
+          modalSwitch={modalSwitch}
+          modal2Switch={modal2Switch}
+        />
+      ) : (
+        <LoadingSpinner />
+      )}
+    </>
   );
 }

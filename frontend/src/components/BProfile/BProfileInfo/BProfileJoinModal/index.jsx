@@ -1,14 +1,23 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { bprofileJoin, bprofileJoinDel, getBPusergroup } from "../../../utils";
-import Portal from "../../Common/Modal/Portal";
-import PBProfileJoin from "./PBProfileJoin";
-import * as S from "../style";
-import NicknameCombo from "./NicknameCombo";
-import CloseIcon from "@mui/icons-material/Close";
-import { assignChange } from "../../../utils/bprofileApi";
+import {
+  bprofileJoin,
+  bprofileJoinDel,
+  getBPusergroup,
+} from "../../../../utils";
+import { useRecoilValue } from "recoil";
+
+import { assignChange } from "../../../../utils/bprofileApi";
+
+import Presenter from "./presenter";
+import { userState } from "../../../../recoil/userState";
 
 export default function BProfileJoin({ businessId, setModalSwitch }) {
   const [usergroup, setUsergroup] = useState([]);
+  const [, setNickname] = useState("");
+  const [state, setState] = useState("None");
+  const [cheifId, setCheifId] = useState();
+  const currentUser = useRecoilValue(userState).name;
+
   const handleJoin = async (userId) => {
     if (userId === "") {
       window.alert("닉네임을 입력한 후 초대해 주세요");
@@ -21,6 +30,7 @@ export default function BProfileJoin({ businessId, setModalSwitch }) {
         .catch((err) => console.log(err));
     }
   };
+
   const handleDelete = async (userId, userNickname) => {
     await bprofileJoinDel(businessId, userId)
       .then(async () => {
@@ -29,6 +39,7 @@ export default function BProfileJoin({ businessId, setModalSwitch }) {
       })
       .catch((err) => console.log(err));
   };
+
   const handleAssign = async (userId) => {
     if (userId === undefined) {
     } else {
@@ -40,37 +51,34 @@ export default function BProfileJoin({ businessId, setModalSwitch }) {
         .catch((err) => console.log(err));
     }
   };
+
   const getUsergroup = useCallback(async () => {
     await getBPusergroup(businessId)
       .then(async (res) => setUsergroup(res.data))
       .catch((err) => console.log(err));
   }, [businessId]);
+
   const closeModal = () => {
     setModalSwitch(false);
   };
+
   useEffect(() => {
     getUsergroup();
   }, [getUsergroup]);
+
   return (
-    <Portal>
-      <S.ModalBackground>
-        <S.ModalBox>
-          <S.ModalHeader>
-            <p>소속인원 목록</p>
-            <S.CloseModalBtn onClick={closeModal}>
-              <CloseIcon />
-            </S.CloseModalBtn>
-          </S.ModalHeader>
-          <S.ModalContent>
-            <NicknameCombo handleJoin={handleJoin} />
-            <PBProfileJoin
-              handleAssign={handleAssign}
-              handleDelete={handleDelete}
-              usergroup={usergroup}
-            />
-          </S.ModalContent>
-        </S.ModalBox>
-      </S.ModalBackground>
-    </Portal>
+    <Presenter
+      closeModal={closeModal}
+      handleJoin={handleJoin}
+      usergroup={usergroup}
+      state={state}
+      setState={setState}
+      cheifId={cheifId}
+      setCheifId={setCheifId}
+      currentUser={currentUser}
+      handleAssign={handleAssign}
+      handleDelete={handleDelete}
+      setNickname={setNickname}
+    />
   );
 }

@@ -2,8 +2,8 @@ import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 import { useState } from "react";
-import { getSearchUser } from "../../../utils";
-import * as S from "../style";
+import { getSearchUser } from "../../../../utils";
+import * as S from "../../style";
 
 export default function NicknameCombo({ handleJoin }) {
   const [user, setUser] = useState([]);

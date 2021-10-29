@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { reviewListGetApi } from "../../../utils";
-import PBReviewBox from "./PBReviewBox";
+import Presenter from "./presenter";
 
-export default function BReviewBox({ businessId }) {
+export default function BProfileReviewList({ businessId }) {
   const [reviewlist, setReviewlist] = useState([]);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState();
@@ -28,7 +28,7 @@ export default function BReviewBox({ businessId }) {
   }, [getReviewlist]);
 
   return (
-    <PBReviewBox
+    <Presenter
       page={page}
       count={count}
       reviewlist={reviewlist}

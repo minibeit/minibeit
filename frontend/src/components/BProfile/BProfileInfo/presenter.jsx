@@ -1,23 +1,15 @@
-import React, { useState } from "react";
-import PropTypes from "prop-types";
+import React from "react";
 import * as S from "../style";
-import BProfileJoin from "../BProfileJoin";
-import BProfileEditCont from "../../BProfileEdit/BProfileEditCont";
+import BProfileJoinModal from "./BProfileJoinModal";
+import BProfileEditModal from "./BProfileEditModal";
 
-PBProfile.propTypes = {
-  buserData: PropTypes.shape({
-    contact: PropTypes.string.isRequired,
-    id: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-    place: PropTypes.string.isRequired,
-    avatar: PropTypes.string,
-  }),
-};
-
-export default function PBProfile({ buserData }) {
-  const [modalSwitch, setModalSwitch] = useState(false);
-  const [modal2Switch, setModal2Switch] = useState(false);
-
+export default function presenter({
+  buserData,
+  modalSwitch,
+  modal2Switch,
+  setModal2Switch,
+  setModalSwitch,
+}) {
   return (
     <S.UserInfoContainer>
       <S.ImgBox>
@@ -54,13 +46,13 @@ export default function PBProfile({ buserData }) {
         </S.UserInfo>
       </S.UserInfoBox>
       {modal2Switch ? (
-        <BProfileEditCont
+        <BProfileEditModal
           businessId={buserData.id}
           setModal2Switch={setModal2Switch}
         />
       ) : null}
       {modalSwitch ? (
-        <BProfileJoin
+        <BProfileJoinModal
           businessId={buserData.id}
           setModalSwitch={setModalSwitch}
         />

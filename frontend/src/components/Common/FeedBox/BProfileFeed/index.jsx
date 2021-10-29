@@ -8,10 +8,11 @@ import {
   reviewOneReadApi,
   stateCompleteApi,
 } from "../../../../utils";
-import BManageModal from "../../../BProfile/BManageModal";
 import ReviewModal from "../../ReviewModal";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import * as S from "../style";
+
+import BManageModal from "../../../BProfile/BManageModal";
 import BCompleteModal from "../../../BProfile/BCompleteModal";
 
 export default function BProfileFeed({ state, feedInfo, getMakelist }) {

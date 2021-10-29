@@ -2,9 +2,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { changeState } from "../../../recoil/changeState";
 import { getMakelistApi } from "../../../utils";
-import PBMakeListBox from "./PBMakeListBox";
+import Presenter from "./presenter";
 
-export default function BMakeListBox({ businessId, state, status }) {
+export default function BProfileFeedList({ businessId, state, status }) {
   const [makelist, setMakelist] = useState([]);
   const [page, setPage] = useState(1);
   const [count, setCount] = useState();
@@ -39,7 +39,7 @@ export default function BMakeListBox({ businessId, state, status }) {
     getMakelist();
   }, [getMakelist]);
   return (
-    <PBMakeListBox
+    <Presenter
       makelist={makelist}
       paging={paging}
       page={page}

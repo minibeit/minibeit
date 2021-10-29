@@ -1,66 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import AddIcon from "@mui/icons-material/Add";
-import { useRecoilState } from "recoil";
-import { userState } from "../../../recoil/userState";
-import { bprofileListGet, bprofileNew, deleteBprofile } from "../../../utils";
-import * as S from "../../BProfile/style";
-import { BCreateCont } from "../../BProfileEdit";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function PBProfileSection() {
-  const [bprofiles, setbprofiles] = useState([]);
-  const [modalSwitch, setModalSwitch] = useState(false);
-  const [user, setUser] = useRecoilState(userState);
+import BProfileCreateModal from "./BProfileCreateModal";
 
-  const [display, setdisplay] = useState("none");
-  const [msg, setmsg] = useState("수정");
+import * as S from "../style";
 
-  const onClick = () => {
-    setModalSwitch(true);
-  };
-  const doDelete = async (businessId) => {
-    await deleteBprofile(businessId);
-    alert("삭제되었습니다.");
-    getBprofileList();
-    setdisplay("none");
-    setmsg("수정");
-  };
-  const getBprofileList = async () => {
-    bprofileListGet()
-      .then(async (res) => setbprofiles(res.data))
-      .catch((err) => console.log(err));
-  };
-  const CreateBProfile = (inputs, img) => {
-    bprofileNew(inputs, img)
-      .then(() => {
-        getBprofileList();
-        setModalSwitch(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-  const editfunc = () => {
-    if (display === "none") {
-      setdisplay("flex");
-      setmsg("완료");
-    } else {
-      setdisplay("none");
-      setmsg("수정");
-    }
-  };
-
-  useEffect(() => {
-    getBprofileList();
-  }, []);
-  const goBProfile = async (businessId) => {
-    await setUser({ ...user, bpId: businessId });
-    window.location.replace("/business/" + businessId);
-  };
+export default function Presenter({
+  modalSwitch,
+  setModalSwitch,
+  CreateBProfile,
+  bprofiles,
+  editfunc,
+  msg,
+  onClick,
+  display,
+  doDelete,
+  goBProfile,
+}) {
   return (
     <S.BPContainer2>
       {modalSwitch ? (
-        <BCreateCont
+        <BProfileCreateModal
           setModalSwitch={setModalSwitch}
           CreateBProfile={CreateBProfile}
         />

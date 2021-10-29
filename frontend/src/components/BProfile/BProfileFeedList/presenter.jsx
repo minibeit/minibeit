@@ -3,7 +3,7 @@ import BProfileFeed from "../../Common/FeedBox/BProfileFeed";
 import Paging from "../../Common/Pagination";
 import * as S from "../style";
 
-export default function PBMakeListBox({
+export default function Presenter({
   makelist,
   paging,
   page,

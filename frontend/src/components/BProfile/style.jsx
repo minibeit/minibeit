@@ -1,5 +1,51 @@
 import styled from "styled-components";
 
+export const ProfileTab1 = styled.div`
+  padding: 7px 52px;
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  background: #9e9e9e;
+  @media only screen and (max-width: 480px) {
+    font-size: 13px;
+    padding: 10px 22px;
+    min-width: 60px;
+  }
+`;
+export const ProfileTab2 = styled.div`
+  padding: 7px 52px;
+  border-top-left-radius: 13px;
+  border-top-right-radius: 13px;
+  background: #d8d6d6;
+  position: relative;
+  right: 29px;
+  z-index: 2;
+  @media only screen and (max-width: 480px) {
+    font-size: 13px;
+    padding: 10px 23px;
+    min-width: 83px;
+    right: 18px;
+  }
+`;
+export const BTabCont = styled.div`
+  display: flex;
+  align-items: end;
+  margin: 0 50px;
+  & > a {
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+  }
+`;
+export const BTabContent = styled.div`
+  margin: 0 50px;
+  background: #d8d6d6;
+  padding: 30px 30px 57px 30px;
+`;
+export const TabBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 export const UserInfoContainer = styled.div`
   display: flex;
   height: 100%;
@@ -102,7 +148,6 @@ export const NicknameBox = styled.div`
   display: flex;
   align-items: center;
   height: 4rem;
-}
 `;
 export const BPJoinBtn = styled.div`
   background: lightgray;
@@ -351,3 +396,159 @@ export const IfNoneBtn = styled.div`
   margin: 10px;
 `;
 export const ListPaging = styled.div``;
+
+export const BPEditCont = styled.div``;
+export const BNCont21 = styled.div`
+  display: flex;
+  margin: 7px;
+  width: -webkit-fill-available;
+  flex-wrap: wrap;
+`;
+export const BNCont22 = styled.div`
+  margin: 7px;
+  width: 97%;
+`;
+export const BNCont23 = styled.div`
+  margin: 7px;
+  width: 50%;
+`;
+export const BNLabel = styled.label`
+  font-size: 13px;
+  margin: 8px 8px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+`;
+export const BPEditInput = styled.input`
+  border: none;
+  border-radius: 8px;
+  padding: 4px 0 8px 5px;
+  font-size: 14px;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: 0.14px;
+  text-align: left;
+  margin-top: 7px;
+  outline: none;
+  color: #707070;
+  text-decoration: none;
+  background: #8080801c;
+`;
+
+export const BPEditButton = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: end;
+  & > p {
+    background: blue;
+    color: white;
+    padding: 8px 30px;
+    border-radius: 25px;
+    font-size: 15px;
+    cursor: pointer;
+  }
+`;
+export const ImgDel = styled.div`
+  padding: 5px;
+  cursor: pointer;
+  background: #c4c4c4;
+  color: white;
+  border-radius: 14px;
+  width: 100px;
+  font-size: 12px;
+  text-align: center;
+  margin: 10px 0px;
+`;
+export const ImgBoxEdit = styled.div`
+  overflow: hidden;
+  width: 10rem;
+  height: 10rem;
+  display: inline-block;
+`;
+export const Img = styled.img`
+  object-fit: fill;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+`;
+export const ModalBackgroundEdit = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 99;
+`;
+export const ModalBoxEdit = styled.div`
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 57%;
+  overflow: scroll;
+  max-width: 41rem;
+  border-radius: 20px;
+  padding: 32px 36px;
+  height: 26rem;
+  background-color: white;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
+`;
+export const ModalHeaderEdit = styled.div`
+  display: flex;
+  align-items: center;
+  height: 3.2rem;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
+  & > p {
+    font-size: 18px;
+    font-weight: 500;
+  }
+`;
+export const CloseModalBtnEdit = styled.div`
+  margin-left: auto;
+  height: -webkit-fill-available;
+  & > svg {
+    cursor: pointer;
+  }
+`;
+export const ModalContentEdit = styled.div`
+  flex-wrap: wrap;
+  display: flex;
+`;
+export const BNCont1 = styled.div`
+  width: 174px;
+  flex: 1;
+  margin: 41px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+export const BNCont2 = styled.div`
+  width: 100%;
+  display: flex;
+  align-items: start;
+  flex-wrap: wrap;
+  flex-direction: column;
+  margin: 41px 23px;
+  flex: 2;
+`;
+export const BPEditFileInput = styled.input`
+  display: none;
+`;
+
+export const FileLabel = styled.label`
+  padding: 5px;
+  cursor: pointer;
+  background: #c4c4c4;
+  color: white;
+  border-radius: 14px;
+  width: 100px;
+  font-size: 12px;
+  text-align: center;
+`;

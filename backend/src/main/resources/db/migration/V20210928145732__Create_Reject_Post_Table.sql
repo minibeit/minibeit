@@ -8,7 +8,7 @@ CREATE TABLE `reject_post`
     `contact`        VARCHAR(50)  NOT NULL,
     `do_time`        INTEGER      NOT NULL,
     `do_date`        DATETIME     NOT NULL,
-    `reject_comment` VARCHAR(255)  NOT NULL,
+    `reject_comment` VARCHAR(255) NOT NULL,
     `created_at`     DATETIME     NOT NULL,
     `updated_at`     DATETIME DEFAULT NULL,
     `deleted_at`     DATETIME DEFAULT NULL,

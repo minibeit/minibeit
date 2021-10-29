@@ -160,6 +160,7 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
                                 fieldWithPath("recruitConditionDetail").description("구인조건이 있다면 구인조건 세부사항(없다면 null)"),
                                 fieldWithPath("doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
+                                fieldWithPath("category").type(JsonFieldType.STRING).description("실험 분야"),
                                 fieldWithPath("schoolName").type(JsonFieldType.STRING).description("학교 이름"),
                                 fieldWithPath("startDate").type(JsonFieldType.STRING).description("모집 시작 날짜"),
                                 fieldWithPath("endDate").type(JsonFieldType.STRING).description("모집 마감 날짜"),

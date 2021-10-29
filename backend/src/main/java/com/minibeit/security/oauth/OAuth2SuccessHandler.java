@@ -1,7 +1,7 @@
 package com.minibeit.security.oauth;
 
+import com.minibeit.common.utils.CookieUtils;
 import com.minibeit.school.domain.School;
-import com.minibeit.security.token.RefreshTokenService;
 import com.minibeit.security.token.Token;
 import com.minibeit.security.token.TokenProvider;
 import com.minibeit.user.domain.User;
@@ -9,7 +9,6 @@ import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
@@ -28,7 +27,8 @@ import java.nio.charset.StandardCharsets;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final TokenProvider tokenProvider;
     private final UserRepository userRepository;
-    private final RefreshTokenService refreshTokenService;
+
+    private static final String REFRESH_TOKEN = "refresh_token";
     @Value("${oauth2.success.redirect.url}")
     private String url;
 
@@ -58,14 +58,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             avatar = user.getAvatar().getUrl().substring(8);
         }
         Token token = tokenProvider.generateAccessToken(user);
-        Token refreshToken = refreshTokenService.createOrUpdateRefreshToken(user);
+        Token refreshToken = tokenProvider.generateRefreshToken(user);
 
-        ResponseCookie cookie = ResponseCookie.from("refresh_token", refreshToken.getToken())
-                .httpOnly(true)
-                .path("/")
-                .maxAge(14 * 24 * 60 * 60)
-                .build();
-        response.addHeader("Set-Cookie", cookie.toString());
+        CookieUtils.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), 14 * 24 * 60 * 60);
+
         if (user.getAvatar() != null) {
             response.sendRedirect(url + user.getId() + "/" + nickname + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/" + avatar);
         } else {

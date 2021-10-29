@@ -4,16 +4,16 @@ CREATE TABLE `user`
     `id`           BIGINT       NOT NULL AUTO_INCREMENT,
     `school_id`    BIGINT,
     `avatar_id`    BIGINT,
-    `oauth_id`     VARCHAR(100) NOT NULL,
-    `name`         VARCHAR(100),
-    `nickname`     VARCHAR(100),
-    `job`          VARCHAR(100),
+    `oauth_id`     VARCHAR(50) NOT NULL,
+    `name`         VARCHAR(50),
+    `nickname`     VARCHAR(50),
+    `job`          VARCHAR(50),
     `gender`       VARCHAR(10),
     `birth`        DATE,
-    `provider`     VARCHAR(50)  NOT NULL,
-    `phone_num`    VARCHAR(50),
+    `provider`     VARCHAR(30)  NOT NULL,
+    `phone_num`    VARCHAR(30),
     `signup_check` TINYINT(1)   NOT NULL,
-    `role`         VARCHAR(50)  NOT NULL,
+    `role`         VARCHAR(20)  NOT NULL,
     `created_at`   DATETIME     NOT NULL,
     `updated_at`   DATETIME DEFAULT NULL,
     `deleted_at`   DATETIME DEFAULT NULL,
@@ -21,5 +21,4 @@ CREATE TABLE `user`
     `updated_by`   BIGINT   DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
-CREATE
-    INDEX `nickname_index` ON `user` (`nickname`);
+CREATE INDEX `nickname_index` ON `user` (`nickname`);

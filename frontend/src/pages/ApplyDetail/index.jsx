@@ -1,6 +1,6 @@
 import React from "react";
 import { NavBar } from "../../components/Common";
-import { FeedInfoContainer } from "../../components/ApplyDetail";
+import ApplyDetailComponent from "../../components/ApplyDetail";
 
 function ApplyDetail({ match, location }) {
   const feedId = parseInt(match.params.postId);
@@ -8,7 +8,7 @@ function ApplyDetail({ match, location }) {
   return (
     <>
       <NavBar />
-      <FeedInfoContainer feedId={feedId} date={date} />
+      <ApplyDetailComponent feedId={feedId} date={date} />
     </>
   );
 }

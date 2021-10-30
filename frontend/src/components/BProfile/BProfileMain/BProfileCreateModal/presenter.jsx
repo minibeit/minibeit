@@ -24,15 +24,15 @@ export default function Presenter({
 }) {
   return (
     <Portal>
-      <S.ModalBackground>
-        <S.ModalBox>
-          <S.ModalHeader>
+      <S.ModalBackgroundEdit>
+        <S.ModalBoxEdit>
+          <S.ModalHeaderEdit>
             <p>비즈니스 프로필 생성하기</p>
             <S.CloseModalBtn onClick={closeModal}>
               <CloseIcon />
             </S.CloseModalBtn>
-          </S.ModalHeader>
-          <S.ModalContent>
+          </S.ModalHeaderEdit>
+          <S.ModalContentEdit>
             <S.BNCont1>
               <S.ImgBox>
                 {img ? (
@@ -105,7 +105,7 @@ export default function Presenter({
                 </S.BNLabel>
               </S.BNCont23>
             </S.BNCont2>
-          </S.ModalContent>
+          </S.ModalContentEdit>
           <S.BPEditButton
             onClick={async (e) => {
               e.preventDefault();
@@ -114,8 +114,8 @@ export default function Presenter({
           >
             <p>생성하기</p>
           </S.BPEditButton>
-        </S.ModalBox>
-      </S.ModalBackground>
+        </S.ModalBoxEdit>
+      </S.ModalBackgroundEdit>
     </Portal>
   );
 }

@@ -10,42 +10,73 @@ export const ModalBackground = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.9);
   z-index: 99;
 
+  & > div:first-child {
+    display: flex;
+    align-items: center;
+    gap: 50rem;
+    justify-content: center;
+    margin-top: 2rem;
+  }
 `;
 
 export const ModalBtn = styled.button`
-  margin-left: auto;
-  margin-right: 0.5rem;
+  width: 4rem;
+  height: 2rem;
+  font-size: 12px;
+  color: #ffffff;
+  border: 1px solid #FFFFFF;
+  box-sizing: border-box;
+  border-radius: 15px;
+  background: none;
 `;
 
 
 // slider
 export const Container = styled.div`
   position: relative;
-  top: 50%;
+  top: 45%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 50rem;
-  border-radius: 10px;
+  transform: translate(-50%, -55%);
+  width: 25rem;
+  height: 25rem;
+  overflow: hidden;
+  
+  & > p:first-child {
+    position: relative;
+    font-size: 10px;
+    font-weight: 200;
+    color: #ffffff;
+    text-align: center;
+    margin: 1rem;
+  }
 `;
 
-export const TestContainer = styled.div`
-  position: relative;
-  width: 30rem;
-  height: 30rem;
-  box-sizing: content-box;
+export const SliderContainer = styled.div`
+  display: flex;
+  margin: 0 auto; 
+`;
+export const ImgContainer = styled.div`
+position: relative;
+width: 25rem;
+height: 25rem;
 `;
 
 export const Image = styled.img`
   position: relative;
-  width: 30rem;
-  height: 30rem;
-  box-sizing: content-box;
+  width: 25rem;
+  height: 25rem;
   object-fit: contain;
+  box-sizing: content-box;
 `;
 
+export const ButtonContainer = styled.div`
+  position: absolute;
+  width: 100vw;
+  top: 50%;
+`;
 
 const ArrowButton = styled.button`
   position: absolute;
@@ -61,24 +92,20 @@ const ArrowButton = styled.button`
 `;
 
 export const PrevButton = styled(ArrowButton)`
-  left: 0;
+  left: 20%;
 `;
 
 export const NextButton = styled(ArrowButton)`
-  right: 0;
+  right: 20%;
 `;
 
 export const PrevIcon = styled(ArrowBackIosIcon)`
 font-size: 30px; 
-color: red; 
-&:focus, &:hover {
-  color: pink; }
+color: #ffffff; 
 `; 
 
 export const NextIcon = styled(ArrowForwardIosIcon)` 
 font-size: 30px; 
-color: red; 
-&:focus, &:hover {
-  color: pink; }
+color: #ffffff; 
 `;
 

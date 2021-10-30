@@ -113,7 +113,7 @@ export default function Presenter({
       <div onClick={filterReset}>모든 선택 초기화하기</div>
       <S.FilterSaveBtn
         onClick={() => {
-          search();
+          search(1);
           setFilterSwitch(false);
         }}
       >

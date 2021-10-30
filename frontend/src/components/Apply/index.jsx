@@ -7,6 +7,7 @@ import {
   categoryState,
   dateState,
   filterState,
+  schoolState,
 } from "../../recoil/filterState";
 import { Pagination } from "../Common";
 
@@ -20,6 +21,7 @@ import * as S from "./style";
 export default function ApplyComponent() {
   const user = useRecoilValue(userState);
   const [filter, setFilter] = useRecoilState(filterState);
+  const [school, setSchool] = useRecoilState(schoolState);
   const [category, setCategory] = useRecoilState(categoryState);
   const [date, setDate] = useRecoilState(dateState);
   const [feedList, setFeedList] = useState();
@@ -61,16 +63,17 @@ export default function ApplyComponent() {
 
   const search = (e) => {
     if (typeof e === "number") {
-      if (filter.schoolId) {
-        getFeedList(e, filter.schoolId, date, filter, category);
+      setPage(e);
+      if (school.schoolId) {
+        getFeedList(e, school.schoolId, date, filter, category);
       } else if (user.schoolId) {
         getFeedList(e, user.schoolId, date, filter, category);
       } else {
         alert("학교를 선택해주세요");
       }
     } else {
-      if (filter.schoolId) {
-        getFeedList(page, filter.schoolId, date, filter, category);
+      if (school.schoolId) {
+        getFeedList(page, school.schoolId, date, filter, category);
       } else if (user.schoolId) {
         getFeedList(page, user.schoolId, date, filter, category);
       } else {
@@ -86,6 +89,8 @@ export default function ApplyComponent() {
         search={search}
         filter={filter}
         setFilter={setFilter}
+        school={school}
+        setSchool={setSchool}
         category={category}
         setCategory={setCategory}
         date={date}
@@ -116,12 +121,14 @@ export default function ApplyComponent() {
       {feedList && (
         <>
           <ListContainer feedList={feedList} postBookmark={postBookmark} />
-          <Pagination
-            page={page}
-            count={totalElements}
-            setPage={setPage}
-            onChange={search}
-          />
+          {feedList.length !== 0 && (
+            <Pagination
+              page={page}
+              count={totalElements}
+              setPage={setPage}
+              onChange={search}
+            />
+          )}
         </>
       )}
     </S.ListPageContainer>

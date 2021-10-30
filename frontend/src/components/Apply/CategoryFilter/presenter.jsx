@@ -37,7 +37,7 @@ export default function Presenter({
       </S.DetailBox>
       <S.FilterSaveBtn
         onClick={() => {
-          search();
+          search(1);
           setCategorySwitch(false);
         }}
       >

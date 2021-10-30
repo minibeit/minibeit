@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import Presenter from "./presenter";
 
@@ -42,11 +42,12 @@ SchoolSelect.propTypes = {
 };
 
 export default function SchoolSelect({ movePage, recruit, setRecruit }) {
-  const selectSchool = (e) => {
-    if (e) {
+  const [school, setSchool] = useState();
+  const selectSchool = () => {
+    if (school) {
       const copy = { ...recruit };
-      copy.school.id = e.value;
-      copy.school.name = e.label;
+      copy.school.id = school.value;
+      copy.school.name = school.label;
       setRecruit(copy);
     } else {
       const copy = { ...recruit };
@@ -55,9 +56,12 @@ export default function SchoolSelect({ movePage, recruit, setRecruit }) {
       setRecruit(copy);
     }
   };
+
   return (
     <Presenter
       recruit={recruit}
+      school={school}
+      setSchool={setSchool}
       selectSchool={selectSchool}
       movePage={movePage}
     />

@@ -3,8 +3,8 @@
     <timestamp key="BY_DATE" datePattern="yyyy-MM-dd"/>
     <property name="LOG_PATTERN"
               value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) %boldWhite([%C.%M:%yellow(%L)]) - %msg%n"/>
-    <property name="LOG_LOCATION" value="../../../../logs"/>
-    <property name="BACKUP_LOCATION" value="../../../../logs/backup"/>
+    <property name="LOG_LOCATION" value="/home/ec2-user/app/dev/logs"/>
+    <property name="BACKUP_LOCATION" value="/home/ec2-user/app/dev/logs"/>
     <property name="DEBUG_LOCATION" value="debug"/>
     <property name="INFO_LOCATION" value="info"/>
     <property name="WARN_LOCATION" value="warn"/>

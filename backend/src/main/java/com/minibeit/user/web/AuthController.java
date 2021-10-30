@@ -1,13 +1,11 @@
 package com.minibeit.user.web;
 
+import com.minibeit.common.utils.CookieUtils;
 import com.minibeit.security.token.RefreshTokenService;
-import com.minibeit.security.userdetails.CurrentUser;
-import com.minibeit.security.userdetails.CustomUserDetails;
 import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,45 +23,23 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<UserResponse.Login> login(@RequestBody AuthRequest.Login request, HttpServletResponse response) {
         UserResponse.Login loginResponse = authService.login(request);
-        createCookie(response, loginResponse.getRefreshToken());
+        CookieUtils.addCookie(response, REFRESH_TOKEN, loginResponse.getRefreshToken(), 14 * 24 * 60 * 60);
 
         return ResponseEntity.ok().body(loginResponse);
     }
 
     @PostMapping("/refreshtoken")
     public ResponseEntity<UserResponse.Login> refreshToken(@CookieValue(REFRESH_TOKEN) String refreshToken, HttpServletResponse response) {
-        UserResponse.Login loginResponse = refreshTokenService.createAccessToken(refreshToken);
-        createCookie(response, loginResponse.getRefreshToken());
+        UserResponse.Login loginResponse = refreshTokenService.createAccessTokenAndRefreshToken(refreshToken);
+
+        CookieUtils.addCookie(response, REFRESH_TOKEN, loginResponse.getRefreshToken(), 14 * 24 * 60 * 60);
 
         return ResponseEntity.ok().body(loginResponse);
     }
 
-
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(@CurrentUser CustomUserDetails customUserDetails, HttpServletResponse response) {
-        authService.logout(customUserDetails.getUser());
-        deleteCookie(response);
-
+    public ResponseEntity<Void> logout(HttpServletResponse response) {
+        CookieUtils.deleteCookie(response, REFRESH_TOKEN);
         return ResponseEntity.ok().build();
-    }
-
-    private void createCookie(HttpServletResponse response, String refreshToken) {
-        ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN, refreshToken)
-                .httpOnly(true)
-                .path("/")
-                .maxAge(14 * 24 * 60 * 60)
-                .build();
-
-        response.addHeader("Set-Cookie", cookie.toString());
-    }
-
-    private void deleteCookie(HttpServletResponse response) {
-        ResponseCookie cookie = ResponseCookie.from(REFRESH_TOKEN, "")
-                .httpOnly(true)
-                .path("/")
-                .maxAge(0)
-                .build();
-
-        response.addHeader("Set-Cookie", cookie.toString());
     }
 }

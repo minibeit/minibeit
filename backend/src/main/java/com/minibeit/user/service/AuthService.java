@@ -1,6 +1,5 @@
 package com.minibeit.user.service;
 
-import com.minibeit.security.token.RefreshTokenService;
 import com.minibeit.security.token.Token;
 import com.minibeit.security.token.TokenProvider;
 import com.minibeit.user.domain.User;
@@ -17,18 +16,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
     private final UserRepository userRepository;
-    private final RefreshTokenService refreshTokenService;
     private final TokenProvider tokenProvider;
 
     //테스트용
     public UserResponse.Login login(AuthRequest.Login request) {
         User user = userRepository.findByOauthIdWithAvatar(request.getId()).orElseThrow(UserNotFoundException::new);
+        Token refreshToken = tokenProvider.generateRefreshToken(user);
 
-        Token refreshToken = refreshTokenService.createOrUpdateRefreshToken(user);
         return UserResponse.Login.build(user.getId(), user.getName(), tokenProvider.generateAccessToken(user), refreshToken);
-    }
-
-    public void logout(User user) {
-        refreshTokenService.deleteRefreshTokenByUser(user);
     }
 }

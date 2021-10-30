@@ -1,12 +1,12 @@
 import React from "react";
 import { NavBar } from "../../components/Common";
-import FilterAndList from "../../components/Apply/FilterAndList";
+import ApplyComponent from "../../components/Apply";
 
 export default function Apply() {
   return (
     <>
       <NavBar />
-      <FilterAndList />
+      <ApplyComponent />
     </>
   );
 }

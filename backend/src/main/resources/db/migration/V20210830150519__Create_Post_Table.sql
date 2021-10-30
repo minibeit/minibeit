@@ -6,7 +6,6 @@ CREATE TABLE `post`
     `business_profile_id`      BIGINT       NOT NULL,
     `title`                    VARCHAR(100) NOT NULL,
     `content`                  VARCHAR(255),
-    `updated_content`          VARCHAR(255),
     `place`                    VARCHAR(100) NOT NULL,
     `category`                 VARCHAR(100) NOT NULL,
     `recruit_people`           INTEGER      NOT NULL,

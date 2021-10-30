@@ -26,7 +26,6 @@ function App() {
             path="/callback/:id/:nickname/:accessToken/:schoolId/:signupCheck/:a/:b/:c"
             component={ProcessLogin}
           />{" "}
-          <Route path="/ProcessLogin" component={ProcessLogin} />{" "}
           <Route path="/signupInfo" component={SignupInfo} />{" "}
           <Route path="/user/:userId" exact component={Profile} />{" "}
           <Route path="/business/:businessId" exact component={BProfile} />{" "}

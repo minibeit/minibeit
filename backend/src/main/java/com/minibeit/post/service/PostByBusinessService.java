@@ -102,9 +102,9 @@ public class PostByBusinessService {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
-        Post updatedPost = post.updateContent(request.getUpdatedContent());
+        post.updateContent(request.getUpdatedContent());
 
-        return PostResponse.OnlyId.build(updatedPost);
+        return PostResponse.OnlyId.build(post);
     }
 
     public void deleteOne(Long postId, LocalDateTime now, User user) {

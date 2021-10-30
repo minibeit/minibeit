@@ -58,7 +58,11 @@ export default function SchoolSelect({ onChange, defaultValue }) {
         <Select
           options={schools}
           onChange={onChange}
-          defaultValue={schools[defaultValue - 1]}
+          defaultValue={
+            defaultValue
+              ? schools.find((ele) => ele.value === defaultValue)
+              : null
+          }
           isClearable={true}
           placeholder="위치"
           styles={customStyles}

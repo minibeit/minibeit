@@ -15,3 +15,5 @@ CREATE TABLE `business_profile_review`
     `updated_by`          BIGINT   DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
+
+CREATE INDEX `business_profile_id_index` ON `business_profile_review` (`business_profile_id`);

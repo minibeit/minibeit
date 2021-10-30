@@ -1,5 +1,5 @@
 const FeedCategory = [
-  { id: 1, icon: "", name: "전체" },
+  { id: 1, icon: "전체", name: "" },
   { id: 2, icon: "📔", name: "경영/마케팅" },
   { id: 3, icon: "🖥", name: "IT/모바일" },
   { id: 4, icon: "🎨", name: "디자인" },

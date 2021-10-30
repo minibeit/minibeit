@@ -38,7 +38,6 @@ public class PostResponse {
         private Long id;
         private String title;
         private String content;
-        private String updatedContent;
         private String place;
         private String contact;
         private String payment;
@@ -49,6 +48,7 @@ public class PostResponse {
         private String[] recruitConditionDetail;
         private Integer doTime;
         private String schoolName;
+        private String category;
         private Integer likes;
         private Boolean isLike;
         private Boolean isMine;
@@ -64,7 +64,6 @@ public class PostResponse {
                     .id(post.getId())
                     .title(post.getTitle())
                     .content(post.getContent())
-                    .updatedContent(post.getUpdatedContent())
                     .place(post.getPlace())
                     .contact(post.getContact())
                     .payment(post.getPayment().name())
@@ -73,6 +72,7 @@ public class PostResponse {
                     .paymentDetail(post.getPaymentDetail())
                     .recruitCondition(post.isRecruitCondition())
                     .doTime(post.getDoTime())
+                    .category(post.getCategory())
                     .schoolName(post.getSchool().getName())
                     .startDate(post.getStartDate())
                     .endDate(post.getEndDate())

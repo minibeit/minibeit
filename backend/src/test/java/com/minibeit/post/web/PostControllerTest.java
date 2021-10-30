@@ -64,7 +64,6 @@ class PostControllerTest extends MvcTest {
                 .id(1L)
                 .title("개발자는 하루에 커피를 몇 잔 마실까..")
                 .content("실험실 세부사항")
-                .updatedContent("실험실 세부사항 수정")
                 .place("고려대")
                 .contact("010-1234-5786")
                 .recruitPeople(10)
@@ -152,7 +151,6 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("세부사항"),
-                                fieldWithPath("updatedContent").type(JsonFieldType.STRING).description("수정된 세부사항 (없다면 null)"),
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("장소"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("연락처"),
                                 fieldWithPath("payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
@@ -162,6 +160,7 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
                                 fieldWithPath("recruitConditionDetail").description("구인조건이 있다면 구인조건 세부사항(없다면 null)"),
                                 fieldWithPath("doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
+                                fieldWithPath("category").type(JsonFieldType.STRING).description("실험 분야"),
                                 fieldWithPath("schoolName").type(JsonFieldType.STRING).description("학교 이름"),
                                 fieldWithPath("startDate").type(JsonFieldType.STRING).description("모집 시작 날짜"),
                                 fieldWithPath("endDate").type(JsonFieldType.STRING).description("모집 마감 날짜"),

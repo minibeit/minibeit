@@ -9,8 +9,8 @@ import * as S from "../style";
 export default function Presenter({
   feedList,
   userSchoolId,
-  filter,
-  setFilter,
+  school,
+  setSchool,
   date,
   setDate,
   search,
@@ -26,10 +26,10 @@ export default function Presenter({
               defaultValue={userSchoolId}
               onChange={(e) => {
                 if (e) {
-                  const copy = { ...filter };
+                  const copy = { ...school };
                   copy.schoolId = e.value;
                   copy.schoolName = e.label;
-                  setFilter(copy);
+                  setSchool(copy);
                 }
               }}
             />

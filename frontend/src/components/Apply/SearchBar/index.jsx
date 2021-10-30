@@ -8,8 +8,8 @@ import Presenter from "./presenter";
 export default function SearchBar({
   feedList,
   search,
-  filter,
-  setFilter,
+  school,
+  setSchool,
   date,
   setDate,
 }) {
@@ -19,8 +19,8 @@ export default function SearchBar({
     <Presenter
       feedList={feedList}
       userSchoolId={userSchoolId}
-      filter={filter}
-      setFilter={setFilter}
+      school={school}
+      setSchool={setSchool}
       date={date}
       setDate={setDate}
       search={search}

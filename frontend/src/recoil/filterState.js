@@ -8,18 +8,22 @@ export const dateState = atom({
     date: today,
   },
 });
-
 export const filterState = atom({
   key: "filterState",
   default: {
-    schoolId: null,
-    schoolName: null,
     paymentType: "",
     minPay: "",
     doTime: "",
     startAndEnd: [0, 24],
     startTime: "",
     endTime: "",
+  },
+});
+export const schoolState = atom({
+  key: "schoolState",
+  default: {
+    schoolId: null,
+    schoolName: null,
   },
 });
 export const categoryState = atom({

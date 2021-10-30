@@ -36,7 +36,7 @@ export default function RecruitComponent() {
     content: "",
     condition: false,
     conditionDetail: [""],
-    payment: "cache",
+    payment: "CACHE",
     pay: null,
     payMemo: null,
     images: [],

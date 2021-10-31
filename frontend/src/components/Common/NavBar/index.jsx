@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { logoutFunc } from "../../../utils/auth";
@@ -7,9 +8,11 @@ import CreateAuthModal from "../Modal/CreateAuthModal";
 import * as S from "./style";
 
 export default function NavBar() {
-  const data = useRecoilValue(userState);
+  const user = useRecoilValue(userState);
+  const history = useHistory();
   const [modalSwitch, setModalSwitch] = useState(false);
-  const username = data.name;
+  const username = user.name;
+  const isLogin = user.isLogin;
   const onClick = () => {
     setModalSwitch(true);
   };
@@ -36,10 +39,12 @@ export default function NavBar() {
             <p>지원하기</p>
           </Link>
         </S.NavBarMenu>
-        <S.NavBarMenu>
-          <Link to="/recruit">
-            <p>모집하기</p>
-          </Link>
+        <S.NavBarMenu
+          onClick={() =>
+            isLogin ? history.push("/recruit") : setModalSwitch(true)
+          }
+        >
+          <p>모집하기</p>
         </S.NavBarMenu>
         <S.NavBarMenu>
           <Link to="/">
@@ -48,11 +53,11 @@ export default function NavBar() {
         </S.NavBarMenu>
       </S.NavBarLogoContainer>
       <S.NavBarMenuContainer>
-        {data.didSignup === true ? (
+        {user.didSignup === true ? (
           <>
             <Link to={`/user/${username}`}>
               <img
-                src={data.avatar !== "noImg" ? data.avatar : "/기본프로필.png"}
+                src={user.avatar !== "noImg" ? user.avatar : "/기본프로필.png"}
                 alt="사진"
               />
             </Link>

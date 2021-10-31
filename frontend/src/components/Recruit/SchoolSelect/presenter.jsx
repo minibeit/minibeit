@@ -2,7 +2,13 @@ import SchoolSelect from "../../Common/SchoolSelect";
 
 import * as S from "../style";
 
-export default function Presenter({ recruit, selectSchool, movePage }) {
+export default function Presenter({
+  recruit,
+  school,
+  setSchool,
+  selectSchool,
+  movePage,
+}) {
   return (
     <S.Page>
       <S.SchoolSelectContainer>
@@ -10,10 +16,11 @@ export default function Presenter({ recruit, selectSchool, movePage }) {
         <p>원하는 위치 근처의 학교를 선택하세요</p>
         <S.SchoolSearchBox>
           <p>학교명</p>
-          <SchoolSelect onChange={selectSchool} />
+          <SchoolSelect onChange={setSchool} />
           <button
-            disabled={recruit.school.id ? false : true}
+            disabled={school ? false : true}
             onClick={() => {
+              selectSchool();
               movePage(2);
             }}
           >

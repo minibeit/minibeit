@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useRecoilValue } from "recoil";
+import { useHistory } from "react-router";
 
 import { userState } from "../../recoil/userState";
 import { bprofileListGet, feedCreateApi } from "../../utils";
@@ -31,12 +32,12 @@ export default function RecruitComponent() {
     dateList: null,
     exceptDateList: [],
     doDateList: [],
-    category: "",
+    category: null,
     title: "",
     content: "",
     condition: false,
     conditionDetail: [""],
-    payment: "cache",
+    payment: "CACHE",
     pay: null,
     payMemo: null,
     images: [],
@@ -44,7 +45,9 @@ export default function RecruitComponent() {
     detailAddress: "",
     contact: "",
   });
+  const history = useHistory();
   const userId = useRecoilValue(userState).id;
+  const isLogin = useRecoilValue(userState).isLogin;
   const [bpList, setbpList] = useState([]);
 
   const getbpList = useCallback(async () => {
@@ -69,13 +72,21 @@ export default function RecruitComponent() {
 
   const page = useRef();
   const movePage = (e) => {
-    const elementArr = page.current.childNodes;
-    elementArr[e].scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-      inline: "nearest",
-    });
+    setTimeout(() => {
+      const elementArr = page.current.childNodes;
+      elementArr[e].scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+        inline: "nearest",
+      });
+    }, 50);
   };
+
+  useEffect(() => {
+    if (!isLogin) {
+      history.push("/");
+    }
+  });
 
   useEffect(() => {
     getbpList();
@@ -89,27 +100,35 @@ export default function RecruitComponent() {
         recruit={recruit}
         setRecruit={setRecruit}
       />
-      <SchoolSelect
-        movePage={movePage}
-        recruit={recruit}
-        setRecruit={setRecruit}
-      />
-      <DateSelect
-        movePage={movePage}
-        recruit={recruit}
-        setRecruit={setRecruit}
-      />
-      <CategorySelect
-        movePage={movePage}
-        recruit={recruit}
-        setRecruit={setRecruit}
-      />
-      <InfoData
-        movePage={movePage}
-        recruit={recruit}
-        setRecruit={setRecruit}
-        submit={submit}
-      />
+      {recruit.businessProfile.id && (
+        <SchoolSelect
+          movePage={movePage}
+          recruit={recruit}
+          setRecruit={setRecruit}
+        />
+      )}
+      {recruit.school.id && (
+        <DateSelect
+          movePage={movePage}
+          recruit={recruit}
+          setRecruit={setRecruit}
+        />
+      )}
+      {recruit.doDateList.length !== 0 && (
+        <CategorySelect
+          movePage={movePage}
+          recruit={recruit}
+          setRecruit={setRecruit}
+        />
+      )}
+      {recruit.category !== null && (
+        <InfoData
+          movePage={movePage}
+          recruit={recruit}
+          setRecruit={setRecruit}
+          submit={submit}
+        />
+      )}
     </div>
   );
 }

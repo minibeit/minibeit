@@ -9,7 +9,7 @@ export default function NicknameCombo({ handleJoin }) {
   const [user, setUser] = useState([]);
   const getUser = async (input) => {
     await getSearchUser(input)
-      .then((res) => setUser(res.data))
+      .then((res) => setUser(res.data.data))
       .catch((err) => console.log(err));
   };
   const [userId, setUserId] = useState();

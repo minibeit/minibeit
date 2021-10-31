@@ -15,7 +15,7 @@ export default function BProfileInfo({ businessId }) {
   useEffect(() => {
     getBprofileInfo(businessId)
       .then((res) => {
-        setBUserData(res.data);
+        setBUserData(res.data.data);
       })
       .catch((err) => {
         console.log(err);

@@ -38,8 +38,8 @@ export default function ApplyComponent() {
     async (page, schoolId, date, filter, category) => {
       await feedlistApi(page, schoolId, date, filter, category, user.isLogin)
         .then((res) => {
-          setFeedList(res.data.content);
-          setTotalElements(res.data.totalElements);
+          setFeedList(res.data.data.content);
+          setTotalElements(res.data.data.totalElements);
         })
         .catch((err) => console.log(err));
     },

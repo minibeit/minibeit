@@ -9,8 +9,8 @@ export default function ReveiwBox({ businessId }) {
 
   const getReview = useCallback(() => {
     reviewListGetApi(businessId, 1, 3).then((res) => {
-      setReviewList(res.data.content);
-      setTotalReview(res.data.numberOfElements);
+      setReviewList(res.data.data.content);
+      setTotalReview(res.data.data.numberOfElements);
     });
   }, [businessId]);
 

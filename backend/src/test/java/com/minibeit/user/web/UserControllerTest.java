@@ -108,10 +108,12 @@ class UserControllerTest extends MvcTest {
                                 partWithName("avatar").description("사용자 프로필 이미지")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원가입한 유저 식별자"),
-                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("회원가입한 유저 닉네임"),
-                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자"),
-                                fieldWithPath("avatar").type(JsonFieldType.STRING).description("프로필 이미지 없다면 null")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("회원가입한 유저 식별자"),
+                                fieldWithPath("data.nickname").type(JsonFieldType.STRING).description("회원가입한 유저 닉네임"),
+                                fieldWithPath("data.schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자"),
+                                fieldWithPath("data.avatar").type(JsonFieldType.STRING).description("프로필 이미지 없다면 null")
                         )
                 ));
     }
@@ -134,6 +136,11 @@ class UserControllerTest extends MvcTest {
                 .andDo(document("user-nickname-check",
                         requestFields(
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("중복체크할 닉네임")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }
@@ -151,15 +158,17 @@ class UserControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("user-getMe",
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원가입한 유저 식별자"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("실명"),
-                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("닉네임"),
-                                fieldWithPath("gender").type(JsonFieldType.STRING).description("성별(MALE or FEMALE)"),
-                                fieldWithPath("phoneNum").type(JsonFieldType.STRING).description("전화번호"),
-                                fieldWithPath("job").type(JsonFieldType.STRING).description("직업"),
-                                fieldWithPath("birth").type(JsonFieldType.STRING).description("생년월일"),
-                                fieldWithPath("schoolName").type(JsonFieldType.STRING).description("관심학교 이름"),
-                                fieldWithPath("avatar").type(JsonFieldType.STRING).description("프로필 이미지 url(프로필 이미지가 없다면 null)")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("회원가입한 유저 식별자"),
+                                fieldWithPath("data.name").type(JsonFieldType.STRING).description("실명"),
+                                fieldWithPath("data.nickname").type(JsonFieldType.STRING).description("닉네임"),
+                                fieldWithPath("data.gender").type(JsonFieldType.STRING).description("성별(MALE or FEMALE)"),
+                                fieldWithPath("data.phoneNum").type(JsonFieldType.STRING).description("전화번호"),
+                                fieldWithPath("data.job").type(JsonFieldType.STRING).description("직업"),
+                                fieldWithPath("data.birth").type(JsonFieldType.STRING).description("생년월일"),
+                                fieldWithPath("data.schoolName").type(JsonFieldType.STRING).description("관심학교 이름"),
+                                fieldWithPath("data.avatar").type(JsonFieldType.STRING).description("프로필 이미지 url(프로필 이미지가 없다면 null)")
                         )
                 ));
     }
@@ -207,10 +216,12 @@ class UserControllerTest extends MvcTest {
                                 partWithName("avatar").description("사용자 프로필 이미지")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("유저 식별자"),
-                                fieldWithPath("nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
-                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자"),
-                                fieldWithPath("avatar").type(JsonFieldType.STRING).description("프로필 이미지 없다면 null")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("유저 식별자"),
+                                fieldWithPath("data.nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+                                fieldWithPath("data.schoolId").type(JsonFieldType.NUMBER).description("관심 학교 식별자"),
+                                fieldWithPath("data.avatar").type(JsonFieldType.STRING).description("프로필 이미지 없다면 null")
                         )
                 ));
     }
@@ -231,8 +242,10 @@ class UserControllerTest extends MvcTest {
                                 parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
                         ),
                         responseFields(
-                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("공유된 유저의 식별자"),
-                                fieldWithPath("[].nickname").type(JsonFieldType.STRING).description("공유된 유저의 닉네임")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.[].id").type(JsonFieldType.NUMBER).description("공유된 유저의 식별자"),
+                                fieldWithPath("data.[].nickname").type(JsonFieldType.STRING).description("공유된 유저의 닉네임")
                         )
                 ));
     }
@@ -257,8 +270,10 @@ class UserControllerTest extends MvcTest {
                                 parameterWithName("nickname").description("검색할 닉네임(입력한 값으로 닉네임이 시작하는 유저들이 검색됩니다~)")
                         ),
                         responseFields(
-                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("유저 식별자"),
-                                fieldWithPath("[].nickname").type(JsonFieldType.STRING).description("유저 닉네임")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.[].id").type(JsonFieldType.NUMBER).description("유저 식별자"),
+                                fieldWithPath("data.[].nickname").type(JsonFieldType.STRING).description("유저 닉네임")
                         )
                 ));
     }
@@ -270,6 +285,11 @@ class UserControllerTest extends MvcTest {
 
         results.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("user-deleteOne"));
+                .andDo(document("user-deleteOne",
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
+                        )));
     }
 }

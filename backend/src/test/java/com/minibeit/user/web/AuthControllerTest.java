@@ -55,9 +55,11 @@ class AuthControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("auth-refresh-token",
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("로그인한 유저 식별자"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("로그인한 유저 이름"),
-                                fieldWithPath("accessToken").type(JsonFieldType.STRING).description("accessToken")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("로그인한 유저 식별자"),
+                                fieldWithPath("data.name").type(JsonFieldType.STRING).description("로그인한 유저 이름"),
+                                fieldWithPath("data.accessToken").type(JsonFieldType.STRING).description("accessToken")
                         )
                 ));
     }
@@ -69,6 +71,12 @@ class AuthControllerTest extends MvcTest {
 
         results.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("auth-logout"));
+                .andDo(document("auth-logout",
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
+                        )
+                ));
     }
 }

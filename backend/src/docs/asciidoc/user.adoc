@@ -21,6 +21,7 @@ include::{snippets}/user-nickname-check/request-fields.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/user-nickname-check/http-response.adoc[]
+include::{snippets}/user-nickname-check/response-fields.adoc[]
 
 === 내 정보 조회
 
@@ -66,3 +67,4 @@ include::{snippets}/user-deleteOne/http-request.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/user-deleteOne/http-response.adoc[]
+include::{snippets}/user-deleteOne/response-fields.adoc[]

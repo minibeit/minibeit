@@ -17,7 +17,7 @@ Content-Type: application/json;charset=UTF-8
   "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
   "doTime": 60,
   "schoolId": 1,
-  "businessProfileId": 1,
+  "businessProfileId": 2,
   "startDate": "2021-09-25T09:30",
   "endDate": "2021-10-02T12:30",
   "doDateList": [
@@ -73,7 +73,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-POST {{apiUrl}}/post/1/completed
+POST {{apiUrl}}/post/3/completed
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 

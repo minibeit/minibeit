@@ -78,7 +78,7 @@ public class PostByBusinessService {
         approvedApplicantList.forEach( postApplicant -> postApplicant.getUser().approvedAlarmOn());
 
         List<PostApplicant> rejectedApplicantList = postApplicantRepository.findAllByApplyStatus(postId, ApplyStatus.WAIT);
-        rejectedApplicantList.stream().filter(postApplicant -> postApplicant.getUser().getAlarm() != null).forEach(postApplicant -> postApplicant.getUser().rejectedAlarmOn());
+        rejectedApplicantList.forEach(postApplicant -> postApplicant.getUser().rejectedAlarmOn());
 
         List<Long> applicantIdList = rejectedApplicantList.stream().map(PostApplicant::getId).collect(Collectors.toList());
         postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT);

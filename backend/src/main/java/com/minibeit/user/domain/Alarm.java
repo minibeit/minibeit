@@ -7,9 +7,8 @@ import java.time.LocalDateTime;
 
 @Embeddable
 @Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class Alarm {
 
     private LocalDateTime approvedAlarm;

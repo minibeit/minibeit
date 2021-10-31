@@ -116,7 +116,7 @@ public class User extends BaseEntity {
 
     public void approvedAlarmOn(){
         if(this.alarm == null){
-            this.alarm = Alarm.builder().approvedAlarm(LocalDateTime.now()).build();
+            this.alarm = new Alarm(LocalDateTime.now(), null);
         }
         else{
             this.alarm.approvedOn();
@@ -131,7 +131,7 @@ public class User extends BaseEntity {
 
     public void rejectedAlarmOn(){
         if(this.alarm == null){
-            this.alarm = Alarm.builder().rejectedAlarm(LocalDateTime.now()).build();
+            this.alarm = new Alarm(null, LocalDateTime.now());
         }
         else{
             this.alarm.rejectedOn();

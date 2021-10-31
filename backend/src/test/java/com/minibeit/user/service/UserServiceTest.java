@@ -124,7 +124,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .school(school)
-                .alarm(new Alarm())
+                .alarm(new Alarm(null, null))
                 .build();
         applyUser1 = userRepository.save(apUser);
 
@@ -135,7 +135,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .school(school)
-                .alarm(new Alarm())
+                .alarm(new Alarm(null, null))
                 .build();
         applyUser2 = userRepository.save(apUser2);
 
@@ -146,7 +146,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .school(school)
-                .alarm(Alarm.builder().approvedAlarm(null).rejectedAlarm(null).build())
+                .alarm(new Alarm(null, null))
                 .build();
         userInBusinessProfile = userRepository.save(businessUser);
 
@@ -157,7 +157,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .school(school)
-                .alarm(new Alarm())
+                .alarm(new Alarm(null, null))
                 .build();
         rejectUser = userRepository.save(dupUser);
 

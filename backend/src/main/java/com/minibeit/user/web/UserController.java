@@ -38,9 +38,9 @@ public class UserController {
     }
 
     @GetMapping("/alarm")
-    public ResponseEntity<UserResponse.Alaram> getNews(@CurrentUser CustomUserDetails customUserDetails){
+    public ResponseEntity<ApiResult<UserResponse.Alaram>> getNews(@CurrentUser CustomUserDetails customUserDetails){
         UserResponse.Alaram response = userService.getNews(customUserDetails.getUser());
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
     @GetMapping("/me")

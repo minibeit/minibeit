@@ -307,8 +307,10 @@ class UserControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("user-post-alarm",
                         responseFields(
-                                fieldWithPath("approvedAlarm").type(JsonFieldType.BOOLEAN).description("true 이면 확정된 목록에 알림을 띄워야 함"),
-                                fieldWithPath("rejectedAlarm").type(JsonFieldType.BOOLEAN).description("true 이면 반려된 목록에 알림을 띄워야 함")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.approvedAlarm").type(JsonFieldType.BOOLEAN).description("true 이면 확정된 목록에 알림을 띄워야 함"),
+                                fieldWithPath("data.rejectedAlarm").type(JsonFieldType.BOOLEAN).description("true 이면 반려된 목록에 알림을 띄워야 함")
                         )));
 
     }

@@ -92,7 +92,9 @@ class BusinessProfileReviewControllerTest extends MvcTest {
                                 fieldWithPath("time").type(JsonFieldType.NUMBER).description("후기 작성할 게시물 실험 소요 시간")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("작성한 게시물 후기 식별자")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("작성한 게시물 후기 식별자")
                         )
                 ));
     }
@@ -126,23 +128,25 @@ class BusinessProfileReviewControllerTest extends MvcTest {
                                 parameterWithName("size").description("조회할 사이즈")
                         ),
                         relaxedResponseFields(
-                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("후기 식별자"),
-                                fieldWithPath("content[].postTitle").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("content[].content").type(JsonFieldType.STRING).description("후기 내용"),
-                                fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("실험 참가 날짜"),
-                                fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
-                                fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("실험 마친 시간"),
-                                fieldWithPath("content[].writer").type(JsonFieldType.STRING).description("후기 작성자"),
-                                fieldWithPath("content[].createdDate").type(JsonFieldType.STRING).description("후기 작성일"),
-                                fieldWithPath("totalElements").description("전체 개수"),
-                                fieldWithPath("last").description("마지막 페이지인지 식별"),
-                                fieldWithPath("totalPages").description("전체 페이지")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("후기 식별자"),
+                                fieldWithPath("data.content[].postTitle").type(JsonFieldType.STRING).description("게시물 제목"),
+                                fieldWithPath("data.content[].content").type(JsonFieldType.STRING).description("후기 내용"),
+                                fieldWithPath("data.content[].doDate").type(JsonFieldType.STRING).description("실험 참가 날짜"),
+                                fieldWithPath("data.content[].startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
+                                fieldWithPath("data.content[].endTime").type(JsonFieldType.STRING).description("실험 마친 시간"),
+                                fieldWithPath("data.content[].writer").type(JsonFieldType.STRING).description("후기 작성자"),
+                                fieldWithPath("data.content[].createdDate").type(JsonFieldType.STRING).description("후기 작성일"),
+                                fieldWithPath("data.totalElements").description("전체 개수"),
+                                fieldWithPath("data.last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("data.totalPages").description("전체 페이지")
                         )
                 ));
     }
 
     @Test
-    @DisplayName("비즈니스프로필 리뷰 목록 조회")
+    @DisplayName("비즈니스프로필 리뷰 단건 조회")
     public void getList() throws Exception {
         BusinessProfileReviewResponse.GetOne response = BusinessProfileReviewResponse.GetOne.build(businessProfileReview1);
         given(businessProfileReviewService.getOne(any())).willReturn(response);
@@ -158,14 +162,16 @@ class BusinessProfileReviewControllerTest extends MvcTest {
                                 parameterWithName("businessProfileReviewId").description("조회할 리뷰 식별자")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("후기 식별자"),
-                                fieldWithPath("postTitle").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("후기 내용"),
-                                fieldWithPath("doDate").type(JsonFieldType.STRING).description("실험 참가 날짜"),
-                                fieldWithPath("startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
-                                fieldWithPath("endTime").type(JsonFieldType.STRING).description("실험 마친 시간"),
-                                fieldWithPath("writer").type(JsonFieldType.STRING).description("후기 작성자"),
-                                fieldWithPath("createdDate").type(JsonFieldType.STRING).description("후기 작성일")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("후기 식별자"),
+                                fieldWithPath("data.postTitle").type(JsonFieldType.STRING).description("게시물 제목"),
+                                fieldWithPath("data.content").type(JsonFieldType.STRING).description("후기 내용"),
+                                fieldWithPath("data.doDate").type(JsonFieldType.STRING).description("실험 참가 날짜"),
+                                fieldWithPath("data.startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
+                                fieldWithPath("data.endTime").type(JsonFieldType.STRING).description("실험 마친 시간"),
+                                fieldWithPath("data.writer").type(JsonFieldType.STRING).description("후기 작성자"),
+                                fieldWithPath("data.createdDate").type(JsonFieldType.STRING).description("후기 작성일")
                         )
                 ));
     }
@@ -194,7 +200,9 @@ class BusinessProfileReviewControllerTest extends MvcTest {
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("수정할 후기 내용")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("수정한 게시물 후기 식별자")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("수정한 게시물 후기 식별자")
                         )
                 ));
     }
@@ -211,6 +219,11 @@ class BusinessProfileReviewControllerTest extends MvcTest {
                 .andDo(document("business-review-deleteOne",
                         pathParameters(
                                 parameterWithName("businessProfileReviewId").description("후기 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }

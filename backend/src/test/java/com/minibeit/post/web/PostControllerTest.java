@@ -127,6 +127,11 @@ class PostControllerTest extends MvcTest {
                 .andDo(document("post-like",
                         pathParameters(
                                 parameterWithName("postId").description("즐겨찾기 할 게시물 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }
@@ -148,32 +153,34 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("postId").description("조회할 게시물 식별자")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("세부사항"),
-                                fieldWithPath("place").type(JsonFieldType.STRING).description("장소"),
-                                fieldWithPath("contact").type(JsonFieldType.STRING).description("연락처"),
-                                fieldWithPath("payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
-                                fieldWithPath("goods").description("지급 수단이 GOODS 인 경우 물품 보상"),
-                                fieldWithPath("cache").description("지급 수단이 CACHE 인 경우 현금 보상"),
-                                fieldWithPath("paymentDetail").description("지급 방법 및 세부 사항"),
-                                fieldWithPath("recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
-                                fieldWithPath("recruitConditionDetail").description("구인조건이 있다면 구인조건 세부사항(없다면 null)"),
-                                fieldWithPath("doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
-                                fieldWithPath("category").type(JsonFieldType.STRING).description("실험 분야"),
-                                fieldWithPath("schoolName").type(JsonFieldType.STRING).description("학교 이름"),
-                                fieldWithPath("startDate").type(JsonFieldType.STRING).description("모집 시작 날짜"),
-                                fieldWithPath("endDate").type(JsonFieldType.STRING).description("모집 마감 날짜"),
-                                fieldWithPath("files[].url").type(JsonFieldType.STRING).description("파일"),
-                                fieldWithPath("businessProfileInfo.id").type(JsonFieldType.NUMBER).description("게시물을 작성한 비즈니스 프로필 식별자"),
-                                fieldWithPath("businessProfileInfo.name").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 이름"),
-                                fieldWithPath("businessProfileInfo.avatar").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 이미지"),
-                                fieldWithPath("businessProfileInfo.contact").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 연락처"),
-                                fieldWithPath("businessProfileInfo.address").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 주소"),
-                                fieldWithPath("businessProfileInfo.adminName").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 어드민 실명"),
-                                fieldWithPath("isLike").type(JsonFieldType.BOOLEAN).description("자신이 해당 게시물에 즐겨찾기를 한 상태라면 true 아니면 false"),
-                                fieldWithPath("isMine").type(JsonFieldType.BOOLEAN).description("게시물이 자신이 것인지"),
-                                fieldWithPath("likes").type(JsonFieldType.NUMBER).description("게시물의 북마크 수")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("data.content").type(JsonFieldType.STRING).description("세부사항"),
+                                fieldWithPath("data.place").type(JsonFieldType.STRING).description("장소"),
+                                fieldWithPath("data.contact").type(JsonFieldType.STRING).description("연락처"),
+                                fieldWithPath("data.payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
+                                fieldWithPath("data.goods").description("지급 수단이 GOODS 인 경우 물품 보상"),
+                                fieldWithPath("data.cache").description("지급 수단이 CACHE 인 경우 현금 보상"),
+                                fieldWithPath("data.paymentDetail").description("지급 방법 및 세부 사항"),
+                                fieldWithPath("data.recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
+                                fieldWithPath("data.recruitConditionDetail").description("구인조건이 있다면 구인조건 세부사항(없다면 null)"),
+                                fieldWithPath("data.doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
+                                fieldWithPath("data.category").type(JsonFieldType.STRING).description("실험 분야"),
+                                fieldWithPath("data.schoolName").type(JsonFieldType.STRING).description("학교 이름"),
+                                fieldWithPath("data.startDate").type(JsonFieldType.STRING).description("모집 시작 날짜"),
+                                fieldWithPath("data.endDate").type(JsonFieldType.STRING).description("모집 마감 날짜"),
+                                fieldWithPath("data.files[].url").type(JsonFieldType.STRING).description("파일"),
+                                fieldWithPath("data.businessProfileInfo.id").type(JsonFieldType.NUMBER).description("게시물을 작성한 비즈니스 프로필 식별자"),
+                                fieldWithPath("data.businessProfileInfo.name").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 이름"),
+                                fieldWithPath("data.businessProfileInfo.avatar").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 이미지"),
+                                fieldWithPath("data.businessProfileInfo.contact").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 연락처"),
+                                fieldWithPath("data.businessProfileInfo.address").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 주소"),
+                                fieldWithPath("data.businessProfileInfo.adminName").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 어드민 실명"),
+                                fieldWithPath("data.isLike").type(JsonFieldType.BOOLEAN).description("자신이 해당 게시물에 즐겨찾기를 한 상태라면 true 아니면 false"),
+                                fieldWithPath("data.isMine").type(JsonFieldType.BOOLEAN).description("게시물이 자신이 것인지"),
+                                fieldWithPath("data.likes").type(JsonFieldType.NUMBER).description("게시물의 북마크 수")
                         )
                 ));
     }
@@ -201,10 +208,12 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("doDate").description("게시물 실험 날짜")
                         ),
                         responseFields(
-                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("실험 시작 시간 식별자"),
-                                fieldWithPath("[].startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
-                                fieldWithPath("[].endTime").type(JsonFieldType.STRING).description("실험 끝나는 시간"),
-                                fieldWithPath("[].isFull").type(JsonFieldType.BOOLEAN).description("모집인원이 꽉찼다면 true 아니면 false")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.[].id").type(JsonFieldType.NUMBER).description("실험 시작 시간 식별자"),
+                                fieldWithPath("data.[].startTime").type(JsonFieldType.STRING).description("실험 시작 시간"),
+                                fieldWithPath("data.[].endTime").type(JsonFieldType.STRING).description("실험 끝나는 시간"),
+                                fieldWithPath("data.[].isFull").type(JsonFieldType.BOOLEAN).description("모집인원이 꽉찼다면 true 아니면 false")
                         )
                 ));
     }
@@ -247,17 +256,19 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("endTime").description("조회할 게시물 실험 시작 시간(끝 조건)")
                         ),
                         relaxedResponseFields(
-                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
-                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("제목"),
-                                fieldWithPath("content[].payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
-                                fieldWithPath("content[].goods").description("지급 수단이 GOODS 인 경우 물품 보상").optional(),
-                                fieldWithPath("content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
-                                fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
-                                fieldWithPath("content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
-                                fieldWithPath("content[].likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
-                                fieldWithPath("totalElements").description("전체 개수"),
-                                fieldWithPath("last").description("마지막 페이지인지 식별"),
-                                fieldWithPath("totalPages").description("전체 페이지")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("data.content[].title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("data.content[].payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
+                                fieldWithPath("data.content[].goods").description("지급 수단이 GOODS 인 경우 물품 보상").optional(),
+                                fieldWithPath("data.content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
+                                fieldWithPath("data.content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
+                                fieldWithPath("data.content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
+                                fieldWithPath("data.content[].likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
+                                fieldWithPath("data.totalElements").description("전체 개수"),
+                                fieldWithPath("data.last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("data.totalPages").description("전체 페이지")
                         )
                 ));
     }
@@ -283,18 +294,20 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("size").description("조회할 사이즈")
                         ),
                         relaxedResponseFields(
-                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
-                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("content[].place").type(JsonFieldType.STRING).description("실험 장소"),
-                                fieldWithPath("content[].payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
-                                fieldWithPath("content[].goods").description("지급 수단이 GOODS 인 경우 물품 보상").optional(),
-                                fieldWithPath("content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
-                                fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
-                                fieldWithPath("content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
-                                fieldWithPath("content[].postStatus").type(JsonFieldType.STRING).description("게시물 모집 상태"),
-                                fieldWithPath("totalElements").description("전체 개수"),
-                                fieldWithPath("last").description("마지막 페이지인지 식별"),
-                                fieldWithPath("totalPages").description("전체 페이지")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("data.content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
+                                fieldWithPath("data.content[].place").type(JsonFieldType.STRING).description("실험 장소"),
+                                fieldWithPath("data.content[].payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
+                                fieldWithPath("data.content[].goods").description("지급 수단이 GOODS 인 경우 물품 보상").optional(),
+                                fieldWithPath("data.content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
+                                fieldWithPath("data.content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
+                                fieldWithPath("data.content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
+                                fieldWithPath("data.content[].postStatus").type(JsonFieldType.STRING).description("게시물 모집 상태"),
+                                fieldWithPath("data.totalElements").description("전체 개수"),
+                                fieldWithPath("data.last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("data.totalPages").description("전체 페이지")
                         )
                 ));
     }
@@ -344,19 +357,21 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("status").description("게시물 상태 APPROVE or WAIT")
                         ),
                         relaxedResponseFields(
-                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
-                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("content[].contact").type(JsonFieldType.STRING).description("게시물 연락처"),
-                                fieldWithPath("content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("게시물 조건 유무"),
-                                fieldWithPath("content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
-                                fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
-                                fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
-                                fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
-                                fieldWithPath("content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
-                                fieldWithPath("content[].finish").type(JsonFieldType.BOOLEAN).description("참여완료 버튼 활성화이면 true 아니면 false"),
-                                fieldWithPath("totalElements").description("전체 개수"),
-                                fieldWithPath("last").description("마지막 페이지인지 식별"),
-                                fieldWithPath("totalPages").description("전체 페이지")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("data.content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
+                                fieldWithPath("data.content[].contact").type(JsonFieldType.STRING).description("게시물 연락처"),
+                                fieldWithPath("data.content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("게시물 조건 유무"),
+                                fieldWithPath("data.content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
+                                fieldWithPath("data.content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
+                                fieldWithPath("data.content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
+                                fieldWithPath("data.content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
+                                fieldWithPath("data.content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
+                                fieldWithPath("data.content[].finish").type(JsonFieldType.BOOLEAN).description("참여완료 버튼 활성화이면 true 아니면 false"),
+                                fieldWithPath("data.totalElements").description("전체 개수"),
+                                fieldWithPath("data.last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("data.totalPages").description("전체 페이지")
                         )
                 ));
     }
@@ -420,19 +435,21 @@ class PostControllerTest extends MvcTest {
                                 parameterWithName("size").description("조회할 사이즈")
                         ),
                         relaxedResponseFields(
-                                fieldWithPath("content[].postId").type(JsonFieldType.NUMBER).description("게시물 식별자"),
-                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("content[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 시작 시간 식별자"),
-                                fieldWithPath("content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
-                                fieldWithPath("content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
-                                fieldWithPath("content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
-                                fieldWithPath("content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
-                                fieldWithPath("content[].reviewId").description("리뷰 식별자 (없다면 null)"),
-                                fieldWithPath("content[].review").description("리뷰 내용 (없다면 null)"),
-                                fieldWithPath("content[].isWritable").description("리뷰를 작성하거나 수정할 수 있다면 true(실험후 일주일동안 가능)"),
-                                fieldWithPath("totalElements").description("전체 개수"),
-                                fieldWithPath("last").description("마지막 페이지인지 식별"),
-                                fieldWithPath("totalPages").description("전체 페이지")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.content[].postId").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("data.content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
+                                fieldWithPath("data.content[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 시작 시간 식별자"),
+                                fieldWithPath("data.content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
+                                fieldWithPath("data.content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
+                                fieldWithPath("data.content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
+                                fieldWithPath("data.content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
+                                fieldWithPath("data.content[].reviewId").description("리뷰 식별자 (없다면 null)"),
+                                fieldWithPath("data.content[].review").description("리뷰 내용 (없다면 null)"),
+                                fieldWithPath("data.content[].isWritable").description("리뷰를 작성하거나 수정할 수 있다면 true(실험후 일주일동안 가능)"),
+                                fieldWithPath("data.totalElements").description("전체 개수"),
+                                fieldWithPath("data.last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("data.totalPages").description("전체 페이지")
                         )
                 ));
     }

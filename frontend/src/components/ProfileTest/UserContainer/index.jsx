@@ -7,10 +7,15 @@ import {
   getMyInfo,
 } from "../../../utils";
 
-export default function UserPage() {
+import UserInfoEditModal from "./UserInfoEditModal";
+
+import * as S from "../style";
+
+export default function UserContainer() {
   const [userData, setUserData] = useState();
   const [feedSwitch, setFeedSwitch] = useState("대기중");
   const [feedData, setFeedData] = useState([]);
+  const [modalSwitch, setModalSwitch] = useState(false);
 
   const changeFeedData = (status) => {
     switch (status) {
@@ -44,18 +49,31 @@ export default function UserPage() {
   }, []);
 
   return (
-    <>
-      {userData && (
-        <div>
-          <div>이름 : {userData.name}</div>
-          <div>닉네임 : {userData.nickname}</div>
-          <div>성별 : {userData.gender === "MALE" ? "남자" : "여자"}</div>
-          <div>생년월일 : {userData.birth}</div>
-          <div>관심학교 : {userData.schoolName}</div>
-          <div>직업 : {userData.job}</div>
-          <div>전화번호 : {userData.phoneNum}</div>
-        </div>
-      )}
+    <S.Container>
+      <S.UserInfoBox>
+        {userData && (
+          <>
+            <S.ImgBox>
+              {userData.avatar !== null ? (
+                <S.UserImg src={userData.avatar} />
+              ) : (
+                <S.UserImg src="/기본프로필.png" />
+              )}
+            </S.ImgBox>
+            <button onClick={() => setModalSwitch(true)}>수정하기</button>
+            {modalSwitch ? (
+              <UserInfoEditModal setModalSwitch={setModalSwitch} />
+            ) : null}
+            <div>이름 : {userData.name}</div>
+            <div>닉네임 : {userData.nickname}</div>
+            <div>성별 : {userData.gender === "MALE" ? "남자" : "여자"}</div>
+            <div>생년월일 : {userData.birth}</div>
+            <div>관심학교 : {userData.schoolName}</div>
+            <div>직업 : {userData.job}</div>
+            <div>전화번호 : {userData.phoneNum}</div>
+          </>
+        )}
+      </S.UserInfoBox>
       <div>
         <button
           onClick={() => {
@@ -97,21 +115,21 @@ export default function UserPage() {
         >
           즐겨찾기 목록
         </button>
+        <div>
+          {feedData.length === 0 ? (
+            <div>{feedSwitch}</div>
+          ) : (
+            feedData.map((a) => (
+              <div key={a.id}>
+                <p>{a.title}</p>
+                <p>{a.place}</p>
+                <p>{a.payment}</p>
+                <p>{a.recruitCondition}</p>
+              </div>
+            ))
+          )}
+        </div>
       </div>
-      <div>
-        {feedData.length === 0 ? (
-          <div>{feedSwitch}</div>
-        ) : (
-          feedData.map((a) => (
-            <div key={a.id}>
-              <p>{a.title}</p>
-              <p>{a.place}</p>
-              <p>{a.payment}</p>
-              <p>{a.recruitCondition}</p>
-            </div>
-          ))
-        )}
-      </div>
-    </>
+    </S.Container>
   );
 }

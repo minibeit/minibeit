@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
 import { useRecoilValue } from "recoil";
+import { useHistory } from "react-router";
 
 import { userState } from "../../recoil/userState";
 import { bprofileListGet, feedCreateApi } from "../../utils";
@@ -44,7 +45,9 @@ export default function RecruitComponent() {
     detailAddress: "",
     contact: "",
   });
+  const history = useHistory();
   const userId = useRecoilValue(userState).id;
+  const isLogin = useRecoilValue(userState).isLogin;
   const [bpList, setbpList] = useState([]);
 
   const getbpList = useCallback(async () => {
@@ -78,6 +81,12 @@ export default function RecruitComponent() {
       });
     }, 50);
   };
+
+  useEffect(() => {
+    if (!isLogin) {
+      history.push("/");
+    }
+  });
 
   useEffect(() => {
     getbpList();

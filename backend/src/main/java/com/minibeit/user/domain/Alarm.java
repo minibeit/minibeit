@@ -8,28 +8,26 @@ import java.time.LocalDateTime;
 @Embeddable
 @Getter
 @Builder
+@NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Alarm {
 
-    private LocalDateTime rejectedAlarm;
     private LocalDateTime approvedAlarm;
+    private LocalDateTime rejectedAlarm;
 
-    public Alarm(){
-        this.rejectedAlarm = null;
-        this.approvedAlarm = null;
-    }
-
-    public void approvedAlarmOn(){
+    public void approvedOn() {
         this.approvedAlarm = LocalDateTime.now();
     }
-    public void approvedAlarmOff(){
+
+    public void approvedOff() {
         this.approvedAlarm = null;
     }
 
-    public void rejectedAlarmOn(){
+    public void rejectedOn() {
         this.rejectedAlarm = LocalDateTime.now();
     }
-    public void rejectedAlarmOff(){
+
+    public void rejectedOff() {
         this.rejectedAlarm = null;
     }
 }

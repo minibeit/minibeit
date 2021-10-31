@@ -63,6 +63,9 @@ public class PostService {
     }
 
     public Page<PostResponse.GetMyApplyList> getListByApplyStatus(ApplyStatus applyStatus, User user, LocalDateTime now, PageDto pageDto) {
+        if(applyStatus.equals(ApplyStatus.APPROVE)){
+            user.approvedAlarmOff();
+        }
         return postRepository.findAllByApplyStatus(applyStatus, user, now, pageDto.of());
     }
 

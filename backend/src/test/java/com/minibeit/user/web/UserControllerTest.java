@@ -275,19 +275,20 @@ class UserControllerTest extends MvcTest {
     }
 
     @Test
-    @DisplayName("거부된 게시물 알림 문서화")
+    @DisplayName("게시물 알림 문서화")
     public void getNews() throws Exception {
 
-        UserResponse.Alaram alaram = UserResponse.Alaram.build(false);
+        UserResponse.Alaram alaram = UserResponse.Alaram.build(false, true);
         given(userService.getNews(any())).willReturn(alaram);
 
-        ResultActions results = mvc.perform(get("/api/user/rejectPost/alarm"));
+        ResultActions results = mvc.perform(get("/api/user/alarm"));
 
         results.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("user-rejected-post-alarm",
+                .andDo(document("user-post-alarm",
                         responseFields(
-                                fieldWithPath("alarm").type(JsonFieldType.BOOLEAN).description("true 이면 알림을 띄워야 함")
+                                fieldWithPath("approvedAlarm").type(JsonFieldType.BOOLEAN).description("true 이면 확정된 목록에 알림을 띄워야 함"),
+                                fieldWithPath("rejectedAlarm").type(JsonFieldType.BOOLEAN).description("true 이면 반려된 목록에 알림을 띄워야 함")
                         )));
 
     }

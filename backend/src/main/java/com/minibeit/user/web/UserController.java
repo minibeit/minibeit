@@ -35,7 +35,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/rejectPost/alarm")
+    @GetMapping("/alarm")
     public ResponseEntity<UserResponse.Alaram> getNews(@CurrentUser CustomUserDetails customUserDetails){
         UserResponse.Alaram response = userService.getNews(customUserDetails.getUser());
         return ResponseEntity.ok().body(response);

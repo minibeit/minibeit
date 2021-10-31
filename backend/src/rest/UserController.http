@@ -106,5 +106,5 @@ Authorization: {{authorizationToken}}
 
 
 ###
-GET {{apiUrl}}/user/rejectPost/alarm
+GET {{apiUrl}}/user/alarm
 Authorization: {{authorizationToken}}

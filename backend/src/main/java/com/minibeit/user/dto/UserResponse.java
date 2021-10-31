@@ -111,11 +111,14 @@ public class UserResponse {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Alaram {
 
-       private boolean alarm;
+        private boolean approvedAlarm;
+        private boolean rejectedAlarm;
 
-        public static Alaram build(boolean alarm) {
+
+        public static Alaram build(boolean approvedAlarm, boolean rejectedAlarm) {
             return Alaram.builder()
-                    .alarm(alarm)
+                    .approvedAlarm(approvedAlarm)
+                    .rejectedAlarm(rejectedAlarm)
                     .build();
         }
 

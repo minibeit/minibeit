@@ -87,7 +87,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponse.Alaram getNews(User user){
 
-        return UserResponse.Alaram.build(user.alarmOnOff());
+        return UserResponse.Alaram.build(user.approvedAlarmOnOff(), user.rejectedAlarmOnOff() );
     }
 
     public void deleteOne(User user) {

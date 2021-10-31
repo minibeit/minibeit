@@ -13,7 +13,8 @@ CREATE TABLE `user`
     `provider`     VARCHAR(30)  NOT NULL,
     `phone_num`    VARCHAR(30),
     `signup_check` TINYINT(1)   NOT NULL,
-
+    `rejected_alarm`    DATETIME DEFAULT NULL,
+    `approved_alarm`    DATETIME DEFAULT NULL,
     `role`         VARCHAR(20)  NOT NULL,
     `created_at`   DATETIME     NOT NULL,
     `updated_at`   DATETIME DEFAULT NULL,

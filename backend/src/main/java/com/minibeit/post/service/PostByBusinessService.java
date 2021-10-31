@@ -74,12 +74,16 @@ public class PostByBusinessService {
         Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
-        List<PostApplicant> postApplicantList = postApplicantRepository.findAllByApplyStatusIsWait(postId);
+        List<PostApplicant> approvedApplicantList = postApplicantRepository.findAllByApplyStatus(postId, ApplyStatus.APPROVE);
+        approvedApplicantList.forEach( postApplicant -> postApplicant.getUser().approvedAlarmOn());
 
-        List<Long> applicantIdList = postApplicantList.stream().map(PostApplicant::getId).collect(Collectors.toList());
+        List<PostApplicant> rejectedApplicantList = postApplicantRepository.findAllByApplyStatus(postId, ApplyStatus.WAIT);
+        rejectedApplicantList.stream().filter(postApplicant -> postApplicant.getUser().getAlarm() != null).forEach(postApplicant -> postApplicant.getUser().rejectedAlarmOn());
+
+        List<Long> applicantIdList = rejectedApplicantList.stream().map(PostApplicant::getId).collect(Collectors.toList());
         postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT);
 
-        List<RejectPost> rejectPostList = postApplicantList.stream()
+        List<RejectPost> rejectPostList = rejectedApplicantList.stream()
                 .map(postApplicant -> RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getRejectComment(), postApplicant.getUser())).collect(Collectors.toList());
         rejectPostRepository.saveAll(rejectPostList);
 

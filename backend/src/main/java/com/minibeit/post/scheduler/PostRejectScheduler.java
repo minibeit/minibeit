@@ -18,7 +18,6 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-@Component
 public class PostRejectScheduler {
     private final static String REJECT_MSG = "모집이 마감되었습니다.";
     private final PostApplicantRepository postApplicantRepository;

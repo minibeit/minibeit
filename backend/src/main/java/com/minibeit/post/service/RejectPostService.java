@@ -24,7 +24,7 @@ public class RejectPostService {
     public Page<RejectPostResponse.GetList> getList(PageDto pageDto, User user) {
         Page<RejectPost> rejectPostList = rejectPostRepository.findAllByUserId(user.getId(), pageDto.ofWithSortDesc("id"));
         User currentUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
-        currentUser.alarmOff();
+        currentUser.rejectedAlarmOff();
         return rejectPostList.map(RejectPostResponse.GetList::build);
     }
 

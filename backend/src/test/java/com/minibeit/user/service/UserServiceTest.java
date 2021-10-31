@@ -21,12 +21,10 @@ import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.service.PostApplicantByBusinessService;
+import com.minibeit.post.service.PostByBusinessService;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
-import com.minibeit.user.domain.Gender;
-import com.minibeit.user.domain.Role;
-import com.minibeit.user.domain.SignupProvider;
-import com.minibeit.user.domain.User;
+import com.minibeit.user.domain.*;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
@@ -89,6 +87,9 @@ class UserServiceTest extends ServiceIntegrationTest {
     @Autowired
     private PostApplicantRepository postApplicantRepository;
 
+    @Autowired
+    private PostByBusinessService postByBusinessService;
+
     private Avatar avatar;
     private School school;
     private User userInBusinessProfile;
@@ -123,7 +124,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .school(school)
-                .alarm(null)
+                .alarm(new Alarm())
                 .build();
         applyUser1 = userRepository.save(apUser);
 
@@ -134,7 +135,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .school(school)
-                .alarm(null)
+                .alarm(new Alarm())
                 .build();
         applyUser2 = userRepository.save(apUser2);
 
@@ -145,7 +146,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .school(school)
-                .alarm(null)
+                .alarm(Alarm.builder().approvedAlarm(null).rejectedAlarm(null).build())
                 .build();
         userInBusinessProfile = userRepository.save(businessUser);
 
@@ -156,7 +157,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .school(school)
-                .alarm(null)
+                .alarm(new Alarm())
                 .build();
         rejectUser = userRepository.save(dupUser);
 
@@ -476,28 +477,26 @@ class UserServiceTest extends ServiceIntegrationTest {
 
         UserResponse.Alaram afterAlarmState = userService.getNews(applicant);
         //then
-        assertThat(beforeAlarmState.isAlarm()).isEqualTo(false);
-        assertThat(afterAlarmState.isAlarm()).isEqualTo(true);
+        assertThat(beforeAlarmState.isRejectedAlarm()).isEqualTo(false);
+        assertThat(afterAlarmState.isRejectedAlarm()).isEqualTo(true);
     }
 
     @Test
-    @DisplayName("거부된 게시물 생겼을 때 알림 발생 - 성공 (3일이 지났을 때)")
-    void getAlarmWhenAfter3Days() {
+    @DisplayName("참여확정된 게시물 생겼을 때 알림 발생 - 성공")
+    void getAlarmWhenCompletedPost() {
         //given
         User applicant = userRepository.findById(applyUser1.getId()).orElseThrow(UserNotFoundException::new);
-
-        PostApplicantRequest.ApplyReject request = PostApplicantRequest.ApplyReject.builder().comment("적합하지 않습니다").build();
-        postApplicantByBusinessService.applyReject(recruitPostPostDoDate1.getId(), applicant.getId(), request,userInBusinessProfile);
         UserResponse.Alaram beforeAlarmState = userService.getNews(applicant);
 
+        PostRequest.RejectComment rejectComment = PostRequest.RejectComment.builder().rejectComment("거부됨").build();
+        postApplicantByBusinessService.applyApprove(recruitPostPostDoDate1.getId(), applyUser1.getId(), userInBusinessProfile);
+        postByBusinessService.recruitmentCompleted(recruitPost.getId(), rejectComment, userInBusinessProfile);
+
         //when
-        LocalDateTime before4Days = LocalDateTime.now().minusDays(4L);
-        applicant.alarmOn(before4Days);
         UserResponse.Alaram afterAlarmState = userService.getNews(applicant);
 
-
-        assertThat(beforeAlarmState.isAlarm()).isEqualTo(true);
-        assertThat(afterAlarmState.isAlarm()).isEqualTo(false);
+        assertThat(beforeAlarmState.isApprovedAlarm()).isEqualTo(false);
+        assertThat(afterAlarmState.isApprovedAlarm()).isEqualTo(true);
     }
 
 }

@@ -43,7 +43,8 @@ public class User extends BaseEntity {
 
     private boolean signupCheck;
 
-    private LocalDateTime alarm;
+    @Embedded
+    private Alarm alarm;
 
     @Enumerated(EnumType.STRING)
     private SignupProvider provider;
@@ -97,19 +98,51 @@ public class User extends BaseEntity {
         return businessProfile.getAdmin().getId().equals(this.getId());
     }
 
-    public boolean alarmOnOff(){
-        if(this.alarm == null){
+    public boolean rejectedAlarmOnOff() {
+        if (this.alarm == null || this.alarm.getRejectedAlarm() == null) {
             return false;
         }
-        LocalDateTime plusDays = this.alarm.plusDays(3L);
+        LocalDateTime plusDays = this.alarm.getRejectedAlarm().plusDays(3L);
         return LocalDateTime.now().isBefore(plusDays);
     }
 
-    public void alarmOn(LocalDateTime alarm){
-        this.alarm = alarm;
+    public boolean approvedAlarmOnOff() {
+        if (this.alarm == null || this.alarm.getApprovedAlarm() == null) {
+            return false;
+        }
+        LocalDateTime plusDays = this.alarm.getApprovedAlarm().plusDays(3L);
+        return LocalDateTime.now().isBefore(plusDays);
     }
-    public void alarmOff(){
-        this.alarm = null;
+
+    public void approvedAlarmOn(){
+        if(this.alarm == null){
+            this.alarm = Alarm.builder().approvedAlarm(LocalDateTime.now()).build();
+        }
+        else{
+            this.alarm.approvedOn();
+        }
     }
+
+    public void approvedAlarmOff(){
+        if(this.alarm != null){
+            this.alarm.approvedOff();
+        }
+    }
+
+    public void rejectedAlarmOn(){
+        if(this.alarm == null){
+            this.alarm = Alarm.builder().rejectedAlarm(LocalDateTime.now()).build();
+        }
+        else{
+            this.alarm.rejectedOn();
+        }
+    }
+
+    public void rejectedAlarmOff(){
+        if(this.alarm != null){
+            this.alarm.rejectedOff();
+        }
+    }
+
 
 }

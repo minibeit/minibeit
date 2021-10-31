@@ -67,9 +67,9 @@ include::{snippets}/user-deleteOne/http-request.adoc[]
 성공 응답 HTTP
 include::{snippets}/user-deleteOne/http-response.adoc[]
 
-=== 거부된 게시물이 있는지 알림
+=== 거부되거나 승인된 게시물이 있는지 알림 확인
 
-`GET /api/user/rejectPost/alarm`
+`GET /api/user/alarm`
 
 요청 HTTP
 include::{snippets}/user-rejected-post-alarm/http-request.adoc[]

@@ -22,7 +22,7 @@ export default function SchoolSelectModal({ setModalSwitch, use, handleInfo }) {
     if (e === undefined) {
       schoolGetApi("")
         .then((res) => {
-          setSchoolItem(res.data);
+          setSchoolItem(res.data.data);
         })
         .catch((err) => {
           console.log(err);
@@ -30,7 +30,7 @@ export default function SchoolSelectModal({ setModalSwitch, use, handleInfo }) {
     } else {
       schoolGetApi(e.target.value)
         .then((res) => {
-          setSchoolItem(res.data);
+          setSchoolItem(res.data.data);
         })
         .catch((err) => {
           console.log(err);

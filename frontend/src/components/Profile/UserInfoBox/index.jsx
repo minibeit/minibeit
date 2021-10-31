@@ -9,7 +9,7 @@ export default function UserInfoBox() {
   useEffect(() => {
     getMyInfo()
       .then((res) => {
-        setUserData(res.data);
+        setUserData(res.data.data);
       })
       .catch((err) => {
         console.log(err);

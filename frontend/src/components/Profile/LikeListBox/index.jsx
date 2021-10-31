@@ -10,8 +10,8 @@ export default function LikeListBox() {
   const getLikeList = async (page) => {
     await getLikeListApi(page)
       .then((res) => {
-        setLikeList(res.data["content"]);
-        setCount(res.data.totalElements);
+        setLikeList(res.data.data.data["content"]);
+        setCount(res.data.data.data.totalElements);
       })
       .catch((err) => console.log(err));
   };

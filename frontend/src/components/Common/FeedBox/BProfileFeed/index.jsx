@@ -106,7 +106,7 @@ function ReviewFeedBlock({ feedInfo }) {
   const [postInfo, setPostInfo] = useState({});
   const readReview = async (businessProfileReviewId) => {
     await reviewOneReadApi(businessProfileReviewId)
-      .then(async (res) => setPostInfo(res.data))
+      .then(async (res) => setPostInfo(res.data.data))
       .then(() => setModalSwitch(true))
       .catch((err) => console.log(err));
   };

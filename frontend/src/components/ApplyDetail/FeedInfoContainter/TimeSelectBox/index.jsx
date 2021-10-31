@@ -14,7 +14,7 @@ export default function TimeSelectBox({ feedId, date, startDate, endDate }) {
   );
   const getFeedDetailTime = async (id, doDate) => {
     await feedDetailTimeApi(id, doDate)
-      .then(async (res) => await setDoTimeList(res.data))
+      .then(async (res) => await setDoTimeList(res.data.data))
       .catch((err) => console.log(err));
   };
   const moveDate = (e) => {

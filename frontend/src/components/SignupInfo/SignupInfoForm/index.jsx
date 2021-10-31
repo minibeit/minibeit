@@ -20,9 +20,10 @@ export default function SignupForm() {
         localStorage.setItem("accessToken", guest.accessToken);
         delete guest_cp.accessToken;
         guest_cp.didSignup = true;
-        guest_cp.name = res.data.nickname;
-        guest_cp.schoolId = res.data.schoolId;
-        guest_cp.avatar = res.data.avatar === null ? "noImg" : res.data.avatar;
+        guest_cp.name = res.data.data.nickname;
+        guest_cp.schoolId = res.data.data.schoolId;
+        guest_cp.avatar =
+          res.data.data.avatar === null ? "noImg" : res.data.data.avatar;
         setLoginState(guest_cp);
         setModalSwitch(true);
         console.log(modalSwitch);

@@ -54,7 +54,7 @@ export default function BProfileJoin({ businessId, setModalSwitch }) {
 
   const getUsergroup = useCallback(async () => {
     await getBPusergroup(businessId)
-      .then(async (res) => setUsergroup(res.data))
+      .then(async (res) => setUsergroup(res.data.data))
       .catch((err) => console.log(err));
   }, [businessId]);
 

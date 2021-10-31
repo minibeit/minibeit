@@ -30,13 +30,13 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
     if (state === "WAIT") {
       await getWaitListApi(postId, date)
         .then((res) => {
-          setWaitlist(res.data);
+          setWaitlist(res.data.data);
         })
         .catch((err) => console.log(err));
     } else if (state === "APPROVE") {
       await getApproveListApi(postId, date)
         .then((res) => {
-          setWaitlist(res.data);
+          setWaitlist(res.data.data);
         })
         .catch((err) => console.log(err));
     }

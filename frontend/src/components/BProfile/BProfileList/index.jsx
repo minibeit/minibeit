@@ -26,7 +26,7 @@ export default function PBOtherProfile({ originalId }) {
   };
   const getBprofileList = useCallback(async () => {
     bprofileListGet(UserId)
-      .then(async (res) => setbprofiles(res.data))
+      .then(async (res) => setbprofiles(res.data.data))
       .catch((err) => console.log(err));
   }, [UserId]);
 

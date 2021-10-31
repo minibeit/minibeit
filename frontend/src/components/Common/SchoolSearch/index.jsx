@@ -23,7 +23,7 @@ export default function SchoolSearch({ use, recruit, setRecruit }) {
     if (e === undefined) {
       schoolGetApi("")
         .then((res) => {
-          setSchoolItem(res.data);
+          setSchoolItem(res.data.data);
         })
         .catch((err) => {
           console.log(err);
@@ -31,11 +31,11 @@ export default function SchoolSearch({ use, recruit, setRecruit }) {
     } else {
       schoolGetApi(e.target.value)
         .then((res) => {
-          console.log(res.data);
-          if (res.data.length === 0) {
+          console.log(res.data.data);
+          if (res.data.data.length === 0) {
             setSchoolItem({ id: "", name: "" });
           } else {
-            setSchoolItem(res.data);
+            setSchoolItem(res.data.data);
           }
         })
         .catch((err) => {

@@ -32,14 +32,14 @@ export default function BProfileEditCont({ businessId, setModal2Switch }) {
   const getProfile = useCallback(async () => {
     getBprofileInfo(businessId)
       .then((res) => {
-        setBProfileData(res.data);
+        setBProfileData(res.data.data);
         return res;
       })
       .then((res) => {
         setInputs({
-          name: res.data.name,
-          place: res.data.place,
-          contact: res.data.contact,
+          name: res.data.data.name,
+          place: res.data.data.place,
+          contact: res.data.data.contact,
         });
       });
   }, [businessId]);

@@ -25,7 +25,7 @@ export default function BProfileMain() {
   };
   const getBprofileList = async () => {
     bprofileListGet()
-      .then(async (res) => setbprofiles(res.data))
+      .then(async (res) => setbprofiles(res.data.data))
       .catch((err) => console.log(err));
   };
   const CreateBProfile = (inputs, img) => {

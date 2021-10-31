@@ -16,17 +16,17 @@ export default function BProfileFeedList({ businessId, state, status }) {
   const getMakelist = useCallback(async () => {
     await getMakelistApi(businessId, page, status)
       .then(async (res) => {
-        if (res.data.content.length === 0) {
+        if (res.data.data.content.length === 0) {
           await getMakelistApi(businessId, 1, status).then((res) => {
-            setMakelist(res.data.content);
-            setPaging({ first: res.data.first, last: res.data.last });
-            setCount(res.data.totalElements);
+            setMakelist(res.data.data.content);
+            setPaging({ first: res.data.first, last: res.data.data.last });
+            setCount(res.data.data.totalElements);
             setChange(0);
           });
         } else {
-          setMakelist(res.data.content);
-          setPaging({ first: res.data.first, last: res.data.last });
-          setCount(res.data.totalElements);
+          setMakelist(res.data.data.content);
+          setPaging({ first: res.data.data.first, last: res.data.data.last });
+          setCount(res.data.data.totalElements);
           setChange(0);
         }
       })

@@ -8,8 +8,8 @@ export default function SchoolSelect({ onChange, defaultValue }) {
   const getSchool = (text) => {
     schoolGetApi(text).then((res) => {
       const arr = [];
-      for (var i = 0; i < res.data.length; i++) {
-        arr.push({ label: res.data[i].name, value: res.data[i].id });
+      for (var i = 0; i < res.data.data.length; i++) {
+        arr.push({ label: res.data.data[i].name, value: res.data.data[i].id });
       }
       setSchools(arr);
     });

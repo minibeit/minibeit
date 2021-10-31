@@ -30,7 +30,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
   const getFeedDetail = useCallback(
     (feedId) => {
       feedDetailApi(feedId, isLogin)
-        .then((res) => setFeedDetailData(res.data))
+        .then((res) => setFeedDetailData(res.data.data))
         .catch((err) => {
           if (err.response.status === 400) {
             alert("삭제된 게시물 입니다.");
@@ -65,7 +65,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
   };
 
   const editDetail = (postId, data) => {
-    feedEditApi(postId, data).then((res) => getFeedDetail(res.data.id));
+    feedEditApi(postId, data).then((res) => getFeedDetail(res.data.data.id));
   };
 
   useEffect(() => {

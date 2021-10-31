@@ -14,9 +14,9 @@ export default function BProfileReviewList({ businessId }) {
   const getReviewlist = useCallback(async () => {
     await reviewListGetApi(businessId, page, 10)
       .then((res) => {
-        setReviewlist(res.data.content);
-        setCount(res.data.totalElements);
-        setPaging({ first: res.data.first, last: res.data.last });
+        setReviewlist(res.data.data.content);
+        setCount(res.data.data.totalElements);
+        setPaging({ first: res.data.first, last: res.data.data.last });
       })
       .catch((err) => console.log(err));
   }, [businessId, page]);

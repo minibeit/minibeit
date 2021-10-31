@@ -52,7 +52,7 @@ export default function RecruitComponent() {
 
   const getbpList = useCallback(async () => {
     await bprofileListGet(userId)
-      .then(async (res) => setbpList(res.data))
+      .then(async (res) => setbpList(res.data.data))
       .catch((err) => console.log(err));
   }, [userId]);
 
@@ -60,7 +60,7 @@ export default function RecruitComponent() {
     return feedCreateApi(recruit)
       .then((res) => {
         if (recruit.images.length !== 0) {
-          return feedAddfileApi(res.data.id, recruit.images)
+          return feedAddfileApi(res.data.data.id, recruit.images)
             .then((res) => res)
             .catch((err) => err);
         } else {

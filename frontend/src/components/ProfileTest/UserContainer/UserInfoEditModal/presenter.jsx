@@ -47,7 +47,6 @@ export default function Presenter({ userData, editUserDataHandler }) {
   const { name, new_nickname, pre_nickname, phoneNum, job, birth } = inputs;
   const onChange = (e) => {
     const { value, name } = e.target;
-    console.log(value, name);
     if (name === "new_nickname") {
       setNick("notyet");
       if (value.length > 8) {
@@ -88,7 +87,7 @@ export default function Presenter({ userData, editUserDataHandler }) {
 
   return (
     <>
-      <S.EditContainer1>
+      <S.ImgEditContainer>
         <S.ImgBox>
           {basicImg === false ? (
             newImg ? (
@@ -102,108 +101,119 @@ export default function Presenter({ userData, editUserDataHandler }) {
             <S.Img src="/기본프로필.png" />
           )}
         </S.ImgBox>
-        <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
-        <S.FileLabel htmlFor="input-file">사진 업로드 하기</S.FileLabel>
-        <S.EditFInput
+        <S.ImgEditBtn onClick={imgDel}>기본이미지로 변경</S.ImgEditBtn>
+        <S.ImgEditBtn htmlFor="input-file">사진 업로드 하기</S.ImgEditBtn>
+        <input
+          style={{ display: "none" }}
           name="img"
           id="input-file"
           type="file"
           onChange={fileChange}
         />
-      </S.EditContainer1>
-      <S.EditContainer2>
-        <S.EditContainerSub>
-          <S.PELabel flex="1">
-            이름
-            <S.EditInput
-              value={name}
-              name="name"
-              type="text"
-              placeholder="이름"
-              onChange={onChange}
-            />
-          </S.PELabel>
-          <S.NickBox>
-            <S.NicknameCont>
-              <S.PELabel flex="1">
-                닉네임
-                <S.EditInput
-                  value={new_nickname}
-                  name="new_nickname"
-                  type="text"
-                  placeholder="닉네임"
-                  onChange={onChange}
-                />
-              </S.PELabel>
-              {new_nickname === pre_nickname ? null : (
-                <S.SignupNickBtn onClick={nickCheck}>확인</S.SignupNickBtn>
-              )}
-            </S.NicknameCont>
+      </S.ImgEditContainer>
+      <S.InfoEditContainer>
+        <div>
+          <S.EditInput>
+            <div>
+              <p>이름</p>
+              <input
+                value={name}
+                name="name"
+                type="text"
+                placeholder="이름"
+                onChange={onChange}
+              />
+            </div>
+          </S.EditInput>
+          <S.EditInput>
+            <div>
+              <p>닉네임</p>
+              <input
+                value={new_nickname}
+                name="new_nickname"
+                type="text"
+                placeholder="닉네임"
+                onChange={onChange}
+              />
+            </div>
+            {new_nickname === pre_nickname ? null : (
+              <S.NickNameBtn onClick={nickCheck}>확인</S.NickNameBtn>
+            )}
             {nick === true ? (
               <S.SignupMSG color="blue">사용가능한 닉네임 입니다</S.SignupMSG>
             ) : nick === false ? (
               <S.SignupMSG color="red">닉네임이 중복됩니다</S.SignupMSG>
             ) : null}
-          </S.NickBox>
-        </S.EditContainerSub>
-        <S.EditContainerSub>
-          <S.PELabel flex="1">
-            생년월일
-            <S.EditInput
-              value={birth}
-              name="birth"
-              type="date"
-              onChange={onChange}
-            />
-          </S.PELabel>
-          <S.PELabel flex="1">
-            관심학교
-            <SchoolSearch use="Signup" />
-          </S.PELabel>
-        </S.EditContainerSub>
-        <S.EditContainerSub>
-          <S.PELabel>
-            직업
-            <S.EditInput
-              value={job}
-              name="job"
-              type="text"
-              placeholder="직업"
-              onChange={onChange}
-            />
-          </S.PELabel>
-          <S.PELabel>
-            성별
-            <S.EditSelect
-              onChange={onChange}
-              defaultValue={"DEFAULT"}
-              name="gender"
-            >
-              <option value="DEFAULT" disabled>
-                {userData.gender === "MALE" ? "남자" : "여자"}
-              </option>
-              <option value="MALE" key={0}>
-                남자
-              </option>
-              <option value="FEMALE" key={1}>
-                여자
-              </option>
-            </S.EditSelect>
-          </S.PELabel>
-        </S.EditContainerSub>
-        <S.EditContainerSub width="74%">
-          <S.PELabel>
-            연락처
-            <S.EditInput
-              value={phoneNum}
-              name="phoneNum"
-              type="text"
-              placeholder="전화번호"
-              onChange={onNumChange}
-            />
-          </S.PELabel>
-        </S.EditContainerSub>
-        <S.EditButton
+          </S.EditInput>
+        </div>
+        <div>
+          <S.EditInput>
+            <div>
+              <p>생년월일</p>
+              <input
+                value={birth}
+                name="birth"
+                type="date"
+                onChange={onChange}
+              />
+            </div>
+          </S.EditInput>
+          <S.EditInput>
+            <div>
+              <p>관심학교</p>
+              <SchoolSearch use="Signup" />
+            </div>
+          </S.EditInput>
+        </div>
+        <div>
+          <S.EditInput>
+            <div>
+              <p>직업</p>
+              <input
+                value={job}
+                name="job"
+                type="text"
+                placeholder="직업"
+                onChange={onChange}
+              />
+            </div>
+          </S.EditInput>
+          <S.EditInput>
+            <div>
+              <p>성별</p>
+              <select
+                onChange={onChange}
+                defaultValue={"DEFAULT"}
+                name="gender"
+              >
+                <option value="DEFAULT" disabled>
+                  {userData.gender === "MALE" ? "남자" : "여자"}
+                </option>
+                <option value="MALE" key={0}>
+                  남자
+                </option>
+                <option value="FEMALE" key={1}>
+                  여자
+                </option>
+              </select>
+            </div>
+          </S.EditInput>
+        </div>
+        <div>
+          <S.EditInput>
+            <div>
+              <p>연락처</p>
+              <input
+                value={phoneNum}
+                name="phoneNum"
+                type="text"
+                placeholder="전화번호"
+                onChange={onNumChange}
+              />
+            </div>
+          </S.EditInput>
+        </div>
+        <button
           type="submit"
           onClick={async (e) => {
             e.preventDefault();
@@ -220,9 +230,9 @@ export default function Presenter({ userData, editUserDataHandler }) {
             }
           }}
         >
-          <p>수정</p>
-        </S.EditButton>
-      </S.EditContainer2>
+          수정 완료
+        </button>
+      </S.InfoEditContainer>
     </>
   );
 }

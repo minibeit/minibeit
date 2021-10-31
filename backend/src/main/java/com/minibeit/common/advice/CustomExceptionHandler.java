@@ -12,34 +12,22 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class CustomExceptionHandler {
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse> businessExceptionHandler(BusinessException ex) {
-        ErrorResponse errorResponse = ErrorResponse.builder()
-                .status("400")
-                .error(ex.getClass().getSimpleName())
-                .message(ex.getMessage())
-                .build();
+        ErrorResponse response = ErrorResponse.build("400", ex);
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(PermissionException.class)
     public ResponseEntity<ErrorResponse> permissionExceptionHandler(PermissionException ex) {
-        ErrorResponse errorResponse = ErrorResponse.builder()
-                .status("401")
-                .error(ex.getClass().getSimpleName())
-                .message(ex.getMessage())
-                .build();
+        ErrorResponse response = ErrorResponse.build("401", ex);
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(TokenException.class)
     public ResponseEntity<ErrorResponse> tokenExceptionHandler(TokenException ex) {
-        ErrorResponse errorResponse = ErrorResponse.builder()
-                .status("401")
-                .error(ex.getClass().getSimpleName())
-                .message(ex.getMessage())
-                .build();
+        ErrorResponse response = ErrorResponse.build("401", ex);
 
-        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 }

@@ -164,7 +164,9 @@ class PostByBusinessControllerTest extends MvcTest {
                                 fieldWithPath("doDateList[].doDate").type(JsonFieldType.STRING).description("참여 가능 날짜(시간포함) ex)2021-09-27T09:30")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("생성된 게시물 식별자")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("생성된 게시물 식별자")
                         )
                 ));
     }
@@ -194,7 +196,9 @@ class PostByBusinessControllerTest extends MvcTest {
                                 partWithName("files").description("게시물에 추가할 파일")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시물 식별자")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("게시물 식별자")
                         )
                 ));
     }
@@ -218,6 +222,11 @@ class PostByBusinessControllerTest extends MvcTest {
                         ),
                         requestFields(
                                 fieldWithPath("rejectComment").type(JsonFieldType.STRING).description("반려 사유")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }
@@ -249,7 +258,9 @@ class PostByBusinessControllerTest extends MvcTest {
                                 fieldWithPath("updatedContent").type(JsonFieldType.STRING).description("수정된 내용")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("게시물 식별자")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("게시물 식별자")
                         )
                 ));
     }
@@ -280,12 +291,14 @@ class PostByBusinessControllerTest extends MvcTest {
                                 parameterWithName("status").description("RECRUIT(모집중) or COMPLETE(모집완료)")
                         ),
                         relaxedResponseFields(
-                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
-                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("제목"),
-                                fieldWithPath("content[].likes").type(JsonFieldType.NUMBER).description("즐겨찾기 수"),
-                                fieldWithPath("totalElements").description("전체 개수"),
-                                fieldWithPath("last").description("마지막 페이지인지 식별"),
-                                fieldWithPath("totalPages").description("전체 페이지")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("data.content[].title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("data.content[].likes").type(JsonFieldType.NUMBER).description("즐겨찾기 수"),
+                                fieldWithPath("data.totalElements").description("전체 개수"),
+                                fieldWithPath("data.last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("data.totalPages").description("전체 페이지")
                         )
                 ));
     }
@@ -315,7 +328,9 @@ class PostByBusinessControllerTest extends MvcTest {
                                 parameterWithName("yearMonth").description("조회할 날짜")
                         ),
                         responseFields(
-                                fieldWithPath("doDateList[]").type(JsonFieldType.ARRAY).description("실험 있는 날짜")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.doDateList[]").type(JsonFieldType.ARRAY).description("실험 있는 날짜")
                         )
                 ));
     }
@@ -330,6 +345,11 @@ class PostByBusinessControllerTest extends MvcTest {
                 .andDo(document("post-deleteOne",
                         pathParameters(
                                 parameterWithName("postId").description("삭제할 게시물 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }

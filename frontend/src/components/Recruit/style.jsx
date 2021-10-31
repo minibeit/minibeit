@@ -180,12 +180,11 @@ export const DoTimeBox = styled.div`
     display: flex;
     justify-content: center;
     gap: 1rem;
-    &>p{
+    & > p {
       display: flex;
       align-items: center;
     }
   }
-}
 `;
 export const TimeBox = styled.div`
   width: 50%;

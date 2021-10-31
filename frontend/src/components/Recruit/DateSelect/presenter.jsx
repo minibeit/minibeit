@@ -62,15 +62,23 @@ export default function Presenter({
             displayFormat="YYYY-MM-DD"
             hideKeyboardShortcutsPanel={true}
             onDatesChange={({ startDate, endDate }) => {
-              askResetGroup();
-              const copy = recruit;
-              copy.startDate = startDate;
-              copy.endDate = endDate;
-              setRecruit(copy);
-              if (startDate && endDate !== null) {
+              if (
+                startDate &&
+                endDate &&
+                endDate.diff(startDate, "days") > 31
+              ) {
+                alert("실험날짜는 31일 이내로 설정해주세요");
+              } else {
+                askResetGroup();
                 const copy = recruit;
-                copy.dateList = createDateArr(startDate, endDate);
+                copy.startDate = startDate;
+                copy.endDate = endDate;
                 setRecruit(copy);
+                if (startDate && endDate !== null) {
+                  const copy = recruit;
+                  copy.dateList = createDateArr(startDate, endDate);
+                  setRecruit(copy);
+                }
               }
             }}
             focusedInput={focusedInput}

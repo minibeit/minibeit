@@ -60,7 +60,7 @@ export default function RecruitConfirmModal({
   const clickYes = () => {
     submit(recruit)
       .then((res) => {
-        setFeedId(res.data.id);
+        setFeedId(res.data.data.id);
         setCompletedRecruit(true);
       })
       // 에러처리 해야함

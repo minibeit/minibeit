@@ -75,19 +75,20 @@ export default function Presenter({
                 copy.payment = value;
                 setRecruit(copy);
               }}
-              aria-label="text alignment"
             >
-              <ToggleButton value="CACHE" aria-label="cache">
-                현금
-              </ToggleButton>
-              <ToggleButton value="GOODS" aria-label="goods">
-                보상
-              </ToggleButton>
+              <ToggleButton value="CACHE">현금</ToggleButton>
+              <ToggleButton value="GOODS">보상</ToggleButton>
             </ToggleButtonGroup>
           </div>
           {recruit.payment === "CACHE" ? (
             <S.PayInput>
-              <input name="pay" type="number" onChange={onChange} />
+              <input
+                name="pay"
+                type="number"
+                onChange={onChange}
+                step={100}
+                min={0}
+              />
               <span>원</span>
             </S.PayInput>
           ) : (

@@ -31,6 +31,7 @@ export const NavBarMenu = styled.div`
   align-items: center;
   justify-content: center;
   padding: 10px;
+  cursor: pointer;
   & > a {
     text-decoration: none;
     color: black;

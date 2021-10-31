@@ -69,6 +69,7 @@ include::{snippets}/business-profile-delete/path-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/business-profile-delete/http-response.adoc[]
+include::{snippets}/business-profile-delete/response-fields.adoc[]
 
 === 비즈니스 프로필 공유하기(초대)
 
@@ -80,7 +81,7 @@ include::{snippets}/business-profile-share/path-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/business-profile-share/http-response.adoc[]
-
+include::{snippets}/business-profile-share/response-fields.adoc[]
 === 비즈니스 프로필 공유 취소
 
 `DELETE /api/business/profile/{businessProfileId}/expel/{userId}`
@@ -91,6 +92,7 @@ include::{snippets}/business-profile-share-cancel/path-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/business-profile-share-cancel/http-response.adoc[]
+include::{snippets}/business-profile-share-cancel/response-fields.adoc[]
 
 === 비즈니스 프로필 권한 변경
 
@@ -102,6 +104,7 @@ include::{snippets}/business-profile-change-admin/path-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/business-profile-change-admin/http-response.adoc[]
+include::{snippets}/business-profile-change-admin/response-fields.adoc[]
 
 == User 관련 API
 

@@ -49,6 +49,11 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                         pathParameters(
                                 parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자"),
                                 parameterWithName("userId").description("유저(지원자) 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }
@@ -67,6 +72,11 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                         pathParameters(
                                 parameterWithName("postDoDateId").description("게시물 참여가능 날짜 식별자"),
                                 parameterWithName("userId").description("유저(지원자) 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }
@@ -91,6 +101,11 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                         ),
                         requestFields(
                                 fieldWithPath("comment").type(JsonFieldType.STRING).description("거절 사유")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }
@@ -115,6 +130,11 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                         ),
                         requestFields(
                                 fieldWithPath("isAttend").type(JsonFieldType.BOOLEAN).description("해당 지원자가 실험 참여 했다면 true 아니면 false")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }
@@ -173,7 +193,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/{postId}/applicant/list", 1)
                 .param("doDate", "2021-09-09")
-                .param("status","WAIT")
+                .param("status", "WAIT")
         );
 
         results.andExpect(status().isOk())
@@ -187,18 +207,20 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                                 parameterWithName("status").description("WAIT(대기자 명단으로 확정자,대기자 모두 보여줌) or APPROVE(확정자 명단)")
                         ),
                         responseFields(
-                                fieldWithPath("[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 실험 시작 시간 식별자"),
-                                fieldWithPath("[].userInfoList[].id").type(JsonFieldType.NUMBER).description("유저 식별자"),
-                                fieldWithPath("[].userInfoList[].name").type(JsonFieldType.STRING).description("유저 실명"),
-                                fieldWithPath("[].userInfoList[].birth").type(JsonFieldType.STRING).description("생년월일"),
-                                fieldWithPath("[].userInfoList[].gender").type(JsonFieldType.STRING).description("성별"),
-                                fieldWithPath("[].userInfoList[].phoneNum").type(JsonFieldType.STRING).description("연락처"),
-                                fieldWithPath("[].userInfoList[].job").type(JsonFieldType.STRING).description("직업"),
-                                fieldWithPath("[].userInfoList[].status").description("지원현황(APPROVE or WAIT)"),
-                                fieldWithPath("[].userInfoList[].isAttend").description("실험 참여했다면 true, 안했다면 false"),
-                                fieldWithPath("[].userInfoList[].postDoDateId").description("게시물 실험 시작 시간 식별자"),
-                                fieldWithPath("[].userInfoList[].startTime").description("실험 시작 시간"),
-                                fieldWithPath("[].userInfoList[].endTime").description("실험 끝나는 시간")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 실험 시작 시간 식별자"),
+                                fieldWithPath("data.[].userInfoList[].id").type(JsonFieldType.NUMBER).description("유저 식별자"),
+                                fieldWithPath("data.[].userInfoList[].name").type(JsonFieldType.STRING).description("유저 실명"),
+                                fieldWithPath("data.[].userInfoList[].birth").type(JsonFieldType.STRING).description("생년월일"),
+                                fieldWithPath("data.[].userInfoList[].gender").type(JsonFieldType.STRING).description("성별"),
+                                fieldWithPath("data.[].userInfoList[].phoneNum").type(JsonFieldType.STRING).description("연락처"),
+                                fieldWithPath("data.[].userInfoList[].job").type(JsonFieldType.STRING).description("직업"),
+                                fieldWithPath("data.[].userInfoList[].status").description("지원현황(APPROVE or WAIT)"),
+                                fieldWithPath("data.[].userInfoList[].isAttend").description("실험 참여했다면 true, 안했다면 false"),
+                                fieldWithPath("data.[].userInfoList[].postDoDateId").description("게시물 실험 시작 시간 식별자"),
+                                fieldWithPath("data.[].userInfoList[].startTime").description("실험 시작 시간"),
+                                fieldWithPath("data.[].userInfoList[].endTime").description("실험 끝나는 시간")
                         )
                 ));
     }

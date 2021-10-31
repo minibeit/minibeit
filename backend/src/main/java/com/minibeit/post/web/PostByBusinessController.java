@@ -1,5 +1,6 @@
 package com.minibeit.post.web;
 
+import com.minibeit.common.dto.ApiResult;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostRequest;
@@ -26,49 +27,49 @@ public class PostByBusinessController {
 
     @PostMapping("/info")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<PostResponse.OnlyId> createInfo(@RequestBody PostRequest.CreateInfo request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<PostResponse.OnlyId>> createInfo(@RequestBody PostRequest.CreateInfo request, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.OnlyId response = postByBusinessService.createInfo(request, customUserDetails.getUser());
-        return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(response);
+        return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(ApiResult.build(HttpStatus.CREATED.value(), response));
     }
 
     @PostMapping("/{postId}/files")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<PostResponse.OnlyId> addFiles(@PathVariable Long postId, PostRequest.AddFile request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<PostResponse.OnlyId>> addFiles(@PathVariable Long postId, PostRequest.AddFile request, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.OnlyId response = postByBusinessService.addFiles(postId, request, customUserDetails.getUser());
-        return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(response);
+        return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(ApiResult.build(HttpStatus.CREATED.value(), response));
     }
 
     @PostMapping("/{postId}/completed")
-    public ResponseEntity<Void> recruitmentCompleted(@PathVariable Long postId, @RequestBody PostRequest.RejectComment request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<Void>> recruitmentCompleted(@PathVariable Long postId, @RequestBody PostRequest.RejectComment request, @CurrentUser CustomUserDetails customUserDetails) {
         postByBusinessService.recruitmentCompleted(postId, request, customUserDetails.getUser());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 
     @GetMapping("/business/profile/{businessProfileId}/list")
-    public ResponseEntity<Page<PostResponse.GetListByBusinessProfile>> getListByBusinessProfile(@PathVariable Long businessProfileId,
-                                                                                                @RequestParam(defaultValue = "RECRUIT", name = "status") PostStatus postStatus,
-                                                                                                PageDto pageDto) {
+    public ResponseEntity<ApiResult<Page<PostResponse.GetListByBusinessProfile>>> getListByBusinessProfile(@PathVariable Long businessProfileId,
+                                                                                                           @RequestParam(defaultValue = "RECRUIT", name = "status") PostStatus postStatus,
+                                                                                                           PageDto pageDto) {
         Page<PostResponse.GetListByBusinessProfile> response = postByBusinessService.getListByBusinessProfile(businessProfileId, postStatus, LocalDateTime.now(), pageDto);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
     @GetMapping("/{postId}/exist/doDate/list")
-    public ResponseEntity<PostResponse.DoDateList> getDoDateList(@PathVariable Long postId,
+    public ResponseEntity<ApiResult<PostResponse.DoDateList>> getDoDateList(@PathVariable Long postId,
                                                                  @RequestParam(name = "yearMonth") @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {
         PostResponse.DoDateList response = postByBusinessService.getDoDateListByYearMonth(postId, yearMonth);
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
     @PutMapping("/{postId}")
-    public ResponseEntity<PostResponse.OnlyId> updateContent(@PathVariable Long postId, @RequestBody PostRequest.UpdateContent request,
+    public ResponseEntity<ApiResult<PostResponse.OnlyId>> updateContent(@PathVariable Long postId, @RequestBody PostRequest.UpdateContent request,
                                                              @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.OnlyId response = postByBusinessService.updateContent(postId, request, customUserDetails.getUser());
-        return ResponseEntity.ok().body(response);
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
     @DeleteMapping("/{postId}")
-    public ResponseEntity<Void> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<Void>> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         postByBusinessService.deleteOne(postId, LocalDateTime.now(), customUserDetails.getUser());
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 }

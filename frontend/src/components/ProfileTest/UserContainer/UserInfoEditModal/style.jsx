@@ -125,10 +125,11 @@ export const EditInput = styled.div`
   & input,
   select {
     width: 100%;
+    height: 100%;
     border: none;
     border-radius: 8px;
     padding: 4px 0 8px 5px;
-    font-size: 14px;
+    font-size: 15px;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
@@ -140,6 +141,18 @@ export const EditInput = styled.div`
     text-decoration: none;
   }
 `;
+export const SelectForm = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  & p {
+    font-size: 0.5rem;
+  }
+  & > div {
+    margin-top: 7px;
+  }
+`;
+
 export const NickNameBtn = styled.button``;
 export const SignupMSG = styled.div`
   color: ${(props) => props.color};

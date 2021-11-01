@@ -7,10 +7,10 @@ import Presenter from "./presenter";
 import CloseIcon from "@mui/icons-material/Close";
 import Portal from "../../../Common/Modal/Portal";
 import * as S from "./style";
+import { nickCheckApi } from "../../../../utils/auth";
 
 export default function UserInfoEditModal({ setModalSwitch }) {
-  const [user, setUser] = useRecoilState(userState);
-  const [userData, setUserData] = useState();
+  const [userData, setUserData] = useState({});
 
   const getUserData = async () => {
     await getMyInfo().then((res) => {
@@ -18,43 +18,22 @@ export default function UserInfoEditModal({ setModalSwitch }) {
     });
   };
 
-  const editUserDataHandler = async (
-    inputs,
-    school,
-    schoolDefault,
-    newImg,
-    basicImg
-  ) => {
-    if (school === null) {
-      await editMyInfo(inputs, schoolDefault, newImg, basicImg).then(
-        async (res) => {
-          const user_cp = { ...user };
-          user_cp["name"] = inputs.new_nickname;
-          user_cp["avatar"] =
-            res.data.data.avatar === null ? "noImg" : res.data.data.avatar;
-          setUser(user_cp);
-          window.alert("회원정보가 수정되었습니다.");
-          window.location.replace(`/user/${inputs.new_nickname}`);
-          setModalSwitch(false);
-        }
-      );
-    } else {
-      await editMyInfo(inputs, school, newImg, basicImg).then(async (res) => {
-        const user_cp = { ...user };
-        user_cp["schoolId"] = parseInt(school);
-        user_cp["name"] = inputs.new_nickname;
-        user_cp["avatar"] =
-          res.data.data.avatar === null ? "noImg" : res.data.data.avatar;
-        setUser(user_cp);
-        window.alert("회원정보가 수정되었습니다.");
-        window.location.replace(`/user/${inputs.new_nickname}`);
-        setModalSwitch(false);
-      });
-    }
+  const checkingNickname = (nickname) => {
+    nickCheckApi(nickname)
+      .then((res) => alert("사용가능한 아이디 입니다"))
+      .catch((err) => alert(err.response.data.error.info));
   };
+
+  const submitEditUser = (userData, schoolId, newNickname, imgChanged, img) => {
+    editMyInfo(userData, schoolId, newNickname, imgChanged, img)
+      .then((res) => console.log(res))
+      .err((err) => console.log(err));
+  };
+
   const closeModal = () => {
     setModalSwitch(false);
   };
+
   useEffect(() => {
     getUserData();
   }, []);
@@ -74,7 +53,9 @@ export default function UserInfoEditModal({ setModalSwitch }) {
               <S.ModalContent>
                 <Presenter
                   userData={userData}
-                  editUserDataHandler={editUserDataHandler}
+                  setUserData={setUserData}
+                  submitEditUser={submitEditUser}
+                  checkingNickname={checkingNickname}
                 />
               </S.ModalContent>
             </S.ModalBox>

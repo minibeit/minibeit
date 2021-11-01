@@ -6,6 +6,7 @@ import com.minibeit.post.domain.RejectPost;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.dto.RejectPostResponse;
+import com.minibeit.user.domain.AlarmStatus;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
@@ -24,7 +25,9 @@ public class RejectPostService {
     public Page<RejectPostResponse.GetList> getList(PageDto pageDto, User user) {
         Page<RejectPost> rejectPostList = rejectPostRepository.findAllByUserId(user.getId(), pageDto.ofWithSortDesc("id"));
         User currentUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
-        currentUser.rejectedAlarmOff();
+        if(currentUser.getAlarm() != null){
+            currentUser.getAlarm().alarmOff(AlarmStatus.REJECT);
+        }
         return rejectPostList.map(RejectPostResponse.GetList::build);
     }
 

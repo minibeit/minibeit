@@ -8,6 +8,7 @@ import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.security.userdetails.CustomUserDetails;
+import com.minibeit.user.domain.AlarmStatus;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -63,10 +64,16 @@ public class PostService {
     }
 
     public Page<PostResponse.GetMyApplyList> getListByApplyStatus(ApplyStatus applyStatus, User user, LocalDateTime now, PageDto pageDto) {
-        if(applyStatus.equals(ApplyStatus.APPROVE)){
-            user.approvedAlarmOff();
-        }
+        approvedAlarmStart(applyStatus, user);
         return postRepository.findAllByApplyStatus(applyStatus, user, now, pageDto.of());
+    }
+
+    private void approvedAlarmStart(ApplyStatus applyStatus, User user) {
+        if(ApplyStatus.APPROVE.equals(applyStatus)){
+            if(user.getAlarm() != null){
+                user.getAlarm().alarmOff(AlarmStatus.APPROVE);
+            }
+        }
     }
 
     public Page<PostResponse.GetMyCompletedList> getListByMyCompleteList(User user, PageDto pageDto) {

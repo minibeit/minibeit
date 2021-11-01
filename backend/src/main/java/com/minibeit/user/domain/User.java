@@ -98,51 +98,13 @@ public class User extends BaseEntity {
         return businessProfile.getAdmin().getId().equals(this.getId());
     }
 
-    public boolean rejectedAlarmOnOff() {
-        if (this.alarm == null || this.alarm.getRejectedAlarm() == null) {
-            return false;
-        }
-        LocalDateTime plusDays = this.alarm.getRejectedAlarm().plusDays(3L);
-        return LocalDateTime.now().isBefore(plusDays);
-    }
-
-    public boolean approvedAlarmOnOff() {
-        if (this.alarm == null || this.alarm.getApprovedAlarm() == null) {
-            return false;
-        }
-        LocalDateTime plusDays = this.alarm.getApprovedAlarm().plusDays(3L);
-        return LocalDateTime.now().isBefore(plusDays);
-    }
-
-    public void approvedAlarmOn(){
-        if(this.alarm == null){
+    public void alarmOn(AlarmStatus alarmStatus) {
+        if(AlarmStatus.APPROVE.equals(alarmStatus)){
             this.alarm = new Alarm(LocalDateTime.now(), null);
-        }
-        else{
-            this.alarm.approvedOn();
-        }
-    }
 
-    public void approvedAlarmOff(){
-        if(this.alarm != null){
-            this.alarm.approvedOff();
         }
-    }
-
-    public void rejectedAlarmOn(){
-        if(this.alarm == null){
+        else if(AlarmStatus.REJECT.equals(alarmStatus)){
             this.alarm = new Alarm(null, LocalDateTime.now());
         }
-        else{
-            this.alarm.rejectedOn();
-        }
     }
-
-    public void rejectedAlarmOff(){
-        if(this.alarm != null){
-            this.alarm.rejectedOff();
-        }
-    }
-
-
 }

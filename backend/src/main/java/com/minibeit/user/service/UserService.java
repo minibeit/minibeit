@@ -87,7 +87,10 @@ public class UserService {
     @Transactional(readOnly = true)
     public UserResponse.Alaram getNews(User user){
 
-        return UserResponse.Alaram.build(user.approvedAlarmOnOff(), user.rejectedAlarmOnOff() );
+        if(user.getAlarm() == null){
+            return UserResponse.Alaram.build(false, false);
+        }
+        return UserResponse.Alaram.build(user.getAlarm().approvedAlarmCheck(), user.getAlarm().rejectedAlarmCheck() );
     }
 
     public void deleteOne(User user) {

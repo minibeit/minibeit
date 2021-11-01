@@ -14,6 +14,7 @@ import com.minibeit.post.service.exception.ExistApprovedApplicant;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
+import com.minibeit.user.domain.AlarmStatus;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.service.exception.SchoolNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -75,10 +76,10 @@ public class PostByBusinessService {
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
         List<PostApplicant> approvedApplicantList = postApplicantRepository.findAllByApplyStatus(postId, ApplyStatus.APPROVE);
-        approvedApplicantList.forEach( postApplicant -> postApplicant.getUser().approvedAlarmOn());
+        approvedAlarmStart(approvedApplicantList);
 
         List<PostApplicant> rejectedApplicantList = postApplicantRepository.findAllByApplyStatus(postId, ApplyStatus.WAIT);
-        rejectedApplicantList.forEach(postApplicant -> postApplicant.getUser().rejectedAlarmOn());
+        rejectedAlarmStart(rejectedApplicantList);
 
         List<Long> applicantIdList = rejectedApplicantList.stream().map(PostApplicant::getId).collect(Collectors.toList());
         postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT);
@@ -88,6 +89,21 @@ public class PostByBusinessService {
         rejectPostRepository.saveAll(rejectPostList);
 
         post.completed();
+    }
+
+    private void rejectedAlarmStart(List<PostApplicant> rejectedApplicantList) {
+        rejectedApplicantList.stream().filter(applicant -> applicant.getUser().getAlarm() != null).forEach(applicant -> applicant.getUser().getAlarm().alarmOn(AlarmStatus.REJECT));
+    }
+
+    private void approvedAlarmStart(List<PostApplicant> approvedApplicantList) {
+        approvedApplicantList.forEach(applicant -> {
+            if (applicant.getUser().getAlarm() == null) {
+                applicant.getUser().alarmOn(AlarmStatus.APPROVE);
+            }
+            else{
+                applicant.getUser().getAlarm().alarmOn(AlarmStatus.APPROVE);
+            }
+        });
     }
 
     @Transactional(readOnly = true)

@@ -22,4 +22,21 @@ public class SavedFile {
     private final boolean isImage;
     private final AvatarType avatarType;
     private final AvatarServer avatarServer;
+
+    public static SavedFile create(String s3FileName, String extension, AvatarServer avatarServer, String originalName, long fileSize, boolean isImage, String publicUrl, Integer width, Integer height) {
+        SavedFile.SavedFileBuilder savedFileBuilder = SavedFile.builder()
+                .name(s3FileName)
+                .extension(extension)
+                .avatarServer(avatarServer)
+                .originalName(originalName)
+                .size(fileSize)
+                .isImage(isImage)
+                .publicUrl(publicUrl)
+                .width(width)
+                .height(height);
+        if (isImage) {
+            return savedFileBuilder.avatarType(AvatarType.IMAGE).build();
+        }
+        return savedFileBuilder.avatarType(AvatarType.FILE).build();
+    }
 }

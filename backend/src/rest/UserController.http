@@ -10,7 +10,7 @@ Content-Disposition: form-data; name="name";
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-55
+23
 --boundary
 Content-Disposition: form-data; name="gender";
 

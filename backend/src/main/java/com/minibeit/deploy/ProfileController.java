@@ -1,5 +1,6 @@
 package com.minibeit.deploy;
 
+import com.amazonaws.services.cloudformation.model.InvalidOperationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,17 +14,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping(path = "/api")
 public class ProfileController {
-    private final Environment environment;
+    private final Environment env;
 
     @GetMapping("/profile")
     public String profile() {
-        List<String> profiles = Arrays.asList(environment.getActiveProfiles());
-        List<String> realProfiles = Arrays.asList("deploy1", "deploy2");
-        String defaultProfile = profiles.isEmpty() ? "default" : profiles.get(0);
+        List<String> deployProfiles = Arrays.asList("deploy1", "deploy2");
 
-        return profiles.stream()
-                .filter(realProfiles::contains)
+        return Arrays.stream(env.getActiveProfiles())
+                .filter(deployProfiles::contains)
                 .findAny()
-                .orElse(defaultProfile);
+                .orElseThrow(() -> new InvalidOperationException("현재 실행중인 JAR 파일의 profile중에 deploy1와 deploy2가 모두 없습니다."));
     }
 }

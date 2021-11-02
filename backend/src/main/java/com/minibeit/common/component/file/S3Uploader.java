@@ -4,7 +4,6 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.minibeit.avatar.domain.AvatarServer;
-import com.minibeit.avatar.domain.AvatarType;
 import com.minibeit.common.component.exception.S3FileUploadException;
 import com.minibeit.common.dto.SavedFile;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -60,12 +58,13 @@ public class S3Uploader {
             }
             removeNewFile(uploadFile);
         } catch (IOException e) {
+            log.info(e.getMessage());
             throw new S3FileUploadException();
         }
-        return SavedFile.create(s3FileName,extension,AvatarServer.S3,originalName,file.getSize(),isImage,publicUrl,width,height);
+        return SavedFile.create(s3FileName, extension, AvatarServer.S3, originalName, file.getSize(), isImage, publicUrl, width, height);
     }
 
-    private void putS3(File uploadFile, String fileName) throws IOException {
+    private void putS3(File uploadFile, String fileName) {
         s3Client.putObject(new PutObjectRequest(s3Bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
     }
 
@@ -84,7 +83,7 @@ public class S3Uploader {
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {
-        File convertFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+        File convertFile = new File("/tmp/" + file.getOriginalFilename());
         if (convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());

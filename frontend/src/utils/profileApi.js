@@ -17,13 +17,7 @@ export const getMyInfo = async () => {
   return await withAuthInstance.get(MY_USERINFO);
 };
 
-export const editMyInfo = (
-  userData,
-  schoolId,
-  newNickname,
-  imgChanged,
-  img
-) => {
+export const editMyInfo = (userData, schoolId, newNickname) => {
   const formData = new FormData();
   formData.append("name", userData.name);
   if (!newNickname) {
@@ -41,11 +35,12 @@ export const editMyInfo = (
   formData.append("job", userData.job);
   formData.append("birth", userData.birth);
   formData.append("schoolId", schoolId);
-  formData.append("avatarChanged", imgChanged);
-  if (imgChanged) {
-    formData.append("avatar", img);
+  if (typeof userData.avatar !== "string") {
+    formData.append("avatarChanged", true);
+    if (userData.avatar) formData.append("avatar", userData.avatar);
+  } else {
+    formData.append("avatarChanged", false);
   }
-
   return withAuthInstance.post(EDIT_MY_USERINFO, formData);
 };
 

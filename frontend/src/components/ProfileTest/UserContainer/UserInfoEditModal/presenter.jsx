@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { PVImg, SchoolSelect } from "../../../Common";
-import { signupState } from "../../../../recoil/signupState";
 import { useRecoilValue } from "recoil";
 import * as S from "./style";
 import { userState } from "../../../../recoil/userState";
@@ -11,52 +10,50 @@ export default function Presenter({
   submitEditUser,
   checkingNickname,
 }) {
-  const [img, setImg] = useState();
-  const [imgChanged, setImgChanged] = useState(false);
   const [newNickname, setNewNickname] = useState();
   const userSchoolId = useRecoilValue(userState).schoolId;
-  const [schoolId, setSchoolId] = useState(null);
+  const [schoolId, setSchoolId] = useState(userSchoolId);
   const onChange = (e) => {
     const { value, name } = e.target;
     const copy = { ...userData };
     copy[name] = value;
     setUserData(copy);
   };
-
+  const onFileChange = (e) => {
+    const copy = { ...userData };
+    switch (e.target.id) {
+      case "reset":
+        copy.avatar = null;
+        setUserData(copy);
+        break;
+      case "upload":
+        copy.avatar = e.target.files[0];
+        setUserData(copy);
+        break;
+      default:
+        return;
+    }
+  };
   return (
     <>
       <S.ImgEditContainer>
         <S.ImgBox>
-          {!userData.avatar ? (
-            img ? (
-              <PVImg img={img} />
-            ) : userData.avatar ? (
-              <S.Img src={userData.avatar} />
-            ) : (
-              <S.Img src="/기본프로필.png" />
-            )
+          {userData.avatar ? (
+            <PVImg img={userData.avatar} />
           ) : (
             <S.Img src="/기본프로필.png" />
           )}
         </S.ImgBox>
-        <S.ImgEditBtn
-          onClick={(e) => {
-            setImg(null);
-            setImgChanged(true);
-          }}
-        >
+        <S.ImgEditBtn id="reset" onClick={onFileChange}>
           기본이미지로 변경
         </S.ImgEditBtn>
-        <S.ImgEditBtn htmlFor="input-file">사진 업로드 하기</S.ImgEditBtn>
+        <S.ImgEditBtn htmlFor="upload">사진 업로드 하기</S.ImgEditBtn>
         <input
           style={{ display: "none" }}
           name="img"
-          id="input-file"
+          id="upload"
           type="file"
-          onChange={(e) => {
-            setImg(e.target.files[0]);
-            setImgChanged(true);
-          }}
+          onChange={onFileChange}
         />
       </S.ImgEditContainer>
       <S.InfoEditContainer>
@@ -162,11 +159,7 @@ export default function Presenter({
             </div>
           </S.EditInput>
         </div>
-        <button
-          onClick={() =>
-            submitEditUser(userData, schoolId, newNickname, imgChanged, img)
-          }
-        >
+        <button onClick={() => submitEditUser(userData, schoolId, newNickname)}>
           수정 완료
         </button>
       </S.InfoEditContainer>

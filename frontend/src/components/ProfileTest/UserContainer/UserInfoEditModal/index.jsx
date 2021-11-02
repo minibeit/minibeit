@@ -8,8 +8,10 @@ import CloseIcon from "@mui/icons-material/Close";
 import Portal from "../../../Common/Modal/Portal";
 import * as S from "./style";
 import { nickCheckApi } from "../../../../utils/auth";
+import { useHistory } from "react-router";
 
 export default function UserInfoEditModal({ setModalSwitch }) {
+  const history = useHistory();
   const [userData, setUserData] = useState({});
 
   const getUserData = async () => {
@@ -24,10 +26,15 @@ export default function UserInfoEditModal({ setModalSwitch }) {
       .catch((err) => alert(err.response.data.error.info));
   };
 
-  const submitEditUser = (userData, schoolId, newNickname, imgChanged, img) => {
-    editMyInfo(userData, schoolId, newNickname, imgChanged, img)
-      .then((res) => console.log(res))
-      .err((err) => console.log(err));
+  const submitEditUser = (userData, schoolId, newNickname) => {
+    editMyInfo(userData, schoolId, newNickname)
+      .then((res) => {
+        alert("수정이 완료되었습니다!");
+        closeModal();
+        history.push(`/profile/${res.data.data.nickname}`);
+        history.go(0);
+      })
+      .catch((err) => console.log(err));
   };
 
   const closeModal = () => {

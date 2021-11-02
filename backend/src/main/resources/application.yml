@@ -58,7 +58,9 @@ jwt:
   refresh-token-props:
     secret: '3NuzNV3kkmNln/fqxyjqxKDA/1WaaS+V83KYTT8jmX1VpKsMskbqS+xFR3Cv1P9MmskDX3WdHcWka/dgvkGMQg=='
     expiration-time-milli-sec: 864000000
-
+dev:
+  server:
+    url: test.com
 ---
 spring:
   config:

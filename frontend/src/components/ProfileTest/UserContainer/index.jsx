@@ -50,7 +50,7 @@ export default function UserContainer() {
 
   return (
     <S.Container>
-      <S.UserInfoBox>
+      <S.UserInfoContainer>
         {userData && (
           <>
             <S.ImgBox>
@@ -73,63 +73,49 @@ export default function UserContainer() {
             <div>전화번호 : {userData.phoneNum}</div>
           </>
         )}
-      </S.UserInfoBox>
-      <div>
-        <button
-          onClick={() => {
-            setFeedSwitch("대기중");
-            changeFeedData("대기중");
-          }}
-        >
-          대기중 목록
-        </button>
-        <button
-          onClick={() => {
-            setFeedSwitch("확정");
-            changeFeedData("확정");
-          }}
-        >
-          확정된 목록
-        </button>
-        <button
-          onClick={() => {
-            setFeedSwitch("완료");
-            changeFeedData("완료");
-          }}
-        >
-          완료한 목록
-        </button>
-        <button
-          onClick={() => {
-            setFeedSwitch("반려");
-            changeFeedData("반려");
-          }}
-        >
-          반려된 목록
-        </button>
-        <button
-          onClick={() => {
-            setFeedSwitch("즐겨찾기");
-            changeFeedData("즐겨찾기");
-          }}
-        >
-          즐겨찾기 목록
-        </button>
-        <div>
+      </S.UserInfoContainer>
+      <S.FeedContainer>
+        <S.CategoryBtnBox>
+          {["대기중", "확정", "완료", "반려", "즐겨찾기"].map((a) => {
+            return (
+              <button
+                onClick={() => {
+                  setFeedSwitch(a);
+                  changeFeedData(a);
+                }}
+              >
+                {a} 목록
+              </button>
+            );
+          })}
+        </S.CategoryBtnBox>
+        <S.FeedGroup>
           {feedData.length === 0 ? (
             <div>{feedSwitch}</div>
           ) : (
             feedData.map((a) => (
-              <div key={a.id}>
-                <p>{a.title}</p>
-                <p>{a.place}</p>
-                <p>{a.payment}</p>
-                <p>{a.recruitCondition}</p>
+              <div>
+                <S.FeedLabel>라벨</S.FeedLabel>
+                <S.FeedBox key={a.id}>
+                  <S.FeedTitleBox>
+                    <p>게시글 제목</p>
+                    <p>{a.title}</p>
+                  </S.FeedTitleBox>
+                  <S.FeedContentBox>
+                    <div>
+                      콘텐츠 디브
+                      <p>{a.place}</p>
+                      <p>{a.payment}</p>
+                      <p>{a.recruitCondition}</p>
+                    </div>
+                    <div>버튼 디브</div>
+                  </S.FeedContentBox>
+                </S.FeedBox>
               </div>
             ))
           )}
-        </div>
-      </div>
+        </S.FeedGroup>
+      </S.FeedContainer>
     </S.Container>
   );
 }

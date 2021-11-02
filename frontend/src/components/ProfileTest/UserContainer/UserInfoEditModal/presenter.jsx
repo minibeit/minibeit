@@ -1,39 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { PVImg, SchoolSelect } from "../../../Common";
-import { useRecoilValue } from "recoil";
 import * as S from "./style";
-import { userState } from "../../../../recoil/userState";
 
 export default function Presenter({
   userData,
-  setUserData,
-  submitEditUser,
+  onChange,
+  onFileChange,
+  newNickname,
+  setNewNickname,
+  schoolId,
+  setSchoolId,
   checkingNickname,
+  submitEditUser,
 }) {
-  const [newNickname, setNewNickname] = useState();
-  const userSchoolId = useRecoilValue(userState).schoolId;
-  const [schoolId, setSchoolId] = useState(userSchoolId);
-  const onChange = (e) => {
-    const { value, name } = e.target;
-    const copy = { ...userData };
-    copy[name] = value;
-    setUserData(copy);
-  };
-  const onFileChange = (e) => {
-    const copy = { ...userData };
-    switch (e.target.id) {
-      case "reset":
-        copy.avatar = null;
-        setUserData(copy);
-        break;
-      case "upload":
-        copy.avatar = e.target.files[0];
-        setUserData(copy);
-        break;
-      default:
-        return;
-    }
-  };
   return (
     <>
       <S.ImgEditContainer>
@@ -106,7 +85,7 @@ export default function Presenter({
           <S.SelectForm>
             <p>관심학교</p>
             <SchoolSelect
-              defaultValue={userSchoolId}
+              defaultValue={schoolId}
               onChange={(e) => (e ? setSchoolId(e.value) : setSchoolId(null))}
             />
           </S.SelectForm>

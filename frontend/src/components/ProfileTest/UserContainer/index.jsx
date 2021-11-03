@@ -8,6 +8,7 @@ import {
 } from "../../../utils";
 
 import UserInfoEditModal from "./UserInfoEditModal";
+import FeedBox from "./FeedBox";
 
 import * as S from "../style";
 
@@ -20,22 +21,27 @@ export default function UserContainer() {
   const changeFeedData = (status) => {
     switch (status) {
       case "대기중":
+        setFeedData([]);
         getJoinlistApi(1, "WAIT").then((res) =>
           setFeedData(res.data.data.content)
         );
         break;
       case "확정":
+        setFeedData([]);
         getJoinlistApi(1, "APPROVE").then((res) =>
           setFeedData(res.data.data.content)
         );
         break;
       case "완료":
+        setFeedData([]);
         getFinishlistApi(1).then((res) => setFeedData(res.data.data.content));
         break;
       case "반려":
+        setFeedData([]);
         getCancellistApi(1).then((res) => setFeedData(res.data.data.content));
         break;
       case "즐겨찾기":
+        setFeedData([]);
         getLikeListApi(1).then((res) => setFeedData(res.data.data.content));
         break;
       default:
@@ -46,6 +52,9 @@ export default function UserContainer() {
     getMyInfo().then((res) => {
       setUserData(res.data.data);
     });
+  }, []);
+  useEffect(() => {
+    getJoinlistApi(1, "WAIT").then((res) => setFeedData(res.data.data.content));
   }, []);
 
   return (
@@ -76,9 +85,10 @@ export default function UserContainer() {
       </S.UserInfoContainer>
       <S.FeedContainer>
         <S.CategoryBtnBox>
-          {["대기중", "확정", "완료", "반려", "즐겨찾기"].map((a) => {
+          {["대기중", "확정", "완료", "반려", "즐겨찾기"].map((a, i) => {
             return (
               <button
+                key={i}
                 onClick={() => {
                   setFeedSwitch(a);
                   changeFeedData(a);
@@ -94,23 +104,8 @@ export default function UserContainer() {
             <div>{feedSwitch}</div>
           ) : (
             feedData.map((a) => (
-              <div>
-                <S.FeedLabel>라벨</S.FeedLabel>
-                <S.FeedBox key={a.id}>
-                  <S.FeedTitleBox>
-                    <p>게시글 제목</p>
-                    <p>{a.title}</p>
-                  </S.FeedTitleBox>
-                  <S.FeedContentBox>
-                    <div>
-                      콘텐츠 디브
-                      <p>{a.place}</p>
-                      <p>{a.payment}</p>
-                      <p>{a.recruitCondition}</p>
-                    </div>
-                    <div>버튼 디브</div>
-                  </S.FeedContentBox>
-                </S.FeedBox>
+              <div key={a.id}>
+                <FeedBox status={feedSwitch} data={a} />
               </div>
             ))
           )}

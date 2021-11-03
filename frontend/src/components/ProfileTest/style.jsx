@@ -63,12 +63,43 @@ export const FeedLabel = styled.div`
   border-radius: 2rem;
   transform: translate(0, 50%);
 `;
-export const FeedTitleBox = styled.div``;
+export const FeedTitleBox = styled.div`
+  background-color: indigo;
+  display: flex;
+  gap: 0.3rem;
+  flex-direction: column;
+  padding: 1rem;
+  & > p:first-child {
+    font-size: 0.7rem;
+  }
+  & > p:nth-child(2) {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+`;
 export const FeedContentBox = styled.div`
+  background-color: tomato;
   display: flex;
   flex-direction: column;
   margin-left: auto;
-  & > div:nth-child(2) {
-    margin-top: auto;
+`;
+export const FeedInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  & > div {
+    display: flex;
+    gap: 2rem;
+    & > p:nth-child(2) {
+      margin-left: auto;
+    }
   }
+`;
+export const FeedButton = styled.div`
+  background-color: violet;
+  margin-top: auto;
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
 `;

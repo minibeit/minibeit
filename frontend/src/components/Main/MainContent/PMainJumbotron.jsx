@@ -7,13 +7,16 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 
 function PMainJumbotron() {
-// let [imgs] = useState(['/cloud.jpg', '/cloud2.jpg','/cloud.jpg', '/cloud2.jpg']);
+
+const [imgs] = useState(['/cloud.jpg','/cloud2.jpg', '/cloud3.jpg', '/cloud4.jpg']);
+
 const [modalSwitch, setModalSwitch] = useState(false);
+const [currentImg, setCurrentImg] = useState('');
 
-const onClick = () => {
+const onClick = (e) => {
   setModalSwitch(true);
+  setCurrentImg(imgs.indexOf(e.target.src.substring(21)));
 };
-
 
   return (
     <S.BackGround>
@@ -46,14 +49,14 @@ const onClick = () => {
 {/* durldurldurldurl
 durlurldurldurlw */}
       <S.ImgContainer>
-        <div><S.Img src="/cloud.jpg" onClick={onClick}/></div>
+        <div><S.Img src={imgs[0]} onClick={onClick}/></div>
         <div>
-          <div><S.SmImg src="/cloud2.jpg"/></div>
-          <div><S.SmImg src="/cloud.jpg"/></div>
-          <div><S.SmImg src="/cloud2.jpg"/></div>
+          <div><S.SmImg src={imgs[1]} onClick={onClick}/></div>
+          <div><S.SmImg src={imgs[2]} onClick={onClick}/></div>
+          <div><S.SmImg src={imgs[3]} onClick={onClick}/></div>
         </div>
         {modalSwitch ? (
-          <TestModal2 setModalSwitch={setModalSwitch}/>
+          <TestModal2 setModalSwitch={setModalSwitch} imgs={imgs} currentImg={currentImg}/>
           ) : null }
         </S.ImgContainer>
     </S.BackGround>

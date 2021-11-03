@@ -16,7 +16,7 @@ export const ModalBackground = styled.div`
   & > div:first-child {
     display: flex;
     align-items: center;
-    gap: 50rem;
+    gap: 40rem;
     justify-content: center;
     margin-top: 2rem;
   }
@@ -37,9 +37,9 @@ export const ModalBtn = styled.button`
 // slider
 export const Container = styled.div`
   position: relative;
-  top: 45%;
+  top: 40%;
   left: 50%;
-  transform: translate(-50%, -55%);
+  transform: translate(-50%, -60%);
   width: 25rem;
   height: 25rem;
   overflow: hidden;

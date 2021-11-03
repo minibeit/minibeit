@@ -16,11 +16,33 @@ export const Container = styled.div`
   flex-wrap: wrap;
 `;
 export const UserInfoContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  align-items: center;
+  flex: 1.5;
+  padding: 2rem;
+  & > div:first-child {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  & button {
+    border: none;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
 `;
+export const UserInfoData = styled.div`
+  display: flex;
+  background: #f1f1f1;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 1rem;
+  padding: 1rem;
+`;
+
 export const FeedContainer = styled.div`
   flex: 3;
   padding: 2rem;
@@ -33,6 +55,7 @@ export const ImgBox = styled.div`
   width: 10rem;
   height: 10rem;
   display: inline-block;
+  text-align: center;
 `;
 export const UserImg = styled.img`
   object-fit: fill;
@@ -56,8 +79,8 @@ export const FeedBox = styled.div`
   padding: 1rem;
 `;
 export const FeedLabel = styled.div`
-  width: 3rem;
-  padding: 0.3rem;
+  width: 4rem;
+  padding: 0.5rem;
   text-align: center;
   background: #c4c4c4;
   border-radius: 2rem;

@@ -61,7 +61,7 @@ export default function UserContainer() {
     <S.Container>
       <S.UserInfoContainer>
         {userData && (
-          <>
+          <div>
             <S.ImgBox>
               {userData.avatar !== null ? (
                 <S.UserImg src={userData.avatar} />
@@ -73,14 +73,16 @@ export default function UserContainer() {
             {modalSwitch ? (
               <UserInfoEditModal setModalSwitch={setModalSwitch} />
             ) : null}
-            <div>이름 : {userData.name}</div>
-            <div>닉네임 : {userData.nickname}</div>
-            <div>성별 : {userData.gender === "MALE" ? "남자" : "여자"}</div>
-            <div>생년월일 : {userData.birth}</div>
-            <div>관심학교 : {userData.schoolName}</div>
-            <div>직업 : {userData.job}</div>
-            <div>전화번호 : {userData.phoneNum}</div>
-          </>
+            <S.UserInfoData>
+              <p>이름 : {userData.name}</p>
+              <p>닉네임 : {userData.nickname}</p>
+              <p>성별 : {userData.gender === "MALE" ? "남자" : "여자"}</p>
+              <p>생년월일 : {userData.birth}</p>
+              <p>관심학교 : {userData.schoolName}</p>
+              <p>직업 : {userData.job}</p>
+              <p>전화번호 : {userData.phoneNum}</p>
+            </S.UserInfoData>
+          </div>
         )}
       </S.UserInfoContainer>
       <S.FeedContainer>

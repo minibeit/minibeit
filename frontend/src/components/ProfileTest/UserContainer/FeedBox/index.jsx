@@ -5,7 +5,13 @@ import * as S from "../../style";
 export default function FeedBox({ status, data }) {
   return (
     <>
-      <S.FeedLabel>라벨</S.FeedLabel>
+      <S.FeedLabel>
+        {status === "대기중" && "참여대기"}
+        {status === "확정" && "참여확정"}
+        {status === "완료" && "참여완료"}
+        {status === "반려" && "참여반려"}
+        {status === "즐겨찾기" && "모집중 or 모집완료"}
+      </S.FeedLabel>
       <S.FeedBox>
         <S.FeedTitleBox>
           <p>게시글 제목</p>

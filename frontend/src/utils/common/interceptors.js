@@ -27,7 +27,6 @@ export function setInterceptors(instance) {
         response: { status },
       } = error;
       if (status === 401 ) {
-        //리코일이 문제임
         const originalRequest = config;
         const refreshData = await axios.post(
           process.env.REACT_APP_API_URL + "/api/user/refreshtoken",
@@ -39,8 +38,8 @@ export function setInterceptors(instance) {
           window.location.replace("/");
         }
         // 새로운 토큰 저장
-        localStorage.setItem("accessToken", refreshData.data.accessToken);
-        originalRequest.headers.Authorization = `Bearer ${refreshData.data.accessToken}`;
+        localStorage.setItem("accessToken", refreshData.data.data.accessToken);
+        originalRequest.headers.Authorization = `Bearer ${refreshData.data.data.accessToken}`;
         // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
         return axios(originalRequest);
       }

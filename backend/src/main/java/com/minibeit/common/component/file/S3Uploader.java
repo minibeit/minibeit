@@ -30,6 +30,8 @@ public class S3Uploader {
     private String s3Bucket;
     @Value("${cloud.aws.s3.public}")
     private String s3Public;
+    @Value("${s3.file.prefix}")
+    private String fileNamePrefix;
 
     public List<SavedFile> uploadFileList(List<MultipartFile> files) {
         return files.stream().map(this::upload).collect(Collectors.toList());
@@ -83,7 +85,7 @@ public class S3Uploader {
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {
-        File convertFile = new File("/tmp/" + file.getOriginalFilename());
+        File convertFile = new File(fileNamePrefix + file.getOriginalFilename());
         if (convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());
@@ -91,5 +93,12 @@ public class S3Uploader {
             return Optional.of(convertFile);
         }
         return Optional.empty();
+    }
+
+    public void delete(String fileName) {
+        boolean isExistObject = s3Client.doesObjectExist(s3Bucket, fileName);
+        if (isExistObject) {
+            s3Client.deleteObject(s3Bucket, fileName);
+        }
     }
 }

@@ -42,6 +42,10 @@ oauth2:
   success:
     redirect:
       url: http://localhost:3000/callback/
+
+s3:
+  file:
+    prefix:
 ---
 spring.config.activate.on-profile: local
 spring:

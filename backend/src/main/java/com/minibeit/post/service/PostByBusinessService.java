@@ -99,8 +99,7 @@ public class PostByBusinessService {
         approvedApplicantList.forEach(applicant -> {
             if (applicant.getUser().getAlarm() == null) {
                 applicant.getUser().alarmOn(AlarmStatus.APPROVE);
-            }
-            else{
+            } else {
                 applicant.getUser().getAlarm().alarmOn(AlarmStatus.APPROVE);
             }
         });
@@ -134,7 +133,11 @@ public class PostByBusinessService {
         if (postApplicantRepository.existsApproveAfterNow(postId, now)) {
             throw new ExistApprovedApplicant();
         }
-
+        if (post.getPostFileList() != null) {
+            for (PostFile postFile : post.getPostFileList()) {
+                s3Uploader.delete(postFile.getName());
+            }
+        }
         postRepository.deleteById(postId);
     }
 }

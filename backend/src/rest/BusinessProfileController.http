@@ -16,9 +16,9 @@ Content-Disposition: form-data; name="contact";
 010-1234-1234
 
 ###--boundary
-###Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
-
-###< ./../main/resources/mock/images/enjoy.png
+#Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
+#
+#< ./../main/resources/mock/images/enjoy.png
 
 ###
 GET {{apiUrl}}/business/profile/mine/list

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useHistory } from "react-router";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/userState";

@@ -141,11 +141,8 @@ export const FeedInfo = styled.div`
   padding: 1rem;
   & > div {
     display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    & > p:nth-child(2) {
-      margin-left: auto;
-    }
+    justify-content: end;
+    align-items: center;
   }
 `;
 export const FeedButton = styled.div`
@@ -159,5 +156,41 @@ export const FeedButton = styled.div`
     border: none;
     padding: 0.3rem 1rem 0.3rem 1rem;
     border-radius: 1rem;
+  }
+`;
+
+/* profile list */
+
+export const BusinessListBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > div {
+    display: flex;
+    gap: 1rem;
+  }
+`;
+export const BusinessProfile = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 10rem;
+  text-align: center;
+  & > div:first-child {
+    cursor: pointer;
+  }
+`;
+export const AddBProfileBtn = styled.div`
+  background-color: #f1f1f1;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  display: flex;
+  & > svg {
+    margin: auto;
+    font-size: 2rem;
   }
 `;

@@ -11,6 +11,7 @@ import UserInfoEditModal from "./UserInfoEditModal";
 import FeedBox from "./FeedBox";
 
 import * as S from "../style";
+import { PVImg } from "../../Common";
 
 export default function UserContainer() {
   const [userData, setUserData] = useState();
@@ -64,9 +65,9 @@ export default function UserContainer() {
           <div>
             <S.ImgBox>
               {userData.avatar !== null ? (
-                <S.UserImg src={userData.avatar} />
+                <PVImg img={userData.avatar} />
               ) : (
-                <S.UserImg src="/기본프로필.png" />
+                <PVImg img="/기본프로필.png" />
               )}
             </S.ImgBox>
             <button onClick={() => setModalSwitch(true)}>수정하기</button>

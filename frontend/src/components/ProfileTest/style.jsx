@@ -1,11 +1,18 @@
 import styled from "styled-components";
 
+/* Common */
+
 export const ProfilePage = styled.div`
   height: 100vh;
   max-width: 100%;
   width: 100vw;
   background: #f3f3f3;
   overflow: auto;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
   & > div:first-child {
     margin: 4rem 12rem 4rem 12rem;
   }
@@ -14,7 +21,18 @@ export const Container = styled.div`
   background-color: white;
   display: flex;
   flex-wrap: wrap;
+  min-height: 35rem;
 `;
+export const ImgBox = styled.div`
+  overflow: hidden;
+  width: 10rem;
+  height: 10rem;
+  display: inline-block;
+  border-radius: 50%;
+`;
+
+/* user */
+
 export const UserInfoContainer = styled.div`
   flex: 1.5;
   padding: 2rem;
@@ -42,26 +60,12 @@ export const UserInfoData = styled.div`
   border-radius: 1rem;
   padding: 1rem;
 `;
-
 export const FeedContainer = styled.div`
   flex: 3;
   padding: 2rem;
 `;
 export const CategoryBtnBox = styled.div`
   padding: 1rem;
-`;
-export const ImgBox = styled.div`
-  overflow: hidden;
-  width: 10rem;
-  height: 10rem;
-  display: inline-block;
-  text-align: center;
-`;
-export const UserImg = styled.img`
-  object-fit: fill;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
 `;
 export const FeedGroup = styled.div`
   display: flex;
@@ -125,4 +129,46 @@ export const FeedButton = styled.div`
   display: flex;
   justify-content: end;
   gap: 1rem;
+`;
+
+/* business Profile */
+
+export const BusinessListBox = styled.div`
+  margin: auto;
+  display: flex;
+  gap: 1rem;
+  text-align: center;
+  flex-direction: column;
+  & > p:first-child {
+    font-size: 1.5rem;
+  }
+  & > div:nth-child(3) {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+`;
+export const BusinessProfile = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 10rem;
+  & > div:first-child {
+    cursor: pointer;
+  }
+`;
+export const AddBProfileBtn = styled.div`
+  background-color: #f1f1f1;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  display: flex;
+  & > svg {
+    margin: auto;
+    font-size: 2rem;
+  }
 `;

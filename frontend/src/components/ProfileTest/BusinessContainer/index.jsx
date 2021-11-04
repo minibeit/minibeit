@@ -25,7 +25,9 @@ export default function BusinessContainer() {
             {BProfileList.map((a) => {
               return (
                 <S.BusinessProfile key={a.id}>
-                  <S.ImgBox onClick={() => history.push(`/business/${a.id}`)}>
+                  <S.ImgBox
+                    onClick={() => history.push(`/businesstest/${a.id}`)}
+                  >
                     {a.avatar ? (
                       <PVImg img={a.avatar} />
                     ) : (

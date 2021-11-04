@@ -21,6 +21,7 @@ include::{snippets}/user-nickname-check/request-fields.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/user-nickname-check/http-response.adoc[]
+include::{snippets}/user-nickname-check/response-fields.adoc[]
 
 === 내 정보 조회
 
@@ -66,3 +67,15 @@ include::{snippets}/user-deleteOne/http-request.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/user-deleteOne/http-response.adoc[]
+include::{snippets}/user-deleteOne/response-fields.adoc[]
+
+=== 거부되거나 승인된 게시물이 있는지 알림 확인
+
+`GET /api/user/alarm`
+
+요청 HTTP
+include::{snippets}/user-post-alarm/http-request.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/user-post-alarm/http-response.adoc[]
+include::{snippets}/user-post-alarm/response-fields.adoc[]

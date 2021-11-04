@@ -17,7 +17,7 @@ Content-Type: application/json;charset=UTF-8
   "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
   "doTime": 60,
   "schoolId": 1,
-  "businessProfileId": 1,
+  "businessProfileId": 2,
   "startDate": "2021-09-25T09:30",
   "endDate": "2021-10-02T12:30",
   "doDateList": [
@@ -43,7 +43,7 @@ Content-Type: application/json;charset=UTF-8
 }
 
 ###
-POST {{apiUrl}}/post/1/files
+POST {{apiUrl}}/post/000/files
 Authorization: {{authorizationToken}}
 Content-Type: multipart/form-data; boundary=boundary
 
@@ -73,7 +73,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-POST {{apiUrl}}/post/1/completed
+POST {{apiUrl}}/post/3/completed
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
@@ -88,7 +88,7 @@ Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 {
-  "updatedContent": "수정된 내용 추가"
+  "updatedContent": "수정된 내용"
 }
 
 ###
@@ -100,7 +100,9 @@ GET {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/list/1?doDate=2021-10-01&page=1&size=15&paymentType=&category=&startTime=&endTime=&minPay=&doTime=
+GET {{apiUrl}}/post/list/1?doDate=2021-10-01&page=1&size=15&paymentType=&category=&startTime=12:00&endTime=13:00&minPay=&doTime=
+
+
 
 ###
 GET {{apiUrl}}/post/2/start?doDate=2021-09-27

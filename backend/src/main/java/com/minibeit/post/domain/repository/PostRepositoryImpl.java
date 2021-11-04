@@ -1,6 +1,5 @@
 package com.minibeit.post.domain.repository;
 
-import com.minibeit.businessprofile.domain.QBusinessProfile;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
@@ -24,7 +23,7 @@ import java.time.LocalTime;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.minibeit.businessprofile.domain.QBusinessProfile.*;
+import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
 import static com.minibeit.businessprofile.domain.QBusinessProfileReview.businessProfileReview;
 import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostApplicant.postApplicant;
@@ -77,7 +76,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         if (Objects.nonNull(startTime) && Objects.nonNull(endTime)) {
             LocalDateTime startDateTime = LocalDateTime.of(doDate.getYear(), doDate.getMonthValue(), doDate.getDayOfMonth(), startTime.getHour(), startTime.getMinute());
             LocalDateTime endDateTime = LocalDateTime.of(doDate.getYear(), doDate.getMonthValue(), doDate.getDayOfMonth(), endTime.getHour(), endTime.getMinute());
-            return postDoDate.doDate.between(startDateTime, endDateTime);
+            return postDoDate.doDate.goe(startDateTime).and(postDoDate.doDate.loe(endDateTime));
         }
         return null;
     }

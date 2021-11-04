@@ -8,12 +8,15 @@ import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostApplicantResponse;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostDoDateIsFullException;
+import com.minibeit.user.domain.Alarm;
+import com.minibeit.user.domain.AlarmStatus;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -58,9 +61,18 @@ public class PostApplicantByBusinessService {
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
         postApplicant.updateStatus(ApplyStatus.REJECT);
-
+        rejectedAlarmStart(postApplicant);
         RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getComment(), postApplicant.getUser());
         rejectPostRepository.save(rejectPost);
+    }
+
+    private void rejectedAlarmStart(PostApplicant postApplicant) {
+        if(postApplicant.getUser().getAlarm() == null){
+            postApplicant.getUser().alarmOn(AlarmStatus.REJECT);
+        }
+        else{
+            postApplicant.getUser().getAlarm().alarmOn(AlarmStatus.REJECT);
+        }
     }
 
     public void attendChange(Long postDoDateId, Long userId, PostApplicantRequest.AttendChange request, User user) {

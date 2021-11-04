@@ -8,16 +8,20 @@ export default function SchoolSelect({ onChange, defaultValue }) {
   const getSchool = (text) => {
     schoolGetApi(text).then((res) => {
       const arr = [];
-      for (var i = 0; i < res.data.length; i++) {
-        arr.push({ label: res.data[i].name, value: res.data[i].id });
+      for (var i = 0; i < res.data.data.length; i++) {
+        arr.push({ label: res.data.data[i].name, value: res.data.data[i].id });
       }
       setSchools(arr);
     });
   };
-  
+
   const customStyles = {
     option: (provided, state) => ({
       ...provided,
+    }),
+    input: (provided, state) => ({
+      ...provided,
+      justifyContent: "center",
     }),
     control: (provided, state) => ({
       ...provided,
@@ -38,6 +42,10 @@ export default function SchoolSelect({ onChange, defaultValue }) {
       fontSize: "15px",
       fontWeight: "600",
     }),
+    menuList: (provided, state) => ({
+      ...provided,
+      height: "10rem",
+    }),
   };
 
   useEffect(() => {
@@ -50,7 +58,11 @@ export default function SchoolSelect({ onChange, defaultValue }) {
         <Select
           options={schools}
           onChange={onChange}
-          defaultValue={schools[defaultValue - 1]}
+          defaultValue={
+            defaultValue
+              ? schools.find((ele) => ele.value === defaultValue)
+              : null
+          }
           isClearable={true}
           placeholder="위치"
           styles={customStyles}

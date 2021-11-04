@@ -5,7 +5,8 @@ import {
   getFinishlistApi,
   getJoinlistApi,
 } from "../../../utils";
-import PJoinListBox from "./PJoinListBox";
+
+import Presenter from "./presenter";
 
 export default function JoinListBox({ state }) {
   const [joinlist, setJoinlist] = useState([]);
@@ -18,27 +19,27 @@ export default function JoinListBox({ state }) {
   const getJoinlist = useCallback(async () => {
     await getJoinlistApi(page, state)
       .then((res) => {
-        setJoinlist(res.data.content);
-        setPaging({ first: res.data.first, last: res.data.last });
-        setCount(res.data.totalElements);
+        setJoinlist(res.data.data.content);
+        setPaging({ first: res.data.data.first, last: res.data.data.last });
+        setCount(res.data.data.totalElements);
       })
       .catch((err) => console.log(err));
   }, [page, state]);
   const getCancellist = useCallback(async () => {
     await getCancellistApi(page)
       .then((res) => {
-        setJoinlist(res.data.content);
-        setPaging({ first: res.data.first, last: res.data.last });
-        setCount(res.data.totalElements);
+        setJoinlist(res.data.data.content);
+        setPaging({ first: res.data.data.first, last: res.data.data.last });
+        setCount(res.data.data.totalElements);
       })
       .catch((err) => console.log(err));
   }, [page]);
   const getFinishlist = useCallback(async () => {
     await getFinishlistApi(page)
       .then((res) => {
-        setJoinlist(res.data.content);
-        setPaging({ first: res.data.first, last: res.data.last });
-        setCount(res.data.totalElements);
+        setJoinlist(res.data.data.content);
+        setPaging({ first: res.data.data.first, last: res.data.data.last });
+        setCount(res.data.data.totalElements);
       })
       .catch((err) => console.log(err));
   }, [page]);
@@ -56,7 +57,7 @@ export default function JoinListBox({ state }) {
   }, [state, getCancellist, getFinishlist, getJoinlist]);
 
   return (
-    <PJoinListBox
+    <Presenter
       joinlist={joinlist}
       getCancellist={getCancellist}
       getJoinlist={getJoinlist}

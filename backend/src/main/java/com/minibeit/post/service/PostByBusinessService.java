@@ -14,6 +14,7 @@ import com.minibeit.post.service.exception.ExistApprovedApplicant;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
+import com.minibeit.user.domain.AlarmStatus;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.service.exception.SchoolNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -74,16 +75,35 @@ public class PostByBusinessService {
         Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
-        List<PostApplicant> postApplicantList = postApplicantRepository.findAllByApplyStatusIsWait(postId);
+        List<PostApplicant> approvedApplicantList = postApplicantRepository.findAllByApplyStatus(postId, ApplyStatus.APPROVE);
+        approvedAlarmStart(approvedApplicantList);
 
-        List<Long> applicantIdList = postApplicantList.stream().map(PostApplicant::getId).collect(Collectors.toList());
+        List<PostApplicant> rejectedApplicantList = postApplicantRepository.findAllByApplyStatus(postId, ApplyStatus.WAIT);
+        rejectedAlarmStart(rejectedApplicantList);
+
+        List<Long> applicantIdList = rejectedApplicantList.stream().map(PostApplicant::getId).collect(Collectors.toList());
         postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT);
 
-        List<RejectPost> rejectPostList = postApplicantList.stream()
+        List<RejectPost> rejectPostList = rejectedApplicantList.stream()
                 .map(postApplicant -> RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getRejectComment(), postApplicant.getUser())).collect(Collectors.toList());
         rejectPostRepository.saveAll(rejectPostList);
 
         post.completed();
+    }
+
+    private void rejectedAlarmStart(List<PostApplicant> rejectedApplicantList) {
+        rejectedApplicantList.stream().filter(applicant -> applicant.getUser().getAlarm() != null).forEach(applicant -> applicant.getUser().getAlarm().alarmOn(AlarmStatus.REJECT));
+    }
+
+    private void approvedAlarmStart(List<PostApplicant> approvedApplicantList) {
+        approvedApplicantList.forEach(applicant -> {
+            if (applicant.getUser().getAlarm() == null) {
+                applicant.getUser().alarmOn(AlarmStatus.APPROVE);
+            }
+            else{
+                applicant.getUser().getAlarm().alarmOn(AlarmStatus.APPROVE);
+            }
+        });
     }
 
     @Transactional(readOnly = true)
@@ -102,9 +122,9 @@ public class PostByBusinessService {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
-        Post updatedPost = post.updateContent(request.getUpdatedContent());
+        post.updateContent(request.getUpdatedContent());
 
-        return PostResponse.OnlyId.build(updatedPost);
+        return PostResponse.OnlyId.build(post);
     }
 
     public void deleteOne(Long postId, LocalDateTime now, User user) {

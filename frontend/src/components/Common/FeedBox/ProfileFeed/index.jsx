@@ -150,7 +150,7 @@ function FinishFeedBlock({ feedInfo, getFinishlist }) {
   const [postInfo, setPostInfo] = useState({});
   const editReview = async () => {
     await reviewOneReadApi(feedInfo.reviewId).then((res) =>
-      setPostInfo(res.data)
+      setPostInfo(res.data.data)
     );
     setModalSwitch(true);
   };

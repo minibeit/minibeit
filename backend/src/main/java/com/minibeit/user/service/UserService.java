@@ -3,6 +3,7 @@ package com.minibeit.user.service;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.User;
@@ -81,6 +82,15 @@ public class UserService {
     public List<UserResponse.IdAndNickname> searchByNickname(String nickname) {
         List<User> users = userRepository.findByNicknameStartsWith(nickname);
         return users.stream().map(UserResponse.IdAndNickname::build).collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse.Alaram getNews(User user){
+
+        if(user.getAlarm() == null){
+            return UserResponse.Alaram.build(false, false);
+        }
+        return UserResponse.Alaram.build(user.getAlarm().approvedAlarmCheck(), user.getAlarm().rejectedAlarmCheck() );
     }
 
     public void deleteOne(User user) {

@@ -24,8 +24,7 @@ import java.util.stream.Collectors;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.relaxedResponseFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -99,12 +98,14 @@ class RejectPostControllerTest extends MvcTest {
                                 parameterWithName("size").description("조회할 사이즈")
                         ),
                         relaxedResponseFields(
-                                fieldWithPath("content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
-                                fieldWithPath("content[].title").type(JsonFieldType.STRING).description("제목"),
-                                fieldWithPath("content[].rejectComment").type(JsonFieldType.STRING).description("반려 이유"),
-                                fieldWithPath("totalElements").description("전체 개수"),
-                                fieldWithPath("last").description("마지막 페이지인지 식별"),
-                                fieldWithPath("totalPages").description("전체 페이지")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("data.content[].title").type(JsonFieldType.STRING).description("제목"),
+                                fieldWithPath("data.content[].rejectComment").type(JsonFieldType.STRING).description("반려 이유"),
+                                fieldWithPath("data.totalElements").description("전체 개수"),
+                                fieldWithPath("data.last").description("마지막 페이지인지 식별"),
+                                fieldWithPath("data.totalPages").description("전체 페이지")
                         )
                 ));
     }
@@ -120,6 +121,11 @@ class RejectPostControllerTest extends MvcTest {
                 .andDo(document("rejectPost-deleteOne",
                         pathParameters(
                                 parameterWithName("rejectPostId").description("삭제할 반려 게시물 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }

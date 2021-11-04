@@ -73,3 +73,4 @@ include::{snippets}/auth-logout/http-request.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/auth-logout/http-response.adoc[]
+include::{snippets}/auth-logout/response-fields.adoc[]

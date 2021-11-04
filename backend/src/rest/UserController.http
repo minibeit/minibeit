@@ -6,11 +6,11 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="name";
 
-테스트0
+테스트9
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-5
+23
 --boundary
 Content-Disposition: form-data; name="gender";
 
@@ -34,7 +34,7 @@ Content-Disposition: form-data; name="schoolId";
 --boundary
 Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
 
-< ./../main/resources/mock/images/test.jpg
+< ./../main/resources/mock/images/enjoy.png
 ###
 POST {{apiUrl}}/user/nickname/check
 Authorization: {{authorizationToken}}
@@ -102,4 +102,9 @@ Authorization: {{authorizationToken}}
 ###
 
 DELETE {{apiUrl}}/user
+Authorization: {{authorizationToken}}
+
+
+###
+GET {{apiUrl}}/user/alarm
 Authorization: {{authorizationToken}}

@@ -15,3 +15,6 @@ CREATE TABLE `post_applicant`
     `updated_by`      BIGINT   DEFAULT NULL,
     PRIMARY KEY (`id`)
 );
+
+CREATE INDEX `post_do_date_id_index` ON `post_applicant` (`post_do_date_id`);
+CREATE INDEX `apply_status_index` ON `post_applicant` (`apply_status`);

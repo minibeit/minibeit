@@ -4,10 +4,10 @@ import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.minibeit.avatar.domain.AvatarServer;
-import com.minibeit.avatar.domain.AvatarType;
 import com.minibeit.common.component.exception.S3FileUploadException;
 import com.minibeit.common.dto.SavedFile;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,10 +18,10 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class S3Uploader {
@@ -56,27 +56,24 @@ public class S3Uploader {
                 width = image.getWidth();
                 height = image.getHeight();
             }
+            removeNewFile(uploadFile);
         } catch (IOException e) {
+            log.info(e.getMessage());
             throw new S3FileUploadException();
         }
-        SavedFile.SavedFileBuilder savedFileBuilder = SavedFile.builder()
-                .name(s3FileName)
-                .extension(extension)
-                .avatarServer(AvatarServer.S3)
-                .originalName(originalName)
-                .size(file.getSize())
-                .isImage(isImage)
-                .publicUrl(publicUrl)
-                .width(width)
-                .height(height);
-        if (isImage) {
-            return savedFileBuilder.avatarType(AvatarType.IMAGE).build();
-        }
-        return savedFileBuilder.avatarType(AvatarType.FILE).build();
+        return SavedFile.create(s3FileName, extension, AvatarServer.S3, originalName, file.getSize(), isImage, publicUrl, width, height);
     }
 
-    private void putS3(File uploadFile, String fileName) throws IOException {
+    private void putS3(File uploadFile, String fileName) {
         s3Client.putObject(new PutObjectRequest(s3Bucket, fileName, uploadFile).withCannedAcl(CannedAccessControlList.PublicRead));
+    }
+
+    private void removeNewFile(File targetFile) {
+        if (targetFile.delete()) {
+            log.info("파일이 삭제되었습니다.");
+        } else {
+            log.info("파일이 삭제되지 못했습니다.");
+        }
     }
 
     private boolean isImage(String extension) {
@@ -86,7 +83,7 @@ public class S3Uploader {
     }
 
     private Optional<File> convert(MultipartFile file) throws IOException {
-        File convertFile = new File(Objects.requireNonNull(file.getOriginalFilename()));
+        File convertFile = new File("/tmp/" + file.getOriginalFilename());
         if (convertFile.createNewFile()) {
             try (FileOutputStream fos = new FileOutputStream(convertFile)) {
                 fos.write(file.getBytes());

@@ -23,7 +23,7 @@ export const feedCreateApi = async (recruit) => {
   const data = {
     title: recruit.title,
     content: recruit.content,
-    place: recruit.address,
+    place: recruit.address + " " + recruit.detailAddress,
     contact: recruit.contact,
     category: recruit.category,
     headcount: recruit.headCount,
@@ -32,7 +32,9 @@ export const feedCreateApi = async (recruit) => {
     goods: recruit.payment === "GOODS" ? recruit.pay : null,
     paymentDetail: recruit.payMemo,
     condition: recruit.condition,
-    conditionDetail: conditionDetail(recruit.conditionDetail),
+    conditionDetail: recruit.condition
+      ? conditionDetail(recruit.conditionDetail)
+      : null,
     doTime: recruit.doTime,
     schoolId: recruit.school.id,
     businessProfileId: recruit.businessProfile.id,

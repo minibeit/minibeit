@@ -134,8 +134,10 @@ class BusinessProfileControllerTest extends MvcTest {
                                 partWithName("avatar").description("비즈니스 프로필 이미지")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("생성된 비즈니스 프로필 식별자"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("생성된 비즈니스 프로필 이름")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("생성된 비즈니스 프로필 식별자"),
+                                fieldWithPath("data.name").type(JsonFieldType.STRING).description("생성된 비즈니스 프로필 이름")
                         )
                 ));
     }
@@ -159,10 +161,12 @@ class BusinessProfileControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("business-profile-list-mine",
                         responseFields(
-                                fieldWithPath("[].id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
-                                fieldWithPath("[].name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
-                                fieldWithPath("[].avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url"),
-                                fieldWithPath("[].admin").type(JsonFieldType.BOOLEAN).description("로그인한 유저가 해당 비즈니스 프로필의 관리자라면 true")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.[].id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
+                                fieldWithPath("data.[].name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
+                                fieldWithPath("data.[].avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url"),
+                                fieldWithPath("data.[].admin").type(JsonFieldType.BOOLEAN).description("로그인한 유저가 해당 비즈니스 프로필의 관리자라면 true")
                         )
                 ));
     }
@@ -183,14 +187,16 @@ class BusinessProfileControllerTest extends MvcTest {
                                 parameterWithName("businessProfileId").description("조회할 비즈니스 프로필 식별자")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
-                                fieldWithPath("adminNickname").type(JsonFieldType.STRING).description("비즈니스 프로필 책임자 닉네임"),
-                                fieldWithPath("place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
-                                fieldWithPath("contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
-                                fieldWithPath("numberOfEmployees").type(JsonFieldType.NUMBER).description("비즈니스 프로필 소속 인원 수"),
-                                fieldWithPath("admin").type(JsonFieldType.BOOLEAN).description("로그인한 유저가 해당 비즈니스 프로필의 관리자라면 true"),
-                                fieldWithPath("avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url(프로필 이미지가 없다면 null)")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
+                                fieldWithPath("data.name").type(JsonFieldType.STRING).description("비즈니스 프로필 이름"),
+                                fieldWithPath("data.adminNickname").type(JsonFieldType.STRING).description("비즈니스 프로필 책임자 닉네임"),
+                                fieldWithPath("data.place").type(JsonFieldType.STRING).description("비즈니스 프로필 장소"),
+                                fieldWithPath("data.contact").type(JsonFieldType.STRING).description("비즈니스 프로필 연락처"),
+                                fieldWithPath("data.numberOfEmployees").type(JsonFieldType.NUMBER).description("비즈니스 프로필 소속 인원 수"),
+                                fieldWithPath("data.admin").type(JsonFieldType.BOOLEAN).description("로그인한 유저가 해당 비즈니스 프로필의 관리자라면 true"),
+                                fieldWithPath("data.avatar").type(JsonFieldType.STRING).description("비즈니스 프로필 이미지 url(프로필 이미지가 없다면 null)")
                         )
                 ));
     }
@@ -232,8 +238,10 @@ class BusinessProfileControllerTest extends MvcTest {
                                 partWithName("avatar").description("비즈니스 프로필 이미지")
                         ),
                         responseFields(
-                                fieldWithPath("id").type(JsonFieldType.NUMBER).description("수정된 비즈니스 프로필 식별자"),
-                                fieldWithPath("name").type(JsonFieldType.STRING).description("수정된 비즈니스 프로필 이름")
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("수정된 비즈니스 프로필 식별자"),
+                                fieldWithPath("data.name").type(JsonFieldType.STRING).description("수정된 비즈니스 프로필 이름")
                         )
                 ));
     }
@@ -248,6 +256,11 @@ class BusinessProfileControllerTest extends MvcTest {
                 .andDo(document("business-profile-delete",
                         pathParameters(
                                 parameterWithName("businessProfileId").description("삭제할 비즈니스 프로필 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }
@@ -264,6 +277,11 @@ class BusinessProfileControllerTest extends MvcTest {
                         pathParameters(
                                 parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
                                 parameterWithName("userId").description("초대할 유저 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }
@@ -279,6 +297,11 @@ class BusinessProfileControllerTest extends MvcTest {
                         pathParameters(
                                 parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
                                 parameterWithName("userId").description("삭제할 유저의 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }
@@ -295,6 +318,11 @@ class BusinessProfileControllerTest extends MvcTest {
                         pathParameters(
                                 parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
                                 parameterWithName("userId").description("권한을 받을 유저의 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
                         )
                 ));
     }

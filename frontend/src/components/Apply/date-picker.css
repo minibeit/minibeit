@@ -806,6 +806,19 @@
   width: 3rem;
   line-height: 3rem;
 }
+@media (max-width: 400px), (max-height: 550px) {
+  .react-datepicker__portal .react-datepicker__day-name,
+  .react-datepicker__portal .react-datepicker__day,
+  .react-datepicker__portal .react-datepicker__time-name {
+    width: 2rem;
+    line-height: 2rem;
+  }
+}
+.react-datepicker__portal .react-datepicker__current-month,
+.react-datepicker__portal .react-datepicker-time__header {
+  font-size: 1.44rem;
+}
+
 .datePickerInput {
   width: 100%;
   height: 100%;
@@ -820,17 +833,4 @@
 .datePickerInput:focus {
   border: 2px solid #2684ff;
   outline: none;
-}
-
-@media (max-width: 400px), (max-height: 550px) {
-  .react-datepicker__portal .react-datepicker__day-name,
-  .react-datepicker__portal .react-datepicker__day,
-  .react-datepicker__portal .react-datepicker__time-name {
-    width: 2rem;
-    line-height: 2rem;
-  }
-}
-.react-datepicker__portal .react-datepicker__current-month,
-.react-datepicker__portal .react-datepicker-time__header {
-  font-size: 1.44rem;
 }

@@ -17,6 +17,18 @@ export const ProfilePage = styled.div`
     margin: 4rem 12rem 4rem 12rem;
   }
 `;
+export const ModeSelectBtn = styled.button`
+  background: #e5e5e5;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  font-weight: bold;
+  &:disabled {
+    background: white;
+    color: black;
+  }
+`;
 export const Container = styled.div`
   background-color: white;
   display: flex;
@@ -36,6 +48,7 @@ export const ImgBox = styled.div`
 export const UserInfoContainer = styled.div`
   flex: 1.5;
   padding: 2rem;
+  min-width: 18rem;
   & > div:first-child {
     padding: 1rem;
     display: flex;
@@ -66,6 +79,19 @@ export const FeedContainer = styled.div`
 `;
 export const CategoryBtnBox = styled.div`
   padding: 1rem;
+  & button {
+    cursor: pointer;
+    background: white;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #cccccc;
+  }
+  & button:disabled {
+    color: black;
+    text-decoration: underline;
+    text-decoration-color: #0642ff;
+  }
 `;
 export const FeedGroup = styled.div`
   display: flex;
@@ -77,7 +103,7 @@ export const FeedBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  height: 7rem;
+  min-height: 7rem;
   background: #f3f3f3;
   border-radius: 1rem;
   padding: 1rem;
@@ -91,7 +117,6 @@ export const FeedLabel = styled.div`
   transform: translate(0, 50%);
 `;
 export const FeedTitleBox = styled.div`
-  background-color: indigo;
   display: flex;
   gap: 0.3rem;
   flex-direction: column;
@@ -105,7 +130,6 @@ export const FeedTitleBox = styled.div`
   }
 `;
 export const FeedContentBox = styled.div`
-  background-color: tomato;
   display: flex;
   flex-direction: column;
   margin-left: auto;
@@ -117,6 +141,7 @@ export const FeedInfo = styled.div`
   padding: 1rem;
   & > div {
     display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
     & > p:nth-child(2) {
       margin-left: auto;
@@ -124,11 +149,17 @@ export const FeedInfo = styled.div`
   }
 `;
 export const FeedButton = styled.div`
-  background-color: violet;
   margin-top: auto;
   display: flex;
   justify-content: end;
   gap: 1rem;
+  & > button {
+    background: #0642ff;
+    color: white;
+    border: none;
+    padding: 0.3rem 1rem 0.3rem 1rem;
+    border-radius: 1rem;
+  }
 `;
 
 /* business Profile */

@@ -96,6 +96,7 @@ export default function UserContainer() {
                   setFeedSwitch(a);
                   changeFeedData(a);
                 }}
+                disabled={a === feedSwitch ? true : false}
               >
                 {a} 목록
               </button>

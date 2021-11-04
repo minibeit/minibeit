@@ -10,8 +10,18 @@ export default function ProfileTestComponent({ userId }) {
   return (
     <S.ProfilePage>
       <div>
-        <button onClick={() => setMode("user")}>개인 프로필</button>
-        <button onClick={() => setMode("business")}>비즈니스 프로필</button>
+        <S.ModeSelectBtn
+          onClick={() => setMode("user")}
+          disabled={mode === "user" ? true : false}
+        >
+          개인 프로필
+        </S.ModeSelectBtn>
+        <S.ModeSelectBtn
+          onClick={() => setMode("business")}
+          disabled={mode === "business" ? true : false}
+        >
+          비즈니스 프로필
+        </S.ModeSelectBtn>
         {mode === "user" ? <UserContainer /> : <BusinessContainer />}
       </div>
     </S.ProfilePage>

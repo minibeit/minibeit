@@ -2,35 +2,51 @@ import React, { useEffect, useState } from "react";
 import { getBprofileInfo } from "../../../utils";
 import { PVImg } from "../../Common";
 
+import BProfileEditModal from "./BProfileEditModal";
+
 import * as S from "../style";
 
 export default function BProfileInfo({ businessId }) {
-  const [bProfileData, setBProfileData] = useState();
+  const [bProfileInfo, setBProfileInfo] = useState();
+  const [infoEditModal, setInfoEditModal] = useState(false);
 
   useEffect(() => {
     getBprofileInfo(businessId).then((res) => {
-      setBProfileData(res.data.data);
+      setBProfileInfo(res.data.data);
     });
   }, [businessId]);
 
   return (
     <S.UserInfoContainer>
-      {bProfileData && (
+      {bProfileInfo && (
         <div>
           <S.ImgBox>
-            {bProfileData.avatar !== null ? (
-              <PVImg img={bProfileData.avatar} />
+            {bProfileInfo.avatar !== null ? (
+              <PVImg img={bProfileInfo.avatar} />
             ) : (
               <PVImg img="/기본비즈니스프로필.jpeg" />
             )}
           </S.ImgBox>
-          <button>수정하기</button>
+          <button
+            onClick={() => {
+              setInfoEditModal(true);
+            }}
+          >
+            수정하기
+          </button>
+          {infoEditModal && (
+            <BProfileEditModal
+              businessId={businessId}
+              infoData={bProfileInfo}
+              setInfoEditModal={setInfoEditModal}
+            />
+          )}
           <S.UserInfoData>
-            <p>이름 : {bProfileData.name}</p>
-            <p>담당자 : {bProfileData.adminNickname}</p>
-            <p>주소 : {bProfileData.place}</p>
-            <p>소속인원 : {bProfileData.numberOfEmployees}명</p>
-            <p>전화번호 : {bProfileData.contact}</p>
+            <p>이름 : {bProfileInfo.name}</p>
+            <p>담당자 : {bProfileInfo.adminNickname}</p>
+            <p>주소 : {bProfileInfo.place}</p>
+            <p>소속인원 : {bProfileInfo.numberOfEmployees}명</p>
+            <p>전화번호 : {bProfileInfo.contact}</p>
           </S.UserInfoData>
         </div>
       )}

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { editMyInfo, getMyInfo } from "../../../../utils/profileApi";
+import React, { useState } from "react";
+import { editMyInfo } from "../../../../utils/profileApi";
 
 import { useRecoilState } from "recoil";
 import { userState } from "../../../../recoil/userState";
@@ -10,18 +10,13 @@ import * as S from "./style";
 import { nickCheckApi } from "../../../../utils/auth";
 import { useHistory } from "react-router";
 
-export default function UserInfoEditModal({ setModalSwitch }) {
+export default function UserInfoEditModal({ infoData, setModalSwitch }) {
   const history = useHistory();
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(infoData);
   const [newNickname, setNewNickname] = useState();
   const [user, setUser] = useRecoilState(userState);
   const [schoolId, setSchoolId] = useState(user.schoolId);
 
-  const getUserData = async () => {
-    await getMyInfo().then((res) => {
-      setUserData(res.data.data);
-    });
-  };
   const onChange = (e) => {
     const { value, name } = e.target;
     const copy = { ...userData };
@@ -67,10 +62,6 @@ export default function UserInfoEditModal({ setModalSwitch }) {
   const closeModal = () => {
     setModalSwitch(false);
   };
-
-  useEffect(() => {
-    getUserData();
-  }, []);
 
   return (
     <>

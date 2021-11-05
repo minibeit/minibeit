@@ -72,7 +72,10 @@ export default function UserContainer() {
             </S.ImgBox>
             <button onClick={() => setModalSwitch(true)}>수정하기</button>
             {modalSwitch ? (
-              <UserInfoEditModal setModalSwitch={setModalSwitch} />
+              <UserInfoEditModal
+                infoData={userData}
+                setModalSwitch={setModalSwitch}
+              />
             ) : null}
             <S.UserInfoData>
               <p>이름 : {userData.name}</p>

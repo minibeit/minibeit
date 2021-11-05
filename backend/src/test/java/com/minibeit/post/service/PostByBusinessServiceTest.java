@@ -20,7 +20,6 @@ import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
-import com.minibeit.user.domain.Alarm;
 import com.minibeit.user.domain.Role;
 import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;
@@ -122,7 +121,6 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
-                .alarm(new Alarm(null, null))
                 .build();
         anotherUser = User.builder()
                 .oauthId("2")
@@ -130,7 +128,6 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
-                .alarm(new Alarm(null, null))
                 .build();
         approveUser1 = User.builder()
                 .oauthId("3")
@@ -138,7 +135,6 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
-                .alarm(new Alarm(null, null))
                 .build();
         approveUser2 = User.builder()
                 .oauthId("4")
@@ -146,7 +142,6 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
-                .alarm(new Alarm(null, null))
                 .build();
         waitUser1 = User.builder()
                 .oauthId("5")
@@ -154,7 +149,6 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
-                .alarm(new Alarm(null, null))
                 .build();
         waitUser2 = User.builder()
                 .oauthId("6")
@@ -162,7 +156,6 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
-                .alarm(new Alarm(null, null))
                 .build();
         waitUser3 = User.builder()
                 .oauthId("7")
@@ -170,7 +163,6 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
-                .alarm(new Alarm(null, null))
                 .build();
         userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser, approveUser1, approveUser2, waitUser1, waitUser2, waitUser3));
 

@@ -103,8 +103,3 @@ Authorization: {{authorizationToken}}
 
 DELETE {{apiUrl}}/user
 Authorization: {{authorizationToken}}
-
-
-###
-GET {{apiUrl}}/user/alarm
-Authorization: {{authorizationToken}}

@@ -1,7 +1,7 @@
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user`
 (
-    `id`           BIGINT       NOT NULL AUTO_INCREMENT,
+    `id`           BIGINT      NOT NULL AUTO_INCREMENT,
     `school_id`    BIGINT,
     `avatar_id`    BIGINT,
     `oauth_id`     VARCHAR(50) NOT NULL,
@@ -10,13 +10,11 @@ CREATE TABLE `user`
     `job`          VARCHAR(50),
     `gender`       VARCHAR(10),
     `birth`        DATE,
-    `provider`     VARCHAR(30)  NOT NULL,
+    `provider`     VARCHAR(30) NOT NULL,
     `phone_num`    VARCHAR(30),
-    `signup_check` TINYINT(1)   NOT NULL,
-    `approved_alarm`    DATETIME DEFAULT NULL,
-    `rejected_alarm`    DATETIME DEFAULT NULL,
-    `role`         VARCHAR(20)  NOT NULL,
-    `created_at`   DATETIME     NOT NULL,
+    `signup_check` TINYINT(1)  NOT NULL,
+    `role`         VARCHAR(20) NOT NULL,
+    `created_at`   DATETIME    NOT NULL,
     `updated_at`   DATETIME DEFAULT NULL,
     `deleted_at`   DATETIME DEFAULT NULL,
     `created_by`   BIGINT   DEFAULT NULL,

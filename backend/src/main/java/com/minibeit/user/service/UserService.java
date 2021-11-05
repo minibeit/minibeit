@@ -82,15 +82,6 @@ public class UserService {
         return users.stream().map(UserResponse.IdAndNickname::build).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public UserResponse.Alaram getNews(User user) {
-
-        if (user.getAlarm() == null) {
-            return UserResponse.Alaram.build(false, false);
-        }
-        return UserResponse.Alaram.build(user.getAlarm().approvedAlarmCheck(), user.getAlarm().rejectedAlarmCheck());
-    }
-
     public void deleteOne(User user) {
         if (!businessProfileRepository.findAllByAdminId(user.getId()).isEmpty()) {
             throw new UserHaveBusinessProfile();

@@ -124,7 +124,6 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .school(school)
-                .alarm(new Alarm(null, null))
                 .build();
         applyUser1 = userRepository.save(apUser);
 
@@ -135,7 +134,6 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .school(school)
-                .alarm(new Alarm(null, null))
                 .build();
         applyUser2 = userRepository.save(apUser2);
 
@@ -146,7 +144,6 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .school(school)
-                .alarm(new Alarm(null, null))
                 .build();
         userInBusinessProfile = userRepository.save(businessUser);
 
@@ -157,7 +154,6 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .school(school)
-                .alarm(new Alarm(null, null))
                 .build();
         rejectUser = userRepository.save(dupUser);
 
@@ -463,40 +459,4 @@ class UserServiceTest extends ServiceIntegrationTest {
         assertThatThrownBy(() -> userService.nickNameCheck(updatedNickName))
                 .isInstanceOf(DuplicateNickNameException.class);
     }
-
-    @Test
-    @DisplayName("거부된 게시물 생겼을 때 알림 발생 - 성공")
-    void getAlarmWhenRejectPost() {
-        //given
-        User applicant = userRepository.findById(applyUser1.getId()).orElseThrow(UserNotFoundException::new);
-        UserResponse.Alaram beforeAlarmState = userService.getNews(applicant);
-
-        //when
-        PostApplicantRequest.ApplyReject request = PostApplicantRequest.ApplyReject.builder().comment("적합하지 않습니다").build();
-        postApplicantByBusinessService.applyReject(recruitPostPostDoDate1.getId(), applicant.getId(), request,userInBusinessProfile);
-
-        UserResponse.Alaram afterAlarmState = userService.getNews(applicant);
-        //then
-        assertThat(beforeAlarmState.isRejectedAlarm()).isEqualTo(false);
-        assertThat(afterAlarmState.isRejectedAlarm()).isEqualTo(true);
-    }
-
-    @Test
-    @DisplayName("참여확정된 게시물 생겼을 때 알림 발생 - 성공")
-    void getAlarmWhenCompletedPost() {
-        //given
-        User applicant = userRepository.findById(applyUser1.getId()).orElseThrow(UserNotFoundException::new);
-        UserResponse.Alaram beforeAlarmState = userService.getNews(applicant);
-
-        PostRequest.RejectComment rejectComment = PostRequest.RejectComment.builder().rejectComment("거부됨").build();
-        postApplicantByBusinessService.applyApprove(recruitPostPostDoDate1.getId(), applyUser1.getId(), userInBusinessProfile);
-        postByBusinessService.recruitmentCompleted(recruitPost.getId(), rejectComment, userInBusinessProfile);
-
-        //when
-        UserResponse.Alaram afterAlarmState = userService.getNews(applicant);
-
-        assertThat(beforeAlarmState.isApprovedAlarm()).isEqualTo(false);
-        assertThat(afterAlarmState.isApprovedAlarm()).isEqualTo(true);
-    }
-
 }

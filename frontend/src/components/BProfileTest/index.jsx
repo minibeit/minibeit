@@ -3,7 +3,9 @@ import { useHistory } from "react-router";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/userState";
 
-import BusinessContainer from "./BusinessContainer";
+import BProfileInfo from "./BProfileInfo";
+import BProfileList from "./BProfileList";
+import BProfileFeedList from "./BProfileFeedList";
 
 import * as S from "./style";
 
@@ -18,7 +20,13 @@ export default function BProfileComponent({ businessId }) {
           개인 프로필
         </S.ModeSelectBtn>
         <S.ModeSelectBtn disabled={true}>비즈니스 프로필</S.ModeSelectBtn>
-        <BusinessContainer businessId={businessId} />
+        <S.Container>
+          <BProfileInfo businessId={businessId} />
+          <S.FeedContainer>
+            <BProfileList businessId={businessId} />
+            <BProfileFeedList businessId={businessId} />
+          </S.FeedContainer>
+        </S.Container>
       </div>
     </S.ProfilePage>
   );

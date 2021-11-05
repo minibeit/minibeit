@@ -11,7 +11,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,9 +42,6 @@ public class User extends BaseEntity {
 
     private boolean signupCheck;
 
-    @Embedded
-    private Alarm alarm;
-
     @Enumerated(EnumType.STRING)
     private SignupProvider provider;
 
@@ -74,7 +70,6 @@ public class User extends BaseEntity {
         this.birth = request.getBirth();
         this.signupCheck = true;
         this.school = school;
-        this.alarm = null;
         this.avatar = avatar;
         return this;
     }
@@ -96,15 +91,5 @@ public class User extends BaseEntity {
 
     public boolean isAdminInBusinessProfile(BusinessProfile businessProfile) {
         return businessProfile.getAdmin().getId().equals(this.getId());
-    }
-
-    public void alarmOn(AlarmStatus alarmStatus) {
-        if(AlarmStatus.APPROVE.equals(alarmStatus)){
-            this.alarm = new Alarm(LocalDateTime.now(), null);
-
-        }
-        else if(AlarmStatus.REJECT.equals(alarmStatus)){
-            this.alarm = new Alarm(null, LocalDateTime.now());
-        }
     }
 }

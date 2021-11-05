@@ -55,6 +55,11 @@ oauth2:
   success:
     redirect:
       url: http://localhost:3000/callback/
+
 dev:
   server:
     url: test.com
+
+s3:
+  file:
+    prefix:

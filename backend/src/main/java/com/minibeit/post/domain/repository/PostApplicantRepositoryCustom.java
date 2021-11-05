@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface PostApplicantRepositoryCustom {
     List<PostApplicantDto.UserInfo> findAllByPostAndDoDate(Long postId, ApplyStatus applyStatus, LocalDate doDate);
 
-    List<PostApplicant> findAllByApplyStatus(Long postId, ApplyStatus applyStatus);
+    List<PostApplicant> findAllByPostIdAndApplyStatus(Long postId, ApplyStatus applyStatus);
 
     Optional<PostApplicant> findByPostDoDateIdAndUserIdWithPostDoDateAndPost(Long postDoDateId, Long userId);
 

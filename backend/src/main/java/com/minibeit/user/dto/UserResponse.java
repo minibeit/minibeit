@@ -104,23 +104,4 @@ public class UserResponse {
             return getOneBuilder.build();
         }
     }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class Alaram {
-
-        private boolean approvedAlarm;
-        private boolean rejectedAlarm;
-
-
-        public static Alaram build(boolean approvedAlarm, boolean rejectedAlarm) {
-            return Alaram.builder()
-                    .approvedAlarm(approvedAlarm)
-                    .rejectedAlarm(rejectedAlarm)
-                    .build();
-        }
-
-    }
 }

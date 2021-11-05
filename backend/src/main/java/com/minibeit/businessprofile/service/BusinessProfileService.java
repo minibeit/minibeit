@@ -8,11 +8,7 @@ import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
-import com.minibeit.businessprofile.service.exception.BusinessProfileInWork;
-import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
-import com.minibeit.businessprofile.service.exception.BusinessProfileNotPermission;
-import com.minibeit.businessprofile.service.exception.DuplicateShareException;
-import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
+import com.minibeit.businessprofile.service.exception.*;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.user.domain.User;
@@ -76,7 +72,7 @@ public class BusinessProfileService {
     public void cancelShare(Long businessProfileId, Long userId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         permissionCheck(user, businessProfile);
-        if(businessProfile.getAdmin().getId().equals(userId)){
+        if (businessProfile.getAdmin().getId().equals(userId)) {
             throw new BusinessProfileNotPermission();
         }
 
@@ -87,7 +83,7 @@ public class BusinessProfileService {
     public void transferOfAuthority(Long businessProfileId, Long userId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         permissionCheck(user, businessProfile);
-        if(!isExistInBusinessProfile(businessProfileId, userId)){
+        if (!isExistInBusinessProfile(businessProfileId, userId)) {
             throw new UserNotFoundException();
         }
         User changeUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
@@ -116,7 +112,7 @@ public class BusinessProfileService {
         if (postRepository.existsByBusinessProfileId(businessProfileId)) {
             throw new BusinessProfileInWork();
         }
-
+        avatarService.deleteOne(businessProfile.getAvatar());
         businessProfileRepository.deleteById(businessProfileId);
     }
 

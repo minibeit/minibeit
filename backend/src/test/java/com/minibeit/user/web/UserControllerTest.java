@@ -293,25 +293,4 @@ class UserControllerTest extends MvcTest {
                                 fieldWithPath("data").description("data 없다면 null")
                         )));
     }
-
-    @Test
-    @DisplayName("게시물 알림 문서화")
-    public void getNews() throws Exception {
-
-        UserResponse.Alaram alaram = UserResponse.Alaram.build(false, true);
-        given(userService.getNews(any())).willReturn(alaram);
-
-        ResultActions results = mvc.perform(get("/api/user/alarm"));
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("user-post-alarm",
-                        responseFields(
-                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
-                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
-                                fieldWithPath("data.approvedAlarm").type(JsonFieldType.BOOLEAN).description("true 이면 확정된 목록에 알림을 띄워야 함"),
-                                fieldWithPath("data.rejectedAlarm").type(JsonFieldType.BOOLEAN).description("true 이면 반려된 목록에 알림을 띄워야 함")
-                        )));
-
-    }
 }

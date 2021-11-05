@@ -51,7 +51,7 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
     }
 
     @Override
-    public List<PostApplicant> findAllByApplyStatus(Long postId, ApplyStatus applyStatus) {
+    public List<PostApplicant> findAllByPostIdAndApplyStatus(Long postId, ApplyStatus applyStatus) {
         return queryFactory.selectFrom(postApplicant)
                 .join(postApplicant.postDoDate, postDoDate).fetchJoin()
                 .where(postDoDate.post.id.eq(postId)

@@ -37,12 +37,6 @@ public class UserController {
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 
-    @GetMapping("/alarm")
-    public ResponseEntity<ApiResult<UserResponse.Alaram>> getNews(@CurrentUser CustomUserDetails customUserDetails){
-        UserResponse.Alaram response = userService.getNews(customUserDetails.getUser());
-        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
-    }
-
     @GetMapping("/me")
     public ResponseEntity<ApiResult<UserResponse.GetOne>> getMe(@CurrentUser CustomUserDetails customUserDetails) {
         UserResponse.GetOne response = userService.getMe(customUserDetails.getUser());

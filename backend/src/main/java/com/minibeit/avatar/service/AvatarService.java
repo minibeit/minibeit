@@ -25,6 +25,7 @@ public class AvatarService {
     public void deleteOne(Avatar file) {
         if (file != null) {
             avatarRepository.delete(file);
+            s3Uploader.delete(file.getName());
         }
     }
 }

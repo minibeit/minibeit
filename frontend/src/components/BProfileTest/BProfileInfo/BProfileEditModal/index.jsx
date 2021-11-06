@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../../../recoil/userState";
-import { handleCompressImg } from "../../../../utils/imgCompress";
 import Portal from "../../../Common/Modal/Portal";
 import CloseIcon from "@mui/icons-material/Close";
 import { editBprofile } from "../../../../utils/bprofileApi";
@@ -9,58 +6,52 @@ import { editBprofile } from "../../../../utils/bprofileApi";
 import Presenter from "./presenter";
 
 import * as S from "./style";
+import { useHistory } from "react-router";
 
-export default function BProfileEditCont({
-  businessId,
-  infoData,
-  setInfoEditModal,
-}) {
+export default function BProfileEditCont({ infoData, setInfoEditModal }) {
+  const history = useHistory();
   const [BProfileData, setBProfileData] = useState(infoData);
   const [admodalSwitch, setadModalSwitch] = useState(false);
-  const [basicImg, setBasicImg] = useState(false);
-  const [newImg, setNewImg] = useState();
-  const [inputs, setInputs] = useState({
-    name: "",
-    place: "",
-    contact: "",
-  });
-
-  const { name, place, contact } = inputs;
-
-  const bpEditHandler = async (inputs, img, basicImg) => {
-    editBprofile(businessId, inputs, img, basicImg)
-      .then((res) => {
-        window.location.replace("/business/" + businessId);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const admin = useRecoilValue(userState).name;
-
-  const handleAddress = async (fullAddress) => {
-    setInputs({
-      ...inputs,
-      place: fullAddress,
-    });
-  };
 
   const onChange = (e) => {
     const { value, name } = e.target;
-    setInputs({ ...inputs, [name]: value });
+    const copy = { ...BProfileData };
+    copy[name] = value;
+    setBProfileData(copy);
   };
-  const fileChange = (e) => {
-    setBasicImg(false);
-    handleCompressImg(e.target.files[0]).then((res) => setNewImg(res));
+  const onFileChange = (e) => {
+    const copy = { ...BProfileData };
+    switch (e.target.id) {
+      case "reset":
+        copy.avatar = null;
+        setBProfileData(copy);
+        break;
+      case "upload":
+        copy.avatar = e.target.files[0];
+        setBProfileData(copy);
+        break;
+      default:
+        return;
+    }
   };
-  const imgDel = () => {
-    setBasicImg(true);
-    setNewImg(undefined);
+  const onAddressChange = (e) => {
+    const copy = { ...BProfileData };
+    copy.place = e;
+    setBProfileData(copy);
   };
 
   const closeModal = () => {
     setInfoEditModal(false);
+  };
+
+  const submitEditBusiness = (BProfileData) => {
+    editBprofile(BProfileData)
+      .then((res) => {
+        closeModal();
+        history.push(`/businesstest/${res.data.data.id}`);
+        history.go(0);
+      })
+      .catch((err) => alert("수정 내용을 다시 한번 확인해주세요"));
   };
 
   return (
@@ -77,23 +68,13 @@ export default function BProfileEditCont({
             <S.ModalContent>
               {BProfileData && (
                 <Presenter
-                  closeModal={closeModal}
-                  basicImg={basicImg}
-                  newImg={newImg}
                   BProfileData={BProfileData}
-                  setBProfileData={setBProfileData}
-                  imgDel={imgDel}
-                  fileChange={fileChange}
-                  name={name}
                   onChange={onChange}
-                  admin={admin}
-                  place={place}
+                  onFileChange={onFileChange}
+                  onAddressChange={onAddressChange}
                   setadModalSwitch={setadModalSwitch}
                   admodalSwitch={admodalSwitch}
-                  handleAddress={handleAddress}
-                  contact={contact}
-                  bpEditHandler={bpEditHandler}
-                  inputs={inputs}
+                  submitEditBusiness={submitEditBusiness}
                 />
               )}
             </S.ModalContent>

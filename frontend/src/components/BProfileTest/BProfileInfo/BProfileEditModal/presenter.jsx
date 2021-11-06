@@ -6,37 +6,14 @@ import Address from "../../../Common/Address";
 import * as S from "./style";
 
 export default function BProfileEditCont({
-  basicImg,
-  newImg,
   BProfileData,
-  setBProfileData,
-  name,
   onChange,
-  admin,
-  place,
+  onFileChange,
+  onAddressChange,
   setadModalSwitch,
   admodalSwitch,
-  handleAddress,
-  contact,
-  bpEditHandler,
-  inputs,
+  submitEditBusiness,
 }) {
-  const onFileChange = (e) => {
-    const copy = { ...BProfileData };
-    switch (e.target.id) {
-      case "reset":
-        copy.avatar = null;
-        setBProfileData(copy);
-        break;
-      case "upload":
-        copy.avatar = e.target.files[0];
-        setBProfileData(copy);
-        break;
-      default:
-        return;
-    }
-  };
-
   return (
     <>
       <S.ImgEditContainer>
@@ -61,54 +38,82 @@ export default function BProfileEditCont({
       </S.ImgEditContainer>
       <S.InfoEditContainer>
         <div>
-          <p>이름</p>
-          <S.BPEditInput
-            value={name}
-            name="name"
-            type="text"
-            placeholder="이름"
-            onChange={onChange}
-          />
-          <p>담당자</p>
-          <S.BPEditInput value={admin} name="admin" type="text" readOnly />
+          <S.EditInput>
+            <div>
+              <p>이름</p>
+              <input
+                defaultValue={BProfileData.name}
+                name="name"
+                type="text"
+                placeholder="이름"
+                onChange={onChange}
+              />
+            </div>
+          </S.EditInput>
+          <S.EditInput>
+            <div>
+              <p>담당자</p>
+              <input
+                defaultValue={BProfileData.adminNickname}
+                name="adminNickname"
+                type="text"
+                readOnly
+              />
+            </div>
+          </S.EditInput>
         </div>
         <div>
-          <p>주소</p>
-          <S.BPEditInput
-            value={place}
-            name="place"
-            type="text"
-            placeholder="장소"
-            onClick={() => setadModalSwitch(true)}
-            readOnly
-          />
-          {admodalSwitch ? (
-            <Address
-              setModalSwitch={setadModalSwitch}
-              handleAddress={handleAddress}
-            />
-          ) : null}
+          <S.EditInput style={{ width: "100%" }}>
+            <div>
+              <p>주소</p>
+              <input
+                value={BProfileData.place}
+                name="place"
+                type="text"
+                placeholder="주소"
+                onClick={() => setadModalSwitch(true)}
+                readOnly
+              />
+              {admodalSwitch ? (
+                <Address
+                  setModalSwitch={setadModalSwitch}
+                  handleAddress={onAddressChange}
+                />
+              ) : null}
+            </div>
+          </S.EditInput>
         </div>
         <div>
-          <p>연락처</p>
-          <S.BPEditInput
-            value={contact}
-            name="contact"
-            type="text"
-            placeholder="연락처"
-            onChange={onChange}
-          />
+          <S.EditInput style={{ width: "100%" }}>
+            <div>
+              <p>상세주소</p>
+              <input
+                defaultValue=""
+                name="detailPlace"
+                type="text"
+                placeholder="상세 주소"
+                onChange={onChange}
+              />
+            </div>
+          </S.EditInput>
         </div>
-        <div>상세주소</div>
+        <div>
+          <S.EditInput>
+            <div>
+              <p>연락처</p>
+              <input
+                defaultValue={BProfileData.contact}
+                name="contact"
+                type="text"
+                placeholder="연락처"
+                onChange={onChange}
+              />
+            </div>
+          </S.EditInput>
+        </div>
 
-        <button
-          type="submit"
-          onClick={async (e) => {
-            e.preventDefault();
-            bpEditHandler(inputs, newImg, basicImg);
-          }}
-        >
-          <p>수정하기</p>
+        <button onClick={() => submitEditBusiness(BProfileData)}>
+          수정완료
         </button>
       </S.InfoEditContainer>
     </>

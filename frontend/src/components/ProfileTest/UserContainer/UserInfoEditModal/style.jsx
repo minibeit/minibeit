@@ -15,7 +15,7 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   width: 57%;
-  background: #efefef;
+  background: white;
   overflow: scroll;
   max-width: 41rem;
   border-radius: 20px;
@@ -137,6 +137,7 @@ export const EditInput = styled.div`
     text-align: left;
     margin-top: 7px;
     outline: none;
+    background: #fafafa;
     color: #707070;
     text-decoration: none;
   }

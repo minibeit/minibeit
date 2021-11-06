@@ -43,6 +43,7 @@ export const ModalContent = styled.div`
   display: flex;
 `;
 export const ImgEditContainer = styled.div`
+  width: 174px;
   flex: 1;
   margin: 41px 0px;
   display: flex;
@@ -51,14 +52,11 @@ export const ImgEditContainer = styled.div`
   justify-content: center;
 `;
 export const ImgBox = styled.div`
-  display: inline-block;
-  border-radius: 50%;
   overflow: hidden;
   width: 10rem;
   height: 10rem;
-`;
-export const BPEditFileInput = styled.input`
-  display: none;
+  display: inline-block;
+  border-radius: 50%;
 `;
 export const Img = styled.img`
   object-fit: fill;
@@ -75,33 +73,67 @@ export const ImgEditBtn = styled.label`
   width: 100px;
   font-size: 12px;
   text-align: center;
-`;
-export const InfoEditContainer = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: start;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: center;
-  flex: 2;
-  & > div:first-child {
-    display: flex;
-  }
+  margin: 10px 0px;
 `;
 
-export const BPEditInput = styled.input`
-  border: none;
-  border-radius: 8px;
-  padding: 4px 0 8px 5px;
-  font-size: 14px;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: 0.14px;
-  text-align: left;
-  margin-top: 7px;
-  outline: none;
-  color: #707070;
-  text-decoration: none;
-  background: #8080801c;
+/*info*/
+
+export const InfoEditContainer = styled.div`
+  flex: 2;
+  margin: 27px 12px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+  & > div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  & > button {
+    display: flex;
+    background: blue;
+    color: white;
+    border-radius: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    align-items: center;
+    width: 7rem;
+    height: 2rem;
+    justify-content: center;
+    border: none;
+
+    margin-left: auto;
+  }
+`;
+export const EditInput = styled.div`
+  display: flex;
+  width: 45%;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  & p {
+    font-size: 0.5rem;
+  }
+  & input,
+  select {
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 8px;
+    padding: 4px 0 8px 5px;
+    font-size: 15px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.14px;
+    text-align: left;
+    margin-top: 7px;
+    outline: none;
+    color: #707070;
+    background: #fafafa;
+    text-decoration: none;
+  }
 `;

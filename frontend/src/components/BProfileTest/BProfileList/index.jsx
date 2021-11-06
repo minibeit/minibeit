@@ -4,10 +4,13 @@ import AddIcon from "@mui/icons-material/Add";
 import { bprofileListGet, getBprofileInfo } from "../../../utils";
 import { PVImg } from "../../Common";
 
+import BProfileCreateModal from "../../Common/Modal/BProfileCreateModal";
+
 import * as S from "../style";
 
 export default function BProfileInfo({ businessId }) {
   const history = useHistory();
+  const [modalSwitch, setModalSwitch] = useState(false);
   const [bProfileData, setBProfileData] = useState();
   const [BProfileList, setBProfileList] = useState();
 
@@ -44,11 +47,14 @@ export default function BProfileInfo({ businessId }) {
               )
             );
           })}
-        {BProfileList && BProfileList.length <= 3 && (
+        {BProfileList && BProfileList.length < 3 && (
           <S.ImgBox>
-            <S.AddBProfileBtn>
+            <S.AddBProfileBtn onClick={() => setModalSwitch(true)}>
               <AddIcon />
             </S.AddBProfileBtn>
+            {modalSwitch && (
+              <BProfileCreateModal setModalSwitch={setModalSwitch} />
+            )}
           </S.ImgBox>
         )}
       </div>

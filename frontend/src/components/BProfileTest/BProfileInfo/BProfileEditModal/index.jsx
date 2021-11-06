@@ -40,14 +40,10 @@ export default function BProfileEditCont({ infoData, setInfoEditModal }) {
     setBProfileData(copy);
   };
 
-  const closeModal = () => {
-    setInfoEditModal(false);
-  };
-
   const submitEditBusiness = (BProfileData) => {
     editBprofile(BProfileData)
       .then((res) => {
-        closeModal();
+        setInfoEditModal(false);
         history.push(`/businesstest/${res.data.data.id}`);
         history.go(0);
       })
@@ -61,7 +57,7 @@ export default function BProfileEditCont({ infoData, setInfoEditModal }) {
           <S.ModalBox>
             <S.ModalHeader>
               <p>비즈니스 프로필 수정하기</p>
-              <S.CloseModalBtn onClick={closeModal}>
+              <S.CloseModalBtn onClick={() => setInfoEditModal(false)}>
                 <CloseIcon />
               </S.CloseModalBtn>
             </S.ModalHeader>

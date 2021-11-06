@@ -21,12 +21,13 @@ const {
   REJECT_ONE,
 } = API_URLS;
 
-// getuserinfo 완료되면 api주소 입력 후 사용
-export const bprofileNew = async (inputs, img) => {
+export const bprofileNew = async (infoData) => {
   const formData = new FormData();
-  Object.keys(inputs).map((key) => formData.append(key, inputs[key]));
-  if (img !== undefined) {
-    formData.append("avatar", img);
+  formData.append("name", infoData.name);
+  formData.append("place", infoData.place + " " + infoData.detailPlace);
+  formData.append("contact", infoData.contact);
+  if (infoData.avatar) {
+    formData.append("avatar", infoData.avatar);
   }
   return await withAuthInstance.post(BPROFILE_NEW, formData);
 };

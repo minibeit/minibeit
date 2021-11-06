@@ -41,7 +41,6 @@ export const Container = styled.div`
   left: 50%;
   transform: translate(-50%, -60%);
   width: 25rem;
-  height: 25rem;
   overflow: hidden;
   
   & > p:first-child {
@@ -58,6 +57,7 @@ export const SliderContainer = styled.div`
   display: flex;
   margin: 0 auto; 
 `;
+
 export const ImgContainer = styled.div`
 position: relative;
 width: 25rem;

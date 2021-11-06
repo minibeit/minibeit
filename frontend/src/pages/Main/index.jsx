@@ -1,12 +1,13 @@
 import React from "react";
 import { NavBar } from "../../components/Common";
-import { MainContent } from "../../components/Main";
+import MainComponent from "../../components/Main";
 
-export default function Main() {
+function Main() {
   return (
     <>
       <NavBar />
-      <MainContent />
+      <MainComponent />
     </>
   );
 }
+ export default Main;

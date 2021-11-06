@@ -1,15 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import * as S from "./style";
+import * as S from "../style";
 
 
-function TestSlide({currentImg, imgs}) {
-  
-  
+export default function ApplyImgsSlide({currentImg, files}) {
   const [currentSlide, setCurrentSlide] = useState(currentImg);
-
   const slideRef = useRef(null);
   const nextSlide = () => {
-    if (currentSlide+1 < imgs.length) { 
+    if (currentSlide+1 < files.length) { 
       setCurrentSlide(currentSlide + 1);
     } else {
       return;
@@ -32,13 +29,13 @@ function TestSlide({currentImg, imgs}) {
     <>
       <S.Container>
         {currentImg}
-        <p>{currentSlide + 1}/{imgs.length}</p>
+        <p>{currentSlide + 1}/{files.length}</p>
         <S.SliderContainer ref={slideRef}>
 
-         {imgs.map(function (a,i) {
+         {files.map(function (a,i) {
           return (
            <S.ImgContainer key={i}>
-           <S.Image src={a} />
+           <S.Image src={a.url} />
            </S.ImgContainer>
           )
         })}
@@ -54,5 +51,5 @@ function TestSlide({currentImg, imgs}) {
   }
 
   
-export default TestSlide;
+
   

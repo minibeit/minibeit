@@ -1,13 +1,14 @@
 import React from "react";
 import Portal from "../Portal";
-import TestSlide from "./TestSlide"
+import ApplyImgsSlide from "./ApplyImgsSlide";
 import * as S from "./style";
 
-export default function TestModal2({ setModalSwitch, currentImg, imgs}) {
+export default function ApplyImgsModal({ setModalSwitch, currentImg, files}) {
   const closeModal = () => {
     setModalSwitch(false);
 
   };
+
      
   return (
     <Portal>
@@ -16,7 +17,7 @@ export default function TestModal2({ setModalSwitch, currentImg, imgs}) {
           <S.ModalBtn onClick={closeModal}>X 닫기</S.ModalBtn>
           <S.ModalBtn>다운로드</S.ModalBtn>
         </div>
-        <TestSlide currentImg={currentImg} imgs={imgs}/>
+        <ApplyImgsSlide currentImg={currentImg} files={files}/>
       </S.ModalBackground>
     </Portal>
   );

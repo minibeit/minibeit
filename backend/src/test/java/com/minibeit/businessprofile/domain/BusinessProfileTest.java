@@ -18,12 +18,10 @@ import static org.junit.jupiter.api.Assertions.*;
 class BusinessProfileTest {
 
     private User userInBusinessProfile;
-    private User anotherUser;
     private User admin;
     private Avatar avatar;
     private BusinessProfile businessProfile;
     private BusinessProfileRequest.Create request;
-    private UserBusinessProfile userBusinessProfile;
 
 
     @BeforeEach
@@ -47,13 +45,7 @@ class BusinessProfileTest {
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
                 .build();
-        anotherUser = User.builder()
-                .oauthId("2")
-                .nickname("테스터2")
-                .role(Role.USER)
-                .signupCheck(true)
-                .provider(SignupProvider.KAKAO)
-                .build();
+
         admin = User.builder()
                 .oauthId("3")
                 .name("어드민")

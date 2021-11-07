@@ -4,7 +4,7 @@ import MainSlide from "./MainSlide";
 import {Link} from "react-scroll";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import DateChange from "../Common/Alert/DateChange";
+import RejectApplicant from "../Common/Alert/RejectApplicant";
 
 
 function MainComponent () {
@@ -41,7 +41,7 @@ function MainComponent () {
 
       {/* 여기여기여기여기여깅겨ㅣ */}
       <button onClick={onClick}>알럿만들기</button>
-      {alertSwitch ? <DateChange setAlertSwitch={setAlertSwitch}/>:null}
+      {alertSwitch ? <RejectApplicant setAlertSwitch={setAlertSwitch}/>:null}
     </S.BackGround>
   );
 }

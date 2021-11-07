@@ -1,5 +1,7 @@
 package com.minibeit.avatar.domain;
 
+import com.minibeit.common.domain.FileServer;
+import com.minibeit.common.domain.FileType;
 import com.minibeit.common.dto.SavedFile;
 import javassist.bytecode.stackmap.TypeData;
 import org.junit.jupiter.api.DisplayName;
@@ -16,13 +18,13 @@ class AvatarTest {
         SavedFile savedFile = SavedFile.builder()
                 .originalName("원본이름")
                 .name("파이리")
-                .avatarServer(AvatarServer.S3)
-                .avatarType(AvatarType.FILE)
+                .fileServer(FileServer.S3)
+                .fileType(FileType.FILE)
                 .isImage(false)
                 .size(3L).build();
 
         Avatar avatar = Avatar.create(savedFile);
         assertThat(avatar.getName()).isEqualTo(savedFile.getName());
-        assertThat(avatar.getType()).isEqualTo(savedFile.getAvatarType());
+        assertThat(avatar.getType()).isEqualTo(savedFile.getFileType());
     }
 }

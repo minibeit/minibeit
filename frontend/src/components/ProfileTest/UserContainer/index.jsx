@@ -110,8 +110,8 @@ export default function UserContainer() {
           {feedData.length === 0 ? (
             <div>{feedSwitch}</div>
           ) : (
-            feedData.map((a) => (
-              <div key={a.id}>
+            feedData.map((a, i) => (
+              <div key={i}>
                 <FeedBox status={feedSwitch} data={a} />
               </div>
             ))

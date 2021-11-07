@@ -117,6 +117,7 @@ export const FeedLabel = styled.div`
   transform: translate(0, 50%);
 `;
 export const FeedTitleBox = styled.div`
+  flex: 1;
   display: flex;
   gap: 0.3rem;
   flex-direction: column;
@@ -125,11 +126,12 @@ export const FeedTitleBox = styled.div`
     font-size: 0.7rem;
   }
   & > p:nth-child(2) {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
   }
 `;
 export const FeedContentBox = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   margin-left: auto;
@@ -139,9 +141,12 @@ export const FeedInfo = styled.div`
   flex-direction: column;
   gap: 0.5rem;
   padding: 1rem;
+  & p {
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
   & > div {
     display: flex;
-    flex-wrap: wrap;
     gap: 2rem;
     & > p:nth-child(2) {
       margin-left: auto;

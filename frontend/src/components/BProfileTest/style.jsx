@@ -117,6 +117,7 @@ export const FeedLabel = styled.div`
   transform: translate(0, 50%);
 `;
 export const FeedTitleBox = styled.div`
+  flex: 2;
   display: flex;
   gap: 0.3rem;
   flex-direction: column;
@@ -125,11 +126,12 @@ export const FeedTitleBox = styled.div`
     font-size: 0.7rem;
   }
   & > p:nth-child(2) {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: bold;
   }
 `;
 export const FeedContentBox = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   margin-left: auto;
@@ -154,8 +156,9 @@ export const FeedButton = styled.div`
     background: #0642ff;
     color: white;
     border: none;
-    padding: 0.3rem 1rem 0.3rem 1rem;
+    padding: 0.4rem 0.8rem 0.4rem 0.8rem;
     border-radius: 1rem;
+    cursor: pointer;
   }
 `;
 

@@ -4,7 +4,7 @@ import MainSlide from "./MainSlide";
 import {Link} from "react-scroll";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import DeliteBProfile from "../Common/Alert/DeliteBProfile";
+import RemoveAccount from "../Common/Alert/RemoveAccount"
 
 
 function MainComponent () {
@@ -41,7 +41,7 @@ function MainComponent () {
 
       {/* 여기여기여기여기여깅겨ㅣ */}
       <button onClick={onClick}>알럿만들기</button>
-      {alertSwitch ? <DeliteBProfile setAlertSwitch={setAlertSwitch}/>:null}
+      {alertSwitch ? <RemoveAccount setAlertSwitch={setAlertSwitch}/>:null}
     </S.BackGround>
   );
 }

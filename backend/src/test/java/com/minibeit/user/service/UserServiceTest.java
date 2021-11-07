@@ -2,8 +2,8 @@ package com.minibeit.user.service;
 
 import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.avatar.domain.Avatar;
-import com.minibeit.avatar.domain.AvatarServer;
-import com.minibeit.avatar.domain.AvatarType;
+import com.minibeit.common.domain.FileServer;
+import com.minibeit.common.domain.FileType;
 import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
@@ -17,7 +17,6 @@ import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
-import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.service.PostApplicantByBusinessService;
@@ -259,7 +258,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .birth(LocalDate.of(2222, 1, 1))
                 .avatar(multipartFile)
                 .avatarChanged(true).build();
-        SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, AvatarType.IMAGE, AvatarServer.S3);
+        SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
 
         Avatar avatar = Avatar.create(savedFile);
 
@@ -295,7 +294,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .birth(LocalDate.of(2000, 12, 12))
                 .avatar(multipartFile)
                 .avatarChanged(true).build();
-        SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, AvatarType.IMAGE, AvatarServer.S3);
+        SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
 
         Avatar avatar = Avatar.create(savedFile);
 

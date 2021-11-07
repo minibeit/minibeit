@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class BusinessProfileController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ApiResult<BusinessProfileResponse.IdAndName>> create(BusinessProfileRequest.Create request,
+    public ResponseEntity<ApiResult<BusinessProfileResponse.IdAndName>> create(@Valid BusinessProfileRequest.Create request,
                                                                                @CurrentUser CustomUserDetails customUserDetails) {
         BusinessProfileResponse.IdAndName response = businessProfileService.create(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/business/profile/" + response.getId())).body(ApiResult.build(HttpStatus.CREATED.value(), response));
@@ -30,7 +31,7 @@ public class BusinessProfileController {
 
     @PostMapping("/{businessProfileId}")
     public ResponseEntity<ApiResult<BusinessProfileResponse.IdAndName>> update(@PathVariable Long businessProfileId,
-                                                                               BusinessProfileRequest.Update request,
+                                                                               @Valid BusinessProfileRequest.Update request,
                                                                                @CurrentUser CustomUserDetails customUserDetails) {
         BusinessProfileResponse.IdAndName response = businessProfileService.update(businessProfileId, request, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
@@ -48,7 +49,7 @@ public class BusinessProfileController {
     public ResponseEntity<ApiResult<Void>> changeAdmin(@PathVariable Long businessProfileId,
                                                        @PathVariable Long userId,
                                                        @CurrentUser CustomUserDetails customUserDetails) {
-        businessProfileService.transferOfAuthority(businessProfileId, userId, customUserDetails.getUser());
+        businessProfileService.changeAdmin(businessProfileId, userId, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 

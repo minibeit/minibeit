@@ -21,24 +21,7 @@ Content-Type: application/json;charset=UTF-8
   "startDate": "2021-11-04T09:30",
   "endDate": "2021-11-08T09:30",
   "doDateList": [
-    {
-      "doDate": "2021-11-04T09:30"
-    },
-    {
-      "doDate": "2021-11-05T10:30"
-    },
-    {
-      "doDate": "2021-11-06T20:30"
-    },
-    {
-      "doDate": "2021-11-07T11:30"
-    },
-    {
-      "doDate": "2021-11-07T12:30"
-    },
-    {
-      "doDate": "2021-11-08T09:30"
-    }
+
   ]
 }
 

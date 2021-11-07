@@ -4,7 +4,7 @@ import MainSlide from "./MainSlide";
 import {Link} from "react-scroll";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import RemoveAccount from "../Common/Alert/RemoveAccount"
+import DateChange from "../Common/Alert/DateChange";
 
 
 function MainComponent () {
@@ -41,7 +41,7 @@ function MainComponent () {
 
       {/* 여기여기여기여기여깅겨ㅣ */}
       <button onClick={onClick}>알럿만들기</button>
-      {alertSwitch ? <RemoveAccount setAlertSwitch={setAlertSwitch}/>:null}
+      {alertSwitch ? <DateChange setAlertSwitch={setAlertSwitch}/>:null}
     </S.BackGround>
   );
 }

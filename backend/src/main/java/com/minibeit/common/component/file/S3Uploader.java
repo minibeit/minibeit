@@ -3,7 +3,7 @@ package com.minibeit.common.component.file;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.minibeit.avatar.domain.AvatarServer;
+import com.minibeit.common.domain.FileServer;
 import com.minibeit.common.component.exception.S3FileUploadException;
 import com.minibeit.common.dto.SavedFile;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +63,7 @@ public class S3Uploader {
             log.info(e.getMessage());
             throw new S3FileUploadException();
         }
-        return SavedFile.create(s3FileName, extension, AvatarServer.S3, originalName, file.getSize(), isImage, publicUrl, width, height);
+        return SavedFile.create(s3FileName, extension, FileServer.S3, originalName, file.getSize(), isImage, publicUrl, width, height);
     }
 
     private void putS3(File uploadFile, String fileName) {

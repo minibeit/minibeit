@@ -1,9 +1,9 @@
-package com.minibeit.avatar.domain;
+package com.minibeit.common.domain;
 
 import lombok.Getter;
 
 @Getter
-public enum AvatarServer {
+public enum FileServer {
     DISK,
     S3,
     EXTERNAL;

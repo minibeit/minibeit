@@ -11,7 +11,7 @@ import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
-import com.minibeit.businessprofile.service.exception.BusinessProfileNotPermission;
+import com.minibeit.businessprofile.service.exception.BusinessProfileAdminCantCancelException;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
@@ -476,7 +476,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
 
         assertThatThrownBy(
                 () -> businessProfileService.cancelShare(businessProfile.getId(), admin.getId(), admin)
-        ).isInstanceOf(BusinessProfileNotPermission.class);
+        ).isInstanceOf(BusinessProfileAdminCantCancelException.class);
 
         assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
     }
@@ -485,7 +485,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @DisplayName("어드민 권한 양도 - 성공")
     void transferOfAuthority() {
 
-        businessProfileService.transferOfAuthority(businessProfile.getId(), userInBusinessProfile.getId(), admin);
+        businessProfileService.changeAdmin(businessProfile.getId(), userInBusinessProfile.getId(), admin);
 
         assertThat(businessProfile.getAdmin().getId()).isEqualTo(userInBusinessProfile.getId());
     }
@@ -495,7 +495,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     void transferOfAuthorityFailureWhenNotSharedUser() {
 
         assertThatThrownBy(
-                () -> businessProfileService.transferOfAuthority(businessProfile.getId(), anotherUser.getId(), admin)
+                () -> businessProfileService.changeAdmin(businessProfile.getId(), anotherUser.getId(), admin)
         ).isInstanceOf(UserNotFoundException.class);
         assertThat(businessProfile.getAdmin().getId()).isEqualTo(admin.getId());
     }
@@ -505,7 +505,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     void transferOfAuthorityFailureWhenNotAdmin() {
 
         assertThatThrownBy(
-                () -> businessProfileService.transferOfAuthority(businessProfile.getId(), userInBusinessProfile.getId(), userInBusinessProfile)
+                () -> businessProfileService.changeAdmin(businessProfile.getId(), userInBusinessProfile.getId(), userInBusinessProfile)
         ).isInstanceOf(PermissionException.class);
         assertThat(businessProfile.getAdmin().getId()).isEqualTo(admin.getId());
     }

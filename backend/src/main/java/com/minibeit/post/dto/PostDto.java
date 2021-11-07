@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class PostDto {
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class BusinessProfileInfo {
         private Long id;
@@ -35,7 +35,7 @@ public class PostDto {
 
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class PostDoDate {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")

@@ -6,7 +6,7 @@ import lombok.*;
 public class PostFileDto {
     @Getter
     @Builder
-    @NoArgsConstructor
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Image {
         private String url;

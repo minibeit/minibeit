@@ -5,7 +5,6 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="name";
 
-동그라미 실험실
 --boundary
 Content-Disposition: form-data; name="place";
 

@@ -1,7 +1,7 @@
 package com.minibeit.common.dto;
 
-import com.minibeit.avatar.domain.AvatarServer;
-import com.minibeit.avatar.domain.AvatarType;
+import com.minibeit.common.domain.FileServer;
+import com.minibeit.common.domain.FileType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -20,14 +20,14 @@ public class SavedFile {
     private final Integer height;
 
     private final boolean isImage;
-    private final AvatarType avatarType;
-    private final AvatarServer avatarServer;
+    private final FileType fileType;
+    private final FileServer fileServer;
 
-    public static SavedFile create(String s3FileName, String extension, AvatarServer avatarServer, String originalName, long fileSize, boolean isImage, String publicUrl, Integer width, Integer height) {
+    public static SavedFile create(String s3FileName, String extension, FileServer fileServer, String originalName, long fileSize, boolean isImage, String publicUrl, Integer width, Integer height) {
         SavedFile.SavedFileBuilder savedFileBuilder = SavedFile.builder()
                 .name(s3FileName)
                 .extension(extension)
-                .avatarServer(avatarServer)
+                .fileServer(fileServer)
                 .originalName(originalName)
                 .size(fileSize)
                 .isImage(isImage)
@@ -35,8 +35,8 @@ public class SavedFile {
                 .width(width)
                 .height(height);
         if (isImage) {
-            return savedFileBuilder.avatarType(AvatarType.IMAGE).build();
+            return savedFileBuilder.fileType(FileType.IMAGE).build();
         }
-        return savedFileBuilder.avatarType(AvatarType.FILE).build();
+        return savedFileBuilder.fileType(FileType.FILE).build();
     }
 }

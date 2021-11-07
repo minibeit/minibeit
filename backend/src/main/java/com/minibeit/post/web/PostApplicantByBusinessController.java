@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class PostApplicantByBusinessController {
 
     @PostMapping("/date/{postDoDateId}/apply/reject/{userId}")
     public ResponseEntity<ApiResult<Void>> applyReject(@PathVariable Long postDoDateId, @PathVariable Long userId,
-                                                       @RequestBody PostApplicantRequest.ApplyReject request, @CurrentUser CustomUserDetails customUserDetails) {
+                                                       @Valid @RequestBody PostApplicantRequest.ApplyReject request, @CurrentUser CustomUserDetails customUserDetails) {
         postApplicantByBusinessService.applyReject(postDoDateId, userId, request, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }

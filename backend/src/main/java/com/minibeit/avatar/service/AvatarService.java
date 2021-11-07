@@ -1,15 +1,13 @@
 package com.minibeit.avatar.service;
 
 import com.minibeit.avatar.domain.Avatar;
-import com.minibeit.common.component.file.S3Uploader;
 import com.minibeit.avatar.domain.repository.AvatarRepository;
+import com.minibeit.common.component.file.S3Uploader;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
-@Service
-@Transactional
+@Component
 @RequiredArgsConstructor
 public class AvatarService {
     private final AvatarRepository avatarRepository;

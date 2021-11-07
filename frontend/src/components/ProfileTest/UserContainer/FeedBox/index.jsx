@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { deleteCancelApi, doNotJoinApi } from "../../../../utils";
+
+import CreateReviewModal from "../CreateReviewModal";
 
 import * as S from "../../style";
 
 export default function FeedBox({ status, data, changeFeedData }) {
+  const [createReviewModal, setCreateReviewModal] = useState(false);
   const doNotJoin = (id) => {
     doNotJoinApi(id)
       .then(() => {
@@ -73,7 +76,15 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <button>참여 완료</button>
+                <button onClick={() => setCreateReviewModal(true)}>
+                  참여 완료
+                </button>
+                {createReviewModal && (
+                  <CreateReviewModal
+                    data={data}
+                    setModalSwitch={setCreateReviewModal}
+                  />
+                )}
                 <button onClick={() => doNotJoin(data.postDoDateId)}>
                   참여 취소
                 </button>

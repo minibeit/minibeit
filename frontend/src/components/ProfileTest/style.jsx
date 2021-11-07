@@ -164,6 +164,7 @@ export const FeedButton = styled.div`
     border: none;
     padding: 0.3rem 1rem 0.3rem 1rem;
     border-radius: 1rem;
+    cursor: pointer;
   }
 `;
 

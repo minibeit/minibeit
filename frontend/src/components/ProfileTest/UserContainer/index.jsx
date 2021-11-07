@@ -112,7 +112,11 @@ export default function UserContainer() {
           ) : (
             feedData.map((a, i) => (
               <div key={i}>
-                <FeedBox status={feedSwitch} data={a} />
+                <FeedBox
+                  status={feedSwitch}
+                  data={a}
+                  changeFeedData={changeFeedData}
+                />
               </div>
             ))
           )}

@@ -1,8 +1,27 @@
 import React from "react";
+import { deleteCancelApi, doNotJoinApi } from "../../../../utils";
 
 import * as S from "../../style";
 
-export default function FeedBox({ status, data }) {
+export default function FeedBox({ status, data, changeFeedData }) {
+  const doNotJoin = (id) => {
+    doNotJoinApi(id)
+      .then(() => {
+        alert("실험이 참여 취소 되었습니다.");
+        changeFeedData("대기중");
+      })
+      .catch((err) => alert("취소할 수 없는 실험입니다."));
+  };
+
+  const doDelete = (id) => {
+    deleteCancelApi(id)
+      .then(() => {
+        alert("반려 게시물이 삭제되었습니다");
+        changeFeedData("반려");
+      })
+      .catch((err) => alert("삭제할 수 없는 실험입니다."));
+  };
+
   return (
     <>
       <S.FeedLabel>
@@ -33,7 +52,9 @@ export default function FeedBox({ status, data }) {
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <button>참여 취소</button>
+                <button onClick={() => doNotJoin(data.postDoDateId)}>
+                  참여 취소
+                </button>
               </S.FeedButton>
             </>
           )}
@@ -53,7 +74,9 @@ export default function FeedBox({ status, data }) {
               </S.FeedInfo>
               <S.FeedButton>
                 <button>참여 완료</button>
-                <button>참여 취소</button>
+                <button onClick={() => doNotJoin(data.postDoDateId)}>
+                  참여 취소
+                </button>
               </S.FeedButton>
             </>
           )}
@@ -78,7 +101,7 @@ export default function FeedBox({ status, data }) {
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <button>삭제</button>
+                <button onClick={() => doDelete(data.id)}>삭제하기</button>
               </S.FeedButton>
             </>
           )}

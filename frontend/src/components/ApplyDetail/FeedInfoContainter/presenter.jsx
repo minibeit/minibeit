@@ -1,5 +1,6 @@
 import React from "react";
 import TimeSelectBox from "./TimeSelectBox";
+import ApplyDetailImgsModal from "../../Common/Modal/ApplyDetailImgsModal";
 import ReveiwBox from "./ReviewBox";
 
 import * as S from "../style";
@@ -27,9 +28,14 @@ export default function Presenter({
   place,
   contact,
   businessProfileInfo,
+  currentImg,
+  modalSwitch,
+  setModalSwitch,
+  imgOnClick,
+
 }) {
   return (
-    <S.ContentBox>
+    <S.ContentBox >
       <S.DataBox>
         <p>참여날짜 및 시간 선택하기</p>
         <TimeSelectBox
@@ -89,9 +95,18 @@ export default function Presenter({
         </div>
       </S.DataBox>
       <S.DataBox>
-        <div>
-          {feedDetailData && files.map((a, i) => <S.Img key={i} src={a.url} />)}
-        </div>
+          {files.length !== 0 ? <S.ApplyImgContainer>
+            <div><S.BigImg src={files[0] && files[0].url} onClick={imgOnClick}/></div>
+            <div>
+              <div><S.SmImg src={files[1] &&files[1].url} onClick={files.length<2 ? null : imgOnClick}/></div>
+              <div><S.SmImg src={files[2] &&files[2].url} onClick={files.length<3 ? null : imgOnClick}/></div>
+              <div><S.SmImg src={files[3] &&files[3].url} onClick={files.length<4 ? null : imgOnClick}/></div>
+              {feedDetailData.files.length > 4 ? (<S.Div onClick={imgOnClick}>+{files.length - 4}</S.Div>) : null}
+            </div>
+            {modalSwitch ? (
+              <ApplyDetailImgsModal files={files} setModalSwitch={setModalSwitch} currentImg={currentImg}/>
+              ) : null }
+          </S.ApplyImgContainer> : null}
       </S.DataBox>
 
       <S.DataBox>

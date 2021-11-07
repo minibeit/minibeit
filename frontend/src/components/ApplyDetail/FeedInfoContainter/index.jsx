@@ -4,6 +4,7 @@ import Presenter from "./presenter";
 
 export default function FeedInfoContainer({
   feedDetailData,
+
   date,
   editDetail,
 }) {
@@ -18,6 +19,17 @@ export default function FeedInfoContainer({
     editDetail(feedDetailData.id, newContent);
     setEditSwitch(false);
   };
+
+const [modalSwitch, setModalSwitch] = useState(false);
+const [currentImg, setCurrentImg] = useState(0);
+
+const imgOnClick = (e) => {
+  setModalSwitch(true);
+  setCurrentImg(feedDetailData.files.findIndex(i => i.url === e.target.src) !== -1 
+  ? feedDetailData.files.findIndex(i => i.url === e.target.src) 
+  : 4);
+    
+};
 
   return (
     <Presenter
@@ -43,6 +55,12 @@ export default function FeedInfoContainer({
       setEditSwitch={setEditSwitch}
       setNewContent={setNewContent}
       editSubmit={editSubmit}
+      currentImg={currentImg}
+      modalSwitch={modalSwitch}
+      setModalSwitch={setModalSwitch}
+      imgOnClick={imgOnClick}
+
+
     />
   );
 }

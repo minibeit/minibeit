@@ -4,7 +4,7 @@ import MainSlide from "./MainSlide";
 import {Link} from "react-scroll";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import CompleteApplication from "../Common/Alert/CompleteApplication";
+import AskCompleteApplication from "../Common/Alert/AskCompleteApplication";
 
 
 function MainComponent () {
@@ -41,7 +41,7 @@ function MainComponent () {
 
       {/* 여기여기여기여기여깅겨ㅣ */}
       <button onClick={onClick}>알럿만들기</button>
-      {alertSwitch ? <CompleteApplication setAlertSwitch={setAlertSwitch}/>:null}
+      {alertSwitch ? <AskCompleteApplication setAlertSwitch={setAlertSwitch}/>:null}
     </S.BackGround>
   );
 }

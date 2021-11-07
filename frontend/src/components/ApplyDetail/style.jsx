@@ -203,3 +203,57 @@ export const ApplyBtnGroup = styled.div`
     color: #c4c4c4;
   }
 `;
+
+// apply detail imgs slider
+export const ApplyImgContainer = styled.div`
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+gap: 5px;
+width: 430px;
+margin: 30px 0;
+
+& > div:nth-child(2) {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+`;
+
+export const BigImg = styled.img`
+  width: 316px;
+  height: 316px;
+  border-radius: 5px;
+  object-fit: contain;
+  border: 1px solid gray;
+  background-color: #000;
+  cursor: pointer;
+`;
+
+export const SmImg = styled.img`
+  width: 100px;
+  height: 100px;
+  border-radius: 5px;
+  object-fit: contain;
+  flex-grow: 1;
+  border: 1px solid gray;
+  background-color: #E9E9E9;
+  cursor: pointer;
+`;
+
+
+export const Div = styled.div`
+  position: relative;
+  width: 100px;
+  height: 100px;
+  top: -108px;
+  background-color: rgba(80, 80, 80, 0.6);
+  border-radius: 5px;
+  border: 1px solid rgba(80, 80, 80, 0.6);
+  font-size: 30px;
+  line-height: 100px;
+  color: #ffffff;
+  text-align: center;
+  z-index: 2;
+  cursor: pointer;
+  `;

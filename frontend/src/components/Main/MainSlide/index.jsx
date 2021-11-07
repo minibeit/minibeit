@@ -3,9 +3,7 @@ import * as S from "../style";
 import Slider from "react-slick";
 import '../slick.css';
 
-
-
-function PSlider () {
+function MainSlide () {
         const slickRef = useRef(null);
 
         const previous = useCallback(() => slickRef.current.slickPrev(), []);
@@ -47,4 +45,4 @@ function PSlider () {
     
  
 
-    export default PSlider;
+    export default MainSlide;

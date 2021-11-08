@@ -4,7 +4,7 @@ import MainSlide from "./MainSlide";
 import {Link} from "react-scroll";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import EditOnlyDetails from "../Common/Alert/EditOnlyDetails";
+import EndRecruting from "../Common/Alert/EndRecruting";
 
 
 function MainComponent () {
@@ -41,7 +41,7 @@ function MainComponent () {
 
       {/* 여기여기여기여기여깅겨ㅣ */}
       <button onClick={onClick}>알럿만들기</button>
-      {alertSwitch ? <EditOnlyDetails setAlertSwitch={setAlertSwitch}/>:null}
+      {alertSwitch ? <EndRecruting setAlertSwitch={setAlertSwitch}/>:null}
     </S.BackGround>
   );
 }

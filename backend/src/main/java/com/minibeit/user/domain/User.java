@@ -27,6 +27,8 @@ public class User extends BaseEntity {
 
     private String oauthId;
 
+    private String email;
+
     private String name;
 
     private String nickname;

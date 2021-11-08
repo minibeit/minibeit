@@ -4,7 +4,7 @@ import MainSlide from "./MainSlide";
 import {Link} from "react-scroll";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import DuplicateDate from "../Common/Alert/DuplicateDate";
+import Recruting from "../Common/Alert/Recruting";
 
 
 function MainComponent () {
@@ -41,7 +41,7 @@ function MainComponent () {
 
       {/* 여기여기여기여기여깅겨ㅣ */}
       <button onClick={onClick}>알럿만들기</button>
-      {alertSwitch ? <DuplicateDate setAlertSwitch={setAlertSwitch}/>:null}
+      {alertSwitch ? <Recruting setAlertSwitch={setAlertSwitch}/>:null}
     </S.BackGround>
   );
 }

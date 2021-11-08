@@ -16,7 +16,7 @@ export default function EditOnlyDetails({setAlertSwitch}) {
           <S.AlertContent>
             <ErrorOutlineIcon  sx={{ fontSize: 40}} />
             <p>해당 모집 공고의<br/><span>모집이 종료</span>되었어요.</p>
-            <button onClick={closeAlert}>네, 알겠어요.</button>
+            <button onClick={closeAlert}>닫기</button>
           </S.AlertContent>
         </S.AlertBox>
       </S.AlertBackground>

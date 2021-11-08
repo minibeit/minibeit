@@ -125,9 +125,11 @@ export const FeedTitleBox = styled.div`
   & > p:first-child {
     font-size: 0.7rem;
   }
-  & > p:nth-child(2) {
+  & > a:nth-child(2) {
     font-size: 1.2rem;
     font-weight: bold;
+    text-decoration: none;
+    color: black;
   }
 `;
 export const FeedContentBox = styled.div`

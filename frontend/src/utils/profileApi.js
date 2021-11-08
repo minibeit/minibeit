@@ -72,6 +72,7 @@ export const deleteCancelApi = async (rejectPostId) => {
 export const doJoinApi = async (postDoDateId) => {
   return await withAuthInstance.post(DO_JOIN + postDoDateId + "/finish");
 };
+
 export const doNotJoinApi = async (postDoDateId) => {
   return await withAuthInstance.post(
     DONOT_JOIN + postDoDateId + "/apply/cancel"

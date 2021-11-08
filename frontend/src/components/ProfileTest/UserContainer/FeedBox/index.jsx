@@ -1,12 +1,10 @@
-import React, { useState } from "react";
-import { deleteCancelApi, doNotJoinApi } from "../../../../utils";
-
-import CreateReviewModal from "../CreateReviewModal";
+import React from "react";
+import { Link } from "react-router-dom";
+import { deleteCancelApi, doJoinApi, doNotJoinApi } from "../../../../utils";
 
 import * as S from "../../style";
 
 export default function FeedBox({ status, data, changeFeedData }) {
-  const [createReviewModal, setCreateReviewModal] = useState(false);
   const doNotJoin = (id) => {
     doNotJoinApi(id)
       .then(() => {
@@ -25,6 +23,15 @@ export default function FeedBox({ status, data, changeFeedData }) {
       .catch((err) => alert("삭제할 수 없는 실험입니다."));
   };
 
+  const doComplete = (id) => {
+    doJoinApi(id)
+      .then(() => {
+        alert("참여가 완료 되었습니다");
+        changeFeedData("확정");
+      })
+      .catch((err) => alert("완료할 수 없는 실험입니다."));
+  };
+  console.log(data);
   return (
     <>
       <S.FeedLabel>
@@ -37,7 +44,9 @@ export default function FeedBox({ status, data, changeFeedData }) {
       <S.FeedBox>
         <S.FeedTitleBox>
           <p>게시글 제목</p>
-          <p>{data.title}</p>
+          <Link to={`/apply/${data.id}`}>
+            <p>{data.title}</p>
+          </Link>
         </S.FeedTitleBox>
         <S.FeedContentBox>
           {status === "대기중" && (
@@ -76,15 +85,9 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <button onClick={() => setCreateReviewModal(true)}>
+                <button onClick={() => doComplete(data.postDoDateId)}>
                   참여 완료
                 </button>
-                {createReviewModal && (
-                  <CreateReviewModal
-                    data={data}
-                    setModalSwitch={setCreateReviewModal}
-                  />
-                )}
                 <button onClick={() => doNotJoin(data.postDoDateId)}>
                   참여 취소
                 </button>
@@ -98,10 +101,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
                   <p>{data.review}</p>
                 </div>
               </S.FeedInfo>
-              <S.FeedButton>
-                <button>후기 작성</button>
-                <button>후기 수정</button>
-              </S.FeedButton>
+              <S.FeedButton></S.FeedButton>
             </>
           )}
           {status === "반려" && (

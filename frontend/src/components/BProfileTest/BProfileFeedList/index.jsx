@@ -63,7 +63,11 @@ export default function BProfileInfo({ businessId }) {
         ) : (
           feedData.map((a) => (
             <div key={a.id}>
-              <FeedBox status={feedSwitch} data={a} />
+              <FeedBox
+                status={feedSwitch}
+                data={a}
+                changeFeedData={changeFeedData}
+              />
             </div>
           ))
         )}

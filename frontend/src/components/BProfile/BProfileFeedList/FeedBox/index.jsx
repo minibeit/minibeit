@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { Link } from "react-router-dom";
 
 import { feedDeleteApi, stateCompleteApi } from "../../../../utils";
 import BCompleteModal from "../BCompleteModal";
@@ -38,7 +39,9 @@ export default function FeedBox({ status, data, changeFeedData }) {
       <S.FeedBox>
         <S.FeedTitleBox>
           <p>게시글 제목</p>
-          <p>{data.title}</p>
+          <Link to={`/apply/${data.id}`}>
+            <p>{data.title}</p>
+          </Link>
         </S.FeedTitleBox>
         <S.FeedContentBox>
           {status === "생성한 모집공고" && (

@@ -34,22 +34,18 @@ export const AlertContent = styled.div`
   padding: 20px;
 
   & > p:nth-child(2){
-    font-size: 20px;
+    font-size: 25px;
     text-align: center;
-    line-height: 30px;
+    line-height: 40px;
     font-weight: 700;
     width: 25rem;
   }
 
-  & > p:nth-child(3) {
-    width: 25rem;
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.5);
-    text-align: center;
-    line-height: 20px;
+  & > p > span:nth-child(2) {
+    color: #0642FF;
   }
 
-  & > button:nth-child(4) {
+  & > button:nth-child(3) {
     position: relative;
     width: 9rem;
     height: 2.7rem;

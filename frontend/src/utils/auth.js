@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_URLS } from "../constants";
 import { withAuthInstance, withoutAuthInstance } from "./common";
 
-const { LOGOUT, SIGNUP,N_CHECK } = API_URLS;
+const { LOGOUT, SIGNUP, N_CHECK } = API_URLS;
 
 export const signupInfoApi = async (inputs2, img, accessToken) => {
   const formData = new FormData();
@@ -28,8 +28,7 @@ export const logoutFunc = async () => {
 
 export const nickCheckApi = async (nickname) => {
   const data = {
-    nickname :nickname
-  }
-  return await withoutAuthInstance.post(N_CHECK,data);
+    nickname: nickname,
+  };
+  return await withoutAuthInstance.post(N_CHECK, data);
 };
-

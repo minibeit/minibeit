@@ -5,21 +5,21 @@ import Address from "../../../Common/Address";
 
 import * as S from "./style";
 
-export default function BProfileEditCont({
-  BProfileData,
+export default function Presenter({
+  infoData,
   onChange,
   onFileChange,
+  addressModal,
+  setAddressModal,
   onAddressChange,
-  setadModalSwitch,
-  admodalSwitch,
-  submitEditBusiness,
+  createBusiness,
 }) {
   return (
     <>
-      <S.ImgEditContainer>
+      <S.ImgContainer>
         <S.ImgBox>
-          {BProfileData.avatar ? (
-            <PVImg img={BProfileData.avatar} />
+          {infoData.avatar ? (
+            <PVImg img={infoData.avatar} />
           ) : (
             <S.Img src="/기본비즈니스프로필.jpeg" />
           )}
@@ -35,87 +35,74 @@ export default function BProfileEditCont({
           type="file"
           onChange={onFileChange}
         />
-      </S.ImgEditContainer>
-      <S.InfoEditContainer>
+      </S.ImgContainer>
+      <S.InfoContainer>
         <div>
-          <S.EditInput>
+          <S.CreateInput style={{ width: "100%" }}>
             <div>
               <p>이름</p>
               <input
-                defaultValue={BProfileData.name}
+                defaultValue={infoData.name}
                 name="name"
                 type="text"
                 placeholder="이름"
                 onChange={onChange}
               />
             </div>
-          </S.EditInput>
-          <S.EditInput>
-            <div>
-              <p>담당자</p>
-              <input
-                defaultValue={BProfileData.adminNickname}
-                name="adminNickname"
-                type="text"
-                readOnly
-              />
-            </div>
-          </S.EditInput>
+          </S.CreateInput>
         </div>
         <div>
-          <S.EditInput style={{ width: "100%" }}>
+          <S.CreateInput style={{ width: "100%" }}>
             <div>
               <p>주소</p>
               <input
-                value={BProfileData.place}
+                value={infoData.place}
                 name="place"
                 type="text"
                 placeholder="주소"
-                onClick={() => setadModalSwitch(true)}
+                onClick={() => setAddressModal(true)}
                 readOnly
               />
-              {admodalSwitch ? (
+              {addressModal ? (
                 <Address
-                  setModalSwitch={setadModalSwitch}
+                  setModalSwitch={setAddressModal}
                   handleAddress={onAddressChange}
                 />
               ) : null}
             </div>
-          </S.EditInput>
+          </S.CreateInput>
         </div>
         <div>
-          <S.EditInput style={{ width: "100%" }}>
+          <S.CreateInput style={{ width: "100%" }}>
             <div>
               <p>상세주소</p>
               <input
-                defaultValue=""
+                defaultValue={infoData.detailPlace}
                 name="detailPlace"
                 type="text"
                 placeholder="상세 주소"
                 onChange={onChange}
               />
             </div>
-          </S.EditInput>
+          </S.CreateInput>
         </div>
         <div>
-          <S.EditInput>
+          <S.CreateInput>
             <div>
               <p>연락처</p>
               <input
-                defaultValue={BProfileData.contact}
+                defaultValue={infoData.contact}
                 name="contact"
                 type="text"
                 placeholder="연락처"
                 onChange={onChange}
               />
             </div>
-          </S.EditInput>
+          </S.CreateInput>
         </div>
 
-        <button onClick={() => submitEditBusiness(BProfileData)}>
-          수정완료
-        </button>
-      </S.InfoEditContainer>
+        <button onClick={() => createBusiness(infoData)}>수정완료</button>
+      </S.InfoContainer>
     </>
   );
 }

@@ -1,52 +1,77 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import { changeState } from "../../../recoil/changeState";
-import { getMakelistApi } from "../../../utils";
-import Presenter from "./presenter";
+import React, { useEffect, useState } from "react";
+import { getMakelistApi, reviewListGetApi } from "../../../utils";
 
-export default function BProfileFeedList({ businessId, state, status }) {
-  const [makelist, setMakelist] = useState([]);
-  const [page, setPage] = useState(1);
-  const [count, setCount] = useState();
-  const [, setChange] = useRecoilState(changeState);
-  const [paging, setPaging] = useState({
-    first: "",
-    last: "",
-  });
-  const getMakelist = useCallback(async () => {
-    await getMakelistApi(businessId, page, status)
-      .then(async (res) => {
-        if (res.data.data.content.length === 0) {
-          await getMakelistApi(businessId, 1, status).then((res) => {
-            setMakelist(res.data.data.content);
-            setPaging({ first: res.data.first, last: res.data.data.last });
-            setCount(res.data.data.totalElements);
-            setChange(0);
-          });
-        } else {
-          setMakelist(res.data.data.content);
-          setPaging({ first: res.data.data.first, last: res.data.data.last });
-          setCount(res.data.data.totalElements);
-          setChange(0);
-        }
-      })
-      .catch((err) => console.log(err));
-  }, [businessId, page, setChange, status]);
-  const handlepage = async (page) => {
-    setPage(page);
+import FeedBox from "./FeedBox";
+
+import * as S from "../style";
+
+export default function BProfileInfo({ businessId }) {
+  const [feedData, setFeedData] = useState([]);
+  const [feedSwitch, setFeedSwitch] = useState("생성한 모집공고");
+
+  const changeFeedData = (status) => {
+    switch (status) {
+      case "생성한 모집공고":
+        setFeedData([]);
+        getMakelistApi(businessId, 1, "RECRUIT").then((res) =>
+          setFeedData(res.data.data.content)
+        );
+        break;
+      case "완료된 모집공고":
+        setFeedData([]);
+        getMakelistApi(businessId, 1, "COMPLETE").then((res) =>
+          setFeedData(res.data.data.content)
+        );
+        break;
+      case "후기 모아보기":
+        setFeedData([]);
+        reviewListGetApi(businessId, 1, 10).then((res) =>
+          setFeedData(res.data.data.content)
+        );
+        break;
+      default:
+    }
   };
+
   useEffect(() => {
-    getMakelist();
-  }, [getMakelist]);
+    getMakelistApi(businessId, 1, "RECRUIT").then((res) =>
+      setFeedData(res.data.data.content)
+    );
+  }, [businessId]);
+
   return (
-    <Presenter
-      makelist={makelist}
-      paging={paging}
-      page={page}
-      count={count}
-      handlepage={handlepage}
-      state={state}
-      getMakelist={getMakelist}
-    />
+    <>
+      <S.CategoryBtnBox>
+        {["생성한 모집공고", "완료된 모집공고", "후기 모아보기"].map((a, i) => {
+          return (
+            <button
+              key={i}
+              onClick={() => {
+                setFeedSwitch(a);
+                changeFeedData(a);
+              }}
+              disabled={a === feedSwitch ? true : false}
+            >
+              {a}
+            </button>
+          );
+        })}
+      </S.CategoryBtnBox>
+      <S.FeedGroup>
+        {feedData.length === 0 ? (
+          <div>{feedSwitch}</div>
+        ) : (
+          feedData.map((a) => (
+            <div key={a.id}>
+              <FeedBox
+                status={feedSwitch}
+                data={a}
+                changeFeedData={changeFeedData}
+              />
+            </div>
+          ))
+        )}
+      </S.FeedGroup>
+    </>
   );
 }

@@ -56,13 +56,6 @@ export const UserInfoContainer = styled.div`
     gap: 0.5rem;
     align-items: center;
   }
-  & button {
-    border: none;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    border-radius: 1rem;
-    font-weight: bold;
-    cursor: pointer;
-  }
 `;
 export const UserInfoData = styled.div`
   display: flex;
@@ -72,6 +65,22 @@ export const UserInfoData = styled.div`
   gap: 0.5rem;
   border-radius: 1rem;
   padding: 1rem;
+`;
+export const InfoEditBtn = styled.button`
+  border: none;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+`;
+export const UserListBtn = styled.button`
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.8rem;
+  background: #0642ff;
+  color: white;
+  cursor: pointer;
 `;
 export const FeedContainer = styled.div`
   flex: 3;

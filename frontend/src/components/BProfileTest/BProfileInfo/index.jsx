@@ -3,12 +3,14 @@ import { getBprofileInfo } from "../../../utils";
 import { PVImg } from "../../Common";
 
 import BProfileEditModal from "./BProfileEditModal";
+import BProfileUserModal from "./BProfileUserModal";
 
 import * as S from "../style";
 
 export default function BProfileInfo({ businessId }) {
   const [bProfileInfo, setBProfileInfo] = useState();
   const [infoEditModal, setInfoEditModal] = useState(false);
+  const [userListModal, setUserListModal] = useState(false);
 
   useEffect(() => {
     getBprofileInfo(businessId).then((res) => {
@@ -27,13 +29,13 @@ export default function BProfileInfo({ businessId }) {
               <PVImg img="/기본비즈니스프로필.jpeg" />
             )}
           </S.ImgBox>
-          <button
+          <S.InfoEditBtn
             onClick={() => {
               setInfoEditModal(true);
             }}
           >
             수정하기
-          </button>
+          </S.InfoEditBtn>
           {infoEditModal && (
             <BProfileEditModal
               businessId={businessId}
@@ -48,6 +50,17 @@ export default function BProfileInfo({ businessId }) {
             <p>소속인원 : {bProfileInfo.numberOfEmployees}명</p>
             <p>전화번호 : {bProfileInfo.contact}</p>
           </S.UserInfoData>
+          {bProfileInfo.admin && (
+            <S.UserListBtn onClick={() => setUserListModal(true)}>
+              소속인원 목록
+            </S.UserListBtn>
+          )}
+          {userListModal && (
+            <BProfileUserModal
+              businessId={businessId}
+              setModalSwitch={setUserListModal}
+            />
+          )}
         </div>
       )}
     </S.UserInfoContainer>

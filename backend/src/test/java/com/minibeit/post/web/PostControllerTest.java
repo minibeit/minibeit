@@ -243,7 +243,7 @@ class PostControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("post-getList",
                         pathParameters(
-                                parameterWithName("schoolId").description("학교 식별자")),
+                                parameterWithName("schoolId").description("학교 식별자( 0 이면 전체 학교에 대해서 조회)")),
                         requestParameters(
                                 parameterWithName("page").description("조회할 페이지"),
                                 parameterWithName("size").description("조회할 사이즈"),

@@ -4,7 +4,7 @@ import MainSlide from "./MainSlide";
 import {Link} from "react-scroll";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import PersonalInformation from "../Common/Alert/PersonalInformation";
+import Conditions from "../Common/Alert/Conditions";
 
 
 
@@ -49,7 +49,7 @@ function MainComponent () {
       {/* 여기여기여기여기여깅겨ㅣ */}
       <button onClick={onClick}>알럿만들기</button>
       
-      {alertSwitch ? <PersonalInformation setAlertSwitch={setAlertSwitch}/>:null}
+      {alertSwitch ? <Conditions setAlertSwitch={setAlertSwitch}/>:null}
      
     </S.BackGround>
   );

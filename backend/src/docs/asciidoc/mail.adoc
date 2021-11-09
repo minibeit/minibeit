@@ -1,0 +1,24 @@
+= Minibeit API 문서 (MAIL)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:snippets: ../../../build/generated-snippets
+
+= MAIL
+---
+== 메일 전송 API
+
+=== 게시물 확정, 확정 취소, 반려 알림 메일 전송
+
+`POST /api/post/mail`
+
+요청 HTTP
+include::{snippets}/post-mail/request-body.adoc[]
+include::{snippets}/post-mail/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-mail/http-response.adoc[]
+include::{snippets}/post-mail/response-fields.adoc[]

@@ -214,7 +214,7 @@ public class PostResponse {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetMyCompletedList {
-        private Long postId;
+        private Long id;
         private Long postDoDateId;
         private String title;
         private Integer time;
@@ -230,8 +230,8 @@ public class PostResponse {
 
         @Builder
         @QueryProjection
-        public GetMyCompletedList(Long postId, Long postDoDateId, String title, Integer time, Long reviewId, String review, LocalDateTime doDate) {
-            this.postId = postId;
+        public GetMyCompletedList(Long id, Long postDoDateId, String title, Integer time, Long reviewId, String review, LocalDateTime doDate) {
+            this.id = id;
             this.postDoDateId = postDoDateId;
             this.title = title;
             this.reviewId = reviewId;

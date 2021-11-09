@@ -15,9 +15,9 @@ export default function AskEndReason ({setAlertSwitch}) {
   const [input, setInput] = useState(false);
 
   const handleSelect=(e) => {
-    if(e.target.value === "6") {
-      setInput(true);
-    } else {return};
+    if(e.target.value !== "6") {
+      setInput(false);
+    } else {setInput(true)};
   };
 
   const [inputValue, setInputValue] = useState('');
@@ -36,12 +36,12 @@ export default function AskEndReason ({setAlertSwitch}) {
           <S.AlertContent>
           <ErrorOutlineIcon  sx={{ fontSize: 40}} />
             <p>종료 사유를 알려주세요</p>
-            <select className="reason" onChange={handleSelect}>
+            <S.Select className="reason" onChange={handleSelect}>
               {items.map((a, i) => (
                 <option value={i} key={i}>{a}</option>
               ))}
-            </select>
-            {input ? (<input type="text" value={inputValue} onChange={handleSelect2}/>) : null}
+            </S.Select>
+            {input ? (<S.Input type="text" value={inputValue} onChange={handleSelect2}/>) : null}
             <S.BlueButton onClick={onClick} >확인</S.BlueButton>
           </S.AlertContent>
         </S.AlertBox>

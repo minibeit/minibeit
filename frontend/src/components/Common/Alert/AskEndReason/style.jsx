@@ -63,3 +63,29 @@ export const AlertContent = styled.div`
 
 `;
 
+export const Select = styled.select`
+	width: 20rem;
+  height: 2rem;
+  padding: 3px;
+	font-size: 11px;
+	line-height: 17px;
+	border: 1px solid #0642FF;
+	border-radius: 10px;
+  text-align: center;
+  color: #0642FF;
+`;
+
+export const Input = styled.input`
+	width: 20rem;
+  height: 2rem;
+	font-size: 11px;
+	line-height: 11px;
+	border: 1px solid #0642FF;
+	border-radius: 10px;
+  text-align: center;
+  color: #0642FF;
+  box-sizing: border-box;
+  :focus {
+    border: 1px solid #0642FF;
+  }
+  `;

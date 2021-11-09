@@ -4,7 +4,7 @@ import MainSlide from "./MainSlide";
 import {Link} from "react-scroll";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import Conditions from "../Common/Alert/Conditions";
+import AskCancelConfirm from "../Common/Alert/AskCancelConfirm";
 
 
 
@@ -49,7 +49,7 @@ function MainComponent () {
       {/* 여기여기여기여기여깅겨ㅣ */}
       <button onClick={onClick}>알럿만들기</button>
       
-      {alertSwitch ? <Conditions setAlertSwitch={setAlertSwitch}/>:null}
+      {alertSwitch ? <AskCancelConfirm setAlertSwitch={setAlertSwitch}/>:null}
      
     </S.BackGround>
   );

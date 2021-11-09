@@ -44,6 +44,11 @@ dependencies {
 	testAnnotationProcessor 'org.projectlombok:lombok'
 
 	/**
+	 * Validation
+	 */
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	/**
 	 * JWT Dependencies
 	 */
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.1'

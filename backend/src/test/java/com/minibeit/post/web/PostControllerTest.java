@@ -304,7 +304,7 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("data.content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
                                 fieldWithPath("data.content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
                                 fieldWithPath("data.content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
-                                fieldWithPath("data.content[].postStatus").type(JsonFieldType.STRING).description("게시물 모집 상태"),
+                                fieldWithPath("data.content[].postStatus").type(JsonFieldType.STRING).description("게시물 모집 상태(RECRUIT or COMPLETE)"),
                                 fieldWithPath("data.totalElements").description("전체 개수"),
                                 fieldWithPath("data.last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("data.totalPages").description("전체 페이지")

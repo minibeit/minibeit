@@ -11,6 +11,8 @@ export default function PVImg({ img }) {
 
   if (typeof img === "string") {
     imgUrl = img;
+  } else if (!img) {
+    return null;
   } else {
     imgUrl = URL.createObjectURL(img);
   }

@@ -1,39 +1,68 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
-import { LoadingSpinner } from "../../Common";
-import { getBprofileInfo } from "../../../utils/bprofileApi";
-import Presenter from "./presenter";
+import { getBprofileInfo } from "../../../utils";
+import { PVImg } from "../../Common";
 
-BProfileInfo.propTypes = {
-  businessId: PropTypes.number.isRequired,
-};
+import BProfileEditModal from "./BProfileEditModal";
+import BProfileUserModal from "./BProfileUserModal";
+
+import * as S from "../style";
 
 export default function BProfileInfo({ businessId }) {
-  const [buserData, setBUserData] = useState();
-  const [modalSwitch, setModalSwitch] = useState(false);
-  const [modal2Switch, setModal2Switch] = useState(false);
+  const [bProfileInfo, setBProfileInfo] = useState();
+  const [infoEditModal, setInfoEditModal] = useState(false);
+  const [userListModal, setUserListModal] = useState(false);
+
   useEffect(() => {
-    getBprofileInfo(businessId)
-      .then((res) => {
-        setBUserData(res.data.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    getBprofileInfo(businessId).then((res) => {
+      setBProfileInfo(res.data.data);
+    });
   }, [businessId]);
+
   return (
-    <>
-      {buserData ? (
-        <Presenter
-          buserData={buserData}
-          setModal2Switch={setModal2Switch}
-          setModalSwitch={setModalSwitch}
-          modalSwitch={modalSwitch}
-          modal2Switch={modal2Switch}
-        />
-      ) : (
-        <LoadingSpinner />
+    <S.UserInfoContainer>
+      {bProfileInfo && (
+        <div>
+          <S.ImgBox>
+            {bProfileInfo.avatar !== null ? (
+              <PVImg img={bProfileInfo.avatar} />
+            ) : (
+              <PVImg img="/기본비즈니스프로필.jpeg" />
+            )}
+          </S.ImgBox>
+          <S.InfoEditBtn
+            onClick={() => {
+              setInfoEditModal(true);
+            }}
+          >
+            수정하기
+          </S.InfoEditBtn>
+          {infoEditModal && (
+            <BProfileEditModal
+              businessId={businessId}
+              infoData={bProfileInfo}
+              setInfoEditModal={setInfoEditModal}
+            />
+          )}
+          <S.UserInfoData>
+            <p>이름 : {bProfileInfo.name}</p>
+            <p>담당자 : {bProfileInfo.adminNickname}</p>
+            <p>주소 : {bProfileInfo.place}</p>
+            <p>소속인원 : {bProfileInfo.numberOfEmployees}명</p>
+            <p>전화번호 : {bProfileInfo.contact}</p>
+          </S.UserInfoData>
+          {bProfileInfo.admin && (
+            <S.UserListBtn onClick={() => setUserListModal(true)}>
+              소속인원 목록
+            </S.UserListBtn>
+          )}
+          {userListModal && (
+            <BProfileUserModal
+              businessId={businessId}
+              setModalSwitch={setUserListModal}
+            />
+          )}
+        </div>
       )}
-    </>
+    </S.UserInfoContainer>
   );
 }

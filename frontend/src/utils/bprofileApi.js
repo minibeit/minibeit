@@ -21,12 +21,13 @@ const {
   REJECT_ONE,
 } = API_URLS;
 
-// getuserinfo 완료되면 api주소 입력 후 사용
-export const bprofileNew = async (inputs, img) => {
+export const bprofileNew = async (infoData) => {
   const formData = new FormData();
-  Object.keys(inputs).map((key) => formData.append(key, inputs[key]));
-  if (img !== undefined) {
-    formData.append("avatar", img);
+  formData.append("name", infoData.name);
+  formData.append("place", infoData.place + " " + infoData.detailPlace);
+  formData.append("contact", infoData.contact);
+  if (infoData.avatar) {
+    formData.append("avatar", infoData.avatar);
   }
   return await withAuthInstance.post(BPROFILE_NEW, formData);
 };
@@ -41,21 +42,26 @@ export const deleteBprofile = async (businessId) => {
   return await withAuthInstance.delete(BPROFILE_DELETE + businessId);
 };
 
-export const editBprofile = async (businessId, inputs, newImg, basicImg) => {
+export const editBprofile = (BProfileData) => {
   const formData = new FormData();
-  Object.keys(inputs).map((key) => formData.append(key, inputs[key]));
-  if (newImg === undefined) {
-    if (basicImg) {
-      formData.append("avatarChanged", true);
-    } else {
-      formData.append("avatarChanged", false);
-    }
+  formData.append("name", BProfileData.name);
+  if (BProfileData.detailPlace) {
+    formData.append(
+      "place",
+      BProfileData.place + " " + BProfileData.detailPlace
+    );
   } else {
+    formData.append("place", BProfileData.place);
+  }
+  formData.append("contact", BProfileData.contact);
+  if (typeof BProfileData.avatar !== "string") {
     formData.append("avatarChanged", true);
-    formData.append("avatar", newImg);
+    if (BProfileData.avatar) formData.append("avatar", BProfileData.avatar);
+  } else {
+    formData.append("avatarChanged", false);
   }
 
-  return await withAuthInstance.post(BPROFILE_EDIT + businessId, formData);
+  return withAuthInstance.post(BPROFILE_EDIT + BProfileData.id, formData);
 };
 
 export const bprofileJoin = async (businessId, userId) => {

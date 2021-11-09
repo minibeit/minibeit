@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.YearMonth;
@@ -27,7 +28,7 @@ public class PostByBusinessController {
 
     @PostMapping("/info")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ApiResult<PostResponse.OnlyId>> createInfo(@RequestBody PostRequest.CreateInfo request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<PostResponse.OnlyId>> createInfo(@Valid @RequestBody PostRequest.CreateInfo request, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.OnlyId response = postByBusinessService.createInfo(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(ApiResult.build(HttpStatus.CREATED.value(), response));
     }
@@ -40,7 +41,7 @@ public class PostByBusinessController {
     }
 
     @PostMapping("/{postId}/completed")
-    public ResponseEntity<ApiResult<Void>> recruitmentCompleted(@PathVariable Long postId, @RequestBody PostRequest.RejectComment request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<Void>> recruitmentCompleted(@PathVariable Long postId, @Valid @RequestBody PostRequest.RejectComment request, @CurrentUser CustomUserDetails customUserDetails) {
         postByBusinessService.recruitmentCompleted(postId, request, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
@@ -55,14 +56,14 @@ public class PostByBusinessController {
 
     @GetMapping("/{postId}/exist/doDate/list")
     public ResponseEntity<ApiResult<PostResponse.DoDateList>> getDoDateList(@PathVariable Long postId,
-                                                                 @RequestParam(name = "yearMonth") @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {
+                                                                            @RequestParam(name = "yearMonth") @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {
         PostResponse.DoDateList response = postByBusinessService.getDoDateListByYearMonth(postId, yearMonth);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
     @PutMapping("/{postId}")
-    public ResponseEntity<ApiResult<PostResponse.OnlyId>> updateContent(@PathVariable Long postId, @RequestBody PostRequest.UpdateContent request,
-                                                             @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<PostResponse.OnlyId>> updateContent(@PathVariable Long postId, @Valid @RequestBody PostRequest.UpdateContent request,
+                                                                        @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.OnlyId response = postByBusinessService.updateContent(postId, request, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }

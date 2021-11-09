@@ -3,6 +3,8 @@ package com.minibeit.avatar.domain;
 import javax.persistence.Enumerated;
 
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.common.domain.FileServer;
+import com.minibeit.common.domain.FileType;
 import com.minibeit.common.dto.SavedFile;
 import lombok.*;
 import javax.persistence.*;
@@ -20,10 +22,10 @@ public class Avatar extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private AvatarServer server;
+    private FileServer server;
 
     @Enumerated(EnumType.STRING)
-    private AvatarType type;
+    private FileType type;
 
     private String name;
     private String extension;
@@ -36,8 +38,8 @@ public class Avatar extends BaseEntity {
     public static Avatar create(SavedFile file) {
         return Avatar.builder()
                 .name(file.getName())
-                .type(file.getAvatarType())
-                .server(file.getAvatarServer())
+                .type(file.getFileType())
+                .server(file.getFileServer())
                 .extension(file.getExtension())
                 .height(file.getHeight())
                 .width(file.getWidth())

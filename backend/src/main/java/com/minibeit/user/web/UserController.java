@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,18 +22,18 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResult<UserResponse.CreateOrUpdate>> signup(AuthRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<UserResponse.CreateOrUpdate>> signup(@Valid AuthRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
         UserResponse.CreateOrUpdate response = userService.signup(request, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
     @PostMapping("/update")
-    public ResponseEntity<ApiResult<UserResponse.CreateOrUpdate>> update(UserRequest.Update request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<UserResponse.CreateOrUpdate>> update(@Valid UserRequest.Update request, @CurrentUser CustomUserDetails customUserDetails) {
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), userService.update(request, customUserDetails.getUser())));
     }
 
     @PostMapping("/nickname/check")
-    public ResponseEntity<ApiResult<Void>> nicknameCheck(@RequestBody UserRequest.Nickname request) {
+    public ResponseEntity<ApiResult<Void>> nicknameCheck(@Valid @RequestBody UserRequest.Nickname request) {
         userService.nickNameCheck(request);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }

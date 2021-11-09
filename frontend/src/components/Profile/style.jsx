@@ -1,424 +1,213 @@
 import styled from "styled-components";
 
-export const UserInfoContainer = styled.div`
-  display: flex;
-  min-width: 332px;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
+/* Common */
 
-export const UserInfo = styled.div`
-  display: flex;
-  padding: 9px;
-  & > p:first-child {
-    flex: 1;
-  }
-  & > p:nth-child(2) {
-    flex: 1;
-  }
-`;
-export const UserInfoBox = styled.div`
-  max-width: 248px;
-  display: flex;
-  flex-direction: column;
-  padding: 20px 17px 20px 17px;
-  border-radius: 8px;
-  margin: 11px 0;
-  width: 100%;
-  background: white;
-`;
-export const UserEditBtn = styled.div`
-  width: 57px;
-  margin-top: 10px;
-  cursor: pointer;
-  padding: 4px 7px;
-  background: white;
-  border-radius: 8px;
-`;
-
-export const BPContainer = styled.div``;
-export const BPbtn = styled.div``;
-export const BoxTitle = styled.div``;
-export const LBprev = styled.div``;
-export const LBnext = styled.div``;
-export const BPNewInput = styled.input``;
-export const ImgBox = styled.div`
-  overflow: hidden;
-  width: 10rem;
-  height: 10rem;
-  display: inline-block;
-`;
-export const UserImg = styled.img`
-  object-fit: fill;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-`;
-export const EditButton = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: end;
-  & > p {
-    background: blue;
-    color: white;
-    padding: 8px 30px;
-    border-radius: 25px;
-    font-size: 15px;
-    cursor: pointer;
-  }
-`;
-export const EditContainer1 = styled.div`
-  width: 174px;
-  flex: 1;
-  margin: 41px 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-export const EditContainer2 = styled.div`
-  flex: 2;
-  margin: 27px 12px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-`;
-export const SignupNickBtn = styled.div`
-  height: 15px;
-  width: 21px;
-  cursor: pointer;
-  font-size: 11px;
-  background: white;
-  padding: 8px;
-  border-radius: 9px;
-  color: #0642ff;
-`;
-export const EditInput = styled.input`
-  border: none;
-  border-radius: 8px;
-  padding: 4px 0 8px 5px;
-  font-size: 14px;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: 0.14px;
-  text-align: left;
-  margin-top: 7px;
-  outline: none;
-  color: #707070;
-  text-decoration: none;
-`;
-export const PELabel = styled.label`
-  font-size: 13px;
-  display: flex;
-  margin: 0 3px;
-  flex-direction: column;
-  flex: ${(props) => props.flex};
-`;
-export const EditContainerSub = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  flex: ${(props) => props.width};
-`;
-export const EditFInput = styled.input`
-  display: none;
-`;
-export const FileLabel = styled.label`
-  padding: 5px;
-  cursor: pointer;
-  background: #c4c4c4;
-  color: white;
-  border-radius: 14px;
-  width: 100px;
-  font-size: 12px;
-  text-align: center;
-`;
-export const EditSelect = styled.select`
-  -webkit-appearance: none;
-  height: 32px;
-  margin: 0 3px;
-  border-radius: initial;
-  font-size: 14px;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  width: 48px;
-  margin-top: 7px;
-  letter-spacing: 0.14px;
-  text-align: left;
-  border: none;
-  padding: 0px 0 6px 5px;
-  color: #707070;
-  outline: none;
-  border-radius: 8px;
-`;
-export const ImgDel = styled.div`
-  padding: 5px;
-  cursor: pointer;
-  background: #c4c4c4;
-  color: white;
-  border-radius: 14px;
-  width: 100px;
-  font-size: 12px;
-  text-align: center;
-  margin: 10px 0px;
-`;
-
-export const Img = styled.img`
-  object-fit: fill;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-`;
-
-export const BPSubmitBtn = styled.div``;
-export const LBCont = styled.div``;
-export const LBTitle = styled.div``;
-export const LBContent = styled.div``;
-export const LBList = styled.div``;
-
-export const PTabCont = styled.div`
-  display: flex;
-  align-items: end;
-  margin: 0 50px;
-  & > a {
-    text-decoration: none;
-    color: white;
-    cursor: pointer;
-  }
-`;
-export const ProfileTab1 = styled.div`
-  padding: 7px 52px;
-  border-top-left-radius: 13px;
-  border-top-right-radius: 13px;
-  background: #d8d6d6;
-  @media only screen and (max-width: 480px) {
-    font-size: 13px;
-    padding: 10px 22px;
-    min-width: 57px;
-  }
-`;
-export const ProfileTab2 = styled.div`
-  padding: 7px 52px;
-  border-top-left-radius: 13px;
-  border-top-right-radius: 13px;
-  background: #9e9e9e;
-  position: relative;
-  right: 29px;
-  z-index: -1;
-  @media only screen and (max-width: 480px) {
-    font-size: 13px;
-    padding: 10px 23px;
-    min-width: 83px;
-    right: 18px;
-    }
-  }
-`;
-export const PTabContent = styled.div`
-  margin: 0 50px;
-  display: flex;
-  flex-wrap: wrap;
-  background: #d8d6d6;
-  padding: 30px 30px 57px 30px;
-`;
-export const PleftBox = styled.div`
-  flex: 1;
-`;
-export const PrightBox = styled.div`
-  flex: 2;
-`;
-export const PrightTab = styled.div`
-  display: flex;
-  min-width: 371px;
-  width: 100%;
-  margin-bottom: 21px;
-`;
-export const PrightTabele = styled.div`
-  padding: 0px 9px;
-  border-right: 1px solid gray;
-  & > p {
-    cursor: pointer;
-    border-bottom: ${(props) =>
-      props.tabIndex === props.index ? "2px solid blue" : null};
-  }
-`;
-
-export const PrightTopBox = styled.div`
-  display: flex;
-`;
-export const PFavorite = styled.div``;
-export const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
+export const ProfilePage = styled.div`
   height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 99;
-`;
-export const ModalBox = styled.div`
-  transform: translate(-50%, -50%);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 57%;
-  background: #efefef;
-  overflow: scroll;
-  max-width: 41rem;
-  border-radius: 20px;
-  padding: 32px 36px;
-  height: 26rem;
+  max-width: 100%;
+  width: 100vw;
+  background: #f3f3f3;
+  overflow: auto;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
   }
-`;
-export const ModalHeader = styled.div`
-  display: flex;
-  align-items: center;
-  height: 3.2rem;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
-  & > p {
-    font-size: 18px;
-    font-weight: 500;
+  & > div:first-child {
+    margin: 4rem 12rem 4rem 12rem;
   }
 `;
-export const CloseModalBtn = styled.div`
-  margin-left: auto;
-  height: -webkit-fill-available;
-  & > svg {
-    cursor: pointer;
-  }
-`;
-export const ModalContent = styled.div`
-  flex-wrap: wrap;
-  display: flex;
-`;
-export const IfNoneWordCont = styled.div`
-  margin: 15px 0;
-  background: white;
-  border-radius: 8px;
-  height: 88%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  & > p {
-    font-size: 20px;
-    color: gray;
-  }
-`;
-export const IfNoneBtn = styled.div`
-  background: blue;
+export const ModeSelectBtn = styled.button`
+  background: #e5e5e5;
+  border: none;
   cursor: pointer;
-  padding: 7px 13px;
-  border-radius: 21px;
-  color: white;
-  margin: 10px;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  font-weight: bold;
+  &:disabled {
+    background: white;
+    color: black;
+  }
+`;
+export const Container = styled.div`
+  background-color: white;
+  display: flex;
+  flex-wrap: wrap;
+  min-height: 35rem;
+`;
+export const ImgBox = styled.div`
+  overflow: hidden;
+  width: 10rem;
+  height: 10rem;
+  display: inline-block;
+  border-radius: 50%;
 `;
 
-export const ListPaging = styled.div``;
+/* user */
 
-export const FeedTag = styled.div`
-  position: relative;
-  top: 24px;
-  & > p {
-    background: lightgray;
-    width: fit-content;
-    white-space: pre;
-    padding: 2px 10px;
-    border-radius: 21px;
-    border: 1px solid gray;
-    font-size: 12px;
-    z-index: 3;
-  }
-`;
-export const FeedCont = styled.div`
-  background: white;
-  padding: 16px 11px;
-  border-radius: 8px;
-  display: flex;
-  margin: 16px 0;
-`;
-export const FeedTitle = styled.div`
-  flex: 1;
-  flex-direction: column;
-  align-items: baseline;
-  display: flex;
-  justify-content: center;
-  padding: 0 15px;
-  & > p:first-child {
-    font-size: 12px;
-  }
-  & > p {
-    white-space: pre;
-  }
-`;
-export const FeedContent = styled.div`
+export const UserInfoContainer = styled.div`
   flex: 1.5;
-  display: flex;
-  flex-direction: column;
-`;
-export const Over = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  & > p {
-    white-space: pre;
+  padding: 2rem;
+  min-width: 18rem;
+  & > div:first-child {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
   }
-  & > p:first-child {
-    margin-right: 10px;
-  }
-`;
-export const FeedBtn = styled.div`
-  align-self: end;
-  cursor: pointer;
-  margin-left: 12px;
-  margin-top: 28px;
-  & > p {
-    font-size: 13px;
-    background: blue;
-    padding: 5px 17px;
-    color: white;
-    border-radius: 21px;
-    white-space: pre;
+  & button {
+    border: none;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 1rem;
+    font-weight: bold;
     cursor: pointer;
   }
 `;
-export const Notyet = styled.div``;
-export const FeedDateNum = styled.div`
+export const UserInfoData = styled.div`
   display: flex;
-  flex-wrap: wrap;
-  & > p {
-    white-space: pre;
-    margin-right: 7px;
-  }
-  & > p:nth-child(2n + 1) {
-    font-size: 12px;
-  }
-`;
-export const FeedTimeCheck = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  & > p {
-    white-space: pre;
-    margin-right: 7px;
-  }
-  & > p:nth-child(2n + 1) {
-    font-size: 12px;
-  }
-`;
-export const SignupMSG = styled.div`
-  color: ${(props) => props.color};
-  font-size: 10px;
-  height: 20px;
-  display: flex;
-  justify-content: center;
+  background: #f1f1f1;
+  flex-direction: column;
   align-items: center;
+  gap: 0.5rem;
+  border-radius: 1rem;
+  padding: 1rem;
 `;
-export const NickBox = styled.div``;
-export const NicknameCont = styled.div`
+export const FeedContainer = styled.div`
+  flex: 3;
+  padding: 2rem;
+`;
+export const CategoryBtnBox = styled.div`
+  padding: 1rem;
+  & button {
+    cursor: pointer;
+    background: white;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #cccccc;
+  }
+  & button:disabled {
+    color: black;
+    text-decoration: underline;
+    text-decoration-color: #0642ff;
+  }
+`;
+export const FeedGroup = styled.div`
   display: flex;
-  align-items: end;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+`;
+export const FeedBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: 7rem;
+  background: #f3f3f3;
+  border-radius: 1rem;
+  padding: 1rem;
+`;
+export const FeedLabel = styled.div`
+  width: 4rem;
+  padding: 0.5rem;
+  text-align: center;
+  background: #c4c4c4;
+  border-radius: 2rem;
+  transform: translate(0, 50%);
+`;
+export const FeedTitleBox = styled.div`
+  flex: 1;
+  display: flex;
+  gap: 0.3rem;
+  flex-direction: column;
+  padding: 1rem;
+  & > p:first-child {
+    font-size: 0.7rem;
+  }
+  & > a:nth-child(2) {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+  }
+`;
+export const FeedContentBox = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+`;
+export const FeedInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  & p {
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+  & > div {
+    display: flex;
+    gap: 2rem;
+    & > p:nth-child(2) {
+      margin-left: auto;
+    }
+  }
+`;
+export const FeedButton = styled.div`
+  margin-top: auto;
+  display: flex;
+  justify-content: end;
+  gap: 1rem;
+  & > button {
+    background: #0642ff;
+    color: white;
+    border: none;
+    padding: 0.3rem 1rem 0.3rem 1rem;
+    border-radius: 1rem;
+    cursor: pointer;
+  }
+`;
+
+/* business Profile */
+
+export const BusinessListBox = styled.div`
+  margin: auto;
+  display: flex;
+  gap: 1rem;
+  text-align: center;
+  flex-direction: column;
+  & > p:first-child {
+    font-size: 1.5rem;
+  }
+  & > div:nth-child(3) {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+  }
+`;
+export const BusinessProfile = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 10rem;
+  & > div:first-child {
+    cursor: pointer;
+  }
+`;
+export const AddBProfileBtn = styled.div`
+  background-color: #f1f1f1;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  display: flex;
+  & > svg {
+    margin: auto;
+    font-size: 2rem;
+  }
 `;

@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class RejectPostService {
     private final RejectPostRepository rejectPostRepository;
 
+    @Transactional(readOnly = true)
     public Page<RejectPostResponse.GetList> getList(PageDto pageDto, User user) {
         Page<RejectPost> rejectPostList = rejectPostRepository.findAllByUserId(user.getId(), pageDto.ofWithSortDesc("id"));
 

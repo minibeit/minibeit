@@ -31,13 +31,12 @@ public class BaseEntity {
     private LocalDateTime deletedAt;
 
     @CreatedBy
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", updatable = false)
     private User createdBy;
 
     @LastModifiedBy
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "updated_by")
     private User updatedBy;
-
 }

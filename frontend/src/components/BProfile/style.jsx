@@ -1,554 +1,210 @@
 import styled from "styled-components";
 
-export const ProfileTab1 = styled.div`
-  padding: 7px 52px;
-  border-top-left-radius: 13px;
-  border-top-right-radius: 13px;
-  background: #9e9e9e;
-  @media only screen and (max-width: 480px) {
-    font-size: 13px;
-    padding: 10px 22px;
-    min-width: 60px;
+/* Common */
+
+export const ProfilePage = styled.div`
+  height: 100vh;
+  max-width: 100%;
+  width: 100vw;
+  background: #f3f3f3;
+  overflow: auto;
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+  }
+  & > div:first-child {
+    margin: 4rem 12rem 4rem 12rem;
   }
 `;
-export const ProfileTab2 = styled.div`
-  padding: 7px 52px;
-  border-top-left-radius: 13px;
-  border-top-right-radius: 13px;
-  background: #d8d6d6;
-  position: relative;
-  right: 29px;
-  z-index: 2;
-  @media only screen and (max-width: 480px) {
-    font-size: 13px;
-    padding: 10px 23px;
-    min-width: 83px;
-    right: 18px;
+export const ModeSelectBtn = styled.button`
+  background: #e5e5e5;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  font-weight: bold;
+  &:disabled {
+    background: white;
+    color: black;
   }
 `;
-export const BTabCont = styled.div`
-  display: flex;
-  align-items: end;
-  margin: 0 50px;
-  & > a {
-    text-decoration: none;
-    color: white;
-    cursor: pointer;
-  }
-`;
-export const BTabContent = styled.div`
-  margin: 0 50px;
-  background: #d8d6d6;
-  padding: 30px 30px 57px 30px;
-`;
-export const TabBox = styled.div`
+export const Container = styled.div`
+  background-color: white;
   display: flex;
   flex-wrap: wrap;
-`;
-
-export const UserInfoContainer = styled.div`
-  display: flex;
-  height: 100%;
-  max-height: 518px;
-  justify-content: space-between;
-  max-width: 408px;
-  flex-direction: column;
-  align-items: center;
-`;
-export const BUserInfoContainer1 = styled.div`
-  text-align: center;
-`;
-export const BUserInfoContainer2 = styled.div`
-  text-align: center;
-`;
-export const BProfileDelete = styled.div`
-  width: 57px;
-  cursor: pointer;
-  padding: 4px 7px;
-  background: white;
-  border-radius: 8px;
-`;
-export const BProfileEdit = styled.div`
-  width: 57px;
-  cursor: pointer;
-  margin-top: 10px;
-  padding: 4px 7px;
-  background: white;
-  border-radius: 8px;
-`;
-export const BPuser = styled.div`
-  margin: 5px;
-  padding: 5px 10px;
-  background: white;
-  border-radius: 8px;
-`;
-export const BPuser2 = styled.div`
-  color: red;
-  margin: 5px;
-  padding: 5px 10px;
-  background: white;
-  border-radius: 8px;
-`;
-export const BPjoin = styled.div`
-  & > p {
-    white-space: pre;
-    color: white;
-    background: blue;
-
-    padding: 13px 96px;
-    border-radius: 10px;
-    cursor: pointer;
-  }
-`;
-export const BPuserdelete = styled.div`
-  position: relative;
-  top: 21px;
-  & > svg {
-    font-size: 18px;
-    background: gray;
-    padding: 3px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-`;
-
-export const UserInfoBox = styled.div`
-  max-width: 248px;
-  display: flex;
-  flex-direction: column;
-  padding: 20px 17px 20px 17px;
-  border-radius: 8px;
-  margin: 11px 0;
-  width: 100%;
-  background: white;
-`;
-export const UserInfo = styled.div`
-  display: flex;
-  padding: 9px;
-  & > p:first-child {
-    flex: 1;
-  }
-  & > p:nth-child(2) {
-    flex: 1;
-  }
+  min-height: 35rem;
 `;
 export const ImgBox = styled.div`
-  display: inline-block;
-  border-radius: 50%;
   overflow: hidden;
   width: 10rem;
   height: 10rem;
-`;
-export const UserImg = styled.img`
-  object-fit: fill;
-  width: 100%;
-  height: 100%;
-`;
-export const NicknameBox = styled.div`
-  display: flex;
-  align-items: center;
-  height: 4rem;
-`;
-export const BPJoinBtn = styled.div`
-  background: lightgray;
-  height: 15px;
-  padding: 12px;
-  border-radius: 0 8px 8px 0;
-  cursor: pointer;
-`;
-export const JoinContainer = styled.div`
-  background: lightgray;
-  border-radius: 10px;
-  padding: 17px 22px;
-  height: 258px;
-`;
-export const BPNewNickname = styled.input``;
-export const BOtherHead = styled.div`
-  display: flex;
-  align-items: center;
-  & > p {
-    background: gray;
-    width: fit-content;
-    padding: 5px 21px;
-    border-radius: 25px;
-  }
-`;
-
-export const BPContainer = styled.div`
-  display: flex;
-
-  flex-direction: column;
-`;
-export const BPContainer2 = styled.div`
-  display: flex;
-
-  height: 100%;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  margin: 98px 0px;
-`;
-
-export const BPbtn = styled.div`
-  height: 12rem;
-  display: flex;
-  align-items: center;
-  & > svg {
-    font-size: 35px;
-    display: ${(props) => props.display};
-    background: white;
-    padding: 20px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-`;
-export const BPNewInput = styled.input``;
-export const BPSubmitBtn = styled.div``;
-export const BICont = styled.div``;
-export const BIContHead2 = styled.div`
-  display: flex;
-  & > p {
-    font-size: 17px;
-  }
-`;
-export const BIContHead = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 125px;
-  justify-content: space-evenly;
-  & > p:first-child {
-    font-size: 31px;
-  }
-  & > p:nth-child(2) {
-    font-size: 20px;
-  }
-  & > p:nth-child(3) {
-    font-size: 20px;
-    font-weight: 700;
-  }
-`;
-export const BIContTitle = styled.div``;
-export const BIWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-export const BIEdit = styled.div`
-  margin-left: 24px;
-  & > p {
-    cursor: pointer;
-    font-size: 12px;
-    border-bottom: 1px solid black;
-  }
-`;
-export const BIList = styled.div``;
-export const BIeleCont = styled.div`
-  cursor: pointer;
-  margin: 25px 10px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-export const BIeleImg = styled.img``;
-export const BIeleName = styled.div`
-  height: 36px;
-  display: flex;
-  align-items: end;
-  & > p {
-    font-size: 19px;
-  }
-`;
-export const BInew = styled.div``;
-export const BIdelete = styled.div`
-  position: relative;
-  top: 54px;
-  left: 131px;
-  width: 34px;
-  height: 34px;
-  background: white;
-  align-items: center;
-  justify-content: center;
+  display: inline-block;
   border-radius: 50%;
-  z-index: 3;
-  cursor: pointer;
-  display: ${(props) => props.display};
-`;
-export const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 99;
-`;
-export const ModalBox = styled.div`
-  transform: translate(-50%, -50%);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 57%;
-  max-width: 41rem;
-  border-radius: 20px;
-  padding: 32px 36px;
-  height: 26rem;
-  background-color: white;
-`;
-export const ModalHeader = styled.div`
-  display: flex;
-  align-items: center;
-  height: 3.2rem;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
-  & > p {
-    font-size: 18px;
-    font-weight: 500;
-  }
-`;
-export const CloseModalBtn = styled.div`
-  margin-left: auto;
-  height: -webkit-fill-available;
-  & > svg {
-    cursor: pointer;
-  }
-`;
-export const ModalContent = styled.div``;
-export const JoinBox1 = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-export const JoinEditCont = styled.div`
-  display: flex;
-`;
-export const JoinBox2 = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  height: 227px;
-  margin: 10px 0;
-  overflow-y: scroll;
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
-  }
-`;
-export const JoinEdit = styled.div`
-  margin-left: 12px;
-  & > p {
-    font-size: 13px;
-    border-bottom: 1px solid black;
-    cursor: pointer;
-  }
-`;
-export const JoinAssign = styled.div``;
-export const JoinInput = styled.div``;
-export const BPLeftCont = styled.div`
-  flex: 1;
-  margin-bottom: 55px;
-  display: flex;
-  align-items: start;
-  justify-content: center;
-`;
-export const BPRightCont = styled.div`
-  flex: 2;
-  display: flex;
-  flex-direction: column;
-  margin-left: 32px;
 `;
 
-export const BoxTitle = styled.div``;
-export const BPrightTab = styled.div`
-  display: flex;
-  min-width: 371px;
-  width: 100%;
-  margin-bottom: 21px;
-`;
-export const BPrightTabele = styled.div`
-  padding: 0px 9px;
-  border-right: 1px solid gray;
-  & > p {
-    cursor: pointer;
-    border-bottom: ${(props) =>
-      props.tabIndex === props.index ? "2px solid blue" : null};
-  }
-`;
-export const IfNoneWordCont = styled.div`
-  margin: 15px 0;
-  background: white;
-  border-radius: 8px;
-  height: 88%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  & > p {
-    font-size: 20px;
-    color: gray;
-  }
-`;
-export const IfNoneBtn = styled.div`
-  background: blue;
-  cursor: pointer;
-  padding: 7px 13px;
-  border-radius: 21px;
-  color: white;
-  margin: 10px;
-`;
-export const ListPaging = styled.div``;
+/* user */
 
-export const BPEditCont = styled.div``;
-export const BNCont21 = styled.div`
+export const UserInfoContainer = styled.div`
+  flex: 1.5;
+  padding: 2rem;
+  min-width: 18rem;
+  & > div:first-child {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+`;
+export const UserInfoData = styled.div`
   display: flex;
-  margin: 7px;
-  width: -webkit-fill-available;
-  flex-wrap: wrap;
-`;
-export const BNCont22 = styled.div`
-  margin: 7px;
-  width: 97%;
-`;
-export const BNCont23 = styled.div`
-  margin: 7px;
-  width: 50%;
-`;
-export const BNLabel = styled.label`
-  font-size: 13px;
-  margin: 8px 8px;
-  flex: 1;
-  display: flex;
+  background: #f1f1f1;
   flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 1rem;
+  padding: 1rem;
 `;
-export const BPEditInput = styled.input`
+export const InfoEditBtn = styled.button`
   border: none;
-  border-radius: 8px;
-  padding: 4px 0 8px 5px;
-  font-size: 14px;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: 0.14px;
-  text-align: left;
-  margin-top: 7px;
-  outline: none;
-  color: #707070;
-  text-decoration: none;
-  background: #8080801c;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 1rem;
+  font-weight: bold;
+  cursor: pointer;
 `;
-
-export const BPEditButton = styled.div`
-  display: flex;
+export const UserListBtn = styled.button`
   width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 0.8rem;
+  background: #0642ff;
+  color: white;
+  cursor: pointer;
+`;
+export const FeedContainer = styled.div`
+  flex: 3;
+  padding: 2rem;
+`;
+export const CategoryBtnBox = styled.div`
+  padding: 1rem;
+  & button {
+    cursor: pointer;
+    background: white;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #cccccc;
+  }
+  & button:disabled {
+    color: black;
+    text-decoration: underline;
+    text-decoration-color: #0642ff;
+  }
+`;
+export const FeedGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+`;
+export const FeedBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: 7rem;
+  background: #f3f3f3;
+  border-radius: 1rem;
+  padding: 1rem;
+`;
+export const FeedLabel = styled.div`
+  width: 4rem;
+  padding: 0.5rem;
+  text-align: center;
+  background: #c4c4c4;
+  border-radius: 2rem;
+  transform: translate(0, 50%);
+`;
+export const FeedTitleBox = styled.div`
+  flex: 1;
+  display: flex;
+  gap: 0.3rem;
+  flex-direction: column;
+  padding: 1rem;
+  & > p:first-child {
+    font-size: 0.7rem;
+  }
+  & > a:nth-child(2) {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+  }
+`;
+export const FeedContentBox = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+`;
+export const FeedInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1rem;
+  & > div {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+  }
+`;
+export const FeedButton = styled.div`
+  margin-top: auto;
+  display: flex;
   justify-content: end;
-  & > p {
-    background: blue;
+  gap: 1rem;
+  & > button {
+    background: #0642ff;
     color: white;
-    padding: 8px 30px;
-    border-radius: 25px;
-    font-size: 15px;
+    border: none;
+    padding: 0.4rem 0.8rem 0.4rem 0.8rem;
+    border-radius: 1rem;
     cursor: pointer;
   }
 `;
-export const ImgDel = styled.div`
-  padding: 5px;
-  cursor: pointer;
-  background: #c4c4c4;
-  color: white;
-  border-radius: 14px;
-  width: 100px;
-  font-size: 12px;
-  text-align: center;
-  margin: 10px 0px;
+
+/* profile list */
+
+export const BusinessListBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > div {
+    display: flex;
+    gap: 1rem;
+  }
 `;
-export const ImgBoxEdit = styled.div`
-  overflow: hidden;
+export const BusinessProfile = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 10rem;
-  height: 10rem;
-  display: inline-block;
+  text-align: center;
+  & > div:first-child {
+    cursor: pointer;
+  }
 `;
-export const Img = styled.img`
-  object-fit: fill;
-  width: 100%;
-  height: 100%;
+export const AddBProfileBtn = styled.div`
+  background-color: #f1f1f1;
+  width: 5rem;
+  height: 5rem;
   border-radius: 50%;
-`;
-export const ModalBackgroundEdit = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 99;
-`;
-export const ModalBoxEdit = styled.div`
-  transform: translate(-50%, -50%);
-  position: absolute;
+  position: relative;
   top: 50%;
   left: 50%;
-  width: 57%;
-  overflow: scroll;
-  max-width: 41rem;
-  border-radius: 20px;
-  padding: 32px 36px;
-  height: 26rem;
-  background-color: white;
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
-  }
-`;
-export const ModalHeaderEdit = styled.div`
-  display: flex;
-  align-items: center;
-  height: 3.2rem;
-  border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
-  & > p {
-    font-size: 18px;
-    font-weight: 500;
-  }
-`;
-export const CloseModalBtnEdit = styled.div`
-  margin-left: auto;
-  height: -webkit-fill-available;
-  & > svg {
-    cursor: pointer;
-  }
-`;
-export const ModalContentEdit = styled.div`
-  flex-wrap: wrap;
-  display: flex;
-`;
-export const BNCont1 = styled.div`
-  width: 174px;
-  flex: 1;
-  margin: 41px 0px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-export const BNCont2 = styled.div`
-  width: 100%;
-  display: flex;
-  align-items: start;
-  flex-wrap: wrap;
-  flex-direction: column;
-  margin: 41px 23px;
-  flex: 2;
-`;
-export const BPEditFileInput = styled.input`
-  display: none;
-`;
-
-export const FileLabel = styled.label`
-  padding: 5px;
+  transform: translate(-50%, -50%);
   cursor: pointer;
-  background: #c4c4c4;
-  color: white;
-  border-radius: 14px;
-  width: 100px;
-  font-size: 12px;
-  text-align: center;
+  display: flex;
+  & > svg {
+    margin: auto;
+    font-size: 2rem;
+  }
 `;

@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDateTime;
 
@@ -24,7 +25,7 @@ public class BusinessProfileReviewController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/post/date/{postDoDateId}/review")
-    public ResponseEntity<ApiResult<BusinessProfileReviewResponse.ReviewId>> create(@PathVariable Long postDoDateId, @RequestBody BusinessProfilesReviewRequest.Create request,
+    public ResponseEntity<ApiResult<BusinessProfileReviewResponse.ReviewId>> create(@PathVariable Long postDoDateId, @Valid @RequestBody BusinessProfilesReviewRequest.Create request,
                                                                                     @CurrentUser CustomUserDetails customUserDetails) {
         BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.create(postDoDateId, request, LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/review/" + response.getId())).body(ApiResult.build(HttpStatus.CREATED.value(), response));
@@ -38,22 +39,22 @@ public class BusinessProfileReviewController {
 
     @GetMapping("/business/profile/{businessProfileId}/review/list")
     public ResponseEntity<ApiResult<Page<BusinessProfileReviewResponse.GetOne>>> getReviewList(@PathVariable Long businessProfileId,
-                                                                                    PageDto pageDto) {
+                                                                                               PageDto pageDto) {
         Page<BusinessProfileReviewResponse.GetOne> response = businessProfileReviewService.getList(businessProfileId, pageDto);
-        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(),response));
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
     @PutMapping("/business/profile/review/{businessProfileReviewId}")
     public ResponseEntity<ApiResult<BusinessProfileReviewResponse.ReviewId>> update(@PathVariable Long businessProfileReviewId,
-                                                                         @RequestBody BusinessProfilesReviewRequest.Update request,
-                                                                         @CurrentUser CustomUserDetails customUserDetails) {
+                                                                                    @Valid @RequestBody BusinessProfilesReviewRequest.Update request,
+                                                                                    @CurrentUser CustomUserDetails customUserDetails) {
         BusinessProfileReviewResponse.ReviewId response = businessProfileReviewService.update(businessProfileReviewId, request, LocalDateTime.now(), customUserDetails.getUser());
-        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(),response));
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
     @DeleteMapping("/business/profile/review/{businessProfileReviewId}")
     public ResponseEntity<ApiResult<Void>> deleteOne(@PathVariable Long businessProfileReviewId,
-                                          @CurrentUser CustomUserDetails customUserDetails) {
+                                                     @CurrentUser CustomUserDetails customUserDetails) {
         businessProfileReviewService.deleteOne(businessProfileReviewId, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }

@@ -4,15 +4,22 @@ import MainSlide from "./MainSlide";
 import {Link} from "react-scroll";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
+import AskEndSchedule from "../Common/Alert/AskEndSchedule";
 import EndSchedule from "../Common/Alert/EndSchedule";
 
 
 function MainComponent () {
 
-  const [alertSwitch, setAlertSwitch] = useState(false);
+  const [alertSwitch, setAlertSwitch] = useState(0);
+
+
+
   const onClick = () => {
-    setAlertSwitch(true);
-  }
+    setAlertSwitch(1);
+  };
+
+
+  
   return (
     <S.BackGround>
       <S.MainJumbotron>
@@ -41,7 +48,9 @@ function MainComponent () {
 
       {/* 여기여기여기여기여깅겨ㅣ */}
       <button onClick={onClick}>알럿만들기</button>
-      {alertSwitch ? <EndSchedule setAlertSwitch={setAlertSwitch}/>:null}
+      
+      {alertSwitch===1 ? <AskEndSchedule setAlertSwitch={setAlertSwitch}/>:null}
+      {alertSwitch===2 ? <EndSchedule setAlertSwitch={setAlertSwitch}/>:null}
     </S.BackGround>
   );
 }

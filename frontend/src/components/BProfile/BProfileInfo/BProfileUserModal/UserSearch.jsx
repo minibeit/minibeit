@@ -1,18 +1,22 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { schoolGetApi } from "../../../utils/schoolApi";
+import { getSearchUser } from "../../../../utils";
 
-export default function UserSearch({ onChange, defaultValue }) {
-  const [schools, setSchools] = useState();
-
-  const getSchool = (text) => {
-    schoolGetApi(text).then((res) => {
-      const arr = [];
-      for (var i = 0; i < res.data.data.length; i++) {
-        arr.push({ label: res.data.data[i].name, value: res.data.data[i].id });
-      }
-      setSchools(arr);
-    });
+export default function SchoolSelect({ onChange, defaultValue }) {
+  const [users, setUsers] = useState([]);
+  const getUser = (input) => {
+    getSearchUser(input)
+      .then((res) => {
+        const arr = [];
+        for (var i = 0; i < res.data.data.length; i++) {
+          arr.push({
+            label: res.data.data[i].nickname,
+            value: res.data.data[i].id,
+          });
+        }
+        setUsers(arr);
+      })
+      .catch((err) => alert("유저를 불러오지 못했습니다"));
   };
 
   const customStyles = {
@@ -48,21 +52,20 @@ export default function UserSearch({ onChange, defaultValue }) {
     }),
   };
 
+  useEffect(() => {
+    getUser("");
+  }, []);
+
   return (
     <>
-      {schools && (
+      {users && (
         <Select
-          options={schools}
+          options={users}
           onChange={onChange}
-          defaultValue={
-            defaultValue
-              ? schools.find((ele) => ele.value === defaultValue)
-              : null
-          }
           isClearable={true}
-          placeholder="위치"
+          placeholder="유저"
           styles={customStyles}
-          onInputChange={getSchool}
+          onInputChange={getUser}
         />
       )}
     </>

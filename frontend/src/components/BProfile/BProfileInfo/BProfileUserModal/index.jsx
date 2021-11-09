@@ -17,32 +17,41 @@ import { useHistory } from "react-router";
 
 export default function BProfileUserModal({ businessId, setModalSwitch }) {
   const history = useHistory();
-  const [userGroup, setUserGroup] = useState([]);
+  const [bisnessUsers, setBisnessUsers] = useState([]);
   const [, setNickname] = useState("");
   const [state, setState] = useState("None");
   const [cheifId, setCheifId] = useState();
   const currentUser = useRecoilValue(userState).name;
 
-  const handleJoin = (userId) => {
-    if (userId === "") {
+  const addUser = (user) => {
+    if (!user) {
       alert("닉네임을 입력한 후 초대해 주세요");
     } else {
-      bprofileJoin(businessId, userId)
+      bprofileJoin(businessId, user.value)
         .then(() => {
           alert("초대되었습니다");
           getUsergroup();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert("초대가 불가능한 유저입니다"));
     }
   };
 
-  const handleDelete = async (userId, userNickname) => {
-    await bprofileJoinDel(businessId, userId)
-      .then(async () => {
-        alert(userNickname + "님의 초대가 취소되었습니다");
+  const deleteUser = (user) => {
+    bprofileJoinDel(businessId, user.id)
+      .then(() => {
+        alert(user.nickname + "님이 그룹에서 제외되었습니다");
         getUsergroup();
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        if (
+          err.response.data.error.type ===
+          "BusinessProfileAdminCantCancelException"
+        ) {
+          alert("관리자 유저는 제외시킬 수 없습니다");
+        } else {
+          alert("제외시킬 수 없는 유저입니다");
+        }
+      });
   };
 
   const handleAssign = (userId) => {
@@ -60,8 +69,8 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
 
   const getUsergroup = useCallback(() => {
     getBPusergroup(businessId)
-      .then((res) => setUserGroup(res.data.data))
-      .catch();
+      .then((res) => setBisnessUsers(res.data.data))
+      .catch(() => alert("비즈니스 유저 리스트를 불러오지 못했습니다"));
   }, [businessId]);
 
   useEffect(() => {
@@ -80,15 +89,15 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
           </S.ModalHeader>
           <S.ModalContent>
             <Presenter
-              handleJoin={handleJoin}
-              usergroup={userGroup}
+              addUser={addUser}
+              bisnessUsers={bisnessUsers}
+              deleteUser={deleteUser}
               state={state}
               setState={setState}
               cheifId={cheifId}
               setCheifId={setCheifId}
               currentUser={currentUser}
               handleAssign={handleAssign}
-              handleDelete={handleDelete}
               setNickname={setNickname}
             />
           </S.ModalContent>

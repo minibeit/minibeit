@@ -24,7 +24,7 @@ public class PostRejectScheduler {
     private final RejectPostRepository rejectPostRepository;
     private final PostStatusMailService postStatusMailService;
 
-    @Scheduled(cron = "0 0 5 * * *", zone = "Asia/Seoul")
+    @Scheduled(cron = "0 0 7 * * *", zone = "Asia/Seoul")
     public void rejectApplicantBeforeToday() {
         List<PostApplicant> postApplicantList = postApplicantRepository.findAllByDoDateBeforeToday(LocalDateTime.now());
         List<RejectPost> rejectPosts = new ArrayList<>();

@@ -1,4 +1,4 @@
-POST {{apiUrl}}/mail
+POST {{apiUrl}}/post/mail
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 

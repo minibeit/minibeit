@@ -4,18 +4,18 @@ import MainSlide from "./MainSlide";
 import {Link} from "react-scroll";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
-import AskEndSchedule from "../Common/Alert/AskEndSchedule";
-import EndSchedule from "../Common/Alert/EndSchedule";
+import PersonalInformation from "../Common/Alert/PersonalInformation";
+
 
 
 function MainComponent () {
 
-  const [alertSwitch, setAlertSwitch] = useState(0);
+  const [alertSwitch, setAlertSwitch] = useState(false);
 
 
 
   const onClick = () => {
-    setAlertSwitch(1);
+    setAlertSwitch(true);
   };
 
 
@@ -49,8 +49,8 @@ function MainComponent () {
       {/* 여기여기여기여기여깅겨ㅣ */}
       <button onClick={onClick}>알럿만들기</button>
       
-      {alertSwitch===1 ? <AskEndSchedule setAlertSwitch={setAlertSwitch}/>:null}
-      {alertSwitch===2 ? <EndSchedule setAlertSwitch={setAlertSwitch}/>:null}
+      {alertSwitch ? <PersonalInformation setAlertSwitch={setAlertSwitch}/>:null}
+     
     </S.BackGround>
   );
 }

@@ -3,7 +3,7 @@ import Portal from "../Portal";
 import * as S from "./style";
 
 
-// 개인정보법 동의 알림창...
+// 이용약관 알림창...
 
 export default function Conditions({setAlertSwitch}) {
   const closeAlert = () => {

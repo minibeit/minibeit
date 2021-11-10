@@ -100,8 +100,12 @@ export default function Presenter({
             <div>
               <div><S.SmImg src={files[1] &&files[1].url} onClick={files.length<2 ? null : imgOnClick}/></div>
               <div><S.SmImg src={files[2] &&files[2].url} onClick={files.length<3 ? null : imgOnClick}/></div>
-              <div><S.SmImg src={files[3] &&files[3].url} onClick={files.length<4 ? null : imgOnClick}/></div>
-              {feedDetailData.files.length > 4 ? (<S.Div onClick={imgOnClick}>+{files.length - 4}</S.Div>) : null}
+              <div>
+                <div>
+                <S.SmImg src={files[3] &&files[3].url} onClick={files.length<4 ? null : imgOnClick}/>
+                </div>
+                {feedDetailData.files.length > 4 ? (<S.Div onClick={imgOnClick}>+{files.length - 4}</S.Div>) : null}
+              </div>
             </div>
             {modalSwitch ? (
               <ApplyDetailImgsModal files={files} setModalSwitch={setModalSwitch} currentImg={currentImg}/>

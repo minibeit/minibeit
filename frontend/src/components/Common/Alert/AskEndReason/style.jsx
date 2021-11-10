@@ -17,7 +17,7 @@ export const AlertBox = styled.div`
   left: 50%;
   background-color: white;
   width: 30rem;
-  height: 20rem;
+  height: 22rem;
   border-radius: 35px;
   & > div:first-child{
     display: flex;
@@ -25,6 +25,7 @@ export const AlertBox = styled.div`
     font-size: 1.5rem;
     margin: 1.5rem;
     cursor: pointer;
+    
   }
 `;
 
@@ -38,13 +39,15 @@ export const BlueButton = styled.button`
   color: #FFFFFF;
   border: 1px solid #0642FF;
   background: #0642FF;
+  margin-top: 1rem;
+
 `;
 
 
 export const AlertContent = styled.div`
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -60%);
   position: absolute;
-  top: 50%;
+  top: 60%;
   left: 50%;
   display: flex;
   flex-direction: column;
@@ -59,6 +62,8 @@ export const AlertContent = styled.div`
     font-size: 20px;
     text-align: center;
     line-height: 30px;
+    margin-bottom: 1rem;
+
   }
 
   & > div:nth-child(2) {

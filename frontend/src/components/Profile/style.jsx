@@ -41,6 +41,7 @@ export const ImgBox = styled.div`
   height: 10rem;
   display: inline-block;
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 /* user */

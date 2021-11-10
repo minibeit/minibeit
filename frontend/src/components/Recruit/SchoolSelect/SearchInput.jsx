@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { schoolGetApi } from "../../../utils/schoolApi";
 
-export default function UserSearch({ onChange, defaultValue }) {
-  const [schools, setSchools] = useState();
+export default function SearchInput({ onChange, defaultValue }) {
+  const [schools, setSchools] = useState([]);
 
   const getSchool = (text) => {
     schoolGetApi(text).then((res) => {
@@ -47,24 +47,25 @@ export default function UserSearch({ onChange, defaultValue }) {
       height: "10rem",
     }),
   };
+  useEffect(() => {
+    getSchool();
+  }, []);
 
   return (
     <>
-      {schools && (
-        <Select
-          options={schools}
-          onChange={onChange}
-          defaultValue={
-            defaultValue
-              ? schools.find((ele) => ele.value === defaultValue)
-              : null
-          }
-          isClearable={true}
-          placeholder="위치"
-          styles={customStyles}
-          onInputChange={getSchool}
-        />
-      )}
+      <Select
+        options={schools}
+        onChange={onChange}
+        defaultValue={
+          defaultValue
+            ? schools.find((ele) => ele.value === defaultValue)
+            : null
+        }
+        isClearable={true}
+        placeholder="위치"
+        styles={customStyles}
+        onInputChange={getSchool}
+      />
     </>
   );
 }

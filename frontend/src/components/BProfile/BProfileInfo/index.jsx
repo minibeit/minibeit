@@ -29,13 +29,15 @@ export default function BProfileInfo({ businessId }) {
               <PVImg img="/기본비즈니스프로필.jpeg" />
             )}
           </S.ImgBox>
-          <S.InfoEditBtn
-            onClick={() => {
-              setInfoEditModal(true);
-            }}
-          >
-            수정하기
-          </S.InfoEditBtn>
+          {bProfileInfo.admin && (
+            <S.InfoEditBtn
+              onClick={() => {
+                setInfoEditModal(true);
+              }}
+            >
+              수정하기
+            </S.InfoEditBtn>
+          )}
           {infoEditModal && (
             <BProfileEditModal
               businessId={businessId}

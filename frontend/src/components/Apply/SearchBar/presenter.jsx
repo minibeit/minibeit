@@ -3,7 +3,7 @@ import DatePicker from "react-datepicker";
 import "../date-picker.css";
 import { CSSTransition } from "react-transition-group";
 
-import SchoolSelect from "../../Common/SchoolSelect";
+import SearchInput from "./SearchInput";
 
 import * as S from "../style";
 export default function Presenter({
@@ -22,7 +22,7 @@ export default function Presenter({
         <p>내 일정에 맞는 리서치를 검색하시고 보상을 획득하세요!</p>
         <div>
           <S.SchoolSelect>
-            <SchoolSelect
+            <SearchInput
               defaultValue={userSchoolId}
               onChange={(e) => {
                 if (e) {

@@ -1,5 +1,6 @@
 import React from "react";
-import { PVImg, SchoolSelect } from "../../../Common";
+import { PVImg } from "../../../Common";
+import SchoolSelect from "./SearchInput";
 import * as S from "./style";
 
 export default function Presenter({

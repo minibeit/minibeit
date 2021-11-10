@@ -1,4 +1,4 @@
-import SchoolSelect from "../../Common/SchoolSelect";
+import SearchInput from "./SearchInput";
 
 import * as S from "../style";
 
@@ -16,7 +16,7 @@ export default function Presenter({
         <p>원하는 위치 근처의 학교를 선택하세요</p>
         <S.SchoolSearchBox>
           <p>학교명</p>
-          <SchoolSelect onChange={setSchool} />
+          <SearchInput onChange={setSchool} />
           <button
             disabled={school ? false : true}
             onClick={() => {

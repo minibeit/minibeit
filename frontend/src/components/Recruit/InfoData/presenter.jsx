@@ -1,7 +1,6 @@
 import React from "react";
 import { PVImg } from "../../Common";
 import Address from "../../Common/Address";
-import RecruitConfirmModal from "../../Common/Modal/RecruitConfirmModal";
 import Switch from "@mui/material/Switch";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
@@ -178,16 +177,7 @@ export default function Presenter({
             />
           </S.Input>
         </S.InputBox>
-        <S.SaveBtn onClick={() => setConfirmModal(!confirmModal)}>
-          작성완료
-        </S.SaveBtn>
-        {confirmModal && (
-          <RecruitConfirmModal
-            setModalSwitch={setConfirmModal}
-            submit={submit}
-            recruit={recruit}
-          />
-        )}
+        <S.SaveBtn onClick={() => submit(recruit)}>작성완료</S.SaveBtn>
       </S.InputContainer>
     </S.InputPage>
   );

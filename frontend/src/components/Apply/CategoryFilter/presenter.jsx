@@ -22,6 +22,12 @@ export default function Presenter({
         <CloseIcon />
       </div>
       <S.DetailBox>
+        <S.SelectBtn
+          disabled={category["category"] === "ALL" ? true : false}
+          onClick={() => clickCategory("ALL")}
+        >
+          전체
+        </S.SelectBtn>
         {FeedCategory.map((a) => {
           return (
             <S.SelectBtn

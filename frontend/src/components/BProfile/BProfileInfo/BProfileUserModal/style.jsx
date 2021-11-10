@@ -64,19 +64,26 @@ export const UserEditBox = styled.div`
 export const UserListBox = styled.div`
   display: flex;
   margin: 1rem;
-  gap: 1rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 `;
 export const UserBox = styled.div`
   background: white;
   padding: 0.5rem;
   border-radius: 0.5rem;
+  margin: ${({ color }) => (color === "true" ? "0" : "1px")};
+  border: 1px solid ${({ color }) => (color === "true" ? "#0642ff" : "none")};
+  cursor: pointer;
 `;
 export const UserDeleteBtn = styled.button`
   position: absolute;
-  width: 2rem;
-  height: 2rem;
+  width: 1rem;
+  height: 1rem;
   border-radius: 100%;
   border: none;
+  cursor: pointer;
+  padding: 0;
+  transform: translate(435%, -40%);
   & > svg {
     font-size: 1rem;
   }

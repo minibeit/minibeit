@@ -1,24 +1,23 @@
-import React, { useState } from "react";
-import Chip from "@mui/material/Chip";
+import React from "react";
+import CloseIcon from "@mui/icons-material/Close";
 import UserSearch from "./UserSearch";
 
 import * as S from "./style";
 
 export default function Presenter({
-  addUser,
   bisnessUsers,
-  state,
+  addUser,
   deleteUser,
-  setState,
-  cheifId,
-  setCheifId,
-  currentUser,
-  handleAssign,
-  setNickname,
+  changeAdmin,
+  adminName,
+  setAdminName,
+  searchUser,
+  setSearchUser,
+  editUserMode,
+  setEditUserMode,
+  editCheifMode,
+  setEditCheifMode,
 }) {
-  const [searchUser, setSearchUser] = useState();
-  const [editMode, setEditMode] = useState(false);
-
   return (
     <>
       <S.SearchInput>
@@ -29,26 +28,60 @@ export default function Presenter({
       <S.UserListView>
         <S.UserEditBox>
           <p>소속인원 / {bisnessUsers.length}</p>
-          {!editMode && <button onClick={() => setEditMode(true)}>수정</button>}
-          {editMode && <button onClick={() => setEditMode(false)}>완료</button>}
-          <button>관리자 양도</button>
+
+          {editUserMode ? (
+            <button
+              onClick={() => setEditUserMode(false)}
+              disabled={editCheifMode && true}
+            >
+              완료
+            </button>
+          ) : (
+            <button
+              onClick={() => setEditUserMode(true)}
+              disabled={editCheifMode && true}
+            >
+              수정
+            </button>
+          )}
+          {editCheifMode ? (
+            <button
+              onClick={() => {
+                changeAdmin(adminName);
+                setEditCheifMode(!editCheifMode);
+              }}
+              disabled={editUserMode}
+            >
+              확인
+            </button>
+          ) : (
+            <button
+              onClick={() => setEditCheifMode(!editCheifMode)}
+              disabled={editUserMode}
+            >
+              관리자 양도
+            </button>
+          )}
         </S.UserEditBox>
         <S.UserListBox>
           {bisnessUsers &&
-            bisnessUsers.map((a) => {
+            bisnessUsers.map((a, i) => {
               return (
-                <>
-                  {editMode ? (
-                    <Chip
-                      label={a.nickname}
-                      onDelete={() => {
-                        deleteUser(a);
-                      }}
-                    />
-                  ) : (
-                    <Chip label={a.nickname} />
+                <div key={i}>
+                  {editUserMode && (
+                    <S.UserDeleteBtn onClick={() => deleteUser(a)}>
+                      <CloseIcon />
+                    </S.UserDeleteBtn>
                   )}
-                </>
+                  <S.UserBox
+                    color={adminName.nickname === a.nickname ? "true" : "false"}
+                    onClick={() => {
+                      editCheifMode && setAdminName(a);
+                    }}
+                  >
+                    {a.nickname}
+                  </S.UserBox>
+                </div>
               );
             })}
         </S.UserListBox>

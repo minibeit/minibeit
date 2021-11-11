@@ -57,17 +57,18 @@ export default function RecruitComponent() {
   }, [userId]);
 
   const submit = (recruit) => {
-    return feedCreateApi(recruit)
-      .then((res) => {
-        if (recruit.images.length !== 0) {
-          return feedAddfileApi(res.data.data.id, recruit.images)
-            .then((res) => res)
-            .catch((err) => err);
-        } else {
-          return res;
-        }
-      })
-      .catch((err) => err);
+    let value = window.confirm("작성을 완료하시겠습니까?");
+    if (value) {
+      feedCreateApi(recruit)
+        .then((res) => {
+          if (recruit.images.length !== 0) {
+            feedAddfileApi(res.data.data.id, recruit.images);
+          }
+          alert("작성 완료");
+          history.push(`/apply/${res.data.data.id}`);
+        })
+        .catch((err) => alert("게시물 작성에 실패했습니다"));
+    }
   };
 
   const page = useRef();
@@ -79,7 +80,7 @@ export default function RecruitComponent() {
         block: "start",
         inline: "nearest",
       });
-    }, 50);
+    }, 100);
   };
 
   useEffect(() => {

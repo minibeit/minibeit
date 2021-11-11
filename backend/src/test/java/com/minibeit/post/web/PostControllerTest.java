@@ -304,7 +304,7 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("data.content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
                                 fieldWithPath("data.content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
                                 fieldWithPath("data.content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
-                                fieldWithPath("data.content[].postStatus").type(JsonFieldType.STRING).description("게시물 모집 상태"),
+                                fieldWithPath("data.content[].postStatus").type(JsonFieldType.STRING).description("게시물 모집 상태(RECRUIT or COMPLETE)"),
                                 fieldWithPath("data.totalElements").description("전체 개수"),
                                 fieldWithPath("data.last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("data.totalPages").description("전체 페이지")
@@ -381,7 +381,7 @@ class PostControllerTest extends MvcTest {
     public void getListByApplyAndFinishedWithoutReview() throws Exception {
         List<PostResponse.GetMyCompletedList> response = new ArrayList<>();
         PostResponse.GetMyCompletedList getMyCompletedList1 = PostResponse.GetMyCompletedList.builder()
-                .postId(1L)
+                .id(1L)
                 .title("간단한 실험")
                 .postDoDateId(1L)
                 .time(120)
@@ -393,7 +393,7 @@ class PostControllerTest extends MvcTest {
                 .isWritable(true)
                 .build();
         PostResponse.GetMyCompletedList getMyCompletedList2 = PostResponse.GetMyCompletedList.builder()
-                .postId(2L)
+                .id(2L)
                 .title("간단한 실험2")
                 .postDoDateId(2L)
                 .time(120)
@@ -405,7 +405,7 @@ class PostControllerTest extends MvcTest {
                 .isWritable(true)
                 .build();
         PostResponse.GetMyCompletedList getMyCompletedList3 = PostResponse.GetMyCompletedList.builder()
-                .postId(2L)
+                .id(2L)
                 .title("간단한 실험2")
                 .postDoDateId(2L)
                 .time(120)
@@ -437,7 +437,7 @@ class PostControllerTest extends MvcTest {
                         relaxedResponseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
-                                fieldWithPath("data.content[].postId").type(JsonFieldType.NUMBER).description("게시물 식별자"),
+                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("data.content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
                                 fieldWithPath("data.content[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 시작 시간 식별자"),
                                 fieldWithPath("data.content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),

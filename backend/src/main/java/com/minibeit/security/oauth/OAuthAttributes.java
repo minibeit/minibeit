@@ -18,6 +18,7 @@ public class OAuthAttributes {
     private Map<String, Object> attributes;
     private String nameAttributeKey;
     private String oauthId;
+    private String email;
     private SignupProvider signupProvider;
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
@@ -33,6 +34,7 @@ public class OAuthAttributes {
     private static OAuthAttributes ofGoogle(String userNameAttributeName, Map<String, Object> attributes) {
         return OAuthAttributes.builder()
                 .oauthId((String) attributes.get(userNameAttributeName))
+                .email((String) attributes.get("email"))
                 .signupProvider(SignupProvider.GOOGLE)
                 .attributes(attributes)
                 .nameAttributeKey(userNameAttributeName)
@@ -40,8 +42,11 @@ public class OAuthAttributes {
     }
 
     private static OAuthAttributes ofKakao(Map<String, Object> attributes) {
+        Map<String, Object> kakaoAccount = (Map<String, Object>)attributes.get("kakao_account");
+
         return OAuthAttributes.builder()
                 .oauthId(String.valueOf(attributes.get("id")))
+                .email((String) kakaoAccount.get("email"))
                 .signupProvider(SignupProvider.KAKAO)
                 .attributes(attributes)
                 .nameAttributeKey("id")
@@ -52,6 +57,7 @@ public class OAuthAttributes {
         return User.builder()
                 .oauthId(oauthId)
                 .role(Role.USER)
+                .email(email)
                 .provider(signupProvider)
                 .build();
     }

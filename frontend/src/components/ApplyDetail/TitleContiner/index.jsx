@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 
@@ -9,6 +8,7 @@ export default function TitleContainer({
   title,
   businessProfileInfo,
   clickBookmark,
+  category,
   isLogin,
   id,
   isLike,
@@ -17,12 +17,12 @@ export default function TitleContainer({
   return (
     <S.TitleBox>
       <S.TitleContent>
-        <p>카테고리</p>
+        <p>{category}</p>
         <p>{title}</p>
-        <Link to={`/business/${businessProfileInfo.id}`}>
+        <div>
           <HomeIcon />
           <p>{businessProfileInfo.name}</p>
-        </Link>
+        </div>
       </S.TitleContent>
       <S.TitleBookMark>
         {isLogin ? (

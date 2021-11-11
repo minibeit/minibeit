@@ -55,7 +55,7 @@ export default function NavBar() {
       <S.NavBarMenuContainer>
         {user.didSignup === true ? (
           <>
-            <Link to={`/user/${username}`}>
+            <Link to={`/profile/${username}`}>
               <img
                 src={user.avatar !== "noImg" ? user.avatar : "/기본프로필.png"}
                 alt="사진"

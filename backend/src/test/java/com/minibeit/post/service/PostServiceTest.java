@@ -1,8 +1,8 @@
 package com.minibeit.post.service;
 
 import com.minibeit.ServiceIntegrationTest;
-import com.minibeit.avatar.domain.AvatarServer;
-import com.minibeit.avatar.domain.AvatarType;
+import com.minibeit.common.domain.FileType;
+import com.minibeit.common.domain.FileServer;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
@@ -82,7 +82,7 @@ class PostServiceTest extends ServiceIntegrationTest {
     private PostDoDate postDoDate1;
     private PostDoDate postDoDate2;
     private PostDoDate postDoDate3;
-    private final SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, AvatarType.IMAGE, AvatarServer.S3);
+    private final SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
 
     @BeforeEach
     public void init() {

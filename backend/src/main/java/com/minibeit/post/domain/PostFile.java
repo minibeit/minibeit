@@ -1,7 +1,7 @@
 package com.minibeit.post.domain;
 
-import com.minibeit.avatar.domain.AvatarServer;
-import com.minibeit.avatar.domain.AvatarType;
+import com.minibeit.common.domain.FileServer;
+import com.minibeit.common.domain.FileType;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.common.dto.SavedFile;
 import lombok.*;
@@ -20,10 +20,10 @@ public class PostFile extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private AvatarServer server;
+    private FileServer server;
 
     @Enumerated(EnumType.STRING)
-    private AvatarType type;
+    private FileType type;
 
     private String name;
     private String extension;
@@ -45,8 +45,8 @@ public class PostFile extends BaseEntity {
     public static PostFile create(Post post, SavedFile file) {
         PostFile postFile = PostFile.builder()
                 .name(file.getName())
-                .type(file.getAvatarType())
-                .server(file.getAvatarServer())
+                .type(file.getFileType())
+                .server(file.getFileServer())
                 .extension(file.getExtension())
                 .height(file.getHeight())
                 .width(file.getWidth())

@@ -1,78 +1,61 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router";
+import AddIcon from "@mui/icons-material/Add";
+import { bprofileListGet, getBprofileInfo } from "../../../utils";
+import { PVImg } from "../../Common";
 
-import { useRecoilState, useRecoilValue } from "recoil";
-import { userState } from "../../../recoil/userState";
-import { bprofileListGet, bprofileNew, deleteBprofile } from "../../../utils";
+import BProfileCreateModal from "../../Common/Modal/BProfileCreateModal";
 
-import Presenter from "./presenter";
+import * as S from "../style";
 
-export default function PBOtherProfile({ originalId }) {
-  const [bprofiles, setbprofiles] = useState([]);
+export default function BProfileInfo({ businessId }) {
+  const history = useHistory();
   const [modalSwitch, setModalSwitch] = useState(false);
-  const [user, setUser] = useRecoilState(userState);
-  const UserId = useRecoilValue(userState).id;
-  const [display, setdisplay] = useState("none");
-  const [msg, setmsg] = useState("수정");
-
-  const onClick = () => {
-    setModalSwitch(true);
-  };
-  const doDelete = async (businessId) => {
-    await deleteBprofile(businessId);
-    alert("삭제되었습니다.");
-    setdisplay("none");
-    setmsg("수정");
-    getBprofileList();
-  };
-  const getBprofileList = useCallback(async () => {
-    bprofileListGet(UserId)
-      .then(async (res) => setbprofiles(res.data.data))
-      .catch((err) => console.log(err));
-  }, [UserId]);
-
-  const CreateBProfile = (inputs, img) => {
-    bprofileNew(inputs, img)
-      .then(() => {
-        getBprofileList();
-        setModalSwitch(false);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const editfunc = () => {
-    if (display === "none") {
-      setdisplay("flex");
-      setmsg("완료");
-    } else {
-      setdisplay("none");
-      setmsg("수정");
-    }
-  };
-
-  const goBProfile = async (businessId) => {
-    await setUser({ ...user, bpId: businessId });
-    window.location.replace("/business/" + businessId);
-  };
+  const [bProfileData, setBProfileData] = useState();
+  const [BProfileList, setBProfileList] = useState();
 
   useEffect(() => {
-    getBprofileList();
-  }, [getBprofileList]);
+    bprofileListGet().then((res) => setBProfileList(res.data.data));
+  }, []);
+  useEffect(() => {
+    getBprofileInfo(businessId).then((res) => {
+      setBProfileData(res.data.data);
+    });
+  }, [businessId]);
 
   return (
-    <Presenter
-      bprofiles={bprofiles}
-      editfunc={editfunc}
-      msg={msg}
-      modalSwitch={modalSwitch}
-      setModalSwitch={setModalSwitch}
-      CreateBProfile={CreateBProfile}
-      onClick={onClick}
-      originalId={originalId}
-      display={display}
-      doDelete={doDelete}
-      goBProfile={goBProfile}
-    />
+    <S.BusinessListBox>
+      <p>프로필 목록</p>
+      <div>
+        {BProfileList &&
+          bProfileData &&
+          BProfileList.map((a) => {
+            return (
+              a.id !== bProfileData.id && (
+                <S.BusinessProfile key={a.id}>
+                  <S.ImgBox onClick={() => history.push(`/business/${a.id}`)}>
+                    {a.avatar ? (
+                      <PVImg img={a.avatar} />
+                    ) : (
+                      <PVImg img="/기본비즈니스프로필.jpeg" />
+                    )}
+                  </S.ImgBox>
+                  <p>{a.name}</p>
+                </S.BusinessProfile>
+              )
+            );
+          })}
+        {BProfileList && BProfileList.length < 3 && (
+          <S.ImgBox>
+            <S.AddBProfileBtn onClick={() => setModalSwitch(true)}>
+              <AddIcon />
+            </S.AddBProfileBtn>
+            {modalSwitch && (
+              <BProfileCreateModal setModalSwitch={setModalSwitch} />
+            )}
+          </S.ImgBox>
+        )}
+      </div>
+    </S.BusinessListBox>
   );
 }

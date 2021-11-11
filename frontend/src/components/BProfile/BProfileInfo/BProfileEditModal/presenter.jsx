@@ -1,131 +1,121 @@
 import React from "react";
-import Portal from "../../../Common/Modal/Portal";
-import CloseIcon from "@mui/icons-material/Close";
 
 import { PVImg } from "../../../Common";
 import Address from "../../../Common/Address";
 
-import * as S from "../../style";
+import * as S from "./style";
 
 export default function BProfileEditCont({
-  closeModal,
-  basicImg,
-  newImg,
   BProfileData,
-  imgDel,
-  fileChange,
-  name,
   onChange,
-  admin,
-  place,
+  onFileChange,
+  onAddressChange,
   setadModalSwitch,
   admodalSwitch,
-  handleAddress,
-  contact,
-  bpEditHandler,
-  inputs,
+  submitEditBusiness,
 }) {
   return (
-    <Portal>
-      <S.ModalBackground>
-        <S.ModalBox>
-          <S.ModalHeader>
-            <p>비즈니스 프로필 수정하기</p>
-            <S.CloseModalBtn onClick={closeModal}>
-              <CloseIcon />
-            </S.CloseModalBtn>
-          </S.ModalHeader>
-          <S.ModalContentEdit>
-            <S.BNCont1>
-              <S.ImgBox>
-                {basicImg === false ? (
-                  newImg ? (
-                    <PVImg img={newImg} />
-                  ) : BProfileData.avatar ? (
-                    <S.Img src={BProfileData.avatar} />
-                  ) : (
-                    <S.Img src="/기본비즈니스프로필.jpeg" />
-                  )
-                ) : (
-                  <S.Img src="/기본비즈니스프로필.jpeg" />
-                )}
-              </S.ImgBox>
-              <S.ImgDel onClick={imgDel}>기본이미지로 변경</S.ImgDel>
-              <S.FileLabel htmlFor="input-file">사진 업로드 하기</S.FileLabel>
-              <S.BPEditFileInput
-                name="img"
-                id="input-file"
-                type="file"
-                onChange={fileChange}
+    <>
+      <S.ImgEditContainer>
+        <S.ImgBox>
+          {BProfileData.avatar ? (
+            <PVImg img={BProfileData.avatar} />
+          ) : (
+            <S.Img src="/기본비즈니스프로필.jpeg" />
+          )}
+        </S.ImgBox>
+        <S.ImgEditBtn id="reset" onClick={onFileChange}>
+          기본이미지로 변경
+        </S.ImgEditBtn>
+        <S.ImgEditBtn htmlFor="upload">사진 업로드 하기</S.ImgEditBtn>
+        <input
+          style={{ display: "none" }}
+          name="img"
+          id="upload"
+          type="file"
+          onChange={onFileChange}
+        />
+      </S.ImgEditContainer>
+      <S.InfoEditContainer>
+        <div>
+          <S.EditInput>
+            <div>
+              <p>이름</p>
+              <input
+                defaultValue={BProfileData.name}
+                name="name"
+                type="text"
+                placeholder="이름"
+                onChange={onChange}
               />
-            </S.BNCont1>
-            <S.BNCont2>
-              <S.BNCont21>
-                <S.BNLabel>
-                  이름
-                  <S.BPEditInput
-                    value={name}
-                    name="name"
-                    type="text"
-                    placeholder="이름"
-                    onChange={onChange}
-                  />
-                </S.BNLabel>{" "}
-                <S.BNLabel>
-                  담당자
-                  <S.BPEditInput
-                    value={admin}
-                    name="admin"
-                    type="text"
-                    readOnly
-                  />
-                </S.BNLabel>
-              </S.BNCont21>
-              <S.BNCont22>
-                {" "}
-                <S.BNLabel>
-                  주소
-                  <S.BPEditInput
-                    value={place}
-                    name="place"
-                    type="text"
-                    placeholder="장소"
-                    onClick={() => setadModalSwitch(true)}
-                    readOnly
-                  />
-                </S.BNLabel>
-                {admodalSwitch ? (
-                  <Address
-                    setModalSwitch={setadModalSwitch}
-                    handleAddress={handleAddress}
-                  />
-                ) : null}
-              </S.BNCont22>
-              <S.BNCont23>
-                <S.BNLabel>
-                  연락처
-                  <S.BPEditInput
-                    value={contact}
-                    name="contact"
-                    type="text"
-                    placeholder="연락처"
-                    onChange={onChange}
-                  />
-                </S.BNLabel>
-              </S.BNCont23>
-              <S.BPEditButton
-                type="submit"
-                onClick={async (e) => {
-                  e.preventDefault();
-                  bpEditHandler(inputs, newImg, basicImg);
-                }}
-              >
-                <p>수정하기</p>
-              </S.BPEditButton>
-            </S.BNCont2>
-          </S.ModalContentEdit>
-        </S.ModalBox>
-      </S.ModalBackground>
-    </Portal>
+            </div>
+          </S.EditInput>
+          <S.EditInput>
+            <div>
+              <p>담당자</p>
+              <input
+                defaultValue={BProfileData.adminNickname}
+                name="adminNickname"
+                type="text"
+                readOnly
+              />
+            </div>
+          </S.EditInput>
+        </div>
+        <div>
+          <S.EditInput style={{ width: "100%" }}>
+            <div>
+              <p>주소</p>
+              <input
+                value={BProfileData.place}
+                name="place"
+                type="text"
+                placeholder="주소"
+                onClick={() => setadModalSwitch(true)}
+                readOnly
+              />
+              {admodalSwitch ? (
+                <Address
+                  setModalSwitch={setadModalSwitch}
+                  handleAddress={onAddressChange}
+                />
+              ) : null}
+            </div>
+          </S.EditInput>
+        </div>
+        <div>
+          <S.EditInput style={{ width: "100%" }}>
+            <div>
+              <p>상세주소</p>
+              <input
+                defaultValue=""
+                name="detailPlace"
+                type="text"
+                placeholder="상세 주소"
+                onChange={onChange}
+              />
+            </div>
+          </S.EditInput>
+        </div>
+        <div>
+          <S.EditInput>
+            <div>
+              <p>연락처</p>
+              <input
+                defaultValue={BProfileData.contact}
+                name="contact"
+                type="text"
+                placeholder="연락처"
+                onChange={onChange}
+              />
+            </div>
+          </S.EditInput>
+        </div>
+
+        <button onClick={() => submitEditBusiness(BProfileData)}>
+          수정완료
+        </button>
+      </S.InfoEditContainer>
+    </>
   );
 }

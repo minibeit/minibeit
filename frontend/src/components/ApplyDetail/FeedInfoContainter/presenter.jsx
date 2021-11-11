@@ -32,22 +32,27 @@ export default function Presenter({
   modalSwitch,
   setModalSwitch,
   imgOnClick,
-
 }) {
   return (
-    <S.ContentBox >
+    <S.ContentBox>
       <S.DataBox>
-        <p>참여날짜 및 시간 선택하기</p>
-        <TimeSelectBox
-          feedId={id}
-          date={date}
-          startDate={startDate}
-          endDate={endDate}
-        />
+        <S.DataHeader style={{ border: "none" }}>
+          <p>참여날짜 및 시간 선택하기</p>
+        </S.DataHeader>
+        <S.DataContent>
+          <TimeSelectBox
+            feedId={id}
+            date={date}
+            startDate={startDate}
+            endDate={endDate}
+          />
+        </S.DataContent>
       </S.DataBox>
       <S.DataBox>
-        <p>참여조건</p>
-        <div>
+        <S.DataHeader>
+          <p>참여조건</p>
+        </S.DataHeader>
+        <S.DataContent>
           <ul>
             {recruitCondition ? (
               recruitConditionDetail.map((a, i) => <li key={i}>{a}</li>)
@@ -55,11 +60,13 @@ export default function Presenter({
               <li>참여조건 없음</li>
             )}
           </ul>
-        </div>
+        </S.DataContent>
       </S.DataBox>
       <S.DataBox>
-        <p>지급방식 및 상세내용</p>
-        <div>
+        <S.DataHeader>
+          <p>지급방식 및 상세내용</p>
+        </S.DataHeader>
+        <S.DataContent>
           <ul>
             <li>
               <span>금액</span> : {payment === "CACHE" ? `${cache}원` : goods}
@@ -68,15 +75,17 @@ export default function Presenter({
               <span>지급</span> : {paymentDetail}
             </li>
           </ul>
-        </div>
+        </S.DataContent>
       </S.DataBox>
 
       <S.DataBox>
-        <p>상세내용</p>
-        {isMine && editSwitch === false && (
-          <button onClick={() => setEditSwitch(!editSwitch)}>수정하기</button>
-        )}
-        <div>
+        <S.DataHeader>
+          <p>상세내용</p>
+          {isMine && editSwitch === false && (
+            <button onClick={() => setEditSwitch(!editSwitch)}>수정하기</button>
+          )}
+        </S.DataHeader>
+        <S.DataContent>
           {editSwitch ? (
             <div>
               <S.EditTextArea
@@ -92,30 +101,53 @@ export default function Presenter({
               {updatedContent ? <p>{updatedContent}</p> : <p>{content}</p>}
             </S.DetailContent>
           )}
-        </div>
+        </S.DataContent>
       </S.DataBox>
       <S.DataBox>
-          {files.length !== 0 ? <S.ApplyImgContainer>
-            <div><S.BigImg src={files[0] && files[0].url} onClick={imgOnClick}/></div>
+        {files.length !== 0 ? (
+          <S.ApplyImgContainer>
             <div>
-              <div><S.SmImg src={files[1] &&files[1].url} onClick={files.length<2 ? null : imgOnClick}/></div>
-              <div><S.SmImg src={files[2] &&files[2].url} onClick={files.length<3 ? null : imgOnClick}/></div>
+              <S.BigImg src={files[0] && files[0].url} onClick={imgOnClick} />
+            </div>
+            <div>
               <div>
-                <div>
-                <S.SmImg src={files[3] &&files[3].url} onClick={files.length<4 ? null : imgOnClick}/>
-                </div>
-                {feedDetailData.files.length > 4 ? (<S.Div onClick={imgOnClick}>+{files.length - 4}</S.Div>) : null}
+                <S.SmImg
+                  src={files[1] && files[1].url}
+                  onClick={files.length < 2 ? null : imgOnClick}
+                />
               </div>
+              <div>
+                <S.SmImg
+                  src={files[2] && files[2].url}
+                  onClick={files.length < 3 ? null : imgOnClick}
+                />
+              </div>
+              <div>
+                <S.SmImg
+                  src={files[3] && files[3].url}
+                  onClick={files.length < 4 ? null : imgOnClick}
+                />
+              </div>
+              {feedDetailData.files.length > 4 ? (
+                <S.Div onClick={imgOnClick}>+{files.length - 4}</S.Div>
+              ) : null}
             </div>
             {modalSwitch ? (
-              <ApplyDetailImgsModal files={files} setModalSwitch={setModalSwitch} currentImg={currentImg}/>
-              ) : null }
-          </S.ApplyImgContainer> : null}
+              <ApplyDetailImgsModal
+                files={files}
+                setModalSwitch={setModalSwitch}
+                currentImg={currentImg}
+              />
+            ) : null}
+          </S.ApplyImgContainer>
+        ) : null}
       </S.DataBox>
 
       <S.DataBox>
-        <p>참여 장소 및 연락처</p>
-        <div>
+        <S.DataHeader>
+          <p>참여 장소 및 연락처</p>
+        </S.DataHeader>
+        <S.DataContent>
           <ul>
             <li>
               <span>주소</span> : {place}
@@ -127,13 +159,15 @@ export default function Presenter({
               <span>담당자</span> : {businessProfileInfo.adminName}
             </li>
           </ul>
-        </div>
+        </S.DataContent>
       </S.DataBox>
       <S.DataBox>
-        <p>실험실 후기</p>
-        <div>
+        <S.DataHeader>
+          <p>실험실 후기</p>
+        </S.DataHeader>
+        <S.DataContent>
           <ReveiwBox businessId={businessProfileInfo.id} />
-        </div>
+        </S.DataContent>
       </S.DataBox>
     </S.ContentBox>
   );

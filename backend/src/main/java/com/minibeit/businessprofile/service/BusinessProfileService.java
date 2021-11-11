@@ -73,14 +73,14 @@ public class BusinessProfileService {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         permissionCheck(user, businessProfile);
         if (businessProfile.getAdmin().getId().equals(userId)) {
-            throw new BusinessProfileNotPermission();
+            throw new BusinessProfileAdminCantCancelException();
         }
 
         UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userId, businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
     }
 
-    public void transferOfAuthority(Long businessProfileId, Long userId, User user) {
+    public void changeAdmin(Long businessProfileId, Long userId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         permissionCheck(user, businessProfile);
         if (!isExistInBusinessProfile(businessProfileId, userId)) {

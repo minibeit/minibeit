@@ -25,7 +25,7 @@ export default function SchoolSelect({ onChange, defaultValue }) {
     }),
     control: (provided, state) => ({
       ...provided,
-      borderRadius: "50px",
+      borderRadius: "8px",
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,

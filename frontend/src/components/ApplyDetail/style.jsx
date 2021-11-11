@@ -227,11 +227,10 @@ export const ApplyImgContainer = styled.div`
 `;
 
 export const BigImg = styled.img`
-  width: 316px;
-  height: 316px;
+  width: 312px;
+  height: 312px;
   border-radius: 5px;
   object-fit: contain;
-  border: 1px solid gray;
   background-color: #000;
   cursor: pointer;
 `;
@@ -239,7 +238,7 @@ export const BigImg = styled.img`
 export const SmImg = styled.img`
   width: 100px;
   height: 100px;
-  border-radius: 5px;
+  border-radius: 3px;
   object-fit: contain;
   flex-grow: 1;
   border: 1px solid gray;
@@ -251,10 +250,8 @@ export const Div = styled.div`
   position: relative;
   width: 100px;
   height: 100px;
-  top: -108px;
   background-color: rgba(80, 80, 80, 0.6);
-  border-radius: 5px;
-  border: 1px solid rgba(80, 80, 80, 0.6);
+  border-radius: 3px;
   font-size: 30px;
   line-height: 100px;
   color: #ffffff;

@@ -5,3 +5,4 @@
 - link:/docs/school.html[학교 API]
 - link:/docs/businessprofile.html[비즈니스 프로필 API]
 - link:/docs/post.html[게시물 API]
+- link:/docs/mail.html[메일 API]

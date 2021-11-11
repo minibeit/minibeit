@@ -1,11 +1,25 @@
-import React from "react";
+import React,{useState} from "react";
 import * as S from "./style";
 import MainSlide from "./MainSlide";
 import {Link} from "react-scroll";
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
+import AskEndReason from "../Common/Alert/AskEndReason";
+
+
 
 function MainComponent () {
+
+  const [alertSwitch, setAlertSwitch] = useState(false);
+
+
+
+  const onClick = () => {
+    setAlertSwitch(true);
+  };
+
+
+  
   return (
     <S.BackGround>
       <S.MainJumbotron>
@@ -31,6 +45,12 @@ function MainComponent () {
       <p>세상에 없었던<br/>새로운 <span>구인구직</span> 서비스,<br/>미니바이트</p>
       </S.LastJumbo>
 
+
+      {/* 여기여기여기여기여깅겨ㅣ */}
+      <button onClick={onClick}>알럿만들기</button>
+      
+      {alertSwitch ? <AskEndReason setAlertSwitch={setAlertSwitch}/>:null}
+     
     </S.BackGround>
   );
 }

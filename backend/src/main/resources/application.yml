@@ -54,7 +54,17 @@ spring:
     url: 'jdbc:mysql://127.0.0.1:3306/minibeit?serverTimezone=Asia/Seoul&charset=UTF-8'
     username: root
     password: pass
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: { YOUR_GMAIL_ADDRESS }
+    password: { YOUR_GMAIL_PASSWORD }
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 jwt:
   access-token-props:
     secret: 'ZlLHyRf4Ru3CnpVVl6hk9InHkAcHG07x82PufcFR4S4pKnLn0WJgtu4VQERoJauKi2hNIgWCuQF9aFQM7VJGlw=='

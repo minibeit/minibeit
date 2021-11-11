@@ -80,6 +80,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
           title={feedDetailData.title}
           businessProfileInfo={feedDetailData.businessProfileInfo}
           clickBookmark={clickBookmark}
+          category={feedDetailData.category}
           isLogin={isLogin}
           id={feedDetailData.id}
           isLike={feedDetailData.isLike}

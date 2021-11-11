@@ -7,13 +7,13 @@ import {
   getApproveListApi,
   getWaitListApi,
   rejectOneApi,
-  setAttendApi,
 } from "../../../../utils";
 import Portal from "../../../Common/Modal/Portal";
+import Presenter from "./presenter";
 import CloseIcon from "@mui/icons-material/Close";
 import * as S from "./style";
 
-export default function BManageModal({ title, postId, setModalSwitch }) {
+export default function BManageModal({ postId, setModalSwitch }) {
   const [tab, setTab] = useState("대기자");
   const [feedData, setFeedData] = useState({});
   const [userList, setUserList] = useState([]);
@@ -41,38 +41,56 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
     }
   }, [date, postId, tab]);
 
-  // const changeState = async (order, postdoDateId, userId, rejectValue) => {
-  //   if (order === "approve") {
-  //     await approveOneApi(postdoDateId, userId)
-  //       .then((res) => {
-  //         window.alert("참여가 허락되었습니다.");
-  //         getList();
-  //       })
-  //       .catch((err) => console.log(err));
-  //   } else if (order === "cancel") {
-  //     await cancelOneApi(postdoDateId, userId)
-  //       .then((res) => {
-  //         window.alert("참여 허락이 취소되었습니다.");
-  //         getList();
-  //       })
-  //       .catch((err) => console.log(err));
-  //   } else if (order === "reject") {
-  //     await rejectOneApi(postdoDateId, userId, rejectValue)
-  //       .then((res) => {
-  //         window.alert("참여가 반려되었습니다.");
-  //         getList();
-  //       })
-  //       .catch((err) => console.log(err));
-  //   } else {
-  //     const attend = order === "Attend" ? true : false;
-  //     await setAttendApi(postdoDateId, userId, attend)
-  //       .then((res) => {
-  //         window.alert("참여여부가 변경되었습니다");
-  //         getList();
-  //       })
-  //       .catch((err) => console.log(err));
-  //   }
-  // };
+  const applyApprove = (postDoDateId, userId) => {
+    let value = window.confirm("해당 실험자의 실험 참여를 허락하시겠습니까?");
+    if (value) {
+      approveOneApi(postDoDateId, userId)
+        .then((res) => {
+          alert("해당 실험자의 실험 참여가 허락되었습니다");
+          getList();
+        })
+        .catch((err) =>
+          alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
+        );
+    }
+  };
+
+  const cancleApprove = (postDoDateId, userId) => {
+    let value = window.confirm("해당 실험자의 실험 참여를 취소하시겠습니까?");
+    if (value) {
+      cancelOneApi(postDoDateId, userId)
+        .then((res) => {
+          alert("해당 실험자의 실험 참여가 취소되었습니다");
+          getList();
+        })
+        .catch((err) =>
+          alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
+        );
+    }
+  };
+
+  const viewRejectInput = (e) => {
+    var RejectInput = e.target.parentNode.parentNode.nextSibling;
+    if (RejectInput.style.display === "none") {
+      RejectInput.style.display = "flex";
+    } else {
+      RejectInput.style.display = "none";
+    }
+  };
+
+  const RejectApply = (postDoDateId, userId, comment) => {
+    let value = window.confirm("해당 실험자를 반려하시겠습니까?");
+    if (value) {
+      rejectOneApi(postDoDateId, userId, comment)
+        .then((res) => {
+          alert("해당 실험자의 실험 참여가 반려되었습니다");
+          getList();
+        })
+        .catch((err) =>
+          alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
+        );
+    }
+  };
 
   useEffect(() => {
     getFeedData();
@@ -116,54 +134,18 @@ export default function BManageModal({ title, postId, setModalSwitch }) {
                 name="date"
                 defaultValue={date}
                 onChange={(e) => setDate(e.target.value)}
-              ></input>
+              />
             </div>
           </S.ModalHeader>
           <S.ModalContent>
-            <S.UserListView>
-              <S.DataNavBar>
-                <div>{moment(date).format("YYYY.MM.DD")}</div>
-                <div>
-                  <S.UserInfoBox>
-                    <div>실명</div>
-                    <div>생년월일</div>
-                    <div>성별</div>
-                    <div>연락처</div>
-                    <div>직업</div>
-                    <div>처리상태</div>
-                  </S.UserInfoBox>
-                </div>
-              </S.DataNavBar>
-              <div>
-                {userList.map((time, i) => {
-                  return (
-                    <S.DateInfoBox key={time.postDoDateId}>
-                      <div>
-                        {time.userInfoList[0].startTime}-
-                        {time.userInfoList[0].endTime}
-                      </div>
-                      <div>
-                        {time.userInfoList.map((user) => {
-                          return (
-                            <S.UserInfoBox>
-                              <div>{user.name}</div>
-                              <div>{user.birth}</div>
-                              <div>{user.gender === "MALE" ? "남" : "여"}</div>
-                              <div>{user.phoneNum}</div>
-                              <div>{user.job}</div>
-                              <div>
-                                <button>버튼</button>
-                                <button>버튼</button>
-                              </div>
-                            </S.UserInfoBox>
-                          );
-                        })}
-                      </div>
-                    </S.DateInfoBox>
-                  );
-                })}
-              </div>
-            </S.UserListView>
+            <Presenter
+              date={date}
+              userList={userList}
+              applyApprove={applyApprove}
+              cancleApprove={cancleApprove}
+              viewRejectInput={viewRejectInput}
+              RejectApply={RejectApply}
+            />
           </S.ModalContent>
         </S.ModalBox>
       </S.ModalBackground>

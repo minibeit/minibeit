@@ -123,9 +123,9 @@ export const cancelOneApi = async (postdoDateId, userId) => {
     CANCEL_ONE + "date/" + postdoDateId + "/apply/approve/cancel/" + userId
   );
 };
-export const rejectOneApi = async (postdoDateId, userId, rejectValue) => {
+export const rejectOneApi = async (postdoDateId, userId, comment) => {
   const data = {
-    comment: rejectValue,
+    comment: comment === "" ? null : comment,
   };
   return await withAuthInstance.post(
     REJECT_ONE + "date/" + postdoDateId + "/apply/reject/" + userId,

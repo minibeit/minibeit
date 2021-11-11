@@ -95,6 +95,20 @@ export const UserListView = styled.div`
   background: #f8f8f8;
   border-radius: 1rem;
   overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: gray;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+  }
   & > div:first-child {
     display: flex;
     padding: 0 0 0.5rem 0;
@@ -118,6 +132,9 @@ export const DateInfoBox = styled.div`
   }
   & > div:nth-child(2) {
     flex: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
   }
 `;
 export const UserInfoBox = styled.div`
@@ -144,5 +161,43 @@ export const UserInfoBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 0.5rem;
+    & > button {
+      padding: 0.3rem 1rem;
+      border-radius: 1rem;
+      border: none;
+      color: white;
+      background: #0642ff;
+      cursor: pointer;
+      &:disabled {
+        background: none;
+        color: #b0b0b0;
+      }
+    }
+  }
+`;
+
+export const RejectInput = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  & > p {
+    white-space: nowrap;
+  }
+  & > div {
+    flex: 1;
+    background: white;
+    display: flex;
+    & > input {
+      flex: 1;
+      border: none;
+    }
+    & > button {
+      background: white;
+      border: none;
+      padding: 0.5rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
   }
 `;

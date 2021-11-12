@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   getCancellistApi,
   getFinishlistApi,
@@ -11,52 +11,61 @@ import UserInfoEditModal from "./UserInfoEditModal";
 import FeedBox from "./FeedBox";
 
 import * as S from "../style";
-import { PVImg } from "../../Common";
+import { PVImg, Pagination } from "../../Common";
 
 export default function UserContainer() {
   const [userData, setUserData] = useState();
   const [feedSwitch, setFeedSwitch] = useState("대기중");
   const [feedData, setFeedData] = useState([]);
   const [modalSwitch, setModalSwitch] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalEle, setTotalEle] = useState(0);
 
-  const changeFeedData = (status) => {
+  const changeFeedData = useCallback((status, page) => {
     switch (status) {
       case "대기중":
-        setFeedData([]);
-        getJoinlistApi(1, "WAIT").then((res) =>
-          setFeedData(res.data.data.content)
-        );
+        getJoinlistApi(page ? page : 1, "WAIT").then((res) => {
+          setTotalEle(res.data.data.totalElements);
+          setFeedData(res.data.data.content);
+        });
         break;
       case "확정":
-        setFeedData([]);
-        getJoinlistApi(1, "APPROVE").then((res) =>
-          setFeedData(res.data.data.content)
-        );
+        getJoinlistApi(page ? page : 1, "APPROVE").then((res) => {
+          setTotalEle(res.data.data.totalElements);
+          setFeedData(res.data.data.content);
+        });
         break;
       case "완료":
-        setFeedData([]);
-        getFinishlistApi(1).then((res) => setFeedData(res.data.data.content));
+        getFinishlistApi(page ? page : 1).then((res) => {
+          setTotalEle(res.data.data.totalElements);
+          setFeedData(res.data.data.content);
+        });
         break;
       case "반려":
-        setFeedData([]);
-        getCancellistApi(1).then((res) => setFeedData(res.data.data.content));
+        getCancellistApi(page ? page : 1).then((res) => {
+          setTotalEle(res.data.data.totalElements);
+          setFeedData(res.data.data.content);
+        });
         break;
       case "즐겨찾기":
-        setFeedData([]);
-        getLikeListApi(1).then((res) => setFeedData(res.data.data.content));
+        getLikeListApi(page ? page : 1).then((res) => {
+          setTotalEle(res.data.data.totalElements);
+          setFeedData(res.data.data.content);
+        });
         break;
       default:
     }
-  };
+  }, []);
 
   useEffect(() => {
     getMyInfo().then((res) => {
       setUserData(res.data.data);
     });
   }, []);
+
   useEffect(() => {
-    getJoinlistApi(1, "WAIT").then((res) => setFeedData(res.data.data.content));
-  }, []);
+    changeFeedData(feedSwitch, page);
+  }, [changeFeedData, feedSwitch, page]);
 
   return (
     <S.Container>
@@ -96,6 +105,7 @@ export default function UserContainer() {
               <button
                 key={i}
                 onClick={() => {
+                  setPage(1);
                   setFeedSwitch(a);
                   changeFeedData(a);
                 }}
@@ -119,6 +129,14 @@ export default function UserContainer() {
                 />
               </div>
             ))
+          )}
+          {feedData && (
+            <Pagination
+              page={page}
+              count={totalEle}
+              setPage={setPage}
+              onChange={(e) => changeFeedData(feedSwitch, e)}
+            />
           )}
         </S.FeedGroup>
       </S.FeedContainer>

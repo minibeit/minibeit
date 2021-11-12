@@ -6,30 +6,39 @@ import * as S from "../../style";
 
 export default function FeedBox({ status, data, changeFeedData }) {
   const doNotJoin = (id) => {
-    doNotJoinApi(id)
-      .then(() => {
-        alert("실험이 참여 취소 되었습니다.");
-        changeFeedData("대기중");
-      })
-      .catch((err) => alert("취소할 수 없는 실험입니다."));
+    let value = window.confirm("실험 참여를 취소하시겠습니까?");
+    if (value) {
+      doNotJoinApi(id)
+        .then(() => {
+          alert("실험이 참여 취소 되었습니다.");
+          changeFeedData("대기중");
+        })
+        .catch((err) => alert("취소할 수 없는 실험입니다."));
+    }
   };
 
   const doDelete = (id) => {
-    deleteCancelApi(id)
-      .then(() => {
-        alert("반려 게시물이 삭제되었습니다");
-        changeFeedData("반려");
-      })
-      .catch((err) => alert("삭제할 수 없는 실험입니다."));
+    let value = window.confirm("게시물을 리스트에서 삭제하시겠습니까?");
+    if (value) {
+      deleteCancelApi(id)
+        .then(() => {
+          alert("반려 게시물이 삭제되었습니다");
+          changeFeedData("반려");
+        })
+        .catch((err) => alert("삭제할 수 없는 실험입니다."));
+    }
   };
 
   const doComplete = (id) => {
-    doJoinApi(id)
-      .then(() => {
-        alert("참여가 완료 되었습니다");
-        changeFeedData("확정");
-      })
-      .catch((err) => alert("완료할 수 없는 실험입니다."));
+    let value = window.confirm("실험 참여를 완료 처리하시겠습니까?");
+    if (value) {
+      doJoinApi(id)
+        .then(() => {
+          alert("참여가 완료 되었습니다");
+          changeFeedData("확정");
+        })
+        .catch((err) => alert("완료할 수 없는 실험입니다."));
+    }
   };
 
   return (
@@ -39,7 +48,8 @@ export default function FeedBox({ status, data, changeFeedData }) {
         {status === "확정" && "참여확정"}
         {status === "완료" && "참여완료"}
         {status === "반려" && "참여반려"}
-        {status === "즐겨찾기" && "모집중 or 모집완료"}
+        {status === "즐겨찾기" &&
+          (data.postStatus === "RECRUIT" ? "모집중" : "모집완료")}
       </S.FeedLabel>
       <S.FeedBox>
         <S.FeedTitleBox>

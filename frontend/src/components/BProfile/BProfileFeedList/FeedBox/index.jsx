@@ -2,15 +2,15 @@ import React, { useState } from "react";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import { Link } from "react-router-dom";
 
-import { feedDeleteApi, stateCompleteApi } from "../../../../utils";
-import BCompleteModal from "../BCompleteModal";
+import { feedDeleteApi } from "../../../../utils";
+import FeedCloseModal from "../FeedCloseModal";
 import BManageModal from "../BManageModal";
 
 import * as S from "../../style";
 
 export default function FeedBox({ status, data, changeFeedData }) {
   const [manageModal, setManageModal] = useState(false);
-  const [closeApplyModal, setCloseApplyModal] = useState(false);
+  const [closeModal, setCloseModal] = useState(false);
 
   const deleteFeed = async (id) => {
     await feedDeleteApi(id)
@@ -19,14 +19,6 @@ export default function FeedBox({ status, data, changeFeedData }) {
         changeFeedData("완료된 모집공고");
       })
       .catch(() => alert("삭제할 수 없는 게시물입니다"));
-  };
-  const stateComplete = async (postId, rejectComment) => {
-    await stateCompleteApi(postId, rejectComment)
-      .then(async () => {
-        window.alert("게시물의 모집완료이 되었습니다");
-        changeFeedData("생성한 모집공고");
-      })
-      .catch((err) => console.log(err.response));
   };
 
   return (
@@ -63,16 +55,14 @@ export default function FeedBox({ status, data, changeFeedData }) {
                     setModalSwitch={setManageModal}
                   />
                 )}
-                <button onClick={() => setCloseApplyModal(true)}>
-                  {closeApplyModal && (
-                    <BCompleteModal
-                      postId={data.id}
-                      stateComplete={stateComplete}
-                      setModalSwitch={setCloseApplyModal}
-                    />
-                  )}
-                  모집종료
-                </button>
+                <button onClick={() => setCloseModal(true)}>모집종료</button>
+                {closeModal && (
+                  <FeedCloseModal
+                    postId={data.id}
+                    changeFeedData={changeFeedData}
+                    setModalSwitch={setCloseModal}
+                  />
+                )}
               </S.FeedButton>
             </>
           )}

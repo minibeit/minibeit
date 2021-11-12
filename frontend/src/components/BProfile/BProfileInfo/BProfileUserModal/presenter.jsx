@@ -1,115 +1,91 @@
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
-import NicknameCombo from "./NicknameCombo";
+import UserSearch from "./UserSearch";
 
 import * as S from "./style";
 
 export default function Presenter({
-  handleJoin,
-  usergroup,
-  state,
-  setState,
-  cheifId,
-  setCheifId,
-  currentUser,
-  handleAssign,
-  handleDelete,
-  setNickname,
+  bisnessUsers,
+  addUser,
+  deleteUser,
+  changeAdmin,
+  adminName,
+  setAdminName,
+  searchUser,
+  setSearchUser,
+  editUserMode,
+  setEditUserMode,
+  editCheifMode,
+  setEditCheifMode,
 }) {
   return (
     <>
-      <NicknameCombo handleJoin={handleJoin} />
-      <S.JoinContainer>
-        <S.JoinBox1>
-          <S.JoinEditCont>
-            <p>소속인원 /{usergroup.length}명</p>
-            {state === "EDIT" ? (
-              <S.JoinEdit
-                onClick={() => {
-                  setState("None");
-                  setCheifId();
-                }}
-              >
-                <p>완료</p>
-              </S.JoinEdit>
-            ) : (
-              <S.JoinEdit
-                onClick={() => {
-                  setState("EDIT");
-                  setCheifId();
-                }}
-              >
-                <p>수정</p>
-              </S.JoinEdit>
-            )}
-          </S.JoinEditCont>
-          <S.JoinAssign>
-            {state === "ASSIGN" ? (
-              <S.JoinEdit
-                onClick={async () => {
-                  await handleAssign(cheifId);
-                  setState("None");
-                  setCheifId();
-                }}
-              >
-                <p>완료</p>
-              </S.JoinEdit>
-            ) : (
-              <S.JoinEdit
-                onClick={() => {
-                  setState("ASSIGN");
-                }}
-              >
-                <p>관리자 양도</p>
-              </S.JoinEdit>
-            )}
-          </S.JoinAssign>
-        </S.JoinBox1>
-        <S.JoinBox2>
-          {usergroup.length >= 1
-            ? usergroup.map((user) => (
-                <div key={user.id}>
-                  {state !== "EDIT" ? null : currentUser ===
-                    user.nickname ? null : (
-                    <S.BPuserdelete
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        await handleDelete(user.id, user.nickname);
-                        setNickname("");
-                      }}
-                    >
+      <S.SearchInput>
+        <UserSearch onChange={(e) => setSearchUser(e)} />
+        <button onClick={() => addUser(searchUser)}>초대</button>
+      </S.SearchInput>
+
+      <S.UserListView>
+        <S.UserEditBox>
+          <p>소속인원 / {bisnessUsers.length}</p>
+
+          {editUserMode ? (
+            <button
+              onClick={() => setEditUserMode(false)}
+              disabled={editCheifMode && true}
+            >
+              완료
+            </button>
+          ) : (
+            <button
+              onClick={() => setEditUserMode(true)}
+              disabled={editCheifMode && true}
+            >
+              수정
+            </button>
+          )}
+          {editCheifMode ? (
+            <button
+              onClick={() => {
+                changeAdmin(adminName);
+                setEditCheifMode(!editCheifMode);
+              }}
+              disabled={editUserMode}
+            >
+              확인
+            </button>
+          ) : (
+            <button
+              onClick={() => setEditCheifMode(!editCheifMode)}
+              disabled={editUserMode}
+            >
+              관리자 양도
+            </button>
+          )}
+        </S.UserEditBox>
+        <S.UserListBox>
+          {bisnessUsers &&
+            bisnessUsers.map((a, i) => {
+              return (
+                <div key={i}>
+                  {editUserMode && (
+                    <S.UserDeleteBtn onClick={() => deleteUser(a)}>
                       <CloseIcon />
-                    </S.BPuserdelete>
-                  )}{" "}
-                  {cheifId === user.id ? (
-                    <S.BPuser2
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        if (state === "ASSIGN") {
-                          setCheifId(user.id);
-                        }
-                      }}
-                    >
-                      {" "}
-                      {user.nickname}
-                    </S.BPuser2>
-                  ) : (
-                    <S.BPuser
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        if (state === "ASSIGN") {
-                          setCheifId(user.id);
-                        }
-                      }}
-                    >
-                      {user.nickname}
-                    </S.BPuser>
+                    </S.UserDeleteBtn>
                   )}
+                  <S.UserBox
+                    color={adminName.nickname === a.nickname ? "true" : "false"}
+                    onClick={() => {
+                      editCheifMode && setAdminName(a);
+                    }}
+                  >
+                    {a.nickname}
+                  </S.UserBox>
                 </div>
-              ))
-            : null}
-        </S.JoinBox2>
-      </S.JoinContainer>
+              );
+            })}
+        </S.UserListBox>
+      </S.UserListView>
     </>
   );
 }

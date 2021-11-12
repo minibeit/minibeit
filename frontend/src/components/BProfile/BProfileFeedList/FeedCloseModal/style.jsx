@@ -38,65 +38,47 @@ export const CloseModalBtn = styled.div`
   display: flex;
   flex-direction: column;
   height: -webkit-fill-available;
+  cursor: pointer;
 `;
 export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  height: -webkit-fill-available;
-  padding: 96px 0;
+  padding: 3rem 0;
 `;
-export const BCCont2 = styled.div`
-  flex: 1;
-  margin-top: 10px;
-  & > p {
-    cursor: pointer;
-    background: blue;
-    color: white;
-    padding: 10px 37px;
-    border-radius: 28px;
-  }
-`;
-export const BCInput = styled.input`
-  width: 75%;
-  background: lightgray;
-  padding: 10px 19px;
-  border: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: 0.14px;
-  text-align: left;
-  margin-top: 7px;
-  outline: none;
-  color: #707070;
-  text-decoration: none;
-`;
-export const BCCont = styled.div`
-  flex: 1;
+export const ContentHeader = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  margin-top: 10px;
-  width: 80%;
-  & > select {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid blue;
-    padding: 11px 27px;
-    border-radius: 12px;
-    color: blue;
-    font-size: 17px;
+  align-items: center;
+  padding: 1rem;
+  & > svg:first-child {
+    font-size: 4rem;
   }
-  & > p {
-    font-size: 23px;
-  }
-  & > svg {
-    font-size: 50px;
+  & > p:nth-child(2) {
+    font-size: 2rem;
+    font-weight: bold;
   }
 `;
-export const BCSelect = styled.select``;
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  gap: 1rem;
+  & > select {
+    width: 20rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+  }
+  & > input {
+    padding: 0;
+    width: 19rem;
+    height: 2rem;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0 0.5rem;
+    outline: 1px solid black;
+  }
+`;

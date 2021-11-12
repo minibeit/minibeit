@@ -9,169 +9,195 @@ export const ModalBackground = styled.div`
   background: rgba(0, 0, 0, 0.3);
   z-index: 99;
 `;
-export const ModalTab = styled.div`
-  position: absolute;
-  transform: translate(-50%, -50%);
-  top: 12.5rem;
-  width: 64%;
-  left: 50%;
-  height: 3rem;
-  z-index: 4;
-  max-width: 45.5rem;
-  display: flex;
-`;
 export const ModalBox = styled.div`
   transform: translate(-50%, -50%);
   position: absolute;
-  top: 29rem;
+  top: 50%;
   left: 50%;
   width: 57%;
   max-width: 41rem;
-  border-radius: 0 20px 20px 20px;
+  border-radius: 20px;
   padding: 32px 36px;
   height: 26rem;
   background-color: white;
-`;
-export const ModalHeader = styled.div`
-  display: flex;
-  align-items: center;
-
-  & > p {
-    font-size: 22px;
-    font-weight: 600;
-    border-bottom: 3px solid blue;
-  }
-`;
-export const CloseModalBtn = styled.div`
-  margin-left: auto;
-  margin-right: 0.5rem;
-  align-items: end;
-  display: flex;
-  flex-direction: column;
-  height: -webkit-fill-available;
-`;
-export const ModalContent = styled.div`
-  height: 90%;
-`;
-export const ModalTopContent = styled.div``;
-export const ModalSecondContent = styled.div`
-  height: 100%;
-`;
-export const ModalSecondTopBox = styled.div`
-  display: flex;
-  padding-left: 140px;
-  padding-right: 140px;
-  height: 7%;
-  align-items: center;
-  & > p {
-    flex: 1;
-  }
-`;
-export const ModalSecondBottomBox = styled.div`
-  display: flex;
-  overflow: scroll;
-  flex-direction: column;
-  align-items: center;
-  justify-content: start;
-  background: lightgray;
-  border-radius: 12px;
-  height: 93%;
-  display: flex;
-  width: -webkit-fill-available;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
   }
 `;
-export const BMperson = styled.div`
+export const ModalHeader = styled.div`
   display: flex;
-  width: -webkit-fill-available;
-  & > p {
-    flex: 1;
-  }
-`;
-export const BMDate = styled.input`
-  border: none;
-  cursor: pointer;
-`;
-export const BMBtnWrapper = styled.div`
-  & > p {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-  }
-  width: 140px;
-  display: flex;
-  justify-content: space-between;
-  & > div > p {
-    background: blue;
-    padding: 4px 20px 2px 20px;
-    color: white;
-    border-radius: 22px;
-    white-space: pre;
-  }
-`;
-export const BMBtn = styled.div`
-  & > p {
-    cursor: pointer;
-    background: white;
-    padding: 5px 5px;
-    margin-top: 7px;
-    border-radius: 0 8px 8px 0;
-  }
-`;
-export const BMBtn2 = styled.div`
-  display: flex;
-  cursor: pointer;
   align-items: center;
-  justify-content: center;
-  background: ${(props) => props.state};
-  padding: 0 35px;
-  border-radius: 8px 8px 0px 0px;
-`;
-export const BMTime = styled.div`
-  margin-right: 10px;
-  align-items: start;
-  display: flex;
   & > p {
-    padding: 3px 10px;
-    background: gray;
-    border-radius: 15px;
+    padding: 0.5rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+    border-bottom: 3px solid #0642ff;
+  }
+  & > div:nth-child(2) {
+    margin-left: auto;
+    & > input {
+      margin: 1rem;
+    }
   }
 `;
-export const BMTimeBox = styled.div`
-  display: flex;
-  width: 95%;
-  padding: 19px 0;
-  border-bottom: 1px solid #969696;
-`;
-export const BMBoxCont = styled.div`
+export const CloseModalBtn = styled.div`
+  margin-right: 0.5rem;
+  align-items: end;
   display: flex;
   flex-direction: column;
-  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  cursor: pointer;
 `;
-export const BMrejectbox = styled.div`
+export const ModalContent = styled.div`
   display: flex;
+  flex-direction: column;
   align-items: center;
-  & > p {
-    margin-right: 10px;
+  padding: 3rem 0;
+`;
+export const ButtonTab = styled.div`
+  position: absolute;
+  top: -7%;
+  left: 3%;
+  & > button {
+    background: #e5e5e5;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border-radius: 0.5rem 0.5rem 0 0;
+    font-weight: bold;
+    &:disabled {
+      background: white;
+      color: black;
+    }
   }
 `;
-export const BMrejectInput = styled.input`
-  flex: 1;
-  border: none;
-  border-radius: 8px 0 0 8px;
-  padding: 4px 0 8px 5px;
-  font-size: 14px;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: 0.14px;
-  text-align: left;
-  margin-top: 7px;
-  outline: none;
-  color: #707070;
-  text-decoration: none;
+export const InfoTitle = styled.div`
+  display: flex;
+  width: 100%;
+`;
+export const DataNavBar = styled.div`
+  display: flex;
+  & > div:first-child {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+  & > div:nth-child(2) {
+    flex: 5;
+  }
+`;
+export const UserListView = styled.div`
+  height: 17rem;
+  width: 100%;
+  padding: 0 1rem;
+  background: #f8f8f8;
+  border-radius: 1rem;
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: gray;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+  }
+  & > div:first-child {
+    display: flex;
+    padding: 0 0 0.5rem 0;
+    position: sticky;
+    top: 0;
+    left: 0;
+    background: #f8f8f8;
+  }
+  & > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+`;
+export const DateInfoBox = styled.div`
+  display: flex;
+  border-bottom: 1px solid #c4c4c4;
+  padding: 0.5rem 0;
+  & > div:first-child {
+    flex: 1;
+  }
+  & > div:nth-child(2) {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+`;
+export const UserInfoBox = styled.div`
+  display: flex;
+  & > div {
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    white-space: nowrap;
+    text-align: center;
+  }
+  & > div:nth-child(2) {
+    flex: 2;
+  }
+  & > div:nth-child(3) {
+    flex: 0.5;
+  }
+  & > div:nth-child(4) {
+    flex: 2;
+  }
+  & > div:nth-child(6) {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    & > button {
+      padding: 0.3rem 1rem;
+      border-radius: 1rem;
+      border: none;
+      color: white;
+      background: #0642ff;
+      cursor: pointer;
+      &:disabled {
+        background: none;
+        color: #b0b0b0;
+      }
+    }
+  }
+`;
+
+export const RejectInput = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  & > p {
+    white-space: nowrap;
+  }
+  & > div {
+    flex: 1;
+    background: white;
+    display: flex;
+    & > input {
+      flex: 1;
+      border: none;
+    }
+    & > button {
+      background: white;
+      border: none;
+      padding: 0.5rem;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  }
 `;

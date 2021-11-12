@@ -39,85 +39,52 @@ export const CloseModalBtn = styled.div`
     cursor: pointer;
   }
 `;
-export const NicknameBox = styled.div`
+export const SearchInput = styled.div`
   display: flex;
+  margin: 1rem 0;
+  & > div:first-child {
+    width: 13rem;
+  }
+`;
+export const UserListView = styled.div`
+  height: 17rem;
+  background: #f8f8f8;
+  border-radius: 1rem;
+  overflow-y: scroll;
+`;
+export const UserEditBox = styled.div`
+  display: flex;
+  gap: 0.5rem;
   align-items: center;
-  height: 4rem;
-`;
-export const BPuser = styled.div`
-  margin: 5px;
-  padding: 5px 10px;
-  background: white;
-  border-radius: 8px;
-`;
-export const BPuser2 = styled.div`
-  color: red;
-  margin: 5px;
-  padding: 5px 10px;
-  background: white;
-  border-radius: 8px;
-`;
-export const BPjoin = styled.div`
-  & > p {
-    white-space: pre;
-    color: white;
-    background: blue;
-
-    padding: 13px 96px;
-    border-radius: 10px;
-    cursor: pointer;
+  margin: 1rem;
+  & > button:nth-child(3) {
+    margin-left: auto;
   }
 `;
-export const BPuserdelete = styled.div`
-  position: relative;
-  top: 21px;
-  & > svg {
-    font-size: 18px;
-    background: gray;
-    padding: 3px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
+export const UserListBox = styled.div`
+  display: flex;
+  margin: 1rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
 `;
-export const JoinContainer = styled.div`
-  background: lightgray;
-  border-radius: 10px;
-  padding: 17px 22px;
-  height: 258px;
-`;
-export const BPJoinBtn = styled.div`
-  background: lightgray;
-  height: 15px;
-  padding: 12px;
-  border-radius: 0 8px 8px 0;
+export const UserBox = styled.div`
+  background: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  margin: ${({ color }) => (color === "true" ? "0" : "1px")};
+  border: 1px solid ${({ color }) => (color === "true" ? "#0642ff" : "none")};
   cursor: pointer;
 `;
-export const JoinAssign = styled.div``;
-export const JoinInput = styled.div``;
-export const JoinBox1 = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-export const JoinEditCont = styled.div`
-  display: flex;
-`;
-export const JoinBox2 = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  height: 227px;
-  margin: 10px 0;
-  overflow-y: scroll;
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
-  }
-`;
-export const JoinEdit = styled.div`
-  margin-left: 12px;
-  & > p {
-    font-size: 13px;
-    border-bottom: 1px solid black;
-    cursor: pointer;
+export const UserDeleteBtn = styled.button`
+  position: absolute;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 100%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transform: translate(435%, -40%);
+  & > svg {
+    font-size: 1rem;
   }
 `;

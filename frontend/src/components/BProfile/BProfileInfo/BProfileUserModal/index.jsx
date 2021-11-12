@@ -1,68 +1,86 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import CloseIcon from "@mui/icons-material/Close";
+
 import {
   bprofileJoin,
   bprofileJoinDel,
   getBPusergroup,
 } from "../../../../utils";
-import { useRecoilValue } from "recoil";
-
 import { assignChange } from "../../../../utils/bprofileApi";
+import Portal from "../../../Common/Modal/Portal";
 
 import Presenter from "./presenter";
-import { userState } from "../../../../recoil/userState";
-import Portal from "../../../Common/Modal/Portal";
 import * as S from "./style";
-import { useHistory } from "react-router";
 
 export default function BProfileUserModal({ businessId, setModalSwitch }) {
   const history = useHistory();
-  const [userGroup, setUserGroup] = useState([]);
-  const [, setNickname] = useState("");
-  const [state, setState] = useState("None");
-  const [cheifId, setCheifId] = useState();
-  const currentUser = useRecoilValue(userState).name;
+  const [bisnessUsers, setBisnessUsers] = useState([]);
+  const [adminName, setAdminName] = useState("");
+  const [searchUser, setSearchUser] = useState();
+  const [editUserMode, setEditUserMode] = useState(false);
+  const [editCheifMode, setEditCheifMode] = useState(false);
 
-  const handleJoin = (userId) => {
-    if (userId === "") {
+  const getUsergroup = useCallback(() => {
+    getBPusergroup(businessId)
+      .then((res) => setBisnessUsers(res.data.data))
+      .catch(() => alert("비즈니스 유저 리스트를 불러오지 못했습니다"));
+  }, [businessId]);
+
+  const addUser = (user) => {
+    if (!user) {
       alert("닉네임을 입력한 후 초대해 주세요");
     } else {
-      bprofileJoin(businessId, userId)
+      bprofileJoin(businessId, user.value)
         .then(() => {
           alert("초대되었습니다");
           getUsergroup();
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert("초대가 불가능한 유저입니다"));
     }
   };
 
-  const handleDelete = async (userId, userNickname) => {
-    await bprofileJoinDel(businessId, userId)
-      .then(async () => {
-        alert(userNickname + "님의 초대가 취소되었습니다");
-        getUsergroup();
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const handleAssign = (userId) => {
-    if (userId === undefined) {
-    } else {
-      assignChange(businessId, userId)
+  const deleteUser = (user) => {
+    let value = window.confirm(
+      `${user.nickname}님을 그룹에서 제외하시겠습니까?`
+    );
+    if (value) {
+      bprofileJoinDel(businessId, user.id)
         .then(() => {
-          alert("관리자가 양도되었습니다");
-          setModalSwitch(false);
-          history.push("/businesstest/" + businessId);
+          alert(user.nickname + "님이 그룹에서 제외되었습니다");
+          getUsergroup();
         })
-        .catch((err) => alert("관리자가 양도되었습니다"));
+        .catch((err) => {
+          if (
+            err.response.data.error.type ===
+            "BusinessProfileAdminCantCancelException"
+          ) {
+            alert("관리자 유저는 제외시킬 수 없습니다");
+          } else {
+            alert("제외시킬 수 없는 유저입니다");
+          }
+        });
     }
   };
 
-  const getUsergroup = useCallback(() => {
-    getBPusergroup(businessId)
-      .then((res) => setUserGroup(res.data.data))
-      .catch();
-  }, [businessId]);
+  const changeAdmin = (user) => {
+    if (user === "") {
+    } else {
+      let value = window.confirm("관리자를 양도하시겠습니까?");
+      if (value) {
+        assignChange(businessId, user.id)
+          .then(() => {
+            alert("관리자가 양도되었습니다");
+            setModalSwitch(false);
+            history.push("/business/" + businessId);
+            history.go(0);
+          })
+          .catch((err) => alert("관리자가 될 수 없는 유저입니다"));
+      } else {
+        setAdminName("");
+      }
+    }
+  };
 
   useEffect(() => {
     getUsergroup();
@@ -80,16 +98,18 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
           </S.ModalHeader>
           <S.ModalContent>
             <Presenter
-              handleJoin={handleJoin}
-              usergroup={userGroup}
-              state={state}
-              setState={setState}
-              cheifId={cheifId}
-              setCheifId={setCheifId}
-              currentUser={currentUser}
-              handleAssign={handleAssign}
-              handleDelete={handleDelete}
-              setNickname={setNickname}
+              bisnessUsers={bisnessUsers}
+              addUser={addUser}
+              deleteUser={deleteUser}
+              changeAdmin={changeAdmin}
+              adminName={adminName}
+              setAdminName={setAdminName}
+              searchUser={searchUser}
+              setSearchUser={setSearchUser}
+              editUserMode={editUserMode}
+              setEditUserMode={setEditUserMode}
+              editCheifMode={editCheifMode}
+              setEditCheifMode={setEditCheifMode}
             />
           </S.ModalContent>
         </S.ModalBox>

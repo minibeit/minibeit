@@ -1,43 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { getMakelistApi, reviewListGetApi } from "../../../utils";
 
 import FeedBox from "./FeedBox";
+
+import { Pagination } from "../../Common";
 
 import * as S from "../style";
 
 export default function BProfileInfo({ businessId }) {
   const [feedData, setFeedData] = useState([]);
   const [feedSwitch, setFeedSwitch] = useState("생성한 모집공고");
+  const [page, setPage] = useState(1);
+  const [totalEle, setTotalEle] = useState(0);
 
-  const changeFeedData = (status) => {
-    switch (status) {
-      case "생성한 모집공고":
-        setFeedData([]);
-        getMakelistApi(businessId, 1, "RECRUIT").then((res) =>
-          setFeedData(res.data.data.content)
-        );
-        break;
-      case "완료된 모집공고":
-        setFeedData([]);
-        getMakelistApi(businessId, 1, "COMPLETE").then((res) =>
-          setFeedData(res.data.data.content)
-        );
-        break;
-      case "후기 모아보기":
-        setFeedData([]);
-        reviewListGetApi(businessId, 1, 10).then((res) =>
-          setFeedData(res.data.data.content)
-        );
-        break;
-      default:
-    }
-  };
+  const changeFeedData = useCallback(
+    (status, page) => {
+      switch (status) {
+        case "생성한 모집공고":
+          getMakelistApi(businessId, page ? page : 1, "RECRUIT").then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+          });
+          break;
+        case "완료된 모집공고":
+          getMakelistApi(businessId, page ? page : 1, "COMPLETE").then(
+            (res) => {
+              setTotalEle(res.data.data.totalElements);
+              setFeedData(res.data.data.content);
+            }
+          );
+          break;
+        case "후기 모아보기":
+          reviewListGetApi(businessId, page ? page : 1, 10).then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+          });
+          break;
+        default:
+      }
+    },
+    [businessId]
+  );
 
   useEffect(() => {
-    getMakelistApi(businessId, 1, "RECRUIT").then((res) =>
-      setFeedData(res.data.data.content)
-    );
-  }, [businessId]);
+    changeFeedData(feedSwitch, page);
+  }, [changeFeedData, feedSwitch, page]);
 
   return (
     <>
@@ -47,6 +54,7 @@ export default function BProfileInfo({ businessId }) {
             <button
               key={i}
               onClick={() => {
+                setPage(1);
                 setFeedSwitch(a);
                 changeFeedData(a);
               }}
@@ -70,6 +78,14 @@ export default function BProfileInfo({ businessId }) {
               />
             </div>
           ))
+        )}
+        {feedData.length !== 0 && (
+          <Pagination
+            page={page}
+            count={totalEle}
+            setPage={setPage}
+            onChange={(e) => changeFeedData(feedSwitch, e)}
+          />
         )}
       </S.FeedGroup>
     </>

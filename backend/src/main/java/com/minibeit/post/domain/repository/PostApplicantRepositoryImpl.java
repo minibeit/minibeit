@@ -89,4 +89,17 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
                 .fetchFirst();
         return fetchOne != null;
     }
+
+    @Override
+    public List<PostApplicant> findAllByUserIdAndDoDateAndStatusIsApprove(Long userId, LocalDateTime doDate) {
+        return queryFactory.selectFrom(postApplicant)
+                .join(postApplicant.postDoDate, postDoDate).fetchJoin()
+                .join(postDoDate.post).fetchJoin()
+                .where(postApplicant.user.id.eq(userId)
+                        .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE))
+                        .and(postDoDate.doDate.year().eq(doDate.getYear())
+                                .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
+                                .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth()))))
+                .fetch();
+    }
 }

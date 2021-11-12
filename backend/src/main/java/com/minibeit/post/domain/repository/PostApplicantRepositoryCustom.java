@@ -19,4 +19,6 @@ public interface PostApplicantRepositoryCustom {
     List<PostApplicant> findAllByDoDateBeforeToday(LocalDateTime now);
 
     boolean existsApproveAfterNow(Long postId, LocalDateTime now);
+
+    List<PostApplicant> findAllByUserIdAndDoDateAndStatusIsApprove(Long userId, LocalDateTime doDate);
 }

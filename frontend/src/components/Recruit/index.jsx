@@ -50,6 +50,7 @@ export default function RecruitComponent() {
   const isLogin = useRecoilValue(userState).isLogin;
   const [bpList, setbpList] = useState([]);
   const [alertSwitch, setAlertSwitch] = useState(false);
+  const [alertSwitch2, setAlertSwitch2] = useState(false);
 
   const getbpList = useCallback(async () => {
     await bprofileListGet(userId)
@@ -58,7 +59,10 @@ export default function RecruitComponent() {
   }, [userId]);
 
   const clickSubmit = () => {
-    setAlertSwitch(true);
+    if(recruit.title !== '') {
+      setAlertSwitch(true);
+    }
+    else{setAlertSwitch2(true);}
   };
 
   const submit = (recruit) => {
@@ -133,6 +137,8 @@ export default function RecruitComponent() {
           submit={submit}
           setAlertSwitch={setAlertSwitch}
           alertSwitch={alertSwitch}
+          setAlertSwitch2={setAlertSwitch2}
+          alertSwitch2={alertSwitch2}
           clickSubmit={clickSubmit}
         />
       )}

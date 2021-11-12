@@ -49,7 +49,9 @@ export const AlertContent = styled.div`
     line-height: 15px;
   }
 
-  & > button:nth-child(4) {
+`;
+
+export const BlueButton = styled.button`
     position: relative;
     width: 9rem;
     height: 2.7rem;
@@ -60,5 +62,4 @@ export const AlertContent = styled.div`
     border: 1px solid #0642FF;
     background: #0642FF;
     margin-top: 20px;
-  }
 `;

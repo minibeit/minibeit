@@ -9,6 +9,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import RegisterFeed from "../../Common/Alert/RegisterFeed";
 
 import * as S from "../style";
+import NotEnoughWrite from "../../Common/Alert/NotEnoughWrite";
 
 export default function Presenter({
   onChange,
@@ -26,7 +27,10 @@ export default function Presenter({
   submit,
   setAlertSwitch,
   alertSwitch,
-  clickSubmit
+  setAlertSwitch2,
+  alertSwitch2,
+  clickSubmit,
+  movePage
 }) {
   return (
     <S.InputPage>
@@ -183,6 +187,7 @@ export default function Presenter({
         </S.InputBox>
         <S.SaveBtn onClick={clickSubmit}>작성완료</S.SaveBtn>
         {alertSwitch ? <RegisterFeed setAlertSwitch={setAlertSwitch} recruit={recruit} submit={submit}/> : null}
+        {alertSwitch2 ? <NotEnoughWrite setAlertSwitch2={setAlertSwitch2} recruit={recruit} movePage={movePage}/> : null}
       </S.InputContainer>
     </S.InputPage>
   );

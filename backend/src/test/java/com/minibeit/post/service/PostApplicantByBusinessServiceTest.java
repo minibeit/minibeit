@@ -14,6 +14,7 @@ import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
+import com.minibeit.post.service.exception.ExistedApplySameTimeException;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostDoDateIsFullException;
 import com.minibeit.school.domain.School;
@@ -61,11 +62,13 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
     private User applyUser2;
     private User notApplyUser;
     private User notAttendUser;
+    private User approvedUser;
     private School school;
     private BusinessProfile businessProfile;
     private Post recruitPost;
     private PostDoDate recruitPostPostDoDate1;
     private PostDoDate recruitPostPostDoDate2;
+    private PostDoDate recruitPostPostDoDate3;
     private PostDoDate fullPostPostDoDate2;
     private PostApplicant postApplicantApplyUser;
 
@@ -99,6 +102,15 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
                 .provider(SignupProvider.KAKAO)
                 .build();
         applyUser2 = userRepository.save(apUser2);
+
+        User apUser3 = User.builder()
+                .oauthId("5")
+                .nickname("동글동글")
+                .role(Role.USER)
+                .signupCheck(true)
+                .provider(SignupProvider.KAKAO)
+                .build();
+        approvedUser = userRepository.save(apUser3);
 
         User businessUser = User.builder()
                 .oauthId("3")
@@ -164,12 +176,36 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
                 .schoolId(school.getId())
                 .businessProfileId(businessProfile.getId())
                 .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
-                .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
+                .endDate(LocalDateTime.of(2021, 10, 4, 17, 30))
                 .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
                 .build();
 
         Post createdPost = Post.create(createRequest, school, businessProfile);
         recruitPost = postRepository.save(createdPost);
+
+        PostRequest.CreateInfo createRequest2 = PostRequest.CreateInfo.builder()
+                .title("모집중")
+                .content("실험 내용")
+                .place("고려대학교 연구실")
+                .contact("010-1234-1234")
+                .category("미디어")
+                .headcount(2)
+                .payment(Payment.CACHE)
+                .cache(10000)
+                .goods(null)
+                .paymentDetail("계좌로 지급해드립니다.")
+                .condition(true)
+                .conditionDetail("커피 많이 드시는 사람|")
+                .doTime(60)
+                .schoolId(school.getId())
+                .businessProfileId(businessProfile.getId())
+                .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
+                .endDate(LocalDateTime.of(2021, 10, 10, 17, 30))
+                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                .build();
+
+        Post createdPost2 = Post.create(createRequest2, school, businessProfile);
+        Post recruitPost2= postRepository.save(createdPost2);
 
         PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), recruitPost);
         PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), recruitPost);
@@ -177,6 +213,9 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
         recruitPostPostDoDate1 = postDoDateRepository.save(postDoDate1);
         fullPostPostDoDate2 = postDoDateRepository.save(postDoDate2);
         recruitPostPostDoDate2 = postDoDateRepository.save(postDoDate3);
+
+        PostDoDate postDoDate4 = PostDoDate.create(LocalDateTime.of(2021, 10, 4, 10, 0), recruitPost2);
+        recruitPostPostDoDate3 = postDoDateRepository.save(postDoDate4);
 
         PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1);
         postApplicantApplyUser = postApplicantRepository.save(postApplicant1);
@@ -187,11 +226,19 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
         PostApplicant postApplicant3 = PostApplicant.create(postDoDate2, applyUser2);
         postApplicantRepository.save(postApplicant3);
 
+        PostApplicant postApplicant4 = PostApplicant.create(postDoDate4, approvedUser);
+        postApplicant4.updateStatus(ApplyStatus.APPROVE);
+        postApplicantRepository.save(postApplicant4);
+
+        PostApplicant postApplicant5 = PostApplicant.create(postDoDate3, approvedUser);
+
+        postApplicantRepository.save(postApplicant5);
+
         List<PostApplicant> postApplicants = Collections.singletonList(postApplicant3);
         postDoDate2.updateFull(postApplicants);
 
-        PostApplicant postApplicant4 = PostApplicant.create(postDoDate3, notAttendUser);
-        postApplicantRepository.save(postApplicant4);
+        PostApplicant postApplicant6 = PostApplicant.create(postDoDate3, notAttendUser);
+        postApplicantRepository.save(postApplicant6);
     }
 
     @Test
@@ -232,6 +279,13 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
     public void applyApprovePostDoDateIsFull() {
         assertThatThrownBy(() -> postApplicantByBusinessService.applyApprove(fullPostPostDoDate2.getId(), applyUser2.getId(), userInBusinessProfile))
                 .isExactlyInstanceOf(PostDoDateIsFullException.class);
+    }
+
+    @Test
+    @DisplayName("지원자 참여 approve - 실패(지원자가 동시간대의 확정된 모집이 있는 경우)")
+    public void ExistedApplySameTime() {
+        assertThatThrownBy(() -> postApplicantByBusinessService.applyApprove(recruitPostPostDoDate2.getId(), approvedUser.getId(), userInBusinessProfile))
+                .isExactlyInstanceOf(ExistedApplySameTimeException.class);
     }
 
     @Test
@@ -342,6 +396,4 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
         assertThatThrownBy(() -> postApplicantByBusinessService.attendChange(recruitPostPostDoDate2.getId(), notAttendUser.getId(), request, applyUser2))
                 .isExactlyInstanceOf(PermissionException.class);
     }
-
-    
 }

@@ -49,6 +49,7 @@ export default function RecruitComponent() {
   const userId = useRecoilValue(userState).id;
   const isLogin = useRecoilValue(userState).isLogin;
   const [bpList, setbpList] = useState([]);
+  const [alertSwitch, setAlertSwitch] = useState(false);
 
   const getbpList = useCallback(async () => {
     await bprofileListGet(userId)
@@ -56,19 +57,21 @@ export default function RecruitComponent() {
       .catch((err) => console.log(err));
   }, [userId]);
 
+  const clickSubmit = () => {
+    setAlertSwitch(true);
+  };
+
   const submit = (recruit) => {
-    let value = window.confirm("작성을 완료하시겠습니까?");
-    if (value) {
+    if (alertSwitch) {
       feedCreateApi(recruit)
         .then((res) => {
           if (recruit.images.length !== 0) {
             feedAddfileApi(res.data.data.id, recruit.images);
           }
-          alert("작성 완료");
           history.push(`/apply/${res.data.data.id}`);
         })
         .catch((err) => alert("게시물 작성에 실패했습니다"));
-    }
+      }
   };
 
   const page = useRef();
@@ -128,6 +131,9 @@ export default function RecruitComponent() {
           recruit={recruit}
           setRecruit={setRecruit}
           submit={submit}
+          setAlertSwitch={setAlertSwitch}
+          alertSwitch={alertSwitch}
+          clickSubmit={clickSubmit}
         />
       )}
     </div>

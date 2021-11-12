@@ -50,10 +50,11 @@ export const AlertContent = styled.div`
   left: 50%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 3rem;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  margin-top: 1.5rem;
 
   & > p:first-child{
     width: 25rem;
@@ -75,6 +76,6 @@ export const AlertContent = styled.div`
     display: flex;
     flex-direction: row;
     gap: 1.5rem;
-    margin-top: 1.5rem;
+    margin-top: 1rem;
   }
 `;

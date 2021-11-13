@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import moment from "moment";
+import Calendar from "react-calendar";
 import {
   approveOneApi,
   cancelOneApi,
@@ -7,24 +8,25 @@ import {
   getApproveListApi,
   getWaitListApi,
   rejectOneApi,
+  setAttendApi,
 } from "../../../../utils";
 import Portal from "../../../Common/Modal/Portal";
 import Presenter from "./presenter";
 import CloseIcon from "@mui/icons-material/Close";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import * as S from "./style";
 
 export default function BManageModal({ postId, setModalSwitch }) {
   const [tab, setTab] = useState("대기자");
   const [feedData, setFeedData] = useState({});
   const [userList, setUserList] = useState([]);
-
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  const [calendarView, setCalendarView] = useState(false);
 
   const getFeedData = useCallback(() => {
     feedDetailApi(postId, true)
       .then((res) => {
         setFeedData(res.data.data);
-        setDate(res.data.data.startDate);
       })
       .catch((err) => alert("데이터를 불러오지 못했습니다"));
   }, [postId]);
@@ -78,12 +80,32 @@ export default function BManageModal({ postId, setModalSwitch }) {
     }
   };
 
-  const RejectApply = (postDoDateId, userId, comment) => {
+  const rejectApply = (postDoDateId, userId, comment) => {
     let value = window.confirm("해당 실험자를 반려하시겠습니까?");
     if (value) {
       rejectOneApi(postDoDateId, userId, comment)
         .then((res) => {
           alert("해당 실험자의 실험 참여가 반려되었습니다");
+          getList();
+        })
+        .catch((err) =>
+          alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
+        );
+    }
+  };
+
+  const changeAttend = (postDoDateId, userId, status) => {
+    let value = window.confirm(
+      `해당 실험자를 ${status ? "'불참'" : "'참여'"} 처리하시겠습니까?`
+    );
+    if (value) {
+      setAttendApi(postDoDateId, userId, status ? false : true)
+        .then((res) => {
+          alert(
+            `해당 실험자의 실험 참여가 ${
+              status ? "'불참'" : "'참여'"
+            } 처리되었습니다`
+          );
           getList();
         })
         .catch((err) =>
@@ -128,23 +150,39 @@ export default function BManageModal({ postId, setModalSwitch }) {
               <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
                 <CloseIcon />
               </S.CloseModalBtn>
-              <input
-                type="date"
-                id="start"
-                name="date"
-                defaultValue={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
+              <S.CalendarBtn onClick={() => setCalendarView(!calendarView)}>
+                <CalendarTodayIcon />
+              </S.CalendarBtn>
+              {calendarView && (
+                <S.CalendarWrapper>
+                  <Calendar
+                    calendarType="US"
+                    defaultValue={new Date()}
+                    minDate={new Date(feedData.startDate)}
+                    maxDate={new Date(feedData.endDate)}
+                    onClickDay={(date) => {
+                      setDate(moment(date).format("YYYY-MM-DD"));
+                      setCalendarView(false);
+                    }}
+                    minDetail="month"
+                    next2Label={null}
+                    prev2Label={null}
+                    showNeighboringMonth={false}
+                  />
+                </S.CalendarWrapper>
+              )}
             </div>
           </S.ModalHeader>
           <S.ModalContent>
             <Presenter
+              tab={tab}
               date={date}
               userList={userList}
               applyApprove={applyApprove}
               cancleApprove={cancleApprove}
               viewRejectInput={viewRejectInput}
-              RejectApply={RejectApply}
+              rejectApply={rejectApply}
+              changeAttend={changeAttend}
             />
           </S.ModalContent>
         </S.ModalBox>

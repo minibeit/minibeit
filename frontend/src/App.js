@@ -11,6 +11,7 @@ import BProfile from "./pages/BProfile";
 import Apply from "./pages/Apply";
 import ApplyDetail from "./pages/ApplyDetail";
 import Recruit from "./pages/Recruit";
+import RecruitComplete from "./pages/RecruitComplete";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route path="/apply/:postId" exact component={ApplyDetail} />
           <Route path="/apply" component={Apply} />
           <Route path="/recruit" exact component={Recruit} />
+          <Route path="/recruit/complete/:postId" exact component={RecruitComplete} />
         </Switch>
       </RecoilRoot>
     </>

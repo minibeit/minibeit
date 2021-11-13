@@ -50,10 +50,11 @@ export const AlertContent = styled.div`
   left: 50%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 1rem;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  margin-top: 1rem;
 
   & > p:first-child{
     width: 25rem;
@@ -61,20 +62,25 @@ export const AlertContent = styled.div`
     text-align: center;
     line-height: 34px;
   }
-  
-  & > p > span:first-child {
+
+  & > p:first-child > span:first-child {
     font-weight: 700;
   }
 
-  & > p > span:nth-child(3) {
+  & > p:nth-child(2) {
+    width: 25rem;
+    font-size: 12px;
+    text-align: center;
+    line-height: 20px;
+  }
+
+  & > p:nth-child(2) > span:first-child {
     font-weight: 700;
   }
- 
 
-  & > div:nth-child(2) {
+  & > div:nth-child(3) {
     display: flex;
     flex-direction: row;
     gap: 1.5rem;
-    margin-top: 1.5rem;
   }
 `;

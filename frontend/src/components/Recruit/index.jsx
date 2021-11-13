@@ -49,8 +49,8 @@ export default function RecruitComponent() {
   const userId = useRecoilValue(userState).id;
   const isLogin = useRecoilValue(userState).isLogin;
   const [bpList, setbpList] = useState([]);
-  const [alertSwitch, setAlertSwitch] = useState(false);
-  const [alertSwitch2, setAlertSwitch2] = useState(false);
+  const [askComplete, setAskComplete] = useState(false);
+  const [notEnough, setNotEnough] = useState(false);
 
   const getbpList = useCallback(async () => {
     await bprofileListGet(userId)
@@ -60,13 +60,13 @@ export default function RecruitComponent() {
 
   const clickSubmit = () => {
     if(recruit.title !== '') {
-      setAlertSwitch(true);
+      setAskComplete(true);
     }
-    else{setAlertSwitch2(true);}
+    else{setNotEnough(true);}
   };
 
   const submit = (recruit) => {
-    if (alertSwitch) {
+    if (askComplete) {
       feedCreateApi(recruit)
         .then((res) => {
           if (recruit.images.length !== 0) {
@@ -135,10 +135,10 @@ export default function RecruitComponent() {
           recruit={recruit}
           setRecruit={setRecruit}
           submit={submit}
-          setAlertSwitch={setAlertSwitch}
-          alertSwitch={alertSwitch}
-          setAlertSwitch2={setAlertSwitch2}
-          alertSwitch2={alertSwitch2}
+          setAskComplete={setAskComplete}
+          askComplete={askComplete}
+          setNotEnough={setNotEnough}
+          notEnough={notEnough}
           clickSubmit={clickSubmit}
         />
       )}

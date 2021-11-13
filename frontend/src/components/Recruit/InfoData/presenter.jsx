@@ -25,10 +25,10 @@ export default function Presenter({
   setConfirmModal,
   confirmModal,
   submit,
-  setAlertSwitch,
-  alertSwitch,
-  setAlertSwitch2,
-  alertSwitch2,
+  setAskComplete, 
+  askComplete, 
+  setNotEnough, 
+  notEnough,
   clickSubmit,
   movePage
 }) {
@@ -186,8 +186,8 @@ export default function Presenter({
           </S.Input>
         </S.InputBox>
         <S.SaveBtn onClick={clickSubmit}>작성완료</S.SaveBtn>
-        {alertSwitch ? <RegisterFeed setAlertSwitch={setAlertSwitch} recruit={recruit} submit={submit}/> : null}
-        {alertSwitch2 ? <NotEnoughWrite setAlertSwitch2={setAlertSwitch2} recruit={recruit} movePage={movePage}/> : null}
+        {askComplete ? <RegisterFeed  setAskComplete={setAskComplete} recruit={recruit} submit={submit}/> : null}
+        {notEnough ? <NotEnoughWrite  setNotEnough={setNotEnough} recruit={recruit} movePage={movePage}/> : null}
       </S.InputContainer>
     </S.InputPage>
   );

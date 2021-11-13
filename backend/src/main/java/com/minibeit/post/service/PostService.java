@@ -57,8 +57,8 @@ public class PostService {
         return posts.map(post -> PostResponse.GetList.build(post, customUserDetails));
     }
 
-    public Page<PostResponse.GetLikeList> getListByLike(User user, PageDto pageDto) {
-        Page<Post> posts = postRepository.findAllByLike(user, pageDto.of());
+    public Page<PostResponse.GetLikeList> getListByLike(PostStatus postStatus, User user, PageDto pageDto) {
+        Page<Post> posts = postRepository.findAllByLike(postStatus, user, pageDto.of());
         return posts.map(PostResponse.GetLikeList::build);
     }
 

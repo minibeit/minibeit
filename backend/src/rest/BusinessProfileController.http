@@ -5,6 +5,7 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="name";
 
+아무개 연구소
 --boundary
 Content-Disposition: form-data; name="place";
 

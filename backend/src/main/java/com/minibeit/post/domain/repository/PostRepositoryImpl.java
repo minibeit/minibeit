@@ -141,10 +141,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<Post> findAllByLike(User user, Pageable pageable) {
+    public Page<Post> findAllByLike(PostStatus postStatus, User user, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.postLikeList, postLike)
-                .where(postLike.user.id.eq(user.getId()))
+                .where(postLike.user.id.eq(user.getId())
+                .and(postStatusEq(postStatus)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(post.id.desc());
@@ -152,6 +153,16 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         QueryResults<Post> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    private BooleanExpression postStatusEq(PostStatus postStatus) {
+        if (postStatus.equals(PostStatus.RECRUIT)) {
+            return post.postStatus.eq(postStatus);
+        }
+        if (postStatus.equals(PostStatus.COMPLETE)) {
+            return post.postStatus.eq(postStatus);
+        }
+        return null;
     }
 
     @Override

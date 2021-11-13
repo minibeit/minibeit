@@ -18,11 +18,25 @@ Content-Type: application/json;charset=UTF-8
   "doTime": 60,
   "schoolId": 1,
   "businessProfileId": 1,
-  "startDate": "2021-11-04T09:30",
-  "endDate": "2021-11-08T09:30",
+  "startDate": "2021-09-25T09:30",
+  "endDate": "2021-10-02T12:30",
   "doDateList": [
-
-  ]
+    {
+      "doDate": "2021-09-27T10:30"
+    },
+    {
+      "doDate": "2021-09-28T20:30"
+    },
+    {
+      "doDate": "2021-09-30T11:30"
+    },
+    {
+      "doDate": "2021-10-02T12:30"
+    },
+    {
+      "doDate": "2021-10-06T09:30"
+    }
+    ]
 }
 
 ###
@@ -93,7 +107,7 @@ GET {{apiUrl}}/post/like/list?page=1&size=6
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/apply/list?page=1&size=4&status=WAIT
+GET {{apiUrl}}/post/apply/list?page=1&size=4&status=APPROVE
 Authorization: {{authorizationToken}}
 
 ###

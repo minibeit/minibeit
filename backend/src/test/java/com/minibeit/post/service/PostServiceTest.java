@@ -475,7 +475,7 @@ class PostServiceTest extends ServiceIntegrationTest {
     void getListByLike() {
         initPostListForList();
         PageDto pageDto = new PageDto(1, 10);
-        Page<PostResponse.GetLikeList> response = postService.getListByLike(testUser, pageDto);
+        Page<PostResponse.GetLikeList> response = postService.getListByLike(PostStatus.RECRUIT, testUser, pageDto);
 
         assertThat(response.getContent()).extracting("title").containsExactlyElementsOf(Arrays.asList("즐겨찾기3", "즐겨찾기2", "즐겨찾기1"));
     }

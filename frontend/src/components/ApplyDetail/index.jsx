@@ -16,6 +16,8 @@ import TitleContiner from "./TitleContiner";
 
 import * as S from "./style";
 import { useHistory } from "react-router";
+import AskCompleteApplication from "../Common/Alert/AskCompleteApplication";
+import CompleteApplication from "../Common/Alert/CompleteApplication";
 
 ApplyDetailComponent.propTypes = {
   feedId: PropTypes.number.isRequired,
@@ -71,13 +73,16 @@ export default function ApplyDetailComponent({ feedId, date }) {
     feedEditApi(postId, data).then((res) => getFeedDetail(res.data.data.id));
   };
 
+  const [askApplyAlert,setAskApplyAlert] = useState(false);
+  const [endApplyAlert,setEndApplyAlert] = useState(false);
+  const applyAlert =() => {
+    setAskApplyAlert(true);
+  }
   const submit = async (postDoDateId) => {
-    let value = window.confirm("해당 날짜에 지원하시겠습니까?");
-    if (value) {
+    if (askApplyAlert) {
       applyApi(postDoDateId)
         .then((res) => {
-          alert("지원이 완료되었습니다");
-          history.push(`/profile/${user.name}`);
+          setEndApplyAlert(true);          
         })
         .catch((err) => {
           alert("지원이 실패하였습니다");
@@ -116,7 +121,10 @@ export default function ApplyDetailComponent({ feedId, date }) {
             apply={apply}
             submit={submit}
             feedDetailData={feedDetailData}
+            applyAlert={applyAlert}
           />
+          {askApplyAlert ? <AskCompleteApplication apply={apply} setAskApplyAlert={setAskApplyAlert} submit={submit}/>:null}
+          {endApplyAlert ? <CompleteApplication user={user}/>:null}
         </div>
       )}
     </S.FeedContainer>

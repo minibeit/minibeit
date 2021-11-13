@@ -6,8 +6,10 @@ import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
+import RegisterFeed from "../../Common/Alert/RegisterFeed";
 
 import * as S from "../style";
+import NotEnoughWrite from "../../Common/Alert/NotEnoughWrite";
 
 export default function Presenter({
   onChange,
@@ -23,6 +25,12 @@ export default function Presenter({
   setConfirmModal,
   confirmModal,
   submit,
+  setAskComplete, 
+  askComplete, 
+  setNotEnough, 
+  notEnough,
+  clickSubmit,
+  movePage
 }) {
   return (
     <S.InputPage>
@@ -177,7 +185,9 @@ export default function Presenter({
             />
           </S.Input>
         </S.InputBox>
-        <S.SaveBtn onClick={() => submit(recruit)}>작성완료</S.SaveBtn>
+        <S.SaveBtn onClick={clickSubmit}>작성완료</S.SaveBtn>
+        {askComplete ? <RegisterFeed  setAskComplete={setAskComplete} recruit={recruit} submit={submit}/> : null}
+        {notEnough ? <NotEnoughWrite  setNotEnough={setNotEnough} recruit={recruit} movePage={movePage}/> : null}
       </S.InputContainer>
     </S.InputPage>
   );

@@ -72,11 +72,12 @@ export default function RecruitComponent() {
           if (recruit.images.length !== 0) {
             feedAddfileApi(res.data.data.id, recruit.images);
           }
-          history.push(`/apply/${res.data.data.id}`);
+          history.push(`/recruit/complete/${res.data.data.id}`);
         })
         .catch((err) => alert("게시물 작성에 실패했습니다"));
       }
   };
+  console.log(recruit);
 
   const page = useRef();
   const movePage = (e) => {

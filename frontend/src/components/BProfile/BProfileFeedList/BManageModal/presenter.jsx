@@ -27,91 +27,90 @@ export default function Presenter({
           </S.UserInfoBox>
         </div>
       </S.DataNavBar>
-      <div>
-        {userList.map((time) => {
-          return (
-            <S.DateInfoBox key={time.postDoDateId}>
+      {userList.map((time, i) => {
+        return (
+          <S.DataNavBar key={i}>
+            <S.DateInfoBox>
               <div>
                 {time.userInfoList[0].startTime}-{time.userInfoList[0].endTime}
               </div>
-              <div>
-                {time.userInfoList.map((user) => {
-                  return (
-                    <>
-                      <S.UserInfoBox key={user.id}>
-                        <div>{user.name}</div>
-                        <div>{user.birth}</div>
-                        <div>{user.gender === "MALE" ? "남" : "여"}</div>
-                        <div>{user.phoneNum}</div>
-                        <div>{user.job}</div>
-                        {tab === "대기자" ? (
-                          user.status === "WAIT" ? (
-                            <S.ButtonBox>
-                              <button
-                                onClick={() =>
-                                  applyApprove(time.postDoDateId, user.id)
-                                }
-                              >
-                                확정
-                              </button>
-                              <button onClick={viewRejectInput}>반려</button>
-                            </S.ButtonBox>
-                          ) : (
-                            <S.ButtonBox>
-                              <button disabled={true}>확정</button>
-                              <button
-                                onClick={() =>
-                                  cancleApprove(time.postDoDateId, user.id)
-                                }
-                              >
-                                취소
-                              </button>
-                            </S.ButtonBox>
-                          )
+              {time.userInfoList.map((user, j) => {
+                return (
+                  <div key={j}>
+                    <S.UserInfoBox>
+                      <div>{user.name}</div>
+                      <div>{user.birth}</div>
+                      <div>{user.gender === "MALE" ? "남" : "여"}</div>
+                      <div>{user.phoneNum}</div>
+                      <div>{user.job}</div>
+                      {tab === "대기자" ? (
+                        user.status === "WAIT" ? (
+                          <S.ButtonBox>
+                            <S.Btn
+                              onClick={() =>
+                                applyApprove(time.postDoDateId, user.id)
+                              }
+                            >
+                              확정
+                            </S.Btn>
+                            <S.Btn onClick={viewRejectInput}>반려</S.Btn>
+                          </S.ButtonBox>
                         ) : (
                           <S.ButtonBox>
-                            <button disabled={true}>
-                              {user.isAttend ? "참여" : "불참"}
-                            </button>
-                            <button
-                              onClick={(e) => {
-                                changeAttend(
-                                  time.postDoDateId,
-                                  user.id,
-                                  user.isAttend
-                                );
-                              }}
+                            <S.Btn disabled={true}>확정</S.Btn>
+                            <S.Btn
+                              onClick={() =>
+                                cancleApprove(time.postDoDateId, user.id)
+                              }
                             >
-                              {user.isAttend ? "불참" : "참여"}
-                            </button>
+                              취소
+                            </S.Btn>
                           </S.ButtonBox>
-                        )}
-                      </S.UserInfoBox>
-                      <S.RejectInput style={{ display: "none" }}>
-                        <p>반려사유</p>
-                        <div>
-                          <input placeholder="반려사유를 작성해주세요" />
-                          <button
-                            onClick={(e) =>
-                              rejectApply(
+                        )
+                      ) : (
+                        <S.ButtonBox>
+                          <S.Btn disabled={true}>
+                            {user.isAttend ? "참여" : "불참"}
+                          </S.Btn>
+                          <S.Btn
+                            attend={user.isAttend}
+                            onClick={(e) => {
+                              changeAttend(
                                 time.postDoDateId,
                                 user.id,
-                                e.target.previousSibling.value
-                              )
-                            }
+                                user.isAttend
+                              );
+                            }}
                           >
-                            확인
-                          </button>
-                        </div>
-                      </S.RejectInput>
-                    </>
-                  );
-                })}
-              </div>
+                            {user.isAttend ? "불참" : "참여"}
+                          </S.Btn>
+                        </S.ButtonBox>
+                      )}
+                    </S.UserInfoBox>
+                    <S.RejectInput style={{ display: "none" }}>
+                      <p>반려사유</p>
+                      <div>
+                        <input placeholder="반려사유를 작성해주세요" />
+                        <S.Btn
+                          onClick={(e) =>
+                            rejectApply(
+                              time.postDoDateId,
+                              user.id,
+                              e.target.previousSibling.value
+                            )
+                          }
+                        >
+                          확인
+                        </S.Btn>
+                      </div>
+                    </S.RejectInput>
+                  </div>
+                );
+              })}
             </S.DateInfoBox>
-          );
-        })}
-      </div>
+          </S.DataNavBar>
+        );
+      })}
     </S.UserListView>
   );
 }

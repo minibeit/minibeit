@@ -37,10 +37,18 @@ export const ModalHeader = styled.div`
   }
   & > div:nth-child(2) {
     margin-left: auto;
-    & > input {
-      margin: 1rem;
-    }
   }
+`;
+export const CalendarBtn = styled.button`
+  margin: 1rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+`;
+export const CalendarWrapper = styled.div`
+  position: absolute;
+  z-index: 9999;
+  transform: translate(-73%, -5%);
 `;
 export const CloseModalBtn = styled.div`
   margin-right: 0.5rem;
@@ -152,14 +160,11 @@ export const UserInfoBox = styled.div`
   & > div:nth-child(2) {
     flex: 2;
   }
-  & > div:nth-child(3) {
-    flex: 0.5;
-  }
   & > div:nth-child(4) {
-    flex: 2;
+    flex: 2.5;
   }
   & > div:nth-child(6) {
-    flex: 2;
+    flex: 2.5;
   }
 `;
 
@@ -168,18 +173,20 @@ export const ButtonBox = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
-  & > button {
-    padding: 0.3rem 1rem;
-    border-radius: 1rem;
-    border: none;
-    color: white;
-    background: #0642ff;
-    cursor: pointer;
-    &:disabled {
-      background: none;
-      color: #b0b0b0;
-      cursor: inherit;
-    }
+`;
+
+export const Btn = styled.button`
+  padding: 0.3rem 1rem;
+  border-radius: 1rem;
+  border: ${({ attend }) =>
+    attend === false ? "1px solid #0642ff" : "1px solid white"};
+  color: ${({ attend }) => (attend === false ? "#0642ff" : "white")};
+  background: ${({ attend }) => (attend === false ? "white" : "#0642ff")};
+  cursor: pointer;
+  &:disabled {
+    background: none;
+    color: #b0b0b0;
+    cursor: inherit;
   }
 `;
 

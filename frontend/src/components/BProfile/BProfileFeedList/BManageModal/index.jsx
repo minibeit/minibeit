@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import moment from "moment";
+import Calendar from "react-calendar";
 import {
   approveOneApi,
   cancelOneApi,
@@ -12,20 +13,20 @@ import {
 import Portal from "../../../Common/Modal/Portal";
 import Presenter from "./presenter";
 import CloseIcon from "@mui/icons-material/Close";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import * as S from "./style";
 
 export default function BManageModal({ postId, setModalSwitch }) {
   const [tab, setTab] = useState("대기자");
   const [feedData, setFeedData] = useState({});
   const [userList, setUserList] = useState([]);
-
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  const [calendarView, setCalendarView] = useState(false);
 
   const getFeedData = useCallback(() => {
     feedDetailApi(postId, true)
       .then((res) => {
         setFeedData(res.data.data);
-        setDate(res.data.data.startDate);
       })
       .catch((err) => alert("데이터를 불러오지 못했습니다"));
   }, [postId]);
@@ -149,13 +150,27 @@ export default function BManageModal({ postId, setModalSwitch }) {
               <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
                 <CloseIcon />
               </S.CloseModalBtn>
-              <input
-                type="date"
-                id="start"
-                name="date"
-                defaultValue={date}
-                onChange={(e) => setDate(e.target.value)}
-              />
+              <S.CalendarBtn onClick={() => setCalendarView(!calendarView)}>
+                <CalendarTodayIcon />
+              </S.CalendarBtn>
+              {calendarView && (
+                <S.CalendarWrapper>
+                  <Calendar
+                    calendarType="US"
+                    defaultValue={new Date()}
+                    minDate={new Date(feedData.startDate)}
+                    maxDate={new Date(feedData.endDate)}
+                    onClickDay={(date) => {
+                      setDate(moment(date).format("YYYY-MM-DD"));
+                      setCalendarView(false);
+                    }}
+                    minDetail="month"
+                    next2Label={null}
+                    prev2Label={null}
+                    showNeighboringMonth={false}
+                  />
+                </S.CalendarWrapper>
+              )}
             </div>
           </S.ModalHeader>
           <S.ModalContent>

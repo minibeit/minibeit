@@ -187,6 +187,14 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
+    /**
+     *
+     * @param applyStatus
+     * @param user
+     * @param now
+     * @param pageable
+     * @return
+     */
     @Override
     public Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus applyStatus, User user, LocalDateTime now, Pageable pageable) {
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
@@ -208,11 +216,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private BooleanExpression applyStatusEq(ApplyStatus applyStatus, LocalDateTime now) {
         if (applyStatus.equals(ApplyStatus.WAIT)) {
-            return postApplicant.applyStatus.eq(ApplyStatus.WAIT).and(postDoDate.doDate.after(now));
+            return getApplyStatusAndAfterNow(applyStatus, now);
         }
         if (applyStatus.equals(ApplyStatus.APPROVE)) {
-            return postApplicant.applyStatus.eq(ApplyStatus.APPROVE).and(postApplicant.myFinish.isFalse());
+            return getApplyStatusAndAfterNow(applyStatus, now).and(postApplicant.myFinish.isFalse());
         }
         return null;
+    }
+
+    private BooleanExpression getApplyStatusAndAfterNow(ApplyStatus applyStatus, LocalDateTime now){
+        return postApplicant.applyStatus.eq(applyStatus).and(postDoDate.doDate.after(now));
     }
 }

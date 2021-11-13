@@ -63,7 +63,7 @@ class SchoolControllerTest extends MvcTest {
         results.andExpect(status().isOk())
                 .andDo(document("school-search",
                         requestParameters(
-                                parameterWithName("name").description("검색할 학교 이름('고' 라고 검색을 했다면 '고'로 시작하는 학교 리스트가 나옵니다.)")
+                                parameterWithName("name").description("검색할 학교 이름('고' 라고 검색을 했다면 '고'로 시작하는 학교 리스트가 나옵니다.")
                         ),
                         responseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),

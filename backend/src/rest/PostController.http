@@ -18,6 +18,7 @@ Content-Type: application/json;charset=UTF-8
   "doTime": 60,
   "schoolId": 17,
   "businessProfileId": 1,
+
   "startDate": "2021-11-12T09:30",
   "endDate": "2021-11-17T09:30",
   "doDateList": [
@@ -107,7 +108,7 @@ GET {{apiUrl}}/post/like/list?page=1&size=6
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/apply/list?page=1&size=4&status=WAIT
+GET {{apiUrl}}/post/apply/list?page=1&size=4&status=APPROVE
 Authorization: {{authorizationToken}}
 
 ###

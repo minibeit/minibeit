@@ -4,6 +4,7 @@ import com.minibeit.common.dto.ApiResult;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
+import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.PostService;
 import com.minibeit.security.userdetails.CurrentUser;
@@ -60,8 +61,8 @@ public class PostController {
     }
 
     @GetMapping("/like/list")
-    public ResponseEntity<ApiResult<Page<PostResponse.GetLikeList>>> getListByLike(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
-        Page<PostResponse.GetLikeList> response = postService.getListByLike(customUserDetails.getUser(), pageDto);
+    public ResponseEntity<ApiResult<Page<PostResponse.GetLikeList>>> getListByLike(PostStatus postStatus, PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+        Page<PostResponse.GetLikeList> response = postService.getListByLike(postStatus, customUserDetails.getUser(), pageDto);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 

@@ -39,16 +39,16 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         JPAQuery<Post> query = queryFactory.selectFrom(post).distinct()
                 .join(post.postDoDateList, postDoDate)
                 .join(post.businessProfile).fetchJoin()
-                .where(post.school.id.eq(schoolId)
-                        .and(postDoDate.doDate.year().eq(doDate.getYear())
-                                .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
-                                .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
+                .where((postDoDate.doDate.year().eq(doDate.getYear())
+                        .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
+                        .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth())))
                         .and(post.postStatus.eq(PostStatus.RECRUIT))
                         .and(paymentTypeEq(paymentType))
                         .and(categoryEq(category))
                         .and(minPayGoe(minPay))
                         .and(doTimeLoe(doTime))
-                        .and(startEndTimeBetween(doDate, startTime, endTime)))
+                        .and(startEndTimeBetween(doDate, startTime, endTime))
+                        .and(schoolIdEq(schoolId)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(post.id.desc());
@@ -58,6 +58,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
+    private BooleanExpression schoolIdEq(Long schoolId){
+        if (Objects.nonNull(schoolId) && !schoolId.equals(0L)) {
+            return post.school.id.eq(schoolId);
+        }
+        return null;
+    }
     private BooleanExpression paymentTypeEq(Payment paymentType) {
         if (Objects.nonNull(paymentType) && !paymentType.equals(Payment.ALL)) {
             return post.payment.eq(paymentType);
@@ -135,10 +141,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<Post> findAllByLike(User user, Pageable pageable) {
+    public Page<Post> findAllByLike(PostStatus postStatus, User user, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.postLikeList, postLike)
-                .where(postLike.user.id.eq(user.getId()))
+                .where(postLike.user.id.eq(user.getId())
+                .and(postStatusEq(postStatus)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(post.id.desc());
@@ -146,6 +153,16 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         QueryResults<Post> results = query.fetchResults();
 
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
+    }
+
+    private BooleanExpression postStatusEq(PostStatus postStatus) {
+        if (postStatus.equals(PostStatus.RECRUIT)) {
+            return post.postStatus.eq(postStatus);
+        }
+        if (postStatus.equals(PostStatus.COMPLETE)) {
+            return post.postStatus.eq(postStatus);
+        }
+        return null;
     }
 
     @Override

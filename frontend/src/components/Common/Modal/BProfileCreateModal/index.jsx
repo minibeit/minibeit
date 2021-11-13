@@ -48,7 +48,7 @@ export default function BProfileCreateModal({ setModalSwitch }) {
     bprofileNew(infoData)
       .then((res) => {
         setModalSwitch(false);
-        history.push(`/businesstest/${res.data.data.id}`);
+        history.push(`/business/${res.data.data.id}`);
       })
       .catch((err) => alert("수정 내용을 다시 한번 확인해주세요"));
   };

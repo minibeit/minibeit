@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -71,5 +72,16 @@ public class PostApplicant extends BaseEntity {
                 .build();
         postApplicant.setPostDoDate(postDoDate);
         return postApplicant;
+    }
+
+    public boolean duplicatedApply(List<PostDoDate> approvedDateByUser, LocalDateTime fromApplyDate, Integer doTime) {
+        LocalDateTime toApplyDate = fromApplyDate.plusMinutes(doTime);
+        for (PostDoDate fromApprovedDate : approvedDateByUser) {
+            LocalDateTime toApprovedDate = fromApprovedDate.getDoDate().plusMinutes(fromApprovedDate.getPost().getDoTime());
+            if (fromApprovedDate.getDoDate().isBefore(toApplyDate) && toApprovedDate.isAfter(fromApplyDate)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

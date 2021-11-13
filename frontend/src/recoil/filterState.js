@@ -29,6 +29,6 @@ export const schoolState = atom({
 export const categoryState = atom({
   key: "categoryState",
   default: {
-    category: "",
+    category: "ALL",
   },
 });

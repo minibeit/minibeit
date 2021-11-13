@@ -3,7 +3,7 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 {
-  "title": "커피를 얼마나 마셔야 잠을 못잘까요~",
+  "title": "테스트40",
   "content": "실험 내용",
   "place": "고려대학교 연구실",
   "contact": "010-1234-1234",
@@ -16,27 +16,28 @@ Content-Type: application/json;charset=UTF-8
   "condition": true,
   "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
   "doTime": 60,
-  "schoolId": 1,
+  "schoolId": 17,
   "businessProfileId": 1,
-  "startDate": "2021-09-25T09:30",
-  "endDate": "2021-10-02T12:30",
+
+  "startDate": "2021-11-12T09:30",
+  "endDate": "2021-11-17T09:30",
   "doDateList": [
     {
-      "doDate": "2021-09-27T10:30"
+      "doDate": "2021-11-12T10:00"
     },
     {
-      "doDate": "2021-09-28T20:30"
+      "doDate": "2021-11-14T20:30"
     },
     {
-      "doDate": "2021-09-30T11:30"
+      "doDate": "2021-11-15T11:30"
     },
     {
-      "doDate": "2021-10-02T12:30"
+      "doDate": "2021-11-16T12:30"
     },
     {
-      "doDate": "2021-10-06T09:30"
+      "doDate": "2021-11-17T09:30"
     }
-    ]
+  ]
 }
 
 ###
@@ -70,7 +71,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-POST {{apiUrl}}/post/3/completed
+POST {{apiUrl}}/post/82/completed
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 

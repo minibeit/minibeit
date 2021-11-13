@@ -41,6 +41,7 @@ export const ImgBox = styled.div`
   height: 10rem;
   display: inline-block;
   border-radius: 50%;
+  cursor: pointer;
 `;
 
 /* user */
@@ -178,13 +179,22 @@ export const BusinessListBox = styled.div`
   gap: 1rem;
   text-align: center;
   flex-direction: column;
-  & > p:first-child {
-    font-size: 1.5rem;
+  & > div:first-child {
+    display: flex;
+    justify-content: center;
   }
-  & > div:nth-child(3) {
+  & > div:nth-child(2) {
     display: flex;
     gap: 1rem;
     justify-content: center;
+  }
+`;
+export const BusinessHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  & > p:first-child {
+    font-size: 1.5rem;
   }
 `;
 export const BusinessProfile = styled.div`
@@ -194,6 +204,18 @@ export const BusinessProfile = styled.div`
   & > div:first-child {
     cursor: pointer;
   }
+`;
+export const DeleteBtn = styled.button`
+  position: relative;
+  transform: translate(400%, 70%);
+  border: none;
+  border-radius: 100%;
+  cursor: pointer;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 export const AddBProfileBtn = styled.div`
   background-color: #f1f1f1;

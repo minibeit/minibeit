@@ -1,7 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { bookmarkApi, feedDetailApi, feedEditApi } from "../../utils/feedApi";
-import ApplyConfirmModal from "../Common/Modal/ApplyConfirmModal";
+import {
+  applyApi,
+  bookmarkApi,
+  feedDetailApi,
+  feedEditApi,
+} from "../../utils/feedApi";
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import { applyState } from "../../recoil/applyState";
 import { userState } from "../../recoil/userState";
@@ -20,8 +24,7 @@ ApplyDetailComponent.propTypes = {
 
 export default function ApplyDetailComponent({ feedId, date }) {
   const [feedDetailData, setFeedDetailData] = useState();
-  const [modalSwitch, setModalSwitch] = useState(false);
-  const isLogin = useRecoilValue(userState).isLogin;
+  const user = useRecoilValue(userState);
   const apply = useRecoilValue(applyState);
   const history = useHistory();
 
@@ -29,7 +32,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
 
   const getFeedDetail = useCallback(
     (feedId) => {
-      feedDetailApi(feedId, isLogin)
+      feedDetailApi(feedId, user.isLogin)
         .then((res) => setFeedDetailData(res.data.data))
         .catch((err) => {
           if (err.response.status === 400) {
@@ -38,7 +41,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
           }
         });
     },
-    [isLogin, history]
+    [user.isLogin, history]
   );
 
   const postBookmark = async (postId) => {
@@ -68,6 +71,21 @@ export default function ApplyDetailComponent({ feedId, date }) {
     feedEditApi(postId, data).then((res) => getFeedDetail(res.data.data.id));
   };
 
+  const submit = async (postDoDateId) => {
+    let value = window.confirm("해당 날짜에 지원하시겠습니까?");
+    if (value) {
+      applyApi(postDoDateId)
+        .then((res) => {
+          alert("지원이 완료되었습니다");
+          history.push(`/profile/${user.name}`);
+        })
+        .catch((err) => {
+          alert("지원이 실패하였습니다");
+          //   신청한 실험일 때, 날짜를 고르지 않았을 때 에러 추가해야함
+        });
+    }
+  };
+
   useEffect(() => {
     getFeedDetail(feedId);
     resetApply();
@@ -80,7 +98,8 @@ export default function ApplyDetailComponent({ feedId, date }) {
           title={feedDetailData.title}
           businessProfileInfo={feedDetailData.businessProfileInfo}
           clickBookmark={clickBookmark}
-          isLogin={isLogin}
+          category={feedDetailData.category}
+          isLogin={user.isLogin}
           id={feedDetailData.id}
           isLike={feedDetailData.isLike}
           likes={feedDetailData.likes}
@@ -95,12 +114,9 @@ export default function ApplyDetailComponent({ feedId, date }) {
           />
           <ApplyController
             apply={apply}
+            submit={submit}
             feedDetailData={feedDetailData}
-            setModalSwitch={setModalSwitch}
           />
-          {modalSwitch ? (
-            <ApplyConfirmModal setModalSwitch={setModalSwitch} />
-          ) : null}
         </div>
       )}
     </S.FeedContainer>

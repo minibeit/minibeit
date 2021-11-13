@@ -7,6 +7,7 @@ CREATE TABLE `user`
     `oauth_id`     VARCHAR(50) NOT NULL,
     `name`         VARCHAR(50),
     `nickname`     VARCHAR(50),
+    `email`        VARCHAR(100),
     `job`          VARCHAR(50),
     `gender`       VARCHAR(10),
     `birth`        DATE,

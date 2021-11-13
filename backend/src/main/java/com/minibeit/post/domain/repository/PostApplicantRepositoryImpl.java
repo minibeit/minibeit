@@ -25,7 +25,7 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
     @Override
     public List<PostApplicantDto.UserInfo> findAllByPostAndDoDate(Long postId, ApplyStatus applyStatus, LocalDate doDate) {
         return queryFactory.select(new QPostApplicantDto_UserInfo(
-                        user.id, user.name, user.birth, user.gender, user.phoneNum, user.job, post.doTime, postApplicant.applyStatus, postApplicant.businessFinish, postDoDate.id, postDoDate.doDate
+                        user.id, user.name, user.email, user.birth, user.gender, user.phoneNum, user.job, post.doTime, postApplicant.applyStatus, postApplicant.businessFinish, postDoDate.id, postDoDate.doDate
                 ))
                 .from(postApplicant)
                 .join(postApplicant.user, user)
@@ -88,5 +88,18 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
                         .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE).and(postDoDate.doDate.after(now))))
                 .fetchFirst();
         return fetchOne != null;
+    }
+
+    @Override
+    public List<PostApplicant> findAllByUserIdAndDoDateAndStatusIsApprove(Long userId, LocalDateTime doDate) {
+        return queryFactory.selectFrom(postApplicant)
+                .join(postApplicant.postDoDate, postDoDate).fetchJoin()
+                .join(postDoDate.post).fetchJoin()
+                .where(postApplicant.user.id.eq(userId)
+                        .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE))
+                        .and(postDoDate.doDate.year().eq(doDate.getYear())
+                                .and(postDoDate.doDate.month().eq(doDate.getMonthValue()))
+                                .and(postDoDate.doDate.dayOfMonth().eq(doDate.getDayOfMonth()))))
+                .fetch();
     }
 }

@@ -146,6 +146,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
         PostApplicantDto.UserInfo userInfo1 = PostApplicantDto.UserInfo.builder()
                 .id(1L)
                 .name("동그라미")
+                .email("test1@test.com")
                 .birth(LocalDate.of(1999, 9, 9))
                 .gender(Gender.FEMALE)
                 .phoneNum("010-1234-0123")
@@ -159,6 +160,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
         PostApplicantDto.UserInfo userInfo2 = PostApplicantDto.UserInfo.builder()
                 .id(2L)
                 .name("네모")
+                .email("test2@test.com")
                 .birth(LocalDate.of(1980, 9, 9))
                 .gender(Gender.MALE)
                 .phoneNum("010-1124-0123")
@@ -172,6 +174,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
         PostApplicantDto.UserInfo userInfo3 = PostApplicantDto.UserInfo.builder()
                 .id(3L)
                 .name("세모")
+                .email("test3@test.com")
                 .birth(LocalDate.of(1997, 9, 9))
                 .gender(Gender.MALE)
                 .phoneNum("010-1234-6666")
@@ -212,6 +215,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                                 fieldWithPath("data.[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 실험 시작 시간 식별자"),
                                 fieldWithPath("data.[].userInfoList[].id").type(JsonFieldType.NUMBER).description("유저 식별자"),
                                 fieldWithPath("data.[].userInfoList[].name").type(JsonFieldType.STRING).description("유저 실명"),
+                                fieldWithPath("data.[].userInfoList[].email").type(JsonFieldType.STRING).description("유저 이메일"),
                                 fieldWithPath("data.[].userInfoList[].birth").type(JsonFieldType.STRING).description("생년월일"),
                                 fieldWithPath("data.[].userInfoList[].gender").type(JsonFieldType.STRING).description("성별"),
                                 fieldWithPath("data.[].userInfoList[].phoneNum").type(JsonFieldType.STRING).description("연락처"),

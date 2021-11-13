@@ -18,6 +18,7 @@ public class PostApplicantDto {
     public static class UserInfo {
         private Long id;
         private String name;
+        private String email;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         private LocalDate birth;
         private Gender gender;
@@ -33,9 +34,10 @@ public class PostApplicantDto {
 
         @Builder
         @QueryProjection
-        public UserInfo(Long id, String name, LocalDate birth, Gender gender, String phoneNum, String job, Integer time, ApplyStatus status, Boolean isAttend, Long postDoDateId, LocalDateTime startTime) {
+        public UserInfo(Long id, String name, String email, LocalDate birth, Gender gender, String phoneNum, String job, Integer time, ApplyStatus status, Boolean isAttend, Long postDoDateId, LocalDateTime startTime) {
             this.id = id;
             this.name = name;
+            this.email = email;
             this.birth = birth;
             this.gender = gender;
             this.phoneNum = phoneNum;

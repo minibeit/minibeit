@@ -27,7 +27,7 @@ export const TitleContent = styled.div`
     font-size: 2rem;
     font-weight: 600;
   }
-  & > a:nth-child(3) {
+  & > div:nth-child(3) {
     display: flex;
     align-items: center;
     color: black;
@@ -51,14 +51,7 @@ export const ContentBox = styled.div`
   padding: 1rem;
 `;
 export const DataBox = styled.div`
-  & > p:first-child {
-    font-size: 1.3rem;
-    font-weight: bold;
-    padding: 1rem;
-    border-bottom: 1px solid #c4c4c4;
-  }
   & > div:nth-child(2) {
-    padding: 1rem;
     & > ul {
       margin: 0 1rem 0 1rem;
       list-style: disc;
@@ -70,6 +63,19 @@ export const DataBox = styled.div`
       }
     }
   }
+`;
+export const DataHeader = styled.div`
+  border-bottom: 1px solid #c4c4c4;
+  display: flex;
+  & > p:first-child {
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 1rem;
+  }
+`;
+export const DataContent = styled.div`
+  min-height: 10rem;
+  padding: 1rem 0;
 `;
 
 /* date & time */
@@ -206,26 +212,25 @@ export const ApplyBtnGroup = styled.div`
 
 // apply detail imgs slider
 export const ApplyImgContainer = styled.div`
-display: flex;
-flex-direction: row;
-flex-wrap: wrap;
-gap: 5px;
-width: 430px;
-margin: 30px 0;
-
-& > div:nth-child(2) {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   gap: 5px;
-}
+  width: 430px;
+  margin: 30px 0;
+
+  & > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
 `;
 
 export const BigImg = styled.img`
-  width: 316px;
-  height: 316px;
+  width: 312px;
+  height: 312px;
   border-radius: 5px;
   object-fit: contain;
-  border: 1px solid gray;
   background-color: #000;
   cursor: pointer;
 `;
@@ -233,27 +238,24 @@ export const BigImg = styled.img`
 export const SmImg = styled.img`
   width: 100px;
   height: 100px;
-  border-radius: 5px;
+  border-radius: 3px;
   object-fit: contain;
   flex-grow: 1;
   border: 1px solid gray;
-  background-color: #E9E9E9;
+  background-color: #e9e9e9;
   cursor: pointer;
 `;
-
 
 export const Div = styled.div`
   position: relative;
   width: 100px;
   height: 100px;
-  top: -108px;
   background-color: rgba(80, 80, 80, 0.6);
-  border-radius: 5px;
-  border: 1px solid rgba(80, 80, 80, 0.6);
+  border-radius: 3px;
   font-size: 30px;
   line-height: 100px;
   color: #ffffff;
   text-align: center;
   z-index: 2;
   cursor: pointer;
-  `;
+`;

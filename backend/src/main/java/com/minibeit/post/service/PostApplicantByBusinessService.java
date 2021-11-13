@@ -6,6 +6,7 @@ import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.dto.PostApplicantDto;
 import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostApplicantResponse;
+import com.minibeit.post.service.exception.ExistedApplySameTimeException;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostDoDateIsFullException;
 import com.minibeit.user.domain.User;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -29,6 +31,12 @@ public class PostApplicantByBusinessService {
         PostDoDate postDoDate = postApplicant.getPostDoDate();
         Post post = postDoDate.getPost();
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
+
+        List<PostDoDate> approvedDateByUser = postApplicantRepository.findAllByUserIdAndDoDateAndStatusIsApprove(userId, postDoDate.getDoDate())
+                .stream().map(PostApplicant::getPostDoDate).collect(Collectors.toList());
+        if (postApplicant.duplicatedApply(approvedDateByUser, postDoDate.getDoDate(), post.getDoTime())) {
+            throw new ExistedApplySameTimeException();
+        }
 
         if (!postDoDate.applyIsPossible(postDoDate.getPost())) {
             throw new PostDoDateIsFullException();

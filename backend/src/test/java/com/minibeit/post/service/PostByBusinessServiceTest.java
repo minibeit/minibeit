@@ -15,7 +15,7 @@ import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
-import com.minibeit.post.service.exception.ExistApprovedApplicant;
+import com.minibeit.post.service.exception.ExistApprovedApplicantException;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
@@ -360,7 +360,7 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
     @DisplayName("게시물 삭제 - 실패(실험이 끝나지 않은 날짜에 확정자가 남아있는 경우)")
     void deleteOneExistApprovedApplicant() {
         assertThatThrownBy(() -> postByBusinessService.deleteOne(post.getId(), LocalDateTime.of(2021, 9, 29, 0, 0), userInBusinessProfile))
-                .isExactlyInstanceOf(ExistApprovedApplicant.class);
+                .isExactlyInstanceOf(ExistApprovedApplicantException.class);
     }
 
     @Test

@@ -10,7 +10,7 @@ import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
-import com.minibeit.post.service.exception.ExistApprovedApplicant;
+import com.minibeit.post.service.exception.ExistApprovedApplicantException;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
@@ -112,7 +112,7 @@ public class PostByBusinessService {
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
         if (postApplicantRepository.existsApproveAfterNow(postId, now)) {
-            throw new ExistApprovedApplicant();
+            throw new ExistApprovedApplicantException();
         }
         if (post.getPostFileList() != null) {
             for (PostFile postFile : post.getPostFileList()) {

@@ -73,14 +73,19 @@ export default function BManageModal({ postId, setModalSwitch }) {
     var RejectInput = e.target.parentNode.parentNode.nextSibling;
     if (RejectInput.style.display === "none") {
       RejectInput.style.display = "flex";
+
     } else {
       RejectInput.style.display = "none";
     }
   };
 
+  const [rejectAlert,setRejectAlert] =useState(false);
+  const rejectApplyAlert = () => {
+    setRejectAlert(true);
+  };
+
   const RejectApply = (postDoDateId, userId, comment) => {
-    let value = window.confirm("해당 실험자를 반려하시겠습니까?");
-    if (value) {
+    if (rejectAlert) {
       rejectOneApi(postDoDateId, userId, comment)
         .then((res) => {
           alert("해당 실험자의 실험 참여가 반려되었습니다");
@@ -145,6 +150,9 @@ export default function BManageModal({ postId, setModalSwitch }) {
               cancleApprove={cancleApprove}
               viewRejectInput={viewRejectInput}
               RejectApply={RejectApply}
+              rejectAlert={rejectAlert}
+              setRejectAlert={setRejectAlert}
+              rejectApplyAlert={rejectApplyAlert}
             />
           </S.ModalContent>
         </S.ModalBox>

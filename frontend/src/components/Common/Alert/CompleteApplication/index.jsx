@@ -23,7 +23,8 @@ export default function CompleteApplication ({user}) {
         <S.AlertBox>
           <S.AlertContent>
             <p>신청이 완료되었습니다.</p>
-            <p>검토 후 확정 알림을 보내드릴 예정입니다.</p>
+            <p>추후 개인 프로필의 확정된 목록을 통해<br/>
+            참여 확정을 확인해주세요.</p>
             <div>
               <S.GrayButton onClick={goHome}>홈으로 가기</S.GrayButton>
               <S.BlueButton onClick={()=>checkApply()}>신청내역 확인하기</S.BlueButton>

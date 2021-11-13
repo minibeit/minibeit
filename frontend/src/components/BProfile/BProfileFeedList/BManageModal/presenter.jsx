@@ -1,15 +1,18 @@
 import React from "react";
 import moment from "moment";
 import * as S from "./style";
+import RejectApplicant from "../../../Common/Alert/RejectApplicant";
 
 export default function Presenter({
   date,
   userList,
   applyApprove,
   cancleApprove,
-  viewRejectInput,
-  RejectApply,
-}) {
+  viewRejectInput, 
+  setRejectAlert, 
+  rejectAlert,
+  rejectApplyAlert
+}) {console.log(userList)
   return (
     <S.UserListView>
       <S.DataNavBar>
@@ -51,7 +54,7 @@ export default function Presenter({
                             >
                               확정
                             </button>
-                            <button onClick={viewRejectInput}>반려</button>
+                            <button onClick={viewRejectInput} >반려</button>
                           </div>
                         ) : (
                           <div>
@@ -70,15 +73,7 @@ export default function Presenter({
                         <p>반려사유</p>
                         <div>
                           <input placeholder="반려사유를 작성해주세요" />
-                          <button
-                            onClick={(e) =>
-                              RejectApply(
-                                time.postDoDateId,
-                                user.id,
-                                e.target.previousSibling.value
-                              )
-                            }
-                          >
+                          <button onClick={rejectApplyAlert} >
                             확인
                           </button>
                         </div>
@@ -87,6 +82,7 @@ export default function Presenter({
                   );
                 })}
               </div>
+              {rejectAlert ? <RejectApplicant userList={userList} setRejectAlert={setRejectAlert} />:null}
             </S.DateInfoBox>
           );
         })}

@@ -6,10 +6,11 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 // 정말로 반려할것인지 물어보는 알림창
 
-export default function RejectApplicant ({setAlertSwitch}) {
+export default function RejectApplicant ({setRejectAlert, RejectApply, userList}) {
   const closeAlert = () => {
-    setAlertSwitch(false);
+    setRejectAlert(false);
   };
+
   return (
     <Portal>
       <S.AlertBackground>
@@ -21,7 +22,7 @@ export default function RejectApplicant ({setAlertSwitch}) {
             </p>
             <div>
               <S.GrayButton onClick={closeAlert}>아니오, 관둘래요</S.GrayButton>
-              <S.BlueButton>네, 반려할래요</S.BlueButton>
+              <S.BlueButton >네, 반려할래요</S.BlueButton>
             </div>
           </S.AlertContent>
         </S.AlertBox>

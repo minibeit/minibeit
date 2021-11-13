@@ -7,6 +7,7 @@ import {
   getApproveListApi,
   getWaitListApi,
   rejectOneApi,
+  setAttendApi,
 } from "../../../../utils";
 import Portal from "../../../Common/Modal/Portal";
 import Presenter from "./presenter";
@@ -78,12 +79,32 @@ export default function BManageModal({ postId, setModalSwitch }) {
     }
   };
 
-  const RejectApply = (postDoDateId, userId, comment) => {
+  const rejectApply = (postDoDateId, userId, comment) => {
     let value = window.confirm("해당 실험자를 반려하시겠습니까?");
     if (value) {
       rejectOneApi(postDoDateId, userId, comment)
         .then((res) => {
           alert("해당 실험자의 실험 참여가 반려되었습니다");
+          getList();
+        })
+        .catch((err) =>
+          alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
+        );
+    }
+  };
+
+  const changeAttend = (postDoDateId, userId, status) => {
+    let value = window.confirm(
+      `해당 실험자를 ${status ? "'불참'" : "'참여'"} 처리하시겠습니까?`
+    );
+    if (value) {
+      setAttendApi(postDoDateId, userId, status ? false : true)
+        .then((res) => {
+          alert(
+            `해당 실험자의 실험 참여가 ${
+              status ? "'불참'" : "'참여'"
+            } 처리되었습니다`
+          );
           getList();
         })
         .catch((err) =>
@@ -139,12 +160,14 @@ export default function BManageModal({ postId, setModalSwitch }) {
           </S.ModalHeader>
           <S.ModalContent>
             <Presenter
+              tab={tab}
               date={date}
               userList={userList}
               applyApprove={applyApprove}
               cancleApprove={cancleApprove}
               viewRejectInput={viewRejectInput}
-              RejectApply={RejectApply}
+              rejectApply={rejectApply}
+              changeAttend={changeAttend}
             />
           </S.ModalContent>
         </S.ModalBox>

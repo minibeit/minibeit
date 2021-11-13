@@ -129,6 +129,8 @@ export const DateInfoBox = styled.div`
   padding: 0.5rem 0;
   & > div:first-child {
     flex: 1;
+    align-items: center;
+    display: flex;
   }
   & > div:nth-child(2) {
     flex: 5;
@@ -158,21 +160,25 @@ export const UserInfoBox = styled.div`
   }
   & > div:nth-child(6) {
     flex: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    & > button {
-      padding: 0.3rem 1rem;
-      border-radius: 1rem;
-      border: none;
-      color: white;
-      background: #0642ff;
-      cursor: pointer;
-      &:disabled {
-        background: none;
-        color: #b0b0b0;
-      }
+  }
+`;
+
+export const ButtonBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  & > button {
+    padding: 0.3rem 1rem;
+    border-radius: 1rem;
+    border: none;
+    color: white;
+    background: #0642ff;
+    cursor: pointer;
+    &:disabled {
+      background: none;
+      color: #b0b0b0;
+      cursor: inherit;
     }
   }
 `;

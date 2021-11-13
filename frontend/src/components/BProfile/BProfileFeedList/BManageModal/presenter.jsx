@@ -3,12 +3,14 @@ import moment from "moment";
 import * as S from "./style";
 
 export default function Presenter({
+  tab,
   date,
   userList,
   applyApprove,
   cancleApprove,
   viewRejectInput,
-  RejectApply,
+  rejectApply,
+  changeAttend,
 }) {
   return (
     <S.UserListView>
@@ -42,28 +44,47 @@ export default function Presenter({
                         <div>{user.gender === "MALE" ? "남" : "여"}</div>
                         <div>{user.phoneNum}</div>
                         <div>{user.job}</div>
-                        {user.status === "WAIT" ? (
-                          <div>
-                            <button
-                              onClick={() =>
-                                applyApprove(time.postDoDateId, user.id)
-                              }
-                            >
-                              확정
-                            </button>
-                            <button onClick={viewRejectInput}>반려</button>
-                          </div>
+                        {tab === "대기자" ? (
+                          user.status === "WAIT" ? (
+                            <S.ButtonBox>
+                              <button
+                                onClick={() =>
+                                  applyApprove(time.postDoDateId, user.id)
+                                }
+                              >
+                                확정
+                              </button>
+                              <button onClick={viewRejectInput}>반려</button>
+                            </S.ButtonBox>
+                          ) : (
+                            <S.ButtonBox>
+                              <button disabled={true}>확정</button>
+                              <button
+                                onClick={() =>
+                                  cancleApprove(time.postDoDateId, user.id)
+                                }
+                              >
+                                취소
+                              </button>
+                            </S.ButtonBox>
+                          )
                         ) : (
-                          <div>
-                            <button disabled={true}>확정</button>
-                            <button
-                              onClick={() =>
-                                cancleApprove(time.postDoDateId, user.id)
-                              }
-                            >
-                              취소
+                          <S.ButtonBox>
+                            <button disabled={true}>
+                              {user.isAttend ? "참여" : "불참"}
                             </button>
-                          </div>
+                            <button
+                              onClick={(e) => {
+                                changeAttend(
+                                  time.postDoDateId,
+                                  user.id,
+                                  user.isAttend
+                                );
+                              }}
+                            >
+                              {user.isAttend ? "불참" : "참여"}
+                            </button>
+                          </S.ButtonBox>
                         )}
                       </S.UserInfoBox>
                       <S.RejectInput style={{ display: "none" }}>
@@ -72,7 +93,7 @@ export default function Presenter({
                           <input placeholder="반려사유를 작성해주세요" />
                           <button
                             onClick={(e) =>
-                              RejectApply(
+                              rejectApply(
                                 time.postDoDateId,
                                 user.id,
                                 e.target.previousSibling.value

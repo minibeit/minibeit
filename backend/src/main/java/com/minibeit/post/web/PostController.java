@@ -61,7 +61,7 @@ public class PostController {
     }
 
     @GetMapping("/like/list")
-    public ResponseEntity<ApiResult<Page<PostResponse.GetLikeList>>> getListByLike(@RequestParam(name = "postStatus") PostStatus postStatus, PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<Page<PostResponse.GetLikeList>>> getListByLike(PostStatus postStatus, PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
         Page<PostResponse.GetLikeList> response = postService.getListByLike(postStatus, customUserDetails.getUser(), pageDto);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }

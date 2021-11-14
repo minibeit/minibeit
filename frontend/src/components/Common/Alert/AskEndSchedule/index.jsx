@@ -9,14 +9,9 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 // {alertSwitch===1 ? <AskEndSchedule setAlertSwitch={setAlertSwitch}/>:null}
 // {alertSwitch===2 ? <EndSchedule setAlertSwitch={setAlertSwitch}/>:null}
 
-export default function AskEndSchedule({setEndAlert}) {
+export default function AskEndSchedule({setEndAlert, deleteFeed, data}) {
   const closeAlert = () => {
     setEndAlert(0);
-  };
-
- 
-  const onClick2 = () => {
-    setEndAlert(2);
   };
 
   return (
@@ -30,7 +25,7 @@ export default function AskEndSchedule({setEndAlert}) {
             해당 일정의 참여자 명단이 사라져요.</p>
             <div>
             <S.GrayButton onClick={closeAlert}>아니오, 관둘래요</S.GrayButton>
-            <S.BlueButton onClick={onClick2}>네, 종료됐어요</S.BlueButton>
+            <S.BlueButton onClick={()=>deleteFeed(data.id)}>네, 종료됐어요</S.BlueButton>
             </div>
           </S.AlertContent>
         </S.AlertBox>

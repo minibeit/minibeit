@@ -71,7 +71,7 @@ public class PostService {
     }
 
     @Transactional
-    public void deleteLikes(User user){
+    public void deleteLikeOfCompletedPost(User user){
         List<PostLike> allByUserId = postLikeRepository.findAllByUserId(user.getId());
         allByUserId.stream()
                 .filter(postLike -> postLike.getPost().getPostStatus().equals(PostStatus.COMPLETE))

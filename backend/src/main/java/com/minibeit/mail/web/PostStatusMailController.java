@@ -24,10 +24,7 @@ public class PostStatusMailController {
     @PostMapping("/post/mail")
     public ResponseEntity<ApiResult<Void>> sendMail(@RequestBody PostStatusMailRequest postStatusMailRequest) {
 
-        postStatusMailRequest.getToEmail().forEach(mail -> PostStatusMail.create(postStatusMailRequest.getPostMailCondition(), mail));
-        List<PostStatusMail> collect = postStatusMailRequest.getToEmail().stream().map(email -> PostStatusMail.create(postStatusMailRequest.getPostMailCondition(), email)).collect(Collectors.toList());
-
-        collect.forEach(postStatusMailService::mailSend);
+        postStatusMailService.mailSend(postStatusMailRequest.getPostMailCondition(), postStatusMailRequest.getToEmail());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 }

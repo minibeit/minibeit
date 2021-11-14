@@ -525,14 +525,14 @@ class PostServiceTest extends ServiceIntegrationTest {
 
     @Test
     @DisplayName("즐겨찾기 목록에서 모집완료된 게시물 일괄삭제 - 성공")
-    void deleteLikes() {
+    void deleteLikeOfCompletedPost() {
         initPostForLike();
         Post completedPost = postRepository.save(Post.builder().content("내용2").title("모집 제목2").postStatus(PostStatus.COMPLETE).build());
         PostLike postLike = PostLike.create(completedPost, testUser);
         postLikeRepository.save(postLike);
 
         int beforeLikes = postLikeRepository.findAllByUserId(testUser.getId()).size();
-        postService.deleteLikes(testUser);
+        postService.deleteLikeOfCompletedPost(testUser);
         int afterLikes = postLikeRepository.findAllByUserId(testUser.getId()).size();
         assertThat(beforeLikes - 1).isEqualTo(afterLikes);
     }

@@ -81,8 +81,8 @@ public class PostController {
     }
 
     @DeleteMapping("/likes")
-    public ResponseEntity<ApiResult<Void>> deleteLikes(@CurrentUser CustomUserDetails customUserDetails){
-        postService.deleteLikes(customUserDetails.getUser());
+    public ResponseEntity<ApiResult<Void>> deleteLikeOfCompletedPost(@CurrentUser CustomUserDetails customUserDetails){
+        postService.deleteLikeOfCompletedPost(customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 }

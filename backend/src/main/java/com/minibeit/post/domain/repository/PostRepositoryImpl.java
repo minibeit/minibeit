@@ -187,14 +187,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
-    /**
-     *
-     * @param applyStatus
-     * @param user
-     * @param now
-     * @param pageable
-     * @return
-     */
     @Override
     public Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus applyStatus, User user, LocalDateTime now, Pageable pageable) {
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
@@ -206,8 +198,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .where(postApplicant.user.eq(user)
                         .and(applyStatusEq(applyStatus, now)))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(postDoDate.doDate.asc());
+                .limit(pageable.getPageSize());
+
+        if(applyStatus.equals(ApplyStatus.APPROVE)){
+            query.orderBy(postDoDate.doDate.asc());
+        }
+
+        if(applyStatus.equals(ApplyStatus.WAIT)){
+            query.orderBy(postApplicant.id.desc());
+        }
 
         QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
 
@@ -225,6 +224,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     private BooleanExpression getApplyStatusAndAfterNow(ApplyStatus applyStatus, LocalDateTime now){
-        return postApplicant.applyStatus.eq(applyStatus).and(postDoDate.doDate.after(now));
+        return postApplicant.applyStatus.eq(applyStatus).and(postDoDate.doDate.goe(now));
     }
 }

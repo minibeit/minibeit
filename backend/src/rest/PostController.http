@@ -108,7 +108,7 @@ GET {{apiUrl}}/post/like/list?page=1&size=6
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/apply/list?page=1&size=4&status=APPROVE
+GET {{apiUrl}}/post/apply/list?page=1&size=4&status=WAIT
 Authorization: {{authorizationToken}}
 
 ###

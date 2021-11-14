@@ -1,6 +1,6 @@
 import React from "react";
-import  MainComponent from "../../components/Main";
-import { SignupInfoForm } from "../../components/SignupInfo";
+import MainComponent from "../../components/Main";
+import SignUpComponent from "../../components/SignUp";
 import { NavBar } from "../../components/Common";
 
 export default function SignupInfo() {
@@ -8,7 +8,7 @@ export default function SignupInfo() {
     <>
       <NavBar />
       <MainComponent />
-      <SignupInfoForm />
+      <SignUpComponent />
     </>
   );
 }

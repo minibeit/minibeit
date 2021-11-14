@@ -48,7 +48,11 @@ export default function Presenter({
                           <S.ButtonBox>
                             <S.Btn
                               onClick={() =>
-                                applyApprove(time.postDoDateId, user.id)
+                                applyApprove(
+                                  time.postDoDateId,
+                                  user.id,
+                                  user.email
+                                )
                               }
                             >
                               확정
@@ -60,7 +64,11 @@ export default function Presenter({
                             <S.Btn disabled={true}>확정</S.Btn>
                             <S.Btn
                               onClick={() =>
-                                cancleApprove(time.postDoDateId, user.id)
+                                cancleApprove(
+                                  time.postDoDateId,
+                                  user.id,
+                                  user.email
+                                )
                               }
                             >
                               취소
@@ -91,17 +99,18 @@ export default function Presenter({
                       <p>반려사유</p>
                       <div>
                         <input placeholder="반려사유를 작성해주세요" />
-                        <S.Btn
+                        <button
                           onClick={(e) =>
                             rejectApply(
                               time.postDoDateId,
                               user.id,
-                              e.target.previousSibling.value
+                              e.target.previousSibling.value,
+                              user.email
                             )
                           }
                         >
                           확인
-                        </S.Btn>
+                        </button>
                       </div>
                     </S.RejectInput>
                   </div>

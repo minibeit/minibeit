@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -20,8 +23,11 @@ public class PostStatusMailController {
 
     @PostMapping("/post/mail")
     public ResponseEntity<ApiResult<Void>> sendMail(@RequestBody PostStatusMailRequest postStatusMailRequest) {
-        PostStatusMail postStatusMail = PostStatusMail.create(postStatusMailRequest.getPostMailCondition(), postStatusMailRequest.getToEmail());
-        postStatusMailService.mailSend(postStatusMail);
+
+        postStatusMailRequest.getToEmail().forEach(mail -> PostStatusMail.create(postStatusMailRequest.getPostMailCondition(), mail));
+        List<PostStatusMail> collect = postStatusMailRequest.getToEmail().stream().map(email -> PostStatusMail.create(postStatusMailRequest.getPostMailCondition(), email)).collect(Collectors.toList());
+
+        collect.forEach(postStatusMailService::mailSend);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 }

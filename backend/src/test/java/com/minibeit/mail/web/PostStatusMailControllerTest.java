@@ -12,6 +12,8 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.List;
+
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -25,9 +27,9 @@ class PostStatusMailControllerTest extends MvcTest {
     private PostStatusMailService postStatusMailService;
 
     @Test
-    @DisplayName("승인,반려,승인취소 메일 전송 문서화")
+    @DisplayName("승인,반려,승인취소,참가취소 메일 전송 문서화")
     public void createInfo() throws Exception {
-        PostStatusMailRequest request = PostStatusMailRequest.builder().postMailCondition(PostMailCondition.APPROVE).toEmail("test@test.com").build();
+        PostStatusMailRequest request = PostStatusMailRequest.builder().postMailCondition(PostMailCondition.APPLICANTCANCEL).toEmail(List.of("test@test.com", "test2@test.com")).build();
 
         ResultActions results = mvc.perform(post("/api/post/mail")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -39,8 +41,8 @@ class PostStatusMailControllerTest extends MvcTest {
                 .andDo(print())
                 .andDo(document("post-mail",
                         requestFields(
-                                fieldWithPath("postMailCondition").type(JsonFieldType.STRING).description("APPROVE(확정알림메일), REJECT(반려알림메일), APPROVECANCEL(확정취소메일)"),
-                                fieldWithPath("toEmail").type(JsonFieldType.STRING).description("보낼 사람 이메일 주소")
+                                fieldWithPath("postMailCondition").type(JsonFieldType.STRING).description("APPROVE(확정알림메일), REJECT(반려알림메일), APPROVECANCEL(확정취소메일), APPLICANTCANCEL(참가자취소메일)"),
+                                fieldWithPath("toEmail.[]").type(JsonFieldType.ARRAY).description("보낼 사람 이메일 주소")
                         ),
                         responseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),

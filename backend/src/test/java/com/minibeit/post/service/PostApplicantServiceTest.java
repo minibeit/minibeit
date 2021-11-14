@@ -9,6 +9,7 @@ import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
+import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
@@ -54,6 +55,8 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
     private UserRepository userRepository;
     @Autowired
     private UserBusinessProfileRepository userBusinessProfileRepository;
+    @Autowired
+    private PostLikeRepository postLikeRepository;
 
     private User userInBusinessProfile;
     private User applyUser1;
@@ -246,12 +249,19 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
     @DisplayName("게시물 지원하기 - 성공")
     public void apply() {
         initApplyPost();
+        postLikeRepository.save(PostLike.builder().id(1L).post(recruitPost).user(applyUser1).build());
+        int beforeLikes = postLikeRepository.findAll().size();
+
+
         postApplicantService.apply(recruitPostPostDoDate1.getId(), applyUser1);
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(recruitPostPostDoDate1.getId(), applyUser1.getId()).orElseThrow(PostApplicantNotFoundException::new);
         assertThat(postApplicant.getApplyStatus()).isEqualTo(ApplyStatus.WAIT);
         assertThat(postApplicant.isMyFinish()).isEqualTo(false);
         assertThat(postApplicant.isBusinessFinish()).isEqualTo(true);
         assertThat(postApplicant.isWriteReview()).isEqualTo(false);
+
+        int afterLikes = postLikeRepository.findAll().size();
+        assertThat(beforeLikes - 1 ).isEqualTo(afterLikes);
     }
 
     @Test

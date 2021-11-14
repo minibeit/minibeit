@@ -80,7 +80,14 @@ export default function BManageModal({ postId, setModalSwitch }) {
   };
 
   const [rejectAlert,setRejectAlert] =useState(false);
-  const rejectApplyAlert = () => {
+  const [rejectUserInfo, setRejectUserInfo] = useState();
+  const [reason, setReason] = useState(['']);
+
+  const inputReason = (e) => {
+    setReason(e.target.value);
+  }
+  const rejectApplyAlert = (user) => {
+    setRejectUserInfo(user);
     setRejectAlert(true);
   };
 
@@ -89,6 +96,8 @@ export default function BManageModal({ postId, setModalSwitch }) {
       rejectOneApi(postDoDateId, userId, comment)
         .then((res) => {
           alert("해당 실험자의 실험 참여가 반려되었습니다");
+          setRejectAlert(false);
+          setReason(null);
           getList();
         })
         .catch((err) =>
@@ -153,6 +162,9 @@ export default function BManageModal({ postId, setModalSwitch }) {
               rejectAlert={rejectAlert}
               setRejectAlert={setRejectAlert}
               rejectApplyAlert={rejectApplyAlert}
+              rejectUserInfo={rejectUserInfo}
+              reason={reason}
+              inputReason={inputReason}
             />
           </S.ModalContent>
         </S.ModalBox>

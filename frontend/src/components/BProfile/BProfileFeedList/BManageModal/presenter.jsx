@@ -11,8 +11,13 @@ export default function Presenter({
   viewRejectInput, 
   setRejectAlert, 
   rejectAlert,
-  rejectApplyAlert
-}) {console.log(userList)
+  rejectApplyAlert,
+  rejectUserInfo,
+  RejectApply,
+  reason,
+  inputReason
+}) {
+
   return (
     <S.UserListView>
       <S.DataNavBar>
@@ -69,24 +74,25 @@ export default function Presenter({
                           </div>
                         )}
                       </S.UserInfoBox>
-                      <S.RejectInput style={{ display: "none" }}>
+                      <S.RejectInput style={{ display: "none" }}>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
                         <p>반려사유</p>
                         <div>
-                          <input placeholder="반려사유를 작성해주세요" />
-                          <button onClick={rejectApplyAlert} >
+                          <input placeholder="반려사유를 작성해주세요" value={reason} onChange={inputReason}/>
+                          <button onClick={()=>rejectApplyAlert(user)}>
                             확인
                           </button>
                         </div>
                       </S.RejectInput>
+                      {rejectAlert && <RejectApplicant reason={reason} rejectUserInfo={rejectUserInfo} RejectApply={RejectApply} setRejectAlert={setRejectAlert} />}
                     </>
                   );
                 })}
               </div>
-              {rejectAlert ? <RejectApplicant userList={userList} setRejectAlert={setRejectAlert} />:null}
             </S.DateInfoBox>
           );
         })}
       </div>
+      
     </S.UserListView>
   );
 }

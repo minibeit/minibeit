@@ -69,4 +69,13 @@ public class PostService {
     public Page<PostResponse.GetMyCompletedList> getListByMyCompleteList(User user, PageDto pageDto) {
         return postRepository.findAllByMyCompleted(user, pageDto.of());
     }
+
+    @Transactional
+    public void deleteLikes(User user){
+        List<PostLike> allByUserId = postLikeRepository.findAllByUserId(user.getId());
+        allByUserId.stream()
+                .filter(postLike -> postLike.getPost().getPostStatus().equals(PostStatus.COMPLETE))
+                .map(postLike -> postLike.getPost().getId())
+                .forEach(postLikeRepository::deleteByPostId);
+    }
 }

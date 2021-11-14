@@ -455,4 +455,22 @@ class PostControllerTest extends MvcTest {
                         )
                 ));
     }
+
+    @Test
+    @DisplayName("즐겨찾기 목록에서 모집완료된 게시물 일괄삭제 문서화")
+    public void deleteLikes() throws Exception {
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .delete("/api/post/likes"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-like-delete",
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
+                        )
+                ));
+    }
 }

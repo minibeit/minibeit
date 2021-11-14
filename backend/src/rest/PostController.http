@@ -123,5 +123,7 @@ Authorization: {{authorizationToken}}
 GET {{apiUrl}}/post/business/profile/1/list?page=1&size=1&status=COMPLETE
 Authorization: {{authorizationToken}}
 
-
+###
+DELETE {{apiUrl}}/post/likes
+Authorization: {{authorizationToken}}
 

@@ -79,4 +79,10 @@ public class PostController {
         Page<PostResponse.GetMyCompletedList> response = postService.getListByMyCompleteList(customUserDetails.getUser(), pageDto);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
+
+    @DeleteMapping("/likes")
+    public ResponseEntity<ApiResult<Void>> deleteLikes(@CurrentUser CustomUserDetails customUserDetails){
+        postService.deleteLikes(customUserDetails.getUser());
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
+    }
 }

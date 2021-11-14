@@ -3,11 +3,11 @@ import Portal from "../Portal";
 import * as S from "./style";
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
-// 현재 모집중인 실험이 있음을 알려주는 알림창
+// 현재 모집중인 실험이 있는데 비즈니스 프로필을 삭제할때를 알려주는 알림창
 
-export default function Recruting({setAlertSwitch}) {
+export default function Recruting({setDeleteAlert}) {
   const closeAlert = () => {
-    setAlertSwitch(false);
+    setDeleteAlert(0);
   };
   return (
     <Portal>

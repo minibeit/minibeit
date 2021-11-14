@@ -6,9 +6,9 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 // 비즈니스 프로필 삭제 확인
 
-export default function DeliteBProfile({setAlertSwitch}) {
+export default function DeliteBProfile({a, setDeleteAlert, deleteBusiness}) {
   const closeAlert = () => {
-    setAlertSwitch(false);
+    setDeleteAlert(0);
   };
   return (
     <Portal>
@@ -22,7 +22,7 @@ export default function DeliteBProfile({setAlertSwitch}) {
             </p>
             <div>
               <S.GrayButton onClick={closeAlert}>아니오, 관둘래요</S.GrayButton>
-              <S.BlueButton>네, 삭제할래요</S.BlueButton>
+              <S.BlueButton onClick={()=>deleteBusiness(a)}>네, 삭제할래요</S.BlueButton>
             </div>
           </S.AlertContent>
         </S.AlertBox>

@@ -198,8 +198,15 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .where(postApplicant.user.eq(user)
                         .and(applyStatusEq(applyStatus, now)))
                 .offset(pageable.getOffset())
-                .limit(pageable.getPageSize())
-                .orderBy(postDoDate.doDate.asc());
+                .limit(pageable.getPageSize());
+
+        if(applyStatus.equals(ApplyStatus.APPROVE)){
+            query.orderBy(postDoDate.doDate.asc());
+        }
+
+        if(applyStatus.equals(ApplyStatus.WAIT)){
+            query.orderBy(postApplicant.id.desc());
+        }
 
         QueryResults<PostResponse.GetMyApplyList> results = query.fetchResults();
 
@@ -208,10 +215,10 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private BooleanExpression applyStatusEq(ApplyStatus applyStatus, LocalDateTime now) {
         if (applyStatus.equals(ApplyStatus.WAIT)) {
-            return postApplicant.applyStatus.eq(ApplyStatus.WAIT).and(postDoDate.doDate.after(now));
+            return postApplicant.applyStatus.eq(applyStatus).and(postDoDate.doDate.goe(now));
         }
         if (applyStatus.equals(ApplyStatus.APPROVE)) {
-            return postApplicant.applyStatus.eq(ApplyStatus.APPROVE).and(postApplicant.myFinish.isFalse());
+            return postApplicant.applyStatus.eq(applyStatus).and(postDoDate.doDate.goe(now)).and(postApplicant.myFinish.isFalse());
         }
         return null;
     }

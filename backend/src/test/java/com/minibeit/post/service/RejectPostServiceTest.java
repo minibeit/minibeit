@@ -69,7 +69,7 @@ class RejectPostServiceTest extends ServiceIntegrationTest {
                     .place("고려대")
                     .contact("010-1234-1234")
                     .doTime(120)
-                    .doDate(LocalDateTime.of(2021, 10, 5, 12, 0))
+                    .doDate(LocalDateTime.of(2021, 10, 5, i, 0))
                     .rejectComment("모집조건에 해당하지 않습니다.")
                     .user(testUser)
                     .build();
@@ -84,7 +84,7 @@ class RejectPostServiceTest extends ServiceIntegrationTest {
         PageDto pageDto = new PageDto(1, 5);
         Page<RejectPostResponse.GetList> response = rejectPostService.getList(pageDto, testUser);
 
-        assertThat(response.getContent()).extracting("title").containsExactlyElementsOf(Arrays.asList("반려3", "반려2", "반려1"));
+        assertThat(response.getContent()).extracting("title").containsExactlyElementsOf(Arrays.asList("반려1", "반려2", "반려3"));
     }
 
     @Test

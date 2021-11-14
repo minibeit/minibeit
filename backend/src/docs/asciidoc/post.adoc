@@ -181,6 +181,7 @@ include::{snippets}/post-myCompleted-list/response-fields.adoc[]
 === 자신이 반려된 게시물 목록 조회
 
 `GET /api/rejectPost/list`
+
 요청 HTTP
 include::{snippets}/rejectPost-getList/http-request.adoc[]
 include::{snippets}/rejectPost-getList/request-parameters.adoc[]

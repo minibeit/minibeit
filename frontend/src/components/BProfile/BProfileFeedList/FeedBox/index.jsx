@@ -7,6 +7,8 @@ import FeedCloseModal from "../FeedCloseModal";
 import BManageModal from "../BManageModal";
 
 import * as S from "../../style";
+import EndSchedule from "../../../Common/Alert/EndSchedule";
+import AskEndSchedule from "../../../Common/Alert/AskEndSchedule";
 
 export default function FeedBox({ status, data, changeFeedData }) {
   const [manageModal, setManageModal] = useState(false);
@@ -16,11 +18,19 @@ export default function FeedBox({ status, data, changeFeedData }) {
     await feedDeleteApi(id)
       .then(() => {
         alert("게시물이 삭제되었습니다.");
+        setEndAlert(0);
         changeFeedData("완료된 모집공고");
       })
-      .catch(() => alert("삭제할 수 없는 게시물입니다"));
+      .catch(() => {
+      alert("삭제할 수 없는 게시물입니다. 확정자가 있는지 확인해주세요.");
+      setEndAlert(0);
+      });
   };
 
+  const [endAlert, setEndAlert] = useState(0);
+  const endOn = () => {
+    setEndAlert(1);
+  }
   return (
     <>
       <S.FeedLabel>
@@ -75,8 +85,10 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <button onClick={() => deleteFeed(data.id)}>일정종료</button>
+                <button onClick={endOn}>일정종료</button>
               </S.FeedButton>
+            {endAlert===1 && <AskEndSchedule setEndAlert={setEndAlert} />}
+            {endAlert===2 && <EndSchedule setEndAlert={setEndAlert} deleteFeed={deleteFeed} data={data}/>}
             </>
           )}
           {status === "후기 모아보기" && (

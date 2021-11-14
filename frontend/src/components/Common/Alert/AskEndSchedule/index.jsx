@@ -9,14 +9,14 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 // {alertSwitch===1 ? <AskEndSchedule setAlertSwitch={setAlertSwitch}/>:null}
 // {alertSwitch===2 ? <EndSchedule setAlertSwitch={setAlertSwitch}/>:null}
 
-export default function AskEndSchedule({setAlertSwitch}) {
+export default function AskEndSchedule({setEndAlert}) {
   const closeAlert = () => {
-    setAlertSwitch(0);
+    setEndAlert(0);
   };
 
  
   const onClick2 = () => {
-    setAlertSwitch(2);
+    setEndAlert(2);
   };
 
   return (

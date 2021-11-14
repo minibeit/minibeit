@@ -15,6 +15,7 @@ import Presenter from "./presenter";
 import CloseIcon from "@mui/icons-material/Close";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import * as S from "./style";
+import { sendMailApi } from "../../../../utils/mailApi";
 
 export default function BManageModal({ postId, setModalSwitch }) {
   const [tab, setTab] = useState("대기자");
@@ -43,12 +44,13 @@ export default function BManageModal({ postId, setModalSwitch }) {
     }
   }, [date, postId, tab]);
 
-  const applyApprove = (postDoDateId, userId) => {
+  const applyApprove = (postDoDateId, userId, userEmail) => {
     let value = window.confirm("해당 실험자의 실험 참여를 허락하시겠습니까?");
     if (value) {
       approveOneApi(postDoDateId, userId)
         .then((res) => {
           alert("해당 실험자의 실험 참여가 허락되었습니다");
+          sendMailApi("APPROVE", userEmail).then().catch();
           getList();
         })
         .catch((err) =>
@@ -57,12 +59,13 @@ export default function BManageModal({ postId, setModalSwitch }) {
     }
   };
 
-  const cancleApprove = (postDoDateId, userId) => {
+  const cancleApprove = (postDoDateId, userId, userEmail) => {
     let value = window.confirm("해당 실험자의 실험 참여를 취소하시겠습니까?");
     if (value) {
       cancelOneApi(postDoDateId, userId)
         .then((res) => {
           alert("해당 실험자의 실험 참여가 취소되었습니다");
+          sendMailApi("APPROVECANCEL", userEmail).then().catch();
           getList();
         })
         .catch((err) =>
@@ -80,12 +83,13 @@ export default function BManageModal({ postId, setModalSwitch }) {
     }
   };
 
-  const rejectApply = (postDoDateId, userId, comment) => {
+  const rejectApply = (postDoDateId, userId, comment, userEmail) => {
     let value = window.confirm("해당 실험자를 반려하시겠습니까?");
     if (value) {
       rejectOneApi(postDoDateId, userId, comment)
         .then((res) => {
           alert("해당 실험자의 실험 참여가 반려되었습니다");
+          sendMailApi("REJECT", userEmail).then().catch();
           getList();
         })
         .catch((err) =>

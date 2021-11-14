@@ -2,6 +2,7 @@ import React from "react";
 import moment from "moment";
 import * as S from "./style";
 import RejectApplicant from "../../../Common/Alert/RejectApplicant";
+import AskCancelConfirm from "../../../Common/Alert/AskCancelConfirm";
 
 export default function Presenter({
   date,
@@ -15,7 +16,12 @@ export default function Presenter({
   rejectUserInfo,
   RejectApply,
   reason,
-  inputReason
+  inputReason,
+  cancleAlert,
+  setCancleAlert,
+  cancleOn,
+  cancleUserInfo, 
+  setCancleUserInfo
 }) {
 
   return (
@@ -65,10 +71,7 @@ export default function Presenter({
                           <div>
                             <button disabled={true}>확정</button>
                             <button
-                              onClick={() =>
-                                cancleApprove(time.postDoDateId, user.id)
-                              }
-                            >
+                              onClick={()=>cancleOn(user)}>
                               취소
                             </button>
                           </div>
@@ -84,6 +87,7 @@ export default function Presenter({
                         </div>
                       </S.RejectInput>
                       {rejectAlert && <RejectApplicant reason={reason} rejectUserInfo={rejectUserInfo} RejectApply={RejectApply} setRejectAlert={setRejectAlert} />}
+                      {cancleAlert && <AskCancelConfirm cancleUserInfo={cancleUserInfo} setCancleAlert={setCancleAlert} cancleApprove={cancleApprove}/>}
                     </>
                   );
                 })}

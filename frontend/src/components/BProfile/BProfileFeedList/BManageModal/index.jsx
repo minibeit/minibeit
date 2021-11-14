@@ -56,11 +56,10 @@ export default function BManageModal({ postId, setModalSwitch }) {
   };
 
   const cancleApprove = (postDoDateId, userId) => {
-    let value = window.confirm("해당 실험자의 실험 참여를 취소하시겠습니까?");
-    if (value) {
+    if (cancleAlert) {
       cancelOneApi(postDoDateId, userId)
         .then((res) => {
-          alert("해당 실험자의 실험 참여가 취소되었습니다");
+          setCancleAlert(false);
           getList();
         })
         .catch((err) =>
@@ -81,7 +80,14 @@ export default function BManageModal({ postId, setModalSwitch }) {
 
   const [rejectAlert,setRejectAlert] =useState(false);
   const [rejectUserInfo, setRejectUserInfo] = useState();
+  const [cancleUserInfo, setCancleUserInfo] = useState();
   const [reason, setReason] = useState(['']);
+  const [cancleAlert, setCancleAlert] = useState(false);
+
+  const cancleOn = (user) => {
+    setCancleUserInfo(user);
+    setCancleAlert(true);
+  }
 
   const inputReason = (e) => {
     setReason(e.target.value);
@@ -95,7 +101,6 @@ export default function BManageModal({ postId, setModalSwitch }) {
     if (rejectAlert) {
       rejectOneApi(postDoDateId, userId, comment)
         .then((res) => {
-          alert("해당 실험자의 실험 참여가 반려되었습니다");
           setRejectAlert(false);
           setReason(null);
           getList();
@@ -165,6 +170,11 @@ export default function BManageModal({ postId, setModalSwitch }) {
               rejectUserInfo={rejectUserInfo}
               reason={reason}
               inputReason={inputReason}
+              cancleAlert={cancleAlert} 
+              setCancleAlert={setCancleAlert}
+              cancleOn={cancleOn}
+              cancleUserInfo={cancleUserInfo} 
+              setCancleUserInfo={setCancleUserInfo}
             />
           </S.ModalContent>
         </S.ModalBox>

@@ -215,15 +215,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private BooleanExpression applyStatusEq(ApplyStatus applyStatus, LocalDateTime now) {
         if (applyStatus.equals(ApplyStatus.WAIT)) {
-            return getApplyStatusAndAfterNow(applyStatus, now);
+            return postApplicant.applyStatus.eq(applyStatus).and(postDoDate.doDate.goe(now));
         }
         if (applyStatus.equals(ApplyStatus.APPROVE)) {
-            return getApplyStatusAndAfterNow(applyStatus, now).and(postApplicant.myFinish.isFalse());
+            return postApplicant.applyStatus.eq(applyStatus).and(postDoDate.doDate.goe(now)).and(postApplicant.myFinish.isFalse());
         }
         return null;
-    }
-
-    private BooleanExpression getApplyStatusAndAfterNow(ApplyStatus applyStatus, LocalDateTime now){
-        return postApplicant.applyStatus.eq(applyStatus).and(postDoDate.doDate.goe(now));
     }
 }

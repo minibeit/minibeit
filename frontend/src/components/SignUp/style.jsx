@@ -19,7 +19,7 @@ export const ModalBox = styled.div`
   max-width: 41rem;
   border-radius: 20px;
   padding: 32px 36px;
-  height: 26rem;
+  min-height: 26rem;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none;
   &::-webkit-scrollbar {
@@ -47,14 +47,31 @@ export const ModalContent = styled.div`
   flex-wrap: wrap;
   display: flex;
   flex-direction: column;
-  & > div {
-    flex: 1;
-    & > div {
-      display: flex;
-    }
-    & > div:nth-child(2) {
-      width: 100%;
-    }
+  & > div:nth-child(2) {
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 16rem;
+  }
+`;
+
+/* common */
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+export const InputBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > p {
+    font-size: 0.5rem;
+  }
+  & input,
+  select {
+    border-radius: 8px;
+    width: 100%;
+    border: none;
+    background: #fafafa;
+    padding: 8px 0 8px 5px;
   }
 `;
 export const GreetingMsg = styled.div`
@@ -82,10 +99,9 @@ export const NextBtn = styled.button`
   margin-left: auto;
 `;
 
-export const ImgContainer = styled.div`
+/* img */
+export const ImgContainer = styled(Container)`
   flex: 1;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
@@ -114,67 +130,16 @@ export const ImgEditBtn = styled.label`
 `;
 
 /*info*/
-
-export const InfoContainer = styled.div`
+export const InfoContainer = styled(Container)`
   flex: 2;
-  display: flex;
-  flex-direction: column;
   width: 100%;
-  gap: 1rem;
+  gap: 4rem;
   & > div {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
 `;
-export const DataInput = styled.div`
-  display: flex;
-  width: 45%;
-  & > div {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
-  & p {
-    font-size: 0.5rem;
-  }
-  & input,
-  select {
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 8px;
-    padding: 4px 0 8px 5px;
-    font-size: 15px;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: 0.14px;
-    text-align: left;
-    margin-top: 7px;
-    outline: none;
-    background: #fafafa;
-    color: #707070;
-    text-decoration: none;
-  }
-`;
-
-export const InputBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  & > p {
-    font-size: 0.5rem;
-  }
-  & input,
-  select {
-    border-radius: 8px;
-    width: 100%;
-    border: none;
-    background: #fafafa;
-    padding: 8px 0 8px 5px;
-  }
-`;
-
 export const NameBox = styled(InputBox)`
   width: 4rem;
 `;
@@ -227,26 +192,4 @@ export const PhoneNumBox = styled(InputBox)`
       margin: 0;
     }
   }
-`;
-
-export const SelectForm = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 45%;
-  & p {
-    font-size: 0.5rem;
-  }
-  & > div {
-    margin-top: 7px;
-  }
-`;
-
-export const NickNameBtn = styled.button``;
-export const SignupMSG = styled.div`
-  color: ${(props) => props.color};
-  font-size: 10px;
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 `;

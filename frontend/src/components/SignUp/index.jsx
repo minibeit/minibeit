@@ -17,6 +17,7 @@ export default function SignUpComponent() {
   const [inputData, setInputData] = useRecoilState(signupState);
   const [step, setStep] = useState(1);
   const history = useHistory();
+  const [nickNameCheck, setNickNameCheck] = useState();
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -40,9 +41,30 @@ export default function SignUpComponent() {
     }
   };
   const checkingNickname = () => {
-    nickCheckApi(inputData.nickname)
-      .then((res) => alert("사용가능한 아이디 입니다"))
-      .catch((err) => alert(err.response.data.error.info));
+    if (inputData.nickname) {
+      nickCheckApi(inputData.nickname)
+        .then((res) => {
+          alert("사용가능한 아이디 입니다");
+          setNickNameCheck(true);
+        })
+        .catch((err) => {
+          alert("중복된 아이디 입니다");
+          setNickNameCheck(false);
+        });
+    }
+  };
+  const firstStep = () => {
+    if (
+      inputData.name &&
+      inputData.gender &&
+      inputData.year &&
+      inputData.month &&
+      inputData.date &&
+      inputData.phoneNum2.length > 4 &&
+      inputData.phoneNum3.length > 4
+    ) {
+      return true;
+    } else return false;
   };
 
   return (
@@ -57,44 +79,53 @@ export default function SignUpComponent() {
               <CloseIcon />
             </S.CloseModalBtn>
           </S.ModalHeader>
-          {step === 1 && (
-            <div>
-              <S.GreetingMsg>
-                <p>반갑습니다!</p>
-                <p>기본 프로필을 작성해주세요</p>
-              </S.GreetingMsg>
-              <S.ModalContent>
-                <InfoData
-                  onChange={onChange}
-                  onFileChange={onFileChange}
-                  checkingNickname={checkingNickname}
-                  inputData={inputData}
-                />
-              </S.ModalContent>
-            </div>
-          )}
-          {step === 2 && (
-            <div>
-              <S.GreetingMsg>
-                <p>사용자님 주변에 위치한</p>
-                <p>관심있는 학교를 선택해주세요</p>
-              </S.GreetingMsg>
-              <S.ModalContent>{step === 2 && <SchoolSelect />}</S.ModalContent>
-            </div>
-          )}
-          {step === 3 && (
-            <div>
-              <S.GreetingMsg>
-                <p>사용자님은</p>
-                <p>현재 어떤 분야에서 일하고 계신가요?</p>
-              </S.GreetingMsg>
-              <S.ModalContent>{step === 3 && <JobSelect />}</S.ModalContent>
-            </div>
-          )}
+          <S.ModalContent>
+            <S.GreetingMsg>
+              {step === 1 && (
+                <>
+                  <p>반갑습니다!</p>
+                  <p>기본 프로필을 작성해주세요</p>
+                </>
+              )}
+              {step === 2 && (
+                <>
+                  <p>사용자님 주변에 위치한</p>
+                  <p>관심있는 학교를 선택해주세요</p>
+                </>
+              )}
+              {step === 3 && (
+                <>
+                  <p>사용자님은</p>
+                  <p>현재 어떤 분야에서 일하고 계신가요?</p>
+                </>
+              )}
+            </S.GreetingMsg>
+
+            {step === 1 && (
+              <InfoData
+                onChange={onChange}
+                onFileChange={onFileChange}
+                checkingNickname={checkingNickname}
+                inputData={inputData}
+                nickNameCheck={nickNameCheck}
+              />
+            )}
+            {step === 2 && <SchoolSelect />}
+            {step === 3 && <JobSelect />}
+          </S.ModalContent>
           <S.NextBtn
             onClick={() => {
-              if (step === 1) setStep(2);
-              else if (step === 2) setStep(3);
+              if (step === 1) {
+                if (firstStep()) {
+                  if (nickNameCheck) {
+                    setStep(2);
+                  } else {
+                    alert("닉네임 중복을 확인해주세요");
+                  }
+                } else {
+                  alert("정보를 확인해주세요");
+                }
+              } else if (step === 2) setStep(3);
               else if (step === 3) setStep(4);
             }}
           >

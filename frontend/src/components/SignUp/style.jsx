@@ -62,6 +62,7 @@ export const Container = styled.div`
 export const InputBox = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 0.4rem;
   & > p {
     font-size: 0.5rem;
   }
@@ -92,11 +93,11 @@ export const NextBtn = styled.button`
   font-size: 15px;
   cursor: pointer;
   align-items: center;
-  width: 7rem;
-  height: 2rem;
+  padding: 0.7rem 1rem;
   justify-content: center;
   border: none;
   margin-left: auto;
+  white-space: nowrap;
 `;
 
 /* img */
@@ -191,5 +192,30 @@ export const PhoneNumBox = styled(InputBox)`
       -webkit-appearance: none;
       margin: 0;
     }
+  }
+`;
+export const SchoolBox = styled(InputBox)`
+  min-width: 16rem;
+  margin: 3rem 1rem;
+`;
+
+/* job */
+export const JobContainer = styled.div`
+  & > p {
+    margin: 1rem;
+  }
+`;
+export const JobButton = styled.button`
+  border: none;
+  background: #f4f4f4;
+  width: 6rem;
+  height: 2rem;
+  border-radius: 1rem;
+  margin: 6px;
+  cursor: pointer;
+  &:disabled {
+    border: 1px solid #0642ff;
+    background: white;
+    color: black;
   }
 `;

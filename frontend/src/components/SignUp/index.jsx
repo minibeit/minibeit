@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useHistory } from "react-router";
 import CloseIcon from "@mui/icons-material/Close";
 
 import Portal from "../Common/Modal/Portal";
-import { nickCheckApi } from "../../utils/auth";
+import { nickCheckApi, signupInfoApi } from "../../utils/auth";
 import { signupState } from "../../recoil/signupState";
 
 import InfoData from "./InfoData";
@@ -12,9 +12,12 @@ import SchoolSelect from "./SchoolSelect";
 import JobSelect from "./JobSelect";
 
 import * as S from "./style";
+import { geustState, userState } from "../../recoil/userState";
 
 export default function SignUpComponent() {
   const [inputData, setInputData] = useRecoilState(signupState);
+  const guest = useRecoilValue(geustState);
+  const [, setLoginState] = useRecoilState(userState);
   const [step, setStep] = useState(1);
   const history = useHistory();
   const [nickNameCheck, setNickNameCheck] = useState();
@@ -60,11 +63,50 @@ export default function SignUpComponent() {
       inputData.year &&
       inputData.month &&
       inputData.date &&
-      inputData.phoneNum2.length > 4 &&
-      inputData.phoneNum3.length > 4
+      inputData.phoneNum2.length <= 4 &&
+      inputData.phoneNum3.length <= 4
     ) {
       return true;
     } else return false;
+  };
+
+  const nextStep = () => {
+    if (step === 1) {
+      if (firstStep()) {
+        if (nickNameCheck) {
+          setStep(2);
+        } else {
+          alert("닉네임 중복을 확인해주세요");
+        }
+      } else {
+        alert("정보를 확인해주세요");
+      }
+    } else if (step === 2) {
+      if (inputData.schoolId) {
+        setStep(3);
+      } else {
+        alert("학교를 선택해주세요");
+      }
+    } else if (step === 3) setStep(4);
+  };
+
+  const onSubmit = () => {
+    signupInfoApi(inputData, guest.accessToken)
+      .then((res) => {
+        const copy = { ...guest };
+        localStorage.setItem("accessToken", guest.accessToken);
+        delete copy.accessToken;
+        copy.didSignup = true;
+        copy.name = res.data.data.nickname;
+        copy.schoolId = res.data.data.schoolId;
+        copy.avatar =
+          res.data.data.avatar === null ? "noImg" : res.data.data.avatar;
+        setLoginState(copy);
+        history.push("/");
+      })
+      .catch((err) => {
+        alert("회원가입에 실패하였습니다. 잠시후에 다시 시도해주세요");
+      });
   };
 
   return (
@@ -110,27 +152,18 @@ export default function SignUpComponent() {
                 nickNameCheck={nickNameCheck}
               />
             )}
-            {step === 2 && <SchoolSelect />}
-            {step === 3 && <JobSelect />}
+            {step === 2 && (
+              <SchoolSelect inputData={inputData} setInputData={setInputData} />
+            )}
+            {step === 3 && (
+              <JobSelect inputData={inputData} setInputData={setInputData} />
+            )}
           </S.ModalContent>
-          <S.NextBtn
-            onClick={() => {
-              if (step === 1) {
-                if (firstStep()) {
-                  if (nickNameCheck) {
-                    setStep(2);
-                  } else {
-                    alert("닉네임 중복을 확인해주세요");
-                  }
-                } else {
-                  alert("정보를 확인해주세요");
-                }
-              } else if (step === 2) setStep(3);
-              else if (step === 3) setStep(4);
-            }}
-          >
-            다음
-          </S.NextBtn>
+          {step !== 3 ? (
+            <S.NextBtn onClick={nextStep}>다음</S.NextBtn>
+          ) : (
+            <S.NextBtn onClick={onSubmit}>미니바이트 시작하기</S.NextBtn>
+          )}
         </S.ModalBox>
       </S.ModalBackground>
     </Portal>

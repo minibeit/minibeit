@@ -1,6 +1,6 @@
 import React from "react";
 
-import JobList from "../../../constants/JobList";
+import JobList from "../../../../constants/JobList";
 
 import * as S from "../style";
 

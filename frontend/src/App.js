@@ -5,13 +5,13 @@ import { RecoilRoot } from "recoil";
 
 import Main from "./pages/Main";
 import ProcessLogin from "./pages/ProcessLogin";
-import SignupInfo from "./pages/SignupInfo";
 import Profile from "./pages/Profile";
 import BProfile from "./pages/BProfile";
 import Apply from "./pages/Apply";
 import ApplyDetail from "./pages/ApplyDetail";
 import Recruit from "./pages/Recruit";
 import RecruitComplete from "./pages/RecruitComplete";
+import SignUp from "./pages/SignUP";
 
 function App() {
   return (
@@ -24,13 +24,17 @@ function App() {
             path="/callback/:id/:nickname/:accessToken/:schoolId/:signupCheck/:a/:b/:c"
             component={ProcessLogin}
           />
-          <Route path="/signupInfo" component={SignupInfo} />
+          <Route path="/signup" component={SignUp} />
           <Route path="/business/:businessId" exact component={BProfile} />
           <Route path="/profile/:userId" exact component={Profile} />
           <Route path="/apply/:postId" exact component={ApplyDetail} />
           <Route path="/apply" component={Apply} />
           <Route path="/recruit" exact component={Recruit} />
-          <Route path="/recruit/complete/:postId" exact component={RecruitComplete} />
+          <Route
+            path="/recruit/complete/:postId"
+            exact
+            component={RecruitComplete}
+          />
         </Switch>
       </RecoilRoot>
     </>

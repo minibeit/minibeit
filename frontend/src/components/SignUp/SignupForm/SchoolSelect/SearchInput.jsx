@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
-import { schoolGetApi } from "../../utils/schoolApi";
+import { schoolGetApi } from "../../../../utils/schoolApi";
 
 export default function SearchInput({ onChange, defaultValue }) {
   const [schools, setSchools] = useState([]);

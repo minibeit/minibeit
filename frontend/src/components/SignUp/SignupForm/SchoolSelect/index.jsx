@@ -1,6 +1,6 @@
 import React from "react";
 
-import SearchInput from "../SearchInput";
+import SearchInput from "./SearchInput";
 
 import * as S from "../style";
 

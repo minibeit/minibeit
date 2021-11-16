@@ -1,12 +1,17 @@
 import React from "react";
 import { useHistory } from "react-router";
 import CloseIcon from "@mui/icons-material/Close";
-import Portal from "../Portal";
-import * as S from "./style";
-import PVImg from "../../PVImg";
 
-export default function SignupFinish({ inputData }) {
+import Portal from "../../Common/Modal/Portal";
+import { PVImg } from "../../Common";
+
+import * as S from "./style";
+import { useRecoilState } from "recoil";
+import { signupState } from "../../../recoil/signupState";
+
+export default function SignupFinish() {
   const history = useHistory();
+  const [inputData] = useRecoilState(signupState);
 
   return (
     <Portal>

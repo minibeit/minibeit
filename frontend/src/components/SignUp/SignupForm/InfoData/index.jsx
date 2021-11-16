@@ -1,6 +1,6 @@
 import React from "react";
 
-import { PVImg } from "../../Common";
+import { PVImg } from "../../../Common";
 import * as S from "../style";
 
 export default function InfoData({

@@ -41,7 +41,7 @@ function ProcessLogin({ match }) {
       {data.didSignup ? (
         <Redirect to="/"></Redirect>
       ) : (
-        <Redirect to="/signupInfo"></Redirect>
+        <Redirect to="/signup"></Redirect>
       )}
     </>
   );

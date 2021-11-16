@@ -101,7 +101,7 @@ export default function InfoData({
                 <option value="DEFAULT" disabled={true}></option>
                 {range(1, 12).map((a) => {
                   return (
-                    <option value={a < 10 ? `0${a}` : "{a}"} key={a}>
+                    <option value={a < 10 ? `0${a}` : `${a}`} key={a}>
                       {a}
                     </option>
                   );
@@ -111,7 +111,7 @@ export default function InfoData({
                 <option value="DEFAULT" disabled={true}></option>
                 {range(1, 31).map((a) => {
                   return (
-                    <option value={a < 10 ? `0${a}` : "{a}"} key={a}>
+                    <option value={a < 10 ? `0${a}` : `${a}`} key={a}>
                       {a}
                     </option>
                   );

@@ -8,7 +8,10 @@ import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
-import com.minibeit.post.service.exception.*;
+import com.minibeit.post.service.exception.DuplicateApplyException;
+import com.minibeit.post.service.exception.PostApplicantNotFoundException;
+import com.minibeit.post.service.exception.PostDoDateIsFullException;
+import com.minibeit.post.service.exception.PostDoDateNotFoundException;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -56,11 +59,10 @@ public class PostApplicantService {
     public void applyCancel(Long postDoDateId, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
 
-        postApplicantRepository.deleteByPostDoDateIdAndUserId(postDoDateId, user.getId());
+        postApplicantRepository.delete(postApplicant);
 
         if (postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
             PostDoDate postDoDate = postDoDateRepository.findById(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
-
             List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
             postDoDate.updateFull(approvedPostApplicant);
         }

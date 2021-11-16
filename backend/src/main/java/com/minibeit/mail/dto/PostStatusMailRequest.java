@@ -11,5 +11,5 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostStatusMailRequest {
     private PostMailCondition postMailCondition;
-    private List<String> toEmail;
+    private List<String> toEmailList;
 }

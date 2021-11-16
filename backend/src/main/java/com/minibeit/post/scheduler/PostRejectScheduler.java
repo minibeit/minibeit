@@ -1,7 +1,6 @@
 package com.minibeit.post.scheduler;
 
 import com.minibeit.mail.condition.PostMailCondition;
-import com.minibeit.mail.dto.PostStatusMail;
 import com.minibeit.mail.service.PostStatusMailService;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;

@@ -41,7 +41,7 @@ public class MailService {
         UserEmailCode userEmailCode = UserEmailCode.create(user);
         Optional<UserEmailCode> optionalUserEmailCode = userEmailCodeRepository.findByUserId(userId);
         if (optionalUserEmailCode.isPresent()) {
-            optionalUserEmailCode.get().update();
+            optionalUserEmailCode.get().update(userEmailCode);
         } else {
             userEmailCodeRepository.save(userEmailCode);
         }

@@ -78,4 +78,13 @@ public class UserRequest {
         @NotBlank(message = "닉네임이 공백일 수 없습니다.")
         private String nickname;
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class EmailVerification {
+        @NotBlank(message = "인증코드가 공백일 수 없습니다.")
+        private String code;
+    }
 }

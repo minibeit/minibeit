@@ -36,9 +36,9 @@ public class UserEmailCode extends BaseEntity {
         return message;
     }
 
-    public void update() {
-        this.code = createCode();
-        this.expirationDate = LocalDateTime.now().plusMinutes(5);
+    public void update(UserEmailCode userEmailCode) {
+        this.code = userEmailCode.getCode();
+        this.expirationDate = userEmailCode.getExpirationDate();
     }
 
     public static UserEmailCode create(User user) {
@@ -55,5 +55,9 @@ public class UserEmailCode extends BaseEntity {
             code.append((random.nextInt(10)));
         }
         return code.toString();
+    }
+
+    public boolean validate(String code) {
+        return code.equals(this.code) && this.expirationDate.isAfter(LocalDateTime.now());
     }
 }

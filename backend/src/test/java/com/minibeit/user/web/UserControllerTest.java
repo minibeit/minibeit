@@ -87,7 +87,7 @@ class UserControllerTest extends MvcTest {
                         .param("name", "실명")
                         .param("nickname", "동그라미")
                         .param("gender", "MALE")
-                        .param("email","test@test.com")
+                        .param("email", "test@test.com")
                         .param("phoneNum", "010-1234-5678")
                         .param("job", "대학생")
                         .param("birth", "2000-11-11")
@@ -150,6 +150,36 @@ class UserControllerTest extends MvcTest {
     }
 
     @Test
+    @DisplayName("이메일 인증코드 확인 문서화")
+    public void emailCodeVerification() throws Exception {
+        UserRequest.EmailVerification request = UserRequest.EmailVerification.builder()
+                .code("123456")
+                .build();
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/user/{userId}/email/verification", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(document("user-email-verification",
+                        pathParameters(
+                                parameterWithName("userId").description("유저 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("code").type(JsonFieldType.STRING).description("인증코드")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
+                        )
+                ));
+    }
+
+    @Test
     @DisplayName("내 정보 조회 문서화")
     public void getMe() throws Exception {
         UserResponse.GetOne response = UserResponse.GetOne.build(user1);
@@ -192,7 +222,7 @@ class UserControllerTest extends MvcTest {
                         .file(avatar)
                         .param("name", "수정된이름")
                         .param("nickname", "별")
-                        .param("email","test@test.com")
+                        .param("email", "test@test.com")
                         .param("nicknameChanged", "true")
                         .param("gender", "MALE")
                         .param("phoneNum", "010-1234-5678")

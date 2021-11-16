@@ -3,7 +3,6 @@ package com.minibeit.user.web;
 import com.minibeit.common.dto.ApiResult;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
-import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.UserService;
@@ -35,6 +34,12 @@ public class UserController {
     @PostMapping("/nickname/check")
     public ResponseEntity<ApiResult<Void>> nicknameCheck(@Valid @RequestBody UserRequest.Nickname request) {
         userService.nickNameCheck(request);
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
+    }
+
+    @PostMapping("/{userId}/email/verification")
+    public ResponseEntity<ApiResult<Void>> emailCodeVerification(@PathVariable Long userId, @Valid @RequestBody UserRequest.EmailVerification request) {
+        userService.emailVerification(userId, request);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 

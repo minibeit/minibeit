@@ -50,6 +50,14 @@ Content-Type: application/json;charset=UTF-8
 }
 
 ###
+POST {{apiUrl}}/user/1/email/verification
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+{
+  "code": "123456"
+}
+###
 GET {{apiUrl}}/user/me
 Authorization: {{authorizationToken}}
 

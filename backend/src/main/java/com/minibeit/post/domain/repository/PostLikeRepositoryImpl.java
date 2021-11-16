@@ -7,20 +7,20 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostLike.postLike;
 
 @RequiredArgsConstructor
-public class PostLikeRepositoryImpl implements PostLikeRepositoryCustom{
+public class PostLikeRepositoryImpl implements PostLikeRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
     @Override
     public List<PostLike> findAllByUserIdWithCompletedPost(Long userId) {
         return queryFactory.selectFrom(postLike)
-                .join(postLike.post).fetchJoin()
-                .where(postLike.post.postStatus.eq(PostStatus.COMPLETE))
+                .join(postLike.post, post).fetchJoin()
+                .where(post.postStatus.eq(PostStatus.COMPLETE)
+                        .and(postLike.user.id.eq(userId)))
                 .fetch();
-
-
     }
 }

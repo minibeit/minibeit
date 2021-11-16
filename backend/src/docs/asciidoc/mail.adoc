@@ -13,7 +13,7 @@
 
 === 게시물 확정, 확정 취소, 반려 알림 메일 전송
 
-`POST /api/post/mail`
+`POST /api/mail/post`
 
 요청 HTTP
 include::{snippets}/post-mail/request-body.adoc[]
@@ -22,3 +22,16 @@ include::{snippets}/post-mail/request-fields.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-mail/http-response.adoc[]
 include::{snippets}/post-mail/response-fields.adoc[]
+
+=== 이메일 인증 번호 메일 전송
+
+`POST /api/mail/user/{userId}/email/verification`
+
+요청 HTTP
+include::{snippets}/mail-user-email-verification/path-parameters.adoc[]
+include::{snippets}/mail-user-email-verification/request-body.adoc[]
+include::{snippets}/mail-user-email-verification/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/mail-user-email-verification/http-response.adoc[]
+include::{snippets}/mail-user-email-verification/response-fields.adoc[]

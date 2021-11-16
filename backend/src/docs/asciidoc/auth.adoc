@@ -21,7 +21,7 @@
 
 [source]
 ----
-http://localhost:3000/callback/userId/nickname/accessToken/schoolId/signupCheck 으로 redirect
+http://localhost:3000/callback/userId/nickname/email/accessToken/schoolId/signupCheck/profileUrl 으로 redirect
 ----
 
 [cols=2*]
@@ -30,6 +30,8 @@ http://localhost:3000/callback/userId/nickname/accessToken/schoolId/signupCheck 
 |유저 식별자
 |nickname
 |닉네임 회원정보를 입력안했다면 null
+|email
+|이메일 없다면 null
 |accessToken
 |accessToken
 |schoolId

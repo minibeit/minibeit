@@ -30,7 +30,7 @@ public class UserService {
     private final AvatarService avatarService;
     private final BusinessProfileRepository businessProfileRepository;
 
-    public UserResponse.CreateOrUpdate signup(AuthRequest.Signup request, User user) {
+    public UserResponse.CreateOrUpdate signup(UserRequest.Signup request, User user) {
         if (userRepository.findByNickname(request.getNickname()).isPresent()) {
             throw new DuplicateNickNameException();
         }

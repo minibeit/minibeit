@@ -27,7 +27,6 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
@@ -88,6 +87,7 @@ class UserControllerTest extends MvcTest {
                         .param("name", "실명")
                         .param("nickname", "동그라미")
                         .param("gender", "MALE")
+                        .param("email","test@test.com")
                         .param("phoneNum", "010-1234-5678")
                         .param("job", "대학생")
                         .param("birth", "2000-11-11")
@@ -101,6 +101,7 @@ class UserControllerTest extends MvcTest {
                         requestParameters(
                                 parameterWithName("name").description("실명"),
                                 parameterWithName("nickname").description("닉네임"),
+                                parameterWithName("email").description("이메일"),
                                 parameterWithName("gender").description("성별(MALE or FEMALE)"),
                                 parameterWithName("phoneNum").description("전화번호"),
                                 parameterWithName("birth").description("생년월일 (2000-11-11)"),
@@ -191,6 +192,7 @@ class UserControllerTest extends MvcTest {
                         .file(avatar)
                         .param("name", "수정된이름")
                         .param("nickname", "별")
+                        .param("email","test@test.com")
                         .param("nicknameChanged", "true")
                         .param("gender", "MALE")
                         .param("phoneNum", "010-1234-5678")
@@ -208,6 +210,7 @@ class UserControllerTest extends MvcTest {
                                 parameterWithName("name").description("실명"),
                                 parameterWithName("nicknameChanged").description("닉네임 수정여부(수정했다면 true 안했다면 false)"),
                                 parameterWithName("nickname").description("닉네임"),
+                                parameterWithName("email").description("이메일"),
                                 parameterWithName("gender").description("성별(MALE or FEMALE)"),
                                 parameterWithName("phoneNum").description("전화번호"),
                                 parameterWithName("job").description("직업"),

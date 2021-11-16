@@ -22,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResult<UserResponse.CreateOrUpdate>> signup(@Valid AuthRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<UserResponse.CreateOrUpdate>> signup(@Valid UserRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
         UserResponse.CreateOrUpdate response = userService.signup(request, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }

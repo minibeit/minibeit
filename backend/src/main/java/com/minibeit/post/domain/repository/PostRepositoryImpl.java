@@ -58,12 +58,13 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
-    private BooleanExpression schoolIdEq(Long schoolId){
+    private BooleanExpression schoolIdEq(Long schoolId) {
         if (Objects.nonNull(schoolId) && !schoolId.equals(0L)) {
             return post.school.id.eq(schoolId);
         }
         return null;
     }
+
     private BooleanExpression paymentTypeEq(Payment paymentType) {
         if (Objects.nonNull(paymentType) && !paymentType.equals(Payment.ALL)) {
             return post.payment.eq(paymentType);
@@ -145,7 +146,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.postLikeList, postLike)
                 .where(postLike.user.id.eq(user.getId())
-                .and(postStatusEq(postStatus)))
+                        .and(postStatusEq(postStatus)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(post.id.desc());
@@ -190,7 +191,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus applyStatus, User user, LocalDateTime now, Pageable pageable) {
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue(), postApplicant.businessFinish
+                        post.id, post.title, post.doTime, post.contact, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue(), postApplicant.businessFinish, post.businessProfile.id
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)
@@ -200,11 +201,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());
 
-        if(applyStatus.equals(ApplyStatus.APPROVE)){
+        if (applyStatus.equals(ApplyStatus.APPROVE)) {
             query.orderBy(postDoDate.doDate.asc());
         }
 
-        if(applyStatus.equals(ApplyStatus.WAIT)){
+        if (applyStatus.equals(ApplyStatus.WAIT)) {
             query.orderBy(postApplicant.id.desc());
         }
 

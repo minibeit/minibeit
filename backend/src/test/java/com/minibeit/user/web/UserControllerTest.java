@@ -49,6 +49,7 @@ class UserControllerTest extends MvcTest {
         user1 = User.builder()
                 .id(1L)
                 .name("테스터 실명")
+                .email("test@test.com")
                 .nickname("동그라미")
                 .gender(Gender.MALE)
                 .birth(LocalDate.of(1997, 3, 6))
@@ -61,6 +62,7 @@ class UserControllerTest extends MvcTest {
                 .id(2L)
                 .name("동동")
                 .nickname("동동")
+                .email("test2@test.com")
                 .gender(Gender.MALE)
                 .birth(LocalDate.of(1997, 3, 6))
                 .job("대학생")
@@ -246,7 +248,8 @@ class UserControllerTest extends MvcTest {
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
                                 fieldWithPath("data.[].id").type(JsonFieldType.NUMBER).description("공유된 유저의 식별자"),
-                                fieldWithPath("data.[].nickname").type(JsonFieldType.STRING).description("공유된 유저의 닉네임")
+                                fieldWithPath("data.[].nickname").type(JsonFieldType.STRING).description("공유된 유저의 닉네임"),
+                                fieldWithPath("data.[].email").type(JsonFieldType.STRING).description("유저 이메일")
                         )
                 ));
     }
@@ -274,7 +277,8 @@ class UserControllerTest extends MvcTest {
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
                                 fieldWithPath("data.[].id").type(JsonFieldType.NUMBER).description("유저 식별자"),
-                                fieldWithPath("data.[].nickname").type(JsonFieldType.STRING).description("유저 닉네임")
+                                fieldWithPath("data.[].nickname").type(JsonFieldType.STRING).description("유저 닉네임"),
+                                fieldWithPath("data.[].email").type(JsonFieldType.STRING).description("유저 이메일")
                         )
                 ));
     }

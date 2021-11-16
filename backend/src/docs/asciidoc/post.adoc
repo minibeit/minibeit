@@ -59,6 +59,16 @@ include::{snippets}/post-like/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-like/http-response.adoc[]
 include::{snippets}/post-like/response-fields.adoc[]
+
+=== 즐겨찾기 목록에서 모집완료된 게시물 일괄 삭제
+
+요청 HTTP
+include::{snippets}/post-like-delete/http-request.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-like-delete/http-response.adoc[]
+include::{snippets}/post-like-delete/response-fields.adoc[]
+
 === 게시물 삭제
 
 `DELETE /api/post/{postId}`

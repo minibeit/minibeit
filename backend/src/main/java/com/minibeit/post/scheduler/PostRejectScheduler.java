@@ -1,7 +1,6 @@
 package com.minibeit.post.scheduler;
 
 import com.minibeit.mail.condition.PostMailCondition;
-import com.minibeit.mail.dto.PostStatusMail;
 import com.minibeit.mail.service.PostStatusMailService;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
@@ -29,17 +28,17 @@ public class PostRejectScheduler {
         List<PostApplicant> postApplicantList = postApplicantRepository.findAllByDoDateBeforeToday(LocalDateTime.now());
         List<RejectPost> rejectPosts = new ArrayList<>();
         List<Long> postApplicantIds = new ArrayList<>();
+        List<String> postApplicantMails = new ArrayList<>();
         postApplicantList.forEach(postApplicant -> {
             PostDoDate postDoDate = postApplicant.getPostDoDate();
             Post post = postDoDate.getPost();
             RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postDoDate.getDoDate(), REJECT_MSG, postApplicant.getUser());
 
-            PostStatusMail postStatusMail = PostStatusMail.create(PostMailCondition.REJECT, postApplicant.getUser().getEmail());
-            postStatusMailService.mailSend(postStatusMail);
-
+            postApplicantMails.add(postApplicant.getUser().getEmail());
             rejectPosts.add(rejectPost);
             postApplicantIds.add(postApplicant.getId());
         });
+        postStatusMailService.mailSend(PostMailCondition.REJECT, postApplicantMails);
         rejectPostRepository.saveAll(rejectPosts);
         postApplicantRepository.updateReject(postApplicantIds, ApplyStatus.REJECT);
     }

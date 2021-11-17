@@ -50,8 +50,10 @@ export default function BManageModal({ postId, setModalSwitch }) {
       approveOneApi(postDoDateId, userId)
         .then((res) => {
           alert("해당 실험자의 실험 참여가 허락되었습니다");
-          sendMailApi("APPROVE", userEmail).then().catch();
           getList();
+        })
+        .then(() => {
+          sendMailApi("APPROVE", [userEmail]).then().catch();
         })
         .catch((err) =>
           alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
@@ -65,8 +67,10 @@ export default function BManageModal({ postId, setModalSwitch }) {
       cancelOneApi(postDoDateId, userId)
         .then((res) => {
           alert("해당 실험자의 실험 참여가 취소되었습니다");
-          sendMailApi("APPROVECANCEL", userEmail).then().catch();
           getList();
+        })
+        .then(() => {
+          sendMailApi("APPROVECANCEL", [userEmail]).then().catch();
         })
         .catch((err) =>
           alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
@@ -89,8 +93,10 @@ export default function BManageModal({ postId, setModalSwitch }) {
       rejectOneApi(postDoDateId, userId, comment)
         .then((res) => {
           alert("해당 실험자의 실험 참여가 반려되었습니다");
-          sendMailApi("REJECT", userEmail).then().catch();
           getList();
+        })
+        .then(() => {
+          sendMailApi("REJECT", [userEmail]).then().catch();
         })
         .catch((err) =>
           alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")

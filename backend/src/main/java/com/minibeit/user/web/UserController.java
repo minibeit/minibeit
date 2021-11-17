@@ -37,9 +37,9 @@ public class UserController {
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 
-    @PostMapping("/{userId}/email/verification")
-    public ResponseEntity<ApiResult<Void>> emailCodeVerification(@PathVariable Long userId, @Valid @RequestBody UserRequest.EmailVerification request) {
-        userService.emailVerification(userId, request);
+    @PostMapping("/{userId}/verification")
+    public ResponseEntity<ApiResult<Void>> codeVerification(@PathVariable Long userId, @Valid @RequestBody UserRequest.Verification request) {
+        userService.codeVerification(userId, request);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 

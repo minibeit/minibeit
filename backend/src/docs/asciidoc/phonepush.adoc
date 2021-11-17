@@ -1,0 +1,38 @@
+= Minibeit API 문서 (PHONE-PUSH)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:snippets: ../../../build/generated-snippets
+
+= PHONE-PUSH
+---
+== PUSH API
+
+=== 핸드폰 인증번호 문자 전송
+
+`POST /api/user/{userId}/sms`
+
+요청 HTTP
+include::{snippets}/sms-verificationCode-push/path-parameters.adoc[]
+include::{snippets}/sms-verificationCode-push/request-body.adoc[]
+include::{snippets}/sms-verificationCode-push/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/sms-verificationCode-push/http-response.adoc[]
+include::{snippets}/sms-verificationCode-push/response-fields.adoc[]
+
+=== 인증코드 확인
+
+`POST /api/user/{userId}/verification`
+
+요청 HTTP
+include::{snippets}/user-verification/path-parameters.adoc[]
+include::{snippets}/user-verification/request-body.adoc[]
+include::{snippets}/user-verification/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/user-verification/http-response.adoc[]
+include::{snippets}/user-verification/response-fields.adoc[]

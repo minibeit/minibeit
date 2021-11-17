@@ -6,9 +6,9 @@ import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.User;
-import com.minibeit.user.domain.UserEmailCode;
-import com.minibeit.user.domain.repository.UserEmailCodeRepository;
+import com.minibeit.user.domain.UserVerificationCode;
 import com.minibeit.user.domain.repository.UserRepository;
+import com.minibeit.user.domain.repository.UserVerificationCodeRepository;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.exception.*;
@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final SchoolRepository schoolRepository;
-    private final UserEmailCodeRepository userEmailCodeRepository;
+    private final UserVerificationCodeRepository userVerificationCodeRepository;
     private final AvatarService avatarService;
     private final BusinessProfileRepository businessProfileRepository;
 
@@ -59,10 +59,10 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public void emailVerification(Long userId, UserRequest.EmailVerification request) {
-        UserEmailCode userEmailCode = userEmailCodeRepository.findById(userId).orElseThrow(UserEmailCodeNotFoundException::new);
-        if (!userEmailCode.validate(request.getCode())) {
-            throw new InvalidEmailCodeException();
+    public void codeVerification(Long userId, UserRequest.Verification request) {
+        UserVerificationCode userVerificationCode = userVerificationCodeRepository.findByUserIdAndVerificationKinds(userId, request.getVerificationKinds()).orElseThrow(UserVerificationCodeNotFoundException::new);
+        if (!userVerificationCode.validate(request.getCode())) {
+            throw new InvalidVerificationCodeException();
         }
     }
 

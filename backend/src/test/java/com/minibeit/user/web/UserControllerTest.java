@@ -5,6 +5,7 @@ import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.User;
+import com.minibeit.user.domain.VerificationKinds;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.UserService;
@@ -152,24 +153,26 @@ class UserControllerTest extends MvcTest {
     @Test
     @DisplayName("이메일 인증코드 확인 문서화")
     public void emailCodeVerification() throws Exception {
-        UserRequest.EmailVerification request = UserRequest.EmailVerification.builder()
+        UserRequest.Verification request = UserRequest.Verification.builder()
                 .code("123456")
+                .verificationKinds(VerificationKinds.EMAIL)
                 .build();
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/user/{userId}/email/verification", 1L)
+                .post("/api/user/{userId}/verification", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
                 .content(objectMapper.writeValueAsString(request))
         );
 
         results.andExpect(status().isOk())
-                .andDo(document("user-email-verification",
+                .andDo(document("user-verification",
                         pathParameters(
                                 parameterWithName("userId").description("유저 식별자")
                         ),
                         requestFields(
-                                fieldWithPath("code").type(JsonFieldType.STRING).description("인증코드")
+                                fieldWithPath("code").type(JsonFieldType.STRING).description("인증코드"),
+                                fieldWithPath("verificationKinds").type(JsonFieldType.STRING).description("인증 유형(EMAIL or PHONE)")
                         ),
                         responseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),

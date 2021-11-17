@@ -13,8 +13,8 @@ import java.util.Random;
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-@Table(name = "user_email_code")
-public class UserEmailCode extends BaseEntity {
+@Table(name = "user_verification_code")
+public class UserVerificationCode extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +23,11 @@ public class UserEmailCode extends BaseEntity {
 
     private LocalDateTime expirationDate;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @Enumerated(EnumType.STRING)
+    private VerificationKinds verificationKinds;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private User user;
 
     public SimpleMailMessage makeMessage(String toEmail, String fromEmail, String code) {
@@ -36,15 +40,24 @@ public class UserEmailCode extends BaseEntity {
         return message;
     }
 
-    public void update(UserEmailCode userEmailCode) {
-        this.code = userEmailCode.getCode();
-        this.expirationDate = userEmailCode.getExpirationDate();
+    public void update(UserVerificationCode userVerificationCode) {
+        this.code = userVerificationCode.getCode();
+        this.expirationDate = userVerificationCode.getExpirationDate();
     }
 
-    public static UserEmailCode create(User user) {
+    public boolean validate(String code) {
+        return code.equals(this.code) && this.expirationDate.isAfter(LocalDateTime.now());
+    }
+
+    public static UserVerificationCode create(User user, VerificationKinds verificationKinds) {
         String code = createCode();
 
-        return UserEmailCode.builder().code(code).user(user).expirationDate(LocalDateTime.now().plusMinutes(5)).build();
+        return UserVerificationCode.builder()
+                .code(code)
+                .verificationKinds(verificationKinds)
+                .user(user)
+                .expirationDate(LocalDateTime.now().plusMinutes(5))
+                .build();
     }
 
     private static String createCode() {
@@ -55,9 +68,5 @@ public class UserEmailCode extends BaseEntity {
             code.append((random.nextInt(10)));
         }
         return code.toString();
-    }
-
-    public boolean validate(String code) {
-        return code.equals(this.code) && this.expirationDate.isAfter(LocalDateTime.now());
     }
 }

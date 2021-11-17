@@ -36,15 +36,15 @@ include::{snippets}/mail-user-email-verification/request-fields.adoc[]
 include::{snippets}/mail-user-email-verification/http-response.adoc[]
 include::{snippets}/mail-user-email-verification/response-fields.adoc[]
 
-=== 이메일 인증코드 확인
+=== 인증코드 확인
 
-`POST /api/user/{userId}/email/verification`
+`POST /api/user/{userId}/verification`
 
 요청 HTTP
-include::{snippets}/user-email-verification/path-parameters.adoc[]
-include::{snippets}/user-email-verification/request-body.adoc[]
-include::{snippets}/user-email-verification/request-fields.adoc[]
+include::{snippets}/user-verification/path-parameters.adoc[]
+include::{snippets}/user-verification/request-body.adoc[]
+include::{snippets}/user-verification/request-fields.adoc[]
 
 성공 응답 HTTP
-include::{snippets}/user-email-verification/http-response.adoc[]
-include::{snippets}/user-email-verification/response-fields.adoc[]
+include::{snippets}/user-verification/http-response.adoc[]
+include::{snippets}/user-verification/response-fields.adoc[]

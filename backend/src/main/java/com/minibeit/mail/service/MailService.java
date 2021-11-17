@@ -5,9 +5,10 @@ import com.minibeit.mail.condition.PostMailCondition;
 import com.minibeit.mail.dto.MailRequest;
 import com.minibeit.mail.dto.PostStatusMail;
 import com.minibeit.user.domain.User;
-import com.minibeit.user.domain.UserEmailCode;
-import com.minibeit.user.domain.repository.UserEmailCodeRepository;
+import com.minibeit.user.domain.UserVerificationCode;
+import com.minibeit.user.domain.VerificationKinds;
 import com.minibeit.user.domain.repository.UserRepository;
+import com.minibeit.user.domain.repository.UserVerificationCodeRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -23,7 +24,7 @@ import java.util.Optional;
 public class MailService {
     private final JavaMailSender mailSender;
     private final UserRepository userRepository;
-    private final UserEmailCodeRepository userEmailCodeRepository;
+    private final UserVerificationCodeRepository userVerificationCodeRepository;
     private static final String FROM_ADDRESS = "YOUR_EMAIL_ADDRESS";
 
     public void mailSend(PostMailCondition postMailCondition, List<String> toMailList) {
@@ -38,15 +39,15 @@ public class MailService {
     @Transactional
     public void sendVerificationCode(Long userId, MailRequest.EmailVerification request) {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        UserEmailCode userEmailCode = UserEmailCode.create(user);
-        Optional<UserEmailCode> optionalUserEmailCode = userEmailCodeRepository.findByUserId(userId);
+        UserVerificationCode userVerificationCode = UserVerificationCode.create(user, VerificationKinds.EMAIL);
+        Optional<UserVerificationCode> optionalUserEmailCode = userVerificationCodeRepository.findByUserIdAndVerificationKinds(userId, VerificationKinds.EMAIL);
         if (optionalUserEmailCode.isPresent()) {
-            optionalUserEmailCode.get().update(userEmailCode);
+            optionalUserEmailCode.get().update(userVerificationCode);
         } else {
-            userEmailCodeRepository.save(userEmailCode);
+            userVerificationCodeRepository.save(userVerificationCode);
         }
 
-        SimpleMailMessage message = userEmailCode.makeMessage(request.getToEmail(), FROM_ADDRESS, userEmailCode.getCode());
+        SimpleMailMessage message = userVerificationCode.makeMessage(request.getToEmail(), FROM_ADDRESS, userVerificationCode.getCode());
         mailSender.send(message);
     }
 }

@@ -1,6 +1,7 @@
 package com.minibeit.user.dto;
 
 import com.minibeit.user.domain.Gender;
+import com.minibeit.user.domain.VerificationKinds;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -83,8 +84,9 @@ public class UserRequest {
     @Builder
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class EmailVerification {
+    public static class Verification {
         @NotBlank(message = "인증코드가 공백일 수 없습니다.")
         private String code;
+        private VerificationKinds verificationKinds;
     }
 }

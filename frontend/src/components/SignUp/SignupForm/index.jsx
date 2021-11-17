@@ -92,22 +92,22 @@ export default function SignUpComponent({ setFinish }) {
   };
 
   const onSubmit = () => {
-    // signupInfoApi(inputData, guest.accessToken)
-    //   .then((res) => {
-    //     const copy = { ...guest };
-    //     localStorage.setItem("accessToken", guest.accessToken);
-    //     delete copy.accessToken;
-    //     copy.didSignup = true;
-    //     copy.name = res.data.data.nickname;
-    //     copy.schoolId = res.data.data.schoolId;
-    //     copy.avatar =
-    //       res.data.data.avatar === null ? "noImg" : res.data.data.avatar;
-    //     setLoginState(copy);
-    setFinish(true);
-    // })
-    // .catch((err) => {
-    //   alert("회원가입에 실패하였습니다. 잠시후에 다시 시도해주세요");
-    // });
+    signupInfoApi(inputData, guest.accessToken)
+      .then((res) => {
+        const copy = { ...guest };
+        localStorage.setItem("accessToken", guest.accessToken);
+        delete copy.accessToken;
+        copy.didSignup = true;
+        copy.name = res.data.data.nickname;
+        copy.schoolId = res.data.data.schoolId;
+        copy.avatar =
+          res.data.data.avatar === null ? "noImg" : res.data.data.avatar;
+        setLoginState(copy);
+        setFinish(true);
+      })
+      .catch((err) => {
+        alert("회원가입에 실패하였습니다. 잠시후에 다시 시도해주세요");
+      });
   };
 
   return (
@@ -115,13 +115,31 @@ export default function SignUpComponent({ setFinish }) {
       <S.ModalBackground>
         <S.ModalBox>
           <S.ModalHeader>
-            {step === 1 && <p>프로필 작성하기</p>}
-            {step === 2 && <p>관심학교 설정하기</p>}
-            {step === 3 && <p>나의 직업 설정하기</p>}
+            {step === 1 && (
+              <>
+                <div>1</div>
+                <p>프로필 작성하기</p>
+              </>
+            )}
+            {step === 2 && (
+              <>
+                <div>2</div>
+                <p>관심학교 설정하기</p>
+              </>
+            )}
+            {step === 3 && (
+              <>
+                <div>3</div>
+                <p>나의 직업 설정하기</p>
+              </>
+            )}
             <S.CloseModalBtn onClick={() => history.push("/")}>
               <CloseIcon />
             </S.CloseModalBtn>
           </S.ModalHeader>
+          <S.ProgressBar>
+            <S.StepBar step={step && step} />
+          </S.ProgressBar>
           <S.ModalContent>
             <S.GreetingMsg>
               {step === 1 && (

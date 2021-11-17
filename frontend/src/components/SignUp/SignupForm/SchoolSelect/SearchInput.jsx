@@ -25,6 +25,7 @@ export default function SearchInput({ onChange, defaultValue }) {
     }),
     control: (provided, state) => ({
       ...provided,
+      border: "none",
       borderRadius: "8px",
     }),
     dropdownIndicator: (provided, state) => ({
@@ -41,6 +42,8 @@ export default function SearchInput({ onChange, defaultValue }) {
       textAlign: "center",
       fontSize: "15px",
       fontWeight: "600",
+      width: "15rem",
+      cursor: "pointer",
     }),
     menuList: (provided, state) => ({
       ...provided,

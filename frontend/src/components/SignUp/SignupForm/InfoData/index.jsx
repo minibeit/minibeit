@@ -22,6 +22,9 @@ export default function InfoData({
   return (
     <div>
       <S.ImgContainer>
+        <div>
+          <p>프로필 사진</p> <p>(필수아님*)</p>
+        </div>
         <S.ImgBox>
           {inputData.avatar ? (
             <PVImg img={inputData.avatar} />

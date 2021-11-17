@@ -42,6 +42,7 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.assertj.core.api.InstanceOfAssertFactories.completableFuture;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("Post Service 흐름 테스트")
@@ -521,5 +522,19 @@ class PostServiceTest extends ServiceIntegrationTest {
                 ( )-> assertThat((int)allResponse.getTotalElements()).isEqualTo(all.size())
         );
 
+    }
+
+    @Test
+    @DisplayName("즐겨찾기 목록에서 모집완료된 게시물 일괄삭제 - 성공")
+    void deleteLikeOfCompletedPost() {
+        initPostForLike();
+        Post completedPost = postRepository.save(Post.builder().content("내용2").title("모집 제목2").postStatus(PostStatus.COMPLETE).build());
+        PostLike postLike = PostLike.create(completedPost, testUser);
+        postLikeRepository.save(postLike);
+
+        int beforeLikes = postLikeRepository.findAllByUserIdWithCompletedPost(testUser.getId()).size();
+        postService.deleteLikeOfCompletedPost(testUser);
+        int afterLikes = postLikeRepository.findAllByUserIdWithCompletedPost(testUser.getId()).size();
+        assertThat(beforeLikes - 1).isEqualTo(afterLikes);
     }
 }

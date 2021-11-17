@@ -29,7 +29,7 @@ public class PageDto {
         return PageRequest.of(this.page - 1, this.size);
     }
 
-    public Pageable ofWithSortDesc(String sort) {
-        return PageRequest.of(this.page - 1, this.size, Sort.by(sort).descending());
+    public Pageable ofWithSortAsc(String sort) {
+        return PageRequest.of(this.page - 1, this.size, Sort.by(sort).ascending());
     }
 }

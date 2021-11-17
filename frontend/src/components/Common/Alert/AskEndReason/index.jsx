@@ -49,10 +49,19 @@ export default function AskEndReason ({setAlertSwitch}) {
           <ErrorOutlineIcon  sx={{ fontSize: 40}} />
             <p>종료 사유를 알려주세요</p>
             <div>
-              <S.Select onClick={active} isActive={isActive}>{selected}<span onClick={active}>▲</span></S.Select>
-              <div>{isActive && (items.map((a,i) => (<S.Option onClick={selectReason} value={a} key={i}>{a}</S.Option>)))}</div>
+              <S.Select onClick={active} 
+              isActive={isActive}>{selected}
+              <span onClick={active}>▲</span>
+              </S.Select>
+              <div>
+                {isActive && (items.map((a,i) => 
+                (<S.Option onClick={selectReason} value={a} key={i}>{a}</S.Option>)))}
+              </div>
             </div>
-            {input ? (<S.Input type="text" value={inputValue} onChange={handleSelect2}/>):null}
+            {input ? (<S.Input 
+            type="text" 
+            value={inputValue} 
+            onChange={handleSelect2}/>):null}
             <S.BlueButton onClick={onClick}>확인</S.BlueButton>
           </S.AlertContent>
         </S.AlertBox>

@@ -1,7 +1,6 @@
 package com.minibeit.mail.web;
 
 import com.minibeit.common.dto.ApiResult;
-import com.minibeit.mail.dto.PostStatusMail;
 import com.minibeit.mail.dto.PostStatusMailRequest;
 import com.minibeit.mail.service.PostStatusMailService;
 import lombok.RequiredArgsConstructor;
@@ -20,8 +19,7 @@ public class PostStatusMailController {
 
     @PostMapping("/post/mail")
     public ResponseEntity<ApiResult<Void>> sendMail(@RequestBody PostStatusMailRequest postStatusMailRequest) {
-        PostStatusMail postStatusMail = PostStatusMail.create(postStatusMailRequest.getPostMailCondition(), postStatusMailRequest.getToEmail());
-        postStatusMailService.mailSend(postStatusMail);
+        postStatusMailService.mailSend(postStatusMailRequest.getPostMailCondition(), postStatusMailRequest.getToEmailList());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 }

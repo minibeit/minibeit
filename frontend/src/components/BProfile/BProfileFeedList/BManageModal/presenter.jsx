@@ -5,6 +5,7 @@ import RejectApplicant from "../../../Common/Alert/RejectApplicant";
 import AskCancelConfirm from "../../../Common/Alert/AskCancelConfirm";
 
 export default function Presenter({
+  tab,
   date,
   userList,
   applyApprove,
@@ -14,14 +15,15 @@ export default function Presenter({
   rejectAlert,
   rejectApplyAlert,
   rejectUserInfo,
-  RejectApply,
   reason,
   inputReason,
   cancleAlert,
   setCancleAlert,
   cancleOn,
   cancleUserInfo, 
-  setCancleUserInfo
+  setCancleUserInfo,
+  rejectApply,
+  changeAttend,
 }) {
 
   return (
@@ -39,64 +41,99 @@ export default function Presenter({
           </S.UserInfoBox>
         </div>
       </S.DataNavBar>
-      <div>
-        {userList.map((time) => {
-          return (
-            <S.DateInfoBox key={time.postDoDateId}>
+      {userList.map((time, i) => {
+        return (
+          <S.DataNavBar key={i}>
+            <S.DateInfoBox>
               <div>
                 {time.userInfoList[0].startTime}-{time.userInfoList[0].endTime}
               </div>
-              <div>
-                {time.userInfoList.map((user) => {
-                  return (
-                    <>
-                      <S.UserInfoBox key={user.id}>
-                        <div>{user.name}</div>
-                        <div>{user.birth}</div>
-                        <div>{user.gender === "MALE" ? "남" : "여"}</div>
-                        <div>{user.phoneNum}</div>
-                        <div>{user.job}</div>
-                        {user.status === "WAIT" ? (
-                          <div>
-                            <button
+              {time.userInfoList.map((user, j) => {
+                return (
+                  <div key={j}>
+                    <S.UserInfoBox>
+                      <div>{user.name}</div>
+                      <div>{user.birth}</div>
+                      <div>{user.gender === "MALE" ? "남" : "여"}</div>
+                      <div>{user.phoneNum}</div>
+                      <div>{user.job}</div>
+                      {tab === "대기자" ? (
+                        user.status === "WAIT" ? (
+                          <S.ButtonBox>
+                            <S.Btn
                               onClick={() =>
-                                applyApprove(time.postDoDateId, user.id)
+                                applyApprove(
+                                  time.postDoDateId,
+                                  user.id,
+                                  user.email
+                                )
                               }
                             >
                               확정
-                            </button>
-                            <button onClick={viewRejectInput} >반려</button>
-                          </div>
+                            </S.Btn>
+                            <S.Btn onClick={viewRejectInput}>반려</S.Btn>
+                          </S.ButtonBox>
                         ) : (
-                          <div>
-                            <button disabled={true}>확정</button>
-                            <button
-                              onClick={()=>cancleOn(user)}>
+                          <S.ButtonBox>
+                            <S.Btn disabled={true}>확정</S.Btn>
+                            <S.Btn
+                              onClick={() =>
+                                cancleApprove(
+                                  time.postDoDateId,
+                                  user.id,
+                                  user.email
+                                )
+                              }
+                            >
                               취소
-                            </button>
-                          </div>
-                        )}
-                      </S.UserInfoBox>
-                      <S.RejectInput style={{ display: "none" }}>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
-                        <p>반려사유</p>
-                        <div>
-                          <input placeholder="반려사유를 작성해주세요" value={reason} onChange={inputReason}/>
-                          <button onClick={()=>rejectApplyAlert(user)}>
-                            확인
-                          </button>
-                        </div>
-                      </S.RejectInput>
-                      {rejectAlert && <RejectApplicant reason={reason} rejectUserInfo={rejectUserInfo} RejectApply={RejectApply} setRejectAlert={setRejectAlert} />}
-                      {cancleAlert && <AskCancelConfirm cancleUserInfo={cancleUserInfo} setCancleAlert={setCancleAlert} cancleApprove={cancleApprove}/>}
-                    </>
-                  );
-                })}
-              </div>
+                            </S.Btn>
+                          </S.ButtonBox>
+                        )
+                      ) : (
+                        <S.ButtonBox>
+                          <S.Btn disabled={true}>
+                            {user.isAttend ? "참여" : "불참"}
+                          </S.Btn>
+                          <S.Btn
+                            attend={user.isAttend}
+                            onClick={(e) => {
+                              changeAttend(
+                                time.postDoDateId,
+                                user.id,
+                                user.isAttend
+                              );
+                            }}
+                          >
+                            {user.isAttend ? "불참" : "참여"}
+                          </S.Btn>
+                        </S.ButtonBox>
+                      )}
+                    </S.UserInfoBox>
+                    <S.RejectInput style={{ display: "none" }}>
+                      <p>반려사유</p>
+                      <div>
+                        <input placeholder="반려사유를 작성해주세요" />
+                        <button
+                          onClick={(e) =>
+                            rejectApply(
+                              time.postDoDateId,
+                              user.id,
+                              e.target.previousSibling.value,
+                              user.email
+                            )
+                          }
+                        >
+                          확인
+                        </button>
+                      </div>
+                    </S.RejectInput>
+                  </div>
+                );
+              })}
             </S.DateInfoBox>
-          );
-        })}
-      </div>
-      
+          </S.DataNavBar>
+        );
+      })}
     </S.UserListView>
   );
 }

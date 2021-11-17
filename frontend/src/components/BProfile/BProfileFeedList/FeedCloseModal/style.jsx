@@ -67,18 +67,82 @@ export const Content = styled.div`
   align-items: center;
   padding: 1rem;
   gap: 1rem;
-  & > select {
-    width: 20rem;
-    height: 2rem;
-    border-radius: 0.5rem;
+  
+
+`;
+
+export const Select = styled.div`
+  position: relative;
+  width: 20rem;
+  height: 1.2rem;
+  padding: 6px 0;
+	font-size: 11px;
+	line-height: 1.2rem;
+	border: 1px solid #0642FF;
+  border-bottom: ${({isActive}) =>{return isActive ? 'none' : '1px solid #0642FF'}};
+	border-radius: ${({isActive}) =>{return isActive ? '10px 10px 0 0' : '10px'}};
+  text-align: center;
+  color: #0642FF;
+  cursor: pointer;
+  & > span:first-child {
+    position: absolute;
+    right: 10px;
+    ${({isActive})=>{return isActive ? 'transform: rotate(180deg)' : null}}
   }
-  & > input {
-    padding: 0;
-    width: 19rem;
-    height: 2rem;
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0 0.5rem;
-    outline: 1px solid black;
+
+`;
+
+export const Option = styled.option`
+  width: 20rem;
+  height: 1.2rem;
+  padding: 6px 0;
+	font-size: 10px;
+	line-height: 1.1rem;
+	border: 1px solid gray;
+  text-align: center;
+  color: #8C8C8C;
+  cursor: pointer;
+  &:hover {
+    color: #0642FF;
+  }
+  &:not(:last-child) {
+    border-bottom: none;
+
+  }
+  &:not(:first-child) {
+    border-top: none;
+  }
+  &:last-child{
+    border-radius: 0 0 10px 10px;
+    color: lightgray;
+  }
+  &:not(:last-child):after {
+    content:'';
+    position: relative;
+    display: block;
+    border-bottom: 1px solid rgba(140, 140, 140, 0.3);
+    left: 50%;
+    transform: translateX(-50%);
+    width: 17rem;
+    text-align: center;
+    padding-bottom: 6px;
   }
 `;
+
+
+export const Input = styled.input`
+	width: 20rem;
+  height: 2rem;
+  padding: 6px 0;
+	font-size: 11px;
+	line-height: 11px;
+	border: 1px solid #0642FF;
+	border-radius: 10px;
+  text-align: center;
+  color: #0642FF;
+  box-sizing: border-box;
+  :focus {
+    border: 1px solid gray;
+    color: gray;
+  }
+  `;

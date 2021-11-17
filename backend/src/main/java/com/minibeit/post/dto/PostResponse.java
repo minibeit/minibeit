@@ -191,10 +191,11 @@ public class PostResponse {
         private LocalDateTime endTime;
         private boolean finish;
         private String status;
+        private Long businessProfileId;
 
         @Builder
         @QueryProjection
-        public GetMyApplyList(Long id, String title, Integer time, String contact, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status, boolean businessFinish) {
+        public GetMyApplyList(Long id, String title, Integer time, String contact, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status, boolean businessFinish, Long businessProfileId) {
             this.id = id;
             this.title = title;
             this.time = time;
@@ -206,6 +207,7 @@ public class PostResponse {
             this.endTime = doDate.plusMinutes(time);
             this.status = status;
             this.finish = endTime.isBefore(LocalDateTime.now()) && businessFinish && status.equals(ApplyStatus.APPROVE.name());
+            this.businessProfileId = businessProfileId;
         }
     }
 

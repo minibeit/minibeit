@@ -4,13 +4,25 @@ import { withAuthInstance, withoutAuthInstance } from "./common";
 
 const { LOGOUT, SIGNUP, N_CHECK } = API_URLS;
 
-export const signupInfoApi = async (inputs2, img, accessToken) => {
+export const signupInfoApi = (inputData, accessToken) => {
   const formData = new FormData();
-  Object.keys(inputs2).map((key) => formData.append(key, inputs2[key]));
-  if (img !== undefined) {
-    formData.append("avatar", img);
+  formData.append("name", inputData.name);
+  formData.append("nickname", inputData.nickname);
+  formData.append("gender", inputData.gender);
+  formData.append("job", inputData.job);
+  formData.append("schoolId", inputData.schoolId);
+  formData.append(
+    "phoneNum",
+    inputData.phoneNum1 + inputData.phoneNum2 + inputData.phoneNum3
+  );
+  formData.append(
+    "birth",
+    `${inputData.year}-${inputData.month}-${inputData.date}`
+  );
+  if (inputData.avatar) {
+    formData.append("avatar", inputData.avatar);
   }
-  return await axios({
+  return axios({
     method: "POST",
     url: process.env.REACT_APP_API_URL + SIGNUP,
     data: formData,

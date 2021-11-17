@@ -10,6 +10,7 @@ function ProcessLogin({ match }) {
     isLogin: true,
     id: parseInt(match.params.id),
     name: match.params.nickname,
+    email: match.params.email,
     didSignup: JSON.parse(match.params.signupCheck),
     schoolId: parseInt(match.params.schoolId),
     bpId: 0,
@@ -23,8 +24,6 @@ function ProcessLogin({ match }) {
           match.params.c
         : "noImg",
   });
-  console.log(data);
-  console.log(match);
   const signupCheck = useCallback(() => {
     if (data.didSignup) {
       localStorage.setItem("accessToken", match.params.accessToken);
@@ -43,7 +42,7 @@ function ProcessLogin({ match }) {
       {data.didSignup ? (
         <Redirect to="/"></Redirect>
       ) : (
-        <Redirect to="/signupInfo"></Redirect>
+        <Redirect to="/signup"></Redirect>
       )}
     </>
   );

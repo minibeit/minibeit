@@ -7,6 +7,7 @@ import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
+import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.service.exception.DuplicateApplyException;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostDoDateIsFullException;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class PostApplicantService {
     private final PostDoDateRepository postDoDateRepository;
     private final PostApplicantRepository postApplicantRepository;
+    private final PostLikeRepository postLikeRepository;
 
     public void apply(Long postDoDateId, User user) {
         PostDoDate postDoDate = postDoDateRepository.findByIdWithPostAndApplicant(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
@@ -40,6 +42,8 @@ public class PostApplicantService {
 
         PostApplicant postApplicant = PostApplicant.create(postDoDate, user);
         postApplicantRepository.save(postApplicant);
+
+        postLikeRepository.deleteByPostId(postDoDate.getPost().getId());
     }
 
     public void applyMyFinish(Long postDoDateId, LocalDateTime now, User user) {
@@ -55,11 +59,10 @@ public class PostApplicantService {
     public void applyCancel(Long postDoDateId, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
 
-        postApplicantRepository.deleteByPostDoDateIdAndUserId(postDoDateId, user.getId());
+        postApplicantRepository.delete(postApplicant);
 
         if (postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
             PostDoDate postDoDate = postDoDateRepository.findById(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
-
             List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
             postDoDate.updateFull(approvedPostApplicant);
         }

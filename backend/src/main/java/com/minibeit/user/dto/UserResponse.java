@@ -42,11 +42,13 @@ public class UserResponse {
     public static class IdAndNickname {
         private Long id;
         private String nickname;
+        private String email;
 
         public static IdAndNickname build(User user) {
             return IdAndNickname.builder()
                     .id(user.getId())
                     .nickname(user.getNickname())
+                    .email(user.getEmail())
                     .build();
         }
     }

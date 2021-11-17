@@ -9,6 +9,10 @@ export default function InfoData({
   checkingNickname,
   inputData,
   nickNameCheck,
+  checkingEmail,
+  checkingCode,
+  completeEmail,
+  setCompleteEmail,
 }) {
   const range = (start, end) => {
     var arr = [];
@@ -19,6 +23,7 @@ export default function InfoData({
     }
     return arr;
   };
+
   return (
     <div>
       <S.ImgContainer>
@@ -132,6 +137,44 @@ export default function InfoData({
               <input name="phoneNum3" type="number" onChange={onChange} />
             </div>
           </S.PhoneNumBox>
+          <S.EmailBox>
+            <p>이메일</p>
+            <S.EmailInput>
+              <input
+                defaultValue={inputData.email}
+                name="email"
+                disabled={inputData.email ? true : false}
+                onChange={(e) => {
+                  setCompleteEmail(false);
+                  e.target.nextSibling.setAttribute("style", "display:block");
+                }}
+              />
+              <button
+                style={{ display: "none" }}
+                onClick={(e) => {
+                  checkingEmail(e.target.previousSibling.value);
+                  e.target.previousSibling.setAttribute("disabled", true);
+                  e.target.setAttribute("style", "display:none");
+                  e.target.parentNode.nextSibling.setAttribute(
+                    "style",
+                    "display:flex"
+                  );
+                }}
+              >
+                인증
+              </button>
+            </S.EmailInput>
+            {!completeEmail && (
+              <div style={{ display: "none" }}>
+                <input />
+                <button
+                  onClick={(e) => checkingCode(e.target.previousSibling.value)}
+                >
+                  확인
+                </button>
+              </div>
+            )}
+          </S.EmailBox>
         </div>
       </S.InfoContainer>
     </div>

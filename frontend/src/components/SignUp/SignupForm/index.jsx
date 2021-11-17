@@ -13,15 +13,16 @@ import SchoolSelect from "./SchoolSelect";
 import JobSelect from "./JobSelect";
 
 import * as S from "./style";
+import { checkCodeApi, verificationApi } from "../../../utils/mailApi";
 
 export default function SignUpComponent({ setFinish }) {
   const [inputData, setInputData] = useRecoilState(signupState);
   const [, setLoginState] = useRecoilState(userState);
   const guest = useRecoilValue(geustState);
-
   const [step, setStep] = useState(1);
   const history = useHistory();
   const [nickNameCheck, setNickNameCheck] = useState();
+  const [completeEmail, setCompleteEmail] = useState(true);
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -29,6 +30,7 @@ export default function SignUpComponent({ setFinish }) {
     copy[name] = value;
     setInputData(copy);
   };
+
   const onFileChange = (e) => {
     const copy = { ...inputData };
     switch (e.target.id) {
@@ -57,30 +59,50 @@ export default function SignUpComponent({ setFinish }) {
         });
     }
   };
+  const checkingEmail = (email) => {
+    verificationApi(guest.accessToken, guest.id, email).then((res) => {
+      if (res.status !== 200) alert("오류가 발생했습니다. 다시 시도해주세요");
+      else {
+        let copy = { ...inputData };
+        copy.email = email;
+        setInputData(copy);
+      }
+    });
+  };
+  const checkingCode = (code) => {
+    checkCodeApi(guest.accessToken, code, guest.id, "EMAIL").then((res) => {
+      if (res.status === 200) {
+        alert("이메일 인증 성공!");
+        setCompleteEmail(true);
+      } else {
+        alert("인증번호가 잘못되었습니다.");
+      }
+    });
+  };
+
   const firstStep = () => {
     if (
-      inputData.name &&
-      inputData.gender &&
-      inputData.year &&
-      inputData.month &&
-      inputData.date &&
-      inputData.phoneNum2.length <= 4 &&
-      inputData.phoneNum3.length <= 4
+      !inputData.name ||
+      !inputData.gender ||
+      !inputData.year ||
+      !inputData.month ||
+      !inputData.date
     ) {
-      return true;
-    } else return false;
+      alert("정보를 확인해주세요");
+      return false;
+    } else if (!nickNameCheck) {
+      alert("닉네임 중복을 확인해주세요");
+      return false;
+    } else if (!completeEmail) {
+      alert("이메일을 확인해 주세요");
+      return false;
+    } else return true;
   };
 
   const nextStep = () => {
     if (step === 1) {
       if (firstStep()) {
-        if (nickNameCheck) {
-          setStep(2);
-        } else {
-          alert("닉네임 중복을 확인해주세요");
-        }
-      } else {
-        alert("정보를 확인해주세요");
+        setStep(2);
       }
     } else if (step === 2) {
       if (inputData.schoolId) {
@@ -169,6 +191,10 @@ export default function SignUpComponent({ setFinish }) {
                 checkingNickname={checkingNickname}
                 inputData={inputData}
                 nickNameCheck={nickNameCheck}
+                checkingEmail={checkingEmail}
+                checkingCode={checkingCode}
+                completeEmail={completeEmail}
+                setCompleteEmail={setCompleteEmail}
               />
             )}
             {step === 2 && (

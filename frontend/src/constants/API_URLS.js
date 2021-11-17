@@ -47,5 +47,7 @@ const API_URLS = {
   DELETE_CANCEL: "/api/rejectPost/",
   EDIT_REVIEW: "/api/business/profile/review/",
   MAIL: "/api/mail/post",
+  VERIFICATION: "/api/mail/user/",
+  CHECK_CODE: "/api/user/",
 };
 export default API_URLS;

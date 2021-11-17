@@ -235,6 +235,55 @@ export const PhoneNumBox = styled(InputBox)`
     }
   }
 `;
+export const EmailBox = styled(InputBox)`
+  & > div {
+    display: flex;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    & > input {
+      border-radius: 0;
+      outline: none;
+      &:disabled {
+        font-weight: bold;
+      }
+    }
+    & > button {
+      white-space: nowrap;
+      background: white;
+      border: none;
+      cursor: pointer;
+      color: blue;
+      &:disabled {
+        display: none;
+      }
+    }
+  }
+`;
+export const EmailInput = styled.div`
+  display: flex;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  & > input {
+    border-radius: 0;
+    outline: none;
+    &:disabled {
+      font-weight: bold;
+      background: rgb(232, 240, 254);
+    }
+  }
+  & > button {
+    white-space: nowrap;
+    background: white;
+    border: none;
+    cursor: pointer;
+    color: blue;
+    &:disabled {
+      display: none;
+    }
+  }
+`;
+
+/*school*/
 export const SchoolBox = styled(InputBox)`
   min-width: 16rem;
   margin: 3rem 1rem;

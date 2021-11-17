@@ -11,6 +11,7 @@ export const signupInfoApi = (inputData, accessToken) => {
   formData.append("gender", inputData.gender);
   formData.append("job", inputData.job);
   formData.append("schoolId", inputData.schoolId);
+  formData.append("email", inputData.email);
   formData.append(
     "phoneNum",
     inputData.phoneNum1 + inputData.phoneNum2 + inputData.phoneNum3

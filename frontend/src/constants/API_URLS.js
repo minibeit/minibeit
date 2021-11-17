@@ -49,5 +49,6 @@ const API_URLS = {
   MAIL: "/api/mail/post",
   VERIFICATION: "/api/mail/user/",
   CHECK_CODE: "/api/user/",
+  VERIFICATION_SMS: "/api/user/",
 };
 export default API_URLS;

@@ -14,6 +14,7 @@ import JobSelect from "./JobSelect";
 
 import * as S from "./style";
 import { checkCodeApi, verificationApi } from "../../../utils/mailApi";
+import { checkPhoneApi } from "../../../utils/smsApi";
 
 export default function SignUpComponent({ setFinish }) {
   const [inputData, setInputData] = useRecoilState(signupState);
@@ -21,7 +22,8 @@ export default function SignUpComponent({ setFinish }) {
   const guest = useRecoilValue(geustState);
   const [step, setStep] = useState(1);
   const history = useHistory();
-  const [nickNameCheck, setNickNameCheck] = useState();
+  const [nickNameCheck, setNickNameCheck] = useState(null);
+  const [completePhone, setCompletePhone] = useState(false);
   const [completeEmail, setCompleteEmail] = useState(true);
 
   const onChange = (e) => {
@@ -59,6 +61,11 @@ export default function SignUpComponent({ setFinish }) {
         });
     }
   };
+  const checkingPhone = (phoneNum) => {
+    checkPhoneApi(guest.accessToken, guest.id, phoneNum).then((res) => {
+      if (res.status !== 200) alert("오류가 발생했습니다. 다시 시도해주세요");
+    });
+  };
   const checkingEmail = (email) => {
     verificationApi(guest.accessToken, guest.id, email).then((res) => {
       if (res.status !== 200) alert("오류가 발생했습니다. 다시 시도해주세요");
@@ -69,11 +76,15 @@ export default function SignUpComponent({ setFinish }) {
       }
     });
   };
-  const checkingCode = (code) => {
-    checkCodeApi(guest.accessToken, code, guest.id, "EMAIL").then((res) => {
+  const checkingCode = (code, type) => {
+    checkCodeApi(guest.accessToken, code, guest.id, type).then((res) => {
       if (res.status === 200) {
-        alert("이메일 인증 성공!");
-        setCompleteEmail(true);
+        alert("인증 성공!");
+        if (type === "EMAIL") {
+          setCompleteEmail(true);
+        } else if (type === "PHONE") {
+          setCompletePhone(true);
+        }
       } else {
         alert("인증번호가 잘못되었습니다.");
       }
@@ -92,6 +103,9 @@ export default function SignUpComponent({ setFinish }) {
       return false;
     } else if (!nickNameCheck) {
       alert("닉네임 중복을 확인해주세요");
+      return false;
+    } else if (!completePhone) {
+      alert("연락처를 확인해 주세요");
       return false;
     } else if (!completeEmail) {
       alert("이메일을 확인해 주세요");
@@ -193,6 +207,8 @@ export default function SignUpComponent({ setFinish }) {
                 nickNameCheck={nickNameCheck}
                 checkingEmail={checkingEmail}
                 checkingCode={checkingCode}
+                checkingPhone={checkingPhone}
+                completePhone={completePhone}
                 completeEmail={completeEmail}
                 setCompleteEmail={setCompleteEmail}
               />

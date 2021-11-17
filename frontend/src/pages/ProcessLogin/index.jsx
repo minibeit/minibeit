@@ -23,8 +23,6 @@ function ProcessLogin({ match }) {
           match.params.c
         : "noImg",
   });
-  console.log(data);
-  console.log(match);
   const signupCheck = useCallback(() => {
     if (data.didSignup) {
       localStorage.setItem("accessToken", match.params.accessToken);
@@ -43,7 +41,7 @@ function ProcessLogin({ match }) {
       {data.didSignup ? (
         <Redirect to="/"></Redirect>
       ) : (
-        <Redirect to="/signupInfo"></Redirect>
+        <Redirect to="/signup"></Redirect>
       )}
     </>
   );

@@ -10,67 +10,67 @@ export const ModalBackground = styled.div`
   z-index: 99;
 `;
 export const ModalBox = styled.div`
+  display: flex;
+  flex-direction: column;
   transform: translate(-50%, -50%);
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 57%;
-  max-width: 36rem;
+  background-color: white;
+  width: 100%;
+  max-width: 35rem;
   border-radius: 20px;
-  padding: 46px 0;
-  height: 30rem;
-  background: #f1f0f0;
+  height: 35rem;
 `;
 export const ModalHeader = styled.div`
   display: flex;
   align-items: center;
-  height: 2rem;
+  height: 4.5rem;
 `;
 export const CloseModalBtn = styled.div`
   margin-left: auto;
-  margin-right: 0.5rem;
-  align-items: end;
-  display: flex;
-  flex-direction: column;
+  margin-right: 1.5rem;
   height: -webkit-fill-available;
   & > svg {
+    height: 37.67px;
+    font-size: 30.5px;
+    margin: 17px 0px;
     cursor: pointer;
   }
 `;
 export const ModalContent = styled.div`
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: -webkit-fill-available;
-  & > p:first-child {
-    font-size: 73px;
-  }
-  & > p:nth-child(2) {
-    font-size: 24px;
-    font-weight: 600;
-    text-align: center;
-    letter-spacing: 2.2px;
-    line-height: 32.2px;
+  gap: 1rem;
+  & > p:nth-child(3) {
+    margin-top: auto;
+    margin-bottom: 1rem;
   }
 `;
-export const SignupInfoBox = styled.div`
-  width: -webkit-fill-available;
+export const Box = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: lightgrey;
-  padding: 1rem 0;
-  justify-content: space-around;
-  height: auto;
-  position: relative;
-  bottom: 1rem;
-  z-index: -1;
-  height: 19rem;
+  gap: 0.5rem;
 `;
+export const MessageBox = styled(Box)`
+  & > div:first-child {
+    font-size: 4rem;
+    margin: 0.5rem;
+  }
+  & > p {
+    font-size: 1.6rem;
+    font-weight: bold;
+  }
+`;
+
+export const DataBox = styled(Box)``;
 export const ImgBox = styled.div`
   background-color: gray;
   overflow: hidden;
-  height: 14rem;
+  height: 8rem;
   border-radius: 50%;
   display: inline-block;
 `;

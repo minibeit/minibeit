@@ -10,6 +10,7 @@ function ProcessLogin({ match }) {
     isLogin: true,
     id: parseInt(match.params.id),
     name: match.params.nickname,
+    email: match.params.email,
     didSignup: JSON.parse(match.params.signupCheck),
     schoolId: parseInt(match.params.schoolId),
     bpId: 0,

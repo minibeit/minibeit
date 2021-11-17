@@ -66,6 +66,10 @@ export const UserListBox = styled.div`
   margin: 1rem;
   gap: 0.5rem;
   flex-wrap: wrap;
+  & > div {
+    display: flex;
+    justify-content: end;
+  }
 `;
 export const UserBox = styled.div`
   background: white;
@@ -77,13 +81,13 @@ export const UserBox = styled.div`
 `;
 export const UserDeleteBtn = styled.button`
   position: absolute;
+  transform: translate(0.3rem, -0.3rem);
   width: 1rem;
   height: 1rem;
   border-radius: 100%;
   border: none;
   cursor: pointer;
   padding: 0;
-  transform: translate(435%, -40%);
   & > svg {
     font-size: 1rem;
   }

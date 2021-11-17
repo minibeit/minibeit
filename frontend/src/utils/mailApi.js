@@ -6,7 +6,7 @@ const { MAIL } = API_URLS;
 export const sendMailApi = (status, userEmail) => {
   var data = {
     postMailCondition: status,
-    toEmail: userEmail,
+    toEmailList: userEmail,
   };
   return withAuthInstance.post(MAIL, data);
 };

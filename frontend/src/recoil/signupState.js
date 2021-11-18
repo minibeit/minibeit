@@ -15,5 +15,6 @@ export const signupState = atom({
     phoneNum3: null,
     schoolId: null,
     job: null,
+    email: null,
   },
 });

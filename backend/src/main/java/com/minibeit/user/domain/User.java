@@ -5,7 +5,6 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.school.domain.School;
-import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserRequest;
 import lombok.*;
 
@@ -63,9 +62,10 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserBusinessProfile> userBusinessProfileList = new ArrayList<>();
 
-    public User signup(AuthRequest.Signup request, School school, Avatar avatar) {
+    public User signup(UserRequest.Signup request, School school, Avatar avatar) {
         this.name = request.getName();
         this.nickname = request.getNickname();
+        this.email = request.getEmail();
         this.gender = request.getGender();
         this.job = request.getJob();
         this.phoneNum = request.getPhoneNum();
@@ -79,6 +79,7 @@ public class User extends BaseEntity {
     public User update(UserRequest.Update request, School school) {
         this.name = request.getName();
         this.nickname = request.getNickname();
+        this.email = request.getEmail();
         this.gender = request.getGender();
         this.job = request.getJob();
         this.phoneNum = request.getPhoneNum();

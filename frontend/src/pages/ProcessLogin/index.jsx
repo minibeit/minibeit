@@ -1,16 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import { signupState } from "../../recoil/signupState";
 import { geustState, userState } from "../../recoil/userState";
 
 function ProcessLogin({ match }) {
   const [, setUser] = useRecoilState(userState);
   const [, setGuest] = useRecoilState(geustState);
+  const [signup, setSignup] = useRecoilState(signupState);
   const [data] = useState({
     isLogin: true,
     id: parseInt(match.params.id),
     name: match.params.nickname,
-    email: match.params.email,
+    email: match.params.email === "null" ? null : match.params.email,
     didSignup: JSON.parse(match.params.signupCheck),
     schoolId: parseInt(match.params.schoolId),
     bpId: 0,
@@ -31,8 +33,11 @@ function ProcessLogin({ match }) {
     } else {
       data.accessToken = match.params.accessToken;
       setGuest(data);
+      let copy = { ...signup };
+      copy.email = data.email;
+      setSignup(copy);
     }
-  }, [data, match.params.accessToken, setGuest, setUser]);
+  }, [data, match.params.accessToken, setGuest, setUser, setSignup, signup]);
 
   useEffect(() => {
     signupCheck();

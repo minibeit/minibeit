@@ -63,9 +63,9 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         CookieUtils.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), 14 * 24 * 60 * 60);
 
         if (user.getAvatar() != null) {
-            response.sendRedirect(url + user.getId() + "/" + nickname + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/" + avatar);
+            response.sendRedirect(url + user.getId() + "/" + nickname + "/" + user.getEmail() + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/" + avatar);
         } else {
-            response.sendRedirect(url + user.getId() + "/" + nickname + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/0/0/0");
+            response.sendRedirect(url + user.getId() + "/" + nickname + "/" + user.getEmail() + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/0/0/0");
         }
     }
 }

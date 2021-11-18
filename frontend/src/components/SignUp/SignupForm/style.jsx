@@ -169,10 +169,15 @@ export const InfoContainer = styled(Container)`
   flex: 2;
   width: 100%;
   gap: 4rem;
-  & > div {
+  & > div:first-child {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+  }
+  & > div:nth-child(2) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 `;
 export const NameBox = styled(InputBox)`
@@ -221,20 +226,69 @@ export const BirthBox = styled(InputBox)`
   }
 `;
 export const PhoneNumBox = styled(InputBox)`
-  width: 8rem;
-  & > div {
-    display: flex;
-    gap: 0.2rem;
-    & > input {
-      flex: 1;
+  width: 12rem;
+  & > input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+`;
+export const PhoneNumInput = styled.div`
+  display: flex;
+  overflow: hidden;
+  align-items: center;
+  background: white;
+  border-radius: 0.5rem;
+  & > input {
+    border-radius: 0;
+    text-align: center;
+    outline: none;
+    padding: 0.5rem 0;
+    &:disabled {
+      font-weight: bold;
+      background: rgb(232, 240, 254);
     }
-    & > input[type="number"]::-webkit-outer-spin-button,
-    input[type="number"]::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
+  }
+  & > button {
+    white-space: nowrap;
+    background: white;
+    border: none;
+    cursor: pointer;
+    height: 100%;
+    &:disabled {
+      font-weight: bold;
+      background: rgb(232, 240, 254);
+      color: blue;
     }
   }
 `;
+export const EmailBox = styled(InputBox)``;
+export const EmailInput = styled.div`
+  display: flex;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  & > input {
+    border-radius: 0;
+    outline: none;
+    &:disabled {
+      font-weight: bold;
+      background: rgb(232, 240, 254);
+    }
+  }
+  & > button {
+    white-space: nowrap;
+    background: white;
+    border: none;
+    cursor: pointer;
+    &:disabled {
+      font-weight: bold;
+      background: rgb(232, 240, 254);
+      color: blue;
+    }
+  }
+`;
+
+/*school*/
 export const SchoolBox = styled(InputBox)`
   min-width: 16rem;
   margin: 3rem 1rem;

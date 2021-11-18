@@ -9,6 +9,12 @@ export default function InfoData({
   checkingNickname,
   inputData,
   nickNameCheck,
+  checkingEmail,
+  checkingCode,
+  checkingPhone,
+  completePhone,
+  completeEmail,
+  setCompleteEmail,
 }) {
   const range = (start, end) => {
     var arr = [];
@@ -19,6 +25,7 @@ export default function InfoData({
     }
     return arr;
   };
+
   return (
     <div>
       <S.ImgContainer>
@@ -66,12 +73,14 @@ export default function InfoData({
               />
               <button onClick={() => checkingNickname()}>확인</button>
             </div>
-            {nickNameCheck && (
-              <p style={{ color: "blue" }}>사용가능한 닉네임 입니다</p>
-            )}
-            {nickNameCheck === false && (
-              <p style={{ color: "red" }}>사용불가한 닉네임 입니다</p>
-            )}
+            <p
+              style={{
+                color: nickNameCheck ? "blue" : "red",
+                opacity: nickNameCheck === null ? 0 : 1,
+              }}
+            >
+              {nickNameCheck ? "사용가능한" : "사용불가한"} 닉네임 입니다
+            </p>
           </S.NickNameBox>
           <S.GenderBox>
             <p>성별</p>
@@ -126,12 +135,88 @@ export default function InfoData({
         <div>
           <S.PhoneNumBox>
             <p>연락처</p>
-            <div>
+            <S.PhoneNumInput>
               <input value="010" disabled={true} name="phoneNum1" />
-              <input name="phoneNum2" type="number" onChange={onChange} />
-              <input name="phoneNum3" type="number" onChange={onChange} />
-            </div>
+              {"-"}
+              <input
+                disabled={completePhone}
+                name="phoneNum2"
+                type="number"
+                onChange={onChange}
+              />
+              {"-"}
+              <input
+                disabled={completePhone}
+                name="phoneNum3"
+                type="number"
+                onChange={onChange}
+              />
+              <button
+                onClick={(e) => {
+                  checkingPhone(
+                    inputData.phoneNum1 +
+                      inputData.phoneNum2 +
+                      inputData.phoneNum3
+                  );
+                  e.target.parentNode.nextSibling.setAttribute(
+                    "style",
+                    "display:flex"
+                  );
+                }}
+                disabled={completePhone}
+              >
+                인증
+              </button>
+            </S.PhoneNumInput>
+            {!completePhone && (
+              <S.PhoneNumInput style={{ display: "none" }}>
+                <input />
+                <button
+                  onClick={(e) =>
+                    checkingCode(e.target.previousSibling.value, "PHONE")
+                  }
+                >
+                  확인
+                </button>
+              </S.PhoneNumInput>
+            )}
           </S.PhoneNumBox>
+          <S.EmailBox>
+            <p>이메일</p>
+            <S.EmailInput>
+              <input
+                defaultValue={inputData.email}
+                name="email"
+                disabled={completeEmail && inputData.email !== null}
+                onChange={(e) => {
+                  setCompleteEmail(false);
+                }}
+              />
+              <button
+                onClick={(e) => {
+                  checkingEmail(e.target.previousSibling.value);
+                  e.target.parentNode.nextSibling.setAttribute(
+                    "style",
+                    "display:flex"
+                  );
+                }}
+                disabled={completeEmail}
+              >
+                인증
+              </button>
+            </S.EmailInput>
+            <S.EmailInput style={{ display: "none" }}>
+              <input />
+              <button
+                onClick={(e) => {
+                  checkingCode(e.target.previousSibling.value, "EMAIL");
+                  e.target.parentNode.setAttribute("style", "display:none");
+                }}
+              >
+                확인
+              </button>
+            </S.EmailInput>
+          </S.EmailBox>
         </div>
       </S.InfoContainer>
     </div>

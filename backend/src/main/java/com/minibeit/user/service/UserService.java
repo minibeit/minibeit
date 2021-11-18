@@ -59,11 +59,12 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public void codeVerification(Long userId, UserRequest.Verification request) {
+    public UserResponse.Verification codeVerification(Long userId, UserRequest.Verification request) {
         UserVerificationCode userVerificationCode = userVerificationCodeRepository.findByUserIdAndVerificationKinds(userId, request.getVerificationKinds()).orElseThrow(UserVerificationCodeNotFoundException::new);
         if (!userVerificationCode.validate(request.getCode())) {
             throw new InvalidVerificationCodeException();
         }
+        return UserResponse.Verification.build(userVerificationCode.getUser());
     }
 
     @Transactional(readOnly = true)

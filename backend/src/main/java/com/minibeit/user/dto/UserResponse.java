@@ -3,14 +3,11 @@ package com.minibeit.user.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.minibeit.avatar.domain.Avatar;
-import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.security.token.Token;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class UserResponse {
     @Getter
@@ -106,6 +103,19 @@ public class UserResponse {
                 return getOneBuilder.avatar(user.getAvatar().getUrl()).build();
             }
             return getOneBuilder.build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Verification {
+        private String phoneNum;
+        private String email;
+
+        public static Verification build(User user) {
+            return Verification.builder().email(user.getEmail()).phoneNum(user.getPhoneNum()).build();
         }
     }
 }

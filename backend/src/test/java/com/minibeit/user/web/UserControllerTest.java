@@ -158,6 +158,10 @@ class UserControllerTest extends MvcTest {
                 .verificationKinds(VerificationKinds.EMAIL)
                 .build();
 
+        UserResponse.Verification response = UserResponse.Verification.build(user1);
+
+        given(userService.codeVerification(any(), any())).willReturn(response);
+
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .post("/api/user/{userId}/verification", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -166,6 +170,7 @@ class UserControllerTest extends MvcTest {
         );
 
         results.andExpect(status().isOk())
+                .andDo(print())
                 .andDo(document("user-verification",
                         pathParameters(
                                 parameterWithName("userId").description("유저 식별자")
@@ -177,7 +182,8 @@ class UserControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
-                                fieldWithPath("data").description("data 없다면 null")
+                                fieldWithPath("data.phoneNum").description("전화번호"),
+                                fieldWithPath("data.email").description("이메일")
                         )
                 ));
     }

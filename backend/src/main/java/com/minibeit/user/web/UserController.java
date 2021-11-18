@@ -3,7 +3,6 @@ package com.minibeit.user.web;
 import com.minibeit.common.dto.ApiResult;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
-import com.minibeit.user.dto.AuthRequest;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.UserService;
@@ -22,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<ApiResult<UserResponse.CreateOrUpdate>> signup(@Valid AuthRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<UserResponse.CreateOrUpdate>> signup(@Valid UserRequest.Signup request, @CurrentUser CustomUserDetails customUserDetails) {
         UserResponse.CreateOrUpdate response = userService.signup(request, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
@@ -35,6 +34,12 @@ public class UserController {
     @PostMapping("/nickname/check")
     public ResponseEntity<ApiResult<Void>> nicknameCheck(@Valid @RequestBody UserRequest.Nickname request) {
         userService.nickNameCheck(request);
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
+    }
+
+    @PostMapping("/{userId}/verification")
+    public ResponseEntity<ApiResult<Void>> codeVerification(@PathVariable Long userId, @Valid @RequestBody UserRequest.Verification request) {
+        userService.codeVerification(userId, request);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 

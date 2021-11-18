@@ -63,3 +63,9 @@ dev:
 s3:
   file:
     prefix:
+
+sms:
+  serviceId:
+  accessKey:
+  secretKey:
+  from:

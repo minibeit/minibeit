@@ -1,0 +1,7 @@
+POST {{apiUrl}}/user/1/sms
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+{
+  "receiverPhoneNumber": "01012341234"
+}

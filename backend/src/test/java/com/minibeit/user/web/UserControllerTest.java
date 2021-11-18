@@ -5,6 +5,7 @@ import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.User;
+import com.minibeit.user.domain.VerificationKinds;
 import com.minibeit.user.dto.UserRequest;
 import com.minibeit.user.dto.UserResponse;
 import com.minibeit.user.service.UserService;
@@ -27,7 +28,6 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
@@ -88,6 +88,7 @@ class UserControllerTest extends MvcTest {
                         .param("name", "실명")
                         .param("nickname", "동그라미")
                         .param("gender", "MALE")
+                        .param("email", "test@test.com")
                         .param("phoneNum", "010-1234-5678")
                         .param("job", "대학생")
                         .param("birth", "2000-11-11")
@@ -101,6 +102,7 @@ class UserControllerTest extends MvcTest {
                         requestParameters(
                                 parameterWithName("name").description("실명"),
                                 parameterWithName("nickname").description("닉네임"),
+                                parameterWithName("email").description("이메일"),
                                 parameterWithName("gender").description("성별(MALE or FEMALE)"),
                                 parameterWithName("phoneNum").description("전화번호"),
                                 parameterWithName("birth").description("생년월일 (2000-11-11)"),
@@ -139,6 +141,38 @@ class UserControllerTest extends MvcTest {
                 .andDo(document("user-nickname-check",
                         requestFields(
                                 fieldWithPath("nickname").type(JsonFieldType.STRING).description("중복체크할 닉네임")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("이메일 인증코드 확인 문서화")
+    public void emailCodeVerification() throws Exception {
+        UserRequest.Verification request = UserRequest.Verification.builder()
+                .code("123456")
+                .verificationKinds(VerificationKinds.EMAIL)
+                .build();
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .post("/api/user/{userId}/verification", 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(objectMapper.writeValueAsString(request))
+        );
+
+        results.andExpect(status().isOk())
+                .andDo(document("user-verification",
+                        pathParameters(
+                                parameterWithName("userId").description("유저 식별자")
+                        ),
+                        requestFields(
+                                fieldWithPath("code").type(JsonFieldType.STRING).description("인증코드"),
+                                fieldWithPath("verificationKinds").type(JsonFieldType.STRING).description("인증 유형(EMAIL or PHONE)")
                         ),
                         responseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
@@ -191,6 +225,7 @@ class UserControllerTest extends MvcTest {
                         .file(avatar)
                         .param("name", "수정된이름")
                         .param("nickname", "별")
+                        .param("email", "test@test.com")
                         .param("nicknameChanged", "true")
                         .param("gender", "MALE")
                         .param("phoneNum", "010-1234-5678")
@@ -208,6 +243,7 @@ class UserControllerTest extends MvcTest {
                                 parameterWithName("name").description("실명"),
                                 parameterWithName("nicknameChanged").description("닉네임 수정여부(수정했다면 true 안했다면 false)"),
                                 parameterWithName("nickname").description("닉네임"),
+                                parameterWithName("email").description("이메일"),
                                 parameterWithName("gender").description("성별(MALE or FEMALE)"),
                                 parameterWithName("phoneNum").description("전화번호"),
                                 parameterWithName("job").description("직업"),

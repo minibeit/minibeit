@@ -1,7 +1,7 @@
 package com.minibeit.post.scheduler;
 
 import com.minibeit.mail.condition.PostMailCondition;
-import com.minibeit.mail.service.PostStatusMailService;
+import com.minibeit.mail.service.MailService;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.RejectPostRepository;
@@ -21,7 +21,7 @@ public class PostRejectScheduler {
     private final static String REJECT_MSG = "모집이 마감되었습니다.";
     private final PostApplicantRepository postApplicantRepository;
     private final RejectPostRepository rejectPostRepository;
-    private final PostStatusMailService postStatusMailService;
+    private final MailService mailService;
 
     @Scheduled(cron = "0 0 7 * * *", zone = "Asia/Seoul")
     public void rejectApplicantBeforeToday() {
@@ -38,7 +38,7 @@ public class PostRejectScheduler {
             rejectPosts.add(rejectPost);
             postApplicantIds.add(postApplicant.getId());
         });
-        postStatusMailService.mailSend(PostMailCondition.REJECT, postApplicantMails);
+        mailService.mailSend(PostMailCondition.REJECT, postApplicantMails);
         rejectPostRepository.saveAll(rejectPosts);
         postApplicantRepository.updateReject(postApplicantIds, ApplyStatus.REJECT);
     }

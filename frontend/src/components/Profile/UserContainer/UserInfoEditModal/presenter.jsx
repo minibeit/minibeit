@@ -7,11 +7,18 @@ export default function Presenter({
   userData,
   onChange,
   onFileChange,
-  newNickname,
-  setNewNickname,
   schoolId,
   setSchoolId,
   checkingNickname,
+  changeNickname,
+  setChangeNickname,
+  checkingPhone,
+  changePhone,
+  setChangePhone,
+  checkingEmail,
+  changeEmail,
+  setChangeEmail,
+  checkingCode,
   submitEditUser,
 }) {
   return (
@@ -50,26 +57,26 @@ export default function Presenter({
               />
             </div>
           </S.EditInput>
-          <S.EditInput>
+          <S.EmailPhoneInput>
+            <p>닉네임</p>
             <div>
-              <p>닉네임</p>
               <input
                 defaultValue={userData.nickname}
                 name="nickname"
                 type="text"
                 placeholder="닉네임"
-                onChange={(e) => setNewNickname(e.target.value)}
+                onChange={(e) => setChangeNickname(false)}
               />
+              <button
+                disabled={changeNickname}
+                onClick={(e) =>
+                  checkingNickname(e.target.previousSibling.value)
+                }
+              >
+                중복확인
+              </button>
             </div>
-            <button
-              disabled={
-                newNickname && newNickname !== userData.nickname ? false : true
-              }
-              onClick={() => checkingNickname(newNickname)}
-            >
-              중복확인
-            </button>
-          </S.EditInput>
+          </S.EmailPhoneInput>
         </div>
         <div>
           <S.EditInput>
@@ -83,6 +90,7 @@ export default function Presenter({
               />
             </div>
           </S.EditInput>
+
           <S.SelectForm>
             <p>관심학교</p>
             <SchoolSelect
@@ -126,20 +134,79 @@ export default function Presenter({
           </S.EditInput>
         </div>
         <div>
-          <S.EditInput>
+          <S.EmailPhoneInput>
+            <p>연락처</p>
             <div>
-              <p>연락처</p>
               <input
                 defaultValue={userData.phoneNum}
                 name="phoneNum"
                 type="text"
                 placeholder="전화번호"
-                onChange={onChange}
+                onChange={() => setChangePhone(false)}
               />
+              <button
+                disabled={changePhone}
+                onClick={(e) => {
+                  checkingPhone(e.target.previousSibling.value);
+                  e.target.parentNode.nextSibling.setAttribute(
+                    "style",
+                    "display:flex"
+                  );
+                }}
+              >
+                인증
+              </button>
             </div>
-          </S.EditInput>
+
+            <div style={{ display: "none" }}>
+              <input />
+              <button
+                onClick={(e) => {
+                  checkingCode(e.target.previousSibling.value, "PHONE");
+                  e.target.parentNode.setAttribute("style", "display:none");
+                }}
+              >
+                인증
+              </button>
+            </div>
+          </S.EmailPhoneInput>
+          <S.EmailPhoneInput>
+            <p>이메일</p>
+            <div>
+              <input
+                defaultValue={userData.email}
+                name="email"
+                type="text"
+                placeholder="이메일"
+                onChange={() => setChangeEmail(false)}
+              />
+              <button
+                disabled={changeEmail}
+                onClick={(e) => {
+                  checkingEmail(e.target.previousSibling.value);
+                  e.target.parentNode.nextSibling.setAttribute(
+                    "style",
+                    "display:flex"
+                  );
+                }}
+              >
+                인증
+              </button>
+            </div>
+            <div style={{ display: "none" }}>
+              <input />
+              <button
+                onClick={(e) => {
+                  checkingCode(e.target.previousSibling.value, "EMAIL");
+                  e.target.parentNode.setAttribute("style", "display:none");
+                }}
+              >
+                인증
+              </button>
+            </div>
+          </S.EmailPhoneInput>
         </div>
-        <button onClick={() => submitEditUser(userData, schoolId, newNickname)}>
+        <button onClick={() => submitEditUser(userData, schoolId)}>
           수정 완료
         </button>
       </S.InfoEditContainer>

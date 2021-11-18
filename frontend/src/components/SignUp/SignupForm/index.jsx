@@ -13,7 +13,7 @@ import SchoolSelect from "./SchoolSelect";
 import JobSelect from "./JobSelect";
 
 import * as S from "./style";
-import { checkCodeApi, verificationApi } from "../../../utils/mailApi";
+import { guestCheckCodeApi, guestCheckEmailApi } from "../../../utils/mailApi";
 import { checkPhoneApi } from "../../../utils/smsApi";
 
 export default function SignUpComponent({ setFinish }) {
@@ -67,7 +67,7 @@ export default function SignUpComponent({ setFinish }) {
     });
   };
   const checkingEmail = (email) => {
-    verificationApi(guest.accessToken, guest.id, email).then((res) => {
+    guestCheckEmailApi(guest.accessToken, guest.id, email).then((res) => {
       if (res.status !== 200) alert("오류가 발생했습니다. 다시 시도해주세요");
       else {
         let copy = { ...inputData };
@@ -77,7 +77,7 @@ export default function SignUpComponent({ setFinish }) {
     });
   };
   const checkingCode = (code, type) => {
-    checkCodeApi(guest.accessToken, code, guest.id, type).then((res) => {
+    guestCheckCodeApi(guest.accessToken, code, guest.id, type).then((res) => {
       if (res.status === 200) {
         alert("인증 성공!");
         if (type === "EMAIL") {

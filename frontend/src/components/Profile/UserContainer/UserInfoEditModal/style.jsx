@@ -151,6 +151,51 @@ export const SelectForm = styled.div`
   }
   & > div {
     margin-top: 7px;
+    background-color: #f9f9f9;
+  }
+`;
+export const EmailPhoneInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  & > p:first-child {
+    font-size: 0.5rem;
+  }
+  & > div {
+    display: flex;
+    border: none;
+    border-radius: 8px;
+    padding: 4px 0 8px 5px;
+    font-size: 15px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.14px;
+    text-align: left;
+    margin-top: 7px;
+    outline: none;
+    background: #fafafa;
+    color: #707070;
+    text-decoration: none;
+  }
+  & input {
+    width: 90%;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    color: #707070;
+  }
+  & button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: blue;
+    white-space: nowrap;
+    &:disabled {
+      color: #c4c4c4;
+      cursor: inherit;
+    }
   }
 `;
 

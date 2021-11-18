@@ -11,7 +11,7 @@ export const sendMailApi = (status, userEmail) => {
   };
   return withAuthInstance.post(MAIL, data);
 };
-export const verificationApi = (token, userId, userEmail) => {
+export const guestCheckEmailApi = (token, userId, userEmail) => {
   var data = {
     toEmail: userEmail,
   };
@@ -29,7 +29,7 @@ export const verificationApi = (token, userId, userEmail) => {
     .then((res) => res.data)
     .catch((err) => err.response);
 };
-export const checkCodeApi = (token, code, userId, type) => {
+export const guestCheckCodeApi = (token, code, userId, type) => {
   var data = {
     code: code,
     verificationKinds: type,
@@ -44,4 +44,21 @@ export const checkCodeApi = (token, code, userId, type) => {
   })
     .then((res) => res.data)
     .catch((err) => err.response);
+};
+
+export const checkEmailApi = (userId, userEmail) => {
+  var data = {
+    toEmail: userEmail,
+  };
+  return withAuthInstance.post(
+    VERIFICATION + `${userId}/email/verification`,
+    data
+  );
+};
+export const checkCodeApi = (code, userId, type) => {
+  var data = {
+    code: code,
+    verificationKinds: type,
+  };
+  return withAuthInstance.post(CHECK_CODE + `${userId}/verification`, data);
 };

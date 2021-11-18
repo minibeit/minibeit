@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { feedDeleteApi } from "../../../../utils";
 import FeedCloseModal from "../FeedCloseModal";
 import BManageModal from "../BManageModal";
+import EndRecruting from "../../../Common/Alert/EndRecruting"
 
 import * as S from "../../style";
 import EndSchedule from "../../../Common/Alert/EndSchedule";
@@ -66,14 +67,20 @@ export default function FeedBox({ status, data, changeFeedData }) {
                   />
                 )}
                 <button onClick={() => setCloseModal(1)}>모집종료</button>
-                {closeModal===1 && (
+                {closeModal===1 ? (
                   <FeedCloseModal
                     postId={data.id}
                     closeModal={closeModal}
                     changeFeedData={changeFeedData}
-                    setModalSwitch={setCloseModal}
-                  />
-                )}
+                    setCloseModal={setCloseModal}
+                  />):null
+                }
+                {closeModal===2 ? 
+                  <EndRecruting 
+                    changeFeedData={changeFeedData} 
+                    setCloseModal={setCloseModal}/> :null
+                }
+
               </S.FeedButton>
             </>
           )}

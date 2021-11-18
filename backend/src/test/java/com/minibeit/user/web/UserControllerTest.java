@@ -200,6 +200,7 @@ class UserControllerTest extends MvcTest {
                                 fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("회원가입한 유저 식별자"),
                                 fieldWithPath("data.name").type(JsonFieldType.STRING).description("실명"),
                                 fieldWithPath("data.nickname").type(JsonFieldType.STRING).description("닉네임"),
+                                fieldWithPath("data.email").type(JsonFieldType.STRING).description("이메일"),
                                 fieldWithPath("data.gender").type(JsonFieldType.STRING).description("성별(MALE or FEMALE)"),
                                 fieldWithPath("data.phoneNum").type(JsonFieldType.STRING).description("전화번호"),
                                 fieldWithPath("data.job").type(JsonFieldType.STRING).description("직업"),

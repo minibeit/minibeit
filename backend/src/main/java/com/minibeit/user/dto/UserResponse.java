@@ -81,6 +81,7 @@ public class UserResponse {
     public static class GetOne {
         private Long id;
         private String name;
+        private String email;
         private String nickname;
         private String gender;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
@@ -94,6 +95,7 @@ public class UserResponse {
             GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(user.getId())
                     .name(user.getName())
+                    .email(user.getEmail())
                     .nickname(user.getNickname())
                     .gender(user.getGender().name())
                     .birth(user.getBirth())

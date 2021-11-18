@@ -12,7 +12,7 @@ import AskEndSchedule from "../../../Common/Alert/AskEndSchedule";
 
 export default function FeedBox({ status, data, changeFeedData }) {
   const [manageModal, setManageModal] = useState(false);
-  const [closeModal, setCloseModal] = useState(false);
+  const [closeModal, setCloseModal] = useState(0);
 
   const deleteFeed = async (id) => {
     await feedDeleteApi(id)
@@ -65,10 +65,11 @@ export default function FeedBox({ status, data, changeFeedData }) {
                     setModalSwitch={setManageModal}
                   />
                 )}
-                <button onClick={() => setCloseModal(true)}>모집종료</button>
-                {closeModal && (
+                <button onClick={() => setCloseModal(1)}>모집종료</button>
+                {closeModal===1 && (
                   <FeedCloseModal
                     postId={data.id}
+                    closeModal={closeModal}
                     changeFeedData={changeFeedData}
                     setModalSwitch={setCloseModal}
                   />

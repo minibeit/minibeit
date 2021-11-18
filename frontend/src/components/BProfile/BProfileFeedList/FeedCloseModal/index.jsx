@@ -4,28 +4,23 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import * as S from "./style";
 import Portal from "../../../Common/Modal/Portal";
 import { stateCompleteApi } from "../../../../utils";
+import EndRecruting from "../../../Common/Alert/EndRecruting"
 
 export default function FeedCloseModal({
   postId,
   setModalSwitch,
   changeFeedData,
+  closeModal
 }) {
-  const [comment, setComment] = useState("");
-
-  const stateComplete = (postId, rejectComment) => {
-    let value = window.confirm("게시물을 삭제하시겠습니까?");
-    if (value) {
-      stateCompleteApi(postId, rejectComment)
-        .then(() => {
-          alert("게시물이 삭제되었습니다");
-          changeFeedData("생성한 모집공고");
-        })
-        .catch((err) => alert("삭제할 수 없는 게시물 입니다"));
-    }
-  };
+  const [comment, setComment] = useState(""); //input에 담긴 코멘트를 담음
   const [items] = useState(['죄송하지만, 급한 다른 일정이 생겼어요.', '죄송하지만, 참여자 모집이 원활하지 않아요.','죄송하지만, 상세 내용을 다시 변경하여 공고를 올려야해요.','죄송하지만, 행정 및 법률상 문제가 발생했어요.','죄송하지만, 참여자 명단을 확정했어요.','참여자들의 일정을 완료하고 보상을 지급했어요.','직접입력'])
   const [isActive, setIsActive] = useState(false);
   const [selected, setSelected] = useState('사유를 골라주세요.');
+  const [endAlert, setEndAlert] = useState(false);
+
+  const modalSwitch = () => {
+    setModalSwitch(0);
+  };
 
   const active = () => {
     setIsActive(!isActive);
@@ -40,16 +35,31 @@ export default function FeedCloseModal({
     };
   };
 
+  const stateComplete = (postId, rejectComment) => {
+    setModalSwitch(false);
+    setEndAlert(true);
+    if (endAlert) {
+      stateCompleteApi(postId, rejectComment)
+        .then(() => {    
+          changeFeedData('생성한 모집공고');
+        })
+        .catch((err) => alert("종료할 수 없는 게시물 입니다"));
+    }
+  };
 
   const onSubmit = () => {
     if (selected === "직접입력") {
       if (comment === "") {
-        alert("삭제사유를 입력하세요");
+        alert("종료사유를 입력하세요");
       } else {
         stateComplete(postId, comment);
       }
-    } else {
-      stateComplete(postId, selected);
+    } else { 
+      if(selected ==='사유를 골라주세요.') {
+        alert("종료사유를 골라주세요.");
+      } else {
+        stateComplete(postId, selected);
+      }
     }
   };
 
@@ -57,31 +67,34 @@ export default function FeedCloseModal({
     <Portal>
       <S.ModalBackground>
         <S.ModalBox>
-          <S.ModalHeader>
-            <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
-              <CloseIcon />
-            </S.CloseModalBtn>
-          </S.ModalHeader>
+          <div>
+            <CloseIcon sx={{ fontSize: 20}} onClick={modalSwitch}/>
+          </div>
           <S.ModalContent>
-            <S.ContentHeader>
-              <InfoOutlinedIcon />
-              <p>삭제 사유를 알려주세요</p>
-            </S.ContentHeader>
-            <S.Content>
-                <S.Select onClick={active} isActive={isActive}>{selected}<span onClick={active}>▲</span></S.Select>
-              <div>{isActive && (items.map((a,i) => (<S.Option onClick={selectReason} value={a} key={i}>{a}</S.Option>)))}</div>
-              {selected === "직접입력" && (
-                <S.Input
+              <InfoOutlinedIcon sx={{ fontSize: 40}}/>
+              <p>종료 사유를 알려주세요</p>
+              <div>
+                <S.Select onClick={active} 
+                isActive={isActive}>{selected}
+                <span onClick={active}>▲</span>
+                </S.Select>
+                <div>
+                  {isActive && (items.map((a,i) => 
+                  (<S.Option onClick={selectReason} value={a} key={i}>{a}</S.Option>)))}
+                </div>
+              </div>
+                {selected === "직접입력" && (
+                  <S.Input
                   value={comment}
                   type="text"
                   placeholder="직접입력"
                   onChange={(e) => setComment(e.target.value)}
-                />
-              )}
-            </S.Content>
-            <button onClick={() => onSubmit()}>확인</button>
+                  />
+                )}
+            <S.BlueButton onClick={() => onSubmit()}>확인</S.BlueButton>
           </S.ModalContent>
         </S.ModalBox>
+        {endAlert && <EndRecruting setEndAlert={setEndAlert}/> }
       </S.ModalBackground>
     </Portal>
   );

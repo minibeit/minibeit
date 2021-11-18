@@ -10,65 +10,49 @@ export const ModalBackground = styled.div`
   z-index: 99;
 `;
 export const ModalBox = styled.div`
-  transform: translate(-50%, -50%);
+transform: translate(-50%, -50%);
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 57%;
-  overflow: scroll;
-  max-width: 41rem;
-  border-radius: 20px;
-  padding: 32px 36px;
-  height: 26rem;
   background-color: white;
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
+  width: 30rem;
+  height: 22rem;
+  border-radius: 35px;
+  & > div:first-child{
+    display: flex;
+    justify-content: flex-end;
+    margin: 1.5rem;
+    cursor: pointer;
   }
 `;
-export const ModalHeader = styled.div`
-  display: flex;
-  align-items: center;
-`;
-export const CloseModalBtn = styled.div`
-  margin-left: auto;
-  margin-right: 0.5rem;
-  align-items: end;
-  display: flex;
-  flex-direction: column;
-  height: -webkit-fill-available;
-  cursor: pointer;
-`;
-export const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 3rem 0;
-`;
-export const ContentHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  & > svg:first-child {
-    font-size: 4rem;
-  }
-  & > p:nth-child(2) {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-`;
-export const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  gap: 1rem;
-  
 
+export const ModalContent = styled.div`
+  transform: translate(-50%, -60%);
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+
+  & > p:nth-child(2){
+    width: 25rem;
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    line-height: 30px;
+    margin-bottom: 1rem;
+  }
+
+  & > div > div:nth-child(2) {
+    position: absolute;
+    z-index: 2;
+    background: #fff;
+    border-radius: 10px;
+    }
 `;
 
 export const Select = styled.div`
@@ -93,6 +77,7 @@ export const Select = styled.div`
 `;
 
 export const Option = styled.option`
+  background-color: #FFF;
   width: 20rem;
   height: 1.2rem;
   padding: 6px 0;
@@ -146,3 +131,17 @@ export const Input = styled.input`
     color: gray;
   }
   `;
+
+export const BlueButton = styled.button`
+  position: relative;
+  width: 9rem;
+  height: 2.7rem;
+  font-size: 13px;
+  line-height: 2.5rem;
+  border-radius: 30px;
+  color: #FFFFFF;
+  border: 1px solid #0642FF;
+  background: #0642FF;
+  margin-top: 1rem;
+
+`;

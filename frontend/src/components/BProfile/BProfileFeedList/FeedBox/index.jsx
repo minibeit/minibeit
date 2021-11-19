@@ -5,22 +5,33 @@ import { Link } from "react-router-dom";
 import { feedDeleteApi } from "../../../../utils";
 import FeedCloseModal from "../FeedCloseModal";
 import BManageModal from "../BManageModal";
+import EndRecruting from "../../../Common/Alert/EndRecruting"
 
 import * as S from "../../style";
+import EndSchedule from "../../../Common/Alert/EndSchedule";
+import AskEndSchedule from "../../../Common/Alert/AskEndSchedule";
 
 export default function FeedBox({ status, data, changeFeedData }) {
   const [manageModal, setManageModal] = useState(false);
-  const [closeModal, setCloseModal] = useState(false);
+  const [closeModal, setCloseModal] = useState(0);
 
   const deleteFeed = async (id) => {
     await feedDeleteApi(id)
       .then(() => {
         alert("게시물이 삭제되었습니다.");
-        changeFeedData("완료된 모집공고");
+        setEndAlert(2);
+        // changeFeedData("완료된 모집공고");
       })
-      .catch(() => alert("삭제할 수 없는 게시물입니다"));
+      .catch(() => {
+      alert("삭제할 수 없는 게시물입니다. 확정자가 있는지 확인해주세요.");
+      setEndAlert(0);
+      });
   };
 
+  const [endAlert, setEndAlert] = useState(0);
+  const endOn = () => {
+    setEndAlert(1);
+  }
   return (
     <>
       <S.FeedLabel>
@@ -55,14 +66,21 @@ export default function FeedBox({ status, data, changeFeedData }) {
                     setModalSwitch={setManageModal}
                   />
                 )}
-                <button onClick={() => setCloseModal(true)}>모집종료</button>
-                {closeModal && (
+                <button onClick={() => setCloseModal(1)}>모집종료</button>
+                {closeModal===1 ? (
                   <FeedCloseModal
                     postId={data.id}
+                    closeModal={closeModal}
                     changeFeedData={changeFeedData}
-                    setModalSwitch={setCloseModal}
-                  />
-                )}
+                    setCloseModal={setCloseModal}
+                  />):null
+                }
+                {closeModal===2 ? 
+                  <EndRecruting 
+                    changeFeedData={changeFeedData} 
+                    setCloseModal={setCloseModal}/> :null
+                }
+
               </S.FeedButton>
             </>
           )}
@@ -75,8 +93,10 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <button onClick={() => deleteFeed(data.id)}>일정종료</button>
+                <button onClick={endOn}>일정종료</button>
               </S.FeedButton>
+            {endAlert===1 && <AskEndSchedule setEndAlert={setEndAlert} deleteFeed={deleteFeed} data={data}/>}
+            {endAlert===2 && <EndSchedule setEndAlert={setEndAlert} changeFeedData={changeFeedData}/>}
             </>
           )}
           {status === "후기 모아보기" && (

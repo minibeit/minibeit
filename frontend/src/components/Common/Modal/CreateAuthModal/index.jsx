@@ -1,14 +1,25 @@
-import React from "react";
+import React, {useState} from "react";
 import Portal from "../Portal";
 import PropTypes from "prop-types";
 import CloseIcon from "@mui/icons-material/Close";
 import * as S from "./style";
+
+import Conditions from "../../Alert/Conditions";
+import PersonalInformation from "../../Alert/PersonalInformation";
 
 CreateAuthModal.propTypes = {
   setModalSwitch: PropTypes.func.isRequired,
 };
 
 export default function CreateAuthModal({ setModalSwitch }) {
+  const [conditionsAlert, setConditionsAlert] = useState(0);
+  const conditionsOn = () => {
+    setConditionsAlert(1)
+  };
+  const conditionsOn2 =() => {
+    setConditionsAlert(2)
+  };
+
   const kakaoLogin = () => {
     window.location.replace(
       `${process.env.REACT_APP_API_URL}/oauth2/authorization/kakao`
@@ -48,12 +59,14 @@ export default function CreateAuthModal({ setModalSwitch }) {
             </S.FormContainer>
             <S.Formexplain>
               <p>
-                회원가입시 개인정보 처리방침과 이용약관을 확인하였으며,
+                회원가입시 <span onClick={conditionsOn}>개인정보 처리방침</span>과 <span onClick={conditionsOn2}>이용약관</span>을 확인하였으며,
                 동의합니다.
               </p>
             </S.Formexplain>
           </S.ModalContent>
         </S.ModalBox>
+        {conditionsAlert===1 && <PersonalInformation setConditionsAlert={setConditionsAlert}/>}
+        {conditionsAlert===2 && <Conditions setConditionsAlert={setConditionsAlert}/>}
       </S.ModalBackground>
     </Portal>
   );

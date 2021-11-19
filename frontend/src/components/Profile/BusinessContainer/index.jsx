@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
+import DeleteBProfile from "../../Common/Alert/DeleteBProfile";
+import Recruting from "../../Common/Alert/Recruting";
 
 import { bprofileListGet, deleteBprofile } from "../../../utils";
 import { PVImg } from "../../Common";
@@ -15,12 +17,20 @@ export default function BusinessContainer() {
   const [editMode, setEditMode] = useState(false);
   const history = useHistory();
 
+  const [deleteAlert, setDeleteAlert] = useState(0);
+  const deleteOn = () => {
+    setDeleteAlert(1);
+  };
+
   const deleteBusiness = (data) => {
-    let value = window.confirm("비즈니스 프로필을 삭제하시겠습니까?");
-    if (value) {
+    if (deleteAlert===1) {
       deleteBprofile(data.id)
-        .then((res) => getBProfile())
-        .catch();
+        .then((res) => {
+          setDeleteAlert(0);
+          getBProfile();
+        })
+        .catch((err)=> setDeleteAlert(2)
+        );
     }
   };
 
@@ -56,8 +66,7 @@ export default function BusinessContainer() {
                       opacity: editMode && a.admin ? 1 : 0,
                       zIndex: editMode && a.admin ? 1 : -9999,
                     }}
-                    onClick={() => deleteBusiness(a)}
-                  >
+                    onClick={deleteOn}>
                     <CloseIcon />
                   </S.DeleteBtn>
                   <S.ImgBox onClick={() => history.push(`/business/${a.id}`)}>
@@ -68,6 +77,8 @@ export default function BusinessContainer() {
                     )}
                   </S.ImgBox>
                   <p>{a.name}</p>
+                  {deleteAlert===1 && <DeleteBProfile a={a} deleteBusiness={deleteBusiness} setDeleteAlert={setDeleteAlert}/>}
+                  {deleteAlert===2 && <Recruting a={a} setDeleteAlert={setDeleteAlert}/>}
                 </S.BusinessProfile>
               );
             })}

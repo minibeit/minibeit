@@ -36,7 +36,7 @@ PApplyControll.propTypes = {
   setModalSwitch: PropTypes.func.isRequired,
 };
 
-export default function PApplyControll({ apply, feedDetailData, submit }) {
+export default function PApplyControll({ apply, feedDetailData, submit, applyAlert}) {
   return (
     <S.RemoteBox>
       <S.Controller>
@@ -52,7 +52,7 @@ export default function PApplyControll({ apply, feedDetailData, submit }) {
         <S.ApplyBtnGroup>
           <button
             disabled={apply.postDoDateId ? false : true}
-            onClick={() => submit(apply.postDoDateId)}
+            onClick={applyAlert}
           >
             신청하기
           </button>

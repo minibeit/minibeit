@@ -7,9 +7,9 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 // 정말로 해당 확정인을 반려할것인지 묻는 알림창
 
-export default function AskCancelConfirm ({setAlertSwitch}) {
+export default function AskCancelConfirm ({cancleApprove, setCancleAlert, cancleUserInfo}) {
   const closeAlert = () => {
-    setAlertSwitch(false);
+    setCancleAlert(false);
   };
   return (
     <Portal>
@@ -22,7 +22,7 @@ export default function AskCancelConfirm ({setAlertSwitch}) {
             <span>꼭! 개별 연락을 통해 일정 종료를 알려주시길 바라요.</span></p>
             <div>
               <S.GrayButton onClick={closeAlert}>아니오, 관둘래요</S.GrayButton>
-              <S.BlueButton>네, 취소할래요</S.BlueButton>
+              <S.BlueButton onClick={() => cancleApprove(cancleUserInfo.postDoDateId, cancleUserInfo.id, cancleUserInfo.email)}>네, 취소할래요</S.BlueButton>
             </div>
           </S.AlertContent>
         </S.AlertBox>

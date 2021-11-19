@@ -1,6 +1,8 @@
 import React from "react";
 import moment from "moment";
 import * as S from "./style";
+import RejectApplicant from "../../../Common/Alert/RejectApplicant";
+import AskCancelConfirm from "../../../Common/Alert/AskCancelConfirm";
 
 export default function Presenter({
   tab,
@@ -8,10 +10,21 @@ export default function Presenter({
   userList,
   applyApprove,
   cancleApprove,
-  viewRejectInput,
+  viewRejectInput, 
+  setRejectAlert, 
+  rejectAlert,
+  rejectApplyAlert,
+  rejectUserInfo,
+  reason,
+  setReason,
+  cancleAlert,
+  setCancleAlert,
+  cancleOn,
+  cancleUserInfo, 
   rejectApply,
   changeAttend,
 }) {
+
   return (
     <S.UserListView>
       <S.DataNavBar>
@@ -63,16 +76,10 @@ export default function Presenter({
                           <S.ButtonBox>
                             <S.Btn disabled={true}>확정</S.Btn>
                             <S.Btn
-                              onClick={() =>
-                                cancleApprove(
-                                  time.postDoDateId,
-                                  user.id,
-                                  user.email
-                                )
-                              }
-                            >
+                              onClick={()=>cancleOn(user)}>
                               취소
                             </S.Btn>
+                            {cancleAlert && <AskCancelConfirm cancleApprove={cancleApprove} setCancleAlert={setCancleAlert} cancleUserInfo={cancleUserInfo}/>}
                           </S.ButtonBox>
                         )
                       ) : (
@@ -98,28 +105,24 @@ export default function Presenter({
                     <S.RejectInput style={{ display: "none" }}>
                       <p>반려사유</p>
                       <div>
-                        <input placeholder="반려사유를 작성해주세요" />
+                        <input placeholder="반려사유를 작성해주세요" value={reason} onChange={(e)=>setReason(e.target.value)}/>
                         <button
-                          onClick={(e) =>
-                            rejectApply(
-                              time.postDoDateId,
-                              user.id,
-                              e.target.previousSibling.value,
-                              user.email
-                            )
-                          }
-                        >
+                          onClick={()=>rejectApplyAlert(user)} >
                           확인
                         </button>
                       </div>
+                      {rejectAlert && <RejectApplicant setRejectAlert={setRejectAlert} rejectApply={rejectApply} rejectUserInfo={rejectUserInfo} reason={reason}/>}
                     </S.RejectInput>
                   </div>
+                  
                 );
-              })}
+              })
+              }
             </S.DateInfoBox>
           </S.DataNavBar>
         );
       })}
+
     </S.UserListView>
   );
 }

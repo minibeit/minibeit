@@ -5,9 +5,9 @@ import * as S from "./style";
 
 // 개인정보법 동의 알림창...
 
-export default function PersonalInformation({setAlertSwitch}) {
+export default function PersonalInformation({setConditionsAlert}) {
   const closeAlert = () => {
-    setAlertSwitch(false);
+    setConditionsAlert(0);
   };
   return (
     <Portal>

@@ -67,9 +67,9 @@ export const AlertContent = styled.div`
   & > p:nth-child(2) {
     width: 25rem;
     font-size: 13px;
-    color: rgba(0, 0, 0, 0.5);
+    color: #000;
     text-align: center;
-    line-height: 23px;
+    line-height: 20px;
   }
 
 

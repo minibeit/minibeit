@@ -11,7 +11,6 @@ export default function AskCancelConfirm ({cancleApprove, setCancleAlert, cancle
   const closeAlert = () => {
     setCancleAlert(false);
   };
-
   return (
     <Portal>
       <S.AlertBackground>
@@ -23,7 +22,7 @@ export default function AskCancelConfirm ({cancleApprove, setCancleAlert, cancle
             <span>꼭! 개별 연락을 통해 일정 종료를 알려주시길 바라요.</span></p>
             <div>
               <S.GrayButton onClick={closeAlert}>아니오, 관둘래요</S.GrayButton>
-              <S.BlueButton onClick={() => cancleApprove(cancleUserInfo.postDoDateId, cancleUserInfo.id)}>네, 취소할래요</S.BlueButton>
+              <S.BlueButton onClick={() => cancleApprove(cancleUserInfo.postDoDateId, cancleUserInfo.id, cancleUserInfo.email)}>네, 취소할래요</S.BlueButton>
             </div>
           </S.AlertContent>
         </S.AlertBox>

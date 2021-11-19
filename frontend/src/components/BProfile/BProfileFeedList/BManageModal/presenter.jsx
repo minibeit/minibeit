@@ -21,7 +21,6 @@ export default function Presenter({
   setCancleAlert,
   cancleOn,
   cancleUserInfo, 
-  setCancleUserInfo,
   rejectApply,
   changeAttend,
 }) {
@@ -77,16 +76,10 @@ export default function Presenter({
                           <S.ButtonBox>
                             <S.Btn disabled={true}>확정</S.Btn>
                             <S.Btn
-                              onClick={() =>
-                                cancleApprove(
-                                  time.postDoDateId,
-                                  user.id,
-                                  user.email
-                                )
-                              }
-                            >
+                              onClick={()=>cancleOn(user)}>
                               취소
                             </S.Btn>
+                            {cancleAlert && <AskCancelConfirm cancleApprove={cancleApprove} setCancleAlert={setCancleAlert} cancleUserInfo={cancleUserInfo}/>}
                           </S.ButtonBox>
                         )
                       ) : (

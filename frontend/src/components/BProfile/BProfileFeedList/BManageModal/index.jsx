@@ -61,23 +61,6 @@ export default function BManageModal({ postId, setModalSwitch }) {
     }
   };
 
-  const cancleApprove = (postDoDateId, userId, userEmail) => {
-    if (cancleAlert) {
-
-      cancelOneApi(postDoDateId, userId)
-        .then((res) => {
-          setCancleAlert(false);
-          getList();
-        })
-        .then(() => {
-          sendMailApi("APPROVECANCEL", [userEmail]).then().catch();
-        })
-        .catch((err) =>
-          alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
-        );
-    }
-  };
-
   const viewRejectInput = (e) => {
     var RejectInput = e.target.parentNode.parentNode.nextSibling;
     if (RejectInput.style.display === "none") {
@@ -97,7 +80,23 @@ export default function BManageModal({ postId, setModalSwitch }) {
   const cancleOn = (user) => {
     setCancleUserInfo(user);
     setCancleAlert(true);
-  }
+  };
+
+  const cancleApprove = (postDoDateId, userId, userEmail) => {
+    if (cancleAlert) {
+      cancelOneApi(postDoDateId, userId)
+        .then((res) => {
+          setCancleAlert(false);
+          getList();
+        })
+        .then(() => {
+          sendMailApi("APPROVECANCEL", [userEmail]).then().catch();
+        })
+        .catch((err) =>
+          alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
+        );
+    }
+  };
 
   const rejectApplyAlert = (user) => {
     setRejectUserInfo(user);
@@ -218,7 +217,6 @@ export default function BManageModal({ postId, setModalSwitch }) {
               setCancleAlert={setCancleAlert}
               cancleOn={cancleOn}
               cancleUserInfo={cancleUserInfo} 
-              setCancleUserInfo={setCancleUserInfo}
               rejectApply={rejectApply}
               changeAttend={changeAttend}
             />

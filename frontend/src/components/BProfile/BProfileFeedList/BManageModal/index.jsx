@@ -99,9 +99,6 @@ export default function BManageModal({ postId, setModalSwitch }) {
     setCancleAlert(true);
   }
 
-  const inputReason = (e) => {
-    setReason(e.target.value);
-  }
   const rejectApplyAlert = (user) => {
     setRejectUserInfo(user);
     setRejectAlert(true);
@@ -216,7 +213,7 @@ export default function BManageModal({ postId, setModalSwitch }) {
               rejectApplyAlert={rejectApplyAlert}
               rejectUserInfo={rejectUserInfo}
               reason={reason}
-              inputReason={inputReason}
+              setReason={setReason}
               cancleAlert={cancleAlert} 
               setCancleAlert={setCancleAlert}
               cancleOn={cancleOn}

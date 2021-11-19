@@ -16,7 +16,7 @@ export default function Presenter({
   rejectApplyAlert,
   rejectUserInfo,
   reason,
-  inputReason,
+  setReason,
   cancleAlert,
   setCancleAlert,
   cancleOn,
@@ -112,28 +112,24 @@ export default function Presenter({
                     <S.RejectInput style={{ display: "none" }}>
                       <p>반려사유</p>
                       <div>
-                        <input placeholder="반려사유를 작성해주세요" />
+                        <input placeholder="반려사유를 작성해주세요" value={reason} onChange={(e)=>setReason(e.target.value)}/>
                         <button
-                          onClick={(e) =>
-                            rejectApply(
-                              time.postDoDateId,
-                              user.id,
-                              e.target.previousSibling.value,
-                              user.email
-                            )
-                          }
-                        >
+                          onClick={()=>rejectApplyAlert(user)} >
                           확인
                         </button>
                       </div>
+                      {rejectAlert && <RejectApplicant setRejectAlert={setRejectAlert} rejectApply={rejectApply} rejectUserInfo={rejectUserInfo} reason={reason}/>}
                     </S.RejectInput>
                   </div>
+                  
                 );
-              })}
+              })
+              }
             </S.DateInfoBox>
           </S.DataNavBar>
         );
       })}
+
     </S.UserListView>
   );
 }

@@ -6,7 +6,7 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 // 정말로 반려할것인지 물어보는 알림창
 
-export default function RejectApplicant ({setRejectAlert, RejectApply, rejectUserInfo, reason}) {
+export default function RejectApplicant ({setRejectAlert, rejectApply, rejectUserInfo, reason}) {
   const closeAlert = () => {
     setRejectAlert(false);
   };
@@ -21,7 +21,7 @@ export default function RejectApplicant ({setRejectAlert, RejectApply, rejectUse
             </p>
             <div>
               <S.GrayButton onClick={closeAlert}>아니오, 관둘래요</S.GrayButton>
-              <S.BlueButton onClick={()=>RejectApply(rejectUserInfo.postDoDateId, rejectUserInfo.id, reason)}>네, 반려할래요</S.BlueButton>
+              <S.BlueButton onClick={()=>rejectApply(rejectUserInfo.postDoDateId, rejectUserInfo.id, reason, rejectUserInfo.email)}>네, 반려할래요</S.BlueButton>
             </div>
           </S.AlertContent>
         </S.AlertBox>

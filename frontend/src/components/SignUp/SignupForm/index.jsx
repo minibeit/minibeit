@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useHistory } from "react-router";
 import CloseIcon from "@mui/icons-material/Close";
@@ -14,7 +14,7 @@ import JobSelect from "./JobSelect";
 
 import * as S from "./style";
 import { guestCheckCodeApi, guestCheckEmailApi } from "../../../utils/mailApi";
-import { checkPhoneApi } from "../../../utils/smsApi";
+import { guestCheckPhoneApi } from "../../../utils/smsApi";
 
 export default function SignUpComponent({ setFinish }) {
   const [inputData, setInputData] = useRecoilState(signupState);
@@ -22,9 +22,11 @@ export default function SignUpComponent({ setFinish }) {
   const guest = useRecoilValue(geustState);
   const [step, setStep] = useState(1);
   const history = useHistory();
-  const [nickNameCheck, setNickNameCheck] = useState(null);
-  const [completePhone, setCompletePhone] = useState(false);
-  const [completeEmail, setCompleteEmail] = useState(true);
+  const [changeNickname, setChangeNickname] = useState(true);
+  const [changePhone, setChangePhone] = useState(false);
+  const [newPhone, setNewPhone] = useState();
+  const [changeEmail, setChangeEmail] = useState(false);
+  const [newEmail, setNewEmail] = useState();
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -48,31 +50,36 @@ export default function SignUpComponent({ setFinish }) {
         return;
     }
   };
-  const checkingNickname = () => {
-    if (inputData.nickname) {
-      nickCheckApi(inputData.nickname)
+  const checkingNickname = (nickname) => {
+    if (nickname) {
+      nickCheckApi(nickname)
         .then((res) => {
           alert("사용가능한 아이디 입니다");
-          setNickNameCheck(true);
+          let copy = { ...inputData };
+          copy.nickname = nickname;
+          setInputData(copy);
+          setChangeNickname(true);
         })
         .catch((err) => {
           alert("중복된 아이디 입니다");
-          setNickNameCheck(false);
         });
     }
   };
   const checkingPhone = (phoneNum) => {
-    checkPhoneApi(guest.accessToken, guest.id, phoneNum).then((res) => {
+    guestCheckPhoneApi(guest.accessToken, guest.id, phoneNum).then((res) => {
       if (res.status !== 200) alert("오류가 발생했습니다. 다시 시도해주세요");
+      else {
+        alert("인증번호를 발송했습니다");
+        setNewPhone(phoneNum);
+      }
     });
   };
   const checkingEmail = (email) => {
     guestCheckEmailApi(guest.accessToken, guest.id, email).then((res) => {
       if (res.status !== 200) alert("오류가 발생했습니다. 다시 시도해주세요");
       else {
-        let copy = { ...inputData };
-        copy.email = email;
-        setInputData(copy);
+        alert("인증번호를 발송했습니다");
+        setNewEmail(email);
       }
     });
   };
@@ -80,10 +87,15 @@ export default function SignUpComponent({ setFinish }) {
     guestCheckCodeApi(guest.accessToken, code, guest.id, type).then((res) => {
       if (res.status === 200) {
         alert("인증 성공!");
+        let copy = { ...inputData };
         if (type === "EMAIL") {
-          setCompleteEmail(true);
+          setChangeEmail(true);
+          copy.email = newEmail;
+          setInputData(copy);
         } else if (type === "PHONE") {
-          setCompletePhone(true);
+          setChangePhone(true);
+          copy.phoneNum = newPhone;
+          setInputData(copy);
         }
       } else {
         alert("인증번호가 잘못되었습니다.");
@@ -101,13 +113,13 @@ export default function SignUpComponent({ setFinish }) {
     ) {
       alert("정보를 확인해주세요");
       return false;
-    } else if (!nickNameCheck) {
+    } else if (!changeNickname) {
       alert("닉네임 중복을 확인해주세요");
       return false;
-    } else if (!completePhone) {
+    } else if (!changePhone) {
       alert("연락처를 확인해 주세요");
       return false;
-    } else if (!completeEmail) {
+    } else if (!changeEmail) {
       alert("이메일을 확인해 주세요");
       return false;
     } else return true;
@@ -116,6 +128,11 @@ export default function SignUpComponent({ setFinish }) {
   const nextStep = () => {
     if (step === 1) {
       if (firstStep()) {
+        if (!inputData.email) {
+          const copy = { ...inputData };
+          copy.email = guest.email;
+          setInputData(copy);
+        }
         setStep(2);
       }
     } else if (step === 2) {
@@ -145,6 +162,12 @@ export default function SignUpComponent({ setFinish }) {
         alert("회원가입에 실패하였습니다. 잠시후에 다시 시도해주세요");
       });
   };
+
+  useEffect(() => {
+    if (guest.email !== "") {
+      setChangeEmail(true);
+    }
+  }, [guest.email]);
 
   return (
     <Portal>
@@ -202,15 +225,19 @@ export default function SignUpComponent({ setFinish }) {
               <InfoData
                 onChange={onChange}
                 onFileChange={onFileChange}
-                checkingNickname={checkingNickname}
                 inputData={inputData}
-                nickNameCheck={nickNameCheck}
+                setInputData={setInputData}
+                defaultEmail={guest.email}
+                checkingNickname={checkingNickname}
                 checkingEmail={checkingEmail}
                 checkingCode={checkingCode}
                 checkingPhone={checkingPhone}
-                completePhone={completePhone}
-                completeEmail={completeEmail}
-                setCompleteEmail={setCompleteEmail}
+                changeNickname={changeNickname}
+                setChangeNickname={setChangeNickname}
+                changePhone={changePhone}
+                setChangePhone={setChangePhone}
+                changeEmail={changeEmail}
+                setChangeEmail={setChangeEmail}
               />
             )}
             {step === 2 && (

@@ -140,13 +140,18 @@ export default function DateSelect({ movePage, recruit, setRecruit }) {
 
     return doDateList;
   };
+  
+  const [resetAlert, setResetAlert] = useState(false);
+  const [resetAgree, setResetAgree] = useState(false);
 
+  const resetOk = () => {
+    setResetAlert(false);
+    setResetAgree(true);
+  }
   const askResetGroup = () => {
     if (createdGroup.length !== 0) {
-      var answer = window.confirm(
-        "날짜, 시간을 변경하면 시간선택 그룹이 초기화됩니다. 변경하시겠습니까?"
-      );
-      if (answer === true) {
+      setResetAlert(true);
+      if (resetAgree) {
         setCreatedGroup([]);
       }
     }
@@ -182,6 +187,10 @@ export default function DateSelect({ movePage, recruit, setRecruit }) {
       setCreatedGroup={setCreatedGroup}
       createDoDateList={createDoDateList}
       movePage={movePage}
+      resetAlert={resetAlert} 
+      setResetAlert={setResetAlert} 
+      resetOk={resetOk}
+
     />
   );
 }

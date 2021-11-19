@@ -9,6 +9,7 @@ import "moment/locale/ko";
 import TimeSelectModal from "./TimeSelectModal";
 import RemoveIcon from "@mui/icons-material/Remove";
 import AddIcon from "@mui/icons-material/Add";
+import DateChange from "../../Common/Alert/DateChange";
 
 import * as S from "../style";
 
@@ -41,6 +42,9 @@ export default function Presenter({
   setCreatedGroup,
   createDoDateList,
   movePage,
+  resetAlert,
+  setResetAlert,
+  resetOk,
 }) {
   return (
     <S.Page>
@@ -240,9 +244,11 @@ export default function Presenter({
             setRecruit(copy);
             movePage(3);
           }}
+
         >
           저장
         </S.SaveBtn>
+        {resetAlert && <DateChange resetOk={resetOk} setResetAlert={setResetAlert}/>}
       </S.DateSelectContainer>
     </S.Page>
   );

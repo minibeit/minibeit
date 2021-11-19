@@ -141,7 +141,7 @@ export default function Presenter({
                 defaultValue={userData.phoneNum}
                 name="phoneNum"
                 type="text"
-                placeholder="전화번호"
+                placeholder="'-' 빼고 입력"
                 onChange={() => setChangePhone(false)}
               />
               <button

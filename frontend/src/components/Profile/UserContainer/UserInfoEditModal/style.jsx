@@ -163,9 +163,10 @@ export const EmailPhoneInput = styled.div`
   }
   & > div {
     display: flex;
+    height: 2rem;
     border: none;
     border-radius: 8px;
-    padding: 4px 0 8px 5px;
+    padding: 0;
     font-size: 15px;
     font-stretch: normal;
     font-style: normal;
@@ -180,11 +181,13 @@ export const EmailPhoneInput = styled.div`
   }
   & input {
     width: 90%;
+    height: 100%;
     padding: 0;
     margin: 0;
     background: none;
     border: none;
     color: #707070;
+    outline: none;
   }
   & button {
     border: none;

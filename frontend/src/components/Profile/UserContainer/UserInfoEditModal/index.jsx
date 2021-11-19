@@ -17,7 +17,9 @@ export default function UserInfoEditModal({ infoData, setModalSwitch }) {
   const [userData, setUserData] = useState(infoData);
   const [originalNickname] = useState(userData.nickname);
   const [changeNickname, setChangeNickname] = useState(true);
+  const [newPhone, setNewPhone] = useState();
   const [changePhone, setChangePhone] = useState(true);
+  const [newEmail, setNewEmail] = useState();
   const [changeEmail, setChangeEmail] = useState(true);
   const [user, setUser] = useRecoilState(userState);
   const [schoolId, setSchoolId] = useState(user.schoolId);
@@ -60,30 +62,31 @@ export default function UserInfoEditModal({ infoData, setModalSwitch }) {
     checkPhoneApi(userData.id, phoneNum)
       .then((res) => {
         alert("인증번호를 발송했습니다");
+        setNewPhone(phoneNum);
       })
-      .catch(() => alert("오류가 발생했습니다. 다시 시도해주세요"));
+      .catch(() => alert("휴대전화 형식을 다시한번 확인해주세요"));
   };
 
   const checkingEmail = (email) => {
     checkEmailApi(userData.id, email)
       .then((res) => {
         alert("인증번호를 발송했습니다");
+        setNewEmail(email);
       })
-      .catch(() => alert("오류가 발생했습니다. 다시 시도해주세요"));
+      .catch(() => alert("이메일 형식을 다시한번 확인해주세요"));
   };
 
   const checkingCode = (code, type) => {
     checkCodeApi(code, userData.id, type)
       .then((res) => {
-        console.log(res.data.data);
         let copy = { ...userData };
         if (type === "EMAIL") {
           setChangeEmail(true);
-          copy.email = res.data.data.email;
+          copy.email = newEmail;
           setUserData(copy);
         } else {
           setChangePhone(true);
-          copy.phoneNum = res.data.data.phoneNum;
+          copy.phoneNum = newPhone;
           setUserData(copy);
         }
         alert("인증 완료");

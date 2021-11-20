@@ -3,19 +3,18 @@ import React from "react";
 import * as S from "./style";
 
 export default function Presenter({
-  closeModal,
   currentSlide,
   slideRef,
-    currentImg,
-     files,
-     prevSlide,
-     nextSlide
-    }) {
-
+  setModalSwitch,
+  currentImg,
+  files,
+  prevSlide,
+  nextSlide
+  }) {
   return (
     <>
         <div>
-          <S.ModalBtn onClick={closeModal}>X 닫기</S.ModalBtn>
+          <S.ModalBtn onClick={() => setModalSwitch(false)}>X 닫기</S.ModalBtn>
           <S.ModalBtn>다운로드</S.ModalBtn>
         </div>
         <S.Container>

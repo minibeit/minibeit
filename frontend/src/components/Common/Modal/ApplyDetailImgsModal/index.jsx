@@ -26,24 +26,18 @@ export default function ApplyImgsModal({ setModalSwitch, currentImg, files}) {
     slideRef.current.style.transition = "all 0.5s ease-in-out";
     slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
   }, [currentSlide]);
-  const closeModal = () => {
-    setModalSwitch(false);
-
-  };
-
      
   return (
     <Portal>
       <S.ModalBackground>
         <Presenter
-        closeModal={closeModal}
         currentSlide={currentSlide}
         slideRef={slideRef}
-         setModalSwitch={setModalSwitch}
-          currentImg={currentImg}
-           files={files}
-           prevSlide={prevSlide}
-           nextSlide={nextSlide}
+        setModalSwitch={setModalSwitch}
+        currentImg={currentImg}
+        files={files}
+        prevSlide={prevSlide}
+        nextSlide={nextSlide}
         />
       </S.ModalBackground>
     </Portal>

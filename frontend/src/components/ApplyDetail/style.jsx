@@ -242,6 +242,7 @@ export const SmImg = styled.img`
   object-fit: contain;
   flex-grow: 1;
   border: 1px solid gray;
+  box-sizing: border-box;
   background-color: #e9e9e9;
   cursor: pointer;
 `;

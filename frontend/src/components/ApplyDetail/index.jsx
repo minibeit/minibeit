@@ -73,16 +73,13 @@ export default function ApplyDetailComponent({ feedId, date }) {
     feedEditApi(postId, data).then((res) => getFeedDetail(res.data.data.id));
   };
 
-  const [askApplyAlert,setAskApplyAlert] = useState(false);
-  const [endApplyAlert,setEndApplyAlert] = useState(false);
-  const applyAlert =() => {
-    setAskApplyAlert(true);
-  }
+  const [applyAlert,setApplyAlert] = useState(0);
+ 
   const submit = async (postDoDateId) => {
-    if (askApplyAlert) {
+    if (applyAlert) {
       applyApi(postDoDateId)
         .then((res) => {
-          setEndApplyAlert(true);          
+          setApplyAlert(2);          
         })
         .catch((err) => {
           alert("지원이 실패하였습니다");
@@ -119,12 +116,11 @@ export default function ApplyDetailComponent({ feedId, date }) {
           />
           <ApplyController
             apply={apply}
-            submit={submit}
             feedDetailData={feedDetailData}
-            applyAlert={applyAlert}
+            setApplyAlert={setApplyAlert}
           />
-          {askApplyAlert && <AskCompleteApplication apply={apply} setAskApplyAlert={setAskApplyAlert} submit={submit}/>}
-          {endApplyAlert && <CompleteApplication user={user} setEndApplyAlert={setEndApplyAlert}/>}
+          {applyAlert===1 && <AskCompleteApplication apply={apply} setAskApplyAlert={setApplyAlert} submit={submit}/>}
+          {applyAlert===2 && <CompleteApplication user={user} setApplyAlert={setApplyAlert}/>}
         </div>
       )}
     </S.FeedContainer>

@@ -157,6 +157,11 @@ export default function UserInfoEditModal({ infoData, setModalSwitch }) {
                   submitEditUser={submitEditUser}
                 />
               </S.ModalContent>
+              <S.SubmitBtnBox>
+                <button onClick={() => submitEditUser(userData, schoolId)}>
+                  수정 완료
+                </button>
+              </S.SubmitBtnBox>
             </S.ModalBox>
           </S.ModalBackground>
         </Portal>

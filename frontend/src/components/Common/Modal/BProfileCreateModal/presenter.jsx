@@ -12,8 +12,23 @@ export default function Presenter({
   addressModal,
   setAddressModal,
   onAddressChange,
-  createBusiness,
 }) {
+  const exceptName = (value) => {
+    var regName = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
+    if (!regName.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  const exceptPhone = (value) => {
+    var regPhone = /^01([0|1|6|7|8|9])?([0-9]{3,4})?([0-9]{4})$/;
+    if (!regPhone.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   return (
     <>
       <S.ImgContainer>
@@ -47,6 +62,13 @@ export default function Presenter({
                 type="text"
                 placeholder="이름"
                 onChange={onChange}
+                onBlur={(e) => {
+                  if (!exceptName(e.target.value)) {
+                    e.target.value = "";
+                    onChange(e);
+                    alert("이름은 2~8글자로 입력해주세요");
+                  }
+                }}
               />
             </div>
           </S.CreateInput>
@@ -96,12 +118,17 @@ export default function Presenter({
                 type="text"
                 placeholder="연락처"
                 onChange={onChange}
+                onBlur={(e) => {
+                  if (!exceptPhone(e.target.value)) {
+                    e.target.value = "";
+                    onChange(e);
+                    alert("휴대폰 번호를 다시 확인해주세요");
+                  }
+                }}
               />
             </div>
           </S.CreateInput>
         </div>
-
-        <button onClick={() => createBusiness(infoData)}>수정완료</button>
       </S.InfoContainer>
     </>
   );

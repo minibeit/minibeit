@@ -105,6 +105,7 @@ export default function SignUpComponent({ setFinish }) {
 
   const firstStep = () => {
     if (
+      !inputData.name ||
       !inputData.gender ||
       !inputData.year ||
       !inputData.month ||

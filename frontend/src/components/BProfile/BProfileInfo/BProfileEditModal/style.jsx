@@ -43,13 +43,16 @@ export const ModalContent = styled.div`
   display: flex;
 `;
 export const ImgEditContainer = styled.div`
-  width: 174px;
-  flex: 1;
-  margin: 41px 0px;
   display: flex;
   flex-direction: column;
+  flex: 1;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
+  & > div:first-child {
+    display: flex;
+    font-size: 0.7rem;
+  }
 `;
 export const ImgBox = styled.div`
   overflow: hidden;
@@ -65,7 +68,7 @@ export const Img = styled.img`
   border-radius: 50%;
 `;
 export const ImgEditBtn = styled.label`
-  padding: 5px;
+  padding: 0.5rem;
   cursor: pointer;
   background: #c4c4c4;
   color: white;
@@ -73,7 +76,7 @@ export const ImgEditBtn = styled.label`
   width: 100px;
   font-size: 12px;
   text-align: center;
-  margin: 10px 0px;
+  white-space: nowrap;
 `;
 
 /*info*/
@@ -89,21 +92,6 @@ export const InfoEditContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-  }
-  & > button {
-    display: flex;
-    background: blue;
-    color: white;
-    border-radius: 25px;
-    font-size: 15px;
-    cursor: pointer;
-    align-items: center;
-    width: 7rem;
-    height: 2rem;
-    justify-content: center;
-    border: none;
-
-    margin-left: auto;
   }
 `;
 export const EditInput = styled.div`
@@ -135,5 +123,21 @@ export const EditInput = styled.div`
     color: #707070;
     background: #fafafa;
     text-decoration: none;
+  }
+`;
+export const SubmitBtnBox = styled.div`
+  & > button {
+    display: flex;
+    background: blue;
+    color: white;
+    border-radius: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    align-items: center;
+    width: 7rem;
+    height: 2rem;
+    justify-content: center;
+    border: none;
+    margin-left: auto;
   }
 `;

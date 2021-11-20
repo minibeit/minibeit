@@ -1,8 +1,8 @@
 <included>
-    <appender name="FILE-WARN-AWS" class="ch.qos.logback.core.rolling.AwsLogsAppender">
-        <file>${LOG_LOCATION}/${AWS_LOCATION}/${WARN_LOCATION}/warn-${BY_DATE}.log</file>
+    <appender name="FILE-INFO-AWS" class="ch.qos.logback.core.rolling.AwsLogsAppender">
+        <file>${LOG_LOCATION}/${AWS_LOCATION}/${INFO_LOCATION}/info-${BY_DATE}.log</file>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>WARN</level>
+            <level>INFO</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
@@ -10,7 +10,7 @@
             <pattern>${LOG_PATTERN_AWS}</pattern>
         </encoder>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
-            <fileNamePattern>${BACKUP_LOCATION}/${AWS_LOCATION}/${WARN_LOCATION}/warn-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <fileNamePattern>${BACKUP_LOCATION}/${AWS_LOCATION}/${INFO_LOCATION}/info-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
             <maxFileSize>${MAX_FILE_SIZE}</maxFileSize>
             <maxHistory>${MAX_HISTORY}</maxHistory>
         </rollingPolicy>

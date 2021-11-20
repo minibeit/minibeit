@@ -33,6 +33,7 @@
         <include resource="file-info-appender.xml"/>
         <include resource="file-warn-appender.xml"/>
         <include resource="file-error-appender.xml"/>
+        <include resource="file-info-aws-appender.xml"/>
         <include resource="file-warn-aws-appender.xml"/>
 
         <logger name="com.minibeit" level="DEBUG">
@@ -44,8 +45,8 @@
             <appender-ref ref="FILE-INFO"/>
             <appender-ref ref="FILE-WARN"/>
             <appender-ref ref="FILE-ERROR"/>
+            <appender-ref ref="FILE-INFO-AWS"/>
             <appender-ref ref="FILE-WARN-AWS"/>
-
         </root>
     </springProfile>
 

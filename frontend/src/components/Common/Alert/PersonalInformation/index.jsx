@@ -6,17 +6,14 @@ import * as S from "./style";
 // 개인정보법 동의 알림창...
 
 export default function PersonalInformation({setConditionsAlert}) {
-  const closeAlert = () => {
-    setConditionsAlert(0);
-  };
   return (
     <Portal>
-      <S.AlertBackground>
+      <S.AlertBackground onClick={(e)=>e.target===e.currentTarget && setConditionsAlert(0)}>
         <S.AlertBox>
           <S.AlertContent>
             <div>
               <p>개인정보 보호법 및 시행령</p>
-              <div onClick={closeAlert}>×</div> 
+              <div onClick={() => setConditionsAlert(0)}>×</div> 
             </div>
             <p> &lt;  CLMOI &gt;  ('[www.minibeit.com](http://www.minibeit.com/)'이하 'minibeit')은(는)<br/> 
             「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고<br/>

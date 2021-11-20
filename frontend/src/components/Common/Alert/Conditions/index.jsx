@@ -6,17 +6,14 @@ import * as S from "./style";
 // 이용약관 알림창...
 
 export default function Conditions({setConditionsAlert}) {
-  const closeAlert = () => {
-    setConditionsAlert(0);
-  };
   return (
     <Portal>
-      <S.AlertBackground>
+      <S.AlertBackground onClick={(e)=>e.target===e.currentTarget && setConditionsAlert(0)}>
         <S.AlertBox>
           <S.AlertContent>
             <div>
               <p>이용 약관</p>
-              <div onClick={closeAlert}>×</div> 
+              <div onClick={() => setConditionsAlert(0)}>×</div> 
             </div>
             <div>
               <p>

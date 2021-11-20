@@ -14,6 +14,8 @@ import AskEndSchedule from "../../../Common/Alert/AskEndSchedule";
 export default function FeedBox({ status, data, changeFeedData }) {
   const [manageModal, setManageModal] = useState(false);
   const [closeModal, setCloseModal] = useState(0);
+  const [endAlert, setEndAlert] = useState(0);
+
 
   const deleteFeed = async (id) => {
     await feedDeleteApi(id)
@@ -28,10 +30,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
       });
   };
 
-  const [endAlert, setEndAlert] = useState(0);
-  const endOn = () => {
-    setEndAlert(1);
-  }
+
   return (
     <>
       <S.FeedLabel>
@@ -93,7 +92,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <button onClick={endOn}>일정종료</button>
+                <button onClick={() => {setEndAlert(1)}}>일정종료</button>
               </S.FeedButton>
             {endAlert===1 && <AskEndSchedule setEndAlert={setEndAlert} deleteFeed={deleteFeed} data={data}/>}
             {endAlert===2 && <EndSchedule setEndAlert={setEndAlert} changeFeedData={changeFeedData}/>}

@@ -14,14 +14,6 @@ export default function FeedCloseModal({
   const [items] = useState(['죄송하지만, 급한 다른 일정이 생겼어요.', '죄송하지만, 참여자 모집이 원활하지 않아요.','죄송하지만, 상세 내용을 다시 변경하여 공고를 올려야해요.','죄송하지만, 행정 및 법률상 문제가 발생했어요.','죄송하지만, 참여자 명단을 확정했어요.','참여자들의 일정을 완료하고 보상을 지급했어요.','직접입력'])
   const [isActive, setIsActive] = useState(false);
   const [selected, setSelected] = useState('사유를 골라주세요.');
-
-  const modalSwitch = () => {
-    setCloseModal(0);
-  };
-
-  const active = () => {
-    setIsActive(!isActive);
-  };
  
   const selectReason=(e) => {
     setSelected(`${e.target.value}`);
@@ -60,18 +52,18 @@ export default function FeedCloseModal({
 
   return (
     <Portal>
-      <S.ModalBackground>
+      <S.ModalBackground onClick={(e)=>e.target===e.currentTarget && setCloseModal(0)}>
         <S.ModalBox>
           <div>
-            <CloseIcon sx={{ fontSize: 20}} onClick={modalSwitch}/>
+            <CloseIcon sx={{ fontSize: 20}} onClick={() => {setCloseModal(0)}}/>
           </div>
           <S.ModalContent>
               <InfoOutlinedIcon sx={{ fontSize: 40}}/>
               <p>종료 사유를 알려주세요</p>
               <div>
-                <S.Select onClick={active} 
+                <S.Select onClick={()=>setIsActive(!isActive)} 
                 isActive={isActive}>{selected}
-                <span onClick={active}>▲</span>
+                <span onClick={()=>setIsActive(!isActive)}>▲</span>
                 </S.Select>
                 <div>
                   {isActive && (items.map((a,i) => 

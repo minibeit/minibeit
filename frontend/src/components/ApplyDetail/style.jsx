@@ -4,6 +4,7 @@ export const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  /* position: ${({applyAlert})=> applyAlert>0 ? "fixed" : null}; */
   margin: 4rem 12rem 4rem 12rem;
   & > div:nth-child(2) {
     display: flex;

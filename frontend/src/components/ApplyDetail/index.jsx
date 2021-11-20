@@ -94,7 +94,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
   }, [feedId, getFeedDetail, resetApply]);
 
   return (
-    <S.FeedContainer>
+    <S.FeedContainer applyAlert={applyAlert}>
       {feedDetailData && (
         <TitleContiner
           title={feedDetailData.title}
@@ -119,7 +119,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
             feedDetailData={feedDetailData}
             setApplyAlert={setApplyAlert}
           />
-          {applyAlert===1 && <AskCompleteApplication apply={apply} setAskApplyAlert={setApplyAlert} submit={submit}/>}
+          {applyAlert===1 && <AskCompleteApplication apply={apply} setApplyAlert={setApplyAlert} submit={submit}/>}
           {applyAlert===2 && <CompleteApplication user={user} setApplyAlert={setApplyAlert}/>}
         </div>
       )}

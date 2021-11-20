@@ -180,25 +180,54 @@ export const InfoContainer = styled(Container)`
     gap: 1rem;
   }
 `;
-export const NameBox = styled(InputBox)`
-  width: 4rem;
-`;
-export const NickNameBox = styled(InputBox)`
-  width: 7.5rem;
+export const CheckInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  & > p:first-child {
+    font-size: 0.5rem;
+  }
   & > div {
     display: flex;
-    background: white;
+    height: 2rem;
+    border: none;
     border-radius: 8px;
-    & > button {
-      white-space: nowrap;
-      border: none;
-      background: none;
-      padding: 8px 5px 8px 5px;
-      font-size: 0.5rem;
-      color: blue;
-      cursor: pointer;
+    padding: 0;
+    font-size: 15px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.14px;
+    text-align: left;
+    margin-top: 7px;
+    outline: none;
+    background: white;
+    color: #707070;
+    text-decoration: none;
+  }
+  & input {
+    width: 90%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    color: #707070;
+    outline: none;
+  }
+  & button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: blue;
+    white-space: nowrap;
+    &:disabled {
+      color: #c4c4c4;
+      cursor: inherit;
     }
   }
+`;
+export const NameBox = styled(InputBox)`
+  width: 4rem;
 `;
 export const GenderBox = styled(InputBox)`
   width: 3rem;
@@ -233,60 +262,19 @@ export const PhoneNumBox = styled(InputBox)`
     margin: 0;
   }
 `;
-export const PhoneNumInput = styled.div`
-  display: flex;
-  overflow: hidden;
-  align-items: center;
-  background: white;
-  border-radius: 0.5rem;
-  & > input {
-    border-radius: 0;
-    text-align: center;
-    outline: none;
-    padding: 0.5rem 0;
-    &:disabled {
-      font-weight: bold;
-      background: rgb(232, 240, 254);
-    }
-  }
-  & > button {
-    white-space: nowrap;
-    background: white;
-    border: none;
-    cursor: pointer;
-    height: 100%;
-    &:disabled {
-      font-weight: bold;
-      background: rgb(232, 240, 254);
-      color: blue;
-    }
-  }
-`;
 export const EmailBox = styled(InputBox)``;
-export const EmailInput = styled.div`
-  display: flex;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  & > input {
-    border-radius: 0;
-    outline: none;
-    &:disabled {
-      font-weight: bold;
-      background: rgb(232, 240, 254);
-    }
-  }
-  & > button {
-    white-space: nowrap;
-    background: white;
-    border: none;
-    cursor: pointer;
-    &:disabled {
-      font-weight: bold;
-      background: rgb(232, 240, 254);
-      color: blue;
-    }
+export const NicknameInput = styled(CheckInput)`
+  width: 8rem;
+  & > p:nth-child(3) {
+    font-size: 0.5rem;
   }
 `;
+export const PhoneInput = styled(CheckInput)`
+  & > div:nth-child(2) {
+    align-items: center;
+  }
+`;
+export const EmailInput = styled(CheckInput)``;
 
 /*school*/
 export const SchoolBox = styled(InputBox)`

@@ -3,7 +3,7 @@ import Select from "react-select";
 import { schoolGetApi } from "../../../../utils/schoolApi";
 
 export default function SearchInput({ onChange, defaultValue }) {
-  const [schools, setSchools] = useState([]);
+  const [schools, setSchools] = useState();
 
   const getSchool = (text) => {
     schoolGetApi(text).then((res) => {
@@ -26,6 +26,7 @@ export default function SearchInput({ onChange, defaultValue }) {
     control: (provided, state) => ({
       ...provided,
       borderRadius: "8px",
+      border: "none",
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
@@ -35,13 +36,19 @@ export default function SearchInput({ onChange, defaultValue }) {
       ...provided,
       display: "none",
     }),
+    container: (provided, state) => ({
+      ...provided,
+      background: "#f9f9f9",
+    }),
     valueContainer: (provided, state) => ({
       ...provided,
-      color: "black",
-      textAlign: "center",
-      fontSize: "15px",
-      fontWeight: "600",
+      background: "#f9f9f9",
     }),
+    indicatorsContainer: (provided, state) => ({
+      ...provided,
+      background: "#f9f9f9",
+    }),
+
     menuList: (provided, state) => ({
       ...provided,
       height: "10rem",
@@ -53,19 +60,19 @@ export default function SearchInput({ onChange, defaultValue }) {
 
   return (
     <>
-      <Select
-        options={schools}
-        onChange={onChange}
-        defaultValue={
-          defaultValue
-            ? schools.find((ele) => ele.value === defaultValue)
-            : null
-        }
-        isClearable={true}
-        placeholder="위치"
-        styles={customStyles}
-        onInputChange={getSchool}
-      />
+      {schools && (
+        <Select
+          options={schools}
+          onChange={onChange}
+          defaultValue={
+            defaultValue && schools.find((ele) => ele.value === defaultValue)
+          }
+          isClearable={true}
+          placeholder="위치"
+          styles={customStyles}
+          onInputChange={getSchool}
+        />
+      )}
     </>
   );
 }

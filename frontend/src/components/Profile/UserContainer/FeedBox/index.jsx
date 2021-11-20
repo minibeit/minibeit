@@ -1,6 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { deleteCancelApi, doJoinApi, doNotJoinApi } from "../../../../utils";
+import {
+  deleteCancelApi,
+  doJoinApi,
+  doNotJoinApi,
+  getBPusergroup,
+} from "../../../../utils";
+import { sendMailApi } from "../../../../utils/mailApi";
 
 import * as S from "../../style";
 
@@ -12,6 +18,10 @@ export default function FeedBox({ status, data, changeFeedData }) {
         .then(() => {
           alert("실험이 참여 취소 되었습니다.");
           changeFeedData("대기중");
+          getBPusergroup(data.businessProfileId).then((res) => {
+            var emailArr = res.data.data.map((a) => a.email);
+            sendMailApi("APPLICANTCANCEL", emailArr);
+          });
         })
         .catch((err) => alert("취소할 수 없는 실험입니다."));
     }

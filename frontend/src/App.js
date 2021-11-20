@@ -11,7 +11,7 @@ import Apply from "./pages/Apply";
 import ApplyDetail from "./pages/ApplyDetail";
 import Recruit from "./pages/Recruit";
 import RecruitComplete from "./pages/RecruitComplete";
-import SignUp from "./pages/SignUp";
+import SignUP from "./pages/SignUP";
 
 function App() {
   return (
@@ -24,7 +24,7 @@ function App() {
             path="/callback/:id/:nickname/:email/:accessToken/:schoolId/:signupCheck/:a/:b/:c"
             component={ProcessLogin}
           />
-          <Route path="/signup" component={SignUp} />
+          <Route path="/signup" component={SignUP} />
           <Route path="/business/:businessId" exact component={BProfile} />
           <Route path="/profile/:userId" exact component={Profile} />
           <Route path="/apply/:postId" exact component={ApplyDetail} />

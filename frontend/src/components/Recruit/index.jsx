@@ -77,7 +77,6 @@ export default function RecruitComponent() {
         .catch((err) => alert("게시물 작성에 실패했습니다"));
       }
   };
-  console.log(recruit);
 
   const page = useRef();
   const movePage = (e) => {

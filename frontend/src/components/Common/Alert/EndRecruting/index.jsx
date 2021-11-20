@@ -5,9 +5,10 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 // 종료 사유 입력후 모집이 끝났다고 알려주는 알림창
 
-export default function EndRecruting ({setAlertSwitch}) {
+export default function EndRecruting ({setCloseModal,changeFeedData}) {
   const closeAlert = () => {
-    setAlertSwitch(false);
+    setCloseModal(0);
+    changeFeedData('생성한 모집공고');
   };
   return (
     <Portal>

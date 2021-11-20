@@ -5,9 +5,9 @@ import * as S from "./style";
 
 // 이용약관 알림창...
 
-export default function Conditions({setAlertSwitch}) {
+export default function Conditions({setConditionsAlert}) {
   const closeAlert = () => {
-    setAlertSwitch(false);
+    setConditionsAlert(0);
   };
   return (
     <Portal>

@@ -61,12 +61,32 @@ export default function BManageModal({ postId, setModalSwitch }) {
     }
   };
 
+  const viewRejectInput = (e) => {
+    var RejectInput = e.target.parentNode.parentNode.nextSibling;
+    if (RejectInput.style.display === "none") {
+      RejectInput.style.display = "flex";
+
+    } else {
+      RejectInput.style.display = "none";
+    }
+  };
+
+  const [rejectAlert,setRejectAlert] =useState(false);
+  const [rejectUserInfo, setRejectUserInfo] = useState();
+  const [cancleUserInfo, setCancleUserInfo] = useState();
+  const [reason, setReason] = useState(['']);
+  const [cancleAlert, setCancleAlert] = useState(false);
+
+  const cancleOn = (user) => {
+    setCancleUserInfo(user);
+    setCancleAlert(true);
+  };
+
   const cancleApprove = (postDoDateId, userId, userEmail) => {
-    let value = window.confirm("해당 실험자의 실험 참여를 취소하시겠습니까?");
-    if (value) {
+    if (cancleAlert) {
       cancelOneApi(postDoDateId, userId)
         .then((res) => {
-          alert("해당 실험자의 실험 참여가 취소되었습니다");
+          setCancleAlert(false);
           getList();
         })
         .then(() => {
@@ -78,21 +98,17 @@ export default function BManageModal({ postId, setModalSwitch }) {
     }
   };
 
-  const viewRejectInput = (e) => {
-    var RejectInput = e.target.parentNode.parentNode.nextSibling;
-    if (RejectInput.style.display === "none") {
-      RejectInput.style.display = "flex";
-    } else {
-      RejectInput.style.display = "none";
-    }
+  const rejectApplyAlert = (user) => {
+    setRejectUserInfo(user);
+    setRejectAlert(true);
   };
 
   const rejectApply = (postDoDateId, userId, comment, userEmail) => {
-    let value = window.confirm("해당 실험자를 반려하시겠습니까?");
-    if (value) {
+    if (rejectAlert) {
       rejectOneApi(postDoDateId, userId, comment)
         .then((res) => {
-          alert("해당 실험자의 실험 참여가 반려되었습니다");
+          setRejectAlert(false);
+          setReason(null);
           getList();
         })
         .then(() => {
@@ -191,6 +207,16 @@ export default function BManageModal({ postId, setModalSwitch }) {
               applyApprove={applyApprove}
               cancleApprove={cancleApprove}
               viewRejectInput={viewRejectInput}
+              rejectAlert={rejectAlert}
+              setRejectAlert={setRejectAlert}
+              rejectApplyAlert={rejectApplyAlert}
+              rejectUserInfo={rejectUserInfo}
+              reason={reason}
+              setReason={setReason}
+              cancleAlert={cancleAlert} 
+              setCancleAlert={setCancleAlert}
+              cancleOn={cancleOn}
+              cancleUserInfo={cancleUserInfo} 
               rejectApply={rejectApply}
               changeAttend={changeAttend}
             />

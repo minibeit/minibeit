@@ -41,6 +41,13 @@ export const Formexplain = styled.div`
   text-align: center;
   font-size: 11px;
   color: #8c8c8c;
+
+  & > p > span:first-child,
+  & > p > span:nth-child(2) {
+    color: #0642FF;
+    text-decoration: underline;
+    cursor: pointer;
+  }
 `;
 export const FormContainer = styled.div`
   width: 57%;

@@ -2,7 +2,12 @@ import React from "react";
 
 import * as S from "../style";
 
-export default function ApplyController({ apply, feedDetailData, submit }) {
+export default function ApplyController({
+  apply,
+  feedDetailData,
+  submit,
+  applyAlert,
+}) {
   return (
     <S.RemoteBox>
       <S.Controller>
@@ -18,7 +23,7 @@ export default function ApplyController({ apply, feedDetailData, submit }) {
         <S.ApplyBtnGroup>
           <button
             disabled={apply.postDoDateId ? false : true}
-            onClick={() => submit(apply.postDoDateId)}
+            onClick={applyAlert}
           >
             신청하기
           </button>

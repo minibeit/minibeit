@@ -31,6 +31,11 @@ const imgOnClick = (e) => {
     
 };
 
+const [editAlert, setEditAlert] = useState(false);
+const editOn = () => {
+  setEditAlert(true);
+}
+
   return (
     <Presenter
       id={feedDetailData.id}
@@ -59,8 +64,9 @@ const imgOnClick = (e) => {
       modalSwitch={modalSwitch}
       setModalSwitch={setModalSwitch}
       imgOnClick={imgOnClick}
-
-
+      editAlert={editAlert}
+      setEditAlert={setEditAlert}
+      editOn={editOn}
     />
   );
 }

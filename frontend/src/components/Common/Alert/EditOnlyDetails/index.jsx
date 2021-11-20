@@ -5,9 +5,10 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 // 상세내용만 수정이 가능하다고 알려주는 알림창
 
-export default function EditOnlyDetails({setAlertSwitch}) {
+export default function EditOnlyDetails({setEditAlert, setEditSwitch, editSwitch}) {
   const closeAlert = () => {
-    setAlertSwitch(false);
+    setEditAlert(false);
+    setEditSwitch(!editSwitch);
   };
   return (
     <Portal>

@@ -2,7 +2,7 @@ import React from "react";
 import TimeSelectBox from "./TimeSelectBox";
 import ApplyDetailImgsModal from "../../Common/Modal/ApplyDetailImgsModal";
 import ReveiwBox from "./ReviewBox";
-
+import EditOnlyDetails from '../../Common/Alert/EditOnlyDetails'
 import * as S from "../style";
 
 export default function Presenter({
@@ -32,6 +32,9 @@ export default function Presenter({
   modalSwitch,
   setModalSwitch,
   imgOnClick,
+  editAlert, 
+  setEditAlert,
+  editOn
 }) {
   return (
     <S.ContentBox>
@@ -82,8 +85,9 @@ export default function Presenter({
         <S.DataHeader>
           <p>상세내용</p>
           {isMine && editSwitch === false && (
-            <button onClick={() => setEditSwitch(!editSwitch)}>수정하기</button>
+            <button onClick={editOn} >수정하기</button>
           )}
+          {editAlert && <EditOnlyDetails setEditSwitch={setEditSwitch} editSwitch={editSwitch} setEditAlert={setEditAlert}/>}
         </S.DataHeader>
         <S.DataContent>
           {editSwitch ? (

@@ -123,8 +123,8 @@ export default function ApplyDetailComponent({ feedId, date }) {
             feedDetailData={feedDetailData}
             applyAlert={applyAlert}
           />
-          {askApplyAlert ? <AskCompleteApplication apply={apply} setAskApplyAlert={setAskApplyAlert} submit={submit}/>:null}
-          {endApplyAlert ? <CompleteApplication user={user}/>:null}
+          {askApplyAlert && <AskCompleteApplication apply={apply} setAskApplyAlert={setAskApplyAlert} submit={submit}/>}
+          {endApplyAlert && <CompleteApplication user={user} setEndApplyAlert={setEndApplyAlert}/>}
         </div>
       )}
     </S.FeedContainer>

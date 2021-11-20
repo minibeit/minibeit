@@ -13,13 +13,13 @@ export default function Presenter({
   viewRejectInput, 
   setRejectAlert, 
   rejectAlert,
-  rejectApplyAlert,
+  setRejectUserInfo,
   rejectUserInfo,
   reason,
   setReason,
   cancleAlert,
   setCancleAlert,
-  cancleOn,
+  setCancleUserInfo,
   cancleUserInfo, 
   rejectApply,
   changeAttend,
@@ -76,7 +76,9 @@ export default function Presenter({
                           <S.ButtonBox>
                             <S.Btn disabled={true}>확정</S.Btn>
                             <S.Btn
-                              onClick={()=>cancleOn(user)}>
+                              onClick={(user) => {
+                                setCancleUserInfo(user);
+                                setCancleAlert(true)}}>
                               취소
                             </S.Btn>
                             {cancleAlert && <AskCancelConfirm cancleApprove={cancleApprove} setCancleAlert={setCancleAlert} cancleUserInfo={cancleUserInfo}/>}
@@ -107,7 +109,9 @@ export default function Presenter({
                       <div>
                         <input placeholder="반려사유를 작성해주세요" value={reason} onChange={(e)=>setReason(e.target.value)}/>
                         <button
-                          onClick={()=>rejectApplyAlert(user)} >
+                          onClick={(user) => {
+                              setRejectUserInfo(user);
+                              setRejectAlert(true)}} >
                           확인
                         </button>
                       </div>

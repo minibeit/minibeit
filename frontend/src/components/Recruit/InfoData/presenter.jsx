@@ -27,8 +27,6 @@ export default function Presenter({
   submit,
   setAskComplete, 
   askComplete, 
-  setNotEnough, 
-  notEnough,
   clickSubmit,
   movePage
 }) {
@@ -186,8 +184,8 @@ export default function Presenter({
           </S.Input>
         </S.InputBox>
         <S.SaveBtn onClick={clickSubmit}>작성완료</S.SaveBtn>
-        {askComplete ? <RegisterFeed  setAskComplete={setAskComplete} recruit={recruit} submit={submit}/> : null}
-        {notEnough ? <NotEnoughWrite  setNotEnough={setNotEnough} recruit={recruit} movePage={movePage}/> : null}
+        {askComplete===1 && <RegisterFeed  setAskComplete={setAskComplete} recruit={recruit} submit={submit}/>}
+        {askComplete===2 && <NotEnoughWrite  setAskComplete={setAskComplete} recruit={recruit} movePage={movePage}/>}
       </S.InputContainer>
     </S.InputPage>
   );

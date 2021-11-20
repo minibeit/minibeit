@@ -49,8 +49,8 @@ export default function RecruitComponent() {
   const userId = useRecoilValue(userState).id;
   const isLogin = useRecoilValue(userState).isLogin;
   const [bpList, setbpList] = useState([]);
-  const [askComplete, setAskComplete] = useState(false);
-  const [notEnough, setNotEnough] = useState(false);
+  const [askComplete, setAskComplete] = useState(0);
+  // const [notEnough, setNotEnough] = useState(false);
 
   const getbpList = useCallback(async () => {
     await bprofileListGet(userId)
@@ -60,9 +60,9 @@ export default function RecruitComponent() {
 
   const clickSubmit = () => {
     if(recruit.title !== '') {
-      setAskComplete(true);
+      setAskComplete(1);
     }
-    else{setNotEnough(true);}
+    else{setAskComplete(2);}
   };
 
   const submit = (recruit) => {
@@ -137,8 +137,6 @@ export default function RecruitComponent() {
           submit={submit}
           setAskComplete={setAskComplete}
           askComplete={askComplete}
-          setNotEnough={setNotEnough}
-          notEnough={notEnough}
           clickSubmit={clickSubmit}
         />
       )}

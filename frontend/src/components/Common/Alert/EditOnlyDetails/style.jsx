@@ -60,5 +60,6 @@ export const AlertContent = styled.div`
     border: 1px solid #0642FF;
     background: #0642FF;
     margin-top: 20px;
+    cursor: pointer;
   }
 `;

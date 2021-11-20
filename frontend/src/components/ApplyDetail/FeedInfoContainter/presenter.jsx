@@ -34,7 +34,6 @@ export default function Presenter({
   imgOnClick,
   editAlert, 
   setEditAlert,
-  editOn
 }) {
   return (
     <S.ContentBox>
@@ -85,7 +84,7 @@ export default function Presenter({
         <S.DataHeader>
           <p>상세내용</p>
           {isMine && editSwitch === false && (
-            <button onClick={editOn} >수정하기</button>
+            <button onClick={() => setEditAlert(true)} >수정하기</button>
           )}
           {editAlert && <EditOnlyDetails setEditSwitch={setEditSwitch} editSwitch={editSwitch} setEditAlert={setEditAlert}/>}
         </S.DataHeader>

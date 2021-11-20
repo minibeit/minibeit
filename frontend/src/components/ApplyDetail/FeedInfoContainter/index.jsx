@@ -9,6 +9,7 @@ export default function FeedInfoContainer({
   editDetail,
 }) {
   const [editSwitch, setEditSwitch] = useState(false);
+  const [editAlert, setEditAlert] = useState(false);
   const [newContent, setNewContent] = useState(
     feedDetailData.updatedContent
       ? feedDetailData.updatedContent
@@ -30,12 +31,6 @@ const imgOnClick = (e) => {
   : 4);
     
 };
-
-const [editAlert, setEditAlert] = useState(false);
-const editOn = () => {
-  setEditAlert(true);
-}
-
   return (
     <Presenter
       id={feedDetailData.id}
@@ -66,7 +61,6 @@ const editOn = () => {
       imgOnClick={imgOnClick}
       editAlert={editAlert}
       setEditAlert={setEditAlert}
-      editOn={editOn}
     />
   );
 }

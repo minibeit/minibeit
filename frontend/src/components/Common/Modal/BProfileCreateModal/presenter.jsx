@@ -14,7 +14,7 @@ export default function Presenter({
   onAddressChange,
 }) {
   const exceptName = (value) => {
-    var regName = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
+    var regName = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,20}$/;
     if (!regName.test(value)) {
       return false;
     } else {

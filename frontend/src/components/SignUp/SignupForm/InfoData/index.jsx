@@ -30,7 +30,7 @@ export default function InfoData({
   };
 
   const exceptName = (value) => {
-    var regName = /^[가-힣]{2,4}$/;
+    var regName = /^[가-힣]{2,5}$/;
     if (!regName.test(value)) {
       return false;
     } else {
@@ -38,7 +38,7 @@ export default function InfoData({
     }
   };
   const exceptNickname = (value) => {
-    var regNickname = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,15}$/;
+    var regNickname = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
     if (!regNickname.test(value)) {
       return false;
     } else {
@@ -102,7 +102,7 @@ export default function InfoData({
                 if (!exceptName(e.target.value)) {
                   e.target.value = "";
                   onChange(e);
-                  alert("이름은 2~4글자 한글로 입력해주세요");
+                  alert("이름은 2~5글자 한글로 입력해주세요");
                 }
               }}
             />
@@ -123,7 +123,7 @@ export default function InfoData({
                   if (exceptNickname(value)) {
                     checkingNickname(e.target.previousSibling.value);
                   } else {
-                    alert("닉네임은 2글자 이상 15글자 이내로 입력해주세요");
+                    alert("닉네임은 2글자 이상 10글자 이내로 입력해주세요");
                   }
                 }}
               >

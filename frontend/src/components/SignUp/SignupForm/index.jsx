@@ -164,10 +164,11 @@ export default function SignUpComponent({ setFinish }) {
   };
 
   useEffect(() => {
-    if (guest.email !== "") {
+    if (guest.email) {
       setChangeEmail(true);
     }
   }, [guest.email]);
+  console.log(inputData);
 
   return (
     <Portal>

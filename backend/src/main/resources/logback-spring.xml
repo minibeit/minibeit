@@ -33,8 +33,6 @@
         <include resource="file-info-appender.xml"/>
         <include resource="file-warn-appender.xml"/>
         <include resource="file-error-appender.xml"/>
-        <include resource="file-info-aws-appender.xml"/>
-        <include resource="file-warn-aws-appender.xml"/>
 
         <logger name="com.minibeit" level="DEBUG">
             <appender-ref ref="CONSOLE"/>
@@ -45,8 +43,19 @@
             <appender-ref ref="FILE-INFO"/>
             <appender-ref ref="FILE-WARN"/>
             <appender-ref ref="FILE-ERROR"/>
-            <appender-ref ref="FILE-INFO-AWS"/>
-            <appender-ref ref="FILE-WARN-AWS"/>
+
+            <appender name="CLOUDWATCH_LOG" class="ca.pjer.logback.AwsLogsAppender">
+                <layout>
+                    <pattern>메세지: [%msg] 클래스: [%C{0}.%M:#%L] 스레드: [%thread] %n"</pattern>
+                </layout>
+                <logGroupName>minibeit-log-dev</logGroupName>
+                <logStreamUuidPrefix>info</logStreamUuidPrefix>
+                <logRegion>ap-northeast-2</logRegion>
+                <maxBatchLogEvents>50</maxBatchLogEvents>
+                <maxFlushTimeMillis>30000</maxFlushTimeMillis>
+                <maxBlockTimeMillis>5000</maxBlockTimeMillis>
+                <retentionTimeDays>0</retentionTimeDays>
+            </appender>
         </root>
     </springProfile>
 

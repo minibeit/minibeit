@@ -9,12 +9,16 @@ import { useHistory } from "react-router";
 //신청을 완료했음을 알려주는 알림창
 
 export default function CompleteApplication ({user,setApplyAlert}) {
-  
+  const clickOutside = (e) => {
+    e.target===e.currentTarget && 
+    setApplyAlert(0); 
+    document.querySelector("body").removeAttribute("style");
+  };
   const history = useHistory();
 
   return (
     <Portal>
-      <S.AlertBackground onClick={(e)=>e.target===e.currentTarget && setApplyAlert(0)}>
+      <S.AlertBackground onClick={(e)=>clickOutside(e)}>
         <S.AlertBox>
           <S.AlertContent>
             <p>신청이 완료되었습니다.</p>

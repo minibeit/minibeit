@@ -74,6 +74,8 @@ export default function ApplyDetailComponent({ feedId, date }) {
   };
 
   const [applyAlert,setApplyAlert] = useState(0);
+  const [modalSwitch, setModalSwitch] = useState(false);
+
  
   const submit = async (postDoDateId) => {
     if (applyAlert) {
@@ -94,7 +96,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
   }, [feedId, getFeedDetail, resetApply]);
 
   return (
-    <S.FeedContainer applyAlert={applyAlert}>
+    <S.FeedContainer applyAlert={applyAlert} modalSwitch={modalSwitch}>
       {feedDetailData && (
         <TitleContiner
           title={feedDetailData.title}
@@ -113,6 +115,8 @@ export default function ApplyDetailComponent({ feedId, date }) {
             feedDetailData={feedDetailData}
             date={date}
             editDetail={editDetail}
+            modalSwitch={modalSwitch} 
+            setModalSwitch={setModalSwitch}
           />
           <ApplyController
             apply={apply}

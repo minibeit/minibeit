@@ -14,7 +14,7 @@ export default function Presenter({
   return (
     <>
         <div>
-          <S.ModalBtn onClick={() => setModalSwitch(false)}>X 닫기</S.ModalBtn>
+          <S.ModalBtn onClick={() => {setModalSwitch(false);}}>X 닫기</S.ModalBtn>
           <S.ModalBtn>다운로드</S.ModalBtn>
         </div>
         <S.Container>

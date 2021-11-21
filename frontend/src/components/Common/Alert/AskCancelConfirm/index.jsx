@@ -8,10 +8,19 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 // 정말로 해당 확정인을 반려할것인지 묻는 알림창
 
 export default function AskCancelConfirm ({cancleApprove, setCancleAlert, cancleUserInfo}) {
+  const clickOutside = (e) => {
+    e.target===e.currentTarget && 
+        setCancleAlert(false); 
+        document.querySelector("body").removeAttribute("style");
+  };
+  const clickBtn =() => {
+    setCancleAlert(false);
+    document.querySelector("body").removeAttribute("style");
+  };
 
   return (
     <Portal>
-      <S.AlertBackground onClick={(e)=>e.target===e.currentTarget && setCancleAlert(false)}>
+      <S.AlertBackground onClick={(e)=>clickOutside(e)}>
         <S.AlertBox>
           <S.AlertContent>
           <ErrorOutlineIcon  sx={{ fontSize: 40 , color: "#0642FF"}} />
@@ -19,7 +28,7 @@ export default function AskCancelConfirm ({cancleApprove, setCancleAlert, cancle
             <p>갑자기 취소 및 반려를 하신 경우, 확정된 참여자들이 당황스러워하실 수 있어요.<br/>
             <span>꼭! 개별 연락을 통해 일정 종료를 알려주시길 바라요.</span></p>
             <div>
-              <S.GrayButton onClick={() => setCancleAlert(false)}>아니오, 관둘래요</S.GrayButton>
+              <S.GrayButton onClick={clickBtn}>아니오, 관둘래요</S.GrayButton>
               <S.BlueButton onClick={() => cancleApprove(cancleUserInfo.postDoDateId, cancleUserInfo.id, cancleUserInfo.email)}>네, 취소할래요</S.BlueButton>
             </div>
           </S.AlertContent>

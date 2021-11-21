@@ -8,17 +8,25 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 // 제목말고 다른 칸이 비었다고도 알려주게 될 수 있을것같아서 파일 이름에 제목을 넣지 않았음
 
 export default function NotEnoughWrite({setAskComplete,  movePage}) {
+  const clickOutside = (e) => {
+    e.target===e.currentTarget && 
+    setAskComplete(0); 
+    document.querySelector("body").removeAttribute("style");
+  };
+  const clickBtn =() => {
+    setAskComplete(0);
+    movePage(4);
+    document.querySelector("body").removeAttribute("style");
+  };
   return (
     <Portal>
-      <S.AlertBackground onClick={(e)=>e.target===e.currentTarget && setAskComplete(0)}>
+      <S.AlertBackground onClick={(e)=>clickOutside(e)}>
         <S.AlertBox>
           <S.AlertContent>
             <ErrorOutlineIcon  sx={{ fontSize: 40 , color: "#0642FF"}} />
             <p>제목을 작성하지 않으셨습니다.</p>
             <p>제목을 작성해주세요.</p>
-            <S.BlueButton onClick={() => {
-            setAskComplete(0);
-            movePage(4)}}>네, 알겠어요.</S.BlueButton>
+            <S.BlueButton onClick={clickBtn}>네, 알겠어요.</S.BlueButton>
           </S.AlertContent>
         </S.AlertBox>
       </S.AlertBackground>

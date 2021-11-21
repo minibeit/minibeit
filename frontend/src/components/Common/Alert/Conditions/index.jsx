@@ -6,14 +6,23 @@ import * as S from "./style";
 // 이용약관 알림창...
 
 export default function Conditions({setConditionsAlert}) {
+  const clickOutside = (e) => {
+  e.target===e.currentTarget && 
+  setConditionsAlert(0); 
+  document.querySelector("body").removeAttribute("style");
+  };
+  const clickBtn =() => {
+    setConditionsAlert(0);
+  document.querySelector("body").removeAttribute("style");
+  };
   return (
     <Portal>
-      <S.AlertBackground onClick={(e)=>e.target===e.currentTarget && setConditionsAlert(0)}>
+      <S.AlertBackground onClick={(e)=>clickOutside(e)}>
         <S.AlertBox>
           <S.AlertContent>
             <div>
               <p>이용 약관</p>
-              <div onClick={() => setConditionsAlert(0)}>×</div> 
+              <div onClick={clickBtn}>×</div> 
             </div>
             <div>
               <p>

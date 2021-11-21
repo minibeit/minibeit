@@ -6,7 +6,7 @@
     <property name="LOG_CONSOLE_PATTERN"
               value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) %boldWhite([%C.%M:%yellow(%L)]) - %msg%n"/>
     <property name="LOG_PATTERN_AWS"
-              value="메세지: [%msg] 클래스: [%C{0}.%M:#%L] 스레드: [%thread] %n"/>
+              value="날짜: %d{yy-MM-dd HH:mm:ss} 스레드: [%thread] 레벨:[%level] 클래스: [%C{0}.%M:#%L] 메세지: [%msg] %n"/>
     <property name="LOG_LOCATION" value="/home/ec2-user/app/logs"/>
     <property name="BACKUP_LOCATION" value="/home/ec2-user/app/logs"/>
     <property name="DEBUG_LOCATION" value="debug"/>
@@ -34,6 +34,8 @@
         <include resource="file-error-appender.xml"/>
         <include resource="file-info-aws-appender.xml"/>
         <include resource="file-error-aws-appender.xml"/>
+        <include resource="file-warn-aws-appender.xml"/>
+        <include resource="file-debug-aws-appender.xml"/>
 
         <logger name="com.minibeit" level="DEBUG">
             <appender-ref ref="CONSOLE"/>
@@ -46,6 +48,8 @@
             <appender-ref ref="FILE-ERROR"/>
             <appender-ref ref="FILE-INFO-AWS"/>
             <appender-ref ref="FILE-ERROR-AWS"/>
+            <appender-ref ref="FILE-WARN-AWS"/>
+            <appender-ref ref="FILE-DEBUG-AWS"/>
         </root>
     </springProfile>
 
@@ -54,12 +58,20 @@
         <include resource="file-info-appender.xml"/>
         <include resource="file-warn-appender.xml"/>
         <include resource="file-error-appender.xml"/>
+        <include resource="file-info-aws-appender.xml"/>
+        <include resource="file-error-aws-appender.xml"/>
+        <include resource="file-warn-aws-appender.xml"/>
+        <include resource="file-debug-aws-appender.xml"/>
 
         <root level="INFO">
             <appender-ref ref="CONSOLE"/>
             <appender-ref ref="FILE-INFO"/>
             <appender-ref ref="FILE-WARN"/>
             <appender-ref ref="FILE-ERROR"/>
+            <appender-ref ref="FILE-INFO-AWS"/>
+            <appender-ref ref="FILE-ERROR-AWS"/>
+            <appender-ref ref="FILE-WARN-AWS"/>
+            <appender-ref ref="FILE-DEBUG-AWS"/>
         </root>
     </springProfile>
 </configuration>

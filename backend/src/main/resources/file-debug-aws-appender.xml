@@ -1,7 +1,7 @@
 <included>
-    <appender name="FILE-ERROR-AWS" class="ca.pjer.logback.AwsLogsAppender">
+    <appender name="FILE-DEBUG-AWS" class="ca.pjer.logback.AwsLogsAppender">
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
-            <level>ERROR</level>
+            <level>DEBUG</level>
             <onMatch>ACCEPT</onMatch>
             <onMismatch>DENY</onMismatch>
         </filter>
@@ -11,7 +11,7 @@
         </encoder>
 
         <logGroupName>minibeit-log-dev</logGroupName>
-        <logStreamUuidPrefix>error</logStreamUuidPrefix>
+        <logStreamUuidPrefix>debug</logStreamUuidPrefix>
         <logRegion>ap-northeast-2</logRegion>
         <maxBatchLogEvents>50</maxBatchLogEvents>
         <maxFlushTimeMillis>30000</maxFlushTimeMillis>

@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import Presenter from "./presenter";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../../recoil/userState";
 
 BProfileSelect.propTypes = {
   bplist: PropTypes.arrayOf(
@@ -55,6 +57,8 @@ export default function BProfileSelect({
   recruit,
   setRecruit,
 }) {
+  const userName = useRecoilValue(userState).name;
+
   const selectBP = (e) => {
     var id = parseInt(e.target.parentNode.id);
     var name = e.target.parentNode.nextSibling.textContent;
@@ -67,5 +71,12 @@ export default function BProfileSelect({
     movePage(1);
   };
 
-  return <Presenter bpList={bpList} selectBP={selectBP} recruit={recruit} />;
+  return (
+    <Presenter
+      bpList={bpList}
+      selectBP={selectBP}
+      recruit={recruit}
+      userName={userName}
+    />
+  );
 }

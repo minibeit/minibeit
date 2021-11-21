@@ -22,7 +22,7 @@ export default function SignUpComponent({ setFinish }) {
   const guest = useRecoilValue(geustState);
   const [step, setStep] = useState(1);
   const history = useHistory();
-  const [changeNickname, setChangeNickname] = useState(true);
+  const [changeNickname, setChangeNickname] = useState(false);
   const [changePhone, setChangePhone] = useState(false);
   const [newPhone, setNewPhone] = useState();
   const [changeEmail, setChangeEmail] = useState(false);
@@ -164,10 +164,11 @@ export default function SignUpComponent({ setFinish }) {
   };
 
   useEffect(() => {
-    if (guest.email !== "") {
+    if (guest.email) {
       setChangeEmail(true);
     }
   }, [guest.email]);
+  console.log(inputData);
 
   return (
     <Portal>

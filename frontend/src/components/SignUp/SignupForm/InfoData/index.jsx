@@ -29,6 +29,41 @@ export default function InfoData({
     return arr;
   };
 
+  const exceptName = (value) => {
+    var regName = /^[가-힣]{2,5}$/;
+    if (!regName.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  const exceptNickname = (value) => {
+    var regNickname = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
+    if (!regNickname.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  const exceptPhone = (value) => {
+    var regPhone = /^01([0|1|6|7|8|9])?([0-9]{3,4})?([0-9]{4})$/;
+    if (!regPhone.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const exceptEmail = (value) => {
+    var regEmail =
+      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/; // eslint-disable-line
+    if (!regEmail.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
   return (
     <div>
       <S.ImgContainer>
@@ -63,6 +98,13 @@ export default function InfoData({
               type="text"
               placeholder="이름"
               onChange={onChange}
+              onBlur={(e) => {
+                if (!exceptName(e.target.value)) {
+                  e.target.value = "";
+                  onChange(e);
+                  alert("이름은 2~5글자 한글로 입력해주세요");
+                }
+              }}
             />
           </S.NameBox>
           <S.NicknameInput>
@@ -76,9 +118,14 @@ export default function InfoData({
               />
               <button
                 disabled={changeNickname}
-                onClick={(e) =>
-                  checkingNickname(e.target.previousSibling.value)
-                }
+                onClick={(e) => {
+                  let value = e.target.previousSibling.value;
+                  if (exceptNickname(value)) {
+                    checkingNickname(e.target.previousSibling.value);
+                  } else {
+                    alert("닉네임은 2글자 이상 10글자 이내로 입력해주세요");
+                  }
+                }}
               >
                 확인
               </button>
@@ -151,11 +198,16 @@ export default function InfoData({
                 <button
                   disabled={changePhone}
                   onClick={(e) => {
-                    checkingPhone(e.target.previousSibling.value);
-                    e.target.parentNode.nextSibling.setAttribute(
-                      "style",
-                      "display:flex"
-                    );
+                    let value = e.target.previousSibling.value;
+                    if (exceptPhone(value)) {
+                      checkingPhone(value);
+                      e.target.parentNode.nextSibling.setAttribute(
+                        "style",
+                        "display:flex"
+                      );
+                    } else {
+                      alert("휴대폰 번호를 다시 확인해주세요");
+                    }
                   }}
                 >
                   인증
@@ -189,11 +241,16 @@ export default function InfoData({
                 <button
                   disabled={changeEmail}
                   onClick={(e) => {
-                    checkingEmail(e.target.previousSibling.value);
-                    e.target.parentNode.nextSibling.setAttribute(
-                      "style",
-                      "display:flex"
-                    );
+                    let value = e.target.previousSibling.value;
+                    if (exceptEmail(value)) {
+                      checkingEmail(value);
+                      e.target.parentNode.nextSibling.setAttribute(
+                        "style",
+                        "display:flex"
+                      );
+                    } else {
+                      alert("이메일 형식을 확인해주세요");
+                    }
                   }}
                 >
                   인증

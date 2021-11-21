@@ -6,12 +6,12 @@
             <onMismatch>DENY</onMismatch>
         </filter>
 
-        <layout>
-            <pattern>%d{yyyyMMdd'T'HHmmss} %thread %level %logger{15} %msg%n</pattern>
-        </layout>
+        <encoder>
+            <pattern>${LOG_PATTERN_AWS}</pattern>
+        </encoder>
 
         <logGroupName>minibeit-log-dev</logGroupName>
-        <logStreamUuidPrefix>info</logStreamUuidPrefix>
+        <logStreamUuidPrefix>info/</logStreamUuidPrefix>
         <logRegion>ap-northeast-2</logRegion>
         <maxBatchLogEvents>50</maxBatchLogEvents>
         <maxFlushTimeMillis>30000</maxFlushTimeMillis>

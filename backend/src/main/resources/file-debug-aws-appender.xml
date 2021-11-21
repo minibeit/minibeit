@@ -11,7 +11,7 @@
         </encoder>
 
         <logGroupName>minibeit-log-dev</logGroupName>
-        <logStreamUuidPrefix>debug</logStreamUuidPrefix>
+        <logStreamUuidPrefix>debug/</logStreamUuidPrefix>
         <logRegion>ap-northeast-2</logRegion>
         <maxBatchLogEvents>50</maxBatchLogEvents>
         <maxFlushTimeMillis>30000</maxFlushTimeMillis>

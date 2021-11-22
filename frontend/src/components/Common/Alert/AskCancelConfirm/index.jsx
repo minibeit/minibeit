@@ -18,6 +18,7 @@ export default function AskCancelConfirm ({cancleApprove, setCancleAlert, cancle
     document.querySelector("body").removeAttribute("style");
   };
 
+
   return (
     <Portal>
       <S.AlertBackground onClick={(e)=>clickOutside(e)}>

@@ -20,6 +20,8 @@ export default function RejectApplicant ({setRejectAlert, rejectApply, rejectUse
     rejectApply(rejectUserInfo.postDoDateId, rejectUserInfo.id, reason, rejectUserInfo.email);
     document.querySelector("body").removeAttribute("style");
   };
+
+  console.log(reason);
   return (
     <Portal>
       <S.AlertBackground onClick={(e)=>clickOutside(e)}>

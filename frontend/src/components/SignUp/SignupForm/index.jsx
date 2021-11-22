@@ -140,6 +140,7 @@ export default function SignUpComponent({ setFinish }) {
           res.data.data.avatar === null ? "noImg" : res.data.data.avatar;
         setLoginState(copy);
         setFinish(true);
+        document.querySelector("body").removeAttribute("style");
       })
       .catch((err) => {
         alert("회원가입에 실패하였습니다. 잠시후에 다시 시도해주세요");

@@ -66,18 +66,18 @@ export default function FeedBox({ status, data, changeFeedData }) {
                   />
                 )}
                 <button onClick={() => setCloseModal(1)}>모집종료</button>
-                {closeModal===1 ? (
+                {closeModal===1 && (
                   <FeedCloseModal
                     postId={data.id}
                     closeModal={closeModal}
                     changeFeedData={changeFeedData}
                     setCloseModal={setCloseModal}
-                  />):null
+                  />)
                 }
-                {closeModal===2 ? 
+                {closeModal===2 && 
                   <EndRecruting 
                     changeFeedData={changeFeedData} 
-                    setCloseModal={setCloseModal}/> :null
+                    setCloseModal={setCloseModal}/>
                 }
 
               </S.FeedButton>

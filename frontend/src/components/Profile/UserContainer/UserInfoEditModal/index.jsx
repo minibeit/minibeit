@@ -61,6 +61,7 @@ export default function UserInfoEditModal({ infoData, setModalSwitch }) {
 
   const closeModal = () => {
     setModalSwitch(false);
+    document.querySelector("body").removeAttribute("style");
   };
 
   return (

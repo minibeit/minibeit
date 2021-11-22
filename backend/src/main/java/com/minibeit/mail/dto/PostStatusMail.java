@@ -18,8 +18,8 @@ public class PostStatusMail {
                 return postStatusMailBuilder.mailCondition(new ApprovePostCondition()).build();
             case REJECT:
                 return postStatusMailBuilder.mailCondition(new RejectPostCondition()).build();
-            case APPROVECANCEL:
-                return postStatusMailBuilder.mailCondition(new ApproveCancelPostCondition()).build();
+//            case APPROVECANCEL:
+//                return postStatusMailBuilder.mailCondition(new ApproveCancelPostCondition()).build();
             case APPLICANTCANCEL:
                 return postStatusMailBuilder.mailCondition(new ApplicantCancelPostCondition()).build();
         }

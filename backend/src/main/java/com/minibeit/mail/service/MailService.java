@@ -15,7 +15,11 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,19 +29,26 @@ public class MailService {
     private final JavaMailSender mailSender;
     private final UserRepository userRepository;
     private final UserVerificationCodeRepository userVerificationCodeRepository;
+    private final SpringTemplateEngine templateEngine;
     private static final String FROM_ADDRESS = "YOUR_EMAIL_ADDRESS";
 
     public void mailSend(PostMailCondition postMailCondition, List<String> toMailList) {
         toMailList.stream().map(mail -> PostStatusMail.create(postMailCondition, mail))
                 .forEach(postStatusMail -> {
+                    MimeMessage mimeMessage = mailSender.createMimeMessage();
                     MailPostCondition mailCondition = postStatusMail.getMailCondition();
-                    SimpleMailMessage message = mailCondition.makeSimpleMessage(postStatusMail.getAddress(), FROM_ADDRESS);
+                    MimeMessage message = null;
+                    try {
+                        message = mailCondition.makeMimeMessage(mimeMessage, templateEngine, postStatusMail.getAddress());
+                    } catch (MessagingException e) {
+                        e.printStackTrace();
+                    }
                     mailSender.send(message);
                 });
     }
 
     @Transactional
-    public void sendVerificationCode(Long userId, MailRequest.EmailVerification request) {
+    public void sendVerificationCode(Long userId, MailRequest.EmailVerification request) throws MessagingException {
         User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         UserVerificationCode userVerificationCode = UserVerificationCode.create(user, VerificationKinds.EMAIL);
         Optional<UserVerificationCode> optionalUserEmailCode = userVerificationCodeRepository.findByUserIdAndVerificationKinds(userId, VerificationKinds.EMAIL);
@@ -46,8 +57,18 @@ public class MailService {
         } else {
             userVerificationCodeRepository.save(userVerificationCode);
         }
+        MimeMessage message = mailSender.createMimeMessage();
 
-        SimpleMailMessage message = userVerificationCode.makeMessage(request.getToEmail(), FROM_ADDRESS, userVerificationCode.getCode());
+        message.addRecipients(MimeMessage.RecipientType.TO, request.getToEmail());
+        message.setSubject("[미니바이트] 인증번호를 안내해드립니다.");
+        message.setText(setContext(userVerificationCode.getCode()), "utf-8", "html");
+
         mailSender.send(message);
+    }
+
+    private String setContext(String code) {
+        Context context = new Context();
+        context.setVariable("code", code);
+        return templateEngine.process("emailVerification", context);
     }
 }

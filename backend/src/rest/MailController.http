@@ -3,8 +3,8 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 {
-  "toEmail": "test@test.com",
-  "postMailCondition": "APPROVE"
+  "toEmailList": ["test@test.com"],
+  "postMailCondition": "APPLICANTCANCEL"
 }
 
 ###

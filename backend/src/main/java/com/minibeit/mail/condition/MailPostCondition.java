@@ -1,7 +1,10 @@
 package com.minibeit.mail.condition;
 
-import org.springframework.mail.SimpleMailMessage;
+import org.thymeleaf.TemplateEngine;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
 
 public interface MailPostCondition {
-    SimpleMailMessage makeSimpleMessage(String toEmail, String fromEmail);
+    MimeMessage makeMimeMessage(MimeMessage mimeMessage, TemplateEngine templateEngine, String toEmail) throws MessagingException;
 }

@@ -20,46 +20,44 @@ export default function UserContainer() {
   const [modalSwitch, setModalSwitch] = useState(false);
   const [page, setPage] = useState(1);
   const [totalEle, setTotalEle] = useState(0);
-  const [likeMode, setLikeMode] = useState("RECRUIT");
 
-  const changeFeedData = useCallback(
-    (status, page) => {
-      switch (status) {
-        case "확정":
-          getJoinlistApi(page ? page : 1, "APPROVE").then((res) => {
+  const changeFeedData = useCallback((status, page, likeType) => {
+    switch (status) {
+      case "확정":
+        getJoinlistApi(page ? page : 1, "APPROVE").then((res) => {
+          setTotalEle(res.data.data.totalElements);
+          setFeedData(res.data.data.content);
+        });
+        break;
+      case "대기중":
+        getJoinlistApi(page ? page : 1, "WAIT").then((res) => {
+          setTotalEle(res.data.data.totalElements);
+          setFeedData(res.data.data.content);
+        });
+        break;
+      case "완료":
+        getFinishlistApi(page ? page : 1).then((res) => {
+          setTotalEle(res.data.data.totalElements);
+          setFeedData(res.data.data.content);
+        });
+        break;
+      case "반려":
+        getCancellistApi(page ? page : 1).then((res) => {
+          setTotalEle(res.data.data.totalElements);
+          setFeedData(res.data.data.content);
+        });
+        break;
+      case "즐겨찾기":
+        getLikeListApi(page ? page : 1, likeType ? likeType : "RECRUIT").then(
+          (res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
-          });
-          break;
-        case "대기중":
-          getJoinlistApi(page ? page : 1, "WAIT").then((res) => {
-            setTotalEle(res.data.data.totalElements);
-            setFeedData(res.data.data.content);
-          });
-          break;
-        case "완료":
-          getFinishlistApi(page ? page : 1).then((res) => {
-            setTotalEle(res.data.data.totalElements);
-            setFeedData(res.data.data.content);
-          });
-          break;
-        case "반려":
-          getCancellistApi(page ? page : 1).then((res) => {
-            setTotalEle(res.data.data.totalElements);
-            setFeedData(res.data.data.content);
-          });
-          break;
-        case "즐겨찾기":
-          getLikeListApi(page ? page : 1, likeMode).then((res) => {
-            setTotalEle(res.data.data.totalElements);
-            setFeedData(res.data.data.content);
-          });
-          break;
-        default:
-      }
-    },
-    [likeMode]
-  );
+          }
+        );
+        break;
+      default:
+    }
+  }, []);
 
   useEffect(() => {
     getMyInfo().then((res) => {
@@ -121,19 +119,19 @@ export default function UserContainer() {
           })}
         </S.CategoryBtnBox>
         <S.FeedGroup>
-          {feedSwitch === "즐겨찾기" && (
-            <select
-              defaultValue="RECRUIT"
-              onChange={(e) => {
-                setLikeMode(e.target.value);
-                changeFeedData(feedSwitch, page);
-              }}
-            >
-              <option value="RECRUIT">모집중</option>
-              <option value="COMPLETE">모집완료</option>
-            </select>
-          )}
-
+          <S.LikeTypeSelect>
+            {feedSwitch === "즐겨찾기" && (
+              <select
+                defaultValue="RECRUIT"
+                onChange={(e) => {
+                  changeFeedData(feedSwitch, page, e.target.value);
+                }}
+              >
+                <option value="RECRUIT">모집중</option>
+                <option value="COMPLETE">모집완료</option>
+              </select>
+            )}
+          </S.LikeTypeSelect>
           {feedData.length === 0 ? (
             <div>{feedSwitch}</div>
           ) : (

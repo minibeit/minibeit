@@ -23,14 +23,13 @@ export default function BusinessContainer() {
   };
 
   const deleteBusiness = (data) => {
-    if (deleteAlert===1) {
+    if (deleteAlert === 1) {
       deleteBprofile(data.id)
         .then((res) => {
           setDeleteAlert(0);
           getBProfile();
         })
-        .catch((err)=> setDeleteAlert(2)
-        );
+        .catch((err) => setDeleteAlert(2));
     }
   };
 
@@ -66,19 +65,28 @@ export default function BusinessContainer() {
                       opacity: editMode && a.admin ? 1 : 0,
                       zIndex: editMode && a.admin ? 1 : -9999,
                     }}
-                    onClick={deleteOn}>
+                    onClick={deleteOn}
+                  >
                     <CloseIcon />
                   </S.DeleteBtn>
                   <S.ImgBox onClick={() => history.push(`/business/${a.id}`)}>
                     {a.avatar ? (
                       <PVImg img={a.avatar} />
                     ) : (
-                      <PVImg img="/기본비즈니스프로필.jpeg" />
+                      <PVImg img="/images/기본비즈니스프로필.jpeg" />
                     )}
                   </S.ImgBox>
                   <p>{a.name}</p>
-                  {deleteAlert===1 && <DeleteBProfile a={a} deleteBusiness={deleteBusiness} setDeleteAlert={setDeleteAlert}/>}
-                  {deleteAlert===2 && <Recruting a={a} setDeleteAlert={setDeleteAlert}/>}
+                  {deleteAlert === 1 && (
+                    <DeleteBProfile
+                      a={a}
+                      deleteBusiness={deleteBusiness}
+                      setDeleteAlert={setDeleteAlert}
+                    />
+                  )}
+                  {deleteAlert === 2 && (
+                    <Recruting a={a} setDeleteAlert={setDeleteAlert} />
+                  )}
                 </S.BusinessProfile>
               );
             })}

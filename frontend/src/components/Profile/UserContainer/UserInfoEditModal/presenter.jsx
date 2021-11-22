@@ -60,7 +60,7 @@ export default function Presenter({
           {userData.avatar ? (
             <PVImg img={userData.avatar} />
           ) : (
-            <S.Img src="/기본프로필.png" />
+            <S.Img src="/images/기본프로필.png" />
           )}
         </S.ImgBox>
         <S.ImgEditBtn id="reset" onClick={onFileChange}>

@@ -1,0 +1,22 @@
+@font-face {
+  font-family: "NotoSansKR";
+  src: url("/fonts/NotoSansKR-Regular.otf") format("woff2");
+}
+@font-face {
+  font-family: "NotoSansKR";
+  font-weight: 200;
+  src: url("/fonts/NotoSansKR-Thin.otf") format("woff2");
+}
+@font-face {
+  font-family: "NotoSansKR";
+  font-weight: 600;
+  src: url("/fonts/NotoSansKR-Medium.otf") format("woff2");
+}
+@font-face {
+  font-family: "NotoSansKR";
+  font-weight: bold;
+  src: url("/fonts/NotoSansKR-Bold.otf") format("woff2");
+}
+#root {
+  font-family: NotoSansKR;
+}

@@ -25,7 +25,11 @@ export default function Presenter({ bpList, selectBP, recruit, userName }) {
                       }
                     >
                       <PVImg
-                        img={a.avatar ? a.avatar : "/기본비즈니스프로필.jpeg"}
+                        img={
+                          a.avatar
+                            ? a.avatar
+                            : "/images/기본비즈니스프로필.jpeg"
+                        }
                       />
                     </S.BProfileImgBox>
                     <p>{a.name}</p>

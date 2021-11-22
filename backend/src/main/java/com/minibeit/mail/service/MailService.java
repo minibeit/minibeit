@@ -11,8 +11,8 @@ import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.domain.repository.UserVerificationCodeRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
@@ -30,8 +30,8 @@ public class MailService {
     private final UserRepository userRepository;
     private final UserVerificationCodeRepository userVerificationCodeRepository;
     private final SpringTemplateEngine templateEngine;
-    private static final String FROM_ADDRESS = "YOUR_EMAIL_ADDRESS";
 
+    @Async
     public void mailSend(PostMailCondition postMailCondition, List<String> toMailList) {
         toMailList.stream().map(mail -> PostStatusMail.create(postMailCondition, mail))
                 .forEach(postStatusMail -> {

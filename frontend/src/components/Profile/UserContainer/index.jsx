@@ -15,47 +15,51 @@ import { PVImg, Pagination } from "../../Common";
 
 export default function UserContainer() {
   const [userData, setUserData] = useState();
-  const [feedSwitch, setFeedSwitch] = useState("대기중");
+  const [feedSwitch, setFeedSwitch] = useState("확정");
   const [feedData, setFeedData] = useState([]);
   const [modalSwitch, setModalSwitch] = useState(false);
   const [page, setPage] = useState(1);
   const [totalEle, setTotalEle] = useState(0);
+  const [likeMode, setLikeMode] = useState("RECRUIT");
 
-  const changeFeedData = useCallback((status, page) => {
-    switch (status) {
-      case "대기중":
-        getJoinlistApi(page ? page : 1, "WAIT").then((res) => {
-          setTotalEle(res.data.data.totalElements);
-          setFeedData(res.data.data.content);
-        });
-        break;
-      case "확정":
-        getJoinlistApi(page ? page : 1, "APPROVE").then((res) => {
-          setTotalEle(res.data.data.totalElements);
-          setFeedData(res.data.data.content);
-        });
-        break;
-      case "완료":
-        getFinishlistApi(page ? page : 1).then((res) => {
-          setTotalEle(res.data.data.totalElements);
-          setFeedData(res.data.data.content);
-        });
-        break;
-      case "반려":
-        getCancellistApi(page ? page : 1).then((res) => {
-          setTotalEle(res.data.data.totalElements);
-          setFeedData(res.data.data.content);
-        });
-        break;
-      case "즐겨찾기":
-        getLikeListApi(page ? page : 1).then((res) => {
-          setTotalEle(res.data.data.totalElements);
-          setFeedData(res.data.data.content);
-        });
-        break;
-      default:
-    }
-  }, []);
+  const changeFeedData = useCallback(
+    (status, page) => {
+      switch (status) {
+        case "확정":
+          getJoinlistApi(page ? page : 1, "APPROVE").then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+          });
+          break;
+        case "대기중":
+          getJoinlistApi(page ? page : 1, "WAIT").then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+          });
+          break;
+        case "완료":
+          getFinishlistApi(page ? page : 1).then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+          });
+          break;
+        case "반려":
+          getCancellistApi(page ? page : 1).then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+          });
+          break;
+        case "즐겨찾기":
+          getLikeListApi(page ? page : 1, likeMode).then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+          });
+          break;
+        default:
+      }
+    },
+    [likeMode]
+  );
 
   useEffect(() => {
     getMyInfo().then((res) => {
@@ -100,7 +104,7 @@ export default function UserContainer() {
       </S.UserInfoContainer>
       <S.FeedContainer>
         <S.CategoryBtnBox>
-          {["대기중", "확정", "완료", "반려", "즐겨찾기"].map((a, i) => {
+          {["확정", "대기중", "완료", "반려", "즐겨찾기"].map((a, i) => {
             return (
               <button
                 key={i}
@@ -117,6 +121,19 @@ export default function UserContainer() {
           })}
         </S.CategoryBtnBox>
         <S.FeedGroup>
+          {feedSwitch === "즐겨찾기" && (
+            <select
+              defaultValue="RECRUIT"
+              onChange={(e) => {
+                setLikeMode(e.target.value);
+                changeFeedData(feedSwitch, page);
+              }}
+            >
+              <option value="RECRUIT">모집중</option>
+              <option value="COMPLETE">모집완료</option>
+            </select>
+          )}
+
           {feedData.length === 0 ? (
             <div>{feedSwitch}</div>
           ) : (
@@ -130,7 +147,7 @@ export default function UserContainer() {
               </div>
             ))
           )}
-          {feedData && (
+          {feedData.length !== 0 && (
             <Pagination
               page={page}
               count={totalEle}

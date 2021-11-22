@@ -168,7 +168,6 @@ export default function SignUpComponent({ setFinish }) {
       setChangeEmail(true);
     }
   }, [guest.email]);
-  console.log(inputData);
 
   return (
     <Portal>

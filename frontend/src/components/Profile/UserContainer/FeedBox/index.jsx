@@ -54,8 +54,8 @@ export default function FeedBox({ status, data, changeFeedData }) {
   return (
     <>
       <S.FeedLabel>
-        {status === "대기중" && "참여대기"}
         {status === "확정" && "참여확정"}
+        {status === "대기중" && "참여대기"}
         {status === "완료" && "참여완료"}
         {status === "반려" && "참여반려"}
         {status === "즐겨찾기" &&
@@ -69,27 +69,6 @@ export default function FeedBox({ status, data, changeFeedData }) {
           </Link>
         </S.FeedTitleBox>
         <S.FeedContentBox>
-          {status === "대기중" && (
-            <>
-              <S.FeedInfo>
-                <div>
-                  <p>실험날짜 : {data.doDate}</p>
-                  <p>실험실 번호 : {data.contact}</p>
-                </div>
-                <div>
-                  <p>
-                    실험시간 : {data.startTime}~{data.endTime}
-                  </p>
-                  <p>조건 : {data.recruitCondition ? "있음" : "없음"}</p>
-                </div>
-              </S.FeedInfo>
-              <S.FeedButton>
-                <button onClick={() => doNotJoin(data.postDoDateId)}>
-                  참여 취소
-                </button>
-              </S.FeedButton>
-            </>
-          )}
           {status === "확정" && (
             <>
               <S.FeedInfo>
@@ -108,6 +87,27 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 <button onClick={() => doComplete(data.postDoDateId)}>
                   참여 완료
                 </button>
+                <button onClick={() => doNotJoin(data.postDoDateId)}>
+                  참여 취소
+                </button>
+              </S.FeedButton>
+            </>
+          )}
+          {status === "대기중" && (
+            <>
+              <S.FeedInfo>
+                <div>
+                  <p>실험날짜 : {data.doDate}</p>
+                  <p>실험실 번호 : {data.contact}</p>
+                </div>
+                <div>
+                  <p>
+                    실험시간 : {data.startTime}~{data.endTime}
+                  </p>
+                  <p>조건 : {data.recruitCondition ? "있음" : "없음"}</p>
+                </div>
+              </S.FeedInfo>
+              <S.FeedButton>
                 <button onClick={() => doNotJoin(data.postDoDateId)}>
                   참여 취소
                 </button>

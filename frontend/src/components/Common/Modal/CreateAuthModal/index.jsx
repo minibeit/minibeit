@@ -28,9 +28,15 @@ export default function CreateAuthModal({ setModalSwitch }) {
     setModalSwitch(false);
     document.querySelector("body").removeAttribute("style");
   };
+  const clickOutside = (e) => {
+    e.target===e.currentTarget && 
+    setModalSwitch(false); 
+    document.querySelector("body").removeAttribute("style");
+  };
+
   return (
     <Portal>
-      <S.ModalBackground>
+      <S.ModalBackground onClick={(e)=>clickOutside(e)}>
         <S.ModalBox>
           <S.ModalHeader>
             <S.CloseModalBtn>

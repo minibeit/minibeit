@@ -48,18 +48,30 @@ export default function BProfileCreateModal({ setModalSwitch }) {
     bprofileNew(infoData)
       .then((res) => {
         setModalSwitch(false);
+        document.querySelector("body").removeAttribute("style");
         history.push(`/business/${res.data.data.id}`);
       })
       .catch((err) => alert("수정 내용을 다시 한번 확인해주세요"));
   };
 
+  const modalOff = () => {
+    setModalSwitch(false);
+    document.querySelector("body").removeAttribute("style");
+  };
+
+  const clickOutside = (e) => {
+    e.target===e.currentTarget && 
+    setModalSwitch(false);
+    document.querySelector("body").removeAttribute("style");
+  };
+
   return (
     <Portal>
-      <S.ModalBackground>
+      <S.ModalBackground onClick={(e)=>clickOutside(e)}>
         <S.ModalBox>
           <S.ModalHeader>
             <p>비즈니스 프로필 생성하기</p>
-            <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
+            <S.CloseModalBtn onClick={modalOff}>
               <CloseIcon />
             </S.CloseModalBtn>
           </S.ModalHeader>

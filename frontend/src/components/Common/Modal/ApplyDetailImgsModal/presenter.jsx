@@ -11,10 +11,14 @@ export default function Presenter({
   prevSlide,
   nextSlide
   }) {
+    const modalOff = () => {
+      setModalSwitch(false);
+      document.querySelector("body").removeAttribute("style");
+    }
   return (
     <>
         <div>
-          <S.ModalBtn onClick={() => {setModalSwitch(false);}}>X 닫기</S.ModalBtn>
+          <S.ModalBtn onClick={modalOff}>X 닫기</S.ModalBtn>
           <S.ModalBtn>다운로드</S.ModalBtn>
         </div>
         <S.Container>

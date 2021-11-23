@@ -22,9 +22,11 @@ export default function Address({ setModalSwitch, handleAddress }) {
 
     handleAddress(fullAddress);
     setModalSwitch(false);
+    document.querySelector("body").removeAttribute("style");
   };
   const closeModal = () => {
     setModalSwitch(false);
+    document.querySelector("body").removeAttribute("style");
   };
   return (
     <Portal>

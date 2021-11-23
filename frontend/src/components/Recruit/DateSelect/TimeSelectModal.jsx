@@ -139,6 +139,11 @@ export default function PTimeSelectModal({
     }
   };
 
+  const modalOff = () => {
+    setModalSwitch(!modalSwitch);
+    document.querySelector("body").removeAttribute("style");
+  }
+
   return (
     <Portal>
       <S.ModalBackground>
@@ -245,10 +250,7 @@ export default function PTimeSelectModal({
                   })}
               </S.TimeBtnBox>
               <button
-                onClick={() => {
-                  setModalSwitch(!modalSwitch);
-                }}
-              >
+                onClick={modalOff}>
                 저장
               </button>
             </S.TimeBtnContainer>

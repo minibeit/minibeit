@@ -7,12 +7,24 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 // 정말로 반려할것인지 물어보는 알림창
 
 export default function RejectApplicant ({setRejectAlert, rejectApply, rejectUserInfo, reason}) {
-  const closeAlert = () => {
-    setRejectAlert(false);
+  const clickOutside = (e) => {
+    e.target===e.currentTarget && 
+    setRejectAlert(false); 
+    document.querySelector("body").removeAttribute("style");
   };
+  const closeBtn =() => {
+    setRejectAlert(false);
+    document.querySelector("body").removeAttribute("style");
+  };
+  const rejectBtn =() => {
+    rejectApply(rejectUserInfo.postDoDateId, rejectUserInfo.id, reason, rejectUserInfo.email);
+    document.querySelector("body").removeAttribute("style");
+  };
+
+  console.log(reason);
   return (
     <Portal>
-      <S.AlertBackground>
+      <S.AlertBackground onClick={(e)=>clickOutside(e)}>
         <S.AlertBox>
           <S.AlertContent>
             <ErrorOutlineIcon  sx={{ fontSize: 40 , color: "#0642FF"}} />
@@ -20,8 +32,8 @@ export default function RejectApplicant ({setRejectAlert, rejectApply, rejectUse
             정말로 <span>반려</span>하시겠습니까?
             </p>
             <div>
-              <S.GrayButton onClick={closeAlert}>아니오, 관둘래요</S.GrayButton>
-              <S.BlueButton onClick={()=>rejectApply(rejectUserInfo.postDoDateId, rejectUserInfo.id, reason, rejectUserInfo.email)}>네, 반려할래요</S.BlueButton>
+              <S.GrayButton onClick={closeBtn}>아니오, 관둘래요</S.GrayButton>
+              <S.BlueButton onClick={rejectBtn}>네, 반려할래요</S.BlueButton>
             </div>
           </S.AlertContent>
         </S.AlertBox>

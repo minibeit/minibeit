@@ -16,9 +16,9 @@ export const AlertBox = styled.div`
   top: 50%;
   left: 50%;
   background-color: white;
-  width: 40rem;
-  height: 40rem;
-  border-radius: 35px;
+  width: 30rem;
+  height: 30rem;
+  border-radius: 20px;
 `;
 
 export const AlertContent = styled.div`
@@ -28,7 +28,7 @@ export const AlertContent = styled.div`
   left: 50%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
   justify-content: center;
   align-items: left;
 
@@ -37,25 +37,25 @@ export const AlertContent = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: baseline;
-    width: 35rem;
+    width: 25rem;
   }
 
   & > div > p:first-child {
-    font-size: 30px;
+    font-size: 20px;
     text-align: left;
     font-weight: 700;
   }
 
   & > div > div:nth-child(2) {
-    font-size: 5rem;
+    font-size: 3rem;
     cursor: pointer;
   }
 
   & > p:nth-child(2) {
-    font-size: 15px;
+    font-size: 10px;
     text-align: left;
-    line-height: 25px;
-    width: 35rem;
+    line-height: 17px;
+    width: 25rem;
   }
 
   & > div:nth-child(3) {
@@ -65,18 +65,18 @@ export const AlertContent = styled.div`
     background-color: #F9F9F9;
     border-radius: 17px;
     font-size: 15px;
-    line-height: 20px;
-    width: 35rem;
-    height: 19rem;
+    line-height: 15px;
+    width: 25rem;
+    height: 17rem;
 
   }
   & > div:nth-child(3) > p:first-child {
     margin: 15px;
-    font-size: 13px;
+    font-size: 10px;
     text-align: left;
-    line-height: 16px;
-    width: 33rem;
-    height: 18rem;
+    line-height: 13px;
+    width: 23rem;
+    height: 16rem;
     overflow-y: scroll;
     overflow-x: auto;
     font-weight: 400;

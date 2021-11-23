@@ -18,9 +18,6 @@ export default function BusinessContainer() {
   const history = useHistory();
 
   const [deleteAlert, setDeleteAlert] = useState(0);
-  const deleteOn = () => {
-    setDeleteAlert(1);
-  };
 
   const deleteBusiness = (data) => {
     if (deleteAlert===1) {
@@ -66,7 +63,7 @@ export default function BusinessContainer() {
                       opacity: editMode && a.admin ? 1 : 0,
                       zIndex: editMode && a.admin ? 1 : -9999,
                     }}
-                    onClick={deleteOn}>
+                    onClick={() => setDeleteAlert(1)}>
                     <CloseIcon />
                   </S.DeleteBtn>
                   <S.ImgBox onClick={() => history.push(`/business/${a.id}`)}>

@@ -16,19 +16,19 @@ export const AlertBox = styled.div`
   top: 50%;
   left: 50%;
   background-color: white;
-  width: 40rem;
-  height: 40rem;
+  width: 30rem;
+  height: 30rem;
   border-radius: 35px;
 `;
 
 export const AlertContent = styled.div`
-  transform: translate(-50%, -20%);
+  transform: translate(-50%, -30%);
   position: absolute;
-  top: 20%;
+  top: 30%;
   left: 50%;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 1.5em;
   justify-content: center;
   align-items: left;
 
@@ -37,17 +37,17 @@ export const AlertContent = styled.div`
     flex-direction: row;
     justify-content: space-between;
     align-items: baseline;
-    width: 35rem;
+    width: 25rem;
   }
 
   & > div > p:first-child {
-    font-size: 30px;
+    font-size: 20px;
     text-align: left;
     font-weight: 700;
   }
 
   & > div > div:nth-child(2) {
-    font-size: 5rem;
+    font-size: 3rem;
     cursor: pointer;
   }
 
@@ -59,17 +59,17 @@ export const AlertContent = styled.div`
     border-radius: 17px;
     font-size: 15px;
     line-height: 20px;
-    width: 35rem;
-    height: 30rem;
+    width: 25rem;
+    height: 22rem;
 
   }
   & > div:nth-child(2) > p:first-child {
     margin: 15px;
-    font-size: 15px;
+    font-size: 10px;
     text-align: left;
-    line-height: 23px;
-    width: 33rem;
-    height: 29rem;
+    line-height: 15px;
+    width: 24rem;
+    height: 21rem;
     overflow-y: scroll;
     overflow-x: auto;
     font-weight: 400;

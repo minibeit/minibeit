@@ -7,12 +7,23 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 // 비즈니스 프로필 삭제 확인
 
 export default function DeliteBProfile({a, setDeleteAlert, deleteBusiness}) {
-  const closeAlert = () => {
-    setDeleteAlert(0);
+  const clickOutside = (e) => {
+    e.target===e.currentTarget && 
+    setDeleteAlert(0); 
+    document.querySelector("body").removeAttribute("style");
   };
+  const closeBtn =() => {
+    setDeleteAlert(0);
+    document.querySelector("body").removeAttribute("style");
+  };
+  const deleteBtn =() => {
+    deleteBusiness(a);
+    document.querySelector("body").removeAttribute("style");
+  };
+  
   return (
     <Portal>
-      <S.AlertBackground>
+      <S.AlertBackground onClick={(e)=>clickOutside(e)}>
         <S.AlertBox>
           <S.AlertContent>
             <ErrorOutlineIcon  sx={{ fontSize: 40 , color: "#0642FF"}} />
@@ -21,8 +32,8 @@ export default function DeliteBProfile({a, setDeleteAlert, deleteBusiness}) {
             <span>정말로 삭제하시겠어요?</span>
             </p>
             <div>
-              <S.GrayButton onClick={closeAlert}>아니오, 관둘래요</S.GrayButton>
-              <S.BlueButton onClick={()=>deleteBusiness(a)}>네, 삭제할래요</S.BlueButton>
+              <S.GrayButton onClick={closeBtn}>아니오, 관둘래요</S.GrayButton>
+              <S.BlueButton onClick={deleteBtn}>네, 삭제할래요</S.BlueButton>
             </div>
           </S.AlertContent>
         </S.AlertBox>

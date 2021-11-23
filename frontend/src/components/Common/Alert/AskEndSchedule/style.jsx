@@ -28,6 +28,7 @@ const Button = styled.button`
   font-size: 13px;
   line-height: 2.5rem;
   border-radius: 30px;
+  cursor: pointer;
 `;
 
 export const GrayButton = styled(Button)`

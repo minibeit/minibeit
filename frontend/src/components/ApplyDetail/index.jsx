@@ -73,16 +73,15 @@ export default function ApplyDetailComponent({ feedId, date }) {
     feedEditApi(postId, data).then((res) => getFeedDetail(res.data.data.id));
   };
 
-  const [askApplyAlert,setAskApplyAlert] = useState(false);
-  const [endApplyAlert,setEndApplyAlert] = useState(false);
-  const applyAlert =() => {
-    setAskApplyAlert(true);
-  }
+  const [applyAlert,setApplyAlert] = useState(0);
+  const [modalSwitch, setModalSwitch] = useState(false);
+
+ 
   const submit = async (postDoDateId) => {
-    if (askApplyAlert) {
+    if (applyAlert) {
       applyApi(postDoDateId)
         .then((res) => {
-          setEndApplyAlert(true);          
+          setApplyAlert(2);          
         })
         .catch((err) => {
           alert("지원이 실패하였습니다");
@@ -97,7 +96,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
   }, [feedId, getFeedDetail, resetApply]);
 
   return (
-    <S.FeedContainer>
+    <S.FeedContainer applyAlert={applyAlert} modalSwitch={modalSwitch}>
       {feedDetailData && (
         <TitleContiner
           title={feedDetailData.title}
@@ -116,15 +115,16 @@ export default function ApplyDetailComponent({ feedId, date }) {
             feedDetailData={feedDetailData}
             date={date}
             editDetail={editDetail}
+            modalSwitch={modalSwitch} 
+            setModalSwitch={setModalSwitch}
           />
           <ApplyController
             apply={apply}
-            submit={submit}
             feedDetailData={feedDetailData}
-            applyAlert={applyAlert}
+            setApplyAlert={setApplyAlert}
           />
-          {askApplyAlert ? <AskCompleteApplication apply={apply} setAskApplyAlert={setAskApplyAlert} submit={submit}/>:null}
-          {endApplyAlert ? <CompleteApplication user={user}/>:null}
+          {applyAlert===1 && <AskCompleteApplication apply={apply} setApplyAlert={setApplyAlert} submit={submit}/>}
+          {applyAlert===2 && <CompleteApplication user={user} setApplyAlert={setApplyAlert}/>}
         </div>
       )}
     </S.FeedContainer>

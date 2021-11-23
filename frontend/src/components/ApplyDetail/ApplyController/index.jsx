@@ -7,6 +7,7 @@ export default function ApplyController({
   feedDetailData,
   submit,
   applyAlert,
+  setApplyAlert,
 }) {
   return (
     <S.RemoteBox>
@@ -23,7 +24,7 @@ export default function ApplyController({
         <S.ApplyBtnGroup>
           <button
             disabled={apply.postDoDateId ? false : true}
-            onClick={applyAlert}
+            onClick={() => setApplyAlert(1)}
           >
             신청하기
           </button>

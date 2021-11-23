@@ -3,13 +3,19 @@ import styled from "styled-components";
 export const NavBarContainer = styled.div`
   display: flex;
   justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 99;
+  background: white;
+  box-shadow: 10px 10px 30px 0px #bdbdbd33;
+  min-height: 3.5rem;
 `;
 export const NavBarLogoContainer = styled.div`
   display: flex;
-
   & > a {
     text-decoration: none;
     padding: 10px 20px;
+    margin: auto;
     & > p {
       font-size: 22px;
       color: black;

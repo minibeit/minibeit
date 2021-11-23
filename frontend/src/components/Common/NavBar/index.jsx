@@ -31,7 +31,6 @@ export default function NavBar() {
     <S.NavBarContainer>
       <S.NavBarLogoContainer>
         <Link to="/">
-          <div />
           <p>MINI</p>
         </Link>
         <S.NavBarMenu>

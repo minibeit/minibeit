@@ -12,10 +12,7 @@ export const signupInfoApi = (inputData, accessToken) => {
   formData.append("job", inputData.job);
   formData.append("schoolId", inputData.schoolId);
   formData.append("email", inputData.email);
-  formData.append(
-    "phoneNum",
-    inputData.phoneNum1 + inputData.phoneNum2 + inputData.phoneNum3
-  );
+  formData.append("phoneNum", inputData.phoneNum);
   formData.append(
     "birth",
     `${inputData.year}-${inputData.month}-${inputData.date}`

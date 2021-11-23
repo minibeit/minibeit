@@ -6,15 +6,18 @@ import * as S from "../style";
 export default function InfoData({
   onChange,
   onFileChange,
-  checkingNickname,
   inputData,
-  nickNameCheck,
+  defaultEmail,
+  checkingNickname,
   checkingEmail,
   checkingCode,
   checkingPhone,
-  completePhone,
-  completeEmail,
-  setCompleteEmail,
+  changeNickname,
+  setChangeNickname,
+  changePhone,
+  setChangePhone,
+  changeEmail,
+  setChangeEmail,
 }) {
   const range = (start, end) => {
     var arr = [];
@@ -24,6 +27,41 @@ export default function InfoData({
       start++;
     }
     return arr;
+  };
+
+  const exceptName = (value) => {
+    var regName = /^[가-힣]{2,5}$/;
+    if (!regName.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  const exceptNickname = (value) => {
+    var regNickname = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
+    if (!regNickname.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  const exceptPhone = (value) => {
+    var regPhone = /^01([0|1|6|7|8|9])?([0-9]{3,4})?([0-9]{4})$/;
+    if (!regPhone.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  const exceptEmail = (value) => {
+    var regEmail =
+      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/; // eslint-disable-line
+    if (!regEmail.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
   };
 
   return (
@@ -60,28 +98,42 @@ export default function InfoData({
               type="text"
               placeholder="이름"
               onChange={onChange}
+              onBlur={(e) => {
+                if (!exceptName(e.target.value)) {
+                  e.target.value = "";
+                  onChange(e);
+                  alert("이름은 2~5글자 한글로 입력해주세요");
+                }
+              }}
             />
           </S.NameBox>
-          <S.NickNameBox>
+          <S.NicknameInput>
             <p>닉네임</p>
             <div>
               <input
                 name="nickname"
                 type="text"
                 placeholder="닉네임"
-                onChange={onChange}
+                onChange={() => setChangeNickname(false)}
               />
-              <button onClick={() => checkingNickname()}>확인</button>
+              <button
+                disabled={changeNickname}
+                onClick={(e) => {
+                  let value = e.target.previousSibling.value;
+                  if (exceptNickname(value)) {
+                    checkingNickname(e.target.previousSibling.value);
+                  } else {
+                    alert("닉네임은 2글자 이상 10글자 이내로 입력해주세요");
+                  }
+                }}
+              >
+                확인
+              </button>
             </div>
-            <p
-              style={{
-                color: nickNameCheck ? "blue" : "red",
-                opacity: nickNameCheck === null ? 0 : 1,
-              }}
-            >
-              {nickNameCheck ? "사용가능한" : "사용불가한"} 닉네임 입니다
-            </p>
-          </S.NickNameBox>
+            {inputData.nickname && (
+              <p style={{ color: "blue" }}>사용가능한 닉네임 입니다</p>
+            )}
+          </S.NicknameInput>
           <S.GenderBox>
             <p>성별</p>
             <select onChange={onChange} defaultValue={"DEFAULT"} name="gender">
@@ -134,87 +186,87 @@ export default function InfoData({
         </div>
         <div>
           <S.PhoneNumBox>
-            <p>연락처</p>
-            <S.PhoneNumInput>
-              <input value="010" disabled={true} name="phoneNum1" />
-              {"-"}
-              <input
-                disabled={completePhone}
-                name="phoneNum2"
-                type="number"
-                onChange={onChange}
-              />
-              {"-"}
-              <input
-                disabled={completePhone}
-                name="phoneNum3"
-                type="number"
-                onChange={onChange}
-              />
-              <button
-                onClick={(e) => {
-                  checkingPhone(
-                    inputData.phoneNum1 +
-                      inputData.phoneNum2 +
-                      inputData.phoneNum3
-                  );
-                  e.target.parentNode.nextSibling.setAttribute(
-                    "style",
-                    "display:flex"
-                  );
-                }}
-                disabled={completePhone}
-              >
-                인증
-              </button>
-            </S.PhoneNumInput>
-            {!completePhone && (
-              <S.PhoneNumInput style={{ display: "none" }}>
+            <S.PhoneInput>
+              <p>연락처</p>
+              <div>
+                <input
+                  name="phoneNum"
+                  type="text"
+                  placeholder="'-' 빼고 입력"
+                  onChange={() => setChangePhone(false)}
+                />
+                <button
+                  disabled={changePhone}
+                  onClick={(e) => {
+                    let value = e.target.previousSibling.value;
+                    if (exceptPhone(value)) {
+                      checkingPhone(value);
+                      e.target.parentNode.nextSibling.setAttribute(
+                        "style",
+                        "display:flex"
+                      );
+                    } else {
+                      alert("휴대폰 번호를 다시 확인해주세요");
+                    }
+                  }}
+                >
+                  인증
+                </button>
+              </div>
+              <div style={{ display: "none" }}>
                 <input />
                 <button
-                  onClick={(e) =>
-                    checkingCode(e.target.previousSibling.value, "PHONE")
-                  }
+                  onClick={(e) => {
+                    checkingCode(e.target.previousSibling.value, "PHONE");
+                    e.target.parentNode.setAttribute("style", "display:none");
+                  }}
                 >
-                  확인
+                  인증
                 </button>
-              </S.PhoneNumInput>
-            )}
+              </div>
+            </S.PhoneInput>
           </S.PhoneNumBox>
           <S.EmailBox>
-            <p>이메일</p>
             <S.EmailInput>
-              <input
-                defaultValue={inputData.email}
-                name="email"
-                disabled={completeEmail && inputData.email !== null}
-                onChange={(e) => {
-                  setCompleteEmail(false);
-                }}
-              />
-              <button
-                onClick={(e) => {
-                  checkingEmail(e.target.previousSibling.value);
-                  e.target.parentNode.nextSibling.setAttribute(
-                    "style",
-                    "display:flex"
-                  );
-                }}
-                disabled={completeEmail}
-              >
-                인증
-              </button>
-            </S.EmailInput>
-            <S.EmailInput style={{ display: "none" }}>
-              <input />
-              <button
-                onClick={(e) => {
-                  checkingCode(e.target.previousSibling.value, "EMAIL");
-                  e.target.parentNode.setAttribute("style", "display:none");
-                }}
-              >
-                확인
-              </button>
+              <p>이메일</p>
+              <div>
+                <input
+                  defaultValue={defaultEmail}
+                  name="email"
+                  placeholder="이메일"
+                  onChange={(e) => {
+                    setChangeEmail(false);
+                  }}
+                />
+                <button
+                  disabled={changeEmail}
+                  onClick={(e) => {
+                    let value = e.target.previousSibling.value;
+                    if (exceptEmail(value)) {
+                      checkingEmail(value);
+                      e.target.parentNode.nextSibling.setAttribute(
+                        "style",
+                        "display:flex"
+                      );
+                    } else {
+                      alert("이메일 형식을 확인해주세요");
+                    }
+                  }}
+                >
+                  인증
+                </button>
+              </div>
+              <div style={{ display: "none" }}>
+                <input />
+                <button
+                  onClick={(e) => {
+                    checkingCode(e.target.previousSibling.value, "EMAIL");
+                    e.target.parentNode.setAttribute("style", "display:none");
+                  }}
+                >
+                  인증
+                </button>
+              </div>
             </S.EmailInput>
           </S.EmailBox>
         </div>

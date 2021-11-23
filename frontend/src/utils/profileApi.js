@@ -17,19 +17,17 @@ export const getMyInfo = async () => {
   return await withAuthInstance.get(MY_USERINFO);
 };
 
-export const editMyInfo = (userData, schoolId, newNickname) => {
+export const editMyInfo = (userData, schoolId, originalNickname) => {
   const formData = new FormData();
   formData.append("name", userData.name);
-  if (!newNickname) {
-    formData.append("nicknameChanged", false);
-    formData.append("nickname", userData.nickname);
-  } else if (newNickname === userData.nickname) {
-    formData.append("nicknameChanged", false);
+  if (originalNickname !== userData.nickname) {
+    formData.append("nicknameChanged", true);
     formData.append("nickname", userData.nickname);
   } else {
-    formData.append("nicknameChanged", true);
-    formData.append("nickname", newNickname);
+    formData.append("nicknameChanged", false);
+    formData.append("nickname", userData.nickname);
   }
+  formData.append("email", userData.email);
   formData.append("gender", userData.gender);
   formData.append("phoneNum", userData.phoneNum);
   formData.append("job", userData.job);
@@ -44,8 +42,10 @@ export const editMyInfo = (userData, schoolId, newNickname) => {
   return withAuthInstance.post(EDIT_MY_USERINFO, formData);
 };
 
-export const getLikeListApi = async (page) => {
-  return await withAuthInstance.get(GET_LIKE_LIST + "page=" + page + "&size=6");
+export const getLikeListApi = async (page, status) => {
+  return await withAuthInstance.get(
+    GET_LIKE_LIST + "page=" + page + `&size=6&postStatus=${status}`
+  );
 };
 export const getJoinlistApi = async (page, state) => {
   return await withAuthInstance.get(

@@ -21,10 +21,10 @@ public class UserRequest {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Signup {
         @NotBlank(message = "이름이 공백일 수 없습니다.")
-        @Length(max = 100, message = "게시물 제목 길이는 1자부터 100자까지 입니다.")
+        @Length(max = 50, message = "이름 1자부터 50자까지 입니다.")
         private String name;
         @NotBlank(message = "닉네임이 공백일 수 없습니다.")
-        @Length(max = 10, message = "게시물 제목 길이는 1자부터 10자까지 입니다.")
+        @Length(max = 10, message = "닉네임은 1자부터 10자까지 입니다.")
         private String nickname;
         @Email(message = "이메일 형식이 아닙니다.")
         @NotBlank(message = "이메일이 공백일 수 없습니다.")

@@ -49,13 +49,16 @@ export const ModalContent = styled.div`
   display: flex;
 `;
 export const ImgEditContainer = styled.div`
-  width: 174px;
-  flex: 1;
-  margin: 41px 0px;
   display: flex;
   flex-direction: column;
+  flex: 1;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
+  & > div:first-child {
+    display: flex;
+    font-size: 0.7rem;
+  }
 `;
 export const ImgBox = styled.div`
   overflow: hidden;
@@ -70,7 +73,7 @@ export const Img = styled.img`
   height: 100%;
 `;
 export const ImgEditBtn = styled.label`
-  padding: 5px;
+  padding: 0.5rem;
   cursor: pointer;
   background: #c4c4c4;
   color: white;
@@ -78,7 +81,7 @@ export const ImgEditBtn = styled.label`
   width: 100px;
   font-size: 12px;
   text-align: center;
-  margin: 10px 0px;
+  white-space: nowrap;
 `;
 
 /*info*/
@@ -94,21 +97,6 @@ export const InfoEditContainer = styled.div`
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-  }
-  & > button {
-    display: flex;
-    background: blue;
-    color: white;
-    border-radius: 25px;
-    font-size: 15px;
-    cursor: pointer;
-    align-items: center;
-    width: 7rem;
-    height: 2rem;
-    justify-content: center;
-    border: none;
-
-    margin-left: auto;
   }
 `;
 export const EditInput = styled.div`
@@ -151,15 +139,69 @@ export const SelectForm = styled.div`
   }
   & > div {
     margin-top: 7px;
+    background-color: #f9f9f9;
   }
 `;
-
-export const NickNameBtn = styled.button``;
-export const SignupMSG = styled.div`
-  color: ${(props) => props.color};
-  font-size: 10px;
-  height: 20px;
+export const EmailPhoneInput = styled.div`
   display: flex;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  width: 45%;
+  & > p:first-child {
+    font-size: 0.5rem;
+  }
+  & > div {
+    display: flex;
+    height: 2rem;
+    border: none;
+    border-radius: 8px;
+    padding: 0;
+    font-size: 15px;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.14px;
+    text-align: left;
+    margin-top: 7px;
+    outline: none;
+    background: #fafafa;
+    color: #707070;
+    text-decoration: none;
+  }
+  & input {
+    width: 90%;
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    color: #707070;
+    outline: none;
+  }
+  & button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: blue;
+    white-space: nowrap;
+    &:disabled {
+      color: #c4c4c4;
+      cursor: inherit;
+    }
+  }
+`;
+export const SubmitBtnBox = styled.div`
+  & > button {
+    display: flex;
+    background: blue;
+    color: white;
+    border-radius: 25px;
+    font-size: 15px;
+    cursor: pointer;
+    align-items: center;
+    width: 7rem;
+    height: 2rem;
+    justify-content: center;
+    border: none;
+    margin-left: auto;
+  }
 `;

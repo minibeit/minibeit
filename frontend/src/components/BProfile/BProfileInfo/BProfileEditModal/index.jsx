@@ -87,6 +87,11 @@ export default function BProfileEditCont({ infoData, setInfoEditModal }) {
                 />
               )}
             </S.ModalContent>
+            <S.SubmitBtnBox>
+              <button onClick={() => submitEditBusiness(BProfileData)}>
+                수정완료
+              </button>
+            </S.SubmitBtnBox>
           </S.ModalBox>
         </S.ModalBackground>
       </Portal>

@@ -7,13 +7,52 @@ export default function Presenter({
   userData,
   onChange,
   onFileChange,
-  newNickname,
-  setNewNickname,
   schoolId,
   setSchoolId,
   checkingNickname,
-  submitEditUser,
+  changeNickname,
+  setChangeNickname,
+  checkingPhone,
+  changePhone,
+  setChangePhone,
+  checkingEmail,
+  changeEmail,
+  setChangeEmail,
+  checkingCode,
 }) {
+  const exceptName = (value) => {
+    var regName = /^[가-힣]{2,5}$/;
+    if (!regName.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  const exceptNickname = (value) => {
+    var regNickname = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
+    if (!regNickname.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  const exceptPhone = (value) => {
+    var regPhone = /^01([0|1|6|7|8|9])?([0-9]{3,4})?([0-9]{4})$/;
+    if (!regPhone.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
+  const exceptEmail = (value) => {
+    var regEmail =
+      /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/; // eslint-disable-line
+    if (!regEmail.test(value)) {
+      return false;
+    } else {
+      return true;
+    }
+  };
   return (
     <>
       <S.ImgEditContainer>
@@ -47,29 +86,41 @@ export default function Presenter({
                 type="text"
                 placeholder="이름"
                 onChange={onChange}
+                onBlur={(e) => {
+                  if (!exceptName(e.target.value)) {
+                    e.target.value = "";
+                    onChange(e);
+                    alert("이름은 2~5글자 한글로 입력해주세요");
+                  }
+                }}
               />
             </div>
           </S.EditInput>
-          <S.EditInput>
+          <S.EmailPhoneInput>
+            <p>닉네임</p>
             <div>
-              <p>닉네임</p>
               <input
                 defaultValue={userData.nickname}
                 name="nickname"
                 type="text"
                 placeholder="닉네임"
-                onChange={(e) => setNewNickname(e.target.value)}
+                onChange={(e) => setChangeNickname(false)}
               />
+              <button
+                disabled={changeNickname}
+                onClick={(e) => {
+                  let value = e.target.previousSibling.value;
+                  if (exceptNickname(value)) {
+                    checkingNickname(e.target.previousSibling.value);
+                  } else {
+                    alert("닉네임은 2글자 이상 10글자 이내로 입력해주세요");
+                  }
+                }}
+              >
+                중복확인
+              </button>
             </div>
-            <button
-              disabled={
-                newNickname && newNickname !== userData.nickname ? false : true
-              }
-              onClick={() => checkingNickname(newNickname)}
-            >
-              중복확인
-            </button>
-          </S.EditInput>
+          </S.EmailPhoneInput>
         </div>
         <div>
           <S.EditInput>
@@ -83,6 +134,7 @@ export default function Presenter({
               />
             </div>
           </S.EditInput>
+
           <S.SelectForm>
             <p>관심학교</p>
             <SchoolSelect
@@ -126,22 +178,88 @@ export default function Presenter({
           </S.EditInput>
         </div>
         <div>
-          <S.EditInput>
+          <S.EmailPhoneInput>
+            <p>연락처</p>
             <div>
-              <p>연락처</p>
               <input
                 defaultValue={userData.phoneNum}
                 name="phoneNum"
                 type="text"
-                placeholder="전화번호"
-                onChange={onChange}
+                placeholder="'-' 빼고 입력"
+                onChange={() => setChangePhone(false)}
               />
+              <button
+                disabled={changePhone}
+                onClick={(e) => {
+                  let value = e.target.previousSibling.value;
+                  if (exceptPhone(value)) {
+                    checkingPhone(value);
+                    e.target.parentNode.nextSibling.setAttribute(
+                      "style",
+                      "display:flex"
+                    );
+                  } else {
+                    alert("휴대폰 번호를 다시 확인해주세요");
+                  }
+                }}
+              >
+                인증
+              </button>
             </div>
-          </S.EditInput>
+
+            <div style={{ display: "none" }}>
+              <input />
+              <button
+                onClick={(e) => {
+                  checkingCode(e.target.previousSibling.value, "PHONE");
+                  e.target.parentNode.setAttribute("style", "display:none");
+                }}
+              >
+                인증
+              </button>
+            </div>
+          </S.EmailPhoneInput>
+          <S.EmailPhoneInput>
+            <p>이메일</p>
+            <div>
+              <input
+                defaultValue={userData.email}
+                name="email"
+                type="text"
+                placeholder="이메일"
+                onChange={() => setChangeEmail(false)}
+              />
+              <button
+                disabled={changeEmail}
+                onClick={(e) => {
+                  let value = e.target.previousSibling.value;
+                  if (exceptEmail(value)) {
+                    checkingEmail(value);
+                    e.target.parentNode.nextSibling.setAttribute(
+                      "style",
+                      "display:flex"
+                    );
+                  } else {
+                    alert("이메일 형식을 확인해주세요");
+                  }
+                }}
+              >
+                인증
+              </button>
+            </div>
+            <div style={{ display: "none" }}>
+              <input />
+              <button
+                onClick={(e) => {
+                  checkingCode(e.target.previousSibling.value, "EMAIL");
+                  e.target.parentNode.setAttribute("style", "display:none");
+                }}
+              >
+                인증
+              </button>
+            </div>
+          </S.EmailPhoneInput>
         </div>
-        <button onClick={() => submitEditUser(userData, schoolId, newNickname)}>
-          수정 완료
-        </button>
       </S.InfoEditContainer>
     </>
   );

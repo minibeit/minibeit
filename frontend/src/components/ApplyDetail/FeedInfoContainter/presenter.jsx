@@ -2,7 +2,7 @@ import React from "react";
 import TimeSelectBox from "./TimeSelectBox";
 import ApplyDetailImgsModal from "../../Common/Modal/ApplyDetailImgsModal";
 import ReveiwBox from "./ReviewBox";
-import EditOnlyDetails from '../../Common/Alert/EditOnlyDetails'
+import EditOnlyDetails from "../../Common/Alert/EditOnlyDetails";
 import * as S from "../style";
 
 export default function Presenter({
@@ -32,8 +32,9 @@ export default function Presenter({
   modalSwitch,
   setModalSwitch,
   imgOnClick,
-  editAlert, 
+  editAlert,
   setEditAlert,
+  editOn,
 }) {
   return (
     <S.ContentBox>
@@ -84,9 +85,15 @@ export default function Presenter({
         <S.DataHeader>
           <p>상세내용</p>
           {isMine && editSwitch === false && (
-            <button onClick={() => setEditAlert(true)} >수정하기</button>
+            <button onClick={editOn}>수정하기</button>
           )}
-          {editAlert && <EditOnlyDetails setEditSwitch={setEditSwitch} editSwitch={editSwitch} setEditAlert={setEditAlert}/>}
+          {editAlert && (
+            <EditOnlyDetails
+              setEditSwitch={setEditSwitch}
+              editSwitch={editSwitch}
+              setEditAlert={setEditAlert}
+            />
+          )}
         </S.DataHeader>
         <S.DataContent>
           {editSwitch ? (
@@ -94,7 +101,13 @@ export default function Presenter({
               <S.EditTextArea
                 defaultValue={updatedContent ? updatedContent : content}
                 onChange={(e) => {
-                  setNewContent(e.target.value);
+                  if (e.target.value.length > 500) {
+                    alert("500자 이내로 입력해주세요");
+                    e.target.value = e.target.value.slice(0, 500);
+                    setNewContent(e.target.value);
+                  } else {
+                    setNewContent(e.target.value);
+                  }
                 }}
               />
               <button onClick={editSubmit}>수정완료</button>

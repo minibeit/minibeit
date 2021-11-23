@@ -86,6 +86,23 @@ export default function BProfileCreateModal({ setModalSwitch }) {
               createBusiness={createBusiness}
             />
           </S.ModalContent>
+          <S.SubmitBtnBox>
+            <button
+              onClick={() => {
+                if (
+                  infoData.place.length === 0 &&
+                  infoData.name.length === 0 &&
+                  infoData.contact.length === 0
+                ) {
+                  alert("정보를 확인해주세요");
+                } else {
+                  createBusiness(infoData);
+                }
+              }}
+            >
+              생성
+            </button>
+          </S.SubmitBtnBox>
         </S.ModalBox>
       </S.ModalBackground>
     </Portal>

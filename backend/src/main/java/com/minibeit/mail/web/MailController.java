@@ -16,12 +16,6 @@ import javax.mail.MessagingException;
 public class MailController {
     private final MailService mailService;
 
-    @PostMapping("/post")
-    public ResponseEntity<ApiResult<Void>> sendMail(@RequestBody MailRequest.PostStatusMail request) {
-        mailService.mailSend(request.getPostMailCondition(), request.getToEmailList());
-        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
-    }
-
     @PostMapping("/user/{userId}/email/verification")
     public ResponseEntity<ApiResult<Void>> sendEmailVerificationCode(@PathVariable Long userId, @RequestBody MailRequest.EmailVerification request) throws MessagingException {
         mailService.sendVerificationCode(userId, request);

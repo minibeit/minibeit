@@ -4,7 +4,7 @@ export const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 4rem 12rem 4rem 12rem;
+  margin: 4rem 12rem;
   & > div:nth-child(2) {
     display: flex;
   }
@@ -242,6 +242,7 @@ export const SmImg = styled.img`
   object-fit: contain;
   flex-grow: 1;
   border: 1px solid gray;
+  box-sizing: border-box;
   background-color: #e9e9e9;
   cursor: pointer;
 `;

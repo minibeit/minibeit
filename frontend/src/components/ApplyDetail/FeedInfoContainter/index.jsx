@@ -4,11 +4,13 @@ import Presenter from "./presenter";
 
 export default function FeedInfoContainer({
   feedDetailData,
-
+  modalSwitch, 
+  setModalSwitch,
   date,
   editDetail,
 }) {
   const [editSwitch, setEditSwitch] = useState(false);
+  const [editAlert, setEditAlert] = useState(false);
   const [newContent, setNewContent] = useState(
     feedDetailData.updatedContent
       ? feedDetailData.updatedContent
@@ -20,9 +22,7 @@ export default function FeedInfoContainer({
     setEditSwitch(false);
   };
 
-const [modalSwitch, setModalSwitch] = useState(false);
 const [currentImg, setCurrentImg] = useState(0);
-
 const imgOnClick = (e) => {
   setModalSwitch(true);
   setCurrentImg(feedDetailData.files.findIndex(i => i.url === e.target.src) !== -1 
@@ -30,12 +30,6 @@ const imgOnClick = (e) => {
   : 4);
     
 };
-
-const [editAlert, setEditAlert] = useState(false);
-const editOn = () => {
-  setEditAlert(true);
-}
-
   return (
     <Presenter
       id={feedDetailData.id}
@@ -66,7 +60,6 @@ const editOn = () => {
       imgOnClick={imgOnClick}
       editAlert={editAlert}
       setEditAlert={setEditAlert}
-      editOn={editOn}
     />
   );
 }

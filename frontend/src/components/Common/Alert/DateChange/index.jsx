@@ -6,14 +6,24 @@ import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 
 // 날짜변경시 설정한 정보가 변경되는것을 알려주는
 
-export default function DateChange ({setResetAlert, resetOk}) {
-  const closeAlert = () => {
+export default function DateChange ({setResetAlert, setResetAgree}) {
+  const clickOutside = (e) => {
+    e.target===e.currentTarget && 
+    setResetAlert(false); 
+    document.querySelector("body").removeAttribute("style");
+    };
+  const closeBtn =() => {
     setResetAlert(false);
+    document.querySelector("body").removeAttribute("style");
   };
-
+  const okBtn =() => {
+    setResetAlert(false);
+    setResetAgree(true);
+    document.querySelector("body").removeAttribute("style");
+  };
   return (
     <Portal>
-      <S.AlertBackground>
+      <S.AlertBackground onClick={(e)=>clickOutside(e)}>
         <S.AlertBox>
           <S.AlertContent>
             <ErrorOutlineIcon  sx={{ fontSize: 40 , color: "#0642FF"}} />
@@ -21,8 +31,8 @@ export default function DateChange ({setResetAlert, resetOk}) {
             <span>정말로 날짜를 변경하시겠어요?</span>
             </p>
             <div>
-              <S.GrayButton onClick={closeAlert}>아니오, 돌아갈래요</S.GrayButton>
-              <S.BlueButton onClick={resetOk}>네, 날짜를 변경할래요</S.BlueButton>
+              <S.GrayButton onClick={closeBtn}>아니오, 돌아갈래요</S.GrayButton>
+              <S.BlueButton onClick={okBtn}>네, 날짜를 변경할래요</S.BlueButton>
             </div>
           </S.AlertContent>
         </S.AlertBox>

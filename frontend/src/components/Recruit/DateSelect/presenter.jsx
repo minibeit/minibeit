@@ -44,7 +44,7 @@ export default function Presenter({
   movePage,
   resetAlert,
   setResetAlert,
-  resetOk,
+  setResetAgree,
 }) {
   return (
     <S.Page>
@@ -248,7 +248,7 @@ export default function Presenter({
         >
           저장
         </S.SaveBtn>
-        {resetAlert && <DateChange resetOk={resetOk} setResetAlert={setResetAlert}/>}
+        {resetAlert && <DateChange setResetAgree={setResetAgree} setResetAlert={setResetAlert}/>}
       </S.DateSelectContainer>
     </S.Page>
   );

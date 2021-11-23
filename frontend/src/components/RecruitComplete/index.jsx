@@ -4,12 +4,6 @@ import { useHistory } from "react-router";
 
 export default function RecruitComplete({ postId }) {
   const history = useHistory();
-  const goHome = () => {
-    history.push("/");
-  };
-  const checkFeed = () => {
-    history.push(`/apply/${postId}`);
-  };
   return (
     <S.Background>
       <S.Box>
@@ -24,10 +18,12 @@ export default function RecruitComplete({ postId }) {
           </p>
         </div>
         <div>
-          <S.GrayButton onClick={checkFeed}>
+          <S.GrayButton onClick={() => history.push(`/apply/${postId}`)}>
             작성한 글을 확인할래요
           </S.GrayButton>
-          <S.BlueButton onClick={goHome}>홈으로 갈래요</S.BlueButton>
+          <S.BlueButton onClick={() => history.push("/")}>
+            홈으로 갈래요
+          </S.BlueButton>
         </div>
       </S.Box>
     </S.Background>

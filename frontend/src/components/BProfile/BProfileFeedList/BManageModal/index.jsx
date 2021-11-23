@@ -77,11 +77,6 @@ export default function BManageModal({ postId, setModalSwitch }) {
   const [reason, setReason] = useState(['']);
   const [cancleAlert, setCancleAlert] = useState(false);
 
-  const cancleOn = (user) => {
-    setCancleUserInfo(user);
-    setCancleAlert(true);
-  };
-
   const cancleApprove = (postDoDateId, userId, userEmail) => {
     if (cancleAlert) {
       cancelOneApi(postDoDateId, userId)
@@ -96,11 +91,6 @@ export default function BManageModal({ postId, setModalSwitch }) {
           alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
         );
     }
-  };
-
-  const rejectApplyAlert = (user) => {
-    setRejectUserInfo(user);
-    setRejectAlert(true);
   };
 
   const rejectApply = (postDoDateId, userId, comment, userEmail) => {
@@ -140,6 +130,27 @@ export default function BManageModal({ postId, setModalSwitch }) {
     }
   };
 
+  const modalOff = () => {
+    setModalSwitch(false);
+    document.querySelector("body").removeAttribute("style");
+  };
+  const clickOutside = (e) => {
+    e.target===e.currentTarget && 
+    setModalSwitch(false); 
+    document.querySelector("body").removeAttribute("style");
+  };
+
+  const rejectOn = (user,e) => {
+    setRejectUserInfo(user);
+    e.currentTarget.previousSibling.value=null;
+    setRejectAlert(true);
+  }
+
+  const cancleOn = (user) => {
+    setCancleUserInfo(user);
+    setCancleAlert(true);
+  }
+
   useEffect(() => {
     getFeedData();
   }, [getFeedData]);
@@ -150,7 +161,7 @@ export default function BManageModal({ postId, setModalSwitch }) {
 
   return (
     <Portal>
-      <S.ModalBackground>
+      <S.ModalBackground onClick={(e)=>clickOutside(e)}>
         <S.ModalBox>
           <S.ButtonTab>
             <button
@@ -173,7 +184,7 @@ export default function BManageModal({ postId, setModalSwitch }) {
           <S.ModalHeader>
             <p>{feedData.title}</p>
             <div>
-              <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
+              <S.CloseModalBtn onClick={modalOff}>
                 <CloseIcon />
               </S.CloseModalBtn>
               <S.CalendarBtn onClick={() => setCalendarView(!calendarView)}>
@@ -209,16 +220,18 @@ export default function BManageModal({ postId, setModalSwitch }) {
               viewRejectInput={viewRejectInput}
               rejectAlert={rejectAlert}
               setRejectAlert={setRejectAlert}
-              rejectApplyAlert={rejectApplyAlert}
+              setRejectUserInfo={setRejectUserInfo}
               rejectUserInfo={rejectUserInfo}
               reason={reason}
               setReason={setReason}
               cancleAlert={cancleAlert} 
               setCancleAlert={setCancleAlert}
-              cancleOn={cancleOn}
+              setCancleUserInfo={setCancleUserInfo}
               cancleUserInfo={cancleUserInfo} 
               rejectApply={rejectApply}
               changeAttend={changeAttend}
+              rejectOn={rejectOn}
+              cancleOn={cancleOn}
             />
           </S.ModalContent>
         </S.ModalBox>

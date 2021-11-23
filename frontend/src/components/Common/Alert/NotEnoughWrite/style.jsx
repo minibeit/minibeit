@@ -62,4 +62,5 @@ export const BlueButton = styled.button`
     border: 1px solid #0642FF;
     background: #0642FF;
     margin-top: 20px;
+    cursor: pointer;
 `;

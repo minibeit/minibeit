@@ -144,10 +144,6 @@ export default function DateSelect({ movePage, recruit, setRecruit }) {
   const [resetAlert, setResetAlert] = useState(false);
   const [resetAgree, setResetAgree] = useState(false);
 
-  const resetOk = () => {
-    setResetAlert(false);
-    setResetAgree(true);
-  }
   const askResetGroup = () => {
     if (createdGroup.length !== 0) {
       setResetAlert(true);
@@ -189,7 +185,7 @@ export default function DateSelect({ movePage, recruit, setRecruit }) {
       movePage={movePage}
       resetAlert={resetAlert} 
       setResetAlert={setResetAlert} 
-      resetOk={resetOk}
+      setResetAgree={setResetAgree}
 
     />
   );

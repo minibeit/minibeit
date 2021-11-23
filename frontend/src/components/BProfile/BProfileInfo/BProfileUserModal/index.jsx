@@ -82,17 +82,29 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
     }
   };
 
+  const clickOutside = (e) => {
+    e.target===e.currentTarget && 
+    setModalSwitch(false); 
+    document.querySelector("body").removeAttribute("style");
+  };
+
+  const clickIcon = () => {
+    setModalSwitch(false);
+    document.querySelector("body").removeAttribute("style");
+
+  }
+
   useEffect(() => {
     getUsergroup();
   }, [getUsergroup]);
 
   return (
     <Portal>
-      <S.ModalBackground>
+      <S.ModalBackground onClick={(e)=>clickOutside(e)}>
         <S.ModalBox>
           <S.ModalHeader>
             <p>소속인원 목록</p>
-            <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
+            <S.CloseModalBtn onClick={clickIcon}>
               <CloseIcon />
             </S.CloseModalBtn>
           </S.ModalHeader>

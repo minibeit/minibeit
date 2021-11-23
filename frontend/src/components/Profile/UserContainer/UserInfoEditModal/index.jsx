@@ -67,6 +67,11 @@ export default function UserInfoEditModal({ infoData, setModalSwitch }) {
       .catch(() => alert("휴대전화 형식을 다시한번 확인해주세요"));
   };
 
+  const closeModal = () => {
+    setModalSwitch(false);
+    document.querySelector("body").removeAttribute("style");
+  };
+
   const checkingEmail = (email) => {
     checkEmailApi(userData.id, email)
       .then((res) => {
@@ -133,7 +138,7 @@ export default function UserInfoEditModal({ infoData, setModalSwitch }) {
             <S.ModalBox>
               <S.ModalHeader>
                 <p>내 프로필 수정하기</p>
-                <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
+                <S.CloseModalBtn onClick={() => closeModal()}>
                   <CloseIcon />
                 </S.CloseModalBtn>
               </S.ModalHeader>

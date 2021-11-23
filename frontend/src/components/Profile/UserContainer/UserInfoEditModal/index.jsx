@@ -9,8 +9,11 @@ import Portal from "../../../Common/Modal/Portal";
 import * as S from "./style";
 import { nickCheckApi } from "../../../../utils/auth";
 import { useHistory } from "react-router";
-import { checkPhoneApi } from "../../../../utils/smsApi";
-import { checkCodeApi, checkEmailApi } from "../../../../utils/mailApi";
+import {
+  checkPhoneApi,
+  checkCodeApi,
+  checkEmailApi,
+} from "../../../../utils/verificationApi";
 
 export default function UserInfoEditModal({ infoData, setModalSwitch }) {
   const history = useHistory();

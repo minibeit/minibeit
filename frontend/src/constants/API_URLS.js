@@ -46,7 +46,6 @@ const API_URLS = {
   GET_CANCEL_LIST: "/api/rejectPost/list",
   DELETE_CANCEL: "/api/rejectPost/",
   EDIT_REVIEW: "/api/business/profile/review/",
-  MAIL: "/api/mail/post",
   VERIFICATION: "/api/mail/user/",
   CHECK_CODE: "/api/user/",
   VERIFICATION_SMS: "/api/user/",

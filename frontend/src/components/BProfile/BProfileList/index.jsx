@@ -37,7 +37,7 @@ export default function BProfileInfo({ businessId }) {
                     {a.avatar ? (
                       <PVImg img={a.avatar} />
                     ) : (
-                      <PVImg img="/기본비즈니스프로필.jpeg" />
+                      <PVImg img="/images/기본비즈니스프로필.jpeg" />
                     )}
                   </S.ImgBox>
                   <p>{a.name}</p>

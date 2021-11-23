@@ -78,7 +78,7 @@ export default function UserContainer() {
               {userData.avatar !== null ? (
                 <PVImg img={userData.avatar} />
               ) : (
-                <PVImg img="/기본프로필.png" />
+                <PVImg img="/images/기본프로필.png" />
               )}
             </S.ImgBox>
             <button onClick={() => setModalSwitch(true)}>수정하기</button>

@@ -31,7 +31,6 @@ export default function NavBar() {
     <S.NavBarContainer>
       <S.NavBarLogoContainer>
         <Link to="/">
-          <div />
           <p>MINI</p>
         </Link>
         <S.NavBarMenu>
@@ -57,7 +56,11 @@ export default function NavBar() {
           <>
             <Link to={`/profile/${username}`}>
               <img
-                src={user.avatar !== "noImg" ? user.avatar : "/기본프로필.png"}
+                src={
+                  user.avatar !== "noImg"
+                    ? user.avatar
+                    : "/images/기본프로필.png"
+                }
                 alt="사진"
               />
             </Link>

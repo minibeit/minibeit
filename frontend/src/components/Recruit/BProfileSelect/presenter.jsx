@@ -41,7 +41,7 @@ export default function Presenter({ bpList, selectBP, recruit }) {
         ) : (
           <>
             <p>비즈니즈 프로필이 존재하지 않습니다</p>
-            <Link to={"/profile"}>
+            <Link to={"/profile/business"}>
               <p>비즈니스 프로필 만들기</p>
             </Link>
           </>

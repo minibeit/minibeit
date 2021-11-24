@@ -11,7 +11,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
       doNotJoinApi(id)
         .then(() => {
           alert("실험이 참여 취소 되었습니다.");
-          changeFeedData("대기중");
+          changeFeedData();
         })
         .catch((err) => alert("취소할 수 없는 실험입니다."));
     }
@@ -23,7 +23,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
       deleteCancelApi(id)
         .then(() => {
           alert("반려 게시물이 삭제되었습니다");
-          changeFeedData("반려");
+          changeFeedData();
         })
         .catch((err) => alert("삭제할 수 없는 실험입니다."));
     }
@@ -35,7 +35,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
       doJoinApi(id)
         .then(() => {
           alert("참여가 완료 되었습니다");
-          changeFeedData("확정");
+          changeFeedData();
         })
         .catch((err) => alert("완료할 수 없는 실험입니다."));
     }
@@ -44,11 +44,11 @@ export default function FeedBox({ status, data, changeFeedData }) {
   return (
     <>
       <S.FeedLabel>
-        {status === "확정" && "참여확정"}
-        {status === "대기중" && "참여대기"}
-        {status === "완료" && "참여완료"}
-        {status === "반려" && "참여반려"}
-        {status === "즐겨찾기" &&
+        {status === "approve" && "참여확정"}
+        {status === "wait" && "참여대기"}
+        {status === "complete" && "참여완료"}
+        {status === "reject" && "참여반려"}
+        {status === "like" &&
           (data.postStatus === "RECRUIT" ? "모집중" : "모집완료")}
       </S.FeedLabel>
       <S.FeedBox>
@@ -59,7 +59,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
           </Link>
         </S.FeedTitleBox>
         <S.FeedContentBox>
-          {status === "확정" && (
+          {status === "approve" && (
             <>
               <S.FeedInfo>
                 <div>
@@ -83,7 +83,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
               </S.FeedButton>
             </>
           )}
-          {status === "대기중" && (
+          {status === "wait" && (
             <>
               <S.FeedInfo>
                 <div>
@@ -104,7 +104,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
               </S.FeedButton>
             </>
           )}
-          {status === "완료" && (
+          {status === "complete" && (
             <>
               <S.FeedInfo>
                 <div>
@@ -114,7 +114,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
               <S.FeedButton></S.FeedButton>
             </>
           )}
-          {status === "반려" && (
+          {status === "reject" && (
             <>
               <S.FeedInfo>
                 <div>
@@ -126,7 +126,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
               </S.FeedButton>
             </>
           )}
-          {status === "즐겨찾기" && (
+          {status === "like" && (
             <>
               <S.FeedInfo>
                 <div>

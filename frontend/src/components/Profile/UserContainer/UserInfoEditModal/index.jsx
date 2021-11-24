@@ -126,7 +126,7 @@ export default function UserInfoEditModal({ infoData, setModalSwitch }) {
           setUser(copy);
           alert("수정이 완료되었습니다!");
           setModalSwitch(false);
-          history.push(`/profile/${res.data.data.nickname}`);
+          history.push("/profile/approve");
           history.go(0);
         })
         .catch((err) => alert("수정 내용을 다시 한번 확인해주세요"));

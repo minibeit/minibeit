@@ -53,7 +53,7 @@ export default function NavBar() {
       <S.NavBarMenuContainer>
         {user.didSignup === true ? (
           <>
-            <Link to={"/profile"}>
+            <Link to={"/profile/approve"}>
               <img
                 src={
                   user.avatar !== "noImg"

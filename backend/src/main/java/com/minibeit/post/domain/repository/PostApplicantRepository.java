@@ -14,8 +14,6 @@ public interface PostApplicantRepository extends JpaRepository<PostApplicant, Lo
     @Query("select pa from PostApplicant pa where pa.postDoDate.id=:postDoDateId and pa.applyStatus='APPROVE'")
     List<PostApplicant> findAllByPostDoDateIdAndStatusIsApprove(@Param("postDoDateId")Long postDoDateId);
 
-    void deleteByPostDoDateIdAndUserId(Long postDoDateId, Long userId);
-
     @Modifying
     @Query("update PostApplicant pa set pa.applyStatus=:status where pa.id in :applicantIdList")
     void updateReject(@Param("applicantIdList") List<Long> applicantIdList,@Param("status") ApplyStatus status);

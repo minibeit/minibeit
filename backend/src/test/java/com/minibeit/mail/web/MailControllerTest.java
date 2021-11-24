@@ -30,32 +30,6 @@ class MailControllerTest extends MvcTest {
     private MailService mailService;
 
     @Test
-    @DisplayName("승인,반려,승인취소,참가취소 메일 전송 문서화")
-    public void createInfo() throws Exception {
-        MailRequest.PostStatusMail request = MailRequest.PostStatusMail.builder().postMailCondition(PostMailCondition.APPROVECANCEL).toEmailList(List.of("test@test.com", "test2@test.com")).build();
-
-        ResultActions results = mvc.perform(post("/api/mail/post")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
-                .characterEncoding("UTF-8")
-        );
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("post-mail",
-                        requestFields(
-                                fieldWithPath("postMailCondition").type(JsonFieldType.STRING).description("APPROVE(확정알림메일), REJECT(반려알림메일), APPROVECANCEL(확정취소메일(실험자)), APPLICANTCANCEL(참가자취소메일(피실험자))"),
-                                fieldWithPath("toEmailList.[]").type(JsonFieldType.ARRAY).description("보낼 사람 이메일 주소")
-                        ),
-                        responseFields(
-                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
-                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
-                                fieldWithPath("data").description("data 없다면 null")
-                        )
-                ));
-    }
-
-    @Test
     @DisplayName("이메일 인증번호 메일 전송 문서화")
     public void sendEmailVerificationCode() throws Exception {
         MailRequest.EmailVerification request = MailRequest.EmailVerification.builder().toEmail("test@test.com").build();

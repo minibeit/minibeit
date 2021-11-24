@@ -63,6 +63,7 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
     public Optional<PostApplicant> findByPostDoDateIdAndUserIdWithPostDoDateAndPost(Long postDoDateId, Long userId) {
         return Optional.ofNullable(
                 queryFactory.selectFrom(postApplicant)
+                        .join(postApplicant.user).fetchJoin()
                         .join(postApplicant.postDoDate, postDoDate).fetchJoin()
                         .join(postDoDate.post).fetchJoin()
                         .where(postDoDate.id.eq(postDoDateId).and(postApplicant.user.id.eq(userId)))

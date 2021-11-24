@@ -1,5 +1,7 @@
 package com.minibeit.post.service;
 
+import com.minibeit.mail.condition.PostMailCondition;
+import com.minibeit.mail.service.MailService;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.RejectPostRepository;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,9 +28,11 @@ public class PostApplicantByBusinessService {
     private final PostApplicantRepository postApplicantRepository;
     private final RejectPostRepository rejectPostRepository;
     private final PostPermissionCheck postPermissionCheck;
+    private final MailService mailService;
 
     public void applyApprove(Long postDoDateId, Long userId, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
+        User applicant = postApplicant.getUser();
         PostDoDate postDoDate = postApplicant.getPostDoDate();
         Post post = postDoDate.getPost();
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
@@ -46,10 +51,13 @@ public class PostApplicantByBusinessService {
 
         List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
         postDoDate.updateFull(approvedPostApplicant);
+
+        mailService.mailSend(PostMailCondition.APPROVE, Collections.singletonList(applicant.getEmail()));
     }
 
     public void applyApproveCancel(Long postDoDateId, Long userId, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
+        User applicant = postApplicant.getUser();
         PostDoDate postDoDate = postApplicant.getPostDoDate();
         Post post = postDoDate.getPost();
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
@@ -58,10 +66,13 @@ public class PostApplicantByBusinessService {
 
         List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
         postDoDate.updateFull(approvedPostApplicant);
+
+        mailService.mailSend(PostMailCondition.APPROVECANCEL, Collections.singletonList(applicant.getEmail()));
     }
 
     public void applyReject(Long postDoDateId, Long userId, PostApplicantRequest.ApplyReject request, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
+        User applicant = postApplicant.getUser();
         Post post = postApplicant.getPostDoDate().getPost();
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
 
@@ -69,6 +80,8 @@ public class PostApplicantByBusinessService {
 
         RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getComment(), postApplicant.getUser());
         rejectPostRepository.save(rejectPost);
+
+        mailService.mailSend(PostMailCondition.REJECT, Collections.singletonList(applicant.getEmail()));
     }
 
     public void attendChange(Long postDoDateId, Long userId, PostApplicantRequest.AttendChange request, User user) {

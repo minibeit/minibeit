@@ -1,6 +1,8 @@
 package com.minibeit.post.service;
 
 import com.minibeit.common.exception.PermissionException;
+import com.minibeit.mail.condition.PostMailCondition;
+import com.minibeit.mail.service.MailService;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostApplicant;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +31,7 @@ public class PostApplicantService {
     private final PostDoDateRepository postDoDateRepository;
     private final PostApplicantRepository postApplicantRepository;
     private final PostLikeRepository postLikeRepository;
+    private final MailService mailService;
 
     public void apply(Long postDoDateId, User user) {
         PostDoDate postDoDate = postDoDateRepository.findByIdWithPostAndApplicant(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
@@ -65,6 +69,8 @@ public class PostApplicantService {
             PostDoDate postDoDate = postDoDateRepository.findById(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
             List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
             postDoDate.updateFull(approvedPostApplicant);
+
+            mailService.mailSend(PostMailCondition.APPLICANTCANCEL, Collections.singletonList(user.getEmail()));
         }
     }
 }

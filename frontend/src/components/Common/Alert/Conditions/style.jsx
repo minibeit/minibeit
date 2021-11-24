@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const AlertBackground = styled.div`
   position: fixed;
   top: 0;
@@ -32,7 +31,7 @@ export const AlertContent = styled.div`
   justify-content: center;
   align-items: left;
 
-  & > div:first-child { 
+  & > div:first-child {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -55,13 +54,12 @@ export const AlertContent = styled.div`
     position: relative;
     left: 50%;
     transform: translate(-50%);
-    background-color: #F9F9F9;
+    background-color: #f9f9f9;
     border-radius: 17px;
     font-size: 15px;
     line-height: 20px;
     width: 25rem;
     height: 22rem;
-
   }
   & > div:nth-child(2) > p:first-child {
     margin: 15px;
@@ -86,7 +84,6 @@ export const AlertContent = styled.div`
     ::-webkit-scrollbar-button {
       width: 0;
       height: 0;
-}
+    }
   }
-
 `;

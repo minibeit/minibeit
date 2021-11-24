@@ -11,7 +11,7 @@ import Apply from "./pages/Apply";
 import ApplyDetail from "./pages/ApplyDetail";
 import Recruit from "./pages/Recruit";
 import RecruitComplete from "./pages/RecruitComplete";
-import SignUp from "./pages/SignUp";
+import SignUp from "./pages/SignUP";
 
 function App() {
   return (

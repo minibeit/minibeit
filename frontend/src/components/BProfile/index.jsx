@@ -13,7 +13,7 @@ export default function BProfileComponent({ businessId }) {
   return (
     <S.ProfilePage>
       <div>
-        <S.ModeSelectBtn onClick={() => history.push("/profile")}>
+        <S.ModeSelectBtn onClick={() => history.push("/profile/approve")}>
           개인 프로필
         </S.ModeSelectBtn>
         <S.ModeSelectBtn disabled={true}>비즈니스 프로필</S.ModeSelectBtn>

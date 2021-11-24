@@ -4,7 +4,7 @@ import { PVImg } from "../../Common";
 
 import * as S from "../style";
 
-export default function Presenter({ bpList, selectBP, recruit, userName }) {
+export default function Presenter({ bpList, selectBP, recruit }) {
   return (
     <S.Page>
       <S.BProfileContainer>
@@ -41,7 +41,7 @@ export default function Presenter({ bpList, selectBP, recruit, userName }) {
         ) : (
           <>
             <p>비즈니즈 프로필이 존재하지 않습니다</p>
-            <Link to={`/profile/${userName}`}>
+            <Link to={"/profile"}>
               <p>비즈니스 프로필 만들기</p>
             </Link>
           </>

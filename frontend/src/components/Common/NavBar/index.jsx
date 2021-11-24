@@ -11,7 +11,6 @@ export default function NavBar() {
   const user = useRecoilValue(userState);
   const history = useHistory();
   const [modalSwitch, setModalSwitch] = useState(false);
-  const username = user.name;
   const isLogin = user.isLogin;
   const onClick = () => {
     setModalSwitch(true);
@@ -54,7 +53,7 @@ export default function NavBar() {
       <S.NavBarMenuContainer>
         {user.didSignup === true ? (
           <>
-            <Link to={`/profile/${username}`}>
+            <Link to={"/profile"}>
               <img
                 src={
                   user.avatar !== "noImg"

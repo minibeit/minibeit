@@ -5,7 +5,7 @@ import BusinessContainer from "./BusinessContainer";
 
 import * as S from "./style";
 
-export default function ProfileComponent({ userId }) {
+export default function ProfileComponent() {
   const [mode, setMode] = useState("user");
   return (
     <S.ProfilePage>

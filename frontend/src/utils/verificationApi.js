@@ -1,15 +1,23 @@
-import { withAuthInstance } from "./common";
 import { API_URLS } from "../constants";
 import axios from "axios";
+import { withAuthInstance } from "./common";
+const { VERIFICATION_SMS, VERIFICATION, CHECK_CODE } = API_URLS;
 
-const { MAIL, VERIFICATION, CHECK_CODE } = API_URLS;
-
-export const sendMailApi = (status, userEmail) => {
+/* guest 상태 */
+export const guestCheckPhoneApi = (token, userId, phonenumber) => {
   var data = {
-    postMailCondition: status,
-    toEmailList: userEmail,
+    receiverPhoneNumber: phonenumber,
   };
-  return withAuthInstance.post(MAIL, data);
+  return axios({
+    method: "POST",
+    url: process.env.REACT_APP_API_URL + VERIFICATION_SMS + `${userId}/sms`,
+    data: data,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((res) => res.data)
+    .catch((err) => err.response);
 };
 export const guestCheckEmailApi = (token, userId, userEmail) => {
   var data = {
@@ -44,6 +52,14 @@ export const guestCheckCodeApi = (token, code, userId, type) => {
   })
     .then((res) => res.data)
     .catch((err) => err.response);
+};
+
+/*로그인 상태*/
+export const checkPhoneApi = (userId, phonenumber) => {
+  var data = {
+    receiverPhoneNumber: phonenumber,
+  };
+  return withAuthInstance.post(VERIFICATION_SMS + `${userId}/sms`, data);
 };
 
 export const checkEmailApi = (userId, userEmail) => {

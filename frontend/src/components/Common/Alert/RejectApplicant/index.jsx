@@ -1,35 +1,38 @@
 import React from "react";
 import Portal from "../Portal";
 import * as S from "./style";
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-
+import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
 
 // 정말로 반려할것인지 물어보는 알림창
 
-export default function RejectApplicant ({setRejectAlert, rejectApply, rejectUserInfo, reason}) {
+export default function RejectApplicant({
+  setRejectAlert,
+  rejectApply,
+  rejectUserInfo,
+  reason,
+}) {
   const clickOutside = (e) => {
-    e.target===e.currentTarget && 
-    setRejectAlert(false); 
+    e.target === e.currentTarget && setRejectAlert(false);
     document.querySelector("body").removeAttribute("style");
   };
-  const closeBtn =() => {
+  const closeBtn = () => {
     setRejectAlert(false);
     document.querySelector("body").removeAttribute("style");
   };
-  const rejectBtn =() => {
-    rejectApply(rejectUserInfo.postDoDateId, rejectUserInfo.id, reason, rejectUserInfo.email);
+  const rejectBtn = () => {
+    rejectApply(rejectUserInfo.postDoDateId, rejectUserInfo.id, reason);
     document.querySelector("body").removeAttribute("style");
   };
 
-  console.log(reason);
   return (
     <Portal>
-      <S.AlertBackground onClick={(e)=>clickOutside(e)}>
+      <S.AlertBackground onClick={(e) => clickOutside(e)}>
         <S.AlertBox>
           <S.AlertContent>
-            <ErrorOutlineIcon  sx={{ fontSize: 40 , color: "#0642FF"}} />
-            <p><span>{rejectUserInfo.name}님</span>을<br/> 
-            정말로 <span>반려</span>하시겠습니까?
+            <ErrorOutlineIcon sx={{ fontSize: 40, color: "#0642FF" }} />
+            <p>
+              <span>{rejectUserInfo.name}님</span>을<br />
+              정말로 <span>반려</span>하시겠습니까?
             </p>
             <div>
               <S.GrayButton onClick={closeBtn}>아니오, 관둘래요</S.GrayButton>
@@ -39,4 +42,5 @@ export default function RejectApplicant ({setRejectAlert, rejectApply, rejectUse
         </S.AlertBox>
       </S.AlertBackground>
     </Portal>
-  )}
+  );
+}

@@ -10,8 +10,8 @@ export default function Presenter({
   userList,
   applyApprove,
   cancleApprove,
-  viewRejectInput, 
-  setRejectAlert, 
+  viewRejectInput,
+  setRejectAlert,
   rejectAlert,
   rejectOn,
   rejectUserInfo,
@@ -19,12 +19,11 @@ export default function Presenter({
   setReason,
   cancleAlert,
   setCancleAlert,
-  cancleUserInfo, 
+  cancleUserInfo,
   rejectApply,
   changeAttend,
   cancleOn,
 }) {
-
   return (
     <S.UserListView>
       <S.DataNavBar>
@@ -61,11 +60,7 @@ export default function Presenter({
                           <S.ButtonBox>
                             <S.Btn
                               onClick={() =>
-                                applyApprove(
-                                  time.postDoDateId,
-                                  user.id,
-                                  user.email
-                                )
+                                applyApprove(time.postDoDateId, user.id)
                               }
                             >
                               확정
@@ -75,11 +70,14 @@ export default function Presenter({
                         ) : (
                           <S.ButtonBox>
                             <S.Btn disabled={true}>확정</S.Btn>
-                            <S.Btn
-                              onClick={() =>cancleOn(user)}>
-                              취소
-                            </S.Btn>
-                            {cancleAlert && <AskCancelConfirm cancleApprove={cancleApprove} setCancleAlert={setCancleAlert} cancleUserInfo={cancleUserInfo}/>}
+                            <S.Btn onClick={() => cancleOn(user)}>취소</S.Btn>
+                            {cancleAlert && (
+                              <AskCancelConfirm
+                                cancleApprove={cancleApprove}
+                                setCancleAlert={setCancleAlert}
+                                cancleUserInfo={cancleUserInfo}
+                              />
+                            )}
                           </S.ButtonBox>
                         )
                       ) : (
@@ -105,24 +103,28 @@ export default function Presenter({
                     <S.RejectInput style={{ display: "none" }}>
                       <p>반려사유</p>
                       <div>
-                        <input placeholder="반려사유를 작성해주세요" onChange={(e)=>setReason(e.target.value)}/>
-                        <button
-                          onClick={(e)=>rejectOn(user,e)} >
-                          확인
-                        </button>
+                        <input
+                          placeholder="반려사유를 작성해주세요"
+                          onChange={(e) => setReason(e.target.value)}
+                        />
+                        <button onClick={(e) => rejectOn(user, e)}>확인</button>
                       </div>
-                      {rejectAlert && <RejectApplicant setRejectAlert={setRejectAlert} rejectApply={rejectApply} rejectUserInfo={rejectUserInfo} reason={reason}/>}
+                      {rejectAlert && (
+                        <RejectApplicant
+                          setRejectAlert={setRejectAlert}
+                          rejectApply={rejectApply}
+                          rejectUserInfo={rejectUserInfo}
+                          reason={reason}
+                        />
+                      )}
                     </S.RejectInput>
                   </div>
-                  
                 );
-              })
-              }
+              })}
             </S.DateInfoBox>
           </S.DataNavBar>
         );
       })}
-
     </S.UserListView>
   );
 }

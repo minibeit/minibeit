@@ -26,7 +26,7 @@ function App() {
           />
           <Route path="/signup" component={SignUp} />
           <Route path="/business/:businessId" exact component={BProfile} />
-          <Route path="/profile/:userId" exact component={Profile} />
+          <Route path="/profile/:view" exact component={Profile} />
           <Route path="/apply/:postId" exact component={ApplyDetail} />
           <Route path="/apply" component={Apply} />
           <Route path="/recruit" exact component={Recruit} />

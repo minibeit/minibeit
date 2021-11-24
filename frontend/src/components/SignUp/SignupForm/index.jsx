@@ -13,8 +13,11 @@ import SchoolSelect from "./SchoolSelect";
 import JobSelect from "./JobSelect";
 
 import * as S from "./style";
-import { guestCheckCodeApi, guestCheckEmailApi } from "../../../utils/mailApi";
-import { guestCheckPhoneApi } from "../../../utils/smsApi";
+import {
+  guestCheckPhoneApi,
+  guestCheckCodeApi,
+  guestCheckEmailApi,
+} from "../../../utils/verificationApi";
 
 export default function SignUpComponent({ setFinish }) {
   const [inputData, setInputData] = useRecoilState(signupState);

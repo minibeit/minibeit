@@ -15,7 +15,6 @@ import Presenter from "./presenter";
 import CloseIcon from "@mui/icons-material/Close";
 import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import * as S from "./style";
-import { sendMailApi } from "../../../../utils/mailApi";
 
 export default function BManageModal({ postId, setModalSwitch }) {
   const [tab, setTab] = useState("대기자");
@@ -44,16 +43,13 @@ export default function BManageModal({ postId, setModalSwitch }) {
     }
   }, [date, postId, tab]);
 
-  const applyApprove = (postDoDateId, userId, userEmail) => {
+  const applyApprove = (postDoDateId, userId) => {
     let value = window.confirm("해당 실험자의 실험 참여를 허락하시겠습니까?");
     if (value) {
       approveOneApi(postDoDateId, userId)
         .then((res) => {
           alert("해당 실험자의 실험 참여가 허락되었습니다");
           getList();
-        })
-        .then(() => {
-          sendMailApi("APPROVE", [userEmail]).then().catch();
         })
         .catch((err) =>
           alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
@@ -65,27 +61,23 @@ export default function BManageModal({ postId, setModalSwitch }) {
     var RejectInput = e.target.parentNode.parentNode.nextSibling;
     if (RejectInput.style.display === "none") {
       RejectInput.style.display = "flex";
-
     } else {
       RejectInput.style.display = "none";
     }
   };
 
-  const [rejectAlert,setRejectAlert] =useState(false);
+  const [rejectAlert, setRejectAlert] = useState(false);
   const [rejectUserInfo, setRejectUserInfo] = useState();
   const [cancleUserInfo, setCancleUserInfo] = useState();
-  const [reason, setReason] = useState(['']);
+  const [reason, setReason] = useState([""]);
   const [cancleAlert, setCancleAlert] = useState(false);
 
-  const cancleApprove = (postDoDateId, userId, userEmail) => {
+  const cancleApprove = (postDoDateId, userId) => {
     if (cancleAlert) {
       cancelOneApi(postDoDateId, userId)
         .then((res) => {
           setCancleAlert(false);
           getList();
-        })
-        .then(() => {
-          sendMailApi("APPROVECANCEL", [userEmail]).then().catch();
         })
         .catch((err) =>
           alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
@@ -93,16 +85,13 @@ export default function BManageModal({ postId, setModalSwitch }) {
     }
   };
 
-  const rejectApply = (postDoDateId, userId, comment, userEmail) => {
+  const rejectApply = (postDoDateId, userId, comment) => {
     if (rejectAlert) {
       rejectOneApi(postDoDateId, userId, comment)
         .then((res) => {
           setRejectAlert(false);
           setReason(null);
           getList();
-        })
-        .then(() => {
-          sendMailApi("REJECT", [userEmail]).then().catch();
         })
         .catch((err) =>
           alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
@@ -135,21 +124,20 @@ export default function BManageModal({ postId, setModalSwitch }) {
     document.querySelector("body").removeAttribute("style");
   };
   const clickOutside = (e) => {
-    e.target===e.currentTarget && 
-    setModalSwitch(false); 
+    e.target === e.currentTarget && setModalSwitch(false);
     document.querySelector("body").removeAttribute("style");
   };
 
-  const rejectOn = (user,e) => {
+  const rejectOn = (user, e) => {
     setRejectUserInfo(user);
-    e.currentTarget.previousSibling.value=null;
+    e.currentTarget.previousSibling.value = null;
     setRejectAlert(true);
-  }
+  };
 
   const cancleOn = (user) => {
     setCancleUserInfo(user);
     setCancleAlert(true);
-  }
+  };
 
   useEffect(() => {
     getFeedData();
@@ -161,7 +149,7 @@ export default function BManageModal({ postId, setModalSwitch }) {
 
   return (
     <Portal>
-      <S.ModalBackground onClick={(e)=>clickOutside(e)}>
+      <S.ModalBackground onClick={(e) => clickOutside(e)}>
         <S.ModalBox>
           <S.ButtonTab>
             <button
@@ -224,10 +212,10 @@ export default function BManageModal({ postId, setModalSwitch }) {
               rejectUserInfo={rejectUserInfo}
               reason={reason}
               setReason={setReason}
-              cancleAlert={cancleAlert} 
+              cancleAlert={cancleAlert}
               setCancleAlert={setCancleAlert}
               setCancleUserInfo={setCancleUserInfo}
-              cancleUserInfo={cancleUserInfo} 
+              cancleUserInfo={cancleUserInfo}
               rejectApply={rejectApply}
               changeAttend={changeAttend}
               rejectOn={rejectOn}

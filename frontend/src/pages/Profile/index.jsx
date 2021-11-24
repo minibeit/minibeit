@@ -7,7 +7,7 @@ export default function Profile({ match }) {
   return (
     <>
       <NavBar />
-      <ProfileComponent userId={match.params.userId} />
+      <ProfileComponent view={match.params.view} />
     </>
   );
 }

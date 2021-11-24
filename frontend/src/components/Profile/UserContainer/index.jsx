@@ -12,52 +12,64 @@ import FeedBox from "./FeedBox";
 
 import * as S from "../style";
 import { PVImg, Pagination } from "../../Common";
+import { useHistory } from "react-router";
 
-export default function UserContainer() {
+export default function UserContainer({ view }) {
+  const history = useHistory();
   const [userData, setUserData] = useState();
-  const [feedSwitch, setFeedSwitch] = useState("확정");
   const [feedData, setFeedData] = useState([]);
   const [modalSwitch, setModalSwitch] = useState(false);
   const [page, setPage] = useState(1);
   const [totalEle, setTotalEle] = useState(0);
 
-  const changeFeedData = useCallback((status, page, likeType) => {
-    switch (status) {
-      case "확정":
-        getJoinlistApi(page ? page : 1, "APPROVE").then((res) => {
-          setTotalEle(res.data.data.totalElements);
-          setFeedData(res.data.data.content);
-        });
-        break;
-      case "대기중":
-        getJoinlistApi(page ? page : 1, "WAIT").then((res) => {
-          setTotalEle(res.data.data.totalElements);
-          setFeedData(res.data.data.content);
-        });
-        break;
-      case "완료":
-        getFinishlistApi(page ? page : 1).then((res) => {
-          setTotalEle(res.data.data.totalElements);
-          setFeedData(res.data.data.content);
-        });
-        break;
-      case "반려":
-        getCancellistApi(page ? page : 1).then((res) => {
-          setTotalEle(res.data.data.totalElements);
-          setFeedData(res.data.data.content);
-        });
-        break;
-      case "즐겨찾기":
-        getLikeListApi(page ? page : 1, likeType ? likeType : "RECRUIT").then(
-          (res) => {
+  const status = [
+    { id: "approve", value: "확정된 목록" },
+    { id: "wait", value: "대기중 목록" },
+    { id: "complete", value: "완료한 목록" },
+    { id: "reject", value: "반려된 목록" },
+    { id: "like", value: "즐겨찾기 목록" },
+  ];
+
+  const changeFeedData = useCallback(
+    (page, likeType) => {
+      switch (view) {
+        case "approve":
+          getJoinlistApi(page ? page : 1, "APPROVE").then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
-          }
-        );
-        break;
-      default:
-    }
-  }, []);
+          });
+          break;
+        case "wait":
+          getJoinlistApi(page ? page : 1, "WAIT").then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+          });
+          break;
+        case "complete":
+          getFinishlistApi(page ? page : 1).then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+          });
+          break;
+        case "reject":
+          getCancellistApi(page ? page : 1).then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+          });
+          break;
+        case "like":
+          getLikeListApi(page ? page : 1, likeType ? likeType : "RECRUIT").then(
+            (res) => {
+              setTotalEle(res.data.data.totalElements);
+              setFeedData(res.data.data.content);
+            }
+          );
+          break;
+        default:
+      }
+    },
+    [view]
+  );
 
   useEffect(() => {
     getMyInfo().then((res) => {
@@ -66,8 +78,8 @@ export default function UserContainer() {
   }, []);
 
   useEffect(() => {
-    changeFeedData(feedSwitch, page);
-  }, [changeFeedData, feedSwitch, page]);
+    changeFeedData(page);
+  }, [changeFeedData, page]);
 
   return (
     <S.Container>
@@ -102,29 +114,28 @@ export default function UserContainer() {
       </S.UserInfoContainer>
       <S.FeedContainer>
         <S.CategoryBtnBox>
-          {["확정", "대기중", "완료", "반려", "즐겨찾기"].map((a, i) => {
+          {status.map((a, i) => {
             return (
               <button
                 key={i}
                 onClick={() => {
                   setPage(1);
-                  setFeedSwitch(a);
-                  changeFeedData(a);
+                  history.push(`/profile/${a.id}`);
                 }}
-                disabled={a === feedSwitch ? true : false}
+                disabled={a.id === view ? true : false}
               >
-                {a} 목록
+                {a.value}
               </button>
             );
           })}
         </S.CategoryBtnBox>
         <S.FeedGroup>
           <S.LikeTypeSelect>
-            {feedSwitch === "즐겨찾기" && (
+            {view === "like" && (
               <select
                 defaultValue="RECRUIT"
                 onChange={(e) => {
-                  changeFeedData(feedSwitch, page, e.target.value);
+                  changeFeedData(page, e.target.value);
                 }}
               >
                 <option value="RECRUIT">모집중</option>
@@ -133,12 +144,12 @@ export default function UserContainer() {
             )}
           </S.LikeTypeSelect>
           {feedData.length === 0 ? (
-            <div>{feedSwitch}</div>
+            <div>게시물이 존재하지 않습니다.</div>
           ) : (
             feedData.map((a, i) => (
               <div key={i}>
                 <FeedBox
-                  status={feedSwitch}
+                  status={view}
                   data={a}
                   changeFeedData={changeFeedData}
                 />
@@ -150,7 +161,7 @@ export default function UserContainer() {
               page={page}
               count={totalEle}
               setPage={setPage}
-              onChange={(e) => changeFeedData(feedSwitch, e)}
+              onChange={(e) => changeFeedData(e)}
             />
           )}
         </S.FeedGroup>

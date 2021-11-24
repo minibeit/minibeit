@@ -1,7 +1,7 @@
 import React from "react";
-import DaumPostCode from "react-daum-postcode";
 import Portal from "../Modal/Portal";
-import CloseIcon from "@mui/icons-material/Close";
+import DaumPostCode from "react-daum-postcode";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import * as S from "./style";
 
 export default function Address({ setModalSwitch, handleAddress }) {
@@ -24,22 +24,23 @@ export default function Address({ setModalSwitch, handleAddress }) {
     setModalSwitch(false);
     document.querySelector("body").removeAttribute("style");
   };
+  const clickOutside = (e) => {
+    e.target === e.currentTarget && setModalSwitch(false);
+    document.querySelector("body").removeAttribute("style");
+  };
   const closeModal = () => {
     setModalSwitch(false);
     document.querySelector("body").removeAttribute("style");
   };
+
   return (
     <Portal>
-      <S.ModalBackground>
+      <S.ModalBackground onClick={(e) => clickOutside(e)}>
         <S.ModalBox>
-          <S.ModalHeader>
-            <S.CloseModalBtn onClick={closeModal}>
-              <CloseIcon />
-            </S.CloseModalBtn>
-          </S.ModalHeader>
-          <S.ModalContent>
-            <DaumPostCode onComplete={handleComplete} className="post-code" />
-          </S.ModalContent>
+          <S.CloseModalBtn onClick={closeModal}>
+            <ArrowBackIcon />
+          </S.CloseModalBtn>
+          <DaumPostCode onComplete={handleComplete} className="post-code" />
         </S.ModalBox>
       </S.ModalBackground>
     </Portal>

@@ -15,20 +15,26 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   background-color: white;
-  width: 20rem;
-  height: 15rem;
-`;
-export const ModalHeader = styled.div`
+  width: 22rem;
+  height: 27rem;
+  padding: 0.7rem;
+  border-radius: 2rem;
   display: flex;
-  align-items: center;
-  height: 2.3rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  & > div:nth-child(2) {
+    position: relative;
+    width: 22rem;
+    height: 27rem;
+  }
 `;
+
 export const CloseModalBtn = styled.div`
-  margin-left: auto;
-  margin-right: 0.5rem;
+  margin: 1rem auto 0 0.5rem;
+  z-index: 2;
   & > svg {
     font-size: 18px;
     cursor: pointer;
   }
 `;
-export const ModalContent = styled.div``;

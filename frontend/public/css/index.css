@@ -17,7 +17,8 @@
   font-weight: bold;
   src: url("/fonts/NotoSansKR-Bold.otf") format("woff2");
 }
-#root {
+#root,
+#modal {
   font-family: NotoSansKR;
 }
 * {

@@ -87,6 +87,8 @@ export const InfoTitle = styled.div`
 `;
 export const DataNavBar = styled.div`
   display: flex;
+  z-index: 99;
+  padding: 0.5rem 0;
   & > div:first-child {
     flex: 1;
     display: flex;
@@ -119,11 +121,10 @@ export const UserListView = styled.div`
   }
   & > div:first-child {
     display: flex;
-    padding: 0 0 0.5rem 0;
     position: sticky;
     top: 0;
-    left: 0;
     background: #f8f8f8;
+    border-bottom: 1px solid #c4c4c4;
   }
   & > div:nth-child(2) {
     display: flex;
@@ -134,11 +135,15 @@ export const UserListView = styled.div`
 export const DateInfoBox = styled.div`
   display: flex;
   border-bottom: 1px solid #c4c4c4;
-  padding: 0.5rem 0;
+  padding: 0 0 0.5rem 0;
   & > div:first-child {
     flex: 1;
     align-items: center;
     display: flex;
+    margin-bottom: auto;
+    position: sticky;
+    top: 2rem;
+    margin: auto;
   }
   & > div:nth-child(2) {
     flex: 5;
@@ -149,6 +154,7 @@ export const DateInfoBox = styled.div`
 `;
 export const UserInfoBox = styled.div`
   display: flex;
+  z-index: 99;
   & > div {
     flex: 1;
     justify-content: center;

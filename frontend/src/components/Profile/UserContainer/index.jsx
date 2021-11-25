@@ -31,7 +31,7 @@ export default function UserContainer({ view }) {
   ];
 
   const changeFeedData = useCallback(
-    (page, likeType) => {
+    (page) => {
       switch (view) {
         case "approve":
           getJoinlistApi(page ? page : 1, "APPROVE").then((res) => {
@@ -58,12 +58,10 @@ export default function UserContainer({ view }) {
           });
           break;
         case "like":
-          getLikeListApi(page ? page : 1, likeType ? likeType : "RECRUIT").then(
-            (res) => {
-              setTotalEle(res.data.data.totalElements);
-              setFeedData(res.data.data.content);
-            }
-          );
+          getLikeListApi(page ? page : 1).then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+          });
           break;
         default:
       }
@@ -130,19 +128,6 @@ export default function UserContainer({ view }) {
           })}
         </S.CategoryBtnBox>
         <S.FeedGroup>
-          <S.LikeTypeSelect>
-            {view === "like" && (
-              <select
-                defaultValue="RECRUIT"
-                onChange={(e) => {
-                  changeFeedData(page, e.target.value);
-                }}
-              >
-                <option value="RECRUIT">모집중</option>
-                <option value="COMPLETE">모집완료</option>
-              </select>
-            )}
-          </S.LikeTypeSelect>
           {feedData.length === 0 ? (
             <div>게시물이 존재하지 않습니다.</div>
           ) : (

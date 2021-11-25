@@ -4,7 +4,9 @@ export const ListPageContainer = styled.div`
   margin: 4rem 8rem 4rem 8rem;
   & > div:nth-child(2) {
     display: flex;
-    gap: 10px;
+    gap: 1rem;
+    padding: 1rem 0;
+    border-top: 1px solid #c4c4;
     & > button {
       background: white;
       border: 1px solid #c4c4c4;
@@ -16,14 +18,40 @@ export const ListPageContainer = styled.div`
       cursor: pointer;
     }
   }
+  & > p:nth-child(4) {
+    font-size: 2rem;
+    font-weight: bold;
+  }
+`;
+export const FilterLabelBox = styled.div`
+  padding: 1rem 0;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  align-items: center;
+  & > p:first-child {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+`;
+export const FilterLabel = styled.div`
+  background: rgba(6, 66, 255, 0.1);
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  height: fit-content;
+  & > p {
+    white-space: nowrap;
+  }
 `;
 
 /*search filter*/
 export const SearchBox = styled.div`
   display: flex;
   flex-direction: column;
-  position: initial;
-  transform: translate(10%, 90%);
   width: 100%;
   gap: 15px;
   & > p:first-child {
@@ -38,15 +66,6 @@ export const SearchBox = styled.div`
     display: flex;
     gap: 10px;
     margin-bottom: 2rem;
-  }
-  &.move-exit-active {
-    width: 30rem;
-    transform: translate(0);
-    transition: all 500ms;
-  }
-  &.move-exit-done {
-    transform: translate(0);
-    width: 30rem;
   }
 `;
 export const SchoolSelect = styled.div`

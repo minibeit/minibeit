@@ -61,26 +61,42 @@ export default function ApplyComponent() {
     setFilterSwitch(false);
   };
 
-  const search = (e) => {
-    if (typeof e === "number") {
-      setPage(e);
-      if (school.schoolId) {
-        getFeedList(e, school.schoolId, date, filter, category);
-      } else if (user.schoolId) {
-        getFeedList(e, user.schoolId, date, filter, category);
-      } else {
-        alert("학교를 선택해주세요");
-      }
+  const closeLabel = (e) => {
+    const { name } = e.target;
+    const copy = { ...filter };
+    if (name === "startAndEnd") {
+      copy[name] = [0, 24];
+      copy.startTime = "00:00";
+      copy.endTime = "24:00";
     } else {
-      if (school.schoolId) {
-        getFeedList(page, school.schoolId, date, filter, category);
-      } else if (user.schoolId) {
-        getFeedList(page, user.schoolId, date, filter, category);
-      } else {
-        alert("학교를 선택해주세요");
-      }
+      copy[name] = "";
     }
+    setFilter(copy);
   };
+
+  const search = useCallback(
+    (e) => {
+      if (typeof e === "number") {
+        setPage(e);
+        if (school.schoolId) {
+          getFeedList(e, school.schoolId, date, filter, category);
+        } else if (user.schoolId) {
+          getFeedList(e, user.schoolId, date, filter, category);
+        } else {
+          alert("학교를 선택해주세요");
+        }
+      } else {
+        if (school.schoolId) {
+          getFeedList(page, school.schoolId, date, filter, category);
+        } else if (user.schoolId) {
+          getFeedList(page, user.schoolId, date, filter, category);
+        } else {
+          alert("학교를 선택해주세요");
+        }
+      }
+    },
+    [category, date, filter, getFeedList, page, school.schoolId, user.schoolId]
+  );
 
   return (
     <S.ListPageContainer>
@@ -100,6 +116,7 @@ export default function ApplyComponent() {
         {feedList && <button onClick={clickDetailFilter}>상세필터</button>}
         {feedList && <button onClick={clickCategoryFilter}>실험분야</button>}
       </div>
+
       {filterSwitch && (
         <DetailFilter
           filter={filter}
@@ -118,6 +135,54 @@ export default function ApplyComponent() {
           search={search}
         />
       )}
+      <S.FilterLabelBox>
+        <p>선택한 필터 : </p>
+        {filter.paymentType !== "" && (
+          <S.FilterLabel>
+            <p>보상방식 : {filter.paymentType === "CACHE" ? "현금" : "물품"}</p>
+            <button name="paymentType" onClick={closeLabel}>
+              x
+            </button>
+          </S.FilterLabel>
+        )}
+        {filter.minPay !== "" && (
+          <S.FilterLabel>
+            <p>
+              보상금액 : {filter.minPay === "9999" && "1만원 미만"}
+              {filter.minPay === "10000" && "1만원 이상"}
+              {filter.minPay === "30000" && "3만원 이상"}
+              {filter.minPay === "50000" && "5만원 이상"}
+            </p>
+            <button name="minPay" onClick={closeLabel}>
+              x
+            </button>
+          </S.FilterLabel>
+        )}
+        {filter.doTime !== "" && (
+          <S.FilterLabel>
+            <p>
+              소요시간 : {filter.doTime === "30" && "30분 이내"}
+              {filter.doTime === "60" && "1시간 이내"}
+              {filter.doTime === "180" && "3시간 이내"}
+              {filter.doTime === "181" && "3시간 이상"}
+            </p>
+            <button name="doTime" onClick={closeLabel}>
+              x
+            </button>
+          </S.FilterLabel>
+        )}
+        {filter.startAndEnd[0] !== 1 && filter.startAndEnd[1] !== 24 && (
+          <S.FilterLabel>
+            <p>
+              시작시간 : {filter.startAndEnd[0]}시 - {filter.startAndEnd[1]}시
+            </p>
+            <button name="startAndEnd" onClick={closeLabel}>
+              x
+            </button>
+          </S.FilterLabel>
+        )}
+      </S.FilterLabelBox>
+      <p>검색결과 {totalElements}건</p>
       {feedList && (
         <>
           <ListContainer feedList={feedList} postBookmark={postBookmark} />

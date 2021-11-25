@@ -100,20 +100,6 @@ export const FeedGroup = styled.div`
   gap: 1.5rem;
   padding: 1rem;
 `;
-export const LikeTypeSelect = styled.div`
-  text-align: end;
-  & > select {
-    border: none;
-    border-radius: 0.5rem;
-    padding: 0.5rem 0;
-    font-size: 0.8rem;
-    outline: none;
-    background: #fafafa;
-    color: #707070;
-    text-decoration: none;
-    cursor: pointer;
-  }
-`;
 
 export const FeedBox = styled.div`
   display: flex;

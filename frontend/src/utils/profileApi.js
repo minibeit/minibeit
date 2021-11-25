@@ -42,10 +42,8 @@ export const editMyInfo = (userData, schoolId, originalNickname) => {
   return withAuthInstance.post(EDIT_MY_USERINFO, formData);
 };
 
-export const getLikeListApi = async (page, status) => {
-  return await withAuthInstance.get(
-    GET_LIKE_LIST + "page=" + page + `&size=6&postStatus=${status}`
-  );
+export const getLikeListApi = async (page) => {
+  return await withAuthInstance.get(GET_LIKE_LIST + "page=" + page + `&size=6`);
 };
 export const getJoinlistApi = async (page, state) => {
   return await withAuthInstance.get(

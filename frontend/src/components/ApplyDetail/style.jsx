@@ -4,16 +4,19 @@ export const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 4rem 12rem;
+  margin: 3rem 12rem;
   & > div:nth-child(2) {
     display: flex;
+    gap: 1rem;
   }
 `;
 /* Title */
 export const TitleBox = styled.div`
+  position: relative;
   display: flex;
-  padding: 1rem;
+  padding: 1rem 1rem 1rem 0;
   border-bottom: 1px solid #c4c4c4;
+  left: 1rem;
 `;
 export const TitleContent = styled.div`
   display: flex;
@@ -21,11 +24,12 @@ export const TitleContent = styled.div`
   gap: 0.5rem;
   & > p:first-child {
     color: #c4c4c4;
-    font-weight: 600;
+    font-weight: 700;
+    margin: 1rem 0;
   }
   & > p:nth-child(2) {
     font-size: 2rem;
-    font-weight: 600;
+    font-weight: 700;
   }
   & > div:nth-child(3) {
     display: flex;
@@ -70,7 +74,7 @@ export const DataHeader = styled.div`
   & > p:first-child {
     font-size: 1.3rem;
     font-weight: bold;
-    padding: 1rem;
+    padding: 1rem 1rem 1rem 0;
   }
 `;
 export const DataContent = styled.div`
@@ -150,7 +154,7 @@ export const ReviewBox = styled.div`
 
 /* apply remote controller */
 export const RemoteBox = styled.div`
-  width: 20%;
+  width: 30%;
 `;
 export const Controller = styled.div`
   display: flex;
@@ -159,7 +163,7 @@ export const Controller = styled.div`
   padding: 1rem;
   position: sticky;
   height: 17rem;
-  margin-top: 4rem;
+  margin-top: 5.3rem;
   top: 4rem;
   border: 1px solid #c4c4c4;
   border-radius: 20px;

@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from{
+    opacity:0;
+  }
+  to{
+    opacity:1;
+  }
+`;
 
 export const ListPageContainer = styled.div`
   margin: 4rem 8rem 4rem 8rem;
@@ -8,27 +17,34 @@ export const ListPageContainer = styled.div`
     padding: 1rem 0;
     border-top: 1px solid #c4c4;
     & > button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
       background: white;
       border: 1px solid #c4c4c4;
-      width: 6rem;
-      height: 29px;
-      font-size: 15px;
       font-weight: 600;
-      border-radius: 10px;
       cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      min-width: 7rem;
+      & svg {
+        width: 1rem;
+      }
     }
   }
-  & > p:nth-child(4) {
+  & > p {
     font-size: 2rem;
     font-weight: bold;
+    margin: 1rem 0;
   }
 `;
 export const FilterLabelBox = styled.div`
-  padding: 1rem 0;
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
   align-items: center;
+  min-height: 3rem;
   & > p:first-child {
     display: flex;
     align-items: center;
@@ -37,7 +53,7 @@ export const FilterLabelBox = styled.div`
 `;
 export const FilterLabel = styled.div`
   background: rgba(6, 66, 255, 0.1);
-  padding: 0.5rem 1rem;
+  padding: 0.2rem 1rem;
   border-radius: 2rem;
   display: flex;
   gap: 0.5rem;
@@ -46,6 +62,19 @@ export const FilterLabel = styled.div`
   & > p {
     white-space: nowrap;
   }
+  & > button {
+    background: none;
+    border: none;
+    margin: auto;
+    display: flex;
+    cursor: pointer;
+    padding: 0;
+    color: #1c2362;
+  }
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-name: ${fadeIn};
+  animation-fill-mode: forwards;
 `;
 
 /*search filter*/
@@ -97,11 +126,11 @@ export const FilterBox = styled.div`
   box-sizing: border-box;
   position: absolute;
   width: 28rem;
-  margin-top: 16px;
   background-color: white;
   border: 1px solid #c4c4c4;
   border-radius: 15px;
   text-align: center;
+  z-index: 99;
   & > div:first-child {
     text-align: end;
   }
@@ -115,6 +144,10 @@ export const FilterBox = styled.div`
     color: #c4c4c4;
     cursor: pointer;
   }
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-name: ${fadeIn};
+  animation-fill-mode: forwards;
 `;
 
 export const DetailBox = styled.div`

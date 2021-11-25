@@ -10,6 +10,8 @@ import {
   schoolState,
 } from "../../recoil/filterState";
 import { Pagination } from "../Common";
+import CloseIcon from "@mui/icons-material/Close";
+import { ReactComponent as FilterIcon } from "../../svg/필터.svg";
 
 import SearchBar from "./SearchBar";
 import ListContainer from "./ListContainer";
@@ -62,16 +64,27 @@ export default function ApplyComponent() {
   };
 
   const closeLabel = (e) => {
-    const { name } = e.target;
-    const copy = { ...filter };
+    var target =
+      e.target.nodeName === "svg"
+        ? e.target.parentNode
+        : e.target.parentNode.parentNode;
+    const { name } = target;
+
     if (name === "startAndEnd") {
+      const copy = { ...filter };
       copy[name] = [0, 24];
       copy.startTime = "00:00";
       copy.endTime = "24:00";
+      setFilter(copy);
+    } else if (name === "category") {
+      const copy = { ...category };
+      copy.category = "ALL";
+      setCategory(copy);
     } else {
+      const copy = { ...filter };
       copy[name] = "";
+      setFilter(copy);
     }
-    setFilter(copy);
   };
 
   const search = useCallback(
@@ -113,7 +126,12 @@ export default function ApplyComponent() {
         setDate={setDate}
       />
       <div>
-        {feedList && <button onClick={clickDetailFilter}>상세필터</button>}
+        {feedList && (
+          <button onClick={clickDetailFilter}>
+            <FilterIcon />
+            상세필터
+          </button>
+        )}
         {feedList && <button onClick={clickCategoryFilter}>실험분야</button>}
       </div>
 
@@ -135,13 +153,14 @@ export default function ApplyComponent() {
           search={search}
         />
       )}
+
       <S.FilterLabelBox>
         <p>선택한 필터 : </p>
         {filter.paymentType !== "" && (
           <S.FilterLabel>
             <p>보상방식 : {filter.paymentType === "CACHE" ? "현금" : "물품"}</p>
             <button name="paymentType" onClick={closeLabel}>
-              x
+              <CloseIcon disabled />
             </button>
           </S.FilterLabel>
         )}
@@ -154,7 +173,7 @@ export default function ApplyComponent() {
               {filter.minPay === "50000" && "5만원 이상"}
             </p>
             <button name="minPay" onClick={closeLabel}>
-              x
+              <CloseIcon />
             </button>
           </S.FilterLabel>
         )}
@@ -167,17 +186,25 @@ export default function ApplyComponent() {
               {filter.doTime === "181" && "3시간 이상"}
             </p>
             <button name="doTime" onClick={closeLabel}>
-              x
+              <CloseIcon />
             </button>
           </S.FilterLabel>
         )}
-        {filter.startAndEnd[0] !== 1 && filter.startAndEnd[1] !== 24 && (
+        {(filter.startAndEnd[0] !== 0 || filter.startAndEnd[1] !== 24) && (
           <S.FilterLabel>
             <p>
               시작시간 : {filter.startAndEnd[0]}시 - {filter.startAndEnd[1]}시
             </p>
             <button name="startAndEnd" onClick={closeLabel}>
-              x
+              <CloseIcon />
+            </button>
+          </S.FilterLabel>
+        )}
+        {category.category !== "ALL" && (
+          <S.FilterLabel>
+            <p>{category.category}</p>
+            <button name="category" onClick={closeLabel}>
+              <CloseIcon disabled />
             </button>
           </S.FilterLabel>
         )}

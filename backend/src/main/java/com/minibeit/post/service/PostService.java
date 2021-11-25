@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -58,8 +57,8 @@ public class PostService {
         return posts.map(post -> PostResponse.GetList.build(post, customUserDetails));
     }
 
-    public Page<PostResponse.GetLikeList> getListByLike(PostStatus postStatus, User user, PageDto pageDto) {
-        Page<Post> posts = postRepository.findAllByLike(postStatus, user, pageDto.of());
+    public Page<PostResponse.GetLikeList> getListByLike(User user, PageDto pageDto) {
+        Page<Post> posts = postRepository.findAllByLike(user, pageDto.of());
         return posts.map(PostResponse.GetLikeList::build);
     }
 
@@ -72,7 +71,7 @@ public class PostService {
     }
 
     @Transactional
-    public void deleteLikeOfCompletedPost(User user){
+    public void deleteLikeOfCompletedPost(User user) {
         List<PostLike> completedPostLike = postLikeRepository.findAllByUserIdWithCompletedPost(user.getId());
 
         postLikeRepository.deleteAll(completedPostLike);

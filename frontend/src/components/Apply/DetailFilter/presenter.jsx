@@ -14,6 +14,7 @@ export default function Presenter({
   setFilterSwitch,
   paymentType,
   filter,
+  changePayType,
   changeFilter,
   minPay,
   doTime,
@@ -40,7 +41,7 @@ export default function Presenter({
               name="paymentType"
               value={a.value}
               disabled={filter["paymentType"] === a.value ? true : false}
-              onClick={changeFilter}
+              onClick={changePayType}
             >
               {a.name}
             </S.SelectBtn>

@@ -20,6 +20,14 @@ export default function DetailFilter({
   };
   const [timeArr] = useState(createTimeArr);
 
+  const changePayType = (e) => {
+    const copy = { ...filter };
+    if (e.target.value !== "CACHE") {
+      copy.minPay = "";
+    }
+    copy[`${e.target.name}`] = e.target.value;
+    setFilter(copy);
+  };
   const changeFilter = (e) => {
     const copy = { ...filter };
     copy[`${e.target.name}`] = e.target.value;
@@ -52,6 +60,7 @@ export default function DetailFilter({
       setFilterSwitch={setFilterSwitch}
       paymentType={paymentType}
       filter={filter}
+      changePayType={changePayType}
       changeFilter={changeFilter}
       minPay={minPay}
       doTime={doTime}

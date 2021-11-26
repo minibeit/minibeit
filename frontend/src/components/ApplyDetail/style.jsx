@@ -17,14 +17,16 @@ export const FeedContainer = styled.div`
 export const TitleBox = styled.div`
   position: relative;
   display: flex;
-  padding: 1rem 1rem 1rem 0;
+  width: 100%;
+  padding: 1rem 0;
   border-bottom: 1px solid #c4c4c4;
   left: 1rem;
 `;
 export const TitleContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.5rem;
+  width: inherit;
   & > p:first-child {
     color: #c4c4c4;
     font-weight: 700;
@@ -32,7 +34,8 @@ export const TitleContent = styled.div`
   }
   & > div:nth-child(2) {
     display: flex;
-    width: 38.25rem;
+    width: 100%;
+    align-items: center;
     justify-content: space-between;
     & > p:first-child {
       font-size: 2rem;
@@ -45,6 +48,10 @@ export const TitleContent = styled.div`
     color: black;
     text-decoration: none;
     gap: 0.5rem;
+    & > svg {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 `;
 export const TitleBookMark = styled.div`
@@ -54,8 +61,20 @@ export const TitleBookMark = styled.div`
   align-items: center;
   justify-content: center;
   gap: 0.2rem;
+  color: ${({ isLike }) => {
+    return isLike ? "#0642ff" : "#8c8c8c";
+  }};
+  cursor: ${({ isLogin }) => {
+    return isLogin ? "pointer" : "";
+  }};
   & > svg {
-    cursor: pointer;
+    width: 1.2rem;
+    height: 1.2rem;
+    path {
+      fill: ${({ isLike }) => {
+        return isLike ? "#0642ff" : "#8c8c8c";
+      }};
+    }
   }
   & > p:last-child {
     font-size: 0.7rem;
@@ -65,33 +84,58 @@ export const TitleBookMark = styled.div`
 export const ContentBox = styled.div`
   width: 70%;
 `;
+
 export const DataBox = styled.div`
+  position: relative;
   & > div:nth-child(2) {
     & > ul {
-      margin: 1rem;
-      list-style: disc;
+      margin: 1rem 0;
+      list-style: none;
       & > li {
         margin: 0.8rem 0;
+        font-size: 0.8rem;
         & > span {
           font-weight: 500;
           color: #8c8c8c;
           margin-right: 2rem;
+          ::before {
+            content: "•";
+            color: inherit;
+            font-size: inherit;
+            margin-right: 0.4rem;
+          }
         }
       }
     }
   }
 `;
-export const DataBox2 = styled.div`
+
+export const ConditionsDataBox = styled(DataBox)`
+  position: relative;
   & > div:nth-child(2) {
     & > ul {
-      margin: 1rem;
-      list-style: disc;
       & > li {
-        margin: 0.8rem 0;
+        ::before {
+          content: "•";
+          color: inherit;
+          font-size: inherit;
+          margin-right: 0.7rem;
+        }
+      }
+    }
+  }
+`;
+export const DataBox2 = styled(DataBox)`
+  & > div:nth-child(2) {
+    & > ul {
+      & > li {
+        display: flex;
         & > span {
-          font-weight: 500;
-          color: #8c8c8c;
           margin-right: 1rem;
+          min-width: 4rem;
+        }
+        & > div {
+          max-height: 3rem;
         }
       }
     }
@@ -107,12 +151,14 @@ export const DataHeader = styled.div`
   }
 `;
 export const DataContent = styled.div`
-  min-height: 10rem;
+  min-height: 8rem;
   padding: 1rem 0;
 `;
-
+export const DataContent2 = styled(DataContent)`
+  max-height: 37rem;
+`;
 export const SmTitle = styled.p`
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   font-weight: 700;
   margin: 0.5rem 0 1rem;
 `;
@@ -168,7 +214,9 @@ export const TimeView = styled.div`
   }
 `;
 
-export const DetailContent = styled.div``;
+export const DetailContent = styled.div`
+  font-size: 0.8rem;
+`;
 export const EditTextArea = styled.textarea`
   width: 80%;
   height: 20em;
@@ -268,46 +316,53 @@ export const ApplyImgContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 5px;
-  width: 430px;
-  margin: 30px 0;
+  gap: 0.5rem;
+  width: 27.5rem;
+  margin: 2rem 0;
 
   & > div:nth-child(2) {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 0.5rem;
   }
 `;
 
 export const BigImg = styled.img`
-  width: 312px;
-  height: 312px;
-  border-radius: 5px;
+  width: 20rem;
+  height: 20rem;
+  border-radius: 0.4rem;
   object-fit: contain;
   background-color: #000;
   cursor: pointer;
 `;
 
 export const SmImg = styled.img`
-  width: 100px;
-  height: 100px;
-  border-radius: 3px;
+  width: 6.25rem;
+  height: 6.25rem;
+  border-radius: 0.2rem;
   object-fit: contain;
   flex-grow: 1;
-  border: 1px solid gray;
-  box-sizing: border-box;
-  background-color: #e9e9e9;
+  /* border: 1px solid gray;
+  box-sizing: border-box; */
+  background-color: #c0bfbf;
   cursor: pointer;
 `;
-
+export const NoImg = styled.div`
+  width: 6.25rem;
+  height: 6.25rem;
+  border-radius: 0.2rem;
+  object-fit: contain;
+  flex-grow: 1;
+  background-color: #c0bfbf;
+`;
 export const Div = styled.div`
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 6.25rem;
+  height: 6.25rem;
   background-color: rgba(80, 80, 80, 0.6);
-  border-radius: 3px;
-  font-size: 30px;
-  line-height: 100px;
+  border-radius: 0.2rem;
+  font-size: 2rem;
+  line-height: 6.25rem;
   color: #ffffff;
   text-align: center;
   z-index: 2;

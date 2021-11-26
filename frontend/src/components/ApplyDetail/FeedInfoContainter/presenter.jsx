@@ -51,7 +51,7 @@ export default function Presenter({
           />
         </S.DataContent>
       </S.DataBox>
-      <S.DataBox>
+      <S.ConditionsDataBox>
         <S.DataHeader>
           <p>참여조건</p>
         </S.DataHeader>
@@ -64,7 +64,7 @@ export default function Presenter({
             )}
           </ul>
         </S.DataContent>
-      </S.DataBox>
+      </S.ConditionsDataBox>
       <S.DataBox>
         <S.DataHeader>
           <p>지급방식 및 상세내용</p>
@@ -95,7 +95,7 @@ export default function Presenter({
             />
           )}
         </S.DataHeader>
-        <S.DataContent>
+        <S.DataContent2>
           <S.SmTitle>{feedDetailData.title}</S.SmTitle>
           {editSwitch ? (
             <div>
@@ -118,48 +118,58 @@ export default function Presenter({
               {updatedContent ? <p>{updatedContent}</p> : <p>{content}</p>}
             </S.DetailContent>
           )}
-        </S.DataContent>
-      </S.DataBox>
-      <S.DataBox>
-        {files.length !== 0 ? (
-          <S.ApplyImgContainer>
-            <div>
-              <S.BigImg src={files[0] && files[0].url} onClick={imgOnClick} />
-            </div>
-            <div>
-              <div>
-                <S.SmImg
-                  src={files[1] && files[1].url}
-                  onClick={files.length < 2 ? null : imgOnClick}
-                />
-              </div>
-              <div>
-                <S.SmImg
-                  src={files[2] && files[2].url}
-                  onClick={files.length < 3 ? null : imgOnClick}
-                />
-              </div>
-              <div>
-                <S.SmImg
-                  src={files[3] && files[3].url}
-                  onClick={files.length < 4 ? null : imgOnClick}
-                />
-              </div>
-              {feedDetailData.files.length > 4 ? (
-                <S.Div onClick={imgOnClick}>+{files.length - 4}</S.Div>
-              ) : null}
-            </div>
-            {modalSwitch ? (
-              <ApplyDetailImgsModal
-                files={files}
-                setModalSwitch={setModalSwitch}
-                currentImg={currentImg}
-              />
-            ) : null}
-          </S.ApplyImgContainer>
-        ) : null}
-      </S.DataBox>
 
+          {files.length !== 0 ? (
+            <S.ApplyImgContainer>
+              <div>
+                <S.BigImg src={files[0] && files[0].url} onClick={imgOnClick} />
+              </div>
+              <div>
+                <div>
+                  {files.length < 2 ? (
+                    <S.NoImg />
+                  ) : (
+                    <S.SmImg
+                      src={files[1] && files[1].url}
+                      onClick={imgOnClick}
+                    />
+                  )}
+                </div>
+                <div>
+                  {files.length < 3 ? (
+                    <S.NoImg />
+                  ) : (
+                    <S.SmImg
+                      src={files[2] && files[2].url}
+                      onClick={imgOnClick}
+                    />
+                  )}
+                </div>
+                <div>
+                  {files.length < 4 ? (
+                    <S.NoImg />
+                  ) : (
+                    <S.SmImg
+                      src={files[3] && files[3].url}
+                      onClick={imgOnClick}
+                    />
+                  )}
+                </div>
+                {feedDetailData.files.length > 4 ? (
+                  <S.Div onClick={imgOnClick}>+{files.length - 4}</S.Div>
+                ) : null}
+              </div>
+              {modalSwitch ? (
+                <ApplyDetailImgsModal
+                  files={files}
+                  setModalSwitch={setModalSwitch}
+                  currentImg={currentImg}
+                />
+              ) : null}
+            </S.ApplyImgContainer>
+          ) : null}
+        </S.DataContent2>
+      </S.DataBox>
       <S.DataBox2>
         <S.DataHeader>
           <p>참여 장소 및 연락처</p>
@@ -167,8 +177,7 @@ export default function Presenter({
         <S.DataContent>
           <ul>
             <li>
-              <span>주소</span> {place}
-              {/* 하이퍼링크 필요 */}
+              <span>주소</span> <div>{place}</div>
             </li>
             <li>
               <span>연락처</span> {contact}

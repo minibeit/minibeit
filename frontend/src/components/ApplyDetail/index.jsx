@@ -57,13 +57,12 @@ export default function ApplyDetailComponent({ feedId, date }) {
     } else {
       target = e.target;
     }
+    setFeedDetailData({ ...feedDetailData, isLike: !feedDetailData.isLike });
     postBookmark(target.id);
-    if (target.style.color === "rgb(6, 66, 255)") {
-      target.style.color = "";
+    if (feedDetailData.isLike) {
       target.nextSibling.textContent =
         parseInt(target.nextSibling.textContent) - 1;
     } else {
-      target.style.color = "rgb(6, 66, 255)";
       target.nextSibling.textContent =
         parseInt(target.nextSibling.textContent) + 1;
     }

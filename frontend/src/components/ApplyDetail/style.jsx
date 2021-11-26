@@ -4,9 +4,12 @@ export const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 3rem 12rem;
+  margin: 1.5rem 12rem;
   & > div:nth-child(2) {
+    position: relative;
     display: flex;
+    left: 1rem;
+    padding: 1rem 0;
     gap: 1rem;
   }
 `;
@@ -21,48 +24,74 @@ export const TitleBox = styled.div`
 export const TitleContent = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.3rem;
   & > p:first-child {
     color: #c4c4c4;
     font-weight: 700;
-    margin: 1rem 0;
+    margin: 0.6rem 0;
   }
-  & > p:nth-child(2) {
-    font-size: 2rem;
-    font-weight: 700;
+  & > div:nth-child(2) {
+    display: flex;
+    width: 38.25rem;
+    justify-content: space-between;
+    & > p:first-child {
+      font-size: 2rem;
+      font-weight: 700;
+    }
   }
   & > div:nth-child(3) {
     display: flex;
     align-items: center;
     color: black;
     text-decoration: none;
+    gap: 0.5rem;
   }
 `;
 export const TitleBookMark = styled.div`
-  margin-left: auto;
+  margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 0.2rem;
   & > svg {
     cursor: pointer;
+  }
+  & > p:last-child {
+    font-size: 0.7rem;
   }
 `;
 /* Content */
 export const ContentBox = styled.div`
-  width: 80%;
-  padding: 1rem;
+  width: 70%;
 `;
 export const DataBox = styled.div`
   & > div:nth-child(2) {
     & > ul {
-      margin: 0 1rem 0 1rem;
+      margin: 1rem;
       list-style: disc;
       & > li {
-        margin: 0.5rem 0 0.5rem 0;
+        margin: 0.8rem 0;
         & > span {
-          font-weight: bold;
+          font-weight: 500;
+          color: #8c8c8c;
+          margin-right: 2rem;
+        }
+      }
+    }
+  }
+`;
+export const DataBox2 = styled.div`
+  & > div:nth-child(2) {
+    & > ul {
+      margin: 1rem;
+      list-style: disc;
+      & > li {
+        margin: 0.8rem 0;
+        & > span {
+          font-weight: 500;
+          color: #8c8c8c;
+          margin-right: 1rem;
         }
       }
     }
@@ -82,6 +111,20 @@ export const DataContent = styled.div`
   padding: 1rem 0;
 `;
 
+export const SmTitle = styled.p`
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0.5rem 0 1rem;
+`;
+
+export const EditBtn = styled.button`
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  :hover {
+    color: #0642ff;
+  }
+`;
 /* date & time */
 export const TimeSelectBox = styled.div`
   border: 1px solid #c4c4c4;
@@ -126,7 +169,10 @@ export const TimeView = styled.div`
 `;
 
 export const DetailContent = styled.div``;
-export const EditTextArea = styled.textarea``;
+export const EditTextArea = styled.textarea`
+  width: 80%;
+  height: 20em;
+`;
 
 export const Img = styled.img`
   width: 100%;
@@ -154,7 +200,9 @@ export const ReviewBox = styled.div`
 
 /* apply remote controller */
 export const RemoteBox = styled.div`
+  position: relative;
   width: 30%;
+  right: 0;
 `;
 export const Controller = styled.div`
   display: flex;
@@ -163,12 +211,12 @@ export const Controller = styled.div`
   padding: 1rem;
   position: sticky;
   height: 17rem;
-  margin-top: 5.3rem;
+  margin-top: 4.3rem;
   top: 4rem;
   border: 1px solid #c4c4c4;
   border-radius: 20px;
   & > p:first-child {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-align: center;
     font-weight: bold;
   }
@@ -177,11 +225,12 @@ export const ApplyData = styled.div`
   border: 1px solid #c4c4c4;
   border-radius: 7px;
   & > div {
-    padding: 8px;
-    font-size: 1rem;
-    font-weight: 100;
+    padding: 0.7rem;
+    font-size: 0.8rem;
+    font-weight: 200;
     & > span {
       font-weight: bold;
+      margin: 0 0.7rem;
     }
   }
   & > div:first-child {

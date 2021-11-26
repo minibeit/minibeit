@@ -26,7 +26,7 @@ export default function ApplyController({
             disabled={apply.postDoDateId ? false : true}
             onClick={() => setApplyAlert(1)}
           >
-            신청하기
+            지원하기
           </button>
           <button>공유하기</button>
         </S.ApplyBtnGroup>

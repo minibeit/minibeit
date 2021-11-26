@@ -73,18 +73,18 @@ export default function ApplyDetailComponent({ feedId, date }) {
     feedEditApi(postId, data).then((res) => getFeedDetail(res.data.data.id));
   };
 
-  const [applyAlert,setApplyAlert] = useState(0);
+  const [applyAlert, setApplyAlert] = useState(0);
   const [modalSwitch, setModalSwitch] = useState(false);
 
- 
   const submit = async (postDoDateId) => {
     if (applyAlert) {
       applyApi(postDoDateId)
         .then((res) => {
-          setApplyAlert(2);          
+          setApplyAlert(2);
         })
         .catch((err) => {
           alert("지원이 실패하였습니다");
+          setApplyAlert(0);
           //   신청한 실험일 때, 날짜를 고르지 않았을 때 에러 추가해야함
         });
     }
@@ -115,7 +115,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
             feedDetailData={feedDetailData}
             date={date}
             editDetail={editDetail}
-            modalSwitch={modalSwitch} 
+            modalSwitch={modalSwitch}
             setModalSwitch={setModalSwitch}
           />
           <ApplyController
@@ -123,8 +123,16 @@ export default function ApplyDetailComponent({ feedId, date }) {
             feedDetailData={feedDetailData}
             setApplyAlert={setApplyAlert}
           />
-          {applyAlert===1 && <AskCompleteApplication apply={apply} setApplyAlert={setApplyAlert} submit={submit}/>}
-          {applyAlert===2 && <CompleteApplication user={user} setApplyAlert={setApplyAlert}/>}
+          {applyAlert === 1 && (
+            <AskCompleteApplication
+              apply={apply}
+              setApplyAlert={setApplyAlert}
+              submit={submit}
+            />
+          )}
+          {applyAlert === 2 && (
+            <CompleteApplication user={user} setApplyAlert={setApplyAlert} />
+          )}
         </div>
       )}
     </S.FeedContainer>

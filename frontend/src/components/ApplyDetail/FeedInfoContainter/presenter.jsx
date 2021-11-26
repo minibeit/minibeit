@@ -72,10 +72,10 @@ export default function Presenter({
         <S.DataContent>
           <ul>
             <li>
-              <span>금액</span> : {payment === "CACHE" ? `${cache}원` : goods}
+              <span>금액</span> {payment === "CACHE" ? `${cache}원` : goods}
             </li>
             <li>
-              <span>지급</span> : {paymentDetail}
+              <span>지급</span> {paymentDetail}
             </li>
           </ul>
         </S.DataContent>
@@ -85,7 +85,7 @@ export default function Presenter({
         <S.DataHeader>
           <p>상세내용</p>
           {isMine && editSwitch === false && (
-            <button onClick={editOn}>수정하기</button>
+            <S.EditBtn onClick={() => setEditAlert(true)}>수정하기</S.EditBtn>
           )}
           {editAlert && (
             <EditOnlyDetails
@@ -96,6 +96,7 @@ export default function Presenter({
           )}
         </S.DataHeader>
         <S.DataContent>
+          <S.SmTitle>{feedDetailData.title}</S.SmTitle>
           {editSwitch ? (
             <div>
               <S.EditTextArea
@@ -110,7 +111,7 @@ export default function Presenter({
                   }
                 }}
               />
-              <button onClick={editSubmit}>수정완료</button>
+              <S.EditBtn onClick={editSubmit}>수정완료</S.EditBtn>
             </div>
           ) : (
             <S.DetailContent>
@@ -159,24 +160,25 @@ export default function Presenter({
         ) : null}
       </S.DataBox>
 
-      <S.DataBox>
+      <S.DataBox2>
         <S.DataHeader>
           <p>참여 장소 및 연락처</p>
         </S.DataHeader>
         <S.DataContent>
           <ul>
             <li>
-              <span>주소</span> : {place}
+              <span>주소</span> {place}
+              {/* 하이퍼링크 필요 */}
             </li>
             <li>
-              <span>연락처</span> : {contact}
+              <span>연락처</span> {contact}
             </li>
             <li>
-              <span>담당자</span> : {businessProfileInfo.adminName}
+              <span>담당자</span> {businessProfileInfo.adminName}
             </li>
           </ul>
         </S.DataContent>
-      </S.DataBox>
+      </S.DataBox2>
       <S.DataBox>
         <S.DataHeader>
           <p>실험실 후기</p>

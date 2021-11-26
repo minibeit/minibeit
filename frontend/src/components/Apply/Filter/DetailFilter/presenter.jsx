@@ -1,10 +1,10 @@
 import React from "react";
 import Slider from "rc-slider";
-import "../range.css";
+import "./range.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { CSSTransition } from "react-transition-group";
 
-import * as S from "../style";
+import * as S from "../../style";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);

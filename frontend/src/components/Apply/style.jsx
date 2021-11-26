@@ -53,7 +53,7 @@ export const FilterLabelBox = styled.div`
 `;
 export const FilterLabel = styled.div`
   background: rgba(6, 66, 255, 0.1);
-  padding: 0.2rem 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 2rem;
   display: flex;
   gap: 0.5rem;
@@ -70,6 +70,9 @@ export const FilterLabel = styled.div`
     cursor: pointer;
     padding: 0;
     color: #1c2362;
+    & svg {
+      width: 1em;
+    }
   }
   animation-duration: 0.5s;
   animation-timing-function: ease-out;

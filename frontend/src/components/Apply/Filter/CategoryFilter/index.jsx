@@ -1,16 +1,22 @@
 import React from "react";
+import { FeedCategory } from "../../../../constants";
 import CloseIcon from "@mui/icons-material/Close";
-import { FeedCategory } from "../../../constants";
 
-import * as S from "../style";
+import * as S from "../../style";
 
-export default function Presenter({
+export default function CategoryFilter({
   category,
-  categoryReset,
+  setCategory,
   setCategorySwitch,
+  categoryReset,
   search,
-  clickCategory,
 }) {
+  const clickCategory = (value) => {
+    const copy = { ...category };
+    copy.category = value;
+    setCategory(copy);
+  };
+
   return (
     <S.FilterBox>
       <div

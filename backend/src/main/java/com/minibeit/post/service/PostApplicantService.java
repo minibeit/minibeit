@@ -70,7 +70,7 @@ public class PostApplicantService {
             List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
             postDoDate.updateFull(approvedPostApplicant);
 
-            mailService.mailSend(PostMailCondition.APPLICANTCANCEL, Collections.singletonList(user.getEmail()));
+            //mailService.mailSend(PostMailCondition.APPLICANTCANCEL, Collections.singletonList(user.getEmail()));
         }
     }
 }

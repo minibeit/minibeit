@@ -20,8 +20,8 @@ public class PostStatusMail {
                 return postStatusMailBuilder.mailCondition(new RejectPostCondition()).build();
             case APPROVECANCEL:
                 return postStatusMailBuilder.mailCondition(new ApproveCancelPostCondition()).build();
-            case APPLICANTCANCEL:
-                return postStatusMailBuilder.mailCondition(new ApplicantCancelPostCondition()).build();
+//            case APPLICANTCANCEL:
+//                return postStatusMailBuilder.mailCondition(new ApplicantCancelPostCondition()).build();
         }
         throw new IllegalArgumentException("해당 메일 조건이 없습니다.");
     }

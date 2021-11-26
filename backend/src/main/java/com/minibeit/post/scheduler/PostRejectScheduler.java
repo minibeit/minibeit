@@ -38,7 +38,7 @@ public class PostRejectScheduler {
             rejectPosts.add(rejectPost);
             postApplicantIds.add(postApplicant.getId());
         });
-        mailService.mailSend(PostMailCondition.REJECT, postApplicantMails);
+        //mailService.mailSend(PostMailCondition.REJECT, postApplicantMails);
         rejectPostRepository.saveAll(rejectPosts);
         postApplicantRepository.updateReject(postApplicantIds, ApplyStatus.REJECT);
     }

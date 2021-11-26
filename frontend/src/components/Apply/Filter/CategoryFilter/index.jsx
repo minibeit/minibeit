@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { FeedCategory } from "../../../../constants";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -9,12 +9,13 @@ export default function CategoryFilter({
   setCategory,
   setCategorySwitch,
   categoryReset,
-  search,
 }) {
+  const [data, setData] = useState(category);
+
   const clickCategory = (value) => {
-    const copy = { ...category };
+    const copy = { ...data };
     copy.category = value;
-    setCategory(copy);
+    setData(copy);
   };
 
   return (
@@ -29,7 +30,7 @@ export default function CategoryFilter({
       </div>
       <S.DetailBox>
         <S.SelectBtn
-          disabled={category["category"] === "ALL" ? true : false}
+          disabled={data["category"] === "ALL" ? true : false}
           onClick={() => clickCategory("ALL")}
         >
           전체
@@ -38,7 +39,7 @@ export default function CategoryFilter({
           return (
             <S.SelectBtn
               key={a.id}
-              disabled={category["category"] === `${a.name}` ? true : false}
+              disabled={data["category"] === `${a.name}` ? true : false}
               onClick={() => clickCategory(a.name)}
             >
               {a.icon}
@@ -49,7 +50,7 @@ export default function CategoryFilter({
       </S.DetailBox>
       <S.FilterSaveBtn
         onClick={() => {
-          search(1);
+          setCategory({ ...data });
           setCategorySwitch(false);
         }}
       >

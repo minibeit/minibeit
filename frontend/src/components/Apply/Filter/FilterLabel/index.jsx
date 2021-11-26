@@ -1,15 +1,14 @@
 import React from "react";
-import { useRecoilState } from "recoil";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
-
-import { categoryState, filterState } from "../../../../recoil/filterState";
 
 import * as S from "../../style";
 
-export default function FilterLabel() {
-  const [filter, setFilter] = useRecoilState(filterState);
-  const [category, setCategory] = useRecoilState(categoryState);
-
+export default function FilterLabel({
+  category,
+  setCategory,
+  filter,
+  setFilter,
+}) {
   const closeLabel = (name) => {
     if (name === "startAndEnd") {
       const copy = { ...filter };

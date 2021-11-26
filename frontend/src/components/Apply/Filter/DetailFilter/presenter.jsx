@@ -13,14 +13,14 @@ export default function Presenter({
   filterReset,
   setFilterSwitch,
   paymentType,
-  filter,
   changePayType,
   changeFilter,
   minPay,
   doTime,
   timeArr,
   setFilter,
-  search,
+  data,
+  setData,
 }) {
   return (
     <S.FilterBox>
@@ -40,7 +40,7 @@ export default function Presenter({
               key={i}
               name="paymentType"
               value={a.value}
-              disabled={filter["paymentType"] === a.value ? true : false}
+              disabled={data["paymentType"] === a.value ? true : false}
               onClick={changePayType}
             >
               {a.name}
@@ -49,7 +49,7 @@ export default function Presenter({
         })}
       </S.DetailBox>
       <CSSTransition
-        in={filter["paymentType"] === "CACHE"}
+        in={data["paymentType"] === "CACHE"}
         classNames="fade"
         timeout={500}
         unmountOnExit
@@ -62,7 +62,7 @@ export default function Presenter({
                 key={i}
                 name="minPay"
                 value={a.value}
-                disabled={filter["minPay"] === a.value ? true : false}
+                disabled={data["minPay"] === a.value ? true : false}
                 onClick={changeFilter}
               >
                 {a.name}
@@ -79,7 +79,7 @@ export default function Presenter({
               key={i}
               name="doTime"
               value={a.value}
-              disabled={filter["doTime"] === a.value ? true : false}
+              disabled={data["doTime"] === a.value ? true : false}
               onClick={changeFilter}
             >
               {a.name}
@@ -88,17 +88,17 @@ export default function Presenter({
         })}
       </S.DetailBox>
       <S.DetailBox>
-        <p>실험 시작시간 {`${filter["startTime"]}~${filter["endTime"]}`}</p>
+        <p>실험 시작시간 {`${data["startTime"]}~${data["endTime"]}`}</p>
 
         <Range
           min={0}
           max={24}
-          value={filter["startAndEnd"]}
+          value={data["startAndEnd"]}
           allowCross={false}
           pushable={1}
           tipFormatter={(e) => timeArr[e]}
           onChange={(e) => {
-            const copy = { ...filter };
+            const copy = { ...data };
             copy["startAndEnd"] = e;
             if (e[0] === 0 && e[1] === 24) {
               copy["startTime"] = "";
@@ -107,14 +107,21 @@ export default function Presenter({
               copy["startTime"] = timeArr[e[0]];
               copy["endTime"] = timeArr[e[1]];
             }
-            setFilter(copy);
+            setData(copy);
           }}
         />
       </S.DetailBox>
-      <div onClick={filterReset}>모든 선택 초기화하기</div>
+      <div
+        onClick={() => {
+          filterReset();
+          setFilterSwitch(false);
+        }}
+      >
+        모든 선택 초기화하기
+      </div>
       <S.FilterSaveBtn
         onClick={() => {
-          search(1);
+          setFilter({ ...data });
           setFilterSwitch(false);
         }}
       >

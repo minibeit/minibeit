@@ -1,12 +1,11 @@
 import React from "react";
 import DatePicker from "react-datepicker";
-import "../date-picker.css";
+import "./date-picker.css";
 
 import SearchInput from "./SearchInput";
 
 import * as S from "../style";
 export default function Presenter({
-  feedList,
   userSchoolId,
   school,
   setSchool,

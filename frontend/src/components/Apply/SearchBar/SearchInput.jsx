@@ -3,7 +3,7 @@ import Select from "react-select";
 import { schoolGetApi } from "../../../utils/schoolApi";
 
 export default function SearchInput({ onChange, defaultValue }) {
-  const [schools, setSchools] = useState([]);
+  const [schools, setSchools] = useState();
 
   const getSchool = (text) => {
     schoolGetApi(text).then((res) => {
@@ -25,10 +25,12 @@ export default function SearchInput({ onChange, defaultValue }) {
     }),
     control: (provided, state) => ({
       ...provided,
-      borderRadius: "2rem",
-      border: "2px solid hsl(0, 0%, 80%);",
+      background: "none",
+      border: "none",
+      width: "15rem",
       outline: "0",
       boxShadow: "0",
+      cursor: "pointer",
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
@@ -42,7 +44,7 @@ export default function SearchInput({ onChange, defaultValue }) {
       ...provided,
       color: "black",
       textAlign: "center",
-      fontSize: "15px",
+      fontSize: "1rem",
       fontWeight: "600",
     }),
     menuList: (provided, state) => ({
@@ -56,7 +58,7 @@ export default function SearchInput({ onChange, defaultValue }) {
 
   return (
     <>
-      {schools.length !== 0 && (
+      {schools && (
         <Select
           options={schools}
           onChange={onChange}

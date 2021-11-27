@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Portal from "../../Common/Modal/Portal";
 import PropTypes from "prop-types";
 import Calendar from "react-calendar";
-import "../react-calendar.css";
 
 import moment from "moment";
 import "moment/locale/ko";
@@ -142,7 +141,7 @@ export default function PTimeSelectModal({
   const modalOff = () => {
     setModalSwitch(!modalSwitch);
     document.querySelector("body").removeAttribute("style");
-  }
+  };
 
   return (
     <Portal>
@@ -161,6 +160,7 @@ export default function PTimeSelectModal({
           <S.ModalContent>
             <S.CalendarView>
               <Calendar
+                className="modalCalendar"
                 calendarType="US"
                 minDate={
                   recruit["startDate"] !== null
@@ -249,10 +249,7 @@ export default function PTimeSelectModal({
                     );
                   })}
               </S.TimeBtnBox>
-              <button
-                onClick={modalOff}>
-                저장
-              </button>
+              <button onClick={modalOff}>저장</button>
             </S.TimeBtnContainer>
           </S.ModalContent>
         </S.ModalBox>

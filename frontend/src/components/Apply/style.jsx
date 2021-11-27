@@ -104,26 +104,42 @@ export const SearchBox = styled.div`
     margin-bottom: 2rem;
   }
 `;
-export const SchoolSelect = styled.div`
-  width: 25rem;
-  height: 38px;
+export const SearchInput = styled.div`
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  max-height: 3rem;
+  padding: 0 1rem;
+  border-radius: 1.5rem;
   cursor: pointer;
+  & > p:first-child {
+    white-space: nowrap;
+  }
+  & svg {
+    width: 1rem;
+  }
 `;
-export const DateSelect = styled.div`
-  width: 25rem;
-  height: 38px;
-  cursor: pointer;
+export const PlaceInput = styled(SearchInput)``;
+export const DateInput = styled(SearchInput)`
+  & input {
+    background: none;
+    height: 100%;
+    border: none;
+    width: 13rem;
+    outline: none;
+    text-align: center;
+    font-size: 1rem;
+  }
 `;
 export const SearchBtn = styled.button`
-  width: 160px;
-  height: 38px;
-  border-radius: 50px;
   color: white;
   background-color: #0642ff;
   border: none;
-  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  white-space: nowrap;
 `;
 
 /* detail filter */
@@ -212,6 +228,10 @@ export const ListContainer = styled.div`
   flex-direction: column;
   gap: 2rem;
   margin-top: 2rem;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-name: ${fadeIn};
+  animation-fill-mode: forwards;
 `;
 
 export const FeedBox = styled.div`

@@ -26,9 +26,19 @@ export default function BProfileInfo({ businessId }) {
             {bProfileInfo.avatar !== null ? (
               <PVImg img={bProfileInfo.avatar} />
             ) : (
-              <PVImg img="/images/기본비즈니스프로필.jpeg" />
+              <PVImg img="/images/기본프로필.png" />
             )}
           </S.ImgBox>
+          <S.UserInfoData>
+            <p>이름 : {bProfileInfo.name}</p>
+            <p>담당자 : {bProfileInfo.adminNickname}</p>
+            <p>
+              <span>주소 : </span>
+              <p>{bProfileInfo.place}</p>
+            </p>
+            <p>소속인원 : {bProfileInfo.numberOfEmployees}명</p>
+            <p>전화번호 : {bProfileInfo.contact}</p>
+          </S.UserInfoData>
           {bProfileInfo.admin && (
             <S.InfoEditBtn
               onClick={() => {
@@ -45,13 +55,6 @@ export default function BProfileInfo({ businessId }) {
               setInfoEditModal={setInfoEditModal}
             />
           )}
-          <S.UserInfoData>
-            <p>이름 : {bProfileInfo.name}</p>
-            <p>담당자 : {bProfileInfo.adminNickname}</p>
-            <p>주소 : {bProfileInfo.place}</p>
-            <p>소속인원 : {bProfileInfo.numberOfEmployees}명</p>
-            <p>전화번호 : {bProfileInfo.contact}</p>
-          </S.UserInfoData>
           {bProfileInfo.admin && (
             <S.UserListBtn onClick={() => setUserListModal(true)}>
               소속인원 목록

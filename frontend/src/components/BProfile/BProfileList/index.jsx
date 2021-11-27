@@ -33,14 +33,18 @@ export default function BProfileInfo({ businessId }) {
             return (
               a.id !== bProfileData.id && (
                 <S.BusinessProfile key={a.id}>
-                  <S.ImgBox onClick={() => history.push(`/business/${a.id}`)}>
-                    {a.avatar ? (
-                      <PVImg img={a.avatar} />
-                    ) : (
-                      <PVImg img="/images/기본비즈니스프로필.jpeg" />
-                    )}
-                  </S.ImgBox>
-                  <p>{a.name}</p>
+                  <div>
+                    <S.SImgBox
+                      onClick={() => history.push(`/business/${a.id}`)}
+                    >
+                      {a.avatar ? (
+                        <PVImg img={a.avatar} />
+                      ) : (
+                        <PVImg img="/images/기본프로필.png" />
+                      )}
+                    </S.SImgBox>
+                    <p>{a.name}</p>
+                  </div>
                 </S.BusinessProfile>
               )
             );

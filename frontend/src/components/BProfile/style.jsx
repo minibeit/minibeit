@@ -14,7 +14,7 @@ export const ProfilePage = styled.div`
     display: none; /* for Chrome, Safari, and Opera */
   }
   & > div:first-child {
-    margin: 4rem 12rem 4rem 12rem;
+    margin: 4rem 12rem;
   }
 `;
 export const ModeSelectBtn = styled.button`
@@ -37,18 +37,23 @@ export const Container = styled.div`
 `;
 export const ImgBox = styled.div`
   overflow: hidden;
-  width: 10rem;
-  height: 10rem;
+  width: 8.5rem;
+  height: 8.5rem;
   display: inline-block;
   border-radius: 50%;
+`;
+export const SImgBox = styled(ImgBox)`
+  width: 6.5rem;
+  height: 6.5rem;
 `;
 
 /* user */
 
 export const UserInfoContainer = styled.div`
   flex: 1.5;
-  padding: 2rem;
+  padding: 1rem;
   min-width: 18rem;
+  margin-top: 1rem;
   & > div:first-child {
     padding: 1rem;
     display: flex;
@@ -61,18 +66,29 @@ export const UserInfoData = styled.div`
   display: flex;
   background: #f1f1f1;
   flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: flex-start;
+  gap: 0.7rem;
   border-radius: 1rem;
-  padding: 1rem;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  & > p {
+    font-size: 0.8rem;
+    ::before {
+      content: "•";
+      margin-right: 0.3rem;
+    }
+  }
+  & > p:nth-child(3) {
+    display: flex;
+    & > p {
+      min-height: 2rem;
+    }
+    & > span {
+      min-width: 2.5rem;
+    }
+  }
 `;
-export const InfoEditBtn = styled.button`
-  border: none;
-  padding: 0.5rem 1rem 0.5rem 1rem;
-  border-radius: 1rem;
-  font-weight: bold;
-  cursor: pointer;
-`;
+
 export const UserListBtn = styled.button`
   width: 100%;
   padding: 0.8rem;
@@ -82,12 +98,16 @@ export const UserListBtn = styled.button`
   color: white;
   cursor: pointer;
 `;
+export const InfoEditBtn = styled(UserListBtn)`
+  background: #c4c4c4;
+`;
 export const FeedContainer = styled.div`
   flex: 3;
-  padding: 2rem;
+  padding: 3rem;
 `;
 export const CategoryBtnBox = styled.div`
-  padding: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
   & button {
     cursor: pointer;
     background: white;
@@ -106,56 +126,64 @@ export const FeedGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 1rem;
+  padding: 1rem 0;
 `;
 export const FeedBox = styled.div`
   display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
   width: 100%;
   min-height: 7rem;
   background: #f3f3f3;
   border-radius: 1rem;
+  gap: 1rem;
   padding: 1rem;
 `;
 export const FeedLabel = styled.div`
-  width: 4rem;
-  padding: 0.5rem;
+  width: 3.7rem;
+  padding: 0.3rem;
   text-align: center;
-  background: #c4c4c4;
+  background: #fff;
+  border: 1px solid #0642ff;
   border-radius: 2rem;
-  transform: translate(0, 50%);
+  transform: translate(15%, 50%);
+  color: #0642ff;
+  font-size: 0.85rem;
 `;
 export const FeedTitleBox = styled.div`
-  flex: 1;
   display: flex;
-  gap: 0.3rem;
+  gap: 0.5rem;
+  padding: 0 0.6rem;
   flex-direction: column;
-  padding: 1rem;
-  & > p:first-child {
+  & > p:nth-child(2) {
     font-size: 0.7rem;
   }
-  & > a:nth-child(2) {
-    font-size: 1.2rem;
-    font-weight: bold;
+  & > a:nth-child(3) {
+    font-size: 1rem;
+    font-weight: 600;
     text-decoration: none;
     color: black;
+    max-height: 2.2rem;
   }
 `;
-export const FeedContentBox = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  margin-left: auto;
-`;
+export const FeedContentBox = styled.div``;
 export const FeedInfo = styled.div`
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
   gap: 0.5rem;
-  padding: 1rem;
   & > div {
     display: flex;
-    justify-content: end;
     align-items: center;
+    color: #8c8c8c;
+    font-size: 0.7rem;
+    gap: 0.2rem;
+    & > svg {
+      width: 1rem;
+      height: 1rem;
+      path {
+        fill: #8c8c8c;
+      }
+    }
   }
 `;
 export const FeedButton = styled.div`
@@ -164,12 +192,16 @@ export const FeedButton = styled.div`
   justify-content: end;
   gap: 1rem;
   & > button {
-    background: #0642ff;
-    color: white;
+    background: #ddd;
+    color: #000;
     border: none;
     padding: 0.4rem 0.8rem 0.4rem 0.8rem;
     border-radius: 1rem;
     cursor: pointer;
+    :hover {
+      background: #0642ff;
+      color: #fff;
+    }
   }
 `;
 
@@ -178,20 +210,36 @@ export const FeedButton = styled.div`
 export const BusinessListBox = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
+  & > p {
+    width: 7rem;
+    padding: 0.5rem;
+    text-align: center;
+    background: #c4c4c4;
+    border-radius: 2rem;
+  }
   & > div {
     display: flex;
-    gap: 1rem;
+    gap: 4rem;
+    justify-content: flex-start;
   }
 `;
+
 export const BusinessProfile = styled.div`
   display: flex;
   flex-direction: column;
-  width: 10rem;
+  margin: 1rem 0;
+  align-items: center;
   text-align: center;
   & > div:first-child {
     cursor: pointer;
+    & > p {
+      font-size: 0.9rem;
+      margin: 0.7rem;
+    }
   }
 `;
+
 export const AddBProfileBtn = styled.div`
   background-color: #f1f1f1;
   width: 5rem;

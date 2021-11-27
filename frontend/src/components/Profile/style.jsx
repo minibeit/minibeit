@@ -37,11 +37,12 @@ export const Container = styled.div`
 `;
 export const ImgBox = styled.div`
   overflow: hidden;
-  width: 10rem;
-  height: 10rem;
+  width: 8rem;
+  height: 8rem;
   display: inline-block;
   border-radius: 50%;
   cursor: pointer;
+  position: relative;
 `;
 
 /* user */
@@ -194,14 +195,31 @@ export const BusinessListBox = styled.div`
   gap: 1rem;
   text-align: center;
   flex-direction: column;
-  & > div:first-child {
-    display: flex;
-    justify-content: center;
+  & > button {
+    width: 4rem;
+    height: 1.5rem;
+    border-radius: 1rem;
+    font-size: 0.6rem;
+    color: #7c7c7c;
+    border: 1px solid #7c7c7c;
+    background-color: inherit;
+    margin: 0 0 1rem auto;
   }
   & > div:nth-child(2) {
     display: flex;
-    gap: 1rem;
     justify-content: center;
+  }
+  & > div:nth-child(3) {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    & > div > div:nth-child(2) {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
   }
 `;
 export const BusinessHeader = styled.div`
@@ -209,12 +227,19 @@ export const BusinessHeader = styled.div`
   flex-direction: column;
   gap: 1rem;
   & > p:first-child {
-    font-size: 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  & > p:nth-child(2) {
+    font-size: 0.8rem;
+    color: #7c7c7c;
+    line-height: 1rem;
   }
 `;
 export const BusinessProfile = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 10rem;
   & > div:first-child {
     cursor: pointer;
@@ -237,7 +262,7 @@ export const AddBProfileBtn = styled.div`
   width: 5rem;
   height: 5rem;
   border-radius: 50%;
-  position: relative;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

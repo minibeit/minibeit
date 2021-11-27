@@ -5,6 +5,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { CSSTransition } from "react-transition-group";
 
 import * as S from "../../style";
+import { useHistory } from "react-router";
 
 const { createSliderWithTooltip } = Slider;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -22,6 +23,7 @@ export default function Presenter({
   data,
   setData,
 }) {
+  const history = useHistory();
   return (
     <S.FilterBox>
       <div
@@ -115,6 +117,7 @@ export default function Presenter({
         onClick={() => {
           filterReset();
           setFilterSwitch(false);
+          history.push("/apply?1");
         }}
       >
         모든 선택 초기화하기
@@ -123,6 +126,7 @@ export default function Presenter({
         onClick={() => {
           setFilter({ ...data });
           setFilterSwitch(false);
+          history.push("/apply?1");
         }}
       >
         필터 적용하기

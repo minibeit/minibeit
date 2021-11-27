@@ -12,7 +12,9 @@ const Paging = ({ page, count, setPage, onChange }) => {
       prevPageText={"‹"}
       nextPageText={"›"}
       onChange={(e) => {
-        setPage(e);
+        if (setPage) {
+          setPage(e);
+        }
         if (onChange) {
           onChange(e);
         }

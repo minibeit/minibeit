@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useHistory } from "react-router";
 import { FeedCategory } from "../../../../constants";
 import CloseIcon from "@mui/icons-material/Close";
 
@@ -10,6 +11,7 @@ export default function CategoryFilter({
   setCategorySwitch,
   categoryReset,
 }) {
+  const history = useHistory();
   const [data, setData] = useState(category);
 
   const clickCategory = (value) => {
@@ -52,6 +54,7 @@ export default function CategoryFilter({
         onClick={() => {
           setCategory({ ...data });
           setCategorySwitch(false);
+          history.push("/apply?1");
         }}
       >
         카테고리 적용하기

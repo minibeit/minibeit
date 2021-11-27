@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useResetRecoilState } from "recoil";
 import { ReactComponent as FilterIcon } from "../../../svg/필터.svg";
 
@@ -10,7 +10,6 @@ import FilterLabel from "./FilterLabel";
 
 export default function Filter({
   feedList,
-  search,
   filter,
   setFilter,
   category,
@@ -30,9 +29,6 @@ export default function Filter({
     setCategorySwitch(!categorySwitch);
     setFilterSwitch(false);
   };
-  useEffect(() => {
-    search(1);
-  }, [search]);
   return (
     <>
       <div>
@@ -50,7 +46,6 @@ export default function Filter({
           setFilter={setFilter}
           setFilterSwitch={setFilterSwitch}
           filterReset={filterReset}
-          search={search}
         />
       )}
       {categorySwitch && (
@@ -59,7 +54,6 @@ export default function Filter({
           setCategory={setCategory}
           setCategorySwitch={setCategorySwitch}
           categoryReset={categoryReset}
-          search={search}
         />
       )}
       <FilterLabel

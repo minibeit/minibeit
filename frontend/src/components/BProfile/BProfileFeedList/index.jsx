@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { getMakelistApi, reviewListGetApi } from "../../../utils";
+import { useHistory } from "react-router";
 
 import FeedBox from "./FeedBox";
 
@@ -12,6 +13,7 @@ export default function BProfileInfo({ businessId }) {
   const [feedSwitch, setFeedSwitch] = useState("생성한 모집공고");
   const [page, setPage] = useState(1);
   const [totalEle, setTotalEle] = useState(0);
+  const history = useHistory();
 
   const changeFeedData = useCallback(
     (status, page) => {
@@ -67,7 +69,12 @@ export default function BProfileInfo({ businessId }) {
       </S.CategoryBtnBox>
       <S.FeedGroup>
         {feedData.length === 0 ? (
-          <div>{feedSwitch}</div>
+          <S.NoneDiv>
+            <p>아직 모집공고를 생성하시지 않았네요.</p>
+            <button onClick={() => history.push("/recruit")}>
+              모집공고 게시하기
+            </button>
+          </S.NoneDiv>
         ) : (
           feedData.map((a) => (
             <div key={a.id}>

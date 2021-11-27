@@ -122,6 +122,32 @@ export const CategoryBtnBox = styled.div`
     text-decoration-color: #0642ff;
   }
 `;
+export const NoneDiv = styled.div`
+  width: 100%;
+  height: 20rem;
+  margin-top: 1rem;
+  background-color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 1rem;
+  border-radius: 1rem;
+  font-size: 0.9rem;
+  & > button {
+    max-width: 11rem;
+    line-height: 1.2rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 1.2rem;
+    border: none;
+    background: #0642ff;
+    color: #fff;
+  }
+  & > p {
+    color: #acacac;
+  }
+`;
 export const FeedGroup = styled.div`
   display: flex;
   flex-direction: column;

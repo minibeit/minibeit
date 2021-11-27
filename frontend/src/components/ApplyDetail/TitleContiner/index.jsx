@@ -1,6 +1,6 @@
 import React from "react";
-import HomeIcon from "@mui/icons-material/Home";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { ReactComponent as HomeIcon } from "../../../svg/홈.svg";
+import { ReactComponent as Star } from "../../../svg/별.svg";
 
 import * as S from "../style";
 
@@ -18,24 +18,22 @@ export default function TitleContainer({
     <S.TitleBox>
       <S.TitleContent>
         <p>{category}</p>
-        <p>{title}</p>
+        <div>
+          <p>{title}</p>
+          <S.TitleBookMark isLogin={isLogin} isLike={isLike}>
+            {isLogin ? (
+              <Star id={id} onClick={(e) => clickBookmark(e)} />
+            ) : (
+              <Star />
+            )}
+            <p>{likes}</p>
+          </S.TitleBookMark>
+        </div>
         <div>
           <HomeIcon />
           <p>{businessProfileInfo.name}</p>
         </div>
       </S.TitleContent>
-      <S.TitleBookMark>
-        {isLogin ? (
-          <StarBorderIcon
-            id={id}
-            onClick={clickBookmark}
-            style={{ color: `${isLike ? "rgb(6, 66, 255)" : ""}` }}
-          />
-        ) : (
-          <StarBorderIcon />
-        )}
-        <p>{likes}</p>
-      </S.TitleBookMark>
     </S.TitleBox>
   );
 }

@@ -13,4 +13,6 @@ public interface PostDoDateRepositoryCustom {
     List<PostDoDate> findAllByPostIdAndYearMonth(Long postId, YearMonth yearMonth);
 
     Optional<PostDoDate> findByIdWithPostAndApplicant(Long postDoDateId);
+
+    Optional<PostDoDate> findByIdWithPostAndBusinessProfile(Long postDoDateId);
 }

@@ -32,14 +32,14 @@ public class MailService {
     private final SpringTemplateEngine templateEngine;
 
     @Async
-    public void mailSend(PostMailCondition postMailCondition, List<String> toMailList) {
+    public <T> void mailSend(PostMailCondition postMailCondition, List<String> toMailList, T data) {
         toMailList.stream().map(mail -> PostStatusMail.create(postMailCondition, mail))
                 .forEach(postStatusMail -> {
                     MimeMessage mimeMessage = mailSender.createMimeMessage();
                     MailPostCondition mailCondition = postStatusMail.getMailCondition();
                     MimeMessage message = null;
                     try {
-                        message = mailCondition.makeMimeMessage(mimeMessage, templateEngine, postStatusMail.getAddress());
+                        message = mailCondition.makeMimeMessage(mimeMessage, templateEngine, postStatusMail.getAddress(), data);
                     } catch (MessagingException e) {
                         e.printStackTrace();
                     }

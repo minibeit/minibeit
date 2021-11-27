@@ -1,12 +1,12 @@
 package com.minibeit.post.service;
 
 import com.minibeit.ServiceIntegrationTest;
-import com.minibeit.common.domain.FileType;
-import com.minibeit.common.domain.FileServer;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
+import com.minibeit.common.domain.FileServer;
+import com.minibeit.common.domain.FileType;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.common.dto.SavedFile;
 import com.minibeit.post.domain.*;
@@ -42,7 +42,6 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.assertj.core.api.InstanceOfAssertFactories.completableFuture;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("Post Service 흐름 테스트")
@@ -154,7 +153,7 @@ class PostServiceTest extends ServiceIntegrationTest {
                 .schoolId(KSchool.getId())
                 .businessProfileId(businessProfile.getId())
                 .startDate(LocalDateTime.of(2021, 9, 29, 9, 30))
-                .endDate( LocalDateTime.of(2021, 9, 29, 12, 30))
+                .endDate(LocalDateTime.of(2021, 9, 29, 12, 30))
                 .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 17, 30)).build()))
                 .build();
 
@@ -476,7 +475,7 @@ class PostServiceTest extends ServiceIntegrationTest {
     void getListByLike() {
         initPostListForList();
         PageDto pageDto = new PageDto(1, 10);
-        Page<PostResponse.GetLikeList> response = postService.getListByLike(PostStatus.RECRUIT, testUser, pageDto);
+        Page<PostResponse.GetLikeList> response = postService.getListByLike(testUser, pageDto);
 
         assertThat(response.getContent()).extracting("title").containsExactlyElementsOf(Arrays.asList("즐겨찾기3", "즐겨찾기2", "즐겨찾기1"));
     }
@@ -519,7 +518,7 @@ class PostServiceTest extends ServiceIntegrationTest {
 
         assertAll(
                 () -> assertThat(response.getTotalElements()).isEqualTo(1L),
-                ( )-> assertThat((int)allResponse.getTotalElements()).isEqualTo(all.size())
+                () -> assertThat((int) allResponse.getTotalElements()).isEqualTo(all.size())
         );
 
     }

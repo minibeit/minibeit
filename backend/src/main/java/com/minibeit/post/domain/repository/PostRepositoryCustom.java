@@ -21,7 +21,7 @@ public interface PostRepositoryCustom {
 
     Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, LocalDateTime now, Pageable pageable);
 
-    Page<Post> findAllByLike(PostStatus postStatus, User user, Pageable pageable);
+    Page<Post> findAllByLike(User user, Pageable pageable);
 
     Page<PostResponse.GetMyCompletedList> findAllByMyCompleted(User user, Pageable of);
 

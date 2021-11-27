@@ -7,11 +7,11 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ApiResult<T> {
-    private int status ;
+    private int status;
     private boolean success;
     private T data;
 
-    public static<T> ApiResult<T> build(int status,T data){
+    public static <T> ApiResult<T> build(int status, T data) {
         return ApiResult.<T>builder()
                 .status(status)
                 .data(data)
@@ -19,7 +19,7 @@ public class ApiResult<T> {
                 .build();
     }
 
-    public static<T> ApiResult<T> build(int status){
+    public static <T> ApiResult<T> build(int status) {
         return ApiResult.<T>builder()
                 .status(status)
                 .success(true)

@@ -279,21 +279,19 @@ class PostControllerTest extends MvcTest {
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 6), postList.size());
         Page<PostResponse.GetLikeList> response = postPage.map(PostResponse.GetLikeList::build);
 
-        given(postService.getListByLike(any(), any(), any())).willReturn(response);
+        given(postService.getListByLike(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/like/list")
                 .param("page", "1")
-                .param("size", "6")
-                .param("postStatus", "RECRUIT"));
+                .param("size", "6"));
 
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("post-getList-like",
                         requestParameters(
                                 parameterWithName("page").description("조회할 페이지"),
-                                parameterWithName("size").description("조회할 사이즈"),
-                                parameterWithName("postStatus").description("조회할 게시물 상태 RECRUIT or COMPLETE")
+                                parameterWithName("size").description("조회할 사이즈")
                         ),
                         relaxedResponseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),

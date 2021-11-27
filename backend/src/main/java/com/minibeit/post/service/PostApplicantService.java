@@ -10,6 +10,7 @@ import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
+import com.minibeit.post.dto.PostApplicantResponse;
 import com.minibeit.post.service.exception.DuplicateApplyException;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostDoDateIsFullException;
@@ -66,11 +67,12 @@ public class PostApplicantService {
         postApplicantRepository.delete(postApplicant);
 
         if (postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
-            PostDoDate postDoDate = postDoDateRepository.findById(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
+            PostDoDate postDoDate = postDoDateRepository.findByIdWithPostAndBusinessProfile(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
+            Post post = postDoDate.getPost();
             List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
             postDoDate.updateFull(approvedPostApplicant);
-
-            mailService.mailSend(PostMailCondition.APPLICANTCANCEL, Collections.singletonList(user.getEmail()));
+            PostApplicantResponse.ApplicantCancelMail result = PostApplicantResponse.ApplicantCancelMail.build(user.getName(), user.getPhoneNum(), postDoDate.getDoDate(), post.getDoTime(), post.getTitle());
+            mailService.mailSend(PostMailCondition.APPLICANTCANCEL, Collections.singletonList(post.getBusinessProfile().getAdmin().getEmail()), result);
         }
     }
 }

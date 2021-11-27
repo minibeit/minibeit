@@ -9,6 +9,7 @@ import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 
+import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
 import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
 
@@ -42,6 +43,17 @@ public class PostDoDateRepositoryImpl implements PostDoDateRepositoryCustom {
                 queryFactory.selectFrom(postDoDate).distinct()
                         .join(postDoDate.post).fetchJoin()
                         .leftJoin(postDoDate.postApplicantList).fetchJoin()
+                        .where(postDoDate.id.eq(postDoDateId))
+                        .fetchOne());
+    }
+
+    @Override
+    public Optional<PostDoDate> findByIdWithPostAndBusinessProfile(Long postDoDateId) {
+        //TODO admin 과 fetchjoin 불가능한 이슈
+        return Optional.ofNullable(
+                queryFactory.selectFrom(postDoDate).distinct()
+                        .join(postDoDate.post, post).fetchJoin()
+                        .join(post.businessProfile, businessProfile).fetchJoin()
                         .where(postDoDate.id.eq(postDoDateId))
                         .fetchOne());
     }

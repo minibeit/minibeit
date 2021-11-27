@@ -16,8 +16,8 @@ export const ModalBox = styled.div`
   left: 50%;
   width: 57%;
   max-width: 41rem;
-  border-radius: 20px;
-  padding: 32px 36px;
+  border-radius: 1.25rem;
+  padding: 2rem 2.25rem;
   height: 26rem;
   background-color: white;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
@@ -28,14 +28,20 @@ export const ModalBox = styled.div`
 `;
 export const ModalHeader = styled.div`
   display: flex;
-  align-items: center;
-  & > p {
-    padding: 0.5rem;
-    font-weight: bold;
-    font-size: 1.5rem;
-    border-bottom: 3px solid #0642ff;
-  }
+  flex-direction: column;
+  gap: 0.5rem;
   & > div:nth-child(2) {
+    display: flex;
+    justify-content: space-between;
+    & > p {
+      padding: 0.5rem 0.5rem 0 0;
+      font-weight: bold;
+      font-size: 1.5rem;
+      height: 2rem;
+      border-bottom: 3px solid #0642ff;
+    }
+  }
+  & > div:nth-child(3) {
     margin-left: auto;
   }
 `;
@@ -44,6 +50,15 @@ export const CalendarBtn = styled.button`
   border: none;
   background: none;
   cursor: pointer;
+  & > svg {
+    width: 1.5rem;
+    height: 1.5rem;
+    :hover {
+      path {
+        fill: #0642ff;
+      }
+    }
+  }
 `;
 export const CalendarWrapper = styled.div`
   position: absolute;
@@ -57,6 +72,10 @@ export const CloseModalBtn = styled.div`
   flex-direction: column;
   height: -webkit-fill-available;
   cursor: pointer;
+  & > svg {
+    width: 1rem;
+    height: 1rem;
+  }
 `;
 export const ModalContent = styled.div`
   display: flex;

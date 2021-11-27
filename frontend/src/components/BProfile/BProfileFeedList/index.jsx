@@ -71,8 +71,8 @@ export default function BProfileInfo({ businessId }) {
         {feedData.length === 0 ? (
           <S.NoneDiv>
             <p>
-              아직 {feedSwitch} 가 없네요.
-              {feedSwitch === "완료된 모집공고" && (
+              아직 {feedSwitch}가 없네요.
+              {feedSwitch !== "생성한 모집공고" && (
                 <p>먼저 모집공고를 올려보세요.</p>
               )}
             </p>

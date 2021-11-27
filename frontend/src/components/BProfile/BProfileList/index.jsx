@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import AddIcon from "@mui/icons-material/Add";
+import { ReactComponent as AddIcon } from "../../../svg/플러스.svg";
 import { bprofileListGet, getBprofileInfo } from "../../../utils";
 import { PVImg } from "../../Common";
 

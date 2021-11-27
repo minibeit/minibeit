@@ -1,5 +1,6 @@
 import React from "react";
-import CloseIcon from "@mui/icons-material/Close";
+import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
+import { ReactComponent as PencleIcon } from "../../../../svg/연필.svg";
 import UserSearch from "./UserSearch";
 
 import * as S from "./style";
@@ -27,7 +28,7 @@ export default function Presenter({
 
       <S.UserListView>
         <S.UserEditBox>
-          <p>소속인원 / {bisnessUsers.length}</p>
+          <p>소속인원 / {bisnessUsers.length} 명</p>
 
           {editUserMode ? (
             <button
@@ -41,7 +42,7 @@ export default function Presenter({
               onClick={() => setEditUserMode(true)}
               disabled={editCheifMode && true}
             >
-              수정
+              <PencleIcon />
             </button>
           )}
           {editCheifMode ? (
@@ -59,7 +60,7 @@ export default function Presenter({
               onClick={() => setEditCheifMode(!editCheifMode)}
               disabled={editUserMode}
             >
-              관리자 양도
+              담당자 양도하기
             </button>
           )}
         </S.UserEditBox>

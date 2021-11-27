@@ -19,7 +19,6 @@ export default function FeedBox({ status, data, changeFeedData }) {
   const deleteFeed = async (id) => {
     await feedDeleteApi(id)
       .then(() => {
-        alert("게시물이 삭제되었습니다.");
         setEndAlert(2);
         // changeFeedData("완료된 모집공고");
       })

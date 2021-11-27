@@ -29,6 +29,7 @@ export default function BProfileEditCont({
       return true;
     }
   };
+
   return (
     <>
       <S.ImgEditContainer>

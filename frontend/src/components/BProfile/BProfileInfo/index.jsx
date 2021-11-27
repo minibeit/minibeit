@@ -30,14 +30,21 @@ export default function BProfileInfo({ businessId }) {
             )}
           </S.ImgBox>
           <S.UserInfoData>
-            <p>이름 : {bProfileInfo.name}</p>
-            <p>담당자 : {bProfileInfo.adminNickname}</p>
             <p>
-              <span>주소 : </span>
-              <p>{bProfileInfo.place}</p>
+              <span>이름</span> : {bProfileInfo.name}
             </p>
-            <p>소속인원 : {bProfileInfo.numberOfEmployees}명</p>
-            <p>전화번호 : {bProfileInfo.contact}</p>
+            <p>
+              <span>담당자</span> : {bProfileInfo.adminNickname}
+            </p>
+            <p>
+              <span>주소</span> : <p>{bProfileInfo.place}</p>
+            </p>
+            <p>
+              <span>소속인원</span> : {bProfileInfo.numberOfEmployees}명
+            </p>
+            <p>
+              <span>전화번호</span> : {bProfileInfo.contact}
+            </p>
           </S.UserInfoData>
           {bProfileInfo.admin && (
             <S.InfoEditBtn

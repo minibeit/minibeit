@@ -73,18 +73,19 @@ export const UserInfoData = styled.div`
   margin-top: 1rem;
   & > p {
     font-size: 0.8rem;
+    display: flex;
     ::before {
       content: "•";
-      margin-right: 0.3rem;
+      margin-right: 0.2rem;
+    }
+    & > span {
+      min-width: 2.7rem;
     }
   }
   & > p:nth-child(3) {
-    display: flex;
     & > p {
+      margin-left: 0.2rem;
       min-height: 2rem;
-    }
-    & > span {
-      min-width: 2.5rem;
     }
   }
 `;
@@ -280,6 +281,7 @@ export const AddBProfileBtn = styled.div`
   display: flex;
   & > svg {
     margin: auto;
-    font-size: 2rem;
+    width: 2rem;
+    height: 2rem;
   }
 `;

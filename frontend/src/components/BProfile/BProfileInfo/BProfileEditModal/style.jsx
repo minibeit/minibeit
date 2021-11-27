@@ -16,8 +16,8 @@ export const ModalBox = styled.div`
   left: 50%;
   width: 57%;
   max-width: 41rem;
-  border-radius: 20px;
-  padding: 32px 36px;
+  border-radius: 1.25rem;
+  padding: 2rem 2.25rem;
   height: 26rem;
   background-color: white;
 `;
@@ -27,14 +27,16 @@ export const ModalHeader = styled.div`
   height: 3.2rem;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
   & > p {
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 1.125rem;
+    font-weight: 600;
   }
 `;
 export const CloseModalBtn = styled.div`
   margin-left: auto;
   height: -webkit-fill-available;
   & > svg {
+    width: 1rem;
+    height: 1rem;
     cursor: pointer;
   }
 `;
@@ -48,7 +50,7 @@ export const ImgEditContainer = styled.div`
   flex: 1;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 1rem;
   & > div:first-child {
     display: flex;
     font-size: 0.7rem;
@@ -56,8 +58,8 @@ export const ImgEditContainer = styled.div`
 `;
 export const ImgBox = styled.div`
   overflow: hidden;
-  width: 10rem;
-  height: 10rem;
+  width: 9rem;
+  height: 9rem;
   display: inline-block;
   border-radius: 50%;
 `;
@@ -70,20 +72,25 @@ export const Img = styled.img`
 export const ImgEditBtn = styled.label`
   padding: 0.5rem;
   cursor: pointer;
-  background: #c4c4c4;
-  color: white;
-  border-radius: 14px;
-  width: 100px;
-  font-size: 12px;
+  background: #fff;
+  color: #000;
+  border: 1px solid #0642ff;
+  border-radius: 1rem;
+  width: 6.25rem;
+  font-size: 0.8rem;
   text-align: center;
   white-space: nowrap;
+  :hover {
+    background-color: #0642ff;
+    color: #fff;
+  }
 `;
 
 /*info*/
 
 export const InfoEditContainer = styled.div`
   flex: 2;
-  margin: 27px 12px;
+  margin: 1.6875rem 0.75rem;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -110,28 +117,28 @@ export const EditInput = styled.div`
     width: 100%;
     height: 100%;
     border: none;
-    border-radius: 8px;
-    padding: 4px 0 8px 5px;
-    font-size: 15px;
+    border-radius: 0.5rem;
+    padding: 0.25rem 0 0.5rem 0.3125rem;
+    font-size: 1rem;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: 0.14px;
     text-align: left;
-    margin-top: 7px;
+    margin-top: 0.5rem;
     outline: none;
     color: #707070;
-    background: #fafafa;
+    background: #f3f3f3;
     text-decoration: none;
   }
 `;
 export const SubmitBtnBox = styled.div`
   & > button {
     display: flex;
-    background: blue;
-    color: white;
-    border-radius: 25px;
-    font-size: 15px;
+    background: #0642ff;
+    color: #fff;
+    border-radius: 1.5rem;
+    font-size: 0.9rem;
     cursor: pointer;
     align-items: center;
     width: 7rem;

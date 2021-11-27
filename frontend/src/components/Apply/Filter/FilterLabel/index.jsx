@@ -13,8 +13,8 @@ export default function FilterLabel({
     if (name === "startAndEnd") {
       const copy = { ...filter };
       copy[name] = [0, 24];
-      copy.startTime = "00:00";
-      copy.endTime = "24:00";
+      copy.startTime = "";
+      copy.endTime = "";
       setFilter(copy);
     } else if (name === "category") {
       const copy = { ...category };

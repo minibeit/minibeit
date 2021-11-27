@@ -83,15 +83,20 @@ export default function ApplyComponent() {
         date={date}
         setDate={setDate}
       />
-      <Filter
-        feedList={feedList}
-        search={search}
-        filter={filter}
-        setFilter={setFilter}
-        category={category}
-        setCategory={setCategory}
-      />
-      <p>검색결과 {totalElements}건</p>
+      {feedList && (
+        <>
+          <Filter
+            feedList={feedList}
+            search={search}
+            filter={filter}
+            setFilter={setFilter}
+            category={category}
+            setCategory={setCategory}
+          />
+          <S.SearchResult>검색결과 {totalElements}건</S.SearchResult>
+        </>
+      )}
+
       {feedList && (
         <>
           <ListContainer feedList={feedList} postBookmark={postBookmark} />

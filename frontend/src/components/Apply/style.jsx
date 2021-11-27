@@ -33,11 +33,15 @@ export const ListPageContainer = styled.div`
       }
     }
   }
-  & > p {
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 1rem 0;
-  }
+`;
+export const SearchResult = styled.p`
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-name: ${fadeIn};
+  animation-fill-mode: forwards;
 `;
 export const FilterLabelBox = styled.div`
   display: flex;

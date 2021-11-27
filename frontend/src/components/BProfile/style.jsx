@@ -146,6 +146,7 @@ export const NoneDiv = styled.div`
   }
   & > p {
     color: #acacac;
+    line-height: 1.2rem;
   }
 `;
 export const FeedGroup = styled.div`

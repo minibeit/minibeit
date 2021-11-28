@@ -208,7 +208,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             return postApplicant.applyStatus.eq(applyStatus).and(postDoDate.doDate.goe(now));
         }
         if (applyStatus.equals(ApplyStatus.APPROVE)) {
-            return postApplicant.applyStatus.eq(applyStatus).and(postDoDate.doDate.goe(now)).and(postApplicant.myFinish.isFalse());
+            return postApplicant.applyStatus.eq(applyStatus).and(postApplicant.myFinish.isFalse());
         }
         return null;
     }

@@ -3,15 +3,17 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Calendar from "react-calendar";
 import moment from "moment";
 
+import CloseIcon from "@mui/icons-material/Close";
+
 import * as S from "./style";
 
 export default function DateInput({ minDate, maxDate, onChange }) {
   const [calendarView, setCalendarView] = useState(false);
-  const [arr, setArr] = useState([]);
+  const [dateArr, setDateArr] = useState([]);
 
   const tileContent = ({ date, view }) => {
     if (view === "month") {
-      if (arr.find((ele) => ele === moment(date).format("YYYY-MM-DD"))) {
+      if (dateArr.find((ele) => ele === moment(date).format("YYYY-MM-DD"))) {
         return <S.ColorView />;
       } else {
         return null;
@@ -21,20 +23,30 @@ export default function DateInput({ minDate, maxDate, onChange }) {
 
   const onDateClick = (date) => {
     let stringDate = moment(date).format("YYYY-MM-DD");
-    if (arr.findIndex((ele) => ele === stringDate) !== -1) {
-      const copy = [...arr];
+    if (dateArr.findIndex((ele) => ele === stringDate) !== -1) {
+      const copy = [...dateArr];
       copy.splice(
-        arr.findIndex((ele) => ele === stringDate),
+        dateArr.findIndex((ele) => ele === stringDate),
         1
       );
       copy.sort();
-      setArr(copy);
+      setDateArr(copy);
     } else {
-      const copy = [...arr];
+      const copy = [...dateArr];
       copy.push(stringDate);
       copy.sort();
-      setArr(copy);
+      setDateArr(copy);
     }
+  };
+
+  const removeDate = (date) => {
+    const copy = [...dateArr];
+    copy.splice(
+      dateArr.findIndex((ele) => ele === date),
+      1
+    );
+    copy.sort();
+    setDateArr(copy);
   };
 
   return (
@@ -46,30 +58,48 @@ export default function DateInput({ minDate, maxDate, onChange }) {
       <div>
         <input
           readOnly
-          defaultValue={arr.length !== 0 ? `${arr[0]} ~` : null}
+          defaultValue={dateArr.length !== 0 ? `${dateArr[0]}  ~` : null}
           onClick={() => setCalendarView(!calendarView)}
         />
         {calendarView && (
           <S.CalendarWrapper>
-            <Calendar
-              calendarType="US"
-              minDate={minDate}
-              maxDate={maxDate}
-              onChange={onDateClick}
-              minDetail="month"
-              next2Label={null}
-              prev2Label={null}
-              showNeighboringMonth={false}
-              tileContent={tileContent}
-            />
-            <button
-              onClick={() => {
-                setCalendarView(false);
-                onChange(arr);
-              }}
-            >
-              선택 완료
-            </button>
+            <div>
+              <Calendar
+                calendarType="US"
+                minDate={minDate}
+                maxDate={maxDate}
+                onChange={onDateClick}
+                minDetail="month"
+                next2Label={null}
+                prev2Label={null}
+                showNeighboringMonth={false}
+                tileContent={tileContent}
+              />
+              {dateArr.length !== 0 && (
+                <S.DateList>
+                  <div>
+                    {dateArr.map((a, i) => {
+                      return (
+                        <S.Date key={i}>
+                          {moment(a).format("MM월DD일")}
+                          <CloseIcon onClick={() => removeDate(a)} />
+                        </S.Date>
+                      );
+                    })}
+                  </div>
+                </S.DateList>
+              )}
+            </div>
+            <div>
+              <button
+                onClick={() => {
+                  setCalendarView(false);
+                  onChange(dateArr);
+                }}
+              >
+                적용
+              </button>
+            </div>
           </S.CalendarWrapper>
         )}
       </div>

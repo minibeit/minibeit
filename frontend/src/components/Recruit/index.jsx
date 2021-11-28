@@ -19,10 +19,7 @@ export default function RecruitComponent() {
       id: null,
       name: null,
     },
-    school: {
-      id: null,
-      name: null,
-    },
+    schoolId: null,
     startDate: null,
     endDate: null,
     headCount: 0,

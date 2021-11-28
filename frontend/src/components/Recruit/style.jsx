@@ -96,33 +96,61 @@ export const DataSelectHeader = styled.div`
 export const SelectBox = styled.div`
   display: flex;
   max-width: 100%;
+  flex-wrap: wrap;
+  gap: 0.2rem;
   height: 4rem;
   border-radius: 1rem;
-  & > div {
-    flex: 1;
-    background: #f8f8f8;
-    border: 1px solid;
-    padding: 0.5rem;
+`;
+export const Box = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: #f8f8f8;
+  padding: 0 1rem;
+  & > p:first-child {
+    white-space: nowrap;
   }
-  & > div:first-child {
-    flex: 1.5;
+`;
+export const PlaceBox = styled(Box)`
+  flex: 2;
+  & > div:nth-child(2) {
+    display: flex;
+    margin-top: auto;
+    & > div:nth-child(2) {
+      flex: 1;
+      min-width: 7rem;
+    }
+  }
+  & svg {
+    width: 1rem;
+  }
+`;
+export const DateBox = styled(Box)`
+  & > div:nth-child(2) {
+    display: flex;
+    margin-top: auto;
+    margin-bottom: 0.5em;
   }
 `;
 
-export const CountBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  & > button {
+export const CountBox = styled(Box)`
+  & > div {
+    display: flex;
+    margin-top: auto;
+    margin-bottom: 0.5em;
+    & > p:nth-child(2) {
+      flex: 1;
+    }
+  }
+  & button {
     display: flex;
     border: none;
     background: none;
     cursor: pointer;
-    & svg {
-      width: 1rem;
-    }
+  }
+  & svg {
+    width: 1rem;
   }
 `;
 

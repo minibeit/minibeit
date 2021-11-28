@@ -6,6 +6,7 @@ import SearchInput from "./SearchInput";
 
 import { ReactComponent as MinusIcon } from "../../../svg/마이너스.svg";
 import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
+import { ReactComponent as PlaceIcon } from "../../../svg/위치.svg";
 
 import * as S from "../style";
 
@@ -48,24 +49,35 @@ export default function DataSelect({ recruit, setRecruit }) {
           <p>생성할 모집공고에 대한 날짜를 입력해주세요</p>
         </S.DataSelectHeader>
         <S.SelectBox>
-          <div>
+          <S.PlaceBox>
             <p>위치</p>
             <div>
-              <SearchInput onChange={(e) => console.log(e)} />
+              <PlaceIcon />
+              <SearchInput
+                onChange={(e) => {
+                  const copy = { ...recruit };
+                  copy.schoolId = e.value;
+                  setRecruit(copy);
+                }}
+              />
             </div>
-          </div>
-          <div>
+          </S.PlaceBox>
+          <S.DateBox>
             <p>날짜</p>
             <div>
               <DateInput
                 minDate={new Date()}
-                onChange={(e) => console.log(e)}
+                onChange={(e) => {
+                  const copy = { ...recruit };
+                  copy.doDateList = e;
+                  setRecruit(copy);
+                }}
               />
             </div>
-          </div>
-          <div>
+          </S.DateBox>
+          <S.CountBox>
             <p>시간 단위</p>
-            <S.CountBox>
+            <div>
               <button onClick={() => changeDoTime("minus")}>
                 <MinusIcon />
               </button>
@@ -73,11 +85,11 @@ export default function DataSelect({ recruit, setRecruit }) {
               <button onClick={() => changeDoTime("plus")}>
                 <PlusIcon />
               </button>
-            </S.CountBox>
-          </div>
-          <div>
+            </div>
+          </S.CountBox>
+          <S.CountBox>
             <p>시간 단위당 모집 인원</p>
-            <S.CountBox>
+            <div>
               <button onClick={() => changeHeadCount("minus")}>
                 <MinusIcon />
               </button>
@@ -85,8 +97,8 @@ export default function DataSelect({ recruit, setRecruit }) {
               <button onClick={() => changeHeadCount("plus")}>
                 <PlusIcon />
               </button>
-            </S.CountBox>
-          </div>
+            </div>
+          </S.CountBox>
         </S.SelectBox>
       </S.DataSelectContainer>
     </S.Page>

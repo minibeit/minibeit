@@ -42,7 +42,7 @@ export default function NavBar() {
             isLogin ? history.push("/recruit") : setModalSwitch(true)
           }
         >
-          <p>모집하기</p>
+          <p>지원하기</p>
         </S.NavBarMenu>
         <S.NavBarMenu>
           <Link to="/">

@@ -59,10 +59,11 @@ export default function RecruitComponent() {
   }, [userId]);
 
   const clickSubmit = () => {
-    if(recruit.title !== '') {
+    if (recruit.title !== "") {
       setAskComplete(1);
+    } else {
+      setAskComplete(2);
     }
-    else{setAskComplete(2);}
   };
 
   const submit = (recruit) => {
@@ -74,8 +75,11 @@ export default function RecruitComponent() {
           }
           history.push(`/recruit/complete/${res.data.data.id}`);
         })
-        .catch((err) => alert("게시물 작성에 실패했습니다"));
-      }
+        .catch((err) => {
+          alert("게시물 작성에 실패했습니다");
+          setAskComplete(0);
+        });
+    }
   };
 
   const page = useRef();

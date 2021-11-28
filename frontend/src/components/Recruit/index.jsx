@@ -7,6 +7,7 @@ import { bprofileListGet, feedCreateApi } from "../../utils";
 import { feedAddfileApi } from "../../utils/feedApi";
 
 import BProfileSelect from "./BProfileSelect";
+import DataSelect from "./DataSelect";
 import SchoolSelect from "./SchoolSelect";
 import DateSelect from "./DateSelect";
 import CategorySelect from "./CategorySelect";
@@ -24,7 +25,7 @@ export default function RecruitComponent() {
     },
     startDate: null,
     endDate: null,
-    headCount: 1,
+    headCount: 0,
     doTime: 30,
     startTime: null,
     endTime: null,
@@ -59,10 +60,11 @@ export default function RecruitComponent() {
   }, [userId]);
 
   const clickSubmit = () => {
-    if(recruit.title !== '') {
+    if (recruit.title !== "") {
       setAskComplete(1);
+    } else {
+      setAskComplete(2);
     }
-    else{setAskComplete(2);}
   };
 
   const submit = (recruit) => {
@@ -75,7 +77,7 @@ export default function RecruitComponent() {
           history.push(`/recruit/complete/${res.data.data.id}`);
         })
         .catch((err) => alert("게시물 작성에 실패했습니다"));
-      }
+    }
   };
 
   const page = useRef();
@@ -108,7 +110,8 @@ export default function RecruitComponent() {
         recruit={recruit}
         setRecruit={setRecruit}
       />
-      {recruit.businessProfile.id && (
+      <DataSelect recruit={recruit} setRecruit={setRecruit} />
+      {/* {recruit.businessProfile.id && (
         <SchoolSelect
           movePage={movePage}
           recruit={recruit}
@@ -128,7 +131,7 @@ export default function RecruitComponent() {
           recruit={recruit}
           setRecruit={setRecruit}
         />
-      )}
+      )} */}
       {recruit.category !== null && (
         <InfoData
           movePage={movePage}

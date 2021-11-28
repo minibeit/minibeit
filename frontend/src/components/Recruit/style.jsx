@@ -78,6 +78,54 @@ export const BProfileImgBox = styled.div`
   }
 `;
 
+/* Data Select */
+export const DataSelectContainer = styled(Container)`
+  gap: 2rem;
+`;
+export const DataSelectHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  & > p {
+    font-size: 2rem;
+  }
+  & > p:first-child {
+    font-weight: bold;
+  }
+`;
+export const SelectBox = styled.div`
+  display: flex;
+  max-width: 100%;
+  height: 4rem;
+  border-radius: 1rem;
+  & > div {
+    flex: 1;
+    background: #f8f8f8;
+    border: 1px solid;
+    padding: 0.5rem;
+  }
+  & > div:first-child {
+    flex: 1.5;
+  }
+`;
+
+export const CountBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  & > button {
+    display: flex;
+    border: none;
+    background: none;
+    cursor: pointer;
+    & svg {
+      width: 1rem;
+    }
+  }
+`;
+
 /* School Select */
 export const SchoolSelectContainer = styled(Container)`
   & > p:first-child {

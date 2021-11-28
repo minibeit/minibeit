@@ -244,11 +244,15 @@ export default function Presenter({
             setRecruit(copy);
             movePage(3);
           }}
-
         >
           저장
         </S.SaveBtn>
-        {resetAlert && <DateChange setResetAgree={setResetAgree} setResetAlert={setResetAlert}/>}
+        {resetAlert && (
+          <DateChange
+            setResetAgree={setResetAgree}
+            setResetAlert={setResetAlert}
+          />
+        )}
       </S.DateSelectContainer>
     </S.Page>
   );

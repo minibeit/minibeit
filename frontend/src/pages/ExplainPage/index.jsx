@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { NavBar } from "../../components/Common";
 import { ExplainContent, ExplainTitle } from "../../components/ExplainPage";
+import FooterComponent from "../../components/Common/Footer";
 import * as S from "./style";
 
 export default function ExplainPage() {
@@ -15,6 +16,7 @@ export default function ExplainPage() {
           <p>시작하기</p>
         </Link>
       </S.ExplainBtn>
+      <FooterComponent />
     </>
   );
 }

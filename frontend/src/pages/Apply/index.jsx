@@ -1,6 +1,7 @@
 import React from "react";
 import { NavBar } from "../../components/Common";
 import ApplyComponent from "../../components/Apply";
+import FooterComponent from "../../components/Common/Footer";
 
 export default function Apply({ location }) {
   const page =
@@ -9,6 +10,7 @@ export default function Apply({ location }) {
     <>
       <NavBar />
       <ApplyComponent page={page} />
+      <FooterComponent />
     </>
   );
 }

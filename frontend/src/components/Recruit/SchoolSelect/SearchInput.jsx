@@ -3,7 +3,7 @@ import Select from "react-select";
 import { schoolGetApi } from "../../../utils/schoolApi";
 
 export default function SearchInput({ onChange, defaultValue }) {
-  const [schools, setSchools] = useState([]);
+  const [schools, setSchools] = useState();
 
   const getSchool = (text) => {
     schoolGetApi(text).then((res) => {
@@ -53,19 +53,21 @@ export default function SearchInput({ onChange, defaultValue }) {
 
   return (
     <>
-      <Select
-        options={schools}
-        onChange={onChange}
-        defaultValue={
-          defaultValue
-            ? schools.find((ele) => ele.value === defaultValue)
-            : null
-        }
-        isClearable={true}
-        placeholder="위치"
-        styles={customStyles}
-        onInputChange={getSchool}
-      />
+      {schools && (
+        <Select
+          options={schools}
+          onChange={onChange}
+          defaultValue={
+            defaultValue
+              ? schools.find((ele) => ele.value === defaultValue)
+              : null
+          }
+          isClearable={true}
+          placeholder="위치"
+          styles={customStyles}
+          onInputChange={getSchool}
+        />
+      )}
     </>
   );
 }

@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
+
+const fadeIn = keyframes`
+  from{
+    opacity:0;
+  }
+  to{
+    opacity:1;
+  }
+`;
 
 export const ListPageContainer = styled.div`
   margin: 4rem 8rem 4rem 8rem;
@@ -8,27 +17,38 @@ export const ListPageContainer = styled.div`
     padding: 1rem 0;
     border-top: 1px solid #c4c4;
     & > button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
       background: white;
       border: 1px solid #c4c4c4;
-      width: 6rem;
-      height: 29px;
-      font-size: 15px;
       font-weight: 600;
-      border-radius: 10px;
       cursor: pointer;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      min-width: 7rem;
+      & svg {
+        width: 1rem;
+      }
     }
   }
-  & > p:nth-child(4) {
-    font-size: 2rem;
-    font-weight: bold;
-  }
+`;
+export const SearchResult = styled.p`
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 1rem 0;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-name: ${fadeIn};
+  animation-fill-mode: forwards;
 `;
 export const FilterLabelBox = styled.div`
-  padding: 1rem 0;
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
   align-items: center;
+  min-height: 3rem;
   & > p:first-child {
     display: flex;
     align-items: center;
@@ -46,14 +66,46 @@ export const FilterLabel = styled.div`
   & > p {
     white-space: nowrap;
   }
+  & > button {
+    background: none;
+    border: none;
+    margin: auto;
+    display: flex;
+    cursor: pointer;
+    padding: 0;
+    color: #1c2362;
+    & svg {
+      width: 1em;
+    }
+  }
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-name: ${fadeIn};
+  animation-fill-mode: forwards;
 `;
 
 /*search filter*/
 export const SearchBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 15px;
+  gap: 1rem;
+  ${({ center }) => {
+    if (center) {
+      return css`
+        position: fixed;
+        width: fit-content;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+      `;
+    } else {
+      return css`
+        width: 100%;
+        animation: ${fadeIn} ease-out 0.5s;
+      `;
+    }
+  }}
   & > p:first-child {
     color: #0642ff;
     font-size: 2rem;
@@ -68,26 +120,42 @@ export const SearchBox = styled.div`
     margin-bottom: 2rem;
   }
 `;
-export const SchoolSelect = styled.div`
-  width: 25rem;
-  height: 38px;
+export const SearchInput = styled.div`
+  background: #f8f8f8;
+  display: flex;
+  align-items: center;
+  max-height: 3rem;
+  padding: 0 1rem;
+  border-radius: 1.5rem;
   cursor: pointer;
+  & > p:first-child {
+    white-space: nowrap;
+  }
+  & svg {
+    width: 1rem;
+  }
 `;
-export const DateSelect = styled.div`
-  width: 25rem;
-  height: 38px;
-  cursor: pointer;
+export const PlaceInput = styled(SearchInput)``;
+export const DateInput = styled(SearchInput)`
+  & input {
+    background: none;
+    height: 100%;
+    border: none;
+    width: 13rem;
+    outline: none;
+    text-align: center;
+    font-size: 1rem;
+  }
 `;
 export const SearchBtn = styled.button`
-  width: 160px;
-  height: 38px;
-  border-radius: 50px;
   color: white;
   background-color: #0642ff;
   border: none;
-  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  white-space: nowrap;
 `;
 
 /* detail filter */
@@ -97,11 +165,11 @@ export const FilterBox = styled.div`
   box-sizing: border-box;
   position: absolute;
   width: 28rem;
-  margin-top: 16px;
   background-color: white;
   border: 1px solid #c4c4c4;
   border-radius: 15px;
   text-align: center;
+  z-index: 99;
   & > div:first-child {
     text-align: end;
   }
@@ -109,12 +177,13 @@ export const FilterBox = styled.div`
     margin: 10px 10px 0 0;
     cursor: pointer;
   }
-  & > div:nth-child(5) {
-    margin-top: 30px;
-    font-size: 15px;
-    color: #c4c4c4;
-    cursor: pointer;
-  }
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-name: ${fadeIn};
+  animation-fill-mode: forwards;
+`;
+export const FilterResetBtn = styled.div`
+  margin-top: 1rem;
 `;
 
 export const DetailBox = styled.div`
@@ -172,6 +241,10 @@ export const ListContainer = styled.div`
   flex-direction: column;
   gap: 2rem;
   margin-top: 2rem;
+  animation-duration: 0.5s;
+  animation-timing-function: ease-out;
+  animation-name: ${fadeIn};
+  animation-fill-mode: forwards;
 `;
 
 export const FeedBox = styled.div`

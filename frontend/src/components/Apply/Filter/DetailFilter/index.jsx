@@ -10,6 +10,7 @@ export default function DetailFilter({
   filterReset,
   search,
 }) {
+  const [data, setData] = useState(filter);
   const createTimeArr = () => {
     var timeArr = ["00:00"];
     var time = moment().set("hour", 0).set("minute", 0).set("second", 0);
@@ -21,19 +22,18 @@ export default function DetailFilter({
   const [timeArr] = useState(createTimeArr);
 
   const changePayType = (e) => {
-    const copy = { ...filter };
+    const copy = { ...data };
     if (e.target.value !== "CACHE") {
       copy.minPay = "";
     }
     copy[`${e.target.name}`] = e.target.value;
-    setFilter(copy);
+    setData(copy);
   };
   const changeFilter = (e) => {
-    const copy = { ...filter };
+    const copy = { ...data };
     copy[`${e.target.name}`] = e.target.value;
-    setFilter(copy);
+    setData(copy);
   };
-
   const paymentType = [
     { name: "전체", value: "" },
     { name: "현금", value: "CACHE" },
@@ -59,7 +59,6 @@ export default function DetailFilter({
       filterReset={filterReset}
       setFilterSwitch={setFilterSwitch}
       paymentType={paymentType}
-      filter={filter}
       changePayType={changePayType}
       changeFilter={changeFilter}
       minPay={minPay}
@@ -67,6 +66,8 @@ export default function DetailFilter({
       timeArr={timeArr}
       setFilter={setFilter}
       search={search}
+      data={data}
+      setData={setData}
     />
   );
 }

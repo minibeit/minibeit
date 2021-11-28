@@ -1,16 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router";
+import { FeedCategory } from "../../../../constants";
 import CloseIcon from "@mui/icons-material/Close";
-import { FeedCategory } from "../../../constants";
 
-import * as S from "../style";
+import * as S from "../../style";
 
-export default function Presenter({
+export default function CategoryFilter({
   category,
-  categoryReset,
+  setCategory,
   setCategorySwitch,
-  search,
-  clickCategory,
+  categoryReset,
 }) {
+  const history = useHistory();
+  const [data, setData] = useState(category);
+
+  const clickCategory = (value) => {
+    const copy = { ...data };
+    copy.category = value;
+    setData(copy);
+  };
+
   return (
     <S.FilterBox>
       <div
@@ -23,7 +32,7 @@ export default function Presenter({
       </div>
       <S.DetailBox>
         <S.SelectBtn
-          disabled={category["category"] === "ALL" ? true : false}
+          disabled={data["category"] === "ALL" ? true : false}
           onClick={() => clickCategory("ALL")}
         >
           전체
@@ -32,7 +41,7 @@ export default function Presenter({
           return (
             <S.SelectBtn
               key={a.id}
-              disabled={category["category"] === `${a.name}` ? true : false}
+              disabled={data["category"] === `${a.name}` ? true : false}
               onClick={() => clickCategory(a.name)}
             >
               {a.icon}
@@ -43,8 +52,9 @@ export default function Presenter({
       </S.DetailBox>
       <S.FilterSaveBtn
         onClick={() => {
-          search(1);
+          setCategory({ ...data });
           setCategorySwitch(false);
+          history.push("/apply?1");
         }}
       >
         카테고리 적용하기

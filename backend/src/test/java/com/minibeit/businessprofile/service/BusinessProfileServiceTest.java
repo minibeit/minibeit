@@ -5,7 +5,7 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.BusinessReview;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
-import com.minibeit.businessprofile.domain.repository.BusinessProfileReviewRepository;
+import com.minibeit.businessprofile.domain.repository.BusinessReviewRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
@@ -54,7 +54,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Autowired
     private BusinessProfileRepository businessProfileRepository;
     @Autowired
-    private BusinessProfileReviewRepository businessProfileReviewRepository;
+    private BusinessReviewRepository businessReviewRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired

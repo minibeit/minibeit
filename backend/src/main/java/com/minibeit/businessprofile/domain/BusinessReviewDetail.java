@@ -16,4 +16,7 @@ public class BusinessReviewDetail {
     private Long id;
 
     private String content;
+
+    @Enumerated(EnumType.STRING)
+    private ReviewType type;
 }

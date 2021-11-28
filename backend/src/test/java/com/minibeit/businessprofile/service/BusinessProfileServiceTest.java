@@ -2,14 +2,13 @@ package com.minibeit.businessprofile.service;
 
 import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.domain.BusinessProfileReview;
+import com.minibeit.businessprofile.domain.BusinessReview;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileReviewRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
-import com.minibeit.businessprofile.dto.BusinessProfilesReviewRequest;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.BusinessProfileAdminCantCancelException;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
@@ -78,7 +77,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     private PostApplicant postApplicant1;
     private PostApplicant postApplicant2;
 
-    private BusinessProfileReview businessProfileReview;
+    private BusinessReview businessReview;
     private School school;
 
     private PostRequest.CreateInfo createInfoRequest;
@@ -93,7 +92,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
         initPostRequest();
         initPost();
         initUpdateRequest();
-        initCreateReviewAndRequest();
     }
 
     private void initSchool() {
@@ -142,21 +140,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
         postApplicantRepository.saveAll(Arrays.asList(postApplicant1, postApplicant2, postApplicant3, postApplicant4));
 
         postDoDates = new ArrayList<>(post.getPostDoDateList());
-
-    }
-
-    private void initCreateReviewAndRequest() {
-
-        BusinessProfilesReviewRequest.Create request = BusinessProfilesReviewRequest.Create.builder()
-                .postTitle("첫 리뷰 제목")
-                .content("첫 번째 후기내용")
-                .time(30)
-                .doDate(LocalDateTime.of(2021, 9, 29, 9, 30))
-                .build();
-
-        businessProfileReview = BusinessProfileReview.create(postDoDates.get(0), businessProfile, request);
-        businessProfileReview.setCreatedBy(approveUser1);
-        businessProfileReviewRepository.save(businessProfileReview);
 
     }
 

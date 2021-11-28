@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 const fadeIn = keyframes`
   from{
@@ -88,8 +88,24 @@ export const FilterLabel = styled.div`
 export const SearchBox = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 15px;
+  gap: 1rem;
+  ${({ center }) => {
+    if (center) {
+      return css`
+        position: fixed;
+        width: fit-content;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 9999;
+      `;
+    } else {
+      return css`
+        width: 100%;
+        animation: ${fadeIn} ease-out 0.5s;
+      `;
+    }
+  }}
   & > p:first-child {
     color: #0642ff;
     font-size: 2rem;
@@ -161,16 +177,13 @@ export const FilterBox = styled.div`
     margin: 10px 10px 0 0;
     cursor: pointer;
   }
-  & > div:nth-child(5) {
-    margin-top: 30px;
-    font-size: 15px;
-    color: #c4c4c4;
-    cursor: pointer;
-  }
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
   animation-name: ${fadeIn};
   animation-fill-mode: forwards;
+`;
+export const FilterResetBtn = styled.div`
+  margin-top: 1rem;
 `;
 
 export const DetailBox = styled.div`

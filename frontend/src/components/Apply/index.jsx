@@ -36,7 +36,7 @@ export default function ApplyComponent({ page }) {
           setTotalElements(res.data.data.totalElements);
           history.push(`/apply?${page}`);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => alert("검색어를 다시 한번 확인해주세요"));
     },
     [user.isLogin, category, date, filter, history]
   );
@@ -48,19 +48,20 @@ export default function ApplyComponent({ page }) {
   };
 
   useEffect(() => {
-    if (page) search(school.schoolId, page);
-  }, [search, page, school.schoolId]);
+    if (page) search(school.schoolId ? school.schoolId : user.schoolId, page);
+  }, [search, page, school.schoolId, user.schoolId]);
 
   return (
     <S.ListPageContainer>
       <SearchBar
+        page={page}
         school={school}
         setSchool={setSchool}
         date={date}
         setDate={setDate}
         search={search}
       />
-      {feedList && (
+      {feedList && page && (
         <>
           <Filter
             feedList={feedList}
@@ -73,7 +74,7 @@ export default function ApplyComponent({ page }) {
         </>
       )}
 
-      {feedList && (
+      {feedList && page && (
         <>
           <ListContainer feedList={feedList} postBookmark={postBookmark} />
           {feedList.length !== 0 && (

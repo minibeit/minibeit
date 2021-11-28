@@ -113,7 +113,7 @@ export default function Presenter({
           }}
         />
       </S.DetailBox>
-      <div
+      <S.FilterResetBtn
         onClick={() => {
           filterReset();
           setFilterSwitch(false);
@@ -121,7 +121,7 @@ export default function Presenter({
         }}
       >
         모든 선택 초기화하기
-      </div>
+      </S.FilterResetBtn>
       <S.FilterSaveBtn
         onClick={() => {
           setFilter({ ...data });

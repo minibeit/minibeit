@@ -1,4 +1,7 @@
 GET {{apiUrl}}/business/review/list?type=BAD
 Authorization: {{authorizationToken}}
 
+###
+POST {{apiUrl}}/business/1/review/1
+Authorization: {{authorizationToken}}
 

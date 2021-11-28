@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
@@ -19,11 +20,12 @@ import java.util.List;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
-import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @DisplayName("비즈니스 프로필 리뷰 API 문서화")
@@ -42,6 +44,29 @@ class BusinessProfileReviewControllerTest extends MvcTest {
         businessReviewDetail2 = BusinessReviewDetail.builder().id(2L).content("친절했어요").type(ReviewType.GOOD).build();
         businessReviewDetail3 = BusinessReviewDetail.builder().id(3L).content("GOOD").type(ReviewType.GOOD).build();
     }
+
+    @Test
+    @DisplayName("비즈니스 리뷰 생성 문서화")
+    public void create() throws Exception {
+        ResultActions results = mvc.perform(post("/api/business/{businessProfileId}/review/{reviewDetailId}", 1,1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-review-create",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
+                                parameterWithName("reviewDetailId").description("상세 후기 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
+                        )
+                ));
+    }
+
 
     @Test
     @DisplayName("비즈니스 리뷰 만족 불만족 리스트 조회")

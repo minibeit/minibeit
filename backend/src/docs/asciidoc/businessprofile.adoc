@@ -132,3 +132,15 @@ include::{snippets}/business-review-list/request-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/business-review-list/http-response.adoc[]
 include::{snippets}/business-review-list/response-fields.adoc[]
+
+=== 비즈니스 프로필 후기 생성
+
+`GET /api/business/{businessProfileId}/review/{reviewDetailId}`
+
+요청 HTTP
+include::{snippets}/business-review-create/http-request.adoc[]
+include::{snippets}/business-review-create/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-review-create/http-response.adoc[]
+include::{snippets}/business-review-create/response-fields.adoc[]

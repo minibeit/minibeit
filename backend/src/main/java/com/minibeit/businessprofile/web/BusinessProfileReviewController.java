@@ -7,10 +7,7 @@ import com.minibeit.common.dto.ApiResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,6 +16,12 @@ import java.util.List;
 @RequestMapping("/api/business")
 public class BusinessProfileReviewController {
     private final BusinessReviewService businessReviewService;
+
+    @PostMapping("/{businessProfileId}/review/{reviewDetailId}")
+    public ResponseEntity<ApiResult<Void>> create(@PathVariable Long businessProfileId, @PathVariable Long reviewDetailId) {
+        businessReviewService.create(businessProfileId, reviewDetailId);
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
+    }
 
     @GetMapping("/reviews")
     public ResponseEntity<ApiResult<List<BusinessReviewResponse.IdAndName>>> getList(@RequestParam(name = "type") ReviewType type) {

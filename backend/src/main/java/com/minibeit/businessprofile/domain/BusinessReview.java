@@ -23,5 +23,12 @@ public class BusinessReview extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "business_review_detail_id")
     private BusinessReviewDetail businessReviewDetail;
+
+    public static BusinessReview create(BusinessProfile businessProfile, BusinessReviewDetail businessReviewDetail) {
+        return BusinessReview.builder()
+                .businessProfile(businessProfile)
+                .businessReviewDetail(businessReviewDetail)
+                .build();
+    }
 }
 

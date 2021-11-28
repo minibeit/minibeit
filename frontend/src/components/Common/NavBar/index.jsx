@@ -34,7 +34,7 @@ export default function NavBar() {
         </Link>
         <S.NavBarMenu>
           <Link to="/apply">
-            <p>지원하기</p>
+            <p>참여하기</p>
           </Link>
         </S.NavBarMenu>
         <S.NavBarMenu
@@ -42,7 +42,7 @@ export default function NavBar() {
             isLogin ? history.push("/recruit") : setModalSwitch(true)
           }
         >
-          <p>지원하기</p>
+          <p>모집하기</p>
         </S.NavBarMenu>
         <S.NavBarMenu>
           <Link to="/">

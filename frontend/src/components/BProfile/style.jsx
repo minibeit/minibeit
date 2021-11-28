@@ -269,9 +269,8 @@ export const BusinessProfile = styled.div`
 `;
 
 export const AddBProfileBtn = styled.div`
-  background-color: #f1f1f1;
-  width: 5rem;
-  height: 5rem;
+  width: 4rem;
+  height: 4rem;
   border-radius: 50%;
   position: relative;
   top: 50%;
@@ -281,7 +280,7 @@ export const AddBProfileBtn = styled.div`
   display: flex;
   & > svg {
     margin: auto;
-    width: 2rem;
-    height: 2rem;
+    width: 3rem;
+    height: 3rem;
   }
 `;

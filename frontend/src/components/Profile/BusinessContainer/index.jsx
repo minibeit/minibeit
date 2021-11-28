@@ -42,16 +42,20 @@ export default function BusinessContainer() {
     <S.Container>
       {BProfileList && (
         <S.BusinessListBox>
+          {editMode ? (
+            <button onClick={() => setEditMode(false)}>확인</button>
+          ) : (
+            <button onClick={() => setEditMode(true)}>프로필 수정</button>
+          )}
           <div>
             <S.BusinessHeader>
-              <p>어떤 비즈니스 프로필을 사용하시겠어요?</p>
-              <p>최대 3개까지 생성할 수 있어요</p>
+              <p>어떤 프로필을 사용하여 참여자를 모집하시겠어요?</p>
+              <p>
+                사용하실 비즈니스 프로필을 골라보세요.
+                <br />
+                최대 3개까지 생성할 수 있어요.
+              </p>
             </S.BusinessHeader>
-            {editMode ? (
-              <button onClick={() => setEditMode(false)}>확인</button>
-            ) : (
-              <button onClick={() => setEditMode(true)}>수정</button>
-            )}
           </div>
           <div>
             {BProfileList.map((a) => {
@@ -66,14 +70,16 @@ export default function BusinessContainer() {
                   >
                     <CloseIcon />
                   </S.DeleteBtn>
-                  <S.ImgBox onClick={() => history.push(`/business/${a.id}`)}>
-                    {a.avatar ? (
-                      <PVImg img={a.avatar} />
-                    ) : (
-                      <PVImg img="/images/기본비즈니스프로필.jpeg" />
-                    )}
-                  </S.ImgBox>
-                  <p>{a.name}</p>
+                  <div>
+                    <S.ImgBox onClick={() => history.push(`/business/${a.id}`)}>
+                      {a.avatar ? (
+                        <PVImg img={a.avatar} />
+                      ) : (
+                        <PVImg img="/images/기본프로필.png" />
+                      )}
+                    </S.ImgBox>
+                    <p>{a.name}</p>
+                  </div>
                   {deleteAlert === 1 && (
                     <DeleteBProfile
                       a={a}

@@ -10,19 +10,23 @@ export const ModalBackground = styled.div`
   z-index: 99;
 `;
 export const ModalBox = styled.div`
-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
   position: absolute;
   top: 50%;
   left: 50%;
   background-color: white;
   width: 30rem;
   height: 22rem;
-  border-radius: 35px;
-  & > div:first-child{
+  border-radius: 2.2rem;
+  & > div:first-child {
     display: flex;
     justify-content: flex-end;
     margin: 1.5rem;
     cursor: pointer;
+    & > svg {
+      width: 1rem;
+      height: 1rem;
+    }
   }
 `;
 
@@ -38,12 +42,19 @@ export const ModalContent = styled.div`
   align-items: center;
   padding: 20px;
 
-  & > p:nth-child(2){
-    width: 25rem;
+  & > svg {
+    width: 2rem;
+    height: 2rem;
+    path {
+      fill: #0642ff;
+    }
+  }
+
+  & > p:nth-child(2) {
     font-weight: 700;
-    font-size: 20px;
+    font-size: 1.6rem;
     text-align: center;
-    line-height: 30px;
+    line-height: 1.875rem;
     margin-bottom: 1rem;
   }
 
@@ -51,58 +62,62 @@ export const ModalContent = styled.div`
     position: absolute;
     z-index: 2;
     background: #fff;
-    border-radius: 10px;
-    }
+    border-radius: 0.625rem;
+  }
 `;
 
 export const Select = styled.div`
   position: relative;
   width: 20rem;
   height: 1.2rem;
-  padding: 6px 0;
-	font-size: 11px;
-	line-height: 1.2rem;
-	border: 1px solid #0642FF;
-  border-bottom: ${({isActive}) =>{return isActive ? 'none' : '1px solid #0642FF'}};
-	border-radius: ${({isActive}) =>{return isActive ? '10px 10px 0 0' : '10px'}};
+  padding: 0.375rem 0;
+  font-size: 0.6875rem;
+  line-height: 1.2rem;
+  border: 1px solid #0642ff;
+  border-bottom: ${({ isActive }) => {
+    return isActive ? "none" : "1px solid #0642FF";
+  }};
+  border-radius: ${({ isActive }) => {
+    return isActive ? "0.625rem 0.625rem 0 0" : "10px";
+  }};
   text-align: center;
-  color: #0642FF;
+  color: #0642ff;
   cursor: pointer;
   & > span:first-child {
     position: absolute;
-    right: 10px;
-    ${({isActive})=>{return isActive ? 'transform: rotate(180deg)' : null}}
+    right: 0.625rem;
+    ${({ isActive }) => {
+      return isActive ? "transform: rotate(180deg)" : null;
+    }}
   }
-
 `;
 
 export const Option = styled.option`
-  background-color: #FFF;
+  background-color: #fff;
   width: 20rem;
   height: 1.2rem;
-  padding: 6px 0;
-	font-size: 10px;
-	line-height: 1.1rem;
-	border: 1px solid gray;
+  padding: 0.375rem 0;
+  font-size: 0.625rem;
+  line-height: 1.1rem;
+  border: 1px solid gray;
   text-align: center;
-  color: #8C8C8C;
+  color: #8c8c8c;
   cursor: pointer;
   &:hover {
-    color: #0642FF;
+    color: #0642ff;
   }
   &:not(:last-child) {
     border-bottom: none;
-
   }
   &:not(:first-child) {
     border-top: none;
   }
-  &:last-child{
-    border-radius: 0 0 10px 10px;
+  &:last-child {
+    border-radius: 0 0 0.625rem 0.625rem;
     color: lightgray;
   }
   &:not(:last-child):after {
-    content:'';
+    content: "";
     position: relative;
     display: block;
     border-bottom: 1px solid rgba(140, 140, 140, 0.3);
@@ -110,39 +125,37 @@ export const Option = styled.option`
     transform: translateX(-50%);
     width: 17rem;
     text-align: center;
-    padding-bottom: 6px;
+    padding-bottom: 0.375rem;
   }
 `;
 
-
 export const Input = styled.input`
-	width: 20rem;
+  width: 20rem;
   height: 2rem;
-  padding: 6px 0;
-	font-size: 11px;
-	line-height: 11px;
-	border: 1px solid #0642FF;
-	border-radius: 10px;
+  padding: 0.375rem 0;
+  font-size: 0.6875rem;
+  line-height: 0.6875rem;
+  border: 1px solid #0642ff;
+  border-radius: 0.625rem;
   text-align: center;
-  color: #0642FF;
+  color: #0642ff;
   box-sizing: border-box;
   :focus {
     border: 1px solid gray;
     color: gray;
   }
-  `;
+`;
 
 export const BlueButton = styled.button`
   position: relative;
-  width: 9rem;
-  height: 2.7rem;
-  font-size: 13px;
-  line-height: 2.5rem;
-  border-radius: 30px;
-  color: #FFFFFF;
-  border: 1px solid #0642FF;
-  background: #0642FF;
+  width: 6rem;
+  height: 1.9rem;
+  font-size: 0.8125rem;
+  line-height: 1.7rem;
+  border-radius: 1.875rem;
+  color: #ffffff;
+  border: 1px solid #0642ff;
+  background: #0642ff;
   margin-top: 1rem;
   cursor: pointer;
-
 `;

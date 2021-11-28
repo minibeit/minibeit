@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Portal from "../../../Common/Modal/Portal";
-import CloseIcon from "@mui/icons-material/Close";
+import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 import { editBprofile } from "../../../../utils/bprofileApi";
 
 import Presenter from "./presenter";
@@ -52,21 +52,19 @@ export default function BProfileEditCont({ infoData, setInfoEditModal }) {
   };
 
   const clickOutside = (e) => {
-    e.target===e.currentTarget && 
-    setInfoEditModal(false); 
+    e.target === e.currentTarget && setInfoEditModal(false);
     document.querySelector("body").removeAttribute("style");
   };
 
   const clickIcon = () => {
     setInfoEditModal(false);
     document.querySelector("body").removeAttribute("style");
-
   };
 
   return (
     <>
       <Portal>
-        <S.ModalBackground onClick={(e)=>clickOutside(e)}>
+        <S.ModalBackground onClick={(e) => clickOutside(e)}>
           <S.ModalBox>
             <S.ModalHeader>
               <p>비즈니스 프로필 수정하기</p>

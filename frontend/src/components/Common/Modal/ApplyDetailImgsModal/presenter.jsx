@@ -15,12 +15,16 @@ export default function Presenter({
     setModalSwitch(false);
     document.querySelector("body").removeAttribute("style");
   };
+  const link = files[currentSlide].url;
+  console.log(link);
   return (
     <>
       <div>
         <S.ModalBtn onClick={modalOff}>X 닫기</S.ModalBtn>
         <S.ModalBtn>
-          <a href={files[currentSlide].url}>다운로드</a>
+          <a href={link} download>
+            다운로드
+          </a>
         </S.ModalBtn>
       </div>
       <S.Container>

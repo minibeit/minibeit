@@ -30,6 +30,8 @@ export default function SchoolSelect({ onChange, defaultValue }) {
     control: (provided, state) => ({
       ...provided,
       borderRadius: "8px",
+      boxSizing: "border-box",
+      background: "#fafafa",
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
@@ -45,6 +47,7 @@ export default function SchoolSelect({ onChange, defaultValue }) {
       textAlign: "center",
       fontSize: "15px",
       fontWeight: "600",
+      borderRadius: "8px",
     }),
     menuList: (provided, state) => ({
       ...provided,

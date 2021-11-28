@@ -2,7 +2,15 @@ import React, { useState } from "react";
 
 import Presenter from "./presenter";
 
-export default function InfoData({ recruit, setRecruit, submit, clickSubmit, movePage, setAskComplete, askComplete}) {
+export default function InfoData({
+  recruit,
+  setRecruit,
+  submit,
+  clickSubmit,
+  movePage,
+  setAskComplete,
+  askComplete,
+}) {
   const [addressModal, setAddressModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
 
@@ -64,7 +72,7 @@ export default function InfoData({ recruit, setRecruit, submit, clickSubmit, mov
   };
 
   return (
-    <Presenter 
+    <Presenter
       onChange={onChange}
       recruit={recruit}
       setRecruit={setRecruit}

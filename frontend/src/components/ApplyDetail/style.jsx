@@ -82,7 +82,7 @@ export const TitleBookMark = styled.div`
 `;
 /* Content */
 export const ContentBox = styled.div`
-  width: 70%;
+  width: 75%;
 `;
 
 export const DataBox = styled.div`
@@ -215,6 +215,8 @@ export const TimeView = styled.div`
 `;
 
 export const DetailContent = styled.div`
+  white-space: pre-line;
+  line-height: 1rem;
   font-size: 0.8rem;
 `;
 export const EditTextArea = styled.textarea`
@@ -249,7 +251,7 @@ export const ReviewBox = styled.div`
 /* apply remote controller */
 export const RemoteBox = styled.div`
   position: relative;
-  width: 30%;
+  width: 25%;
   right: 0;
 `;
 export const Controller = styled.div`
@@ -318,7 +320,7 @@ export const ApplyImgContainer = styled.div`
   flex-wrap: wrap;
   gap: 0.5rem;
   width: 27.5rem;
-  margin: 2rem 0;
+  margin: 4rem 0;
 
   & > div:nth-child(2) {
     display: flex;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Portal from "../../../Common/Modal/Portal";
-import CloseIcon from "@mui/icons-material/Close";
+import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 
 import Presenter from "./presenter";
 import * as S from "./style";
@@ -60,14 +60,13 @@ export default function BProfileCreateModal({ setModalSwitch }) {
   };
 
   const clickOutside = (e) => {
-    e.target===e.currentTarget && 
-    setModalSwitch(false);
+    e.target === e.currentTarget && setModalSwitch(false);
     document.querySelector("body").removeAttribute("style");
   };
 
   return (
     <Portal>
-      <S.ModalBackground onClick={(e)=>clickOutside(e)}>
+      <S.ModalBackground onClick={(e) => clickOutside(e)}>
         <S.ModalBox>
           <S.ModalHeader>
             <p>비즈니스 프로필 생성하기</p>

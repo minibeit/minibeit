@@ -26,16 +26,14 @@ export default function Presenter({
 }) {
   return (
     <S.UserListView>
-      <S.DataNavBar1>
-        <div>
-          <div>실명</div>
-          <div>생년월일</div>
-          <div>성별</div>
-          <div>연락처</div>
-          <div>직업</div>
-          <div>처리상태</div>
-        </div>
-      </S.DataNavBar1>
+      <div>
+        <div>실명</div>
+        <div>생년월일</div>
+        <div>성별</div>
+        <div>연락처</div>
+        <div>직업</div>
+        <div>처리상태</div>
+      </div>
       <div>
         <div>{moment(date).format("YYYY.MM.DD")}</div>
         {userList.map((time, i) => {
@@ -104,16 +102,14 @@ export default function Presenter({
                           )}
                         </S.UserInfoBox>
                         <S.RejectInput style={{ display: "none" }}>
-                          <p>반려사유</p>
-                          <div>
-                            <input
-                              placeholder="반려사유를 작성해주세요"
-                              onChange={(e) => setReason(e.target.value)}
-                            />
-                            <button onClick={(e) => rejectOn(user, e)}>
-                              확인
-                            </button>
-                          </div>
+                          <input
+                            placeholder="반려사유를 작성해주세요"
+                            onChange={(e) => setReason(e.target.value)}
+                          />
+                          <button onClick={(e) => rejectOn(user, e)}>
+                            확인
+                          </button>
+
                           {rejectAlert && (
                             <RejectApplicant
                               setRejectAlert={setRejectAlert}

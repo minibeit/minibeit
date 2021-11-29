@@ -17,7 +17,7 @@ export const ModalBox = styled.div`
   width: 57%;
   max-width: 41rem;
   border-radius: 1.25rem;
-  padding: 2rem 2.25rem;
+  padding: 1.5rem 2rem;
   height: 26rem;
   background-color: white;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
@@ -40,6 +40,7 @@ export const ModalHeader = styled.div`
       font-size: 1.5rem;
       height: 2rem;
       border-bottom: 3px solid #0642ff;
+      margin-left: 1rem;
     }
   }
   & > div:nth-child(3) {
@@ -47,7 +48,7 @@ export const ModalHeader = styled.div`
   }
 `;
 export const CalendarBtn = styled.button`
-  margin: 1rem;
+  margin: 1rem 0.5rem;
   border: none;
   background: none;
   cursor: pointer;
@@ -78,16 +79,8 @@ export const CloseModalBtn = styled.div`
     height: 1rem;
   }
 `;
-export const InfoTitle = styled.div`
-  display: flex;
-  width: 100%;
-`;
-export const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 1.5rem 0;
-`;
+
+export const ModalContent = styled.div``;
 export const ButtonTab = styled.div`
   position: absolute;
   top: -7%;
@@ -107,10 +100,38 @@ export const ButtonTab = styled.div`
 `;
 export const UserListView = styled.div`
   width: 100%;
-  padding: 0 1rem;
-  & > div:nth-child(2) {
+  & > div:first-child {
+    font-size: 0.7rem;
+    padding-bottom: 0.5rem;
+    color: #5e5e5e;
+    width: 78%;
+    position: relative;
+    left: 22.5%;
     display: flex;
-    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    align-items: center;
+    & > div {
+      width: 3rem;
+    }
+    & > div:nth-child(2) {
+      width: 5rem;
+    }
+    & > div:nth-child(3) {
+      width: 1.7rem;
+    }
+    & > div:nth-child(4) {
+      width: 5rem;
+    }
+    & > div:nth-child(5) {
+      width: 3.5rem;
+    }
+
+    & > div:nth-child(6) {
+      width: 7rem;
+    }
+  }
+  & > div:nth-child(2) {
     background-color: #f8f8f8;
     overflow-y: scroll;
     border-radius: 1rem;
@@ -136,54 +157,9 @@ export const UserListView = styled.div`
     }
   }
 `;
-export const DataNavBar1 = styled.div`
-  font-size: 0.7rem;
-  z-index: 99;
-  padding-bottom: 0.5rem;
-  color: #5e5e5e;
-  width: 78%;
-  position: relative;
-  left: 22.5%;
-  & > div:first-child {
-    display: flex;
-    gap: 1rem;
-    text-align: center;
-    align-items: center;
-    & > div {
-      width: 3rem;
-    }
-    & > div:nth-child(2) {
-      width: 5rem;
-    }
-    & > div:nth-child(3) {
-      width: 1.7rem;
-    }
-    & > div:nth-child(4) {
-      width: 5rem;
-    }
-    & > div:nth-child(5) {
-      width: 3.5rem;
-    }
-
-    & > div:nth-child(6) {
-      width: 7rem;
-    }
-  }
-`;
 export const DataNavBar = styled.div`
-  display: flex;
   z-index: 99;
   padding: 0.5rem;
-  background-color: inherit;
-  flex: 1;
-  & > div:first-child {
-    display: flex;
-    flex: 1;
-  }
-  & > div:nth-child(2) {
-    display: flex;
-    flex: 5;
-  }
 `;
 
 export const DateInfoBox = styled.div`
@@ -191,46 +167,32 @@ export const DateInfoBox = styled.div`
   border-bottom: 1px solid #c4c4c4;
   display: flex;
   font-size: 0.9rem;
+  gap: 1rem;
   & > div:first-child {
     flex: 1;
-    align-items: center;
-    justify-content: center;
-    display: flex;
-    position: sticky;
-    margin: 0.2rem auto;
     background-color: #c4c4c4;
     border-radius: 1rem;
     height: 1.7rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   & > div:nth-child(2) {
     flex: 5;
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
     flex-direction: column;
-    margin-left: 2rem;
-    gap: 0.3rem;
+    gap: 0.5rem;
     & > div {
       display: flex;
       flex-direction: column;
-      gap: 0.3rem;
-      & > div {
-        display: flex;
-        justify-content: space-evenly;
-        align-items: center;
-        flex: 1;
-        & > div {
-          display: flex;
-          justify-content: space-between;
-        }
-      }
+      gap: 0.5rem;
     }
   }
 `;
 export const UserInfoBox = styled.div`
   display: flex;
-  gap: 1.5rem;
-  z-index: 99;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 export const ButtonBox = styled.div`
@@ -258,24 +220,22 @@ export const Btn = styled.button`
 export const RejectInput = styled.div`
   display: flex;
   align-items: center;
-  gap: 1rem;
-  & > p {
-    white-space: nowrap;
-  }
-  & > div {
+  justify-content: space-between;
+  background-color: #fff;
+  border-radius: 0.5rem;
+  padding: 0.3rem 1rem;
+
+  & > input {
     flex: 1;
-    background: white;
-    display: flex;
-    & > input {
-      flex: 1;
-      border: none;
-    }
-    & > button {
-      background: white;
-      border: none;
-      padding: 0.5rem;
-      font-weight: bold;
-      cursor: pointer;
+    border: none;
+  }
+  & > button {
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    font-weight: 600;
+    :hover {
+      color: #0642ff;
     }
   }
 `;

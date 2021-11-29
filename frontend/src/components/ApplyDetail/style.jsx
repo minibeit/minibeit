@@ -87,6 +87,19 @@ export const ContentBox = styled.div`
 
 export const DataBox = styled.div`
   position: relative;
+  & > div:first-child {
+    border-bottom: 1px solid #c4c4c4;
+    & > div:first-child {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      & > p:first-child {
+        font-size: 1.3rem;
+        font-weight: bold;
+        padding: 1rem 1rem 1rem 0;
+      }
+    }
+  }
   & > div:nth-child(2) {
     & > ul {
       margin: 1rem 0;
@@ -143,17 +156,17 @@ export const DataBox2 = styled(DataBox)`
 `;
 export const DataHeader = styled.div`
   border-bottom: 1px solid #c4c4c4;
-  & > div:first-child {
+  /* & > div:first-child {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    & > p:first-child {
-      font-size: 1.3rem;
-      font-weight: bold;
-      padding: 1rem 1rem 1rem 0;
-    }
+    align-items: center; */
+  & > p:first-child {
+    font-size: 1.3rem;
+    font-weight: bold;
+    padding: 1rem 1rem 1rem 0;
   }
 `;
+
 export const DataContent = styled.div`
   min-height: 8rem;
   padding: 1rem 0;

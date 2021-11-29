@@ -143,11 +143,15 @@ export const DataBox2 = styled(DataBox)`
 `;
 export const DataHeader = styled.div`
   border-bottom: 1px solid #c4c4c4;
-  display: flex;
-  & > p:first-child {
-    font-size: 1.3rem;
-    font-weight: bold;
-    padding: 1rem 1rem 1rem 0;
+  & > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    & > p:first-child {
+      font-size: 1.3rem;
+      font-weight: bold;
+      padding: 1rem 1rem 1rem 0;
+    }
   }
 `;
 export const DataContent = styled.div`
@@ -156,6 +160,10 @@ export const DataContent = styled.div`
 `;
 export const DataContent2 = styled(DataContent)`
   max-height: 37rem;
+  & > div:nth-child(2) {
+    display: flex;
+    align-items: flex-start;
+  }
 `;
 export const SmTitle = styled.p`
   font-size: 0.9rem;
@@ -164,11 +172,17 @@ export const SmTitle = styled.p`
 `;
 
 export const EditBtn = styled.button`
-  border: none;
-  background-color: inherit;
+  background-color: #0642ff;
+  border: 1px solid #0642ff;
+  color: #fff;
+  border-radius: 1rem;
+  height: 1.5rem;
+  width: 4.5rem;
   cursor: pointer;
   :hover {
     color: #0642ff;
+    background-color: #fff;
+    border: 1px solid #0642ff;
   }
 `;
 /* date & time */

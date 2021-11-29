@@ -377,6 +377,7 @@
   margin: 0;
   height: calc(195px + (1.7rem / 2));
   overflow-y: scroll;
+  overflow-x: hidden;
   padding-right: 0;
   padding-left: 0;
   width: 100%;

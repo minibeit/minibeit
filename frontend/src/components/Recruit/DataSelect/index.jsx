@@ -1,5 +1,7 @@
 import React from "react";
 import "moment/locale/ko";
+import TimePicker from "react-datepicker";
+import ko from "date-fns/locale/ko";
 
 import DateInput from "./DateInput";
 import SearchInput from "./SearchInput";
@@ -7,6 +9,7 @@ import SearchInput from "./SearchInput";
 import { ReactComponent as MinusIcon } from "../../../svg/마이너스.svg";
 import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
 import { ReactComponent as PlaceIcon } from "../../../svg/위치.svg";
+import { ReactComponent as CalendarIcon } from "../../../svg/달력.svg";
 
 import * as S from "../style";
 
@@ -56,7 +59,7 @@ export default function DataSelect({ recruit, setRecruit }) {
               <SearchInput
                 onChange={(e) => {
                   const copy = { ...recruit };
-                  copy.schoolId = e.value;
+                  copy.schoolId = e ? e.value : null;
                   setRecruit(copy);
                 }}
               />
@@ -65,6 +68,7 @@ export default function DataSelect({ recruit, setRecruit }) {
           <S.DateBox>
             <p>날짜</p>
             <div>
+              <CalendarIcon />
               <DateInput
                 minDate={new Date()}
                 onChange={(e) => {
@@ -86,6 +90,51 @@ export default function DataSelect({ recruit, setRecruit }) {
                 <PlusIcon />
               </button>
             </div>
+            <S.TimeSelectBox>
+              <div>
+                <div>
+                  <S.TimeInput>
+                    <p>시작시간</p>
+                    <TimePicker
+                      locale={ko}
+                      selected={recruit.startTime}
+                      onChange={(e) => {
+                        const copy = { ...recruit };
+                        copy.startTime = e;
+                        setRecruit(copy);
+                      }}
+                      timeFormat="aa h:mm"
+                      showTimeSelect
+                      showTimeSelectOnly
+                      timeCaption="시작시간"
+                      timeIntervals={30}
+                      dateFormat="aa h:mm"
+                    />
+                  </S.TimeInput>
+                  {"~"}
+                  <S.TimeInput>
+                    <p>종료시간</p>
+                    <TimePicker
+                      locale={ko}
+                      selected={recruit.endTime}
+                      onChange={(time) => {
+                        const copy = { ...recruit };
+                        copy.endTime = time;
+                        setRecruit(copy);
+                      }}
+                      timeFormat="aa h:mm"
+                      showTimeSelect
+                      showTimeSelectOnly
+                      timeCaption="종료시간"
+                      timeIntervals={30}
+                      dateFormat="aa h:mm"
+                    />
+                  </S.TimeInput>
+                </div>
+                <S.DetailTimeBtn>날짜 별 시간설정</S.DetailTimeBtn>
+              </div>
+              <S.SaveTimeBtn>적용</S.SaveTimeBtn>
+            </S.TimeSelectBox>
           </S.CountBox>
           <S.CountBox>
             <p>시간 단위당 모집 인원</p>

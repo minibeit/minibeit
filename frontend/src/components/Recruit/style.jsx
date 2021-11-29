@@ -98,13 +98,13 @@ export const SelectBox = styled.div`
   max-width: 100%;
   flex-wrap: wrap;
   gap: 0.2rem;
-  height: 4rem;
   border-radius: 1rem;
 `;
 export const Box = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
+  height: 4rem;
   gap: 0.5rem;
   background: #f8f8f8;
   padding: 0 1rem;
@@ -117,6 +117,7 @@ export const PlaceBox = styled(Box)`
   & > div:nth-child(2) {
     display: flex;
     margin-top: auto;
+    gap: 0.3rem;
     & > div:nth-child(2) {
       flex: 1;
       min-width: 7rem;
@@ -131,27 +132,93 @@ export const DateBox = styled(Box)`
     display: flex;
     margin-top: auto;
     margin-bottom: 0.5em;
+    gap: 0.3rem;
+    & input {
+      padding: 0.5rem;
+      font-size: 15px;
+      max-width: 8rem;
+      border: none;
+      background: none;
+      outline: none;
+    }
+  }
+  & svg {
+    width: 1rem;
   }
 `;
 
 export const CountBox = styled(Box)`
-  & > div {
+  & > div:nth-child(2) {
     display: flex;
     margin-top: auto;
     margin-bottom: 0.5em;
     & > p:nth-child(2) {
       flex: 1;
     }
-  }
-  & button {
-    display: flex;
-    border: none;
-    background: none;
-    cursor: pointer;
+    & > button {
+      display: flex;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
   }
   & svg {
     width: 1rem;
   }
+`;
+export const TimeSelectBox = styled.div`
+  box-shadow: 10px 10px 30px 0px #bdbdbd33;
+  position: absolute;
+  transform: translate(0, 4em);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  & > div:first-child {
+    padding: 0.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+    & > div:first-child {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5em;
+    }
+  }
+`;
+export const TimeInput = styled.div`
+  display: flex;
+  flex-direction: column;
+  & p {
+    text-align: start;
+    margin: 0.3em;
+  }
+  & input {
+    background: #f8f8f8;
+    border-radius: 1em;
+    border: none;
+    width: 8rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    color: #7c7c7c;
+    font-weight: bold;
+    text-align: center;
+  }
+`;
+export const DetailTimeBtn = styled.div`
+  border: 1px solid #0642ff;
+  border-radius: 1rem;
+  padding: 1em;
+  color: #0642ff;
+  cursor: pointer;
+`;
+export const SaveTimeBtn = styled.div`
+  border-top: 1px dotted #c4c4c4;
+  padding: 1rem;
+  cursor: pointer;
+  color: #0642ff;
+  font-weight: bold;
+  font-size: 1.2em;
 `;
 
 /* School Select */

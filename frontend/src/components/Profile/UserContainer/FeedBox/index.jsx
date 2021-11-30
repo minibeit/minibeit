@@ -1,10 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useHistory } from "react-router";
+
 import { deleteCancelApi, doJoinApi, doNotJoinApi } from "../../../../utils";
 
 import * as S from "../../style";
 
 export default function FeedBox({ status, data, changeFeedData }) {
+  const history = useHistory();
   const doNotJoin = (id) => {
     let value = window.confirm("실험 참여를 취소하시겠습니까?");
     if (value) {
@@ -43,7 +45,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
 
   return (
     <>
-      <S.FeedLabel>
+      <S.FeedLabel status={status} postStatus={data.postStatus}>
         {status === "approve" && "참여확정"}
         {status === "wait" && "참여대기"}
         {status === "complete" && "참여완료"}
@@ -51,12 +53,10 @@ export default function FeedBox({ status, data, changeFeedData }) {
         {status === "like" &&
           (data.postStatus === "RECRUIT" ? "모집중" : "모집완료")}
       </S.FeedLabel>
-      <S.FeedBox>
+      <S.FeedBox status={status} postStatus={data.postStatus}>
         <S.FeedTitleBox>
           <p>게시글 제목</p>
-          <Link to={`/apply/${data.id}`}>
-            <p>{data.title}</p>
-          </Link>
+          <p onClick={() => history.push(`/apply/${data.id}`)}>{data.title}</p>
         </S.FeedTitleBox>
         <S.FeedContentBox>
           {status === "approve" && (
@@ -111,7 +111,10 @@ export default function FeedBox({ status, data, changeFeedData }) {
                   <p>{data.review}</p>
                 </div>
               </S.FeedInfo>
-              <S.FeedButton></S.FeedButton>
+              <S.FeedButton>
+                <button>후기 작성</button>
+                <button>후기 수정</button>
+              </S.FeedButton>
             </>
           )}
           {status === "reject" && (

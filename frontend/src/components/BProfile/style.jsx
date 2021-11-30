@@ -143,6 +143,7 @@ export const NoneDiv = styled.div`
     border: none;
     background: #0642ff;
     color: #fff;
+    cursor: pointer;
   }
   & > p {
     color: #acacac;

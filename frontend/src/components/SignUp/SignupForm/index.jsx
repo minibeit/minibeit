@@ -173,6 +173,11 @@ export default function SignUpComponent({ setFinish }) {
     }
   }, [guest.email]);
 
+  const goHome = () => {
+    history.push("/");
+    document.querySelector("body").removeAttribute("style");
+  };
+
   return (
     <Portal>
       <S.ModalBackground>
@@ -196,7 +201,7 @@ export default function SignUpComponent({ setFinish }) {
                 <p>나의 직업 설정하기</p>
               </>
             )}
-            <S.CloseModalBtn onClick={() => history.push("/")}>
+            <S.CloseModalBtn onClick={goHome}>
               <CloseIcon />
             </S.CloseModalBtn>
           </S.ModalHeader>

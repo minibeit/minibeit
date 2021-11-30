@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const Background = styled.div`
-  position: fixed;
   width: 100vw;
   height: 100vh;
   background: #ffffff;
@@ -13,7 +12,7 @@ export const Box = styled.div`
   top: 50%;
   left: 50%;
   background-color: white;
- 
+
   & > div:first-child {
     width: 35rem;
     height: 20rem;
@@ -26,7 +25,7 @@ export const Box = styled.div`
     align-items: center;
     text-align: center;
 
-    & > p:first-child{
+    & > p:first-child {
       font-weight: 700;
       font-size: 1.5rem;
     }
@@ -62,13 +61,13 @@ const Button = styled.button`
 `;
 
 export const GrayButton = styled(Button)`
-color: #FFFFFF;
-border: 1px solid #FFFFFF;
-background: #C4C4C4;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  background: #c4c4c4;
 `;
 
 export const BlueButton = styled(Button)`
-color: #FFFFFF;
-border: 1px solid #0642FF;
-background: #0642FF;
+  color: #ffffff;
+  border: 1px solid #0642ff;
+  background: #0642ff;
 `;

@@ -1,13 +1,14 @@
 import React, { useState } from "react";
+
 import "moment/locale/ko";
 import TimePicker from "react-datepicker";
 import ko from "date-fns/locale/ko";
 
 import DateInput from "./DateInput";
 import SearchInput from "./SearchInput";
+import TimeSelectModal from "./TimeSelectModal";
 
 import FeedCategory from "../../../constants/FeedCategory";
-import TimeSelectModal from "./TimeSelectModal";
 
 import { ReactComponent as MinusIcon } from "../../../svg/마이너스.svg";
 import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
@@ -21,9 +22,23 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
   const [viewTimeSelect, setViewTimeSelect] = useState(true);
+  const [timeSelectModal, setTimeSelectModal] = useState(false);
   const [viewCategory, setViewCategory] = useState(false);
   const [category, setCategory] = useState(null);
-  const [timeSelectModal, setTimeSelectModal] = useState(false);
+
+  const changeDoTime = (value) => {
+    if (value === "minus") {
+      const copy = { ...recruit };
+      if (copy.doTime > 30) {
+        copy.doTime -= 30;
+        setRecruit(copy);
+      }
+    } else {
+      const copy = { ...recruit };
+      copy.doTime += 30;
+      setRecruit(copy);
+    }
+  };
 
   /* 모집인원 카운트 로직 */
   const changeHeadCount = (value) => {
@@ -36,21 +51,6 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
     } else {
       const copy = { ...recruit };
       copy.headCount += 1;
-      setRecruit(copy);
-    }
-  };
-
-  /* 실험 시간 단위 로직 */
-  const changeDoTime = (value) => {
-    if (value === "minus") {
-      const copy = { ...recruit };
-      if (copy.doTime > 30) {
-        copy.doTime -= 30;
-        setRecruit(copy);
-      }
-    } else {
-      const copy = { ...recruit };
-      copy.doTime += 30;
       setRecruit(copy);
     }
   };

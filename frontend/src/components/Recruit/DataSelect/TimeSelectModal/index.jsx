@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import Portal from "../../Common/Modal/Portal";
-import PropTypes from "prop-types";
+import Portal from "../../../Common/Modal/Portal";
 import Calendar from "react-calendar";
 
 import moment from "moment";
 import "moment/locale/ko";
 
-import * as S from "../style";
+import * as S from "./style";
 
-export default function PTimeSelectModal({
+export default function TimeSelectModal({
   recruit,
   setRecruit,
   modalSwitch,

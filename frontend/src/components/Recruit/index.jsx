@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { useHistory } from "react-router";
 
 import { userState } from "../../recoil/userState";
@@ -9,37 +9,10 @@ import { feedAddfileApi } from "../../utils/feedApi";
 import BProfileSelect from "./BProfileSelect";
 import DataSelect from "./DataSelect";
 import InfoData from "./InfoData";
+import { recruitState } from "../../recoil/recruitState";
 
 export default function RecruitComponent() {
-  const [recruit, setRecruit] = useState({
-    businessProfile: {
-      id: null,
-      name: null,
-    },
-    schoolId: null,
-    startDate: null,
-    endDate: null,
-    headCount: 0,
-    doTime: 30,
-    startTime: null,
-    endTime: null,
-    timeList: [],
-    dateList: null,
-    exceptDateList: [],
-    doDateList: [],
-    category: null,
-    title: "",
-    content: "",
-    condition: false,
-    conditionDetail: [""],
-    payment: "CACHE",
-    pay: null,
-    payMemo: null,
-    images: [],
-    address: "",
-    detailAddress: "",
-    contact: "",
-  });
+  const [recruit, setRecruit] = useRecoilState(recruitState);
   const history = useHistory();
   const userId = useRecoilValue(userState).id;
   const isLogin = useRecoilValue(userState).isLogin;

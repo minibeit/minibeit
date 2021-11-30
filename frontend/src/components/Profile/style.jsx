@@ -256,59 +256,70 @@ export const BusinessListBox = styled.div`
   gap: 1rem;
   text-align: center;
   flex-direction: column;
-  & > button {
-    width: 4rem;
-    height: 1.5rem;
-    border-radius: 1rem;
-    font-size: 0.6rem;
-    color: #7c7c7c;
-    border: 1px solid #7c7c7c;
-    background-color: inherit;
-    margin: 0 0 1rem auto;
-  }
+
   & > div:nth-child(2) {
-    display: flex;
-    justify-content: center;
-  }
-  & > div:nth-child(3) {
     display: flex;
     gap: 1.5rem;
     justify-content: center;
-    & > div > div:nth-child(2) {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-    }
   }
 `;
 export const BusinessHeader = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
-  & > p:first-child {
-    font-size: 1rem;
-    font-weight: 600;
+  gap: 0.3rem;
+  & > div:first-child {
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    gap: 0.5rem;
+    & > p {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    & > svg {
+      width: 1rem;
+      margin: 0.5rem 2rem;
+      cursor: pointer;
+      :hover {
+        path {
+          fill: #0642ff;
+        }
+      }
+    }
+    & > button {
+      font-size: 0.8rem;
+      border: none;
+      background-color: inherit;
+      margin: 0 1.5rem;
+      :hover {
+        color: #0642ff;
+      }
+    }
   }
   & > p:nth-child(2) {
     font-size: 0.8rem;
     color: #7c7c7c;
-    line-height: 1rem;
+    line-height: 1.3rem;
   }
 `;
 export const BusinessProfile = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   width: 10rem;
-  & > div:first-child {
-    cursor: pointer;
+  & > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
   }
+`;
+
+export const BImgBox = styled(ImgBox)`
+  width: 8rem;
+  height: 8rem;
 `;
 export const DeleteBtn = styled.button`
   position: relative;
-  transform: translate(400%, 70%);
+  transform: translate(360%, 100%);
   border: none;
   border-radius: 100%;
   cursor: pointer;
@@ -317,9 +328,13 @@ export const DeleteBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 2;
+  & > svg {
+    width: 0.8rem;
+    height: 0.8rem;
+  }
 `;
 export const AddBProfileBtn = styled.div`
-  background-color: #f1f1f1;
   width: 5rem;
   height: 5rem;
   border-radius: 50%;
@@ -331,6 +346,6 @@ export const AddBProfileBtn = styled.div`
   display: flex;
   & > svg {
     margin: auto;
-    font-size: 2rem;
+    width: 4rem;
   }
 `;

@@ -16,7 +16,7 @@ export default function Footer() {
           <a
             target="_blank"
             rel="noreferrer"
-            href="instagram.com/_minibeit_/?hl=ko"
+            href="https://www.instagram.com/_minibeit_/?hl=ko"
           >
             <img src="/images/insta.png" alt="instaIcon" />
           </a>

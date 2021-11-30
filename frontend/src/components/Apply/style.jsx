@@ -16,7 +16,7 @@ export const ListPageContainer = styled.div`
     display: flex;
     gap: 1rem;
     padding: 1rem 0;
-    border-top: 1px solid #c4c4;
+    border-top: 1px solid #c4c4c4;
     & > button {
       display: flex;
       align-items: center;

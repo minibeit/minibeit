@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const fadeIn = keyframes`
   from{
@@ -11,11 +11,12 @@ const fadeIn = keyframes`
 
 export const ListPageContainer = styled.div`
   margin: 4rem 8rem 4rem 8rem;
+  min-height: 100vh;
   & > div:nth-child(2) {
     display: flex;
     gap: 1rem;
     padding: 1rem 0;
-    border-top: 1px solid #c4c4;
+    border-top: 1px solid #c4c4c4;
     & > button {
       display: flex;
       align-items: center;
@@ -89,23 +90,7 @@ export const SearchBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  ${({ center }) => {
-    if (center) {
-      return css`
-        position: fixed;
-        width: fit-content;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 9999;
-      `;
-    } else {
-      return css`
-        width: 100%;
-        animation: ${fadeIn} ease-out 0.5s;
-      `;
-    }
-  }}
+
   & > p:first-child {
     color: #0642ff;
     font-size: 2rem;

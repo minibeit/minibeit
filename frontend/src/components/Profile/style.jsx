@@ -3,7 +3,7 @@ import styled from "styled-components";
 /* Common */
 
 export const ProfilePage = styled.div`
-  height: 100vh;
+  /* height: 100vh; */
   max-width: 100%;
   width: 100vw;
   background: #f3f3f3;

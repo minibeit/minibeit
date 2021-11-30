@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "moment/locale/ko";
 import TimePicker from "react-datepicker";
 import ko from "date-fns/locale/ko";
@@ -6,14 +6,25 @@ import ko from "date-fns/locale/ko";
 import DateInput from "./DateInput";
 import SearchInput from "./SearchInput";
 
+import FeedCategory from "../../../constants/FeedCategory";
+import TimeSelectModal from "./TimeSelectModal";
+
 import { ReactComponent as MinusIcon } from "../../../svg/마이너스.svg";
 import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
 import { ReactComponent as PlaceIcon } from "../../../svg/위치.svg";
 import { ReactComponent as CalendarIcon } from "../../../svg/달력.svg";
+import NextIcon from "@mui/icons-material/ArrowForwardIos";
 
 import * as S from "../style";
 
-export default function DataSelect({ recruit, setRecruit }) {
+export default function DataSelect({ recruit, setRecruit, movePage }) {
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [viewTimeSelect, setViewTimeSelect] = useState(true);
+  const [viewCategory, setViewCategory] = useState(false);
+  const [category, setCategory] = useState(null);
+  const [timeSelectModal, setTimeSelectModal] = useState(false);
+
   /* 모집인원 카운트 로직 */
   const changeHeadCount = (value) => {
     if (value === "minus") {
@@ -65,7 +76,7 @@ export default function DataSelect({ recruit, setRecruit }) {
               />
             </div>
           </S.PlaceBox>
-          <S.DateBox>
+          <S.DateBox visible={recruit.schoolId ? true : false}>
             <p>날짜</p>
             <div>
               <CalendarIcon />
@@ -79,64 +90,87 @@ export default function DataSelect({ recruit, setRecruit }) {
               />
             </div>
           </S.DateBox>
-          <S.CountBox>
+          <S.CountBox visible={recruit.doDateList.length !== 0 ? true : false}>
             <p>시간 단위</p>
             <div>
-              <button onClick={() => changeDoTime("minus")}>
+              <button
+                onClick={() => {
+                  setViewTimeSelect(true);
+                  changeDoTime("minus");
+                }}
+              >
                 <MinusIcon />
               </button>
               <p>{recruit.doTime}분</p>
-              <button onClick={() => changeDoTime("plus")}>
+              <button
+                onClick={() => {
+                  setViewTimeSelect(true);
+                  changeDoTime("plus");
+                }}
+              >
                 <PlusIcon />
               </button>
             </div>
-            <S.TimeSelectBox>
-              <div>
+            {viewTimeSelect && (
+              <S.TimeSelectBox>
                 <div>
-                  <S.TimeInput>
-                    <p>시작시간</p>
-                    <TimePicker
-                      locale={ko}
-                      selected={recruit.startTime}
-                      onChange={(e) => {
-                        const copy = { ...recruit };
-                        copy.startTime = e;
-                        setRecruit(copy);
-                      }}
-                      timeFormat="aa h:mm"
-                      showTimeSelect
-                      showTimeSelectOnly
-                      timeCaption="시작시간"
-                      timeIntervals={30}
-                      dateFormat="aa h:mm"
-                    />
-                  </S.TimeInput>
-                  {"~"}
-                  <S.TimeInput>
-                    <p>종료시간</p>
-                    <TimePicker
-                      locale={ko}
-                      selected={recruit.endTime}
-                      onChange={(time) => {
-                        const copy = { ...recruit };
-                        copy.endTime = time;
-                        setRecruit(copy);
-                      }}
-                      timeFormat="aa h:mm"
-                      showTimeSelect
-                      showTimeSelectOnly
-                      timeCaption="종료시간"
-                      timeIntervals={30}
-                      dateFormat="aa h:mm"
-                    />
-                  </S.TimeInput>
+                  <div>
+                    <S.TimeInput>
+                      <p>시작시간</p>
+                      <TimePicker
+                        locale={ko}
+                        selected={startTime}
+                        onChange={setStartTime}
+                        timeFormat="aa h:mm"
+                        showTimeSelect
+                        showTimeSelectOnly
+                        timeCaption="시작시간"
+                        timeIntervals={30}
+                        dateFormat="aa h:mm"
+                      />
+                    </S.TimeInput>
+                    {"~"}
+                    <S.TimeInput>
+                      <p>종료시간</p>
+                      <TimePicker
+                        locale={ko}
+                        selected={endTime}
+                        onChange={setEndTime}
+                        timeFormat="aa h:mm"
+                        showTimeSelect
+                        showTimeSelectOnly
+                        timeCaption="종료시간"
+                        timeIntervals={30}
+                        dateFormat="aa h:mm"
+                      />
+                    </S.TimeInput>
+                  </div>
+                  <S.DetailTimeBtn onClick={() => setTimeSelectModal(true)}>
+                    날짜 별 시간설정
+                  </S.DetailTimeBtn>
+                  {timeSelectModal && <TimeSelectModal />}
                 </div>
-                <S.DetailTimeBtn>날짜 별 시간설정</S.DetailTimeBtn>
-              </div>
-              <S.SaveTimeBtn>적용</S.SaveTimeBtn>
-            </S.TimeSelectBox>
+                <S.SaveTimeBtn
+                  onClick={() => {
+                    if (startTime && endTime) {
+                      const copy = { ...recruit };
+                      copy.startTime = startTime;
+                      copy.endTime = endTime;
+                      setRecruit(copy);
+                      setViewTimeSelect(false);
+                    } else {
+                      alert("시작시간과 종료시간을 선택해주세요");
+                    }
+                  }}
+                >
+                  적용
+                </S.SaveTimeBtn>
+              </S.TimeSelectBox>
+            )}
           </S.CountBox>
-          <S.CountBox>
+          <S.HeadCountBox
+            visible={recruit.startTime && recruit.endTime ? true : false}
+          >
             <p>시간 단위당 모집 인원</p>
             <div>
               <button onClick={() => changeHeadCount("minus")}>
@@ -147,8 +181,43 @@ export default function DataSelect({ recruit, setRecruit }) {
                 <PlusIcon />
               </button>
             </div>
-          </S.CountBox>
+          </S.HeadCountBox>
         </S.SelectBox>
+        <S.NextBtn
+          onClick={() => setViewCategory(true)}
+          visible={recruit.headCount !== 0 ? true : false}
+        >
+          다음
+          <NextIcon />
+        </S.NextBtn>
+        <S.CategoryContainer visible={viewCategory ? true : false}>
+          <p>모집하는 실험의 카테고리를 골라보세요.</p>
+          <div>
+            {FeedCategory.map((a) => {
+              return (
+                <S.CategoryBtn
+                  id={a.id}
+                  key={a.id}
+                  onClick={() => setCategory(a.name)}
+                  disabled={category === a.name ? true : false}
+                >
+                  {a.icon}
+                  {a.name}
+                </S.CategoryBtn>
+              );
+            })}
+          </div>
+          <S.SaveBtn
+            onClick={() => {
+              const copy = { ...recruit };
+              copy["category"] = category;
+              setRecruit(copy);
+              movePage(2);
+            }}
+          >
+            확인
+          </S.SaveBtn>
+        </S.CategoryContainer>
       </S.DataSelectContainer>
     </S.Page>
   );

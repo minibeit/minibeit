@@ -8,49 +8,6 @@ import "moment/locale/ko";
 
 import * as S from "../style";
 
-PTimeSelectModal.propTypes = {
-  recruit: PropTypes.shape({
-    businessProfile: PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-    }),
-    school: PropTypes.shape({
-      id: PropTypes.number,
-      name: PropTypes.string,
-    }),
-    startDate: PropTypes.object,
-    endDate: PropTypes.object,
-    headCount: PropTypes.number,
-    doTime: PropTypes.number,
-    startTime: PropTypes.string,
-    endTime: PropTypes.string,
-    timeList: PropTypes.arrayOf(PropTypes.string),
-    dateList: PropTypes.arrayOf(PropTypes.string),
-    exceptDateList: PropTypes.arrayOf(PropTypes.string),
-    doDateList: PropTypes.arrayOf(
-      PropTypes.shape({
-        dodate: PropTypes.string,
-      })
-    ),
-    category: PropTypes.string,
-    title: PropTypes.string,
-    content: PropTypes.string,
-    condition: PropTypes.bool,
-    conditionDetail: PropTypes.array,
-    payment: PropTypes.string,
-    pay: PropTypes.string,
-    payMemo: PropTypes.string,
-    images: PropTypes.array,
-    address: PropTypes.string,
-    contact: PropTypes.string,
-  }),
-  setRecruit: PropTypes.func.isRequired,
-  modalSwitch: PropTypes.bool.isRequired,
-  setModalSwitch: PropTypes.func.isRequired,
-  createdGroup: PropTypes.array.isRequired,
-  setCreatedGroup: PropTypes.func.isRequired,
-};
-
 export default function PTimeSelectModal({
   recruit,
   setRecruit,
@@ -146,7 +103,7 @@ export default function PTimeSelectModal({
   return (
     <Portal>
       <S.ModalBackground>
-        <S.ModalBox>
+        {/* <S.ModalBox>
           <S.ModalHeader>
             <div>
               <p>날짜별 시간 설정</p>
@@ -252,7 +209,7 @@ export default function PTimeSelectModal({
               <button onClick={modalOff}>저장</button>
             </S.TimeBtnContainer>
           </S.ModalContent>
-        </S.ModalBox>
+        </S.ModalBox> */}
       </S.ModalBackground>
     </Portal>
   );

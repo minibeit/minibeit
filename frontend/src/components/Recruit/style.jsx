@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 /* Common */
 export const Page = styled.div`
@@ -81,6 +81,7 @@ export const BProfileImgBox = styled.div`
 /* Data Select */
 export const DataSelectContainer = styled(Container)`
   gap: 2rem;
+  transform: translate(0, -2rem);
 `;
 export const DataSelectHeader = styled.div`
   display: flex;
@@ -107,13 +108,14 @@ export const Box = styled.div`
   height: 4rem;
   gap: 0.5rem;
   background: #f8f8f8;
-  padding: 0 1rem;
+  padding: 0.5rem 1rem;
   & > p:first-child {
     white-space: nowrap;
   }
 `;
 export const PlaceBox = styled(Box)`
   flex: 2;
+  border-radius: 1em 0 0 1em;
   & > div:nth-child(2) {
     display: flex;
     margin-top: auto;
@@ -128,6 +130,12 @@ export const PlaceBox = styled(Box)`
   }
 `;
 export const DateBox = styled(Box)`
+  ${({ visible }) =>
+    !visible &&
+    css`
+      opacity: 0;
+      z-index: -99;
+    `};
   & > div:nth-child(2) {
     display: flex;
     margin-top: auto;
@@ -148,6 +156,12 @@ export const DateBox = styled(Box)`
 `;
 
 export const CountBox = styled(Box)`
+  ${({ visible }) =>
+    !visible &&
+    css`
+      opacity: 0;
+      z-index: -99;
+    `};
   & > div:nth-child(2) {
     display: flex;
     margin-top: auto;
@@ -166,9 +180,14 @@ export const CountBox = styled(Box)`
     width: 1rem;
   }
 `;
+export const HeadCountBox = styled(CountBox)`
+  border-radius: 0 1em 1em 0;
+`;
 export const TimeSelectBox = styled.div`
   box-shadow: 10px 10px 30px 0px #bdbdbd33;
   position: absolute;
+  z-index: 99;
+  background: white;
   transform: translate(0, 4em);
   display: flex;
   flex-direction: column;
@@ -219,6 +238,56 @@ export const SaveTimeBtn = styled.div`
   color: #0642ff;
   font-weight: bold;
   font-size: 1.2em;
+`;
+export const NextBtn = styled.button`
+  ${({ visible }) =>
+    !visible &&
+    css`
+      opacity: 0;
+      z-index: -99;
+    `};
+  width: fit-content;
+  align-self: end;
+  padding: 0.5rem 1rem;
+  white-space: nowrap;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  color: #0642ff;
+  background: none;
+  display: flex;
+  gap: 0.3em;
+  align-items: center;
+  cursor: pointer;
+`;
+export const CategoryContainer = styled.div`
+  ${({ visible }) =>
+    !visible &&
+    css`
+      opacity: 0;
+      z-index: -99;
+    `};
+  & > p:first-child {
+    color: #c4c4c4;
+  }
+  & > div:nth-child(2) {
+    margin: 20px 0 20px 0;
+  }
+`;
+export const CategoryBtn = styled.button`
+  min-width: 7rem;
+  border: 1px solid #0642ff;
+  padding: 0.5rem 0;
+  border-radius: 10px;
+  background: white;
+  margin: 5px;
+  cursor: pointer;
+  &:disabled {
+    border: none;
+    border-radius: 10px;
+    background: #f8f8f8;
+    color: #c4c4c4;
+  }
 `;
 
 /* School Select */
@@ -508,38 +577,6 @@ export const TimeBtn = styled.div`
     display: flex;
     border-radius: 10px;
     background: white;
-  }
-`;
-
-/* CategorySelect */
-export const CategoryContainer = styled(Container)`
-  & > p:first-child {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-  & > p:nth-child(2) {
-    color: #c4c4c4;
-  }
-  & > div:nth-child(3) {
-    margin: 20px 0 20px 0;
-  }
-`;
-export const CategoryBtn = styled.button`
-  width: 8rem;
-  border: 1px solid #0642ff;
-  padding: 10px;
-  border-radius: 10px;
-  background: white;
-  font-weight: bold;
-  margin: 5px;
-  cursor: pointer;
-  &:disabled {
-    margin: 5px;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    background: #f8f8f8;
-    color: #c4c4c4;
   }
 `;
 

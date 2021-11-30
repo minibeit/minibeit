@@ -74,6 +74,7 @@ export default function DateInput({ minDate, maxDate, onChange }) {
                 prev2Label={null}
                 showNeighboringMonth={false}
                 tileContent={tileContent}
+                formatDay={(locale, date) => moment(date).format("D")}
               />
               {dateArr.length !== 0 && (
                 <S.DateList>

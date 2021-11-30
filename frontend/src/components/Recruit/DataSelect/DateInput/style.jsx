@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const CalendarWrapper = styled.div`
   position: absolute;
   max-width: 30rem;
-  z-index: 10;
+  z-index: 99;
   border: solid 1px #c4c4c4;
   background: white;
   border-radius: 0.8rem;

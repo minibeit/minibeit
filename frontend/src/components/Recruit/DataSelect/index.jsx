@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import moment from "moment";
 import "moment/locale/ko";
 import TimePicker from "react-datepicker";
 import ko from "date-fns/locale/ko";
@@ -25,6 +26,8 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
   const [timeSelectModal, setTimeSelectModal] = useState(false);
   const [viewCategory, setViewCategory] = useState(false);
   const [category, setCategory] = useState(null);
+
+  const [createdGroup, setCreatedGroup] = useState([]);
 
   const changeDoTime = (value) => {
     if (value === "minus") {
@@ -53,6 +56,21 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
       copy.headCount += 1;
       setRecruit(copy);
     }
+  };
+
+  /*시간 단위 만드는 로직*/
+  const createTimeArr = (startTime, endTime, doTime) => {
+    const startMoment = moment(startTime, "HH:mm");
+    const endMoment = moment(endTime, "HH:mm").clone().add(1, "minutes");
+    const timeArr = [];
+    while (startMoment.clone().add(doTime, "minutes") <= endMoment) {
+      timeArr.push(
+        `${startMoment.format("HH:mm")}~${startMoment
+          .add(doTime, "minutes")
+          .format("HH:mm")}`
+      );
+    }
+    return timeArr;
   };
 
   return (
@@ -85,6 +103,8 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                 onChange={(e) => {
                   const copy = { ...recruit };
                   copy.doDateList = e;
+                  copy.startDate = e[0];
+                  copy.endDate = e[e.length - 1];
                   setRecruit(copy);
                 }}
               />
@@ -145,10 +165,29 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                       />
                     </S.TimeInput>
                   </div>
-                  <S.DetailTimeBtn onClick={() => setTimeSelectModal(true)}>
+                  <S.DetailTimeBtn
+                    onClick={() => {
+                      setTimeSelectModal(true);
+                      const copy = { ...recruit };
+                      copy.timeList = createTimeArr(
+                        startTime,
+                        endTime,
+                        recruit.doTime
+                      );
+                      setRecruit(copy);
+                    }}
+                  >
                     날짜 별 시간설정
                   </S.DetailTimeBtn>
-                  {timeSelectModal && <TimeSelectModal />}
+                  {timeSelectModal && (
+                    <TimeSelectModal
+                      recruit={recruit}
+                      modalSwitch={timeSelectModal}
+                      setModalSwitch={setTimeSelectModal}
+                      createdGroup={createdGroup}
+                      setCreatedGroup={setCreatedGroup}
+                    />
+                  )}
                 </div>
                 <S.SaveTimeBtn
                   onClick={() => {

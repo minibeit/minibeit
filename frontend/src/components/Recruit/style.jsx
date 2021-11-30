@@ -186,7 +186,7 @@ export const HeadCountBox = styled(CountBox)`
 export const TimeSelectBox = styled.div`
   box-shadow: 10px 10px 30px 0px #bdbdbd33;
   position: absolute;
-  z-index: 99;
+  z-index: 9;
   background: white;
   transform: translate(0, 4em);
   display: flex;

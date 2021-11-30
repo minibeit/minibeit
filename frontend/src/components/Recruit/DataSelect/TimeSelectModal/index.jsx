@@ -9,7 +9,6 @@ import * as S from "./style";
 
 export default function TimeSelectModal({
   recruit,
-  setRecruit,
   modalSwitch,
   setModalSwitch,
   createdGroup,
@@ -29,10 +28,11 @@ export default function TimeSelectModal({
   /* 제외된 날짜를 block해주는 로직 */
   const tileDisabled = ({ date, view }) => {
     if (view === "month") {
-      return recruit.exceptDateList.find(
-        (ele) =>
-          moment(ele).format("YYYY-MM-DD") === moment(date).format("YYYY-MM-DD")
-      );
+      return recruit.doDateList.find(
+        (ele) => ele === moment(date).format("YYYY-MM-DD")
+      )
+        ? false
+        : true;
     }
   };
 
@@ -102,15 +102,15 @@ export default function TimeSelectModal({
   return (
     <Portal>
       <S.ModalBackground>
-        {/* <S.ModalBox>
+        <S.ModalBox>
           <S.ModalHeader>
             <div>
               <p>날짜별 시간 설정</p>
               <p>시간을 묶어서 설정하세요</p>
             </div>
             <p>
-              선택한 실험 날짜 : {recruit.startDate.format("MM월DD일")}~
-              {recruit.endDate.format("MM월DD일")}
+              선택한 실험 날짜 : {moment(recruit.startDate).format("MM월DD일")}~
+              {moment(recruit.endDate).format("MM월DD일")}
             </p>
           </S.ModalHeader>
           <S.ModalContent>
@@ -118,26 +118,14 @@ export default function TimeSelectModal({
               <Calendar
                 className="modalCalendar"
                 calendarType="US"
-                minDate={
-                  recruit["startDate"] !== null
-                    ? new Date(recruit["startDate"])
-                    : null
-                }
-                maxDate={
-                  recruit["endDate"] !== null
-                    ? new Date(recruit["endDate"])
-                    : null
-                }
+                minDate={new Date(recruit["startDate"])}
+                maxDate={new Date(recruit["endDate"])}
                 onClickDay={(day, e) => {
                   if (selectGroup) {
                     setGroupDateList(e, day);
                   }
                 }}
-                defaultValue={
-                  recruit.startDate !== null
-                    ? new Date(recruit["startDate"])
-                    : null
-                }
+                defaultValue={new Date(recruit["startDate"])}
                 tileDisabled={tileDisabled}
                 minDetail="month"
                 next2Label={null}
@@ -208,7 +196,7 @@ export default function TimeSelectModal({
               <button onClick={modalOff}>저장</button>
             </S.TimeBtnContainer>
           </S.ModalContent>
-        </S.ModalBox> */}
+        </S.ModalBox>
       </S.ModalBackground>
     </Portal>
   );

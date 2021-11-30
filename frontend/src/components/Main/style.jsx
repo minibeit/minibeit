@@ -42,7 +42,7 @@ export const BackGround = styled.div`
   }
 `;
 export const Icon = styled.div`
-  padding: 4rem;
+  padding-top: 2rem;
   cursor: pointer;
   & > svg {
     width: 0.8rem;

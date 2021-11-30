@@ -1,6 +1,5 @@
 package com.minibeit.post.domain;
 
-import com.minibeit.businessprofile.domain.BusinessProfileReview;
 import com.minibeit.common.domain.BaseEntity;
 import lombok.*;
 
@@ -27,10 +26,6 @@ public class PostDoDate extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "postDoDate", cascade = CascadeType.REMOVE)
     private List<PostApplicant> postApplicantList = new ArrayList<>();
-
-    @Builder.Default
-    @OneToMany(mappedBy = "postDoDate")
-    private List<BusinessProfileReview> businessProfileReviewList = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id")

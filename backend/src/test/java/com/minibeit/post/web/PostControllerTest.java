@@ -388,8 +388,6 @@ class PostControllerTest extends MvcTest {
                 .doDate(LocalDateTime.of(2021, 10, 2, 9, 30))
                 .startTime(LocalDateTime.of(2021, 10, 2, 9, 30))
                 .endTime(LocalDateTime.of(2021, 10, 2, 11, 30))
-                .reviewId(1L)
-                .review("내가 작성한 첫번째 후기")
                 .isWritable(true)
                 .build();
         PostResponse.GetMyCompletedList getMyCompletedList2 = PostResponse.GetMyCompletedList.builder()
@@ -400,8 +398,6 @@ class PostControllerTest extends MvcTest {
                 .doDate(LocalDateTime.of(2021, 10, 2, 9, 30))
                 .startTime(LocalDateTime.of(2021, 10, 2, 9, 30))
                 .endTime(LocalDateTime.of(2021, 10, 2, 11, 30))
-                .reviewId(2L)
-                .review("내가 작성한 두번째 후기")
                 .isWritable(true)
                 .build();
         PostResponse.GetMyCompletedList getMyCompletedList3 = PostResponse.GetMyCompletedList.builder()
@@ -412,8 +408,6 @@ class PostControllerTest extends MvcTest {
                 .doDate(LocalDateTime.of(2021, 10, 2, 9, 30))
                 .startTime(LocalDateTime.of(2021, 10, 2, 9, 30))
                 .endTime(LocalDateTime.of(2021, 10, 2, 11, 30))
-                .reviewId(3L)
-                .review("내가 작성한 세번째 후기")
                 .isWritable(false)
                 .build();
         response.add(getMyCompletedList1);
@@ -444,8 +438,6 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("data.content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
                                 fieldWithPath("data.content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
                                 fieldWithPath("data.content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
-                                fieldWithPath("data.content[].reviewId").description("리뷰 식별자 (없다면 null)"),
-                                fieldWithPath("data.content[].review").description("리뷰 내용 (없다면 null)"),
                                 fieldWithPath("data.content[].isWritable").description("리뷰를 작성하거나 수정할 수 있다면 true(실험후 일주일동안 가능)"),
                                 fieldWithPath("data.totalElements").description("전체 개수"),
                                 fieldWithPath("data.last").description("마지막 페이지인지 식별"),

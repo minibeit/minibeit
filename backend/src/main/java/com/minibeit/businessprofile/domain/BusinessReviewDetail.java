@@ -3,6 +3,8 @@ package com.minibeit.businessprofile.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Builder
@@ -19,4 +21,8 @@ public class BusinessReviewDetail {
 
     @Enumerated(EnumType.STRING)
     private ReviewType type;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "businessReviewDetail")
+    private List<BusinessReview> businessReviewList = new ArrayList<>();
 }

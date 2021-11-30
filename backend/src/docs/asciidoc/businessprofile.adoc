@@ -135,7 +135,7 @@ include::{snippets}/business-review-list/response-fields.adoc[]
 
 === 비즈니스 프로필 후기 생성
 
-`GET /api/business/{businessProfileId}/review/{reviewDetailId}`
+`GET /api/business/{businessProfileId}/date/{postDoDateId}/review/{reviewDetailId}`
 
 요청 HTTP
 include::{snippets}/business-review-create/http-request.adoc[]
@@ -144,3 +144,15 @@ include::{snippets}/business-review-create/path-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/business-review-create/http-response.adoc[]
 include::{snippets}/business-review-create/response-fields.adoc[]
+
+=== 비즈니스 프로필 후기 목록과 해당 후기의 개수 조회
+
+`GET /api/business/{businessProfileId}/good-reviews`
+
+요청 HTTP
+include::{snippets}/business-good-reviews-count/http-request.adoc[]
+include::{snippets}/business-good-reviews-count/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-good-reviews-count/http-response.adoc[]
+include::{snippets}/business-good-reviews-count/response-fields.adoc[]

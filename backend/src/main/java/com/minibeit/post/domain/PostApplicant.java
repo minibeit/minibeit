@@ -62,6 +62,17 @@ public class PostApplicant extends BaseEntity {
         this.businessFinish = isAttend;
     }
 
+    public boolean duplicatedApply(List<PostDoDate> approvedDateByUser, LocalDateTime fromApplyDate, Integer doTime) {
+        LocalDateTime toApplyDate = fromApplyDate.plusMinutes(doTime);
+        for (PostDoDate fromApprovedDate : approvedDateByUser) {
+            LocalDateTime toApprovedDate = fromApprovedDate.getDoDate().plusMinutes(fromApprovedDate.getPost().getDoTime());
+            if (fromApprovedDate.getDoDate().isBefore(toApplyDate) && toApprovedDate.isAfter(fromApplyDate)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static PostApplicant create(PostDoDate postDoDate, User user) {
         PostApplicant postApplicant = PostApplicant.builder()
                 .user(user)
@@ -72,16 +83,5 @@ public class PostApplicant extends BaseEntity {
                 .build();
         postApplicant.setPostDoDate(postDoDate);
         return postApplicant;
-    }
-
-    public boolean duplicatedApply(List<PostDoDate> approvedDateByUser, LocalDateTime fromApplyDate, Integer doTime) {
-        LocalDateTime toApplyDate = fromApplyDate.plusMinutes(doTime);
-        for (PostDoDate fromApprovedDate : approvedDateByUser) {
-            LocalDateTime toApprovedDate = fromApprovedDate.getDoDate().plusMinutes(fromApprovedDate.getPost().getDoTime());
-            if (fromApprovedDate.getDoDate().isBefore(toApplyDate) && toApprovedDate.isAfter(fromApplyDate)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

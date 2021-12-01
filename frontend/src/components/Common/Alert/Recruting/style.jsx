@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const AlertBackground = styled.div`
   position: fixed;
   top: 0;
@@ -18,7 +17,7 @@ export const AlertBox = styled.div`
   background-color: white;
   width: 30rem;
   height: 20rem;
-  border-radius: 35px;
+  border-radius: 2.25rem;
 `;
 
 export const AlertContent = styled.div`
@@ -28,38 +27,41 @@ export const AlertContent = styled.div`
   left: 50%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 1rem;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-
-  & > p:nth-child(2){
-    font-size: 20px;
+  padding: 1.25rem;
+  & > svg {
+    width: 2.5rem;
+    path {
+      fill: #0642ff;
+    }
+  }
+  & > p:nth-child(2) {
+    width: 20rem;
     text-align: center;
-    line-height: 30px;
     font-weight: 700;
-    width: 25rem;
+    font-size: 1.25rem;
+    line-height: 2rem;
+    & > p {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.5);
+      line-height: 1.3rem;
+    }
   }
 
-  & > p:nth-child(3) {
-    width: 25rem;
-    font-size: 13px;
-    color: rgba(0, 0, 0, 0.5);
-    text-align: center;
-    line-height: 20px;
-  }
-
-  & > button:nth-child(4) {
+  & > button:nth-child(3) {
     position: relative;
     width: 9rem;
     height: 2.7rem;
-    font-size: 13px;
+    font-size: 0.9rem;
     line-height: 2.5rem;
-    border-radius: 30px;
-    color: #FFFFFF;
-    border: 1px solid #0642FF;
-    background: #0642FF;
-    margin-top: 20px;
+    border-radius: 2rem;
+    color: #ffffff;
+    border: 1px solid #0642ff;
+    background: #0642ff;
+    margin-top: 1rem;
     cursor: pointer;
   }
 `;

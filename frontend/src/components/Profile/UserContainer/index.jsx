@@ -21,10 +21,11 @@ export default function UserContainer({ view }) {
   const [modalSwitch, setModalSwitch] = useState(false);
   const [page, setPage] = useState(1);
   const [totalEle, setTotalEle] = useState(0);
+  const [feedSwitch, setFeedSwitch] = useState("확정된 목록");
 
   const status = [
-    { id: "approve", value: "확정된 목록" },
     { id: "wait", value: "대기중 목록" },
+    { id: "approve", value: "확정된 목록" },
     { id: "complete", value: "완료한 목록" },
     { id: "reject", value: "반려된 목록" },
     { id: "like", value: "즐겨찾기 목록" },
@@ -91,22 +92,37 @@ export default function UserContainer({ view }) {
                 <PVImg img="/images/기본프로필.png" />
               )}
             </S.ImgBox>
+            <S.UserInfoData>
+              <p>
+                <span>이름</span> <span>: {userData.name}</span>
+              </p>
+              <p>
+                <span>닉네임</span> <span>: {userData.nickname}</span>
+              </p>
+              <p>
+                <span>성별</span>
+                <span>: {userData.gender === "MALE" ? "남자" : "여자"}</span>
+              </p>
+              <p>
+                <span>생년월일</span> <span>: {userData.birth}</span>
+              </p>
+              <p>
+                <span>관심학교</span> <span>: {userData.schoolName}</span>
+              </p>
+              <p>
+                <span>직업</span> <span>: {userData.job}</span>
+              </p>
+              <p>
+                <span>전화번호</span> <span>: {userData.phoneNum}</span>
+              </p>
+            </S.UserInfoData>
             <button onClick={() => setModalSwitch(true)}>수정하기</button>
-            {modalSwitch ? (
+            {modalSwitch && (
               <UserInfoEditModal
                 infoData={userData}
                 setModalSwitch={setModalSwitch}
               />
-            ) : null}
-            <S.UserInfoData>
-              <p>이름 : {userData.name}</p>
-              <p>닉네임 : {userData.nickname}</p>
-              <p>성별 : {userData.gender === "MALE" ? "남자" : "여자"}</p>
-              <p>생년월일 : {userData.birth}</p>
-              <p>관심학교 : {userData.schoolName}</p>
-              <p>직업 : {userData.job}</p>
-              <p>전화번호 : {userData.phoneNum}</p>
-            </S.UserInfoData>
+            )}
           </div>
         )}
       </S.UserInfoContainer>
@@ -118,6 +134,7 @@ export default function UserContainer({ view }) {
                 key={i}
                 onClick={() => {
                   setPage(1);
+                  setFeedSwitch(a.value);
                   history.push(`/profile/${a.id}`);
                 }}
                 disabled={a.id === view ? true : false}
@@ -129,7 +146,12 @@ export default function UserContainer({ view }) {
         </S.CategoryBtnBox>
         <S.FeedGroup>
           {feedData.length === 0 ? (
-            <div>게시물이 존재하지 않습니다.</div>
+            <S.NoneDiv>
+              <p>아직 {feedSwitch}이 존재하지 않습니다.</p>
+              <button onClick={() => history.push("/apply")}>
+                실험에 참여하러 가기
+              </button>
+            </S.NoneDiv>
           ) : (
             feedData.map((a, i) => (
               <div key={i}>

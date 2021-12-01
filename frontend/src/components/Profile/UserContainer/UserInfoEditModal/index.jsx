@@ -4,7 +4,7 @@ import { editMyInfo } from "../../../../utils/profileApi";
 import { useRecoilState } from "recoil";
 import { userState } from "../../../../recoil/userState";
 import Presenter from "./presenter";
-import CloseIcon from "@mui/icons-material/Close";
+import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 import Portal from "../../../Common/Modal/Portal";
 import * as S from "./style";
 import { nickCheckApi } from "../../../../utils/auth";

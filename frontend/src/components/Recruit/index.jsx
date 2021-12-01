@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
-import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import { useHistory } from "react-router";
 
 import { userState } from "../../recoil/userState";
@@ -12,7 +12,7 @@ import InfoData from "./InfoData";
 import { recruitState } from "../../recoil/recruitState";
 
 export default function RecruitComponent() {
-  const [recruit, setRecruit] = useRecoilState(recruitState);
+  const [recruit, setRecruit] = useState(useRecoilValue(recruitState));
   const resetRecruit = useResetRecoilState(recruitState);
   const history = useHistory();
   const userId = useRecoilValue(userState).id;
@@ -23,7 +23,7 @@ export default function RecruitComponent() {
   const getbpList = useCallback(async () => {
     await bprofileListGet(userId)
       .then(async (res) => setbpList(res.data.data))
-      .catch((err) => console.log(err));
+      .catch();
   }, [userId]);
 
   const clickSubmit = () => {

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useResetRecoilState } from "recoil";
 import { useHistory } from "react-router";
 
 import { userState } from "../../recoil/userState";
@@ -7,55 +7,23 @@ import { bprofileListGet, feedCreateApi } from "../../utils";
 import { feedAddfileApi } from "../../utils/feedApi";
 
 import BProfileSelect from "./BProfileSelect";
-import SchoolSelect from "./SchoolSelect";
-import DateSelect from "./DateSelect";
-import CategorySelect from "./CategorySelect";
+import DataSelect from "./DataSelect";
 import InfoData from "./InfoData";
+import { recruitState } from "../../recoil/recruitState";
 
 export default function RecruitComponent() {
-  const [recruit, setRecruit] = useState({
-    businessProfile: {
-      id: null,
-      name: null,
-    },
-    school: {
-      id: null,
-      name: null,
-    },
-    startDate: null,
-    endDate: null,
-    headCount: 1,
-    doTime: 30,
-    startTime: null,
-    endTime: null,
-    timeList: [],
-    dateList: null,
-    exceptDateList: [],
-    doDateList: [],
-    category: null,
-    title: "",
-    content: "",
-    condition: false,
-    conditionDetail: [""],
-    payment: "CACHE",
-    pay: null,
-    payMemo: null,
-    images: [],
-    address: "",
-    detailAddress: "",
-    contact: "",
-  });
+  const [recruit, setRecruit] = useState(useRecoilValue(recruitState));
+  const resetRecruit = useResetRecoilState(recruitState);
   const history = useHistory();
   const userId = useRecoilValue(userState).id;
   const isLogin = useRecoilValue(userState).isLogin;
   const [bpList, setbpList] = useState([]);
   const [askComplete, setAskComplete] = useState(0);
-  // const [notEnough, setNotEnough] = useState(false);
 
   const getbpList = useCallback(async () => {
     await bprofileListGet(userId)
       .then(async (res) => setbpList(res.data.data))
-      .catch((err) => console.log(err));
+      .catch();
   }, [userId]);
 
   const clickSubmit = () => {
@@ -73,6 +41,7 @@ export default function RecruitComponent() {
           if (recruit.images.length !== 0) {
             feedAddfileApi(res.data.data.id, recruit.images);
           }
+          resetRecruit();
           history.push(`/recruit/complete/${res.data.data.id}`);
         })
         .catch((err) => {
@@ -112,25 +81,11 @@ export default function RecruitComponent() {
         recruit={recruit}
         setRecruit={setRecruit}
       />
-      {recruit.businessProfile.id && (
-        <SchoolSelect
-          movePage={movePage}
+      {recruit.businessProfile.id !== null && (
+        <DataSelect
           recruit={recruit}
           setRecruit={setRecruit}
-        />
-      )}
-      {recruit.school.id && (
-        <DateSelect
           movePage={movePage}
-          recruit={recruit}
-          setRecruit={setRecruit}
-        />
-      )}
-      {recruit.doDateList.length !== 0 && (
-        <CategorySelect
-          movePage={movePage}
-          recruit={recruit}
-          setRecruit={setRecruit}
         />
       )}
       {recruit.category !== null && (

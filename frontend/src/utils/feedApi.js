@@ -36,12 +36,17 @@ export const feedCreateApi = async (recruit) => {
       ? conditionDetail(recruit.conditionDetail)
       : null,
     doTime: recruit.doTime,
-    schoolId: recruit.school.id,
+    schoolId: recruit.schoolId,
     businessProfileId: recruit.businessProfile.id,
-    startDate: `${recruit.startDate.format("YYYY-MM-DD")}T${recruit.startTime}`,
-    endDate: `${recruit.endDate.format("YYYY-MM-DD")}T${recruit.endTime}`,
+    startDate: `${moment(recruit.startDate).format("YYYY-MM-DD")}T${moment(
+      recruit.startTime
+    ).format("HH:mm")}`,
+    endDate: `${moment(recruit.endDate).format("YYYY-MM-DD")}T${moment(
+      recruit.endTime
+    ).format("HH:mm")}`,
     doDateList: recruit.doDateList,
   };
+
   return await withAuthInstance.post(CREATE_FEED + "/info", data);
 };
 

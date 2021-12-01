@@ -24,7 +24,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
-import static com.minibeit.businessprofile.domain.QBusinessProfileReview.businessProfileReview;
 import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostApplicant.postApplicant;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
@@ -158,11 +157,11 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<PostResponse.GetMyCompletedList> findAllByMyCompleted(User user, Pageable pageable) {
         JPAQuery<PostResponse.GetMyCompletedList> query = queryFactory.select(new QPostResponse_GetMyCompletedList(
-                        post.id, postDoDate.id, post.title, post.doTime, businessProfileReview.id, businessProfileReview.content, postDoDate.doDate
+                        post.id, postDoDate.id, post.title, post.doTime, postDoDate.doDate
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)
-                .leftJoin(postDoDate.businessProfileReviewList, businessProfileReview).on(businessProfileReview.createdBy.eq(user))
+
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
                         .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE)
@@ -208,7 +207,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             return postApplicant.applyStatus.eq(applyStatus).and(postDoDate.doDate.goe(now));
         }
         if (applyStatus.equals(ApplyStatus.APPROVE)) {
-            return postApplicant.applyStatus.eq(applyStatus).and(postDoDate.doDate.goe(now)).and(postApplicant.myFinish.isFalse());
+            return postApplicant.applyStatus.eq(applyStatus).and(postApplicant.myFinish.isFalse());
         }
         return null;
     }

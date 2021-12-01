@@ -16,8 +16,8 @@ export const ModalBox = styled.div`
   left: 50%;
   width: 57%;
   max-width: 41rem;
-  border-radius: 20px;
-  padding: 32px 36px;
+  border-radius: 1.25rem;
+  padding: 2rem 2.25rem;
   height: 26rem;
   background-color: white;
 `;
@@ -27,8 +27,8 @@ export const ModalHeader = styled.div`
   height: 3.2rem;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
   & > p {
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 1.125rem;
+    font-weight: 600;
   }
 `;
 export const ModalContent = styled.div``;
@@ -36,14 +36,31 @@ export const CloseModalBtn = styled.div`
   margin-left: auto;
   height: -webkit-fill-available;
   & > svg {
+    width: 1rem;
+    height: 1rem;
     cursor: pointer;
   }
 `;
 export const SearchInput = styled.div`
   display: flex;
   margin: 1rem 0;
+  gap: 0.5rem;
+
   & > div:first-child {
     width: 13rem;
+  }
+  & > button:last-child {
+    padding: 0 0.3rem;
+    width: 3rem;
+    border: 1px solid hsl(0, 0%, 80%);
+    background-color: #fafafa;
+    border-radius: 0.5rem;
+    color: hsl(0, 0%, 80%);
+    cursor: pointer;
+    :hover {
+      color: #0642ff;
+      border-color: #0642ff;
+    }
   }
 `;
 export const UserListView = styled.div`
@@ -51,14 +68,56 @@ export const UserListView = styled.div`
   background: #f8f8f8;
   border-radius: 1rem;
   overflow-y: scroll;
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: gray;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+  }
 `;
 export const UserEditBox = styled.div`
   display: flex;
   gap: 0.5rem;
   align-items: center;
   margin: 1rem;
+  & > p:first-child {
+    font-size: 0.8rem;
+  }
+  & > button:nth-child(2) {
+    margin-right: auto;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+
+    :hover {
+      color: #0642ff;
+    }
+    & > svg {
+      width: 0.8rem;
+      height: 0.8rem;
+      :hover {
+        path {
+          fill: #0642ff;
+        }
+      }
+    }
+  }
   & > button:nth-child(3) {
     margin-left: auto;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+    :hover {
+      color: #0642ff;
+    }
   }
 `;
 export const UserListBox = styled.div`
@@ -89,6 +148,11 @@ export const UserDeleteBtn = styled.button`
   cursor: pointer;
   padding: 0;
   & > svg {
-    font-size: 1rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0.5rem;
+    height: 0.5rem;
   }
 `;

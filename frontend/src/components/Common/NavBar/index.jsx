@@ -34,7 +34,7 @@ export default function NavBar() {
         </Link>
         <S.NavBarMenu>
           <Link to="/apply">
-            <p>지원하기</p>
+            <p>참여하기</p>
           </Link>
         </S.NavBarMenu>
         <S.NavBarMenu

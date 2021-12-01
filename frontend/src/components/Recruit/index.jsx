@@ -42,7 +42,10 @@ export default function RecruitComponent() {
           }
           history.push(`/recruit/complete/${res.data.data.id}`);
         })
-        .catch((err) => alert("게시물 작성에 실패했습니다"));
+        .catch((err) => {
+          alert("게시물 작성에 실패했습니다");
+          setAskComplete(0);
+        });
     }
   };
 

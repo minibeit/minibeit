@@ -19,8 +19,8 @@ export const ModalBox = styled.div`
   overflow: scroll;
   max-width: 41rem;
   border-radius: 20px;
-  padding: 32px 36px;
-  height: 26rem;
+  padding: 2rem 2.25rem;
+  height: 25rem;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none;
   &::-webkit-scrollbar {
@@ -42,6 +42,8 @@ export const CloseModalBtn = styled.div`
   height: -webkit-fill-available;
   & > svg {
     cursor: pointer;
+    width: 1rem;
+    height: 1rem;
   }
 `;
 export const ModalContent = styled.div`
@@ -54,7 +56,7 @@ export const ImgEditContainer = styled.div`
   flex: 1;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
+  gap: 1rem;
   & > div:first-child {
     display: flex;
     font-size: 0.7rem;
@@ -62,8 +64,8 @@ export const ImgEditContainer = styled.div`
 `;
 export const ImgBox = styled.div`
   overflow: hidden;
-  width: 10rem;
-  height: 10rem;
+  width: 9rem;
+  height: 9rem;
   display: inline-block;
   border-radius: 50%;
 `;
@@ -75,13 +77,18 @@ export const Img = styled.img`
 export const ImgEditBtn = styled.label`
   padding: 0.5rem;
   cursor: pointer;
-  background: #c4c4c4;
-  color: white;
-  border-radius: 14px;
-  width: 100px;
-  font-size: 12px;
+  background: #fff;
+  color: #000;
+  border: 1px solid #0642ff;
+  border-radius: 1rem;
+  width: 6.25rem;
+  font-size: 0.8rem;
   text-align: center;
   white-space: nowrap;
+  :hover {
+    background-color: #0642ff;
+    color: #fff;
+  }
 `;
 
 /*info*/
@@ -190,6 +197,8 @@ export const EmailPhoneInput = styled.div`
   }
 `;
 export const SubmitBtnBox = styled.div`
+  display: flex;
+  justify-content: flex-end;
   & > button {
     display: flex;
     background: blue;
@@ -202,6 +211,6 @@ export const SubmitBtnBox = styled.div`
     height: 2rem;
     justify-content: center;
     border: none;
-    margin-left: auto;
+    margin: auto 0;
   }
 `;

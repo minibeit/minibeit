@@ -12,8 +12,8 @@ import {
 } from "../../../../utils";
 import Portal from "../../../Common/Modal/Portal";
 import Presenter from "./presenter";
-import CloseIcon from "@mui/icons-material/Close";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
+import { ReactComponent as CalendarTodayIcon } from "../../../../svg/달력.svg";
 import * as S from "./style";
 
 export default function BManageModal({ postId, setModalSwitch }) {
@@ -170,14 +170,16 @@ export default function BManageModal({ postId, setModalSwitch }) {
             </button>
           </S.ButtonTab>
           <S.ModalHeader>
-            <p>{feedData.title}</p>
+            <S.CloseModalBtn onClick={modalOff}>
+              <CloseIcon />
+            </S.CloseModalBtn>
             <div>
-              <S.CloseModalBtn onClick={modalOff}>
-                <CloseIcon />
-              </S.CloseModalBtn>
+              <p>{feedData.title}</p>
               <S.CalendarBtn onClick={() => setCalendarView(!calendarView)}>
                 <CalendarTodayIcon />
               </S.CalendarBtn>
+            </div>
+            <div>
               {calendarView && (
                 <S.CalendarWrapper>
                   <Calendar

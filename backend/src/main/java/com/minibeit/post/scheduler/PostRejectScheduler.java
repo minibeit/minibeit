@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -28,17 +29,17 @@ public class PostRejectScheduler {
         List<PostApplicant> postApplicantList = postApplicantRepository.findAllByDoDateBeforeToday(LocalDateTime.now());
         List<RejectPost> rejectPosts = new ArrayList<>();
         List<Long> postApplicantIds = new ArrayList<>();
-        List<String> postApplicantMails = new ArrayList<>();
+
         postApplicantList.forEach(postApplicant -> {
             PostDoDate postDoDate = postApplicant.getPostDoDate();
             Post post = postDoDate.getPost();
             RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postDoDate.getDoDate(), REJECT_MSG, postApplicant.getUser());
 
-            postApplicantMails.add(postApplicant.getUser().getEmail());
             rejectPosts.add(rejectPost);
             postApplicantIds.add(postApplicant.getId());
+            mailService.mailSend(PostMailCondition.REJECT, Collections.singletonList(postApplicant.getUser().getEmail()), rejectPost);
         });
-        //mailService.mailSend(PostMailCondition.REJECT, postApplicantMails);
+
         rejectPostRepository.saveAll(rejectPosts);
         postApplicantRepository.updateReject(postApplicantIds, ApplyStatus.REJECT);
     }

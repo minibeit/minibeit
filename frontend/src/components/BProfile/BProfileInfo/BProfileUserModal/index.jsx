@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import CloseIcon from "@mui/icons-material/Close";
+import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 
 import {
   bprofileJoin,
@@ -83,16 +83,14 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
   };
 
   const clickOutside = (e) => {
-    e.target===e.currentTarget && 
-    setModalSwitch(false); 
+    e.target === e.currentTarget && setModalSwitch(false);
     document.querySelector("body").removeAttribute("style");
   };
 
   const clickIcon = () => {
     setModalSwitch(false);
     document.querySelector("body").removeAttribute("style");
-
-  }
+  };
 
   useEffect(() => {
     getUsergroup();
@@ -100,7 +98,7 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
 
   return (
     <Portal>
-      <S.ModalBackground onClick={(e)=>clickOutside(e)}>
+      <S.ModalBackground onClick={(e) => clickOutside(e)}>
         <S.ModalBox>
           <S.ModalHeader>
             <p>소속인원 목록</p>

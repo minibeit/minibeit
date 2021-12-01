@@ -83,10 +83,12 @@ export default function Presenter({
 
       <S.DataBox>
         <S.DataHeader>
-          <p>상세내용</p>
-          {isMine && editSwitch === false && (
-            <S.EditBtn onClick={() => setEditAlert(true)}>수정하기</S.EditBtn>
-          )}
+          <div>
+            <p>상세내용</p>
+            {isMine && editSwitch === false && (
+              <S.EditBtn onClick={() => setEditAlert(true)}>수정하기</S.EditBtn>
+            )}
+          </div>
           {editAlert && (
             <EditOnlyDetails
               setEditSwitch={setEditSwitch}

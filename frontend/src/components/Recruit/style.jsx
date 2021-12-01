@@ -224,12 +224,18 @@ export const TimeInput = styled.div`
     text-align: center;
   }
 `;
-export const DetailTimeBtn = styled.div`
+export const DetailTimeBtn = styled.button`
   border: 1px solid #0642ff;
   border-radius: 1rem;
   padding: 1em;
   color: #0642ff;
+  background: none;
   cursor: pointer;
+  &:disabled {
+    border: 1px solid #c4c4c4;
+    color: #c4c4c4;
+    cursor: inherit;
+  }
 `;
 export const SaveTimeBtn = styled.div`
   border-top: 1px dotted #c4c4c4;

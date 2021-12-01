@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { useHistory } from "react-router";
 
 import { userState } from "../../recoil/userState";
@@ -13,6 +13,7 @@ import { recruitState } from "../../recoil/recruitState";
 
 export default function RecruitComponent() {
   const [recruit, setRecruit] = useRecoilState(recruitState);
+  const resetRecruit = useResetRecoilState(recruitState);
   const history = useHistory();
   const userId = useRecoilValue(userState).id;
   const isLogin = useRecoilValue(userState).isLogin;
@@ -40,6 +41,7 @@ export default function RecruitComponent() {
           if (recruit.images.length !== 0) {
             feedAddfileApi(res.data.data.id, recruit.images);
           }
+          resetRecruit();
           history.push(`/recruit/complete/${res.data.data.id}`);
         })
         .catch((err) => {

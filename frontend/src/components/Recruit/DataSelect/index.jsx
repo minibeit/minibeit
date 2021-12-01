@@ -153,8 +153,21 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
             <div>
               <button
                 onClick={() => {
-                  setViewTimeSelect(true);
-                  changeDoTime("minus");
+                  if (createdGroup.length !== 0) {
+                    var value = window.confirm(
+                      "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
+                    );
+                    if (value) {
+                      setCreatedGroup([]);
+                      setViewTimeSelect(true);
+                      changeDoTime("minus");
+                    } else {
+                      return null;
+                    }
+                  } else {
+                    setViewTimeSelect(true);
+                    changeDoTime("minus");
+                  }
                 }}
               >
                 <MinusIcon />
@@ -162,8 +175,21 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
               <p>{recruit.doTime}분</p>
               <button
                 onClick={() => {
-                  setViewTimeSelect(true);
-                  changeDoTime("plus");
+                  if (createdGroup.length !== 0) {
+                    var value = window.confirm(
+                      "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
+                    );
+                    if (value) {
+                      setCreatedGroup([]);
+                      setViewTimeSelect(true);
+                      changeDoTime("plus");
+                    } else {
+                      return null;
+                    }
+                  } else {
+                    setViewTimeSelect(true);
+                    changeDoTime("plus");
+                  }
                 }}
               >
                 <PlusIcon />
@@ -179,9 +205,23 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                         locale={ko}
                         selected={recruit.startTime}
                         onChange={(time) => {
-                          const copy = { ...recruit };
-                          copy.startTime = time;
-                          setRecruit(copy);
+                          if (createdGroup.length !== 0) {
+                            var value = window.confirm(
+                              "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
+                            );
+                            if (value) {
+                              setCreatedGroup([]);
+                              const copy = { ...recruit };
+                              copy.startTime = time;
+                              setRecruit(copy);
+                            } else {
+                              return null;
+                            }
+                          } else {
+                            const copy = { ...recruit };
+                            copy.startTime = time;
+                            setRecruit(copy);
+                          }
                         }}
                         timeFormat="aa h:mm"
                         showTimeSelect
@@ -198,9 +238,23 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                         locale={ko}
                         selected={recruit.endTime}
                         onChange={(time) => {
-                          const copy = { ...recruit };
-                          copy.endTime = time;
-                          setRecruit(copy);
+                          if (createdGroup.length !== 0) {
+                            var value = window.confirm(
+                              "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
+                            );
+                            if (value) {
+                              setCreatedGroup([]);
+                              const copy = { ...recruit };
+                              copy.endTime = time;
+                              setRecruit(copy);
+                            } else {
+                              return null;
+                            }
+                          } else {
+                            const copy = { ...recruit };
+                            copy.endTime = time;
+                            setRecruit(copy);
+                          }
                         }}
                         timeFormat="aa h:mm"
                         showTimeSelect
@@ -213,7 +267,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                   </div>
                   <S.DetailTimeBtn
                     disabled={
-                      !recruit.startTime || !recruit.endTime ? true : false
+                      recruit.startTime === null || recruit.endTime === null
                     }
                     onClick={() => {
                       setTimeSelectModal(true);
@@ -281,7 +335,13 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
           </S.HeadCountBox>
         </S.SelectBox>
         <S.NextBtn
-          onClick={() => setViewCategory(true)}
+          onClick={() => {
+            if (viewTimeSelect) {
+              alert("시간 입력을 적용한 후 시도해주세요");
+            } else {
+              setViewCategory(true);
+            }
+          }}
           visible={recruit.headCount !== 0 ? true : false}
         >
           다음

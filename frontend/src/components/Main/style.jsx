@@ -1,7 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
+const slideUp = keyframes`
+from{
+ transform: translateY(6rem);
+}
+to{
+  transform: translateY(0);
+}`;
 export const BackGround = styled.div`
   width: 100vw;
   background-color: #f9f9f9;
@@ -35,6 +42,13 @@ export const BackGround = styled.div`
       line-height: 1.5rem;
       text-align: center;
       text-decoration: underline;
+    }
+    & > p,
+    & > div:nth-child(2) {
+      animation-duration: 2s;
+      animation-timing-function: ease-out;
+      animation-name: ${slideUp};
+      animation-fill-mode: forwards;
     }
   }
   & > div:last-child {

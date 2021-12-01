@@ -18,6 +18,7 @@ import * as S from "./style";
 import { useHistory } from "react-router";
 import AskCompleteApplication from "../Common/Alert/AskCompleteApplication";
 import CompleteApplication from "../Common/Alert/CompleteApplication";
+import CreateAuthModal from "../Common/Modal/CreateAuthModal";
 
 ApplyDetailComponent.propTypes = {
   feedId: PropTypes.number.isRequired,
@@ -73,6 +74,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
   };
 
   const [applyAlert, setApplyAlert] = useState(0);
+  const [sliderSwitch, setSliderSwitch] = useState(false);
   const [modalSwitch, setModalSwitch] = useState(false);
 
   const submit = async (postDoDateId) => {
@@ -89,13 +91,23 @@ export default function ApplyDetailComponent({ feedId, date }) {
     }
   };
 
+  const checkLogin = () => {
+    if (user.isLogin) {
+      setApplyAlert(1);
+    } else {
+      let value = window.confirm("이용하려면 로그인 먼저 해주세요!");
+      if (value) {
+        setModalSwitch(true);
+      }
+    }
+  };
   useEffect(() => {
     getFeedDetail(feedId);
     resetApply();
   }, [feedId, getFeedDetail, resetApply]);
 
   return (
-    <S.FeedContainer applyAlert={applyAlert} modalSwitch={modalSwitch}>
+    <S.FeedContainer>
       {feedDetailData && (
         <TitleContiner
           title={feedDetailData.title}
@@ -114,13 +126,13 @@ export default function ApplyDetailComponent({ feedId, date }) {
             feedDetailData={feedDetailData}
             date={date}
             editDetail={editDetail}
-            modalSwitch={modalSwitch}
-            setModalSwitch={setModalSwitch}
+            sliderSwitch={sliderSwitch}
+            setSliderSwitch={setSliderSwitch}
           />
           <ApplyController
             apply={apply}
             feedDetailData={feedDetailData}
-            setApplyAlert={setApplyAlert}
+            checkLogin={checkLogin}
           />
           {applyAlert === 1 && (
             <AskCompleteApplication
@@ -132,6 +144,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
           {applyAlert === 2 && (
             <CompleteApplication user={user} setApplyAlert={setApplyAlert} />
           )}
+          {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
         </div>
       )}
     </S.FeedContainer>

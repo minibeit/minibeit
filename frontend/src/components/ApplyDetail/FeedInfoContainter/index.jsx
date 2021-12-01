@@ -4,8 +4,8 @@ import Presenter from "./presenter";
 
 export default function FeedInfoContainer({
   feedDetailData,
-  modalSwitch,
-  setModalSwitch,
+  sliderSwitch,
+  setSliderSwitch,
   date,
   editDetail,
 }) {
@@ -25,7 +25,7 @@ export default function FeedInfoContainer({
 
   const [currentImg, setCurrentImg] = useState(0);
   const imgOnClick = (e) => {
-    setModalSwitch(true);
+    setSliderSwitch(true);
     setCurrentImg(
       feedDetailData.files.findIndex((i) => i.url === e.target.src) !== -1
         ? feedDetailData.files.findIndex((i) => i.url === e.target.src)
@@ -57,8 +57,8 @@ export default function FeedInfoContainer({
       setNewContent={setNewContent}
       editSubmit={editSubmit}
       currentImg={currentImg}
-      modalSwitch={modalSwitch}
-      setModalSwitch={setModalSwitch}
+      sliderSwitch={sliderSwitch}
+      setSliderSwitch={setSliderSwitch}
       imgOnClick={imgOnClick}
       editAlert={editAlert}
       setEditAlert={setEditAlert}

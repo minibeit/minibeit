@@ -4,7 +4,7 @@ import Portal from "../Portal";
 import Presenter from "./presenter";
 import * as S from "./style";
 
-export default function ApplyImgsModal({ setModalSwitch, currentImg, files }) {
+export default function ApplyImgsModal({ setSliderSwitch, currentImg, files }) {
   const [currentSlide, setCurrentSlide] = useState(currentImg);
   const slideRef = useRef(null);
   const nextSlide = (e) => {
@@ -33,7 +33,7 @@ export default function ApplyImgsModal({ setModalSwitch, currentImg, files }) {
         <Presenter
           currentSlide={currentSlide}
           slideRef={slideRef}
-          setModalSwitch={setModalSwitch}
+          setSliderSwitch={setSliderSwitch}
           currentImg={currentImg}
           files={files}
           prevSlide={prevSlide}

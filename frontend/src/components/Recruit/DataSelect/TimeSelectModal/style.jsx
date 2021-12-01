@@ -16,100 +16,62 @@ export const ModalBox = styled.div`
   left: 50%;
   background-color: white;
   width: 55rem;
+  border-radius: 2rem;
 `;
 export const ModalHeader = styled.div`
+  padding: 1rem;
   display: flex;
+  flex-direction: column;
+
   align-items: center;
-  height: 8%;
-  padding: 10px;
-  & > div:first-child {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    & > p:first-child {
-      font-size: 25px;
-      font-weight: bold;
+  gap: 0.5rem;
+  & > p:first-child {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  & > svg {
+    width: 1rem;
+    & path {
+      fill: #7c7c7c;
     }
   }
-  & > p:nth-child(2) {
-    color: #c4c4c4;
+  & > p:nth-child(3) {
+    color: #7c7c7c;
+    font-size: 0.8rem;
   }
-`;
-export const CloseModalBtn = styled.button`
-  margin-left: auto;
-  margin-right: 0.5rem;
 `;
 export const ModalContent = styled.div`
   display: flex;
-  height: 30rem;
-  padding: 2rem;
+  padding: 0 2rem;
 `;
-export const CalendarView = styled.div`
-  width: 50%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+export const View = styled.div`
+  padding: 0.5rem;
+  border-top: 1px solid #c4c4c4;
+  border-bottom: 1px solid #c4c4c4;
 `;
-export const GroupBox = styled.div`
+export const CalendarView = styled(View)`
+  flex: 2;
+`;
+export const ScheduleView = styled(View)`
+  flex: 1;
+  border-left: 1px solid #c4c4c4;
+  border-right: 1px solid #c4c4c4;
+`;
+export const TimeView = styled(View)`
+  flex: 2;
+`;
+
+export const ScheduleNav = styled.div`
   display: flex;
-  gap: 10px;
-  border: 1px solid #c4c4c4;
-  border-radius: 10px;
-  position: relative;
-  overflow-x: scroll;
-  & > div {
-    display: flex;
-    position: relative;
-    gap: 10px;
+  & > p:nth-child(2) {
+    white-space: nowrap;
   }
-`;
-export const GroupBtn = styled.button`
-  width: 5rem;
-  height: 2rem;
-  border: 0.5px solid grey;
-  outline: none;
-  cursor: pointer;
-  font-weight: bold;
-  background: ${(props) => {
-    return props.color ? "white" : "#0642FF";
-  }};
-  border: ${(props) => {
-    return props.color ? "1px solid" + props.color : "none";
-  }};
-  color: ${(props) => {
-    return props.color ? props.color : "white";
-  }};
-  border-radius: 20px;
 `;
 export const ColorView = styled.div`
   width: 0.5rem;
   height: 0.5rem;
   border-radius: 50%;
   background: ${(props) => props.color || "none"};
-`;
-export const TimeBtnContainer = styled.div`
-  width: 50%;
-  display: flex;
-  flex-direction: column;
-  & > button:nth-child(3) {
-    width: 6rem;
-    height: 2rem;
-    margin-left: auto;
-    outline: none;
-    cursor: pointer;
-    font-weight: bold;
-    background: #0642ff;
-    border: none;
-    color: white;
-    border-radius: 2rem;
-  }
-`;
-export const SelectDateView = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  color: #c4c4c4;
 `;
 export const TimeBtnBox = styled.div`
   display: flex;

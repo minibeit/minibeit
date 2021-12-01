@@ -20,8 +20,6 @@ import NextIcon from "@mui/icons-material/ArrowForwardIos";
 import * as S from "../style";
 
 export default function DataSelect({ recruit, setRecruit, movePage }) {
-  const [startTime, setStartTime] = useState(null);
-  const [endTime, setEndTime] = useState(null);
   const [viewTimeSelect, setViewTimeSelect] = useState(true);
   const [timeSelectModal, setTimeSelectModal] = useState(false);
   const [viewCategory, setViewCategory] = useState(false);
@@ -73,6 +71,46 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
     return timeArr;
   };
 
+  /* 설정한 그룹과, 그룹이외의 날짜, 시간에 따른 설정을 계산을 해주는 로직 */
+  const createDoDateList = (dateList, createdGroup, timeList) => {
+    const new_dateList = [];
+    const groupDateList = [];
+    const doDateList = [];
+    createdGroup.map((a) => groupDateList.push(...a.dateList));
+    /* dateList에서 그룹으로 설정된 날짜를 제거하여 새로운 배열에 담는 작업 */
+    for (var i = 0; i < dateList.length; i++) {
+      if (groupDateList.includes(dateList[i]) !== true) {
+        new_dateList.push(dateList[i]);
+      }
+    }
+    /*new dateList의 날짜와 timeList의 시간 합치는 작업 */
+    for (var j = 0; j < new_dateList.length; j++) {
+      for (var k = 0; k < timeList.length; k++) {
+        doDateList.push({
+          doDate: `${new_dateList[j]}T${timeList[k].slice(0, 5)}`,
+        });
+      }
+    }
+    /* 그룹의 날짜와 그룹의 시간 합쳐서 새로운 배열을 만드는 작업 */
+    const groupDoDateList = createdGroup.map((a) => {
+      var arr = [];
+      for (var i = 0; i < a.dateList.length; i++) {
+        for (var j = 0; j < a.timeList.length; j++) {
+          arr.push({
+            doDate: `${a.dateList[i]}T${a.timeList[j].slice(0, 5)}`,
+          });
+        }
+      }
+      return arr;
+    });
+    /* 합쳐진 groupDoDateList를 doDateList에 넣는 작업 */
+    for (var f = 0; f < groupDoDateList.length; f++) {
+      doDateList.push(...groupDoDateList[f]);
+    }
+
+    return doDateList;
+  };
+
   return (
     <S.Page>
       <S.DataSelectContainer>
@@ -102,7 +140,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                 minDate={new Date()}
                 onChange={(e) => {
                   const copy = { ...recruit };
-                  copy.doDateList = e;
+                  copy.dateList = e;
                   copy.startDate = e[0];
                   copy.endDate = e[e.length - 1];
                   setRecruit(copy);
@@ -110,7 +148,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
               />
             </div>
           </S.DateBox>
-          <S.CountBox visible={recruit.doDateList.length !== 0 ? true : false}>
+          <S.CountBox visible={recruit.dateList ? true : false}>
             <p>시간 단위</p>
             <div>
               <button
@@ -139,8 +177,12 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                       <p>시작시간</p>
                       <TimePicker
                         locale={ko}
-                        selected={startTime}
-                        onChange={setStartTime}
+                        selected={recruit.startTime}
+                        onChange={(time) => {
+                          const copy = { ...recruit };
+                          copy.startTime = time;
+                          setRecruit(copy);
+                        }}
                         timeFormat="aa h:mm"
                         showTimeSelect
                         showTimeSelectOnly
@@ -154,8 +196,12 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                       <p>종료시간</p>
                       <TimePicker
                         locale={ko}
-                        selected={endTime}
-                        onChange={setEndTime}
+                        selected={recruit.endTime}
+                        onChange={(time) => {
+                          const copy = { ...recruit };
+                          copy.endTime = time;
+                          setRecruit(copy);
+                        }}
                         timeFormat="aa h:mm"
                         showTimeSelect
                         showTimeSelectOnly
@@ -166,12 +212,15 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                     </S.TimeInput>
                   </div>
                   <S.DetailTimeBtn
+                    disabled={
+                      !recruit.startTime || !recruit.endTime ? true : false
+                    }
                     onClick={() => {
                       setTimeSelectModal(true);
                       const copy = { ...recruit };
                       copy.timeList = createTimeArr(
-                        startTime,
-                        endTime,
+                        recruit.startTime,
+                        recruit.endTime,
                         recruit.doTime
                       );
                       setRecruit(copy);
@@ -191,10 +240,19 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                 </div>
                 <S.SaveTimeBtn
                   onClick={() => {
-                    if (startTime && endTime) {
+                    if (recruit.startTime && recruit.endTime) {
                       const copy = { ...recruit };
-                      copy.startTime = startTime;
-                      copy.endTime = endTime;
+                      let timeList = createTimeArr(
+                        recruit.startTime,
+                        recruit.endTime,
+                        recruit.doTime
+                      );
+                      copy.timeList = timeList;
+                      copy.doDateList = createDoDateList(
+                        recruit.dateList,
+                        createdGroup,
+                        timeList
+                      );
                       setRecruit(copy);
                       setViewTimeSelect(false);
                     } else {
@@ -208,7 +266,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
             )}
           </S.CountBox>
           <S.HeadCountBox
-            visible={recruit.startTime && recruit.endTime ? true : false}
+            visible={recruit.doDateList.length !== 0 ? true : false}
           >
             <p>시간 단위당 모집 인원</p>
             <div>

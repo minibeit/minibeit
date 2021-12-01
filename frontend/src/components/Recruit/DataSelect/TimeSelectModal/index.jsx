@@ -3,6 +3,9 @@ import Portal from "../../../Common/Modal/Portal";
 import Calendar from "react-calendar";
 
 import { ReactComponent as InfoIcon } from "../../../../svg/인포.svg";
+import { ReactComponent as PlusIcon } from "../../../../svg/플러스.svg";
+import { ReactComponent as ArrowIcon } from "../../../../svg/체크.svg";
+import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 
 import moment from "moment";
 import "moment/locale/ko";
@@ -32,7 +35,7 @@ export default function TimeSelectModal({
   /* 제외된 날짜를 block해주는 로직 */
   const tileDisabled = ({ date, view }) => {
     if (view === "month") {
-      return recruit.doDateList.find(
+      return recruit.dateList.find(
         (ele) => ele === moment(date).format("YYYY-MM-DD")
       )
         ? false
@@ -74,9 +77,9 @@ export default function TimeSelectModal({
         const color = createdGroup.filter((ele) =>
           ele.dateList.includes(dateString)
         )[0].color;
-        return <S.ColorView color={color}></S.ColorView>;
+        return <S.ColorView color={color} />;
       } else {
-        return <S.ColorView></S.ColorView>;
+        return <S.ColorView />;
       }
     }
   };
@@ -135,7 +138,7 @@ export default function TimeSelectModal({
               />
             </S.CalendarView>
             <S.ScheduleView>
-              <button
+              <S.CreateScheduleBtn
                 onClick={() => {
                   if (createdGroup.length < 7) {
                     const copy = { ...group[createdGroup.length] };
@@ -147,8 +150,8 @@ export default function TimeSelectModal({
                   }
                 }}
               >
-                +
-              </button>
+                <PlusIcon />
+              </S.CreateScheduleBtn>
               <S.ScheduleNav>
                 {createdGroup.length !== 0 && (
                   <>
@@ -164,7 +167,7 @@ export default function TimeSelectModal({
                         );
                       }}
                     >
-                      {"<"}
+                      <ArrowIcon />
                     </button>
                     <p>스케쥴 {selectGroup.id}</p>
                     <button
@@ -183,18 +186,25 @@ export default function TimeSelectModal({
                         );
                       }}
                     >
-                      {">"}
+                      <ArrowIcon />
                     </button>
                   </>
                 )}
               </S.ScheduleNav>
-              <div>
-                {selectGroup.dateList.map((a, i) => {
-                  return <div key={i}>{a}</div>;
-                })}
-              </div>
+              <S.DateList>
+                {selectGroup &&
+                  selectGroup.dateList.map((a, i) => {
+                    return (
+                      <S.DateButton key={i}>
+                        {moment(a).format("MM월 DD일")}{" "}
+                        <CloseIcon onClick={() => setGroupDateList(null, a)} />
+                      </S.DateButton>
+                    );
+                  })}
+              </S.DateList>
             </S.ScheduleView>
             <S.TimeView>
+              <p>시간</p>
               <S.TimeBtnBox>
                 {selectGroup &&
                   recruit.timeList.map((a, i) => {
@@ -219,7 +229,11 @@ export default function TimeSelectModal({
               </S.TimeBtnBox>
             </S.TimeView>
           </S.ModalContent>
-          <button onClick={modalOff}>저장</button>
+          <S.ModalFooter>
+            <div onClick={modalOff}>
+              저장 <ArrowIcon />
+            </div>
+          </S.ModalFooter>
         </S.ModalBox>
       </S.ModalBackground>
     </Portal>

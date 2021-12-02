@@ -18,7 +18,6 @@ export default function MainComponent() {
   const goApply = () => {
     if (isLogin) {
       history.push("/apply");
-      window.scrollTo(0, 0);
     } else {
       let value = window.confirm("이용하려면 로그인 먼저 해주세요!");
       if (value) {
@@ -30,7 +29,6 @@ export default function MainComponent() {
   const goRecruit = () => {
     if (isLogin) {
       history.push("/recruit");
-      window.scrollTo(0, 0);
     } else {
       let value = window.confirm("이용하려면 로그인 먼저 해주세요!");
       if (value) {

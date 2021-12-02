@@ -1,45 +1,105 @@
-import React from "react";
-import Portal from "../../../Common/Modal/Portal";
-import CloseIcon from "@mui/icons-material/Close";
+import React, { useState } from "react";
+import moment from "moment";
+import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
+import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 
 import * as S from "./style";
+import Portal from "../../../Common/Modal/Portal";
 
-export default function CreateReviewModal({ data, setModalSwitch }) {
+export default function FeedCloseModal({ data, setModalSwitch }) {
+  const [mode, setMode] = useState(null);
+  const [text, setText] = useState(null);
+  const [goodItem] = useState([
+    "예상보다 소요 시간이 적었어요",
+    "참여 경험이 흥미로웠어요",
+    "참여에 대한 보상이 충분해요",
+    "구성원들이 친절하고 편안했어요",
+    "아무것도 선택하지 않을래요",
+  ]);
+  const [badItem] = useState([
+    "예상 소요 시간을 초과하였어요",
+    "참여에 대한 보상이 아쉬워요",
+    "참여 경험이 다소 지루했어요",
+    "구성원들이 다소 불편했어요",
+    "아무것도 선택하지 않을래요",
+  ]);
+
+  const submit = () => {
+    if (text) {
+      if (mode === "bad") {
+        alert("후기 작성을 완료했습니다");
+        setModalSwitch(false);
+      } else if (mode === "good") {
+        console.log("send");
+      }
+    } else {
+      alert("이유를 선택해주세요");
+    }
+  };
+
   return (
     <Portal>
       <S.ModalBackground>
         <S.ModalBox>
-          <S.ModalHeader>
-            <S.CloseModalBtn>
-              <CloseIcon onClick={() => setModalSwitch(false)} />
-            </S.CloseModalBtn>
-          </S.ModalHeader>
+          <div>
+            <CloseIcon onClick={() => setModalSwitch(false)} />
+          </div>
           <S.ModalContent>
-            <div>
-              <S.TitleBox>
-                <p>게시글 제목</p>
-                <p>{data.title}</p>
-              </S.TitleBox>
-              <S.TextInput type="textarea" />
-            </div>
-            <div>
-              <S.DateTime>
-                <div>
-                  <p>참여 날짜</p>
-                  <p>{data.doDate}</p>
-                </div>
-                <div>
-                  <p>참여 시간</p>
+            {!mode && (
+              <>
+                <S.TitleBox>
+                  <InfoIcon />
+                  <p>해당 실험이 어떠셨나요?</p>
+                  <p>{data.title}</p>
                   <p>
-                    {data.startTime}-{data.endTime}
+                    참여날짜 : {moment(data.doDate).format("YYYY.MM.DD")} |
+                    참여시간: {data.startTime} ~ {data.endTime}
                   </p>
-                </div>
-              </S.DateTime>
-              <S.ReviewBtn>
-                <button>다음에 작성하기</button>
-                <button>작성 완료</button>
-              </S.ReviewBtn>
-            </div>
+                </S.TitleBox>
+                <S.ButtonBox>
+                  <button onClick={() => setMode("good")}>만족했어요</button>
+                  <button onClick={() => setMode("bad")}>불만족했어요</button>
+                </S.ButtonBox>
+              </>
+            )}
+            {mode === "good" && (
+              <>
+                <S.TitleBox>
+                  <InfoIcon />
+                  <p>만족 사유를 알려주세요</p>
+                </S.TitleBox>
+                <S.SelectBox>
+                  <select onChange={(e) => setText(e.target.value)}>
+                    <option selected disabled></option>
+                    {goodItem.map((a, i) => (
+                      <option key={i}>{a}</option>
+                    ))}
+                  </select>
+                </S.SelectBox>
+                <S.ButtonBox>
+                  <button>확인</button>
+                </S.ButtonBox>
+              </>
+            )}
+            {mode === "bad" && (
+              <>
+                <S.TitleBox>
+                  <InfoIcon />
+                  <p>불만족 사유를 알려주세요</p>
+                </S.TitleBox>
+                <S.SelectBox>
+                  <select onChange={(e) => setText(e.target.value)}>
+                    <option selected disabled></option>
+                    {badItem.map((a, i) => (
+                      <option key={i}>{a}</option>
+                    ))}
+                  </select>
+                </S.SelectBox>
+                <S.ButtonBox>
+                  <button onClick={submit}>확인</button>
+                </S.ButtonBox>
+              </>
+            )}
           </S.ModalContent>
         </S.ModalBox>
       </S.ModalBackground>

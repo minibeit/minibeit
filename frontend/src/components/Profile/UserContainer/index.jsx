@@ -24,8 +24,8 @@ export default function UserContainer({ view }) {
   const [feedSwitch, setFeedSwitch] = useState("확정된 목록");
 
   const status = [
-    { id: "wait", value: "대기중 목록" },
     { id: "approve", value: "확정된 목록" },
+    { id: "wait", value: "대기중 목록" },
     { id: "complete", value: "완료한 목록" },
     { id: "reject", value: "반려된 목록" },
     { id: "like", value: "즐겨찾기 목록" },

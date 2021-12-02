@@ -1,5 +1,6 @@
 import React from "react";
-import StarBorderIcon from "@mui/icons-material/StarBorder";
+import { ReactComponent as Star } from "../../../svg/별.svg";
+import CreateAuthModal from "../../Common/Modal/CreateAuthModal";
 
 import * as S from "../style";
 
@@ -8,6 +9,9 @@ export default function Presenter({
   goToDetailPage,
   user,
   clickBookmark,
+  goLogin,
+  modalSwitch,
+  setModalSwitch,
 }) {
   return (
     <S.ListContainer>
@@ -24,13 +28,13 @@ export default function Presenter({
                 </div>
                 <div>
                   {user.isLogin ? (
-                    <StarBorderIcon
+                    <Star
                       id={a.id}
                       onClick={clickBookmark}
                       style={{ color: `${a.isLike ? "rgb(6, 66, 255)" : ""}` }}
                     />
                   ) : (
-                    <StarBorderIcon />
+                    <Star onClick={goLogin} />
                   )}
                   <p>{a.likes}</p>
                 </div>
@@ -50,6 +54,7 @@ export default function Presenter({
       ) : (
         <p>실험이 없습니다</p>
       )}
+      {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
     </S.ListContainer>
   );
 }

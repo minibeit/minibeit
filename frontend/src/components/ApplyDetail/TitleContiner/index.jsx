@@ -13,6 +13,7 @@ export default function TitleContainer({
   id,
   likes,
   isLike,
+  likeToLogIn,
 }) {
   return (
     <S.TitleBox>
@@ -29,7 +30,7 @@ export default function TitleContainer({
                 }}
               />
             ) : (
-              <Star />
+              <Star onClick={likeToLogIn} />
             )}
             <p>{likes}</p>
           </S.TitleBookMark>

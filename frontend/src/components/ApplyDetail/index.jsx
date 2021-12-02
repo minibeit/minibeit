@@ -90,6 +90,12 @@ export default function ApplyDetailComponent({ feedId, date }) {
     }
   };
 
+  const likeToLogIn = () => {
+    let value = window.confirm("이용하려면 로그인 먼저 해주세요!");
+    if (value) {
+      setModalSwitch(true);
+    }
+  };
   const checkLogin = () => {
     if (user.isLogin) {
       setApplyAlert(1);
@@ -117,6 +123,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
           id={feedDetailData.id}
           isLike={feedDetailData.isLike}
           likes={feedDetailData.likes}
+          likeToLogIn={likeToLogIn}
         />
       )}
       {feedDetailData && (

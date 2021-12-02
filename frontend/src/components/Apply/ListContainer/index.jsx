@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import moment from "moment";
 
@@ -12,6 +12,14 @@ export default function ListContainer({ feedList, postBookmark }) {
   const date = useRecoilValue(dateState).date;
   const user = useRecoilValue(userState);
   const history = useHistory();
+  const [modalSwitch, setModalSwitch] = useState(false);
+
+  const goLogin = () => {
+    let value = window.confirm("이용하려면 로그인 먼저 해주세요!");
+    if (value) {
+      setModalSwitch(true);
+    }
+  };
 
   const goToDetailPage = (e) => {
     history.push(`/apply/${e.target.id}?${moment(date).format("YYYY-MM-DD")}`);
@@ -42,6 +50,9 @@ export default function ListContainer({ feedList, postBookmark }) {
       goToDetailPage={goToDetailPage}
       user={user}
       clickBookmark={clickBookmark}
+      modalSwitch={modalSwitch}
+      setModalSwitch={setModalSwitch}
+      goLogin={goLogin}
     />
   );
 }

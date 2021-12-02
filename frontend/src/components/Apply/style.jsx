@@ -258,6 +258,7 @@ export const FeedHeader = styled.div`
   }
   & svg {
     cursor: pointer;
+    width: 1.3rem;
   }
 `;
 export const FeedInfoData = styled.div`

@@ -61,11 +61,9 @@ export default function ApplyDetailComponent({ feedId, date }) {
     setFeedDetailData({ ...feedDetailData, isLike: !feedDetailData.isLike });
     postBookmark(target.id);
     if (feedDetailData.isLike) {
-      target.nextSibling.textContent =
-        parseInt(target.nextSibling.textContent) - 1;
+      setFeedDetailData({ ...feedDetailData, likes: feedDetailData.likes - 1 });
     } else {
-      target.nextSibling.textContent =
-        parseInt(target.nextSibling.textContent) + 1;
+      setFeedDetailData({ ...feedDetailData, likes: feedDetailData.likes + 1 });
     }
   };
 

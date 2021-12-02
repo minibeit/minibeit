@@ -45,13 +45,14 @@ export default function BusinessContainer() {
         <S.BusinessListBox>
           <S.BusinessHeader>
             <div>
-              <p>어떤 프로필을 사용하여 참여자를 모집하시겠어요?</p>
               {editMode ? (
                 <button onClick={() => setEditMode(false)}>확인</button>
               ) : (
                 <PenIcon onClick={() => setEditMode(true)} />
               )}
             </div>
+            <p>어떤 프로필을 사용하여 참여자를 모집하시겠어요?</p>
+
             <p>
               사용하실 비즈니스 프로필을 골라보세요.
               <br />

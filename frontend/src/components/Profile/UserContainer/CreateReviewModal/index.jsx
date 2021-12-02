@@ -5,10 +5,11 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 
 import * as S from "./style";
 import Portal from "../../../Common/Modal/Portal";
+import { createBusinessReviewApi } from "../../../../utils";
 
 export default function FeedCloseModal({ data, setModalSwitch }) {
   const [mode, setMode] = useState(null);
-  const [text, setText] = useState(null);
+  const [reviewData, setReviewData] = useState(null);
   const [goodItem] = useState([
     "예상보다 소요 시간이 적었어요",
     "참여 경험이 흥미로웠어요",
@@ -25,12 +26,12 @@ export default function FeedCloseModal({ data, setModalSwitch }) {
   ]);
 
   const submit = () => {
-    if (text) {
+    if (reviewData) {
       if (mode === "bad") {
         alert("후기 작성을 완료했습니다");
         setModalSwitch(false);
       } else if (mode === "good") {
-        console.log("send");
+        // createBusinessReviewApi();
       }
     } else {
       alert("이유를 선택해주세요");
@@ -69,10 +70,12 @@ export default function FeedCloseModal({ data, setModalSwitch }) {
                   <p>만족 사유를 알려주세요</p>
                 </S.TitleBox>
                 <S.SelectBox>
-                  <select onChange={(e) => setText(e.target.value)}>
+                  <select onClick={(e) => setReviewData(e.target.value)}>
                     <option selected disabled></option>
                     {goodItem.map((a, i) => (
-                      <option key={i}>{a}</option>
+                      <option value={i + 1} key={i}>
+                        {a}
+                      </option>
                     ))}
                   </select>
                 </S.SelectBox>
@@ -88,10 +91,12 @@ export default function FeedCloseModal({ data, setModalSwitch }) {
                   <p>불만족 사유를 알려주세요</p>
                 </S.TitleBox>
                 <S.SelectBox>
-                  <select onChange={(e) => setText(e.target.value)}>
+                  <select onClick={(e) => setReviewData(e.target.value)}>
                     <option selected disabled></option>
                     {badItem.map((a, i) => (
-                      <option key={i}>{a}</option>
+                      <option value={i + 1} key={i}>
+                        {a}
+                      </option>
                     ))}
                   </select>
                 </S.SelectBox>

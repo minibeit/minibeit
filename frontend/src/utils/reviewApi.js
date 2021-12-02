@@ -1,7 +1,26 @@
 import { API_URLS } from "../constants";
 import { withAuthInstance, withoutAuthInstance } from "./common";
 
-const { REVIEW_NEW, REVIEW_LIST_GET, REVIEW_ONE_READ, EDIT_REVIEW } = API_URLS;
+const {
+  REVIEW_NEW,
+  REVIEW_LIST_GET,
+  REVIEW_ONE_READ,
+  EDIT_REVIEW,
+  CREATE_BPROFILE_REVIEW,
+} = API_URLS;
+
+export const createBusinessReviewApi = async (
+  businessId,
+  postDoDateId,
+  reviewData
+) => {
+  return await withAuthInstance.post(
+    CREATE_BPROFILE_REVIEW +
+      `${businessId}/date/${postDoDateId}/review/${reviewData}`
+  );
+};
+
+/*지워야 함*/
 
 export const reviewNewApi = async (postDoDateId, newReviewInfo) => {
   return await withAuthInstance.post(

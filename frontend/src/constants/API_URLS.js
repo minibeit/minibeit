@@ -49,5 +49,6 @@ const API_URLS = {
   VERIFICATION: "/api/mail/user/",
   CHECK_CODE: "/api/user/",
   VERIFICATION_SMS: "/api/user/",
+  CREATE_BPROFILE_REVIEW: "/api/business/",
 };
 export default API_URLS;

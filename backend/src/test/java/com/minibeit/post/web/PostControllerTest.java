@@ -325,6 +325,7 @@ class PostControllerTest extends MvcTest {
                 .doDate(LocalDateTime.of(2021, 9, 10, 9, 30))
                 .recruitCondition(true)
                 .status(ApplyStatus.APPROVE.name())
+                .businessProfileId(1L)
                 .build();
         PostResponse.GetMyApplyList approveAndWaitList2 = PostResponse.GetMyApplyList.builder()
                 .id(2L)
@@ -335,6 +336,7 @@ class PostControllerTest extends MvcTest {
                 .doDate(LocalDateTime.of(2021, 9, 10, 12, 30))
                 .recruitCondition(true)
                 .status(ApplyStatus.WAIT.name())
+                .businessProfileId(1L)
                 .build();
         response.add(approveAndWaitList1);
         response.add(approveAndWaitList2);
@@ -369,6 +371,7 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("data.content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
                                 fieldWithPath("data.content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
                                 fieldWithPath("data.content[].finish").type(JsonFieldType.BOOLEAN).description("참여완료 버튼 활성화이면 true 아니면 false"),
+                                fieldWithPath("data.content[].businessProfileId").type(JsonFieldType.NUMBER).description("비스니스 프로필 식별자"),
                                 fieldWithPath("data.totalElements").description("전체 개수"),
                                 fieldWithPath("data.last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("data.totalPages").description("전체 페이지")
@@ -389,6 +392,7 @@ class PostControllerTest extends MvcTest {
                 .startTime(LocalDateTime.of(2021, 10, 2, 9, 30))
                 .endTime(LocalDateTime.of(2021, 10, 2, 11, 30))
                 .isWritable(true)
+                .businessProfileId(1L)
                 .build();
         PostResponse.GetMyCompletedList getMyCompletedList2 = PostResponse.GetMyCompletedList.builder()
                 .id(2L)
@@ -399,6 +403,7 @@ class PostControllerTest extends MvcTest {
                 .startTime(LocalDateTime.of(2021, 10, 2, 9, 30))
                 .endTime(LocalDateTime.of(2021, 10, 2, 11, 30))
                 .isWritable(true)
+                .businessProfileId(1L)
                 .build();
         PostResponse.GetMyCompletedList getMyCompletedList3 = PostResponse.GetMyCompletedList.builder()
                 .id(2L)
@@ -409,6 +414,7 @@ class PostControllerTest extends MvcTest {
                 .startTime(LocalDateTime.of(2021, 10, 2, 9, 30))
                 .endTime(LocalDateTime.of(2021, 10, 2, 11, 30))
                 .isWritable(false)
+                .businessProfileId(1L)
                 .build();
         response.add(getMyCompletedList1);
         response.add(getMyCompletedList2);
@@ -438,7 +444,8 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("data.content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
                                 fieldWithPath("data.content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
                                 fieldWithPath("data.content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
-                                fieldWithPath("data.content[].isWritable").description("리뷰를 작성하거나 수정할 수 있다면 true(실험후 일주일동안 가능)"),
+                                fieldWithPath("data.content[].isWritable").description("리뷰를 작성할 수 있다면 true(실험후 일주일동안 가능)"),
+                                fieldWithPath("data.content[].businessProfileId").type(JsonFieldType.NUMBER).description("비스니스 프로필 식별자"),
                                 fieldWithPath("data.totalElements").description("전체 개수"),
                                 fieldWithPath("data.last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("data.totalPages").description("전체 페이지")

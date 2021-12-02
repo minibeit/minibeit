@@ -157,7 +157,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<PostResponse.GetMyCompletedList> findAllByMyCompleted(User user, Pageable pageable) {
         JPAQuery<PostResponse.GetMyCompletedList> query = queryFactory.select(new QPostResponse_GetMyCompletedList(
-                        post.id, postDoDate.id, post.title, post.doTime, postDoDate.doDate
+                        post.id, postDoDate.id, post.title, post.doTime, postDoDate.doDate, post.businessProfile.id
                 ))
                 .from(post)
                 .join(post.postDoDateList, postDoDate)

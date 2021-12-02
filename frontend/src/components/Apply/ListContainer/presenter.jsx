@@ -16,10 +16,10 @@ export default function Presenter({
   return (
     <S.ListContainer>
       {feedList.length !== 0 ? (
-        feedList.map((a) => {
+        feedList.map((a, i) => {
           return (
             <S.FeedBox key={a.id}>
-              <S.FeedHeader>
+              <S.FeedHeader isLike={a.isLike}>
                 <div>
                   <p id={a.id} onClick={goToDetailPage}>
                     {a.title}
@@ -28,11 +28,7 @@ export default function Presenter({
                 </div>
                 <div>
                   {user.isLogin ? (
-                    <Star
-                      id={a.id}
-                      onClick={clickBookmark}
-                      style={{ color: `${a.isLike ? "rgb(6, 66, 255)" : ""}` }}
-                    />
+                    <Star id={a.id} onClick={(e) => clickBookmark(e, a)} />
                   ) : (
                     <Star onClick={goLogin} />
                   )}

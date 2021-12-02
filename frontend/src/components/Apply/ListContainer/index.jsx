@@ -8,7 +8,7 @@ import { userState } from "../../../recoil/userState";
 
 import Presenter from "./presenter";
 
-export default function ListContainer({ feedList, postBookmark }) {
+export default function ListContainer({ feedList, postBookmark, setFeedList }) {
   const date = useRecoilValue(dateState).date;
   const user = useRecoilValue(userState);
   const history = useHistory();
@@ -25,23 +25,19 @@ export default function ListContainer({ feedList, postBookmark }) {
     history.push(`/apply/${e.target.id}?${moment(date).format("YYYY-MM-DD")}`);
   };
 
-  const clickBookmark = (e) => {
-    var target;
-    if (e.target.nodeName === "path") {
-      target = e.target.parentNode;
+  const clickBookmark = (e, a) => {
+    var Data = [...feedList];
+    var likeData = Data[feedList.findIndex((i) => i.id === a.id)];
+    if (a.isLike) {
+      likeData.likes = likeData.likes - 1;
+      likeData.isLike = !likeData.isLike;
+      setFeedList(Data);
     } else {
-      target = e.target;
+      likeData.likes = likeData.likes + 1;
+      likeData.isLike = !likeData.isLike;
+      setFeedList(Data);
     }
-    postBookmark(target.id);
-    if (target.style.color === "rgb(6, 66, 255)") {
-      target.style.color = "";
-      target.nextSibling.textContent =
-        parseInt(target.nextSibling.textContent) - 1;
-    } else {
-      target.style.color = "rgb(6, 66, 255)";
-      target.nextSibling.textContent =
-        parseInt(target.nextSibling.textContent) + 1;
-    }
+    // postBookmark(e.target.id);
   };
 
   return (

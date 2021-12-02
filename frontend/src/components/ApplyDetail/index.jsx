@@ -47,9 +47,9 @@ export default function ApplyDetailComponent({ feedId, date }) {
     [user.isLogin, history]
   );
 
-  const postBookmark = async (postId) => {
-    await bookmarkApi(postId).then().catch();
-  };
+  // const postBookmark = async (postId) => {
+  //   await bookmarkApi(postId).then().catch();
+  // };
 
   const clickBookmark = (e) => {
     if (feedDetailData.isLike) {
@@ -65,7 +65,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
         likes: feedDetailData.likes + 1,
       });
     }
-    postBookmark(e.target.id);
+    // postBookmark(e.target.id);
   };
 
   const editDetail = (postId, data) => {

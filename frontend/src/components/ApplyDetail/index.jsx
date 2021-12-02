@@ -52,19 +52,20 @@ export default function ApplyDetailComponent({ feedId, date }) {
   };
 
   const clickBookmark = (e) => {
-    var target;
-    if (e.target.nodeName === "path") {
-      target = e.target.parentNode;
-    } else {
-      target = e.target;
-    }
-    setFeedDetailData({ ...feedDetailData, isLike: !feedDetailData.isLike });
-    postBookmark(target.id);
     if (feedDetailData.isLike) {
-      setFeedDetailData({ ...feedDetailData, likes: feedDetailData.likes - 1 });
+      setFeedDetailData({
+        ...feedDetailData,
+        isLike: false,
+        likes: feedDetailData.likes - 1,
+      });
     } else {
-      setFeedDetailData({ ...feedDetailData, likes: feedDetailData.likes + 1 });
+      setFeedDetailData({
+        ...feedDetailData,
+        isLike: true,
+        likes: feedDetailData.likes + 1,
+      });
     }
+    postBookmark(e.target.id);
   };
 
   const editDetail = (postId, data) => {

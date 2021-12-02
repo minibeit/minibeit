@@ -11,8 +11,8 @@ export default function TitleContainer({
   category,
   isLogin,
   id,
-  isLike,
   likes,
+  isLike,
 }) {
   return (
     <S.TitleBox>
@@ -22,7 +22,12 @@ export default function TitleContainer({
           <p>{title}</p>
           <S.TitleBookMark isLogin={isLogin} isLike={isLike}>
             {isLogin ? (
-              <Star id={id} onClick={(e) => clickBookmark(e)} />
+              <Star
+                id={id}
+                onClick={(e) => {
+                  clickBookmark(e);
+                }}
+              />
             ) : (
               <Star />
             )}

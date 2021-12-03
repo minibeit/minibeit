@@ -255,9 +255,19 @@ export const FeedHeader = styled.div`
   }
   & > div:nth-child(2) > p:nth-child(2) {
     text-align: center;
+    color: ${({ isLike }) => {
+      return isLike ? "#0642ff" : "";
+    }};
+    font-size: 0.9rem;
   }
   & svg {
     cursor: pointer;
+    width: 1.3rem;
+    path {
+      fill: ${({ isLike }) => {
+        return isLike ? "#0642ff" : "";
+      }};
+    }
   }
 `;
 export const FeedInfoData = styled.div`

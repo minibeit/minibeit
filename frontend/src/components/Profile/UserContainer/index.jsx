@@ -93,28 +93,28 @@ export default function UserContainer({ view }) {
               )}
             </S.ImgBox>
             <S.UserInfoData>
-              <p>
-                <span>이름</span> <span>: {userData.name}</span>
-              </p>
-              <p>
-                <span>닉네임</span> <span>: {userData.nickname}</span>
-              </p>
-              <p>
+              <div>
+                <span>이름</span> <span>{userData.name}</span>
+              </div>
+              <div>
+                <span>닉네임</span> <span>{userData.nickname}</span>
+              </div>
+              <div>
                 <span>성별</span>
-                <span>: {userData.gender === "MALE" ? "남자" : "여자"}</span>
-              </p>
-              <p>
-                <span>생년월일</span> <span>: {userData.birth}</span>
-              </p>
-              <p>
-                <span>관심학교</span> <span>: {userData.schoolName}</span>
-              </p>
-              <p>
-                <span>직업</span> <span>: {userData.job}</span>
-              </p>
-              <p>
-                <span>전화번호</span> <span>: {userData.phoneNum}</span>
-              </p>
+                <span>{userData.gender === "MALE" ? "남자" : "여자"}</span>
+              </div>
+              <div>
+                <span>생년월일</span> <span>{userData.birth}</span>
+              </div>
+              <div>
+                <span>관심학교</span> <span>{userData.schoolName}</span>
+              </div>
+              <div>
+                <span>직업</span> <span>{userData.job}</span>
+              </div>
+              <div>
+                <span>전화번호</span> <span>{userData.phoneNum}</span>
+              </div>
             </S.UserInfoData>
             <button onClick={() => setModalSwitch(true)}>수정하기</button>
             {modalSwitch && (

@@ -65,26 +65,29 @@ export const UserInfoData = styled.div`
   display: flex;
   background: #f1f1f1;
   flex-direction: column;
-  align-items: flex-start;
   gap: 0.7rem;
   border-radius: 1rem;
   padding: 1.5rem;
   margin-top: 1rem;
-  & > p {
-    font-size: 0.8rem;
+  & > div {
     display: flex;
-    ::before {
-      content: "•";
-      margin-right: 0.2rem;
+    align-items: flex-start;
+    font-size: 0.8rem;
+
+    & > span:first-child {
+      flex: 2.5;
+      ::before {
+        content: "•";
+        margin-right: 0.2rem;
+      }
     }
-    & > span {
-      min-width: 2.7rem;
-    }
-  }
-  & > p:nth-child(3) {
-    & > p {
-      margin-left: 0.2rem;
-      min-height: 2rem;
+    & > span:nth-child(2) {
+      flex: 5;
+      max-height: 3.5rem;
+      ::before {
+        content: ":";
+        margin-right: 0.2rem;
+      }
     }
   }
 `;

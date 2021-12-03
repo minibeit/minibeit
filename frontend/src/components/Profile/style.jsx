@@ -76,24 +76,27 @@ export const UserInfoData = styled.div`
   border-radius: 1rem;
   padding: 1.5rem 2rem;
   margin-top: 1rem;
-  & > p {
+  & > div {
     font-size: 0.8rem;
     display: flex;
     align-items: flex-start;
-    ::before {
-      content: "•";
-      margin-right: 0.2rem;
-    }
+
     & > span:first-child {
-      flex: 3;
+      flex: 2.5;
+      white-space: nowrap;
+      ::before {
+        content: "•";
+        margin-right: 0.2rem;
+      }
     }
     & > span:nth-child(2) {
-      flex: 5;
+      flex: 4;
+      max-height: 2.5rem;
+      ::before {
+        content: ":";
+        margin: 0 0.2rem;
+      }
     }
-  }
-  & > p:nth-child(5) > span:nth-child(2) {
-    min-height: 2rem;
-    line-height: 1rem;
   }
 `;
 export const FeedContainer = styled.div`
@@ -264,44 +267,44 @@ export const BusinessListBox = styled.div`
   }
 `;
 export const BusinessHeader = styled.div`
+  transform: translate(2rem, 0);
   display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
   & > div:first-child {
     display: flex;
-    justify-content: flex-end;
-    align-items: baseline;
-    gap: 0.5rem;
-    & > p {
+    flex-direction: column;
+    gap: 0.3rem;
+    & > p:nth-child(1) {
       font-size: 1rem;
       font-weight: 600;
     }
-    & > svg {
-      width: 1rem;
-      margin: 0.5rem 2rem;
-      cursor: pointer;
-      :hover {
-        path {
-          fill: #0642ff;
-        }
-      }
-    }
-    & > button {
+    & > p:nth-child(2) {
       font-size: 0.8rem;
-      border: none;
-      background-color: inherit;
-      margin: 0 1.5rem;
-      :hover {
-        color: #0642ff;
-      }
+      color: #7c7c7c;
+      line-height: 1.3rem;
     }
-  }
-  & > p:nth-child(2) {
-    font-size: 0.8rem;
-    color: #7c7c7c;
-    line-height: 1.3rem;
   }
 `;
+export const BusinessEditBtn = styled.div`
+  width: 3rem;
+  & > svg {
+    width: 1rem;
+    cursor: pointer;
+    :hover {
+      path {
+        fill: #0642ff;
+      }
+    }
+  }
+  & > button {
+    font-size: 0.8rem;
+    border: none;
+    background-color: inherit;
+    :hover {
+      color: #0642ff;
+    }
+  }
+`;
+
 export const BusinessProfile = styled.div`
   width: 10rem;
   & > div:nth-child(2) {

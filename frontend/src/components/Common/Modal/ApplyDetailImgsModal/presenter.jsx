@@ -5,14 +5,14 @@ import * as S from "./style";
 export default function Presenter({
   currentSlide,
   slideRef,
-  setModalSwitch,
+  setSliderSwitch,
   currentImg,
   files,
   prevSlide,
   nextSlide,
 }) {
   const modalOff = () => {
-    setModalSwitch(false);
+    setSliderSwitch(false);
     document.querySelector("body").removeAttribute("style");
   };
   const link = files[currentSlide].url;

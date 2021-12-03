@@ -76,7 +76,11 @@ export default function ApplyComponent({ page }) {
 
       {feedList && page && (
         <>
-          <ListContainer feedList={feedList} postBookmark={postBookmark} />
+          <ListContainer
+            setFeedList={setFeedList}
+            feedList={feedList}
+            postBookmark={postBookmark}
+          />
           {feedList.length !== 0 && (
             <Pagination
               page={page}

@@ -29,8 +29,8 @@ export default function Presenter({
   contact,
   businessProfileInfo,
   currentImg,
-  modalSwitch,
-  setModalSwitch,
+  sliderSwitch,
+  setSliderSwitch,
   imgOnClick,
   editAlert,
   setEditAlert,
@@ -161,10 +161,10 @@ export default function Presenter({
                   <S.Div onClick={imgOnClick}>+{files.length - 4}</S.Div>
                 ) : null}
               </div>
-              {modalSwitch ? (
+              {sliderSwitch ? (
                 <ApplyDetailImgsModal
                   files={files}
-                  setModalSwitch={setModalSwitch}
+                  setSliderSwitch={setSliderSwitch}
                   currentImg={currentImg}
                 />
               ) : null}

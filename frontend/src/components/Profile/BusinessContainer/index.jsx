@@ -46,17 +46,19 @@ export default function BusinessContainer() {
           <S.BusinessHeader>
             <div>
               <p>어떤 프로필을 사용하여 참여자를 모집하시겠어요?</p>
+              <p>
+                사용하실 비즈니스 프로필을 골라보세요.
+                <br />
+                최대 3개까지 생성할 수 있어요.
+              </p>
+            </div>
+            <S.BusinessEditBtn>
               {editMode ? (
                 <button onClick={() => setEditMode(false)}>확인</button>
               ) : (
                 <PenIcon onClick={() => setEditMode(true)} />
               )}
-            </div>
-            <p>
-              사용하실 비즈니스 프로필을 골라보세요.
-              <br />
-              최대 3개까지 생성할 수 있어요.
-            </p>
+            </S.BusinessEditBtn>
           </S.BusinessHeader>
           <div>
             {BProfileList.map((a) => {

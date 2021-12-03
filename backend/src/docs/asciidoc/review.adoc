@@ -23,7 +23,7 @@ include::{snippets}/business-review-list/response-fields.adoc[]
 
 === 지원자측에서 비즈니스 프로필 후기 생성
 
-`POST /api/business/{businessProfileId}/date/{postDoDateId}/businessUserReview/{reviewDetailId}`
+`POST /api/business/{businessProfileId}/date/{postDoDateId}/review/{reviewDetailId}`
 
 요청 HTTP
 include::{snippets}/business-review-create/http-request.adoc[]

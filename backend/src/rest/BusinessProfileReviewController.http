@@ -3,10 +3,13 @@ Authorization: {{authorizationToken}}
 
 ###
 GET {{apiUrl}}/business/1/good-reviews
-Authorization: {{authorizationToken}}
+
 
 ###
 POST {{apiUrl}}/business/1/date/4/review/2
 Authorization: {{authorizationToken}}
 
+###
+POST {{apiUrl}}/business/1/user/2/date/4/review/20
+Authorization: {{authorizationToken}}
 

@@ -36,6 +36,8 @@ public class PostApplicant extends BaseEntity {
 
     private boolean writeReview;
 
+    private boolean evaluatedBusiness;
+
     private void setPostDoDate(PostDoDate postDoDate) {
         postDoDate.getPostApplicantList().add(this);
         this.postDoDate = postDoDate;
@@ -45,13 +47,21 @@ public class PostApplicant extends BaseEntity {
         this.applyStatus = applyStatus;
     }
 
-    public boolean writeReviewIsPossible(LocalDateTime now) {
+    public boolean writeBusinessReviewIsPossible(LocalDateTime now) {
         return this.applyStatus.equals(ApplyStatus.APPROVE) && !this.writeReview &&
                 this.businessFinish && this.myFinish && this.postDoDate.getDoDate().plusDays(7).isAfter(now);
     }
 
+    public boolean writeUserReviewIsPossible(LocalDateTime now) {
+        return !this.evaluatedBusiness && this.postDoDate.getDoDate().plusDays(7).isAfter(now);
+    }
+
     public void updateMyFinish() {
         this.myFinish = true;
+    }
+
+    public void updateEvaluatedBusiness() {
+        this.evaluatedBusiness = true;
     }
 
     public void updateWriteReview() {

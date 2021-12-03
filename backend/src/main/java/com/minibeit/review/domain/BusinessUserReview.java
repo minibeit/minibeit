@@ -30,9 +30,16 @@ public class BusinessUserReview extends BaseEntity {
     @JoinColumn(name = "business_review_detail_id")
     private BusinessUserReviewDetail businessUserReviewDetail;
 
-    public static BusinessUserReview create(BusinessProfile businessProfile, BusinessUserReviewDetail businessUserReviewDetail) {
+    public static BusinessUserReview createWithBusiness(BusinessProfile businessProfile, BusinessUserReviewDetail businessUserReviewDetail) {
         return BusinessUserReview.builder()
                 .businessProfile(businessProfile)
+                .businessUserReviewDetail(businessUserReviewDetail)
+                .build();
+    }
+
+    public static BusinessUserReview createWithUser(User applicantUser, BusinessUserReviewDetail businessUserReviewDetail) {
+        return BusinessUserReview.builder()
+                .user(applicantUser)
                 .businessUserReviewDetail(businessUserReviewDetail)
                 .build();
     }

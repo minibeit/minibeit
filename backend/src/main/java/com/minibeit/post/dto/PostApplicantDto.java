@@ -31,10 +31,11 @@ public class PostApplicantDto {
         private LocalDateTime startTime;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime endTime;
+        private Boolean isEvaluable;
 
         @Builder
         @QueryProjection
-        public UserInfo(Long id, String name, String email, LocalDate birth, Gender gender, String phoneNum, String job, Integer time, ApplyStatus status, Boolean isAttend, Long postDoDateId, LocalDateTime startTime) {
+        public UserInfo(Long id, String name, String email, LocalDate birth, Gender gender, String phoneNum, String job, Integer time, ApplyStatus status, Boolean isAttend, Long postDoDateId, LocalDateTime startTime, Boolean evaluatedBusiness) {
             this.id = id;
             this.name = name;
             this.email = email;
@@ -47,6 +48,7 @@ public class PostApplicantDto {
             this.postDoDateId = postDoDateId;
             this.startTime = startTime;
             this.endTime = startTime.plusMinutes(time);
+            this.isEvaluable = LocalDateTime.now().isAfter(endTime) && !evaluatedBusiness;
         }
     }
 }

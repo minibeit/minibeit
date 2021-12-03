@@ -49,7 +49,7 @@ class BusinessUserReviewControllerTest extends MvcTest {
 
     @Test
     @DisplayName("비즈니스 리뷰 생성 문서화")
-    public void create() throws Exception {
+    public void createBusinessReview() throws Exception {
         ResultActions results = mvc.perform(post("/api/business/{businessProfileId}/date/{postDoDateId}/review/{reviewDetailId}", 1, 1, 1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8"));
@@ -70,6 +70,29 @@ class BusinessUserReviewControllerTest extends MvcTest {
                 ));
     }
 
+    @Test
+    @DisplayName("지원자에 대한 리뷰 생성 문서화")
+    public void createUserReview() throws Exception {
+        ResultActions results = mvc.perform(post("/api/business/{businessProfileId}/user/{userId}/date/{postDoDateId}/review/{reviewDetailId}", 1, 1, 1,1)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("user-review-create",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자"),
+                                parameterWithName("userId").description("유저 식별자"),
+                                parameterWithName("postDoDateId").description("모집 날짜 식별자"),
+                                parameterWithName("reviewDetailId").description("상세 후기 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
+                        )
+                ));
+    }
 
     @Test
     @DisplayName("비즈니스 리뷰 만족 불만족 리스트 조회")

@@ -156,6 +156,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                 .time(120)
                 .isAttend(true)
                 .postDoDateId(1L)
+                .evaluatedBusiness(false)
                 .build();
         PostApplicantDto.UserInfo userInfo2 = PostApplicantDto.UserInfo.builder()
                 .id(2L)
@@ -170,6 +171,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                 .time(120)
                 .isAttend(true)
                 .postDoDateId(1L)
+                .evaluatedBusiness(false)
                 .build();
         PostApplicantDto.UserInfo userInfo3 = PostApplicantDto.UserInfo.builder()
                 .id(3L)
@@ -184,6 +186,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                 .time(120)
                 .isAttend(true)
                 .postDoDateId(2L)
+                .evaluatedBusiness(true)
                 .build();
         response.add(userInfo1);
         response.add(userInfo2);
@@ -224,7 +227,8 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                                 fieldWithPath("data.[].userInfoList[].isAttend").description("실험 참여했다면 true, 안했다면 false"),
                                 fieldWithPath("data.[].userInfoList[].postDoDateId").description("게시물 실험 시작 시간 식별자"),
                                 fieldWithPath("data.[].userInfoList[].startTime").description("실험 시작 시간"),
-                                fieldWithPath("data.[].userInfoList[].endTime").description("실험 끝나는 시간")
+                                fieldWithPath("data.[].userInfoList[].endTime").description("실험 끝나는 시간"),
+                                fieldWithPath("data.[].userInfoList[].isEvaluable").description("해당 지원자를 평가할 수 있다면 true 아니면 false")
                         )
                 ));
     }

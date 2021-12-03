@@ -1,9 +1,9 @@
 package com.minibeit.review.web;
 
-import com.minibeit.review.dto.BusinessUserReviewResponse;
 import com.minibeit.common.dto.ApiResult;
 import com.minibeit.review.domain.BusinessUserReviewEvalType;
 import com.minibeit.review.domain.BusinessUserReviewType;
+import com.minibeit.review.dto.BusinessUserReviewResponse;
 import com.minibeit.review.service.BusinessUserReviewService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
@@ -22,9 +22,16 @@ public class BusinessUserReviewController {
     private final BusinessUserReviewService businessUserReviewService;
 
     @PostMapping("/business/{businessProfileId}/date/{postDoDateId}/review/{reviewDetailId}")
-    public ResponseEntity<ApiResult<Void>> create(@PathVariable Long businessProfileId, @PathVariable Long postDoDateId,
-                                                  @PathVariable Long reviewDetailId, @CurrentUser CustomUserDetails customUserDetails) {
-        businessUserReviewService.create(businessProfileId, postDoDateId, reviewDetailId, LocalDateTime.now(), customUserDetails.getUser());
+    public ResponseEntity<ApiResult<Void>> createBusinessReview(@PathVariable Long businessProfileId, @PathVariable Long postDoDateId,
+                                                                @PathVariable Long reviewDetailId, @CurrentUser CustomUserDetails customUserDetails) {
+        businessUserReviewService.createBusinessReview(businessProfileId, postDoDateId, reviewDetailId, LocalDateTime.now(), customUserDetails.getUser());
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
+    }
+
+    @PostMapping("/business/{businessProfileId}/user/{userId}/date/{postDoDateId}/review/{reviewDetailId}")
+    public ResponseEntity<ApiResult<Void>> createUserReview(@PathVariable Long businessProfileId, @PathVariable Long userId, @PathVariable Long postDoDateId,
+                                                            @PathVariable Long reviewDetailId, @CurrentUser CustomUserDetails customUserDetails) {
+        businessUserReviewService.createUserReview(businessProfileId, userId, postDoDateId, reviewDetailId, LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 

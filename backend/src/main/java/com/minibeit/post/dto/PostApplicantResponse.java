@@ -17,7 +17,6 @@ public class PostApplicantResponse {
     public static class ApplicantInfo {
         private Long postDoDateId;
         private List<PostApplicantDto.UserInfo> userInfoList;
-
         public static List<PostApplicantResponse.ApplicantInfo> dtoToResponse(List<PostApplicantDto.UserInfo> applicantInfoList) {
             Map<Long, List<PostApplicantDto.UserInfo>> collect = applicantInfoList.stream().collect(Collectors.groupingBy(PostApplicantDto.UserInfo::getPostDoDateId));
             List<PostApplicantResponse.ApplicantInfo> result = new ArrayList<>();

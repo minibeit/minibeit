@@ -65,5 +65,7 @@ VALUES ('약속 시간을 잘 지키셨어요.', 'U', 'GOOD'),
        ('의사소통이 어려웠어요.', 'U', 'BAD'),
        ('아무것도 선택하지 않을래요.', 'U', 'BAD');
 
+ALTER TABLE business_review modify column business_profile_id BIGINT;
+
 RENAME TABLE business_review TO business_user_review;
 RENAME TABLE business_review_detail TO business_user_review_detail;

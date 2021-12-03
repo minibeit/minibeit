@@ -256,23 +256,34 @@ export const Img = styled.img`
 `;
 
 /* review */
-export const ReviewBox = styled.div`
-  padding: 1rem 0 1rem 0;
-  border-bottom: 1px solid #c4c4c4;
+export const ReviewItem = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  & > div:first-child {
-    display: flex;
-    gap: 2rem;
-    & > p:first-child {
-      font-weight: bold;
-      color: grey;
-    }
-    & > p:nth-child(2) {
-      color: grey;
+  margin: 1em 0.5em;
+  gap: 0.5em;
+  & > div:nth-child(3) {
+  }
+`;
+export const ReviewTitle = styled.div`
+  display: flex;
+  gap: 0.5em;
+  & > p {
+    font-weight: bold;
+    color: #404040;
+  }
+`;
+export const ReviewCount = styled.div`
+  display: flex;
+  gap: 0.5em;
+  & svg {
+    width: 1rem;
+    & path {
+      fill: #0642ff;
     }
   }
+  & > p {
+    font-weight: bold;
+  }
+  margin-left: auto;
 `;
 
 /* apply remote controller */

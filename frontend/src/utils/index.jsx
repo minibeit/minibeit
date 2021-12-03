@@ -36,10 +36,4 @@ export {
   deleteCancelApi,
   getFinishlistApi,
 } from "./profileApi";
-export {
-  reviewNewApi,
-  reviewListGetApi,
-  reviewOneReadApi,
-  editReviewApi,
-  createBusinessReviewApi,
-} from "./reviewApi";
+export { createBusinessReviewApi, viewBusinessReviewApi } from "./reviewApi";

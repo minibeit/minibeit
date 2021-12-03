@@ -25,7 +25,7 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
     @Override
     public List<PostApplicantDto.UserInfo> findAllByPostAndDoDate(Long postId, ApplyStatus applyStatus, LocalDate doDate) {
         return queryFactory.select(new QPostApplicantDto_UserInfo(
-                        user.id, user.name, user.email, user.birth, user.gender, user.phoneNum, user.job, post.doTime, postApplicant.applyStatus, postApplicant.businessFinish, postDoDate.id, postDoDate.doDate
+                        user.id, user.name, user.email, user.birth, user.gender, user.phoneNum, user.job, post.doTime, postApplicant.applyStatus, postApplicant.businessFinish, postDoDate.id, postDoDate.doDate, postApplicant.evaluatedBusiness
                 ))
                 .from(postApplicant)
                 .join(postApplicant.user, user)

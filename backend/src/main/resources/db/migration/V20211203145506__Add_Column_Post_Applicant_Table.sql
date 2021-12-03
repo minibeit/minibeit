@@ -1,0 +1,1 @@
+ALTER TABLE `post_applicant` ADD `evaluated_business` TINYINT(1) DEFAULT false;

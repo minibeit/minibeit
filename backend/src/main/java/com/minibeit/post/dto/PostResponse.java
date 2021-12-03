@@ -227,10 +227,11 @@ public class PostResponse {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime endTime;
         private Boolean isWritable;
+        private Long businessProfileId;
 
         @Builder
         @QueryProjection
-        public GetMyCompletedList(Long id, Long postDoDateId, String title, Integer time, LocalDateTime doDate) {
+        public GetMyCompletedList(Long id, Long postDoDateId, String title, Integer time, LocalDateTime doDate, Long businessProfileId, Boolean businessFinish, Boolean writeReview) {
             this.id = id;
             this.postDoDateId = postDoDateId;
             this.title = title;
@@ -238,7 +239,8 @@ public class PostResponse {
             this.doDate = doDate;
             this.startTime = doDate;
             this.endTime = doDate.plusMinutes(time);
-            this.isWritable = doDate.plusDays(7).isAfter(LocalDateTime.now());
+            this.isWritable = doDate.plusDays(7).isAfter(LocalDateTime.now()) && businessFinish && !writeReview;
+            this.businessProfileId = businessProfileId;
         }
     }
 

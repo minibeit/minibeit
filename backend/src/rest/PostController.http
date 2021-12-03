@@ -57,7 +57,7 @@ POST {{apiUrl}}/post/3/like
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/post/3/review/13
+POST {{apiUrl}}/post/3/businessUserReview/13
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 

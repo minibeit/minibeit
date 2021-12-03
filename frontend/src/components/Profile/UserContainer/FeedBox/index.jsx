@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 
 import { deleteCancelApi, doJoinApi, doNotJoinApi } from "../../../../utils";
+
+import CreateReviewModal from "../CreateReviewModal";
 
 import * as S from "../../style";
 
 export default function FeedBox({ status, data, changeFeedData }) {
   const history = useHistory();
+  const [reviewModal, setReviewModal] = useState(false);
+
   const doNotJoin = (id) => {
     let value = window.confirm("실험 참여를 취소하시겠습니까?");
     if (value) {
@@ -112,8 +116,19 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <button>후기 작성</button>
-                <button>후기 수정</button>
+                <button
+                  disabled={data.isWritable ? false : true}
+                  onClick={() => setReviewModal(true)}
+                >
+                  후기 작성
+                </button>
+                {reviewModal && (
+                  <CreateReviewModal
+                    data={data}
+                    changeFeedData={changeFeedData}
+                    setModalSwitch={setReviewModal}
+                  />
+                )}
               </S.FeedButton>
             </>
           )}

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { getMakelistApi, reviewListGetApi } from "../../../utils";
+import { getMakelistApi } from "../../../utils";
 import { useHistory } from "react-router";
 
 import FeedBox from "./FeedBox";
@@ -33,10 +33,10 @@ export default function BProfileInfo({ businessId }) {
           );
           break;
         case "후기 모아보기":
-          reviewListGetApi(businessId, page ? page : 1, 10).then((res) => {
-            setTotalEle(res.data.data.totalElements);
-            setFeedData(res.data.data.content);
-          });
+          // reviewListGetApi(businessId, page ? page : 1, 10).then((res) => {
+          //   setTotalEle(res.data.data.totalElements);
+          //   setFeedData(res.data.data.content);
+          // });
           break;
         default:
       }

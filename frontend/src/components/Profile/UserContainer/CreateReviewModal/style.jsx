@@ -14,81 +14,87 @@ export const ModalBox = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 57%;
-  max-width: 41rem;
-  border-radius: 20px;
-  padding: 46px 55px;
-  height: 26rem;
-  background: white;
-`;
-export const ModalHeader = styled.div`
-  display: flex;
-  align-items: center;
-  height: 2rem;
-`;
-export const CloseModalBtn = styled.div`
-  margin-left: auto;
-  height: -webkit-fill-available;
-  & > svg {
-    cursor: pointer;
-  }
-`;
-export const ModalContent = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  gap: 1rem;
+  background-color: white;
+  width: 30rem;
+  height: 22rem;
+  border-radius: 2.2rem;
   & > div:first-child {
     display: flex;
-    gap: 1rem;
+    justify-content: flex-end;
+    margin: 1.5rem;
+    cursor: pointer;
+    & > svg {
+      width: 1rem;
+      height: 1rem;
+    }
   }
-  & > div:nth-child(2) {
-    display: flex;
-  }
+`;
+
+export const ModalContent = styled.div`
+  transform: translate(-50%, -60%);
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 `;
 export const TitleBox = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0 0.5rem 0;
-  height: fit-content;
-  border-bottom: 2px solid blue;
-  & > p:first-child {
-    font-size: 0.7rem;
+  margin-bottom: 2rem;
+  & > svg {
+    width: 2rem;
+    height: 2rem;
+    path {
+      fill: #0642ff;
+    }
   }
   & > p:nth-child(2) {
-    font-size: 1.5rem;
+    font-size: 2rem;
+    white-space: nowrap;
     font-weight: bold;
   }
-`;
-export const DateTime = styled.div`
-  display: flex;
-  gap: 2.5rem;
-  & > div {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  & > p:nth-child(3) {
+    font-weight: bold;
+  }
+  & > p:nth-child(4) {
+    color: #c4c4c4;
+    font-size: 0.8rem;
   }
 `;
-export const TextInput = styled.textarea`
-  width: 93%;
-  height: 19rem;
-  border: none;
-  background: #f8f8f8;
-  border-radius: 1rem;
-  padding: 1rem;
-  resize: none;
-`;
-export const ReviewBtn = styled.div`
+export const ButtonBox = styled.div`
   display: flex;
-  gap: 1rem;
-  align-self: end;
-  margin-left: auto;
-  & button {
-    background: #0642ff;
-    border: none;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 1rem;
+  gap: 2rem;
+  & > button {
+    width: 10em;
+    height: 3em;
+    border: 1px solid #0642ff;
+    border-radius: 3rem;
+    background: none;
+    color: #0642ff;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+  }
+`;
+
+export const SelectBox = styled.div`
+  margin-bottom: 1rem;
+  & > select {
+    width: 17rem;
+    height: 2.5rem;
+    border: 1px solid #0642ff;
+    border-radius: 2.5rem;
+    text-align: center;
+    color: #0642ff;
+    & option {
+      height: 2.5rem;
+    }
   }
 `;

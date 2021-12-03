@@ -1,17 +1,19 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { reviewListGetApi } from "../../../../utils";
-import Presenter from "./presenter";
+import React, { useCallback, useEffect, useState } from "react";
+
+import { viewBusinessReviewApi } from "../../../../utils";
+import { ReactComponent as UserIcon } from "../../../../svg/유저.svg";
+
+import * as S from "../../style";
 
 export default function ReveiwBox({ businessId }) {
-  const [page, setPage] = useState(1);
-  const [reviewList, setReviewList] = useState([]);
-  const [totalReview, setTotalReview] = useState(0);
+  const [review, setReview] = useState();
 
   const getReview = useCallback(() => {
-    reviewListGetApi(businessId, 1, 3).then((res) => {
-      setReviewList(res.data.data.content);
-      setTotalReview(res.data.data.numberOfElements);
-    });
+    viewBusinessReviewApi(businessId)
+      .then((res) => {
+        setReview(res.data.data);
+      })
+      .catch();
   }, [businessId]);
 
   useEffect(() => {
@@ -19,11 +21,45 @@ export default function ReveiwBox({ businessId }) {
   }, [getReview]);
 
   return (
-    <Presenter
-      reviewList={reviewList}
-      page={page}
-      setPage={setPage}
-      totalReview={totalReview}
-    />
+    <div>
+      {review &&
+        review.map((a) => {
+          return (
+            <S.ReviewItem key={a.id}>
+              <S.ReviewTitle>
+                {a.id === 1 && (
+                  <>
+                    <div>아이콘</div>
+                    <p>시간</p>
+                  </>
+                )}
+                {a.id === 2 && (
+                  <>
+                    <div>아이콘</div>
+                    <p>흥미</p>
+                  </>
+                )}
+                {a.id === 3 && (
+                  <>
+                    <div>아이콘</div>
+                    <p>보상</p>
+                  </>
+                )}
+                {a.id === 4 && (
+                  <>
+                    <div>아이콘</div>
+                    <p>친절</p>
+                  </>
+                )}
+              </S.ReviewTitle>
+              <p>{a.content}</p>
+              <S.ReviewCount>
+                <UserIcon />
+                <p>{a.count}</p>
+              </S.ReviewCount>
+            </S.ReviewItem>
+          );
+        })}
+    </div>
   );
 }

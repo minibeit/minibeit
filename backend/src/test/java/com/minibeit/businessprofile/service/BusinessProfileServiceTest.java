@@ -2,10 +2,10 @@ package com.minibeit.businessprofile.service;
 
 import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.domain.BusinessReview;
+import com.minibeit.review.domain.BusinessUserReview;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
-import com.minibeit.businessprofile.domain.repository.BusinessReviewRepository;
+import com.minibeit.review.domain.repository.BusinessUserReviewRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
@@ -54,7 +54,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Autowired
     private BusinessProfileRepository businessProfileRepository;
     @Autowired
-    private BusinessReviewRepository businessReviewRepository;
+    private BusinessUserReviewRepository businessUserReviewRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -77,7 +77,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     private PostApplicant postApplicant1;
     private PostApplicant postApplicant2;
 
-    private BusinessReview businessReview;
+    private BusinessUserReview businessUserReview;
     private School school;
 
     private PostRequest.CreateInfo createInfoRequest;

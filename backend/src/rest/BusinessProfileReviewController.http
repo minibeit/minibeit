@@ -1,4 +1,4 @@
-GET {{apiUrl}}/business/review/list?type=BAD
+GET {{apiUrl}}/business/user/reviews?reviewType=B&evalType=GOOD
 Authorization: {{authorizationToken}}
 
 ###
@@ -6,7 +6,7 @@ GET {{apiUrl}}/business/1/good-reviews
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business/1/date/1/review/2
+POST {{apiUrl}}/business/1/date/4/review/2
 Authorization: {{authorizationToken}}
 
 

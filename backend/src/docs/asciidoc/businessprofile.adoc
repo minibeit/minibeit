@@ -123,7 +123,7 @@ include::{snippets}/user-list-in-businessprofile/http-response.adoc[]
 
 === 비즈니스 프로필 만족, 불만족 후기 목록 조회
 
-`GET /api/business/reviews`
+`GET /api/business/user/reviews`
 
 요청 HTTP
 include::{snippets}/business-review-list/http-request.adoc[]
@@ -135,7 +135,7 @@ include::{snippets}/business-review-list/response-fields.adoc[]
 
 === 비즈니스 프로필 후기 생성
 
-`GET /api/business/{businessProfileId}/date/{postDoDateId}/review/{reviewDetailId}`
+`POST /api/business/{businessProfileId}/date/{postDoDateId}/businessUserReview/{reviewDetailId}`
 
 요청 HTTP
 include::{snippets}/business-review-create/http-request.adoc[]

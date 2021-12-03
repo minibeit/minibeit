@@ -1,4 +1,4 @@
-package com.minibeit.businessprofile.service.exception;
+package com.minibeit.review.service.exception;
 
 import com.minibeit.common.exception.EntityNotFoundException;
 

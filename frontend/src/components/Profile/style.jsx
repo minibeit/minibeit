@@ -247,6 +247,7 @@ export const FeedButton = styled.div`
     cursor: pointer;
     &:disabled {
       background: #c4c4c4;
+      cursor: inherit;
     }
   }
 `;

@@ -9,7 +9,8 @@ export const createBusinessReviewApi = (
   reviewData
 ) => {
   return withAuthInstance.post(
-    BPROFILE_REVIEW + `${businessId}/date/${postDoDateId}/review/${reviewData}`
+    BPROFILE_REVIEW +
+      `${businessId}/date/${postDoDateId}/businessUserReview/${reviewData}`
   );
 };
 

@@ -47,11 +47,12 @@ export default function ApplyDetailComponent({ feedId, date }) {
     [user.isLogin, history]
   );
 
-  // const postBookmark = async (postId) => {
-  //   await bookmarkApi(postId).then().catch();
-  // };
+  const postBookmark = async (postId) => {
+    await bookmarkApi(postId).then().catch();
+  };
 
   const clickBookmark = (e) => {
+    postBookmark(e.target.id);
     if (feedDetailData.isLike) {
       setFeedDetailData({
         ...feedDetailData,
@@ -65,7 +66,6 @@ export default function ApplyDetailComponent({ feedId, date }) {
         likes: feedDetailData.likes + 1,
       });
     }
-    // postBookmark(e.target.id);
   };
 
   const editDetail = (postId, data) => {
@@ -100,10 +100,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
     if (user.isLogin) {
       setApplyAlert(1);
     } else {
-      let value = window.confirm("이용하려면 로그인 먼저 해주세요!");
-      if (value) {
-        setModalSwitch(true);
-      }
+      likeToLogIn();
     }
   };
   useEffect(() => {

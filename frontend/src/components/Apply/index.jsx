@@ -41,11 +41,11 @@ export default function ApplyComponent({ page }) {
     [user.isLogin, category, date, filter, history]
   );
 
-  // const postBookmark = (postId) => {
-  //   bookmarkApi(postId)
-  //     .then()
-  //     .catch((err) => console.log(err));
-  // };
+  const postBookmark = (postId) => {
+    bookmarkApi(postId)
+      .then()
+      .catch((err) => console.log(err));
+  };
 
   useEffect(() => {
     if (page) search(school.schoolId ? school.schoolId : user.schoolId, page);
@@ -79,7 +79,7 @@ export default function ApplyComponent({ page }) {
           <ListContainer
             setFeedList={setFeedList}
             feedList={feedList}
-            // postBookmark={postBookmark}
+            postBookmark={postBookmark}
           />
           {feedList.length !== 0 && (
             <Pagination

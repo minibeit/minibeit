@@ -26,6 +26,7 @@ export default function ListContainer({ feedList, postBookmark, setFeedList }) {
   };
 
   const clickBookmark = (e, a) => {
+    postBookmark(e.target.id);
     var Data = [...feedList];
     var likeData = Data[feedList.findIndex((i) => i.id === a.id)];
     if (a.isLike) {
@@ -37,7 +38,6 @@ export default function ListContainer({ feedList, postBookmark, setFeedList }) {
       likeData.isLike = !likeData.isLike;
       setFeedList(Data);
     }
-    // postBookmark(e.target.id);
   };
 
   return (

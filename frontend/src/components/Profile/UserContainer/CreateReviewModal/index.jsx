@@ -7,7 +7,11 @@ import * as S from "./style";
 import Portal from "../../../Common/Modal/Portal";
 import { createBusinessReviewApi } from "../../../../utils";
 
-export default function FeedCloseModal({ data, setModalSwitch }) {
+export default function FeedCloseModal({
+  data,
+  changeFeedData,
+  setModalSwitch,
+}) {
   const [mode, setMode] = useState(null);
   const [reviewData, setReviewData] = useState(null);
   const [goodItem] = useState([
@@ -31,7 +35,21 @@ export default function FeedCloseModal({ data, setModalSwitch }) {
         alert("후기 작성을 완료했습니다");
         setModalSwitch(false);
       } else if (mode === "good") {
-        // createBusinessReviewApi();
+        createBusinessReviewApi(
+          data.businessProfileId,
+          data.postDoDateId,
+          reviewData
+        )
+          .then((res) => {
+            alert("평가가 완료되었습니다");
+            changeFeedData();
+            setModalSwitch(false);
+          })
+          .catch((err) => {
+            alert("평가에 실패했습니다");
+            changeFeedData();
+            setModalSwitch(false);
+          });
       }
     } else {
       alert("이유를 선택해주세요");
@@ -70,8 +88,11 @@ export default function FeedCloseModal({ data, setModalSwitch }) {
                   <p>만족 사유를 알려주세요</p>
                 </S.TitleBox>
                 <S.SelectBox>
-                  <select onClick={(e) => setReviewData(e.target.value)}>
-                    <option selected disabled></option>
+                  <select
+                    defaultValue="default"
+                    onClick={(e) => setReviewData(e.target.value)}
+                  >
+                    <option value="default" disabled></option>
                     {goodItem.map((a, i) => (
                       <option value={i + 1} key={i}>
                         {a}
@@ -80,7 +101,7 @@ export default function FeedCloseModal({ data, setModalSwitch }) {
                   </select>
                 </S.SelectBox>
                 <S.ButtonBox>
-                  <button>확인</button>
+                  <button onClick={submit}>확인</button>
                 </S.ButtonBox>
               </>
             )}
@@ -91,8 +112,11 @@ export default function FeedCloseModal({ data, setModalSwitch }) {
                   <p>불만족 사유를 알려주세요</p>
                 </S.TitleBox>
                 <S.SelectBox>
-                  <select onClick={(e) => setReviewData(e.target.value)}>
-                    <option selected disabled></option>
+                  <select
+                    defaultValue="default"
+                    onClick={(e) => setReviewData(e.target.value)}
+                  >
+                    <option value="default" disabled></option>
                     {badItem.map((a, i) => (
                       <option value={i + 1} key={i}>
                         {a}

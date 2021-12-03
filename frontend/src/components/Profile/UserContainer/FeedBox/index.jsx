@@ -116,10 +116,16 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <button onClick={() => setReviewModal(true)}>후기 작성</button>
+                <button
+                  disabled={data.isWritable ? false : true}
+                  onClick={() => setReviewModal(true)}
+                >
+                  후기 작성
+                </button>
                 {reviewModal && (
                   <CreateReviewModal
                     data={data}
+                    changeFeedData={changeFeedData}
                     setModalSwitch={setReviewModal}
                   />
                 )}

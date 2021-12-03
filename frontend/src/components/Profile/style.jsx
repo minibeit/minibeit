@@ -3,17 +3,16 @@ import styled from "styled-components";
 /* Common */
 
 export const ProfilePage = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   max-width: 100%;
   width: 100vw;
+  height: 100vh;
   background: #f3f3f3;
-  overflow: auto;
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
-  }
   & > div:first-child {
-    margin: 4rem 12rem 4rem 12rem;
+    width: 80%;
+    height: 80%;
   }
 `;
 export const ModeSelectBtn = styled.button`
@@ -32,7 +31,8 @@ export const Container = styled.div`
   background-color: white;
   display: flex;
   flex-wrap: wrap;
-  min-height: 35rem;
+  width: 100%;
+  height: 100%;
 `;
 export const ImgBox = styled.div`
   overflow: hidden;
@@ -245,6 +245,9 @@ export const FeedButton = styled.div`
     padding: 0.3rem 1rem 0.3rem 1rem;
     border-radius: 1rem;
     cursor: pointer;
+    &:disabled {
+      background: #c4c4c4;
+    }
   }
 `;
 

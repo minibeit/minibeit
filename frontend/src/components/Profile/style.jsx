@@ -8,7 +8,7 @@ export const ProfilePage = styled.div`
   align-items: center;
   max-width: 100%;
   width: 100vw;
-  height: 100vh;
+  padding: 3rem 0;
   background: #f3f3f3;
   & > div:first-child {
     width: 80%;
@@ -22,6 +22,7 @@ export const ModeSelectBtn = styled.button`
   padding: 0.5rem 1rem;
   border-radius: 0.5rem 0.5rem 0 0;
   font-weight: bold;
+
   &:disabled {
     background: white;
     color: black;
@@ -32,7 +33,7 @@ export const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
 `;
 export const ImgBox = styled.div`
   overflow: hidden;
@@ -258,10 +259,12 @@ export const FeedButton = styled.div`
 /* business Profile */
 
 export const BusinessListBox = styled.div`
-  margin: auto;
+  margin: 6rem auto;
   display: flex;
   gap: 1rem;
   text-align: center;
+  justify-content: flex-start;
+  align-items: center;
   flex-direction: column;
 
   & > div:nth-child(2) {

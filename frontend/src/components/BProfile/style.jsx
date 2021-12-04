@@ -3,24 +3,28 @@ import styled from "styled-components";
 /* Common */
 
 export const ProfilePage = styled.div`
-  max-width: 100%;
   width: 100vw;
+  display: flex;
+  padding: 3rem 0;
+  justify-content: center;
+  align-items: center;
   background: #f3f3f3;
-  overflow: auto;
+  overflow: scroll;
   -ms-overflow-style: none; /* for Internet Explorer, Edge */
   scrollbar-width: none;
   &::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
   }
   & > div:first-child {
-    margin: 4rem 12rem;
+    width: 80%;
+    height: 80%;
   }
 `;
 export const ModeSelectBtn = styled.button`
   background: #e5e5e5;
   border: none;
   cursor: pointer;
-  padding: 0.5rem 1rem 0.5rem 1rem;
+  padding: 0.5rem 1rem;
   border-radius: 0.5rem 0.5rem 0 0;
   font-weight: bold;
   &:disabled {
@@ -32,7 +36,8 @@ export const Container = styled.div`
   background-color: white;
   display: flex;
   flex-wrap: wrap;
-  min-height: 35rem;
+  width: 100%;
+  height: 100%;
 `;
 export const ImgBox = styled.div`
   overflow: hidden;

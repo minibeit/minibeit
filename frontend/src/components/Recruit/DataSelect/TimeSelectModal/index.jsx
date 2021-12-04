@@ -77,7 +77,9 @@ export default function TimeSelectModal({
         const color = createdGroup.filter((ele) =>
           ele.dateList.includes(dateString)
         )[0].color;
-        return <S.ColorView color={color} />;
+        return (
+          <S.ColorView color={color}>{moment(date).format("D")}</S.ColorView>
+        );
       } else {
         return <S.ColorView />;
       }
@@ -113,11 +115,18 @@ export default function TimeSelectModal({
         <S.ModalBox>
           <S.ModalHeader>
             <p>날짜별 시간 설정</p>
-            <InfoIcon />
+            <S.Info>
+              <InfoIcon />
+              <S.InfoBox>
+                <PlusIcon />
+                <p>날짜를 선택해</p>
+                <p>스케줄마다 실험이 열리는 시간을 조절해보세요</p>
+              </S.InfoBox>
+            </S.Info>
             <p>동일한 시간표로 적용할 날짜를 선택해보세요</p>
           </S.ModalHeader>
           <S.ModalContent>
-            <S.CalendarView>
+            <S.CalendarView blur={createdGroup.length === 0}>
               <Calendar
                 calendarType="US"
                 minDate={new Date(recruit["startDate"])}
@@ -138,19 +147,24 @@ export default function TimeSelectModal({
               />
             </S.CalendarView>
             <S.ScheduleView>
-              <S.CreateScheduleBtn
-                onClick={() => {
-                  if (createdGroup.length < 7) {
-                    const copy = { ...group[createdGroup.length] };
-                    copy.timeList = [...recruit.timeList];
-                    setCreatedGroup([...createdGroup, copy]);
-                    setSelectGroup(copy);
-                  } else {
-                    alert(`그룹은 최대 ${group.length}개 입니다.`);
-                  }
-                }}
-              >
-                <PlusIcon />
+              <S.CreateScheduleBtn>
+                <PlusIcon
+                  onClick={() => {
+                    if (createdGroup.length < 7) {
+                      const copy = { ...group[createdGroup.length] };
+                      copy.timeList = [...recruit.timeList];
+                      setCreatedGroup([...createdGroup, copy]);
+                      setSelectGroup(copy);
+                    } else {
+                      alert(`그룹은 최대 ${group.length}개 입니다.`);
+                    }
+                  }}
+                />
+                {createdGroup.length === 0 && (
+                  <div>
+                    <ArrowIcon />
+                  </div>
+                )}
               </S.CreateScheduleBtn>
               <S.ScheduleNav>
                 {createdGroup.length !== 0 && (
@@ -169,7 +183,7 @@ export default function TimeSelectModal({
                     >
                       <ArrowIcon />
                     </button>
-                    <p>스케쥴 {selectGroup.id}</p>
+                    <p>스케줄 {selectGroup.id}</p>
                     <button
                       name="nextSchedule"
                       disabled={
@@ -209,7 +223,10 @@ export default function TimeSelectModal({
                 {selectGroup &&
                   recruit.timeList.map((a, i) => {
                     return (
-                      <S.TimeBtn key={`${selectGroup.id}_${i}`}>
+                      <S.TimeBtn
+                        color={selectGroup.color}
+                        key={`${selectGroup.id}_${i}`}
+                      >
                         <input
                           type="checkbox"
                           id={`check_${a}`}

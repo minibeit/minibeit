@@ -3,7 +3,6 @@ import ClickAwayListener from "@mui/material/ClickAwayListener";
 import { schoolGetApi } from "../../../../utils/schoolApi";
 
 import { ReactComponent as PlaceIcon } from "../../../../svg/위치.svg";
-import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 
 import * as S from "./style";
 

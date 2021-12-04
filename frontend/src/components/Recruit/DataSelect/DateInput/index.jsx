@@ -56,7 +56,7 @@ export default function DateInput({ minDate, maxDate, onChange }) {
       }}
     >
       <div>
-        <input
+        <S.DateInput
           readOnly
           defaultValue={
             dateArr.length !== 0

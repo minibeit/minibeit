@@ -30,6 +30,9 @@ export const CalendarWrapper = styled.div`
     }
   }
 `;
+export const DateInput = styled.input`
+  font-weight: bold;
+`;
 export const DateList = styled.div`
   min-width: 6rem;
   border-left: 1px solid #c4c4c4;

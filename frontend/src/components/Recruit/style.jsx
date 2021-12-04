@@ -163,6 +163,7 @@ export const CountBox = styled(Box)`
     & > p:nth-child(2) {
       flex: 1;
       white-space: nowrap;
+      font-weight: bold;
     }
     & > button {
       display: flex;

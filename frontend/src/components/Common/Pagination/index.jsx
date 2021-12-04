@@ -14,9 +14,11 @@ const Paging = ({ page, count, setPage, onChange }) => {
       onChange={(e) => {
         if (setPage) {
           setPage(e);
+          window.scrollTo(0, 0);
         }
         if (onChange) {
           onChange(e);
+          window.scrollTo(0, 0);
         }
       }}
     />

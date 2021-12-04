@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { RecoilRoot } from "recoil";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 import Main from "./pages/Main";
 import ProcessLogin from "./pages/ProcessLogin";
@@ -14,33 +15,47 @@ import Recruit from "./pages/Recruit";
 import RecruitComplete from "./pages/RecruitComplete";
 import SignUp from "./pages/SignUp";
 
+import { NavBar } from "./components/Common";
+import FooterComponent from "./components/Common/Footer";
+
 function App() {
-  const { pathname } = useLocation();
+  const pathname = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
+
   return (
     <>
       <RecoilRoot>
         <GlobalStyle />
-        <Switch>
-          <Route path="/" exact component={Main} />
-          <Route
-            path="/callback/:id/:nickname/:email/:accessToken/:schoolId/:signupCheck/:a/:b/:c"
-            component={ProcessLogin}
-          />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/business/:businessId" exact component={BProfile} />
-          <Route path="/profile/:view" exact component={Profile} />
-          <Route path="/apply/:postId" exact component={ApplyDetail} />
-          <Route path="/apply" component={Apply} />
-          <Route path="/recruit" exact component={Recruit} />
-          <Route
-            path="/recruit/complete/:postId"
-            exact
-            component={RecruitComplete}
-          />
-        </Switch>
+        <NavBar />
+        <TransitionGroup className="transition-group">
+          <CSSTransition
+            key={pathname.pathname}
+            timeout={300}
+            classNames="pageTransition"
+          >
+            <Switch location={pathname}>
+              <Route path="/" exact component={Main} />
+              <Route
+                path="/callback/:id/:nickname/:email/:accessToken/:schoolId/:signupCheck/:a/:b/:c"
+                component={ProcessLogin}
+              />
+              <Route path="/signup" component={SignUp} />
+              <Route path="/business/:businessId" exact component={BProfile} />
+              <Route path="/profile/:view" exact component={Profile} />
+              <Route path="/apply/:postId" exact component={ApplyDetail} />
+              <Route path="/apply" component={Apply} />
+              <Route path="/recruit" exact component={Recruit} />
+              <Route
+                path="/recruit/complete/:postId"
+                exact
+                component={RecruitComplete}
+              />
+            </Switch>
+          </CSSTransition>
+        </TransitionGroup>
+        <FooterComponent />
       </RecoilRoot>
     </>
   );

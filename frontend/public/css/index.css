@@ -24,3 +24,26 @@
 * {
   font-family: NotoSansKR;
 }
+
+.pageTransition-enter {
+  opacity: 0.01;
+}
+
+.pageTransition-enter.pageTransition-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in;
+}
+
+.pageTransition-exit {
+  opacity: 1;
+}
+
+.pageTransition-exit.pageTransition-exit-active {
+  opacity: 0.01;
+  transition: opacity 500ms ease-in;
+}
+
+div.transition-group {
+  position: relative;
+  background-color: #fff;
+}

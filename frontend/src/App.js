@@ -33,7 +33,7 @@ function App() {
           <CSSTransition
             key={pathname.pathname}
             timeout={300}
-            classNames="fade"
+            classNames="pageTransition"
           >
             <Switch location={pathname}>
               <Route path="/" exact component={Main} />

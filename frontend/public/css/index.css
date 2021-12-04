@@ -25,20 +25,20 @@
   font-family: NotoSansKR;
 }
 
-.fade-enter {
+.pageTransition-enter {
   opacity: 0.01;
 }
 
-.fade-enter.fade-enter-active {
+.pageTransition-enter.pageTransition-enter-active {
   opacity: 1;
   transition: opacity 500ms ease-in;
 }
 
-.fade-exit {
+.pageTransition-exit {
   opacity: 1;
 }
 
-.fade-exit.fade-exit-active {
+.pageTransition-exit.pageTransition-exit-active {
   opacity: 0.01;
   transition: opacity 500ms ease-in;
 }

@@ -64,7 +64,6 @@
   text-transform: uppercase;
   font-weight: bold;
   font-size: 0.75em;
-  border-bottom: 1px solid #c4c4c4;
   color: #8c8c8c;
 }
 .react-calendar__month-view__weekdays__weekday {

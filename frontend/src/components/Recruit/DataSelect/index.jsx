@@ -6,14 +6,13 @@ import TimePicker from "react-datepicker";
 import ko from "date-fns/locale/ko";
 
 import DateInput from "./DateInput";
-import SearchInput from "./SearchInput";
+import SchoolInput from "./SchoolInput";
 import TimeSelectModal from "./TimeSelectModal";
 
 import FeedCategory from "../../../constants/FeedCategory";
 
 import { ReactComponent as MinusIcon } from "../../../svg/마이너스.svg";
 import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
-import { ReactComponent as PlaceIcon } from "../../../svg/위치.svg";
 import { ReactComponent as CalendarIcon } from "../../../svg/달력.svg";
 import NextIcon from "@mui/icons-material/ArrowForwardIos";
 
@@ -121,16 +120,13 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
         <S.SelectBox>
           <S.PlaceBox>
             <p>위치</p>
-            <div>
-              <PlaceIcon />
-              <SearchInput
-                onChange={(e) => {
-                  const copy = { ...recruit };
-                  copy.schoolId = e ? e.value : null;
-                  setRecruit(copy);
-                }}
-              />
-            </div>
+            <SchoolInput
+              onChange={(e) => {
+                const copy = { ...recruit };
+                copy.schoolId = e ? e.id : null;
+                setRecruit(copy);
+              }}
+            />
           </S.PlaceBox>
           <S.DateBox visible={recruit.schoolId ? true : false}>
             <p>날짜</p>

@@ -96,7 +96,8 @@ export const DataSelectHeader = styled.div`
 `;
 export const SelectBox = styled.div`
   display: flex;
-  max-width: 100%;
+  max-width: 80%;
+  align-self: center;
   flex-wrap: wrap;
   gap: 0.2rem;
   border-radius: 1rem;
@@ -114,22 +115,15 @@ export const Box = styled.div`
   }
 `;
 export const PlaceBox = styled(Box)`
-  flex: 2;
+  flex: 1.5;
   border-radius: 1em 0 0 1em;
   & > div:nth-child(2) {
-    display: flex;
+    padding: 0.5rem;
     margin-top: auto;
-    gap: 0.3rem;
-    & > div:nth-child(2) {
-      flex: 1;
-      min-width: 7rem;
-    }
-  }
-  & svg {
-    width: 1rem;
   }
 `;
 export const DateBox = styled(Box)`
+  flex: 0.8;
   ${({ visible }) =>
     !visible &&
     css`
@@ -168,6 +162,7 @@ export const CountBox = styled(Box)`
     margin-bottom: 0.5em;
     & > p:nth-child(2) {
       flex: 1;
+      white-space: nowrap;
     }
     & > button {
       display: flex;

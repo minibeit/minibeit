@@ -8,7 +8,6 @@ export const ProfilePage = styled.div`
   align-items: center;
   max-width: 100%;
   width: 100vw;
-  height: 100vh;
   background: #f3f3f3;
   & > div:first-child {
     width: 80%;

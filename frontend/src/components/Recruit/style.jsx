@@ -1,5 +1,24 @@
 import styled, { css } from "styled-components";
 
+const fadeIn = () => {
+  return css`
+    &.fadeIn-enter {
+      opacity: 0;
+    }
+    &.fadeIn-enter-active {
+      opacity: 1;
+      transition: opacity 500ms linear;
+    }
+    &.fadeIn-exit {
+      opacity: 1;
+    }
+    &.fadeIn-exit-active {
+      opacity: 0;
+      transition: opacity 500ms linear;
+    }
+  `;
+};
+
 /* Common */
 export const Page = styled.div`
   height: 100vh;
@@ -113,6 +132,7 @@ export const Box = styled.div`
   & > p:first-child {
     white-space: nowrap;
   }
+  ${fadeIn}
 `;
 export const PlaceBox = styled(Box)`
   flex: 1.5;
@@ -124,12 +144,6 @@ export const PlaceBox = styled(Box)`
 `;
 export const DateBox = styled(Box)`
   flex: 0.8;
-  ${({ visible }) =>
-    !visible &&
-    css`
-      opacity: 0;
-      z-index: -99;
-    `};
   & > div:nth-child(2) {
     display: flex;
     margin-top: auto;
@@ -150,12 +164,6 @@ export const DateBox = styled(Box)`
 `;
 
 export const CountBox = styled(Box)`
-  ${({ visible }) =>
-    !visible &&
-    css`
-      opacity: 0;
-      z-index: -99;
-    `};
   & > div:nth-child(2) {
     display: flex;
     margin-top: auto;
@@ -200,6 +208,7 @@ export const TimeSelectBox = styled.div`
       gap: 0.5em;
     }
   }
+  ${fadeIn}
 `;
 export const TimeInput = styled.div`
   display: flex;

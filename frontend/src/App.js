@@ -30,7 +30,11 @@ function App() {
         <GlobalStyle />
         <NavBar />
         <TransitionGroup className="transition-group">
-          <CSSTransition key={pathname.key} timeout={300} classNames="fade">
+          <CSSTransition
+            key={pathname.pathname}
+            timeout={300}
+            classNames="fade"
+          >
             <Switch location={pathname}>
               <Route path="/" exact component={Main} />
               <Route

@@ -1,8 +1,7 @@
 import React from "react";
 import Portal from "../Portal";
 import * as S from "./style";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
-
+import { ReactComponent as InfoIcon } from "../../../..//svg/경고.svg";
 // 정말로 해당 확정인을 반려할것인지 묻는 알림창
 
 export default function AskCancelConfirm({
@@ -24,7 +23,7 @@ export default function AskCancelConfirm({
       <S.AlertBackground onClick={(e) => clickOutside(e)}>
         <S.AlertBox>
           <S.AlertContent>
-            <ErrorOutlineIcon sx={{ fontSize: 40, color: "#0642FF" }} />
+            <InfoIcon />
             <p>정말로 해당 확정자를 취소하시겠어요?</p>
             <p>
               갑자기 취소 및 반려를 하신 경우, 확정된 참여자들이 당황스러워하실
@@ -35,9 +34,10 @@ export default function AskCancelConfirm({
             <div>
               <S.GrayButton onClick={clickBtn}>아니오, 관둘래요</S.GrayButton>
               <S.BlueButton
-                onClick={() =>
-                  cancleApprove(cancleUserInfo.postDoDateId, cancleUserInfo.id)
-                }
+                onClick={() => {
+                  cancleApprove(cancleUserInfo.postDoDateId, cancleUserInfo.id);
+                  document.querySelector("body").removeAttribute("style");
+                }}
               >
                 네, 취소할래요
               </S.BlueButton>

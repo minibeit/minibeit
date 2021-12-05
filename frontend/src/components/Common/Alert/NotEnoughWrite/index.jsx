@@ -1,29 +1,27 @@
 import React from "react";
 import Portal from "../Portal";
 import * as S from "./style";
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-
+import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 
 // 게시글 제목이 비어있음을 알려주는 알림창
 // 제목말고 다른 칸이 비었다고도 알려주게 될 수 있을것같아서 파일 이름에 제목을 넣지 않았음
 
-export default function NotEnoughWrite({setAskComplete,  movePage}) {
+export default function NotEnoughWrite({ setAskComplete, movePage }) {
   const clickOutside = (e) => {
-    e.target===e.currentTarget && 
-    setAskComplete(0); 
+    e.target === e.currentTarget && setAskComplete(0);
     document.querySelector("body").removeAttribute("style");
   };
-  const clickBtn =() => {
+  const clickBtn = () => {
     setAskComplete(0);
     movePage(4);
     document.querySelector("body").removeAttribute("style");
   };
   return (
     <Portal>
-      <S.AlertBackground onClick={(e)=>clickOutside(e)}>
+      <S.AlertBackground onClick={(e) => clickOutside(e)}>
         <S.AlertBox>
           <S.AlertContent>
-            <ErrorOutlineIcon  sx={{ fontSize: 40 , color: "#0642FF"}} />
+            <InfoIcon />
             <p>제목을 작성하지 않으셨습니다.</p>
             <p>제목을 작성해주세요.</p>
             <S.BlueButton onClick={clickBtn}>네, 알겠어요.</S.BlueButton>
@@ -31,4 +29,5 @@ export default function NotEnoughWrite({setAskComplete,  movePage}) {
         </S.AlertBox>
       </S.AlertBackground>
     </Portal>
-  )}
+  );
+}

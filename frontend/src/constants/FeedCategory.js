@@ -13,9 +13,10 @@ const FeedCategory = [
   { id: 12, icon: "💰", name: "경제" },
   { id: 13, icon: "🖌", name: "정치" },
   { id: 14, icon: "🍿", name: "생활/문화" },
-  { id: 15, icon: "🍽", name: "식품" },
-  { id: 16, icon: "🙏", name: "종교" },
-  { id: 17, icon: "🏭", name: "제조/공업" },
-  { id: 18, icon: "", name: "기타" },
+  { id: 15, icon: "💄", name: "패션/뷰티" },
+  { id: 16, icon: "🍽", name: "식품" },
+  { id: 17, icon: "🙏", name: "종교" },
+  { id: 18, icon: "🏭", name: "제조/공업" },
+  { id: 19, icon: "", name: "기타" },
 ];
 export default FeedCategory;

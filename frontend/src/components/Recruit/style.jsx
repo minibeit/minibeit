@@ -1,5 +1,24 @@
 import styled, { css } from "styled-components";
 
+const fadeIn = () => {
+  return css`
+    &.fadeIn-enter {
+      opacity: 0;
+    }
+    &.fadeIn-enter-active {
+      opacity: 1;
+      transition: opacity 500ms linear;
+    }
+    &.fadeIn-exit {
+      opacity: 1;
+    }
+    &.fadeIn-exit-active {
+      opacity: 0;
+      transition: opacity 500ms linear;
+    }
+  `;
+};
+
 /* Common */
 export const Page = styled.div`
   height: 100vh;
@@ -20,8 +39,7 @@ export const Container = styled.div`
   text-align: center;
 `;
 export const SaveBtn = styled.button`
-  width: 12em;
-  height: 3em;
+  padding: 0.5rem 1rem;
   border-radius: 2rem;
   background: #0642ff;
   color: white;
@@ -96,7 +114,8 @@ export const DataSelectHeader = styled.div`
 `;
 export const SelectBox = styled.div`
   display: flex;
-  max-width: 100%;
+  max-width: 80%;
+  align-self: center;
   flex-wrap: wrap;
   gap: 0.2rem;
   border-radius: 1rem;
@@ -112,30 +131,18 @@ export const Box = styled.div`
   & > p:first-child {
     white-space: nowrap;
   }
+  ${fadeIn}
 `;
 export const PlaceBox = styled(Box)`
-  flex: 2;
+  flex: 1.5;
   border-radius: 1em 0 0 1em;
   & > div:nth-child(2) {
-    display: flex;
+    padding: 0.5rem;
     margin-top: auto;
-    gap: 0.3rem;
-    & > div:nth-child(2) {
-      flex: 1;
-      min-width: 7rem;
-    }
-  }
-  & svg {
-    width: 1rem;
   }
 `;
 export const DateBox = styled(Box)`
-  ${({ visible }) =>
-    !visible &&
-    css`
-      opacity: 0;
-      z-index: -99;
-    `};
+  flex: 0.8;
   & > div:nth-child(2) {
     display: flex;
     margin-top: auto;
@@ -151,23 +158,19 @@ export const DateBox = styled(Box)`
     }
   }
   & svg {
-    width: 1rem;
+    width: 1.5rem;
   }
 `;
 
 export const CountBox = styled(Box)`
-  ${({ visible }) =>
-    !visible &&
-    css`
-      opacity: 0;
-      z-index: -99;
-    `};
   & > div:nth-child(2) {
     display: flex;
     margin-top: auto;
     margin-bottom: 0.5em;
     & > p:nth-child(2) {
       flex: 1;
+      white-space: nowrap;
+      font-weight: bold;
     }
     & > button {
       display: flex;
@@ -204,6 +207,7 @@ export const TimeSelectBox = styled.div`
       gap: 0.5em;
     }
   }
+  ${fadeIn}
 `;
 export const TimeInput = styled.div`
   display: flex;
@@ -246,12 +250,6 @@ export const SaveTimeBtn = styled.div`
   font-size: 1.2em;
 `;
 export const NextBtn = styled.button`
-  ${({ visible }) =>
-    !visible &&
-    css`
-      opacity: 0;
-      z-index: -99;
-    `};
   width: fit-content;
   align-self: end;
   padding: 0.5rem 1rem;
@@ -265,40 +263,64 @@ export const NextBtn = styled.button`
   gap: 0.3em;
   align-items: center;
   cursor: pointer;
+  ${fadeIn}
 `;
 export const CategoryContainer = styled.div`
-  ${({ visible }) =>
-    !visible &&
-    css`
-      opacity: 0;
-      z-index: -99;
-    `};
   & > p:first-child {
     color: #c4c4c4;
   }
   & > div:nth-child(2) {
-    margin: 20px 0 20px 0;
+    margin: 1rem auto;
+    max-width: 50rem;
+    background: white;
+    box-shadow: 10px 10px 30px 0px #bdbdbd33;
+    border-radius: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
   }
+  ${fadeIn}
 `;
 export const CategoryBtn = styled.button`
-  min-width: 7rem;
-  border: 1px solid #0642ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 8rem;
+  border: none;
+  background: #f8f8f8;
   padding: 0.5rem 0;
   border-radius: 10px;
-  background: white;
-  margin: 5px;
   cursor: pointer;
+  color: black;
+  border: 1px solid#f8f8f8;
   &:disabled {
-    border: none;
-    border-radius: 10px;
-    background: #f8f8f8;
-    color: #c4c4c4;
+    border: 1px solid #0642ff;
+    background: white;
+  }
+`;
+export const CategoryConfirm = styled(CategoryBtn)`
+  gap: 0.5rem;
+  border: none;
+  background: none;
+
+  & p {
+    font-weight: bold;
+    color: #0642ff;
+  }
+  & svg {
+    width: 1rem;
+    transform: rotate(270deg);
+    & path {
+      fill: #0642ff;
+    }
   }
 `;
 
 /* Info Data */
 export const InputPage = styled(Page)`
-  height: 140rem;
+  height: 120rem;
 `;
 export const InputContainer = styled(Container)``;
 export const Input = styled.div`
@@ -306,14 +328,15 @@ export const Input = styled.div`
   border-radius: 15px;
   border: none;
   background: #f8f8f8;
-  padding: 0 15px 0 15px;
   display: flex;
   & > input {
-    height: 2em;
-    background: none;
-    border: none;
     width: 100%;
+    height: 3em;
+    border-radius: 15px;
+    border: none;
     font-size: 21px;
+    background: #f8f8f8;
+    padding: 0 15px 0 15px;
   }
   & > input:focus {
     outline: none;
@@ -338,7 +361,6 @@ export const TitleBox = styled(InputBox)`
     border: none;
     font-size: 21px;
     background: #f8f8f8;
-    padding: 0 15px 0 15px;
   }
 `;
 export const ContentBox = styled(InputBox)`
@@ -349,7 +371,7 @@ export const ContentBox = styled(InputBox)`
     border: none;
     font-size: 21px;
     background: #f8f8f8;
-    padding: 15px;
+    padding: 1rem 0;
   }
 `;
 export const ConditionBox = styled(InputBox)`
@@ -371,6 +393,13 @@ export const ConditionInput = styled(Input)`
   & > button:disabled {
     color: #c4c4c4;
   }
+
+  & svg {
+    width: 1rem;
+    & path {
+      fill: ${({ disabled }) => (disabled ? "#c4c4c4" : "#0642ff")};
+    }
+  }
 `;
 export const PaymentBox = styled(InputBox)`
   & > div:first-child {
@@ -380,6 +409,21 @@ export const PaymentBox = styled(InputBox)`
     gap: 1rem;
   }
 `;
+export const CacheBox = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  & > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    & > p {
+      text-align: start;
+      font-size: 1rem;
+    }
+  }
+`;
 export const PayInput = styled(Input)`
   & > span {
     display: flex;
@@ -387,6 +431,7 @@ export const PayInput = styled(Input)`
     font-size: 21px;
     font-weight: bold;
     color: #c4c4c4;
+    padding: 0 1rem;
   }
 `;
 
@@ -394,11 +439,25 @@ export const PayInput = styled(Input)`
 export const ImgForm = styled.div`
   position: relative;
   display: flex;
-  width: 50rem;
+  width: 100%;
   overflow-x: scroll;
   & > div {
     display: flex;
     gap: 20px;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #c4c4c4;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
   }
 `;
 export const ImgBox = styled.div`
@@ -443,7 +502,7 @@ export const FileLabel = styled.label`
   align-items: center;
   cursor: pointer;
   & > svg {
-    font-size: 45px;
+    width: 2rem;
   }
 `;
 export const FileInput = styled.input`

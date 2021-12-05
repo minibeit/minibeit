@@ -14,7 +14,7 @@ export default function DateInput({ minDate, maxDate, onChange }) {
   const tileContent = ({ date, view }) => {
     if (view === "month") {
       if (dateArr.find((ele) => ele === moment(date).format("YYYY-MM-DD"))) {
-        return <S.ColorView />;
+        return <S.ColorView>{moment(date).format("D")}</S.ColorView>;
       } else {
         return null;
       }
@@ -56,9 +56,13 @@ export default function DateInput({ minDate, maxDate, onChange }) {
       }}
     >
       <div>
-        <input
+        <S.DateInput
           readOnly
-          defaultValue={dateArr.length !== 0 ? `${dateArr[0]}  ~` : null}
+          defaultValue={
+            dateArr.length !== 0
+              ? `${moment(dateArr[0]).format("M월D일")}  ~`
+              : null
+          }
           onClick={() => setCalendarView(!calendarView)}
         />
         {calendarView && (
@@ -76,20 +80,18 @@ export default function DateInput({ minDate, maxDate, onChange }) {
                 tileContent={tileContent}
                 formatDay={(locale, date) => moment(date).format("D")}
               />
-              {dateArr.length !== 0 && (
-                <S.DateList>
-                  <div>
-                    {dateArr.map((a, i) => {
-                      return (
-                        <S.Date key={i}>
-                          {moment(a).format("MM월DD일")}
-                          <CloseIcon onClick={() => removeDate(a)} />
-                        </S.Date>
-                      );
-                    })}
-                  </div>
-                </S.DateList>
-              )}
+              <S.DateList>
+                <div>
+                  {dateArr.map((a, i) => {
+                    return (
+                      <S.Date key={i}>
+                        {moment(a).format("MM월DD일")}
+                        <CloseIcon onClick={() => removeDate(a)} />
+                      </S.Date>
+                    );
+                  })}
+                </div>
+              </S.DateList>
             </div>
             <div>
               <button

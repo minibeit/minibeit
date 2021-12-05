@@ -4,7 +4,8 @@ import Address from "../../Common/Address";
 import Switch from "@mui/material/Switch";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import ToggleButton from "@mui/material/ToggleButton";
-import AddIcon from "@mui/icons-material/Add";
+
+import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
 import CloseIcon from "@mui/icons-material/Close";
 import RegisterFeed from "../../Common/Alert/RegisterFeed";
 
@@ -47,6 +48,7 @@ export default function Presenter({
           <p>제목</p>
           <input
             name="title"
+            placeholder="참여자에게 보여주실 제목을 작성해주세요."
             onChange={(e) => {
               if (e.target.value.length > 20) {
                 alert("게시물의 제목은 20자 이내로 입력해주세요");
@@ -59,22 +61,6 @@ export default function Presenter({
             maxLength={20}
           />
         </S.TitleBox>
-        <S.ContentBox>
-          <p>상세 모집 요강</p>
-          <textarea
-            name="content"
-            onChange={(e) => {
-              if (e.target.value.length > 500) {
-                alert("게시물의 상세내용은 500자 이내로 입력해주세요");
-                e.target.value = e.target.value.slice(0, 500);
-                onChange(e);
-              } else {
-                onChange(e);
-              }
-            }}
-            maxLength={500}
-          />
-        </S.ContentBox>
         <S.ConditionBox>
           <div>
             <p>참여 조건</p>
@@ -87,7 +73,7 @@ export default function Presenter({
           </div>
           {recruit.conditionDetail.map((a, i) => {
             return (
-              <S.ConditionInput key={i}>
+              <S.ConditionInput disabled={!recruit.condition} key={i}>
                 <input
                   id={i}
                   disabled={recruit.condition ? false : true}
@@ -106,7 +92,7 @@ export default function Presenter({
                   onClick={addConditionDetail}
                   disabled={recruit.condition ? false : true}
                 >
-                  <AddIcon />
+                  <PlusIcon />
                 </button>
               </S.ConditionInput>
             );
@@ -114,7 +100,7 @@ export default function Presenter({
         </S.ConditionBox>
         <S.PaymentBox>
           <div>
-            <p>금액 및 지급 분류</p>
+            <p>지급 방식</p>
             <ToggleButtonGroup
               value={recruit.payment}
               exclusive
@@ -129,16 +115,35 @@ export default function Presenter({
             </ToggleButtonGroup>
           </div>
           {recruit.payment === "CACHE" ? (
-            <S.PayInput>
-              <input
-                name="pay"
-                type="number"
-                onChange={onChange}
-                step={100}
-                min={0}
-              />
-              <span>원</span>
-            </S.PayInput>
+            <S.CacheBox>
+              <div>
+                <p>총지급</p>
+                <S.PayInput>
+                  <input
+                    name="pay"
+                    type="number"
+                    onChange={onChange}
+                    step={100}
+                    min={0}
+                  />
+                  <span>원</span>
+                </S.PayInput>
+              </div>
+              <div>
+                <p>시급</p>
+                <S.PayInput>
+                  <input
+                    value={
+                      recruit.pay
+                        ? parseInt(recruit.pay) / (recruit.doTime / 60)
+                        : ""
+                    }
+                    readOnly
+                  />
+                  <span>원</span>
+                </S.PayInput>
+              </div>
+            </S.CacheBox>
           ) : (
             <S.PayInput>
               <input
@@ -172,36 +177,25 @@ export default function Presenter({
             />
           </S.PayInput>
         </S.PaymentBox>
+        <S.ContentBox>
+          <p>상세 글</p>
+          <textarea
+            name="content"
+            placeholder="자세하게 서술하수록 참여자를 빠르게 모집할 수 있어요."
+            onChange={(e) => {
+              if (e.target.value.length > 500) {
+                alert("게시물의 상세내용은 500자 이내로 입력해주세요");
+                e.target.value = e.target.value.slice(0, 500);
+                onChange(e);
+              } else {
+                onChange(e);
+              }
+            }}
+            maxLength={500}
+          />
+        </S.ContentBox>
         <S.InputBox>
-          <p>게시글 자료&이미지</p>
-          <S.ImgForm>
-            <div>
-              <S.FileLabel htmlFor="file">
-                <AddIcon />
-              </S.FileLabel>
-              <S.FileInput
-                id="file"
-                type="file"
-                accept="image/*"
-                onChange={fileChange}
-              />
-              {recruit.images.length !== 0
-                ? recruit.images.map((a, i) => {
-                    return (
-                      <S.ImgBox key={i}>
-                        <S.DeleteImg name={a.name} onClick={deleteImg}>
-                          <CloseIcon />
-                        </S.DeleteImg>
-                        <PVImg img={recruit.images[i]} />
-                      </S.ImgBox>
-                    );
-                  })
-                : null}
-            </div>
-          </S.ImgForm>
-        </S.InputBox>
-        <S.InputBox>
-          <p>실험실 주소</p>
+          <p>참여 장소</p>
           <S.Input>
             <input
               type="text"
@@ -230,7 +224,7 @@ export default function Presenter({
           ) : null}
         </S.InputBox>
         <S.InputBox>
-          <p>실험실 연락처</p>
+          <p>담당자 연락처</p>
           <S.Input>
             <input
               placeholder="'-' 없이 숫자만 입력"
@@ -248,6 +242,34 @@ export default function Presenter({
               }}
             />
           </S.Input>
+        </S.InputBox>
+        <S.InputBox>
+          <p>이미지</p>
+          <S.ImgForm>
+            <div>
+              <S.FileLabel htmlFor="file">
+                <PlusIcon />
+              </S.FileLabel>
+              <S.FileInput
+                id="file"
+                type="file"
+                accept="image/*"
+                onChange={fileChange}
+              />
+              {recruit.images.length !== 0
+                ? recruit.images.map((a, i) => {
+                    return (
+                      <S.ImgBox key={i}>
+                        <S.DeleteImg name={a.name} onClick={deleteImg}>
+                          <CloseIcon />
+                        </S.DeleteImg>
+                        <PVImg img={recruit.images[i]} />
+                      </S.ImgBox>
+                    );
+                  })
+                : null}
+            </div>
+          </S.ImgForm>
         </S.InputBox>
         <S.SaveBtn onClick={clickSubmit}>작성완료</S.SaveBtn>
         {askComplete ? (

@@ -4,17 +4,18 @@ import moment from "moment";
 import "moment/locale/ko";
 import TimePicker from "react-datepicker";
 import ko from "date-fns/locale/ko";
+import { CSSTransition } from "react-transition-group";
 
 import DateInput from "./DateInput";
-import SearchInput from "./SearchInput";
+import SchoolInput from "./SchoolInput";
 import TimeSelectModal from "./TimeSelectModal";
 
 import FeedCategory from "../../../constants/FeedCategory";
 
 import { ReactComponent as MinusIcon } from "../../../svg/마이너스.svg";
 import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
-import { ReactComponent as PlaceIcon } from "../../../svg/위치.svg";
 import { ReactComponent as CalendarIcon } from "../../../svg/달력.svg";
+import { ReactComponent as ArrowIcon } from "../../../svg/체크.svg";
 import NextIcon from "@mui/icons-material/ArrowForwardIos";
 
 import * as S from "../style";
@@ -121,260 +122,295 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
         <S.SelectBox>
           <S.PlaceBox>
             <p>위치</p>
-            <div>
-              <PlaceIcon />
-              <SearchInput
-                onChange={(e) => {
-                  const copy = { ...recruit };
-                  copy.schoolId = e ? e.value : null;
-                  setRecruit(copy);
-                }}
-              />
-            </div>
+            <SchoolInput
+              onChange={(e) => {
+                const copy = { ...recruit };
+                copy.schoolId = e ? e.id : null;
+                setRecruit(copy);
+              }}
+            />
           </S.PlaceBox>
-          <S.DateBox visible={recruit.schoolId ? true : false}>
-            <p>날짜</p>
-            <div>
-              <CalendarIcon />
-              <DateInput
-                minDate={new Date()}
-                onChange={(e) => {
-                  const copy = { ...recruit };
-                  copy.dateList = e;
-                  copy.startDate = e[0];
-                  copy.endDate = e[e.length - 1];
-                  setRecruit(copy);
-                }}
-              />
-            </div>
-          </S.DateBox>
-          <S.CountBox visible={recruit.dateList ? true : false}>
-            <p>시간 단위</p>
-            <div>
-              <button
-                onClick={() => {
-                  if (createdGroup.length !== 0) {
-                    var value = window.confirm(
-                      "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
-                    );
-                    if (value) {
-                      setCreatedGroup([]);
+          <CSSTransition
+            in={recruit.schoolId !== null}
+            classNames="fadeIn"
+            timeout={500}
+            unmountOnExit
+          >
+            <S.DateBox>
+              <p>날짜</p>
+              <div>
+                <CalendarIcon />
+                <DateInput
+                  minDate={new Date()}
+                  onChange={(e) => {
+                    const copy = { ...recruit };
+                    copy.dateList = e;
+                    copy.startDate = e[0];
+                    copy.endDate = e[e.length - 1];
+                    setRecruit(copy);
+                  }}
+                />
+              </div>
+            </S.DateBox>
+          </CSSTransition>
+          <CSSTransition
+            in={recruit.dateList !== null}
+            classNames="fadeIn"
+            timeout={500}
+            unmountOnExit
+          >
+            <S.CountBox>
+              <p>시간 단위</p>
+              <div>
+                <button
+                  onClick={() => {
+                    if (createdGroup.length !== 0) {
+                      var value = window.confirm(
+                        "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
+                      );
+                      if (value) {
+                        setCreatedGroup([]);
+                        setViewTimeSelect(true);
+                        changeDoTime("minus");
+                      } else {
+                        return null;
+                      }
+                    } else {
                       setViewTimeSelect(true);
                       changeDoTime("minus");
-                    } else {
-                      return null;
-                    }
-                  } else {
-                    setViewTimeSelect(true);
-                    changeDoTime("minus");
-                  }
-                }}
-              >
-                <MinusIcon />
-              </button>
-              <p>{recruit.doTime}분</p>
-              <button
-                onClick={() => {
-                  if (createdGroup.length !== 0) {
-                    var value = window.confirm(
-                      "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
-                    );
-                    if (value) {
-                      setCreatedGroup([]);
-                      setViewTimeSelect(true);
-                      changeDoTime("plus");
-                    } else {
-                      return null;
-                    }
-                  } else {
-                    setViewTimeSelect(true);
-                    changeDoTime("plus");
-                  }
-                }}
-              >
-                <PlusIcon />
-              </button>
-            </div>
-            {viewTimeSelect && (
-              <S.TimeSelectBox>
-                <div>
-                  <div>
-                    <S.TimeInput>
-                      <p>시작시간</p>
-                      <TimePicker
-                        locale={ko}
-                        selected={recruit.startTime}
-                        onChange={(time) => {
-                          if (createdGroup.length !== 0) {
-                            var value = window.confirm(
-                              "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
-                            );
-                            if (value) {
-                              setCreatedGroup([]);
-                              const copy = { ...recruit };
-                              copy.startTime = time;
-                              setRecruit(copy);
-                            } else {
-                              return null;
-                            }
-                          } else {
-                            const copy = { ...recruit };
-                            copy.startTime = time;
-                            setRecruit(copy);
-                          }
-                        }}
-                        timeFormat="aa h:mm"
-                        showTimeSelect
-                        showTimeSelectOnly
-                        timeCaption="시작시간"
-                        timeIntervals={30}
-                        dateFormat="aa h:mm"
-                      />
-                    </S.TimeInput>
-                    {"~"}
-                    <S.TimeInput>
-                      <p>종료시간</p>
-                      <TimePicker
-                        locale={ko}
-                        selected={recruit.endTime}
-                        onChange={(time) => {
-                          if (createdGroup.length !== 0) {
-                            var value = window.confirm(
-                              "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
-                            );
-                            if (value) {
-                              setCreatedGroup([]);
-                              const copy = { ...recruit };
-                              copy.endTime = time;
-                              setRecruit(copy);
-                            } else {
-                              return null;
-                            }
-                          } else {
-                            const copy = { ...recruit };
-                            copy.endTime = time;
-                            setRecruit(copy);
-                          }
-                        }}
-                        timeFormat="aa h:mm"
-                        showTimeSelect
-                        showTimeSelectOnly
-                        timeCaption="종료시간"
-                        timeIntervals={30}
-                        dateFormat="aa h:mm"
-                      />
-                    </S.TimeInput>
-                  </div>
-                  <S.DetailTimeBtn
-                    disabled={
-                      recruit.startTime === null || recruit.endTime === null
-                    }
-                    onClick={() => {
-                      setTimeSelectModal(true);
-                      const copy = { ...recruit };
-                      copy.timeList = createTimeArr(
-                        recruit.startTime,
-                        recruit.endTime,
-                        recruit.doTime
-                      );
-                      setRecruit(copy);
-                    }}
-                  >
-                    날짜 별 시간설정
-                  </S.DetailTimeBtn>
-                  {timeSelectModal && (
-                    <TimeSelectModal
-                      recruit={recruit}
-                      modalSwitch={timeSelectModal}
-                      setModalSwitch={setTimeSelectModal}
-                      createdGroup={createdGroup}
-                      setCreatedGroup={setCreatedGroup}
-                    />
-                  )}
-                </div>
-                <S.SaveTimeBtn
-                  onClick={() => {
-                    if (recruit.startTime && recruit.endTime) {
-                      const copy = { ...recruit };
-                      let timeList = createTimeArr(
-                        recruit.startTime,
-                        recruit.endTime,
-                        recruit.doTime
-                      );
-                      copy.timeList = timeList;
-                      copy.doDateList = createDoDateList(
-                        recruit.dateList,
-                        createdGroup,
-                        timeList
-                      );
-                      setRecruit(copy);
-                      setViewTimeSelect(false);
-                    } else {
-                      alert("시작시간과 종료시간을 선택해주세요");
                     }
                   }}
                 >
-                  적용
-                </S.SaveTimeBtn>
-              </S.TimeSelectBox>
-            )}
-          </S.CountBox>
-          <S.HeadCountBox
-            visible={recruit.doDateList.length !== 0 ? true : false}
-          >
-            <p>시간 단위당 모집 인원</p>
-            <div>
-              <button onClick={() => changeHeadCount("minus")}>
-                <MinusIcon />
-              </button>
-              <p>{recruit.headCount}명</p>
-              <button onClick={() => changeHeadCount("plus")}>
-                <PlusIcon />
-              </button>
-            </div>
-          </S.HeadCountBox>
-        </S.SelectBox>
-        <S.NextBtn
-          onClick={() => {
-            if (viewTimeSelect) {
-              alert("시간 입력을 적용한 후 시도해주세요");
-            } else {
-              setViewCategory(true);
-            }
-          }}
-          visible={recruit.headCount !== 0 ? true : false}
-        >
-          다음
-          <NextIcon />
-        </S.NextBtn>
-        <S.CategoryContainer visible={viewCategory ? true : false}>
-          <p>모집하는 실험의 카테고리를 골라보세요.</p>
-          <div>
-            {FeedCategory.map((a) => {
-              return (
-                <S.CategoryBtn
-                  id={a.id}
-                  key={a.id}
-                  onClick={() => setCategory(a.name)}
-                  disabled={category === a.name ? true : false}
+                  <MinusIcon />
+                </button>
+                <p>{recruit.doTime}분</p>
+                <button
+                  onClick={() => {
+                    if (createdGroup.length !== 0) {
+                      var value = window.confirm(
+                        "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
+                      );
+                      if (value) {
+                        setCreatedGroup([]);
+                        setViewTimeSelect(true);
+                        changeDoTime("plus");
+                      } else {
+                        return null;
+                      }
+                    } else {
+                      setViewTimeSelect(true);
+                      changeDoTime("plus");
+                    }
+                  }}
                 >
-                  {a.icon}
-                  {a.name}
-                </S.CategoryBtn>
-              );
-            })}
-          </div>
-          <S.SaveBtn
+                  <PlusIcon />
+                </button>
+              </div>
+              <CSSTransition
+                in={viewTimeSelect}
+                classNames="fadeIn"
+                timeout={500}
+                unmountOnExit
+              >
+                <S.TimeSelectBox>
+                  <div>
+                    <div>
+                      <S.TimeInput>
+                        <p>시작시간</p>
+                        <TimePicker
+                          locale={ko}
+                          selected={recruit.startTime}
+                          onChange={(time) => {
+                            if (createdGroup.length !== 0) {
+                              var value = window.confirm(
+                                "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
+                              );
+                              if (value) {
+                                setCreatedGroup([]);
+                                const copy = { ...recruit };
+                                copy.startTime = time;
+                                setRecruit(copy);
+                              } else {
+                                return null;
+                              }
+                            } else {
+                              const copy = { ...recruit };
+                              copy.startTime = time;
+                              setRecruit(copy);
+                            }
+                          }}
+                          timeFormat="aa h:mm"
+                          showTimeSelect
+                          showTimeSelectOnly
+                          timeCaption="시작시간"
+                          timeIntervals={30}
+                          dateFormat="aa h:mm"
+                        />
+                      </S.TimeInput>
+                      {"~"}
+                      <S.TimeInput>
+                        <p>종료시간</p>
+                        <TimePicker
+                          locale={ko}
+                          selected={recruit.endTime}
+                          onChange={(time) => {
+                            if (createdGroup.length !== 0) {
+                              var value = window.confirm(
+                                "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
+                              );
+                              if (value) {
+                                setCreatedGroup([]);
+                                const copy = { ...recruit };
+                                copy.endTime = time;
+                                setRecruit(copy);
+                              } else {
+                                return null;
+                              }
+                            } else {
+                              const copy = { ...recruit };
+                              copy.endTime = time;
+                              setRecruit(copy);
+                            }
+                          }}
+                          timeFormat="aa h:mm"
+                          showTimeSelect
+                          showTimeSelectOnly
+                          timeCaption="종료시간"
+                          timeIntervals={30}
+                          dateFormat="aa h:mm"
+                        />
+                      </S.TimeInput>
+                    </div>
+                    <S.DetailTimeBtn
+                      disabled={
+                        recruit.startTime === null || recruit.endTime === null
+                      }
+                      onClick={() => {
+                        setTimeSelectModal(true);
+                        const copy = { ...recruit };
+                        copy.timeList = createTimeArr(
+                          recruit.startTime,
+                          recruit.endTime,
+                          recruit.doTime
+                        );
+                        setRecruit(copy);
+                      }}
+                    >
+                      날짜 별 시간설정
+                    </S.DetailTimeBtn>
+                    {timeSelectModal && (
+                      <TimeSelectModal
+                        recruit={recruit}
+                        modalSwitch={timeSelectModal}
+                        setModalSwitch={setTimeSelectModal}
+                        createdGroup={createdGroup}
+                        setCreatedGroup={setCreatedGroup}
+                      />
+                    )}
+                  </div>
+                  <S.SaveTimeBtn
+                    onClick={() => {
+                      if (recruit.startTime && recruit.endTime) {
+                        const copy = { ...recruit };
+                        let timeList = createTimeArr(
+                          recruit.startTime,
+                          recruit.endTime,
+                          recruit.doTime
+                        );
+                        copy.timeList = timeList;
+                        copy.doDateList = createDoDateList(
+                          recruit.dateList,
+                          createdGroup,
+                          timeList
+                        );
+                        setRecruit(copy);
+                        setViewTimeSelect(false);
+                      } else {
+                        alert("시작시간과 종료시간을 선택해주세요");
+                      }
+                    }}
+                  >
+                    적용
+                  </S.SaveTimeBtn>
+                </S.TimeSelectBox>
+              </CSSTransition>
+            </S.CountBox>
+          </CSSTransition>
+          <CSSTransition
+            in={recruit.doDateList !== null}
+            classNames="fadeIn"
+            timeout={500}
+            unmountOnExit
+          >
+            <S.HeadCountBox>
+              <p>시간 단위당 모집 인원</p>
+              <div>
+                <button onClick={() => changeHeadCount("minus")}>
+                  <MinusIcon />
+                </button>
+                <p>{recruit.headCount}명</p>
+                <button onClick={() => changeHeadCount("plus")}>
+                  <PlusIcon />
+                </button>
+              </div>
+            </S.HeadCountBox>
+          </CSSTransition>
+        </S.SelectBox>
+        <CSSTransition
+          in={recruit.headCount !== 0}
+          classNames="fadeIn"
+          timeout={500}
+          unmountOnExit
+        >
+          <S.NextBtn
             onClick={() => {
-              const copy = { ...recruit };
-              copy["category"] = category;
-              setRecruit(copy);
-              movePage(2);
+              if (viewTimeSelect) {
+                alert("시간 입력을 적용한 후 시도해주세요");
+              } else {
+                setViewCategory(true);
+              }
             }}
           >
-            확인
-          </S.SaveBtn>
-        </S.CategoryContainer>
+            다음
+            <NextIcon />
+          </S.NextBtn>
+        </CSSTransition>
+        <CSSTransition
+          in={viewCategory}
+          classNames="fadeIn"
+          timeout={500}
+          unmountOnExit
+        >
+          <S.CategoryContainer>
+            <p>실험 카테고리</p>
+            <div>
+              {FeedCategory.map((a) => {
+                return (
+                  <S.CategoryBtn
+                    id={a.id}
+                    key={a.id}
+                    onClick={() => setCategory(a.name)}
+                    disabled={category === a.name ? true : false}
+                  >
+                    {a.icon}
+                    {a.name}
+                  </S.CategoryBtn>
+                );
+              })}
+              <S.CategoryConfirm
+                onClick={() => {
+                  const copy = { ...recruit };
+                  copy["category"] = category;
+                  setRecruit(copy);
+                  movePage(2);
+                }}
+              >
+                <p>확인</p>
+                <ArrowIcon />
+              </S.CategoryConfirm>
+            </div>
+          </S.CategoryContainer>
+        </CSSTransition>
       </S.DataSelectContainer>
     </S.Page>
   );

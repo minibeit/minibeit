@@ -1,4 +1,13 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
+
+const createFirst = keyframes`
+  0% {
+    transform: translate(-3rem, -0.2rem);
+  }
+  100% {
+    transform: translate(-2rem, -0.2rem);
+  }
+`;
 
 export const ModalBackground = styled.div`
   position: fixed;
@@ -19,7 +28,9 @@ export const ModalBox = styled.div`
   border-radius: 2rem;
 `;
 export const ModalHeader = styled.div`
-  padding: 1rem;
+  padding: 1rem 0;
+  margin: 0 2rem;
+  border-bottom: 1px solid #c4c4c4;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -28,17 +39,47 @@ export const ModalHeader = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
   }
+
+  & > p:nth-child(3) {
+    color: #7c7c7c;
+    font-size: 0.8rem;
+  }
+`;
+export const Info = styled.div`
   & > svg {
     width: 1rem;
     & path {
       fill: #7c7c7c;
     }
   }
-  & > p:nth-child(3) {
-    color: #7c7c7c;
-    font-size: 0.8rem;
+  &:hover > div:nth-child(2) {
+    display: flex;
   }
 `;
+export const InfoBox = styled.div`
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+  overflow: hidden;
+  transform: translate(-8rem, 0);
+  background-color: white;
+  position: absolute;
+  border: 1px solid #c4c4c4;
+  width: 17rem;
+  height: 6rem;
+  z-index: 99;
+  border-radius: 1rem;
+
+  & > svg {
+    width: 1rem;
+  }
+  & > p {
+    font-size: 0.8em;
+  }
+`;
+
 export const ModalContent = styled.div`
   display: flex;
   padding: 0 2rem;
@@ -47,6 +88,7 @@ export const ModalContent = styled.div`
 export const ModalFooter = styled.div`
   padding: 1rem 2rem;
   display: flex;
+  border-top: 1px dotted #c4c4c4;
   justify-content: end;
   & > div {
     border: none;
@@ -70,11 +112,18 @@ export const ModalFooter = styled.div`
 
 export const View = styled.div`
   padding: 0.5rem;
-  border-top: 1px solid #c4c4c4;
-  border-bottom: 1px solid #c4c4c4;
 `;
 export const CalendarView = styled(View)`
   flex: 2;
+  ${({ blur }) =>
+    blur &&
+    css`
+      filter: blur(4px);
+      z-index: -99;
+    `}
+  &>div {
+    margin-top: 1em;
+  }
 `;
 export const ScheduleView = styled(View)`
   display: flex;
@@ -87,6 +136,7 @@ export const ScheduleView = styled(View)`
 export const TimeView = styled(View)`
   flex: 2;
   & > p:first-child {
+    margin-top: 0.7em;
     font-size: 1rem;
     text-align: center;
     font-weight: bold;
@@ -94,7 +144,7 @@ export const TimeView = styled(View)`
   }
 `;
 
-export const CreateScheduleBtn = styled.button`
+export const CreateScheduleBtn = styled.div`
   display: flex;
   border: none;
   background: none;
@@ -103,11 +153,20 @@ export const CreateScheduleBtn = styled.button`
   & > svg {
     width: 1rem;
   }
+  & > div:nth-child(2) {
+    position: absolute;
+    & > svg {
+      width: 1rem;
+      transform: rotate(270deg);
+    }
+    animation: ${createFirst} 0.5s infinite linear alternate;
+  }
 `;
 export const ScheduleNav = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 1.4em;
   gap: 0.5em;
   & > button {
     border: none;
@@ -129,11 +188,13 @@ export const ScheduleNav = styled.div`
   }
   & > p:nth-child(2) {
     white-space: nowrap;
+    font-weight: bold;
   }
 `;
 
 export const DateList = styled.div`
   display: flex;
+  align-items: center;
   flex-direction: column;
   gap: 0.5em;
   height: 17em;
@@ -155,30 +216,36 @@ export const DateList = styled.div`
   }
 `;
 export const DateButton = styled.div`
-  background: #c4c4c4;
+  background-color: #c4c4c4;
+  width: fit-content;
+  font-size: 0.85em;
+  padding: 0.3em 0.5em;
+  border-radius: 1em;
   color: white;
   display: flex;
-  padding: 0.5em;
   justify-content: center;
   align-items: center;
-  border-radius: 1rem;
-  gap: 0.4em;
-  & > svg {
-    cursor: pointer;
-    width: 0.8rem;
+  gap: 0.3em;
+  & svg {
     & path {
       fill: white;
     }
+    width: 0.8em;
+    height: fit-content;
+    cursor: pointer;
   }
 `;
 export const ColorView = styled.div`
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   position: absolute;
-  transform: translate(0.5em, -1.5em);
-  opacity: 0.5;
   background: ${(props) => props.color || "none"};
+  transform: translate(0.2em, -1.9em);
+  color: white;
 `;
 export const TimeBtnBox = styled.div`
   display: flex;
@@ -207,7 +274,6 @@ export const TimeBtn = styled.div`
     display: none;
   }
   & > label {
-    margin: 1px;
     padding: 10px;
     cursor: pointer;
     display: flex;
@@ -216,8 +282,7 @@ export const TimeBtn = styled.div`
     color: #c4c4c4;
   }
   & > input:checked + label {
-    margin: 0;
-    border: 1px solid #0642ff;
-    background: white;
+    color: white;
+    background: ${(props) => props.color || "none"};
   }
 `;

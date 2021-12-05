@@ -2,17 +2,13 @@ import React from "react";
 
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
-import SearchInput from "./SearchInput";
-import "./date-picker.css";
 
-import { DateInput } from "../../Common";
+import { DateInput, SchoolInput } from "../../Common";
 import { ReactComponent as CalendarIcon } from "../../../svg/달력.svg";
-import { ReactComponent as PlaceIcon } from "../../../svg/위치.svg";
 
 import * as S from "../style";
 
 export default function SearchBar({
-  page,
   school,
   setSchool,
   date,
@@ -21,27 +17,22 @@ export default function SearchBar({
 }) {
   const userSchoolId = useRecoilValue(userState).schoolId;
   return (
-    <S.SearchBox center={page === null ? true : false}>
+    <S.SearchBox>
       <p>참여하기</p>
       <p>내 일정에 맞는 리서치를 검색하시고 보상을 획득하세요!</p>
       <div>
         <S.PlaceInput>
-          <p>위치</p>
-          <SearchInput
-            defaultValue={userSchoolId}
+          <SchoolInput
             onChange={(e) => {
-              if (e) {
-                const copy = { ...school };
-                copy.schoolId = e.value;
-                copy.schoolName = e.label;
-                setSchool(copy);
-              }
+              const copy = { ...school };
+              copy.schoolId = e.id;
+              copy.schoolName = e.name;
+              setSchool(copy);
             }}
           />
-          <PlaceIcon />
         </S.PlaceInput>
         <S.DateInput>
-          <p>날짜</p>
+          <CalendarIcon />
           <DateInput
             minDate={new Date()}
             onChange={(e) => {
@@ -51,7 +42,6 @@ export default function SearchBar({
             }}
             defaultDate={date.date}
           />
-          <CalendarIcon />
         </S.DateInput>
         <S.SearchBtn
           onClick={() =>

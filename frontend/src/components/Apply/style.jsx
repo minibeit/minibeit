@@ -11,7 +11,7 @@ const fadeIn = keyframes`
 
 export const ListPageContainer = styled.div`
   margin: 4rem 8rem 4rem 8rem;
-  min-height: 100vh;
+  min-height: 70vh;
   & > div:nth-child(2) {
     display: flex;
     gap: 1rem;
@@ -90,7 +90,6 @@ export const SearchBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-
   & > p:first-child {
     color: #0642ff;
     font-size: 2rem;
@@ -110,9 +109,9 @@ export const SearchInput = styled.div`
   display: flex;
   align-items: center;
   max-height: 3rem;
-  padding: 0 1rem;
   border-radius: 1.5rem;
   cursor: pointer;
+  padding: 0.5rem 1rem;
   & > p:first-child {
     white-space: nowrap;
   }

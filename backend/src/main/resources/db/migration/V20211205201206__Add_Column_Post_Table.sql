@@ -1,0 +1,1 @@
+ALTER TABLE `post` ADD `place_detail` VARCHAR(50) DEFAULT NULL ;

@@ -65,6 +65,7 @@ class PostControllerTest extends MvcTest {
                 .title("개발자는 하루에 커피를 몇 잔 마실까..")
                 .content("실험실 세부사항")
                 .place("고려대")
+                .placeDetail("123호")
                 .contact("010-1234-5786")
                 .recruitPeople(10)
                 .payment(Payment.CACHE)
@@ -89,6 +90,7 @@ class PostControllerTest extends MvcTest {
                 .title("코로나로 인한 대학생 우울증 실험")
                 .content("실험실 세부사항")
                 .place("고려대")
+                .placeDetail("123호")
                 .contact("010-1234-5786")
                 .category("디자인")
                 .recruitPeople(10)
@@ -158,7 +160,8 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("data.title").type(JsonFieldType.STRING).description("제목"),
                                 fieldWithPath("data.content").type(JsonFieldType.STRING).description("세부사항"),
-                                fieldWithPath("data.place").type(JsonFieldType.STRING).description("장소"),
+                                fieldWithPath("data.address").type(JsonFieldType.STRING).description("장소"),
+                                fieldWithPath("data.addressDetail").type(JsonFieldType.STRING).description("장소 세부 사항"),
                                 fieldWithPath("data.contact").type(JsonFieldType.STRING).description("연락처"),
                                 fieldWithPath("data.payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
                                 fieldWithPath("data.goods").description("지급 수단이 GOODS 인 경우 물품 보상"),

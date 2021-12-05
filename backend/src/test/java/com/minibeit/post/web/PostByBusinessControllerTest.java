@@ -63,6 +63,7 @@ class PostByBusinessControllerTest extends MvcTest {
                 .title("개발자는 하루에 커피를 몇 잔 마실까..")
                 .content("실험실 세부사항")
                 .place("고려대")
+                .placeDetail("신공학관 123호")
                 .contact("010-1234-5786")
                 .recruitPeople(10)
                 .payment(Payment.CACHE)
@@ -86,6 +87,7 @@ class PostByBusinessControllerTest extends MvcTest {
                 .title("코로나로 인한 대학생 우울증 실험")
                 .content("실험실 세부사항")
                 .place("고려대")
+                .placeDetail("신공학관 123호")
                 .contact("010-1234-5786")
                 .category("디자인")
                 .recruitPeople(10)
@@ -114,6 +116,7 @@ class PostByBusinessControllerTest extends MvcTest {
                 .title("커피를 얼마나 마셔야 잠을 못잘까~?")
                 .content("실험 내용")
                 .place("고려대학교 연구실")
+                .placeDetail("123호")
                 .contact("010-1234-1234")
                 .category("미디어")
                 .headcount(10)
@@ -147,6 +150,7 @@ class PostByBusinessControllerTest extends MvcTest {
                                 fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
                                 fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
                                 fieldWithPath("place").type(JsonFieldType.STRING).description("장소"),
+                                fieldWithPath("placeDetail").type(JsonFieldType.STRING).description("장소 세부 사항"),
                                 fieldWithPath("contact").type(JsonFieldType.STRING).description("연락처"),
                                 fieldWithPath("category").type(JsonFieldType.STRING).description("분야"),
                                 fieldWithPath("headcount").type(JsonFieldType.NUMBER).description("인원수"),

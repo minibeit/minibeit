@@ -29,6 +29,8 @@ public class Post extends BaseEntity {
 
     private String place;
 
+    private String placeDetail;
+
     private String contact;
 
     private String category;
@@ -99,6 +101,7 @@ public class Post extends BaseEntity {
                 .title(request.getTitle())
                 .content(request.getContent())
                 .place(request.getPlace())
+                .placeDetail(request.getPlaceDetail())
                 .contact(request.getContact())
                 .category(request.getCategory())
                 .recruitPeople(request.getHeadcount())

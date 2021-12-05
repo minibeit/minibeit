@@ -29,6 +29,7 @@ export const TitleContent = styled.div`
   width: inherit;
   & > p:first-child {
     color: #c4c4c4;
+    font-size: 1rem;
     font-weight: 700;
     margin: 0.6rem 0;
   }
@@ -77,7 +78,7 @@ export const TitleBookMark = styled.div`
     }
   }
   & > p:last-child {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
   }
 `;
 /* Content */
@@ -94,7 +95,7 @@ export const DataBox = styled.div`
       justify-content: space-between;
       align-items: center;
       & > p:first-child {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
         font-weight: bold;
         padding: 1rem 1rem 1rem 0;
       }
@@ -105,10 +106,10 @@ export const DataBox = styled.div`
       margin: 1rem 0;
       list-style: none;
       & > li {
-        margin: 0.8rem 0;
-        font-size: 0.8rem;
+        margin: 1rem 0;
         & > span {
           font-weight: 500;
+          font-size: 1rem;
           color: #8c8c8c;
           margin-right: 2rem;
           ::before {
@@ -156,12 +157,8 @@ export const DataBox2 = styled(DataBox)`
 `;
 export const DataHeader = styled.div`
   border-bottom: 1px solid #c4c4c4;
-  /* & > div:first-child {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; */
   & > p:first-child {
-    font-size: 1.3rem;
+    font-size: 1.5rem;
     font-weight: bold;
     padding: 1rem 1rem 1rem 0;
   }
@@ -172,14 +169,14 @@ export const DataContent = styled.div`
   padding: 1rem 0;
 `;
 export const DataContent2 = styled(DataContent)`
-  max-height: 37rem;
+  margin-bottom: 2rem;
   & > div:nth-child(2) {
     display: flex;
     align-items: flex-start;
   }
 `;
 export const SmTitle = styled.p`
-  font-size: 0.9rem;
+  font-size: 1.2rem;
   font-weight: 700;
   margin: 0.5rem 0 1rem;
 `;
@@ -201,10 +198,13 @@ export const EditBtn = styled.button`
 /* date & time */
 export const TimeSelectBox = styled.div`
   border: 1px solid #c4c4c4;
-  border-radius: 20px;
+  border-radius: 1.25rem;
+  min-height: 19rem;
+  display: flex;
+  flex-direction: column;
 `;
 export const Navigation = styled.div`
-  height: 4rem;
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -222,20 +222,22 @@ export const Navigation = styled.div`
   }
 `;
 export const TimeView = styled.div`
+  flex: 2.5;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   gap: 1rem;
   background: #f5f5f5;
   border-radius: 0 0 20px 20px;
-  padding: 1rem;
+  padding: 2rem;
   & > button {
     background: white;
     border: none;
     width: 8rem;
     height: 3rem;
-    border-radius: 15px;
-    font-size: 17px;
+    border-radius: 1rem;
+    font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
   }
@@ -243,8 +245,8 @@ export const TimeView = styled.div`
 
 export const DetailContent = styled.div`
   white-space: pre-line;
-  line-height: 1rem;
-  font-size: 0.8rem;
+  line-height: 1.3rem;
+  font-size: 1rem;
 `;
 export const EditTextArea = styled.textarea`
   width: 80%;
@@ -302,7 +304,7 @@ export const Controller = styled.div`
   margin-top: 4.3rem;
   top: 4rem;
   border: 1px solid #c4c4c4;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   & > p:first-child {
     font-size: 1.2rem;
     text-align: center;

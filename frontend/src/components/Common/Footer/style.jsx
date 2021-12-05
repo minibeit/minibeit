@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const FooterContainer = styled.div`
   position: relative;
+  z-index: -1;
   background: white;
   min-height: 5.5rem;
   margin: 0 12rem;

@@ -39,8 +39,7 @@ export const Container = styled.div`
   text-align: center;
 `;
 export const SaveBtn = styled.button`
-  width: 12em;
-  height: 3em;
+  padding: 0.5rem 1rem;
   border-radius: 2rem;
   background: #0642ff;
   color: white;
@@ -251,12 +250,6 @@ export const SaveTimeBtn = styled.div`
   font-size: 1.2em;
 `;
 export const NextBtn = styled.button`
-  ${({ visible }) =>
-    !visible &&
-    css`
-      opacity: 0;
-      z-index: -99;
-    `};
   width: fit-content;
   align-self: end;
   padding: 0.5rem 1rem;
@@ -270,40 +263,64 @@ export const NextBtn = styled.button`
   gap: 0.3em;
   align-items: center;
   cursor: pointer;
+  ${fadeIn}
 `;
 export const CategoryContainer = styled.div`
-  ${({ visible }) =>
-    !visible &&
-    css`
-      opacity: 0;
-      z-index: -99;
-    `};
   & > p:first-child {
     color: #c4c4c4;
   }
   & > div:nth-child(2) {
-    margin: 20px 0 20px 0;
+    margin: 1rem auto;
+    max-width: 50rem;
+    background: white;
+    box-shadow: 10px 10px 30px 0px #bdbdbd33;
+    border-radius: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem;
   }
+  ${fadeIn}
 `;
 export const CategoryBtn = styled.button`
-  min-width: 7rem;
-  border: 1px solid #0642ff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 8rem;
+  border: none;
+  background: #f8f8f8;
   padding: 0.5rem 0;
   border-radius: 10px;
-  background: white;
-  margin: 5px;
   cursor: pointer;
+  color: black;
+  border: 1px solid#f8f8f8;
   &:disabled {
-    border: none;
-    border-radius: 10px;
-    background: #f8f8f8;
-    color: #c4c4c4;
+    border: 1px solid #0642ff;
+    background: white;
+  }
+`;
+export const CategoryConfirm = styled(CategoryBtn)`
+  gap: 0.5rem;
+  border: none;
+  background: none;
+
+  & p {
+    font-weight: bold;
+    color: #0642ff;
+  }
+  & svg {
+    width: 1rem;
+    transform: rotate(270deg);
+    & path {
+      fill: #0642ff;
+    }
   }
 `;
 
 /* Info Data */
 export const InputPage = styled(Page)`
-  height: 140rem;
+  height: 120rem;
 `;
 export const InputContainer = styled(Container)``;
 export const Input = styled.div`

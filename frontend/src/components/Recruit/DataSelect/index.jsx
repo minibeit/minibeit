@@ -15,6 +15,7 @@ import FeedCategory from "../../../constants/FeedCategory";
 import { ReactComponent as MinusIcon } from "../../../svg/마이너스.svg";
 import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
 import { ReactComponent as CalendarIcon } from "../../../svg/달력.svg";
+import { ReactComponent as ArrowIcon } from "../../../svg/체크.svg";
 import NextIcon from "@mui/icons-material/ArrowForwardIos";
 
 import * as S from "../style";
@@ -355,47 +356,61 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
             </S.HeadCountBox>
           </CSSTransition>
         </S.SelectBox>
-        <S.NextBtn
-          onClick={() => {
-            if (viewTimeSelect) {
-              alert("시간 입력을 적용한 후 시도해주세요");
-            } else {
-              setViewCategory(true);
-            }
-          }}
-          visible={recruit.headCount !== 0 ? true : false}
+        <CSSTransition
+          in={recruit.headCount !== 0}
+          classNames="fadeIn"
+          timeout={500}
+          unmountOnExit
         >
-          다음
-          <NextIcon />
-        </S.NextBtn>
-        <S.CategoryContainer visible={viewCategory ? true : false}>
-          <p>모집하는 실험의 카테고리를 골라보세요.</p>
-          <div>
-            {FeedCategory.map((a) => {
-              return (
-                <S.CategoryBtn
-                  id={a.id}
-                  key={a.id}
-                  onClick={() => setCategory(a.name)}
-                  disabled={category === a.name ? true : false}
-                >
-                  {a.icon}
-                  {a.name}
-                </S.CategoryBtn>
-              );
-            })}
-          </div>
-          <S.SaveBtn
+          <S.NextBtn
             onClick={() => {
-              const copy = { ...recruit };
-              copy["category"] = category;
-              setRecruit(copy);
-              movePage(2);
+              if (viewTimeSelect) {
+                alert("시간 입력을 적용한 후 시도해주세요");
+              } else {
+                setViewCategory(true);
+              }
             }}
           >
-            확인
-          </S.SaveBtn>
-        </S.CategoryContainer>
+            다음
+            <NextIcon />
+          </S.NextBtn>
+        </CSSTransition>
+        <CSSTransition
+          in={viewCategory}
+          classNames="fadeIn"
+          timeout={500}
+          unmountOnExit
+        >
+          <S.CategoryContainer>
+            <p>실험 카테고리</p>
+            <div>
+              {FeedCategory.map((a) => {
+                return (
+                  <S.CategoryBtn
+                    id={a.id}
+                    key={a.id}
+                    onClick={() => setCategory(a.name)}
+                    disabled={category === a.name ? true : false}
+                  >
+                    {a.icon}
+                    {a.name}
+                  </S.CategoryBtn>
+                );
+              })}
+              <S.CategoryConfirm
+                onClick={() => {
+                  const copy = { ...recruit };
+                  copy["category"] = category;
+                  setRecruit(copy);
+                  movePage(2);
+                }}
+              >
+                <p>확인</p>
+                <ArrowIcon />
+              </S.CategoryConfirm>
+            </div>
+          </S.CategoryContainer>
+        </CSSTransition>
       </S.DataSelectContainer>
     </S.Page>
   );

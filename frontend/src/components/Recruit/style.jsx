@@ -158,7 +158,7 @@ export const DateBox = styled(Box)`
     }
   }
   & svg {
-    width: 1rem;
+    width: 1.5rem;
   }
 `;
 
@@ -328,14 +328,15 @@ export const Input = styled.div`
   border-radius: 15px;
   border: none;
   background: #f8f8f8;
-  padding: 0 15px 0 15px;
   display: flex;
   & > input {
-    height: 2em;
-    background: none;
-    border: none;
     width: 100%;
+    height: 3em;
+    border-radius: 15px;
+    border: none;
     font-size: 21px;
+    background: #f8f8f8;
+    padding: 0 15px 0 15px;
   }
   & > input:focus {
     outline: none;
@@ -360,7 +361,6 @@ export const TitleBox = styled(InputBox)`
     border: none;
     font-size: 21px;
     background: #f8f8f8;
-    padding: 0 15px 0 15px;
   }
 `;
 export const ContentBox = styled(InputBox)`
@@ -371,7 +371,7 @@ export const ContentBox = styled(InputBox)`
     border: none;
     font-size: 21px;
     background: #f8f8f8;
-    padding: 15px;
+    padding: 1rem 0;
   }
 `;
 export const ConditionBox = styled(InputBox)`
@@ -393,6 +393,13 @@ export const ConditionInput = styled(Input)`
   & > button:disabled {
     color: #c4c4c4;
   }
+
+  & svg {
+    width: 1rem;
+    & path {
+      fill: ${({ disabled }) => (disabled ? "#c4c4c4" : "#0642ff")};
+    }
+  }
 `;
 export const PaymentBox = styled(InputBox)`
   & > div:first-child {
@@ -402,6 +409,21 @@ export const PaymentBox = styled(InputBox)`
     gap: 1rem;
   }
 `;
+export const CacheBox = styled.div`
+  width: 100%;
+  display: flex;
+  gap: 1rem;
+  & > div {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    & > p {
+      text-align: start;
+      font-size: 1rem;
+    }
+  }
+`;
 export const PayInput = styled(Input)`
   & > span {
     display: flex;
@@ -409,6 +431,7 @@ export const PayInput = styled(Input)`
     font-size: 21px;
     font-weight: bold;
     color: #c4c4c4;
+    padding: 0 1rem;
   }
 `;
 
@@ -416,11 +439,25 @@ export const PayInput = styled(Input)`
 export const ImgForm = styled.div`
   position: relative;
   display: flex;
-  width: 50rem;
+  width: 100%;
   overflow-x: scroll;
   & > div {
     display: flex;
     gap: 20px;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #c4c4c4;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
   }
 `;
 export const ImgBox = styled.div`
@@ -465,7 +502,7 @@ export const FileLabel = styled.label`
   align-items: center;
   cursor: pointer;
   & > svg {
-    font-size: 45px;
+    width: 2rem;
   }
 `;
 export const FileInput = styled.input`

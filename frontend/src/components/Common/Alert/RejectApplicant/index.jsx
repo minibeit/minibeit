@@ -1,7 +1,7 @@
 import React from "react";
 import Portal from "../Portal";
 import * as S from "./style";
-import ErrorOutlineIcon from "@mui/icons-material/ErrorOutline";
+import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 
 // 정말로 반려할것인지 물어보는 알림창
 
@@ -29,7 +29,7 @@ export default function RejectApplicant({
       <S.AlertBackground onClick={(e) => clickOutside(e)}>
         <S.AlertBox>
           <S.AlertContent>
-            <ErrorOutlineIcon sx={{ fontSize: 40, color: "#0642FF" }} />
+            <InfoIcon />
             <p>
               <span>{rejectUserInfo.name}님</span>을<br />
               정말로 <span>반려</span>하시겠습니까?

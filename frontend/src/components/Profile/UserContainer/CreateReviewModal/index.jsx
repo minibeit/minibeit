@@ -42,11 +42,13 @@ export default function FeedCloseModal({
             alert("평가가 완료되었습니다");
             changeFeedData();
             setModalSwitch(false);
+            document.querySelector("body").removeAttribute("style");
           })
           .catch((err) => {
             alert("평가에 실패했습니다");
             changeFeedData();
             setModalSwitch(false);
+            document.querySelector("body").removeAttribute("style");
           });
       }
     } else {
@@ -59,7 +61,12 @@ export default function FeedCloseModal({
       <S.ModalBackground>
         <S.ModalBox>
           <div>
-            <CloseIcon onClick={() => setModalSwitch(false)} />
+            <CloseIcon
+              onClick={() => {
+                setModalSwitch(false);
+                document.querySelector("body").removeAttribute("style");
+              }}
+            />
           </div>
           <S.ModalContent>
             {!mode && (

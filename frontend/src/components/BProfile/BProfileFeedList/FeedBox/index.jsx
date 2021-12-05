@@ -24,6 +24,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
       })
       .catch(() => {
         alert("삭제할 수 없는 게시물입니다. 확정자가 있는지 확인해주세요.");
+        document.querySelector("body").removeAttribute("style");
         setEndAlert(0);
       });
   };

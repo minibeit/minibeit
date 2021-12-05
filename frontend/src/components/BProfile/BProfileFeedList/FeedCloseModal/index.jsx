@@ -35,7 +35,10 @@ export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
         .then(() => {
           setCloseModal(2);
         })
-        .catch((err) => alert("종료할 수 없는 게시물 입니다"));
+        .catch((err) => {
+          alert("종료할 수 없는 게시물 입니다");
+          document.querySelector("body").removeAttribute("style");
+        });
     }
   };
 

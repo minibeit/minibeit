@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const AlertBackground = styled.div`
   position: fixed;
   top: 0;
@@ -32,8 +31,14 @@ export const AlertContent = styled.div`
   justify-content: center;
   align-items: center;
   padding: 20px;
+  & > svg {
+    width: 2rem;
+    path {
+      fill: #0642ff;
+    }
+  }
 
-  & > p:nth-child(2){
+  & > p:nth-child(2) {
     font-size: 20px;
     text-align: center;
     line-height: 30px;
@@ -48,19 +53,18 @@ export const AlertContent = styled.div`
     text-align: center;
     line-height: 15px;
   }
-
 `;
 
 export const BlueButton = styled.button`
-    position: relative;
-    width: 9rem;
-    height: 2.7rem;
-    font-size: 13px;
-    line-height: 2.5rem;
-    border-radius: 30px;
-    color: #FFFFFF;
-    border: 1px solid #0642FF;
-    background: #0642FF;
-    margin-top: 20px;
-    cursor: pointer;
+  position: relative;
+  width: 9rem;
+  height: 2.7rem;
+  font-size: 13px;
+  line-height: 2.5rem;
+  border-radius: 30px;
+  color: #ffffff;
+  border: 1px solid #0642ff;
+  background: #0642ff;
+  margin-top: 20px;
+  cursor: pointer;
 `;

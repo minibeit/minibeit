@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const AlertBackground = styled.div`
   position: fixed;
   top: 0;
@@ -18,31 +17,30 @@ export const AlertBox = styled.div`
   background-color: white;
   width: 30rem;
   height: 20rem;
-  border-radius: 35px;
+  border-radius: 2.25rem;
 `;
 
 const Button = styled.button`
   position: relative;
   width: 9rem;
   height: 2.7rem;
-  font-size: 13px;
+  font-size: 0.85rem;
   line-height: 2.5rem;
-  border-radius: 30px;
+  border-radius: 2rem;
   cursor: pointer;
 `;
 
 export const GrayButton = styled(Button)`
-color: #FFFFFF;
-border: 1px solid #FFFFFF;
-background: #C4C4C4;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  background: #c4c4c4;
 `;
 
 export const BlueButton = styled(Button)`
-color: #FFFFFF;
-border: 1px solid #0642FF;
-background: #0642FF;
+  color: #ffffff;
+  border: 1px solid #0642ff;
+  background: #0642ff;
 `;
-
 
 export const AlertContent = styled.div`
   transform: translate(-50%, -50%);
@@ -51,29 +49,34 @@ export const AlertContent = styled.div`
   left: 50%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.625rem;
   justify-content: center;
   align-items: center;
-  padding: 20px;
+  padding: 1.25rem;
+  & > svg {
+    width: 2rem;
+    path {
+      fill: #0642ff;
+    }
+  }
 
-  & > p:nth-child(2){
+  & > p:nth-child(2) {
     width: 25rem;
     font-weight: 700;
-    font-size: 20px;
+    font-size: 1.25rem;
     text-align: center;
-    line-height: 30px;
+    line-height: 1.875rem;
   }
-  
-  & > p:nth-child(3) {
-    font-size: 11px;
-    color: rgba(0,  0, 0, 0.6);
-    text-align: center;
-    line-height: 20px;
 
+  & > p:nth-child(3) {
+    font-size: 0.7;
+    color: rgba(0, 0, 0, 0.6);
+    text-align: center;
+    line-height: 1.25rem;
   }
 
   & > p > span:nth-child(2) {
-    color: #0642FF;
+    color: #0642ff;
     font-weight: 700;
   }
 

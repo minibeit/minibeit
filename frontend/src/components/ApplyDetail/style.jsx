@@ -231,7 +231,7 @@ export const TimeView = styled.div`
   background: #f5f5f5;
   border-radius: 0 0 20px 20px;
   padding: 2rem;
-  & > button {
+  & > div > button {
     background: white;
     border: none;
     width: 8rem;

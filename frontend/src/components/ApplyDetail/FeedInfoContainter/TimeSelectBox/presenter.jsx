@@ -16,11 +16,12 @@ export default function Presenter({
   const month = today.getMonth() + 1;
   const day = today.getDate();
   const date = day >= 10 ? day : "0" + day;
-  const hours = today.getHours();
+  const hour = today.getHours();
+  const hours = hour >= 10 ? hour : "0" + hour;
   const min = today.getMinutes();
+  const minutes = min >= 10 ? min : "0" + min;
   const nowDay = `${year}-${month}-${date}`;
-  const nowTime = `${hours}:${min}`;
-
+  const nowTime = `${hours}:${minutes}`;
   return (
     <div>
       <S.TimeSelectBox>
@@ -35,10 +36,9 @@ export default function Presenter({
           {doTimeList ? (
             doTimeList.map((a) => {
               return (
-                <>
+                <div key={a.id}>
                   {viewDoDate > nowDay ? (
                     <button
-                      key={a.id}
                       id={a.id}
                       onClick={selectDate}
                       disabled={
@@ -49,7 +49,6 @@ export default function Presenter({
                     </button>
                   ) : viewDoDate === nowDay && a.startTime > nowTime ? (
                     <button
-                      key={a.id}
                       id={a.id}
                       onClick={selectDate}
                       disabled={
@@ -62,7 +61,6 @@ export default function Presenter({
                     <S.Xdiv>
                       <div onClick={() => alert("지원할 수 없습니다!")} />
                       <button
-                        key={a.id}
                         id={a.id}
                         disabled={
                           a.id === parseInt(apply["postDoDateId"])
@@ -74,7 +72,7 @@ export default function Presenter({
                       </button>
                     </S.Xdiv>
                   )}
-                </>
+                </div>
               );
             })
           ) : (

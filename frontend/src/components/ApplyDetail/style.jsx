@@ -243,6 +243,27 @@ export const TimeView = styled.div`
   }
 `;
 
+export const Xdiv = styled.div`
+  & > div {
+    background: rgba(0, 0, 0, 0.3);
+    width: 8rem;
+    height: 3rem;
+    border-radius: 1rem;
+    z-index: 3;
+    position: absolute;
+  }
+  & > button {
+    position: relative;
+    background: white;
+    border: none;
+    width: 8rem;
+    height: 3rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+`;
+
 export const DetailContent = styled.div`
   white-space: pre-line;
   line-height: 1.3rem;

@@ -6,7 +6,6 @@ import Presenter from "./presenter";
 export default function DetailFilter({
   filter,
   setFilter,
-  setFilterSwitch,
   filterReset,
   search,
 }) {
@@ -57,7 +56,6 @@ export default function DetailFilter({
   return (
     <Presenter
       filterReset={filterReset}
-      setFilterSwitch={setFilterSwitch}
       paymentType={paymentType}
       changePayType={changePayType}
       changeFilter={changeFilter}

@@ -17,22 +17,22 @@ export const ListPageContainer = styled.div`
     gap: 1rem;
     padding: 1rem 0;
     border-top: 1px solid #c4c4c4;
-    & > button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      background: white;
-      border: 1px solid #c4c4c4;
-      font-weight: 600;
-      cursor: pointer;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      min-width: 7rem;
-      & svg {
-        width: 1rem;
-      }
-    }
+  }
+`;
+export const FilterBtn = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: white;
+  border: 1px solid #c4c4c4;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  min-width: 7rem;
+  & svg {
+    width: 1rem;
   }
 `;
 export const SearchResult = styled.p`
@@ -148,18 +148,28 @@ export const FilterBox = styled.div`
   flex-direction: column;
   box-sizing: border-box;
   position: absolute;
-  width: 28rem;
+  max-width: 35rem;
   background-color: white;
   border: 1px solid #c4c4c4;
   border-radius: 15px;
   text-align: center;
   z-index: 99;
   & > div:first-child {
-    text-align: end;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    & > p {
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    & svg {
+      margin-left: auto;
+      cursor: pointer;
+    }
   }
-  & > div:first-child > svg {
-    margin: 10px 10px 0 0;
-    cursor: pointer;
+  & > p:nth-child(2) {
+    text-align: start;
+    padding: 0 0.5rem;
   }
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
@@ -168,16 +178,12 @@ export const FilterBox = styled.div`
 `;
 export const FilterResetBtn = styled.div`
   margin-top: 1rem;
+  cursor: pointer;
+  font-size: 1em;
+  color: #8c8c8c;
 `;
 
-export const DetailBox = styled.div`
-  margin: 10px;
-  text-align: start;
-  & > p:first-child {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 15px;
-  }
+export const Box = styled.div`
   &.fade-enter {
     opacity: 0;
   }
@@ -190,26 +196,58 @@ export const DetailBox = styled.div`
   }
   &.fade-exit-active {
     opacity: 0;
-    transition: all 500ms;
+    transition: all 300ms;
   }
 `;
 
-export const SelectBtn = styled.button`
+export const DetailBox = styled(Box)`
+  text-align: start;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  & > p:first-child {
+    font-size: 1rem;
+    font-weight: bold;
+  }
+  & > div:nth-child(2) {
+    display: flex;
+    gap: 0.5em;
+  }
+`;
+export const CategoryBox = styled(Box)`
+  padding: 0.5rem;
+  & > div {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5em;
+  }
+`;
+
+export const PaymentBtn = styled.button`
   background: white;
   border: 1px solid #c4c4c4;
-  border-radius: 10px;
-  height: 35px;
-  min-width: 80px;
-  margin: 0 2px 0 2px;
   cursor: pointer;
+  color: black;
+  padding: 0.5em 3em;
+  border-radius: 0.5rem;
+  white-space: nowrap;
   &:disabled {
     background: #b4c6ff;
   }
 `;
+export const SelectBtn = styled(PaymentBtn)`
+  padding: 0.5em 0.5em;
+  min-width: 5em;
+`;
+export const CategoryBtn = styled(PaymentBtn)`
+  padding: 0.5em 0.5em;
+  min-width: 9em;
+`;
 export const FilterSaveBtn = styled.button`
   width: 100%;
   height: 3rem;
-  margin-top: 1rem;
   background: #0642ff;
   border: none;
   font-size: 15px;

@@ -431,3 +431,9 @@ export const Div = styled.div`
   z-index: 2;
   cursor: pointer;
 `;
+
+export const ViewNum = styled.div`
+  width: 100%;
+  & > p {
+  }
+`;

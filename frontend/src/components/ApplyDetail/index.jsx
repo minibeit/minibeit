@@ -27,6 +27,7 @@ ApplyDetailComponent.propTypes = {
 
 export default function ApplyDetailComponent({ feedId, date }) {
   const [feedDetailData, setFeedDetailData] = useState();
+  const [viewNum, setViewNum] = useState(true);
   const user = useRecoilValue(userState);
   const apply = useRecoilValue(applyState);
   const history = useHistory();
@@ -103,13 +104,22 @@ export default function ApplyDetailComponent({ feedId, date }) {
       likeToLogIn();
     }
   };
+
+  const num = Math.floor(Math.random() * 10);
+
   useEffect(() => {
     getFeedDetail(feedId);
     resetApply();
+    setTimeout(() => setViewNum(false), 5000);
   }, [feedId, getFeedDetail, resetApply]);
 
   return (
     <S.FeedContainer>
+      {viewNum && (
+        <S.ViewNum>
+          <p>이 페이지를 {num}명이 보고 있습니다.</p>
+        </S.ViewNum>
+      )}
       {feedDetailData && (
         <TitleContiner
           title={feedDetailData.title}
@@ -137,6 +147,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
             feedDetailData={feedDetailData}
             checkLogin={checkLogin}
           />
+
           {applyAlert === 1 && (
             <AskCompleteApplication
               apply={apply}

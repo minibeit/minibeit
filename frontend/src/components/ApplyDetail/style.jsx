@@ -62,11 +62,9 @@ export const TitleBookMark = styled.div`
   align-items: center;
   justify-content: center;
   gap: 0.2rem;
+  cursor: pointer;
   color: ${({ isLike }) => {
     return isLike ? "#0642ff" : "#8c8c8c";
-  }};
-  cursor: ${({ isLogin }) => {
-    return isLogin ? "pointer" : "";
   }};
   & > svg {
     width: 1.2rem;

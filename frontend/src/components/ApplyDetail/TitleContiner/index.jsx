@@ -9,11 +9,9 @@ export default function TitleContainer({
   businessProfileInfo,
   clickBookmark,
   category,
-  isLogin,
   id,
   likes,
   isLike,
-  likeToLogIn,
 }) {
   return (
     <S.TitleBox>
@@ -21,17 +19,8 @@ export default function TitleContainer({
         <p>{category}</p>
         <div>
           <p>{title}</p>
-          <S.TitleBookMark isLogin={isLogin} isLike={isLike}>
-            {isLogin ? (
-              <Star
-                id={id}
-                onClick={(e) => {
-                  clickBookmark(e);
-                }}
-              />
-            ) : (
-              <Star onClick={likeToLogIn} />
-            )}
+          <S.TitleBookMark isLike={isLike}>
+            <Star id={id} onClick={clickBookmark} />
             <p>{likes}</p>
           </S.TitleBookMark>
         </div>

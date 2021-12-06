@@ -287,24 +287,19 @@ export const FeedHeader = styled.div`
     font-weight: 600;
     cursor: pointer;
   }
-  & > div:nth-child(2) {
-    margin-left: auto;
-  }
-  & > div:nth-child(2) > p:nth-child(2) {
-    text-align: center;
-    color: ${({ isLike }) => {
-      return isLike ? "#0642ff" : "";
-    }};
-    font-size: 0.9rem;
-  }
+`;
+export const FeedLikeBox = styled.div`
+  margin-left: auto;
   & svg {
     cursor: pointer;
     width: 1.3rem;
     path {
-      fill: ${({ isLike }) => {
-        return isLike ? "#0642ff" : "";
-      }};
+      fill: ${({ isLike }) => (isLike ? "#0642ff" : "")};
     }
+  }
+  & > p {
+    text-align: center;
+    color: ${({ isLike }) => (isLike ? "#0642ff" : "")};
   }
 `;
 export const FeedInfoData = styled.div`

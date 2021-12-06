@@ -16,6 +16,7 @@ export default function SearchBar({
   search,
 }) {
   const userSchoolId = useRecoilValue(userState).schoolId;
+
   return (
     <S.SearchBox>
       <p>참여하기</p>
@@ -23,6 +24,7 @@ export default function SearchBar({
       <div>
         <S.PlaceInput>
           <SchoolInput
+            defaultId={userSchoolId}
             onChange={(e) => {
               const copy = { ...school };
               copy.schoolId = e.id;

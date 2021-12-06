@@ -6,9 +6,8 @@ import { ReactComponent as PlaceIcon } from "../../../svg/위치.svg";
 
 import * as S from "./style";
 
-export default function SchoolInput({ onChange }) {
+export default function SchoolInput({ defaultId, onChange }) {
   const [text, setText] = useState("");
-  const [selectSchool, setSelectSchool] = useState();
   const [schoolList, setSchoolList] = useState([]);
   const [listView, setListView] = useState(false);
 
@@ -20,7 +19,6 @@ export default function SchoolInput({ onChange }) {
 
   const selectItem = (e, a) => {
     document.getElementsByClassName("schoolInput")[0].value = a.name;
-    setSelectSchool(a);
     onChange(a);
     setListView(false);
   };
@@ -42,7 +40,13 @@ export default function SchoolInput({ onChange }) {
             type="text"
             className="schoolInput"
             placeholder="위치"
-            defaultValue={selectSchool && selectSchool.name}
+            defaultValue={
+              schoolList.length !== 0
+                ? defaultId
+                  ? schoolList.find((a) => a.id === defaultId).name
+                  : null
+                : null
+            }
             onClick={() => setListView(true)}
             onChange={(e) => {
               setListView(true);

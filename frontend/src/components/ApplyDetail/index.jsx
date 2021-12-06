@@ -115,11 +115,15 @@ export default function ApplyDetailComponent({ feedId, date }) {
 
   return (
     <S.FeedContainer>
-      {viewNum && (
-        <S.ViewNum>
-          <p>이 페이지를 {num}명이 보고 있습니다.</p>
-        </S.ViewNum>
-      )}
+      <div>
+        {viewNum && (
+          <S.ViewNum>
+            <div>
+              이 페이지를 <span>{num}</span>명이 보고 있습니다.
+            </div>
+          </S.ViewNum>
+        )}
+      </div>
       {feedDetailData && (
         <TitleContiner
           title={feedDetailData.title}
@@ -134,7 +138,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
         />
       )}
       {feedDetailData && (
-        <div>
+        <S.UnderTitle>
           <FeedInfoContainer
             feedDetailData={feedDetailData}
             date={date}
@@ -159,7 +163,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
             <CompleteApplication user={user} setApplyAlert={setApplyAlert} />
           )}
           {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
-        </div>
+        </S.UnderTitle>
       )}
     </S.FeedContainer>
   );

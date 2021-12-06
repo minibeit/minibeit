@@ -1,24 +1,37 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
+const fadeOut = keyframes`
+from {
+ opacity:1;
+}
+to {
+  opacity:0;
+
+}
+`;
 export const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   margin: 1.5rem 12rem;
-  & > div:nth-child(2) {
-    position: relative;
-    display: flex;
-    left: 1rem;
-    padding: 1rem 0;
-    gap: 1rem;
+  & > div:first-child {
+    width: 100%;
+    height: 2rem;
+    margin: 0 auto;
   }
+`;
+export const UnderTitle = styled.div`
+  position: relative;
+  display: flex;
+  left: 1rem;
+  gap: 1rem;
 `;
 /* Title */
 export const TitleBox = styled.div`
   position: relative;
   display: flex;
   width: 100%;
-  padding: 1rem 0;
+  padding: 0 0 1rem;
   border-bottom: 1px solid #c4c4c4;
   left: 1rem;
 `;
@@ -433,7 +446,14 @@ export const Div = styled.div`
 `;
 
 export const ViewNum = styled.div`
-  width: 100%;
-  & > p {
+  animation: ${fadeOut} 5s ease-out;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+  & > div {
+    color: rgba(0, 0, 0, 0.7);
+    font-weight: 600;
+    & > span {
+      color: #0642ff;
+    }
   }
 `;

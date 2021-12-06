@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useEffect, useState } from "react";
 import Portal from "../Portal";
 import PropTypes from "prop-types";
 import CloseIcon from "@mui/icons-material/Close";
@@ -26,17 +26,14 @@ export default function CreateAuthModal({ setModalSwitch }) {
   };
   const closeModal = () => {
     setModalSwitch(false);
-    document.querySelector("body").removeAttribute("style");
   };
   const clickOutside = (e) => {
-    e.target===e.currentTarget && 
-    setModalSwitch(false); 
-    document.querySelector("body").removeAttribute("style");
+    e.target === e.currentTarget && setModalSwitch(false);
   };
 
   return (
     <Portal>
-      <S.ModalBackground onClick={(e)=>clickOutside(e)}>
+      <S.ModalBackground onClick={clickOutside}>
         <S.ModalBox>
           <S.ModalHeader>
             <S.CloseModalBtn>
@@ -60,15 +57,22 @@ export default function CreateAuthModal({ setModalSwitch }) {
             </S.FormContainer>
             <S.Formexplain>
               <p>
-                회원가입시 <span onClick={() => setConditionsAlert(1)}>개인정보 처리방침</span>과 
-                <span onClick={() => setConditionsAlert(2)}>이용약관</span>을 확인하였으며,
-                동의합니다.
+                회원가입시{" "}
+                <span onClick={() => setConditionsAlert(1)}>
+                  개인정보 처리방침
+                </span>
+                과<span onClick={() => setConditionsAlert(2)}>이용약관</span>을
+                확인하였으며, 동의합니다.
               </p>
             </S.Formexplain>
           </S.ModalContent>
         </S.ModalBox>
-        {conditionsAlert===1 && <PersonalInformation setConditionsAlert={setConditionsAlert}/>}
-        {conditionsAlert===2 && <Conditions setConditionsAlert={setConditionsAlert}/>}
+        {conditionsAlert === 1 && (
+          <PersonalInformation setConditionsAlert={setConditionsAlert} />
+        )}
+        {conditionsAlert === 2 && (
+          <Conditions setConditionsAlert={setConditionsAlert} />
+        )}
       </S.ModalBackground>
     </Portal>
   );

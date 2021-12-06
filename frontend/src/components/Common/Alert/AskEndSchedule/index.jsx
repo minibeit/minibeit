@@ -8,11 +8,9 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function AskEndSchedule({ setEndAlert, deleteFeed, data }) {
   const clickOutside = (e) => {
     e.target === e.currentTarget && setEndAlert(0);
-    document.querySelector("body").removeAttribute("style");
   };
   const clickBtn = () => {
     setEndAlert(0);
-    document.querySelector("body").removeAttribute("style");
   };
 
   return (

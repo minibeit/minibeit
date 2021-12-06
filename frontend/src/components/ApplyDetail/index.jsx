@@ -85,8 +85,6 @@ export default function ApplyDetailComponent({ feedId, date }) {
         .catch((err) => {
           alert("지원이 실패하였습니다");
           setApplyAlert(0);
-          document.querySelector("body").removeAttribute("style");
-
           //   신청한 실험일 때, 날짜를 고르지 않았을 때 에러 추가해야함
         });
     }

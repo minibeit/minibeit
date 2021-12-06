@@ -9,12 +9,10 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function NotEnoughWrite({ setAskComplete, movePage }) {
   const clickOutside = (e) => {
     e.target === e.currentTarget && setAskComplete(0);
-    document.querySelector("body").removeAttribute("style");
   };
   const clickBtn = () => {
     setAskComplete(0);
     movePage(4);
-    document.querySelector("body").removeAttribute("style");
   };
   return (
     <Portal>

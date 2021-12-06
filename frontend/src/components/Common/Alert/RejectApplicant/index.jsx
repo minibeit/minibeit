@@ -13,15 +13,12 @@ export default function RejectApplicant({
 }) {
   const clickOutside = (e) => {
     e.target === e.currentTarget && setRejectAlert(false);
-    document.querySelector("body").removeAttribute("style");
   };
   const closeBtn = () => {
     setRejectAlert(false);
-    document.querySelector("body").removeAttribute("style");
   };
   const rejectBtn = () => {
     rejectApply(rejectUserInfo.postDoDateId, rejectUserInfo.id, reason);
-    document.querySelector("body").removeAttribute("style");
   };
 
   return (

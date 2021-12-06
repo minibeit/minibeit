@@ -44,7 +44,6 @@ export default function BProfileEditCont({ infoData, setInfoEditModal }) {
     editBprofile(BProfileData)
       .then((res) => {
         setInfoEditModal(false);
-        document.querySelector("body").removeAttribute("style");
         history.push(`/business/${res.data.data.id}`);
         history.go(0);
       })
@@ -53,12 +52,10 @@ export default function BProfileEditCont({ infoData, setInfoEditModal }) {
 
   const clickOutside = (e) => {
     e.target === e.currentTarget && setInfoEditModal(false);
-    document.querySelector("body").removeAttribute("style");
   };
 
   const clickIcon = () => {
     setInfoEditModal(false);
-    document.querySelector("body").removeAttribute("style");
   };
 
   return (

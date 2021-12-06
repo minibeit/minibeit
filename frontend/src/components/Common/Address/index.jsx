@@ -22,15 +22,12 @@ export default function Address({ setModalSwitch, handleAddress }) {
 
     handleAddress(fullAddress);
     setModalSwitch(false);
-    document.querySelector("body").removeAttribute("style");
   };
   const clickOutside = (e) => {
     e.target === e.currentTarget && setModalSwitch(false);
-    document.querySelector("body").removeAttribute("style");
   };
   const closeModal = () => {
     setModalSwitch(false);
-    document.querySelector("body").removeAttribute("style");
   };
 
   return (

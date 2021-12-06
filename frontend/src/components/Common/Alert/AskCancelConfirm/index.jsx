@@ -11,16 +11,14 @@ export default function AskCancelConfirm({
 }) {
   const clickOutside = (e) => {
     e.target === e.currentTarget && setCancleAlert(false);
-    document.querySelector("body").removeAttribute("style");
   };
   const clickBtn = () => {
     setCancleAlert(false);
-    document.querySelector("body").removeAttribute("style");
   };
 
   return (
     <Portal>
-      <S.AlertBackground onClick={(e) => clickOutside(e)}>
+      <S.AlertBackground onClick={clickOutside}>
         <S.AlertBox>
           <S.AlertContent>
             <InfoIcon />
@@ -36,7 +34,6 @@ export default function AskCancelConfirm({
               <S.BlueButton
                 onClick={() => {
                   cancleApprove(cancleUserInfo.postDoDateId, cancleUserInfo.id);
-                  document.querySelector("body").removeAttribute("style");
                 }}
               >
                 네, 취소할래요

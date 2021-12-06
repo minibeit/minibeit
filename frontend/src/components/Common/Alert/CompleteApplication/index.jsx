@@ -8,7 +8,6 @@ import { useHistory } from "react-router";
 export default function CompleteApplication({ user, setApplyAlert }) {
   const clickOutside = (e) => {
     e.target === e.currentTarget && setApplyAlert(0);
-    document.querySelector("body").removeAttribute("style");
   };
   const history = useHistory();
 
@@ -27,7 +26,6 @@ export default function CompleteApplication({ user, setApplyAlert }) {
               <S.GrayButton
                 onClick={() => {
                   history.push("/");
-                  document.querySelector("body").removeAttribute("style");
                 }}
               >
                 홈으로 가기
@@ -35,7 +33,6 @@ export default function CompleteApplication({ user, setApplyAlert }) {
               <S.BlueButton
                 onClick={() => {
                   history.push("/profile/wait");
-                  document.querySelector("body").removeAttribute("style");
                 }}
               >
                 신청내역 확인하기

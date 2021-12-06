@@ -8,15 +8,12 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function DeliteBProfile({ a, setDeleteAlert, deleteBusiness }) {
   const clickOutside = (e) => {
     e.target === e.currentTarget && setDeleteAlert(0);
-    document.querySelector("body").removeAttribute("style");
   };
   const closeBtn = () => {
     setDeleteAlert(0);
-    document.querySelector("body").removeAttribute("style");
   };
   const deleteBtn = () => {
     deleteBusiness(a);
-    document.querySelector("body").removeAttribute("style");
   };
 
   return (

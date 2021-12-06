@@ -8,12 +8,10 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function EndSchedule({ setEndAlert, changeFeedData }) {
   const clickOutside = (e) => {
     e.target === e.currentTarget && setEndAlert(0);
-    document.querySelector("body").removeAttribute("style");
   };
   const clickBtn = () => {
     setEndAlert(0);
     changeFeedData("완료된 모집공고");
-    document.querySelector("body").removeAttribute("style");
   };
   return (
     <Portal>

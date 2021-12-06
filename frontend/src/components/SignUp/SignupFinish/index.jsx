@@ -14,7 +14,6 @@ export default function SignupFinish() {
 
   const goHome = () => {
     history.push("/");
-    document.querySelector("body").removeAttribute("style");
   };
 
   return (

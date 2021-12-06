@@ -84,12 +84,10 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
 
   const clickOutside = (e) => {
     e.target === e.currentTarget && setModalSwitch(false);
-    document.querySelector("body").removeAttribute("style");
   };
 
   const clickIcon = () => {
     setModalSwitch(false);
-    document.querySelector("body").removeAttribute("style");
   };
 
   useEffect(() => {

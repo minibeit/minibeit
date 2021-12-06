@@ -8,11 +8,9 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function Recruting({ setDeleteAlert }) {
   const clickOutside = (e) => {
     e.target === e.currentTarget && setDeleteAlert(0);
-    document.querySelector("body").removeAttribute("style");
   };
   const clickBtn = () => {
     setDeleteAlert(0);
-    document.querySelector("body").removeAttribute("style");
   };
   return (
     <Portal>

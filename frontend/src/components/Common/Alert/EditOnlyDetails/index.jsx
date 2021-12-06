@@ -8,12 +8,10 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function EditOnlyDetails({ setEditAlert, setEditSwitch }) {
   const clickOutside = (e) => {
     e.target === e.currentTarget && setEditAlert(false);
-    document.querySelector("body").removeAttribute("style");
   };
   const clickBtn = () => {
     setEditAlert(false);
     setEditSwitch(true);
-    document.querySelector("body").removeAttribute("style");
   };
 
   return (

@@ -37,7 +37,6 @@ export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
         })
         .catch((err) => {
           alert("종료할 수 없는 게시물 입니다");
-          document.querySelector("body").removeAttribute("style");
         });
     }
   };
@@ -59,11 +58,9 @@ export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
   };
   const clickOutside = (e) => {
     e.target === e.currentTarget && setCloseModal(0);
-    document.querySelector("body").removeAttribute("style");
   };
   const clickIcon = () => {
     setCloseModal(0);
-    document.querySelector("body").removeAttribute("style");
   };
 
   return (

@@ -46,7 +46,8 @@ export const AlertContent = styled.div`
   }
 
   & > div > div:nth-child(2) {
-    font-size: 3rem;
+    font-size: 1.5rem;
+    padding: 1rem 0;
     cursor: pointer;
   }
 

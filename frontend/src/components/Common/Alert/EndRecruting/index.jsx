@@ -7,12 +7,10 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function EndRecruting({ setCloseModal, changeFeedData }) {
   const clickOutside = (e) => {
     e.target === e.currentTarget && setCloseModal(0);
-    document.querySelector("body").removeAttribute("style");
   };
   const clickBtn = () => {
     setCloseModal(0);
     changeFeedData("생성한 모집공고");
-    document.querySelector("body").removeAttribute("style");
   };
 
   return (

@@ -72,7 +72,6 @@ export default function UserInfoEditModal({ infoData, setModalSwitch }) {
 
   const closeModal = () => {
     setModalSwitch(false);
-    document.querySelector("body").removeAttribute("style");
   };
 
   const checkingEmail = (email) => {
@@ -126,7 +125,6 @@ export default function UserInfoEditModal({ infoData, setModalSwitch }) {
           setUser(copy);
           alert("수정이 완료되었습니다!");
           setModalSwitch(false);
-          document.querySelector("body").removeAttribute("style");
           history.push("/profile/approve");
           history.go(0);
         })

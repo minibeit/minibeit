@@ -8,16 +8,13 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function DateChange({ setResetAlert, setResetAgree }) {
   const clickOutside = (e) => {
     e.target === e.currentTarget && setResetAlert(false);
-    document.querySelector("body").removeAttribute("style");
   };
   const closeBtn = () => {
     setResetAlert(false);
-    document.querySelector("body").removeAttribute("style");
   };
   const okBtn = () => {
     setResetAlert(false);
     setResetAgree(true);
-    document.querySelector("body").removeAttribute("style");
   };
   return (
     <Portal>

@@ -121,11 +121,9 @@ export default function BManageModal({ postId, setModalSwitch }) {
 
   const modalOff = () => {
     setModalSwitch(false);
-    document.querySelector("body").removeAttribute("style");
   };
   const clickOutside = (e) => {
     e.target === e.currentTarget && setModalSwitch(false);
-    document.querySelector("body").removeAttribute("style");
   };
 
   const rejectOn = (user, e) => {

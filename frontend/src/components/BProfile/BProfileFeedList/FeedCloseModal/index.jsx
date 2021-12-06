@@ -56,19 +56,15 @@ export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
       }
     }
   };
-  const clickOutside = (e) => {
-    e.target === e.currentTarget && setCloseModal(0);
-  };
-  const clickIcon = () => {
-    setCloseModal(0);
-  };
 
   return (
     <Portal>
-      <S.ModalBackground onClick={(e) => clickOutside(e)}>
+      <S.ModalBackground
+        onClick={(e) => e.target === e.currentTarget && setCloseModal(0)}
+      >
         <S.ModalBox>
           <div>
-            <CloseIcon onClick={clickIcon} />
+            <CloseIcon onClick={() => setCloseModal(0)} />
           </div>
           <S.ModalContent>
             <InfoIcon />

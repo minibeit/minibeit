@@ -5,12 +5,6 @@ import * as S from "./style";
 //신청을 완료할것인지 묻는 알림창
 
 export default function AskleteApplication({ setApplyAlert, apply, submit }) {
-  const clickOutside = (e) => {
-    e.target === e.currentTarget && setApplyAlert(0);
-  };
-  const clickBtn = () => {
-    setApplyAlert(0);
-  };
   const doMonth = apply.doDate.substring(5, 7);
   const doDay = apply.doDate.substring(8);
   const time = apply.doTime.substring(0, 2);
@@ -18,7 +12,9 @@ export default function AskleteApplication({ setApplyAlert, apply, submit }) {
 
   return (
     <Portal>
-      <S.AlertBackground onClick={(e) => clickOutside(e)}>
+      <S.AlertBackground
+        onClick={(e) => e.target === e.currentTarget && setApplyAlert(0)}
+      >
         <S.AlertBox>
           <S.AlertContent>
             <p>
@@ -30,7 +26,9 @@ export default function AskleteApplication({ setApplyAlert, apply, submit }) {
             </p>
             <p>날짜, 시간, 장소를 꼭 확인해주세요.</p>
             <div>
-              <S.GrayButton onClick={clickBtn}>아니오</S.GrayButton>
+              <S.GrayButton onClick={() => setApplyAlert(0)}>
+                아니오
+              </S.GrayButton>
               <S.BlueButton onClick={() => submit(apply.postDoDateId)}>
                 신청
               </S.BlueButton>

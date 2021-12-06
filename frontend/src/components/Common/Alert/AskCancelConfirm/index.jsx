@@ -9,16 +9,11 @@ export default function AskCancelConfirm({
   setCancleAlert,
   cancleUserInfo,
 }) {
-  const clickOutside = (e) => {
-    e.target === e.currentTarget && setCancleAlert(false);
-  };
-  const clickBtn = () => {
-    setCancleAlert(false);
-  };
-
   return (
     <Portal>
-      <S.AlertBackground onClick={clickOutside}>
+      <S.AlertBackground
+        onClick={(e) => e.target === e.currentTarget && setCancleAlert(false)}
+      >
         <S.AlertBox>
           <S.AlertContent>
             <InfoIcon />
@@ -30,7 +25,9 @@ export default function AskCancelConfirm({
               <span>꼭! 개별 연락을 통해 일정 종료를 알려주시길 바라요.</span>
             </p>
             <div>
-              <S.GrayButton onClick={clickBtn}>아니오, 관둘래요</S.GrayButton>
+              <S.GrayButton onClick={() => setCancleAlert(false)}>
+                아니오, 관둘래요
+              </S.GrayButton>
               <S.BlueButton
                 onClick={() => {
                   cancleApprove(cancleUserInfo.postDoDateId, cancleUserInfo.id);

@@ -5,23 +5,18 @@ import * as S from "./style";
 // 개인정보법 동의 알림창...
 
 export default function PersonalInformation({ setConditionsAlert }) {
-  const clickOutside = (e) => {
-    e.target === e.currentTarget && setConditionsAlert(0);
-  };
-  const clickBtn = () => {
-    setConditionsAlert(0);
-  };
   return (
     <Portal>
-      <S.AlertBackground onClick={(e) => clickOutside(e)}>
+      <S.AlertBackground
+        onClick={(e) => e.target === e.currentTarget && setConditionsAlert(0)}
+      >
         <S.AlertBox>
           <S.AlertContent>
             <div>
               <p>개인정보 보호법 및 시행령</p>
-              <div onClick={clickBtn}>×</div>
+              <div onClick={() => setConditionsAlert(0)}>×</div>
             </div>
             <p>
-              {" "}
               &lt; CLMOI &gt;
               ('[www.minibeit.com](http://www.minibeit.com/)'이하
               'minibeit')은(는)

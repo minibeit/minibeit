@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Portal from "../Portal";
 import PropTypes from "prop-types";
 import CloseIcon from "@mui/icons-material/Close";

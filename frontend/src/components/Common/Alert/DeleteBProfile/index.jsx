@@ -6,19 +6,11 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 // 비즈니스 프로필 삭제 확인
 
 export default function DeliteBProfile({ a, setDeleteAlert, deleteBusiness }) {
-  const clickOutside = (e) => {
-    e.target === e.currentTarget && setDeleteAlert(0);
-  };
-  const closeBtn = () => {
-    setDeleteAlert(0);
-  };
-  const deleteBtn = () => {
-    deleteBusiness(a);
-  };
-
   return (
     <Portal>
-      <S.AlertBackground onClick={(e) => clickOutside(e)}>
+      <S.AlertBackground
+        onClick={(e) => e.target === e.currentTarget && setDeleteAlert(0)}
+      >
         <S.AlertBox>
           <S.AlertContent>
             <InfoIcon />
@@ -30,8 +22,12 @@ export default function DeliteBProfile({ a, setDeleteAlert, deleteBusiness }) {
               게시글을 통해서 모집을 할 수 없어요.
             </p>
             <div>
-              <S.GrayButton onClick={closeBtn}>아니오, 관둘래요</S.GrayButton>
-              <S.BlueButton onClick={deleteBtn}>네, 삭제할래요</S.BlueButton>
+              <S.GrayButton onClick={() => setDeleteAlert(0)}>
+                아니오, 관둘래요
+              </S.GrayButton>
+              <S.BlueButton onClick={() => deleteBusiness(a)}>
+                네, 삭제할래요
+              </S.BlueButton>
             </div>
           </S.AlertContent>
         </S.AlertBox>

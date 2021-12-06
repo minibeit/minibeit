@@ -7,22 +7,24 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 // 제목말고 다른 칸이 비었다고도 알려주게 될 수 있을것같아서 파일 이름에 제목을 넣지 않았음
 
 export default function NotEnoughWrite({ setAskComplete, movePage }) {
-  const clickOutside = (e) => {
-    e.target === e.currentTarget && setAskComplete(0);
-  };
-  const clickBtn = () => {
-    setAskComplete(0);
-    movePage(4);
-  };
   return (
     <Portal>
-      <S.AlertBackground onClick={(e) => clickOutside(e)}>
+      <S.AlertBackground
+        onClick={(e) => e.target === e.currentTarget && setAskComplete(0)}
+      >
         <S.AlertBox>
           <S.AlertContent>
             <InfoIcon />
             <p>제목을 작성하지 않으셨습니다.</p>
             <p>제목을 작성해주세요.</p>
-            <S.BlueButton onClick={clickBtn}>네, 알겠어요.</S.BlueButton>
+            <S.BlueButton
+              onClick={() => {
+                setAskComplete(0);
+                movePage(4);
+              }}
+            >
+              네, 알겠어요.
+            </S.BlueButton>
           </S.AlertContent>
         </S.AlertBox>
       </S.AlertBackground>

@@ -344,6 +344,18 @@ export const Controller = styled.div`
     text-align: center;
     font-weight: bold;
   }
+  & > div:nth-child(3) {
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    & > div > span {
+      margin-right: 0.4rem;
+      font-weight: 600;
+    }
+  }
 `;
 export const ApplyData = styled.div`
   border: 1px solid #c4c4c4;

@@ -40,7 +40,7 @@ export default function BProfileInfo({ businessId }) {
             </div>
             <div>
               <span>주소</span>
-              <span>{bProfileInfo.place}</span>
+              <span>{bProfileInfo.place && "등록완료"}</span>
             </div>
             <div>
               <span>소속인원</span>

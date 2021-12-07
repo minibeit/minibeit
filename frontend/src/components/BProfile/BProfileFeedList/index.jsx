@@ -70,13 +70,10 @@ export default function BProfileInfo({ businessId }) {
       <S.FeedGroup>
         {feedData.length === 0 ? (
           <S.NoneDiv>
-            <p>
-              아직 {feedSwitch}가 없네요.
-              {feedSwitch !== "생성한 모집공고" && (
-                <p>먼저 모집공고를 올려보세요.</p>
-              )}
-            </p>
-
+            <p>아직 {feedSwitch}가 없네요.</p>
+            {feedSwitch !== "생성한 모집공고" && (
+              <p>먼저 모집공고를 올려보세요.</p>
+            )}
             <button onClick={() => history.push("/recruit")}>
               모집공고 게시하기
             </button>

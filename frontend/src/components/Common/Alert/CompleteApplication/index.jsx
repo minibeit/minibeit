@@ -34,7 +34,7 @@ export default function CompleteApplication({ user, setApplyAlert }) {
               </S.GrayButton>
               <S.BlueButton
                 onClick={() => {
-                  history.push("/profile/wait");
+                  history.push("/profile?wait");
                   document.querySelector("body").removeAttribute("style");
                 }}
               >

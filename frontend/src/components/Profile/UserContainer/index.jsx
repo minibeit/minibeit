@@ -31,6 +31,14 @@ export default function UserContainer({ view }) {
     { id: "like", value: "즐겨찾기 목록" },
   ];
 
+  const getUserData = () => {
+    getMyInfo()
+      .then((res) => {
+        setUserData(res.data.data);
+      })
+      .catch();
+  };
+
   const changeFeedData = useCallback(
     (page) => {
       switch (view) {
@@ -71,9 +79,7 @@ export default function UserContainer({ view }) {
   );
 
   useEffect(() => {
-    getMyInfo().then((res) => {
-      setUserData(res.data.data);
-    });
+    getUserData();
   }, []);
 
   useEffect(() => {
@@ -120,6 +126,7 @@ export default function UserContainer({ view }) {
             {modalSwitch && (
               <UserInfoEditModal
                 infoData={userData}
+                getUserData={getUserData}
                 setModalSwitch={setModalSwitch}
               />
             )}
@@ -135,7 +142,7 @@ export default function UserContainer({ view }) {
                 onClick={() => {
                   setPage(1);
                   setFeedSwitch(a.value);
-                  history.push(`/profile/${a.id}`);
+                  history.push(`/profile?${a.id}`);
                 }}
                 disabled={a.id === view ? true : false}
               >

@@ -68,6 +68,7 @@ export const UserInfoContainer = styled.div`
 `;
 export const UserInfoData = styled.div`
   display: flex;
+  width: -webkit-fill-available;
   background: #f1f1f1;
   flex-direction: column;
   gap: 0.7rem;
@@ -155,7 +156,6 @@ export const NoneDiv = styled.div`
   }
   & > p {
     color: #acacac;
-    line-height: 1.2rem;
   }
 `;
 export const FeedGroup = styled.div`

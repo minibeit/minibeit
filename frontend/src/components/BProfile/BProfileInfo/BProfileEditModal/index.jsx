@@ -6,10 +6,12 @@ import { editBprofile } from "../../../../utils/bprofileApi";
 import Presenter from "./presenter";
 
 import * as S from "./style";
-import { useHistory } from "react-router";
 
-export default function BProfileEditCont({ infoData, setInfoEditModal }) {
-  const history = useHistory();
+export default function BProfileEditCont({
+  infoData,
+  getBusiness,
+  setInfoEditModal,
+}) {
   const [BProfileData, setBProfileData] = useState(infoData);
   const [admodalSwitch, setadModalSwitch] = useState(false);
 
@@ -43,10 +45,10 @@ export default function BProfileEditCont({ infoData, setInfoEditModal }) {
   const submitEditBusiness = (BProfileData) => {
     editBprofile(BProfileData)
       .then((res) => {
+        alert("수정되었습니다");
         setInfoEditModal(false);
         document.querySelector("body").removeAttribute("style");
-        history.push(`/business/${res.data.data.id}`);
-        history.go(0);
+        getBusiness();
       })
       .catch((err) => alert("수정 내용을 다시 한번 확인해주세요"));
   };

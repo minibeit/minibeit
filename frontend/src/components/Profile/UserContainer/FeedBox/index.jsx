@@ -36,15 +36,10 @@ export default function FeedBox({ status, data, changeFeedData }) {
   };
 
   const doComplete = (id) => {
-    let value = window.confirm("실험 참여를 완료 처리하시겠습니까?");
-    if (value) {
-      doJoinApi(id)
-        .then(() => {
-          alert("참여가 완료 되었습니다");
-          changeFeedData();
-        })
-        .catch((err) => alert("완료할 수 없는 실험입니다."));
-    }
+    doJoinApi(id)
+      .then(() => setReviewModal(true))
+      .then(() => changeFeedData())
+      .catch((err) => alert("완료할 수 없는 실험입니다."));
   };
 
   return (
@@ -78,7 +73,12 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <button onClick={() => doComplete(data.postDoDateId)}>
+                <button
+                  disabled={
+                    new Date() < new Date(`${data.doDate}T${data.endTime}`)
+                  }
+                  onClick={() => doComplete(data.postDoDateId)}
+                >
                   참여 완료
                 </button>
                 <button onClick={() => doNotJoin(data.postDoDateId)}>
@@ -122,13 +122,6 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 >
                   후기 작성
                 </button>
-                {reviewModal && (
-                  <CreateReviewModal
-                    data={data}
-                    changeFeedData={changeFeedData}
-                    setModalSwitch={setReviewModal}
-                  />
-                )}
               </S.FeedButton>
             </>
           )}
@@ -165,6 +158,13 @@ export default function FeedBox({ status, data, changeFeedData }) {
           )}
         </S.FeedContentBox>
       </S.FeedBox>
+      {reviewModal && (
+        <CreateReviewModal
+          data={data}
+          changeFeedData={changeFeedData}
+          setModalSwitch={setReviewModal}
+        />
+      )}
     </>
   );
 }

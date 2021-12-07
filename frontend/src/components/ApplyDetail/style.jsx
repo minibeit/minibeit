@@ -166,6 +166,11 @@ export const DataContent = styled.div`
   min-height: 8rem;
   padding: 1rem 0;
 `;
+export const AddressBox = styled.div`
+  color: #0642ff;
+  text-decoration: underline;
+  cursor: pointer;
+`;
 export const DataContent2 = styled(DataContent)`
   margin-bottom: 2rem;
   & > div:nth-child(2) {

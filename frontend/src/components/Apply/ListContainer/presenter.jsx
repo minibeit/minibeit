@@ -7,16 +7,14 @@ import * as S from "../style";
 export default function Presenter({
   feedList,
   goToDetailPage,
-  user,
   clickBookmark,
-  goLogin,
   modalSwitch,
   setModalSwitch,
 }) {
   return (
     <S.ListContainer>
       {feedList.length !== 0 ? (
-        feedList.map((a, i) => {
+        feedList.map((a) => {
           return (
             <S.FeedBox key={a.id}>
               <S.FeedHeader isLike={a.isLike}>
@@ -26,14 +24,10 @@ export default function Presenter({
                   </p>
                   <p>{a.businessProfileName}</p>
                 </div>
-                <div>
-                  {user.isLogin ? (
-                    <Star id={a.id} onClick={(e) => clickBookmark(e, a)} />
-                  ) : (
-                    <Star onClick={goLogin} />
-                  )}
+                <S.FeedLikeBox isLike={a.isLike}>
+                  <Star onClick={() => clickBookmark(a)} />
                   <p>{a.likes}</p>
-                </div>
+                </S.FeedLikeBox>
               </S.FeedHeader>
               <S.FeedInfoData>
                 <p>소요시간: {a.doTime}분</p>

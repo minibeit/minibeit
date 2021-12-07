@@ -10,33 +10,33 @@ import Presenter from "./presenter";
 
 export default function ListContainer({ feedList, postBookmark, setFeedList }) {
   const date = useRecoilValue(dateState).date;
-  const user = useRecoilValue(userState);
+  const isLogin = useRecoilValue(userState).isLogin;
   const history = useHistory();
   const [modalSwitch, setModalSwitch] = useState(false);
-
-  const goLogin = () => {
-    let value = window.confirm("이용하려면 로그인 먼저 해주세요!");
-    if (value) {
-      setModalSwitch(true);
-    }
-  };
 
   const goToDetailPage = (e) => {
     history.push(`/apply/${e.target.id}?${moment(date).format("YYYY-MM-DD")}`);
   };
 
-  const clickBookmark = (e, a) => {
-    postBookmark(e.target.id);
-    var Data = [...feedList];
-    var likeData = Data[feedList.findIndex((i) => i.id === a.id)];
-    if (a.isLike) {
-      likeData.likes = likeData.likes - 1;
-      likeData.isLike = !likeData.isLike;
-      setFeedList(Data);
+  const clickBookmark = (a) => {
+    if (isLogin) {
+      postBookmark(a.id);
+      var Data = [...feedList];
+      var likeData = Data[feedList.findIndex((i) => i.id === a.id)];
+      if (a.isLike) {
+        likeData.likes = likeData.likes - 1;
+        likeData.isLike = !likeData.isLike;
+        setFeedList(Data);
+      } else {
+        likeData.likes = likeData.likes + 1;
+        likeData.isLike = !likeData.isLike;
+        setFeedList(Data);
+      }
     } else {
-      likeData.likes = likeData.likes + 1;
-      likeData.isLike = !likeData.isLike;
-      setFeedList(Data);
+      let value = window.confirm("이용하려면 로그인 먼저 해주세요!");
+      if (value) {
+        setModalSwitch(true);
+      }
     }
   };
 
@@ -44,11 +44,9 @@ export default function ListContainer({ feedList, postBookmark, setFeedList }) {
     <Presenter
       feedList={feedList}
       goToDetailPage={goToDetailPage}
-      user={user}
       clickBookmark={clickBookmark}
       modalSwitch={modalSwitch}
       setModalSwitch={setModalSwitch}
-      goLogin={goLogin}
     />
   );
 }

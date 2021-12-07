@@ -28,14 +28,16 @@ export default function FilterLabel({
   };
   return (
     <S.FilterLabelBox>
-      <p>선택한 필터 : </p>
       {filter.paymentType !== "" && (
-        <S.FilterLabel>
-          <p>보상방식 : {filter.paymentType === "CACHE" ? "현금" : "물품"}</p>
-          <button onClick={() => closeLabel("paymentType")}>
-            <CloseIcon />
-          </button>
-        </S.FilterLabel>
+        <>
+          <p>선택한 필터 : </p>
+          <S.FilterLabel>
+            <p>보상방식 : {filter.paymentType === "CACHE" ? "현금" : "물품"}</p>
+            <button onClick={() => closeLabel("paymentType")}>
+              <CloseIcon />
+            </button>
+          </S.FilterLabel>
+        </>
       )}
       {filter.minPay !== "" && (
         <S.FilterLabel>

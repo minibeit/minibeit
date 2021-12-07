@@ -25,7 +25,8 @@ export default function Presenter({
   editSubmit,
   feedDetailData,
   files,
-  place,
+  address,
+  addressDetail,
   contact,
   businessProfileInfo,
   currentImg,
@@ -179,7 +180,16 @@ export default function Presenter({
         <S.DataContent>
           <ul>
             <li>
-              <span>주소</span> <div>{place}</div>
+              <span>주소</span>{" "}
+              <S.AddressBox
+                onClick={() => {
+                  window.open(`https://map.naver.com/v5/search/${address}`);
+                }}
+              >
+                {addressDetail
+                  ? `${address} + " " + ${addressDetail}`
+                  : `${address}`}
+              </S.AddressBox>
             </li>
             <li>
               <span>연락처</span> {contact}

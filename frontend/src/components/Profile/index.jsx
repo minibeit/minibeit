@@ -12,13 +12,13 @@ export default function ProfileComponent({ view }) {
     <S.ProfilePage>
       <div>
         <S.ModeSelectBtn
-          onClick={() => history.push("/profile/approve")}
+          onClick={() => history.push("/profile?approve")}
           disabled={view !== "business" ? true : false}
         >
           개인 프로필
         </S.ModeSelectBtn>
         <S.ModeSelectBtn
-          onClick={() => history.push("/profile/business")}
+          onClick={() => history.push("/profile?business")}
           disabled={view === "business" ? true : false}
         >
           비즈니스 프로필

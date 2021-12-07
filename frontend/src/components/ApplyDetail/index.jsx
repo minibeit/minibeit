@@ -52,19 +52,23 @@ export default function ApplyDetailComponent({ feedId, date }) {
   };
 
   const clickBookmark = (e) => {
-    postBookmark(e.target.id);
-    if (feedDetailData.isLike) {
-      setFeedDetailData({
-        ...feedDetailData,
-        isLike: false,
-        likes: feedDetailData.likes - 1,
-      });
+    if (user.isLogin) {
+      postBookmark(e.target.id);
+      if (feedDetailData.isLike) {
+        setFeedDetailData({
+          ...feedDetailData,
+          isLike: false,
+          likes: feedDetailData.likes - 1,
+        });
+      } else {
+        setFeedDetailData({
+          ...feedDetailData,
+          isLike: true,
+          likes: feedDetailData.likes + 1,
+        });
+      }
     } else {
-      setFeedDetailData({
-        ...feedDetailData,
-        isLike: true,
-        likes: feedDetailData.likes + 1,
-      });
+      likeToLogIn();
     }
   };
 

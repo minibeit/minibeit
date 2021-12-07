@@ -19,6 +19,7 @@ import { ReactComponent as ArrowIcon } from "../../../svg/체크.svg";
 import NextIcon from "@mui/icons-material/ArrowForwardIos";
 
 import * as S from "../style";
+import "./date-picker.css";
 
 export default function DataSelect({ recruit, setRecruit, movePage }) {
   const [viewTimeSelect, setViewTimeSelect] = useState(true);

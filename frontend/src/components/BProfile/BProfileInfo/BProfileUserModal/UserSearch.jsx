@@ -2,21 +2,23 @@ import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { getSearchUser } from "../../../../utils";
 
-export default function SchoolSelect({ onChange, defaultValue }) {
+export default function UserSearch({ onChange, defaultValue }) {
   const [users, setUsers] = useState([]);
   const getUser = (input) => {
-    getSearchUser(input)
-      .then((res) => {
-        const arr = [];
-        for (var i = 0; i < res.data.data.length; i++) {
-          arr.push({
-            label: res.data.data[i].nickname,
-            value: res.data.data[i].id,
-          });
-        }
-        setUsers(arr);
-      })
-      .catch((err) => alert("유저를 불러오지 못했습니다"));
+    if (input !== "") {
+      getSearchUser(input)
+        .then((res) => {
+          const arr = [];
+          for (var i = 0; i < res.data.data.length; i++) {
+            arr.push({
+              label: res.data.data[i].nickname,
+              value: res.data.data[i].id,
+            });
+          }
+          setUsers(arr);
+        })
+        .catch((err) => alert("유저를 불러오지 못했습니다"));
+    }
   };
 
   const customStyles = {
@@ -56,7 +58,7 @@ export default function SchoolSelect({ onChange, defaultValue }) {
   };
 
   useEffect(() => {
-    getUser("");
+    getUser();
   }, []);
 
   return (

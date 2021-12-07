@@ -71,11 +71,12 @@ export const UserInfoContainer = styled.div`
 `;
 export const UserInfoData = styled.div`
   display: flex;
+  width: -webkit-fill-available;
   background: #f1f1f1;
   flex-direction: column;
   gap: 0.7rem;
   border-radius: 1rem;
-  padding: 1.5rem 2rem;
+  padding: 1.5rem;
   margin-top: 1rem;
   & > div {
     font-size: 0.8rem;

@@ -25,6 +25,10 @@ export const UnderTitle = styled.div`
   display: flex;
   left: 1rem;
   gap: 1rem;
+  & > div:nth-child(2) {
+    width: 25%;
+    position: relative;
+  }
 `;
 /* Title */
 export const TitleBox = styled.div`
@@ -324,16 +328,57 @@ export const ReviewCount = styled.div`
 
 /* apply remote controller */
 export const RemoteBox = styled.div`
-  position: relative;
-  width: 25%;
+  position: sticky;
+  top: 4rem;
+  /* width: 25%; */
   right: 0;
+`;
+
+export const ShareContainer = styled.div`
+  background-color: #f1f1f1;
+  position: sticky;
+  top: 23.15rem;
+  z-index: 99;
+  width: 100%;
+  height: 10rem;
+  border-radius: 2em;
+  display: flex;
+  justify-content: center;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    & > p:first-child {
+      font-size: 1em;
+    }
+    & > input:nth-child(2) {
+      font-size: 0.9em;
+      border: 1px solid #000;
+      background-color: #fff;
+      line-height: 1.5em;
+      max-height: 5rem;
+      width: 80%;
+      overflow: auto;
+    }
+    & > button {
+      border: none;
+      background-color: #c2c2c2;
+      border-radius: 1em;
+      padding: 0.2rem 0.4rem;
+      :hover {
+        background-color: #0642ff;
+        color: #fff;
+      }
+    }
+  }
 `;
 export const Controller = styled.div`
   display: flex;
   gap: 1rem;
   flex-direction: column;
   padding: 1rem;
-  position: sticky;
   height: 17rem;
   margin-top: 4.3rem;
   top: 4rem;
@@ -396,6 +441,10 @@ export const ApplyBtnGroup = styled.div`
   & > button:nth-child(2) {
     background: #f1f1f1;
     color: #c4c4c4;
+    :hover {
+      background: #0642ff;
+      color: #fff;
+    }
   }
 `;
 

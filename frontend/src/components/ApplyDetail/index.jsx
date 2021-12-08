@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import {
   applyApi,
@@ -27,6 +27,7 @@ ApplyDetailComponent.propTypes = {
 
 export default function ApplyDetailComponent({ feedId, date }) {
   const [feedDetailData, setFeedDetailData] = useState();
+  const [share, setShare] = useState(false);
   const [viewNum, setViewNum] = useState(true);
   const user = useRecoilValue(userState);
   const apply = useRecoilValue(applyState);
@@ -106,6 +107,13 @@ export default function ApplyDetailComponent({ feedId, date }) {
   };
 
   const num = Math.floor(Math.random() * 10);
+  const textInput = useRef();
+  const copy = () => {
+    const el = textInput.current;
+    el.select();
+    document.execCommand("copy");
+    window.alert("복사되었습니다! 원하는곳에서 붙여넣기 해주세요!");
+  };
 
   useEffect(() => {
     getFeedDetail(feedId);
@@ -146,12 +154,28 @@ export default function ApplyDetailComponent({ feedId, date }) {
             sliderSwitch={sliderSwitch}
             setSliderSwitch={setSliderSwitch}
           />
-          <ApplyController
-            apply={apply}
-            feedDetailData={feedDetailData}
-            checkLogin={checkLogin}
-          />
-
+          <div>
+            <ApplyController
+              apply={apply}
+              feedDetailData={feedDetailData}
+              checkLogin={checkLogin}
+              setShare={setShare}
+              share={share}
+            />
+            {share && (
+              <S.ShareContainer>
+                <div>
+                  <p>주소를 공유해보세요!</p>
+                  <input
+                    readOnly
+                    defaultValue={window.location.href}
+                    ref={textInput}
+                  />
+                  <button onClick={copy}>복사하기</button>
+                </div>
+              </S.ShareContainer>
+            )}
+          </div>
           {applyAlert === 1 && (
             <AskCompleteApplication
               apply={apply}

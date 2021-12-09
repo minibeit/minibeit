@@ -13,12 +13,7 @@ export const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 1.5rem 12rem;
-  & > div:first-child {
-    width: 100%;
-    height: 2rem;
-    margin: 0 auto;
-  }
+  margin: 1.5rem 10rem;
 `;
 export const UnderTitle = styled.div`
   position: relative;
@@ -26,8 +21,10 @@ export const UnderTitle = styled.div`
   left: 1rem;
   gap: 1rem;
   & > div:nth-child(2) {
-    width: 25%;
-    position: relative;
+    display: flex;
+    left: 1rem;
+    padding: 1rem 0;
+    gap: 1rem;
   }
 `;
 /* Title */
@@ -35,7 +32,7 @@ export const TitleBox = styled.div`
   position: relative;
   display: flex;
   width: 100%;
-  padding: 0 0 1rem;
+  padding: 1rem 0;
   border-bottom: 1px solid #c4c4c4;
   left: 1rem;
 `;
@@ -328,59 +325,19 @@ export const ReviewCount = styled.div`
 
 /* apply remote controller */
 export const RemoteBox = styled.div`
-  position: sticky;
-  top: 4rem;
-  /* width: 25%; */
+  position: relative;
+  width: 25%;
   right: 0;
 `;
 
-export const ShareContainer = styled.div`
-  background-color: #f1f1f1;
-  position: sticky;
-  top: 23.15rem;
-  z-index: 99;
-  width: 100%;
-  height: 10rem;
-  border-radius: 2em;
-  display: flex;
-  justify-content: center;
-  & > div {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1em;
-    & > p:first-child {
-      font-size: 1em;
-    }
-    & > input:nth-child(2) {
-      font-size: 0.9em;
-      border: 1px solid #000;
-      background-color: #fff;
-      line-height: 1.5em;
-      max-height: 5rem;
-      width: 80%;
-      overflow: auto;
-    }
-    & > button {
-      border: none;
-      background-color: #c2c2c2;
-      border-radius: 1em;
-      padding: 0.2rem 0.4rem;
-      :hover {
-        background-color: #0642ff;
-        color: #fff;
-      }
-    }
-  }
-`;
 export const Controller = styled.div`
   display: flex;
   gap: 1rem;
   flex-direction: column;
   padding: 1rem;
-  height: 17rem;
-  margin-top: 4.3rem;
+  position: sticky;
+  height: 19rem;
+  margin-top: 3.3rem;
   top: 4rem;
   border: 1px solid #c4c4c4;
   border-radius: 1.25rem;
@@ -508,13 +465,11 @@ export const Div = styled.div`
 
 export const ViewNum = styled.div`
   animation: ${fadeOut} 5s ease-out;
-  margin-bottom: 1rem;
-  margin-left: 1rem;
-  & > div {
-    color: rgba(0, 0, 0, 0.7);
+  font-size: 0.8rem;
+  padding: 0.5rem;
+  background-color: #e0e8ff;
+  border-radius: 0.6rem;
+  & > span {
     font-weight: 600;
-    & > span {
-      color: #0642ff;
-    }
   }
 `;

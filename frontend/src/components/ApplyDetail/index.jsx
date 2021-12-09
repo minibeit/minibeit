@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
   applyApi,
@@ -27,8 +27,6 @@ ApplyDetailComponent.propTypes = {
 
 export default function ApplyDetailComponent({ feedId, date }) {
   const [feedDetailData, setFeedDetailData] = useState();
-  const [share, setShare] = useState(false);
-  const [viewNum, setViewNum] = useState(true);
   const user = useRecoilValue(userState);
   const apply = useRecoilValue(applyState);
   const history = useHistory();
@@ -106,32 +104,13 @@ export default function ApplyDetailComponent({ feedId, date }) {
     }
   };
 
-  const num = Math.floor(Math.random() * 10);
-  const textInput = useRef();
-  const copy = () => {
-    const el = textInput.current;
-    el.select();
-    document.execCommand("copy");
-    window.alert("복사되었습니다! 원하는곳에서 붙여넣기 해주세요!");
-  };
-
   useEffect(() => {
     getFeedDetail(feedId);
     resetApply();
-    setTimeout(() => setViewNum(false), 5000);
   }, [feedId, getFeedDetail, resetApply]);
 
   return (
     <S.FeedContainer>
-      <div>
-        {viewNum && (
-          <S.ViewNum>
-            <div>
-              이 페이지를 <span>{num}</span>명이 보고 있습니다.
-            </div>
-          </S.ViewNum>
-        )}
-      </div>
       {feedDetailData && (
         <TitleContiner
           title={feedDetailData.title}
@@ -154,28 +133,11 @@ export default function ApplyDetailComponent({ feedId, date }) {
             sliderSwitch={sliderSwitch}
             setSliderSwitch={setSliderSwitch}
           />
-          <div>
-            <ApplyController
-              apply={apply}
-              feedDetailData={feedDetailData}
-              checkLogin={checkLogin}
-              setShare={setShare}
-              share={share}
-            />
-            {share && (
-              <S.ShareContainer>
-                <div>
-                  <p>주소를 공유해보세요!</p>
-                  <input
-                    readOnly
-                    defaultValue={window.location.href}
-                    ref={textInput}
-                  />
-                  <button onClick={copy}>복사하기</button>
-                </div>
-              </S.ShareContainer>
-            )}
-          </div>
+          <ApplyController
+            apply={apply}
+            feedDetailData={feedDetailData}
+            checkLogin={checkLogin}
+          />
           {applyAlert === 1 && (
             <AskCompleteApplication
               apply={apply}

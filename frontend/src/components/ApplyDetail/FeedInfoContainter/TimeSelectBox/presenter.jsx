@@ -3,6 +3,7 @@ import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 import * as S from "../../style";
+import moment from "moment";
 
 export default function Presenter({
   moveDate,
@@ -11,17 +12,9 @@ export default function Presenter({
   selectDate,
   apply,
 }) {
-  const today = new Date();
-  const year = today.getFullYear();
-  const month = today.getMonth() + 1;
-  const day = today.getDate();
-  const date = day >= 10 ? day : "0" + day;
-  const hour = today.getHours();
-  const hours = hour >= 10 ? hour : "0" + hour;
-  const min = today.getMinutes();
-  const minutes = min >= 10 ? min : "0" + min;
-  const nowDay = `${year}-${month}-${date}`;
-  const nowTime = `${hours}:${minutes}`;
+  const nowDay = moment().format("YYYY-MM-DD");
+  const nowTime = moment().format("HH:mm:ss");
+
   return (
     <div>
       <S.TimeSelectBox>

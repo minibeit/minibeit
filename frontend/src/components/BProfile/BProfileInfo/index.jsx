@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { getBprofileInfo } from "../../../utils";
 import { PVImg } from "../../Common";
 
@@ -12,11 +12,15 @@ export default function BProfileInfo({ businessId }) {
   const [infoEditModal, setInfoEditModal] = useState(false);
   const [userListModal, setUserListModal] = useState(false);
 
-  useEffect(() => {
+  const getBusiness = useCallback(() => {
     getBprofileInfo(businessId).then((res) => {
       setBProfileInfo(res.data.data);
     });
   }, [businessId]);
+
+  useEffect(() => {
+    getBusiness();
+  }, [getBusiness]);
 
   return (
     <S.UserInfoContainer>
@@ -40,7 +44,7 @@ export default function BProfileInfo({ businessId }) {
             </div>
             <div>
               <span>주소</span>
-              <span>{bProfileInfo.place}</span>
+              <span>{bProfileInfo.place && "등록완료"}</span>
             </div>
             <div>
               <span>소속인원</span>
@@ -62,8 +66,8 @@ export default function BProfileInfo({ businessId }) {
           )}
           {infoEditModal && (
             <BProfileEditModal
-              businessId={businessId}
               infoData={bProfileInfo}
+              getBusiness={getBusiness}
               setInfoEditModal={setInfoEditModal}
             />
           )}

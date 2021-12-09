@@ -30,7 +30,7 @@ export default function CompleteApplication({ user, setApplyAlert }) {
               </S.GrayButton>
               <S.BlueButton
                 onClick={() => {
-                  history.push("/profile/wait");
+                  history.push("/profile?wait");
                 }}
               >
                 신청내역 확인하기

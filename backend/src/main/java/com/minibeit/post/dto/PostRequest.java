@@ -23,6 +23,7 @@ public class PostRequest {
         private String content;
         @NotBlank(message = "실험 장소가 공백일 수 없습니다.")
         private String place;
+        private String placeDetail;
         @NotBlank(message = "연락처가 공백일 수 없습니다.")
         private String contact;
         @NotBlank(message = "실험 분류가 공백일 수 없습니다.")

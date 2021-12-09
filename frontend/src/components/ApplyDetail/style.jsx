@@ -76,11 +76,9 @@ export const TitleBookMark = styled.div`
   align-items: center;
   justify-content: center;
   gap: 0.2rem;
+  cursor: pointer;
   color: ${({ isLike }) => {
     return isLike ? "#0642ff" : "#8c8c8c";
-  }};
-  cursor: ${({ isLogin }) => {
-    return isLogin ? "pointer" : "";
   }};
   & > svg {
     width: 1.2rem;
@@ -181,6 +179,11 @@ export const DataHeader = styled.div`
 export const DataContent = styled.div`
   min-height: 8rem;
   padding: 1rem 0;
+`;
+export const AddressBox = styled.div`
+  color: #0642ff;
+  text-decoration: underline;
+  cursor: pointer;
 `;
 export const DataContent2 = styled(DataContent)`
   margin-bottom: 2rem;

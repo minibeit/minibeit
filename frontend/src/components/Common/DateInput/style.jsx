@@ -1,8 +1,16 @@
 import styled from "styled-components";
 
+export const DateInputBox = styled.div`
+  margin-left: 1rem;
+  & > input {
+    text-align: start;
+    font-weight: bold;
+  }
+`;
 export const CalendarWrapper = styled.div`
   position: absolute;
-  z-index: 9999;
+  transform: translate(-1rem, 0.5rem);
+  z-index: 99;
   border: solid 1px #c4c4c4;
   background: white;
   border-radius: 0.8rem;
@@ -16,4 +24,17 @@ export const CalendarWrapper = styled.div`
     font-size: 1rem;
     cursor: pointer;
   }
+`;
+
+export const ColorView = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: #0642ff;
+  position: absolute;
+  transform: translate(0.3em, -1.9em);
 `;

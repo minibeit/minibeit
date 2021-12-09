@@ -8,15 +8,17 @@ import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 import Portal from "../../../Common/Modal/Portal";
 import * as S from "./style";
 import { nickCheckApi } from "../../../../utils/auth";
-import { useHistory } from "react-router";
 import {
   checkPhoneApi,
   checkCodeApi,
   checkEmailApi,
 } from "../../../../utils/verificationApi";
 
-export default function UserInfoEditModal({ infoData, setModalSwitch }) {
-  const history = useHistory();
+export default function UserInfoEditModal({
+  infoData,
+  getUserData,
+  setModalSwitch,
+}) {
   const [userData, setUserData] = useState(infoData);
   const [originalNickname] = useState(userData.nickname);
   const [changeNickname, setChangeNickname] = useState(true);
@@ -125,8 +127,7 @@ export default function UserInfoEditModal({ infoData, setModalSwitch }) {
           setUser(copy);
           alert("수정이 완료되었습니다!");
           setModalSwitch(false);
-          history.push("/profile/approve");
-          history.go(0);
+          getUserData();
         })
         .catch((err) => alert("수정 내용을 다시 한번 확인해주세요"));
     }

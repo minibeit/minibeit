@@ -47,7 +47,8 @@ export default function FeedInfoContainer({
       updatedContent={feedDetailData.updatedContent}
       content={feedDetailData.content}
       files={feedDetailData.files}
-      place={feedDetailData.place}
+      address={feedDetailData.address}
+      addressDetail={feedDetailData.addressDetail}
       contact={feedDetailData.contact}
       businessProfileInfo={feedDetailData.businessProfileInfo}
       editSwitch={editSwitch}

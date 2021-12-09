@@ -6,6 +6,7 @@ Content-Type: application/json;charset=UTF-8
   "title": "테스트40",
   "content": "실험 내용",
   "place": "고려대학교 연구실",
+  "placeDetail": "고려대학교 연구실 123호",
   "contact": "010-1234-1234",
   "category": "미디어",
   "headcount": 5,
@@ -91,7 +92,7 @@ DELETE {{apiUrl}}/post/2
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/1
+GET {{apiUrl}}/post/2
 Authorization: {{authorizationToken}}
 
 ###

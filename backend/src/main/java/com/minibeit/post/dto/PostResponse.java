@@ -38,7 +38,8 @@ public class PostResponse {
         private Long id;
         private String title;
         private String content;
-        private String place;
+        private String address;
+        private String addressDetail;
         private String contact;
         private String payment;
         private String goods;
@@ -60,11 +61,12 @@ public class PostResponse {
         private PostDto.BusinessProfileInfo businessProfileInfo;
 
         public static PostResponse.GetOne build(Post post, CustomUserDetails customUserDetails) {
-            final GetOneBuilder getOneBuilder = GetOne.builder()
+            GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(post.getId())
                     .title(post.getTitle())
                     .content(post.getContent())
-                    .place(post.getPlace())
+                    .address(post.getPlace())
+                    .addressDetail(post.getPlaceDetail())
                     .contact(post.getContact())
                     .payment(post.getPayment().name())
                     .goods(post.getPaymentGoods())

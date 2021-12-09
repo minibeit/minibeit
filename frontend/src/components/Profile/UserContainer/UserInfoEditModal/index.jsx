@@ -74,7 +74,6 @@ export default function UserInfoEditModal({
 
   const closeModal = () => {
     setModalSwitch(false);
-    document.querySelector("body").removeAttribute("style");
   };
 
   const checkingEmail = (email) => {
@@ -128,7 +127,6 @@ export default function UserInfoEditModal({
           setUser(copy);
           alert("수정이 완료되었습니다!");
           setModalSwitch(false);
-          document.querySelector("body").removeAttribute("style");
           getUserData();
         })
         .catch((err) => alert("수정 내용을 다시 한번 확인해주세요"));

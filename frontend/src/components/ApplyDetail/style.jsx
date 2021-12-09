@@ -1,12 +1,26 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
+const fadeOut = keyframes`
+from {
+ opacity:1;
+}
+to {
+  opacity:0;
+
+}
+`;
 export const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 1.5rem 12rem;
+  margin: 1.5rem 10rem;
+`;
+export const UnderTitle = styled.div`
+  position: relative;
+  display: flex;
+  left: 1rem;
+  gap: 1rem;
   & > div:nth-child(2) {
-    position: relative;
     display: flex;
     left: 1rem;
     padding: 1rem 0;
@@ -234,7 +248,7 @@ export const TimeView = styled.div`
   background: #f5f5f5;
   border-radius: 0 0 20px 20px;
   padding: 2rem;
-  & > button {
+  & > div > button {
     background: white;
     border: none;
     width: 8rem;
@@ -243,6 +257,27 @@ export const TimeView = styled.div`
     font-size: 1rem;
     font-weight: 500;
     cursor: pointer;
+  }
+`;
+
+export const Xdiv = styled.div`
+  & > div {
+    background: rgba(0, 0, 0, 0.3);
+    width: 8rem;
+    height: 3rem;
+    border-radius: 1rem;
+    z-index: 3;
+    position: absolute;
+  }
+  & > button {
+    position: relative;
+    background: white;
+    border: none;
+    width: 8rem;
+    height: 3rem;
+    border-radius: 1rem;
+    font-size: 1rem;
+    font-weight: 500;
   }
 `;
 
@@ -297,14 +332,15 @@ export const RemoteBox = styled.div`
   width: 25%;
   right: 0;
 `;
+
 export const Controller = styled.div`
   display: flex;
   gap: 1rem;
   flex-direction: column;
   padding: 1rem;
   position: sticky;
-  height: 17rem;
-  margin-top: 4.3rem;
+  height: 19rem;
+  margin-top: 3.3rem;
   top: 4rem;
   border: 1px solid #c4c4c4;
   border-radius: 1.25rem;
@@ -312,6 +348,18 @@ export const Controller = styled.div`
     font-size: 1.2rem;
     text-align: center;
     font-weight: bold;
+  }
+  & > div:nth-child(3) {
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5rem;
+    padding: 0 1rem;
+    & > div > span {
+      margin-right: 0.4rem;
+      font-weight: 600;
+    }
   }
 `;
 export const ApplyData = styled.div`
@@ -353,6 +401,10 @@ export const ApplyBtnGroup = styled.div`
   & > button:nth-child(2) {
     background: #f1f1f1;
     color: #c4c4c4;
+    :hover {
+      background: #0642ff;
+      color: #fff;
+    }
   }
 `;
 
@@ -412,4 +464,15 @@ export const Div = styled.div`
   text-align: center;
   z-index: 2;
   cursor: pointer;
+`;
+
+export const ViewNum = styled.div`
+  animation: ${fadeOut} 5s ease-out;
+  font-size: 0.8rem;
+  padding: 0.5rem;
+  background-color: #e0e8ff;
+  border-radius: 0.6rem;
+  & > span {
+    font-weight: 600;
+  }
 `;

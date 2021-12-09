@@ -12,18 +12,13 @@ export default function SignupFinish() {
   const history = useHistory();
   const [inputData] = useRecoilState(signupState);
 
-  const goHome = () => {
-    history.push("/");
-    document.querySelector("body").removeAttribute("style");
-  };
-
   return (
     <Portal>
       <S.ModalBackground>
         <S.ModalBox>
           <S.ModalHeader>
             <S.CloseModalBtn>
-              <CloseIcon onClick={goHome} />
+              <CloseIcon onClick={() => history.push("/")} />
             </S.CloseModalBtn>
           </S.ModalHeader>
           <S.ModalContent>

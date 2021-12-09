@@ -6,9 +6,6 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 // 탈퇴하기
 
 export default function RemoveAccount({ setAlertSwitch }) {
-  const closeAlert = () => {
-    setAlertSwitch(false);
-  };
   return (
     <Portal>
       <S.AlertBackground>
@@ -23,7 +20,9 @@ export default function RemoveAccount({ setAlertSwitch }) {
               <span>정말로 탈퇴하시겠어요?</span>
             </p>
             <div>
-              <S.GrayButton onClick={closeAlert}>아니오, 관둘래요</S.GrayButton>
+              <S.GrayButton onClick={() => setAlertSwitch(false)}>
+                아니오, 관둘래요
+              </S.GrayButton>
               <S.BlueButton>네, 탈퇴할래요</S.BlueButton>
             </div>
           </S.AlertContent>

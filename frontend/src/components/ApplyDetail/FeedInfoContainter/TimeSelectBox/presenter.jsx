@@ -3,6 +3,7 @@ import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
 import ArrowRightIcon from "@mui/icons-material/ArrowRight";
 
 import * as S from "../../style";
+import moment from "moment";
 
 export default function Presenter({
   moveDate,
@@ -11,6 +12,9 @@ export default function Presenter({
   selectDate,
   apply,
 }) {
+  const nowDay = moment().format("YYYY-MM-DD");
+  const nowTime = moment().format("HH:mm:ss");
+
   return (
     <div>
       <S.TimeSelectBox>
@@ -25,16 +29,43 @@ export default function Presenter({
           {doTimeList ? (
             doTimeList.map((a) => {
               return (
-                <button
-                  key={a.id}
-                  id={a.id}
-                  onClick={selectDate}
-                  disabled={
-                    a.id === parseInt(apply["postDoDateId"]) ? true : false
-                  }
-                >
-                  {a.startTime}~{a.endTime}
-                </button>
+                <div key={a.id}>
+                  {viewDoDate > nowDay ? (
+                    <button
+                      id={a.id}
+                      onClick={selectDate}
+                      disabled={
+                        a.id === parseInt(apply["postDoDateId"]) ? true : false
+                      }
+                    >
+                      {a.startTime}~{a.endTime}
+                    </button>
+                  ) : viewDoDate === nowDay && a.startTime > nowTime ? (
+                    <button
+                      id={a.id}
+                      onClick={selectDate}
+                      disabled={
+                        a.id === parseInt(apply["postDoDateId"]) ? true : false
+                      }
+                    >
+                      {a.startTime}~{a.endTime}
+                    </button>
+                  ) : (
+                    <S.Xdiv>
+                      <div onClick={() => alert("지원할 수 없습니다!")} />
+                      <button
+                        id={a.id}
+                        disabled={
+                          a.id === parseInt(apply["postDoDateId"])
+                            ? true
+                            : false
+                        }
+                      >
+                        {a.startTime}~{a.endTime}
+                      </button>
+                    </S.Xdiv>
+                  )}
+                </div>
               );
             })
           ) : (

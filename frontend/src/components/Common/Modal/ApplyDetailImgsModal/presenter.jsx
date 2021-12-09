@@ -13,7 +13,6 @@ export default function Presenter({
 }) {
   const modalOff = () => {
     setSliderSwitch(false);
-    document.querySelector("body").removeAttribute("style");
   };
   const link = files[currentSlide].url;
   console.log(link);

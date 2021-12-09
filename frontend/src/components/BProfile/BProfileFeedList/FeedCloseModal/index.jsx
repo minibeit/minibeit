@@ -37,7 +37,6 @@ export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
         })
         .catch((err) => {
           alert("종료할 수 없는 게시물 입니다");
-          document.querySelector("body").removeAttribute("style");
         });
     }
   };
@@ -57,21 +56,15 @@ export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
       }
     }
   };
-  const clickOutside = (e) => {
-    e.target === e.currentTarget && setCloseModal(0);
-    document.querySelector("body").removeAttribute("style");
-  };
-  const clickIcon = () => {
-    setCloseModal(0);
-    document.querySelector("body").removeAttribute("style");
-  };
 
   return (
     <Portal>
-      <S.ModalBackground onClick={(e) => clickOutside(e)}>
+      <S.ModalBackground
+        onClick={(e) => e.target === e.currentTarget && setCloseModal(0)}
+      >
         <S.ModalBox>
           <div>
-            <CloseIcon onClick={clickIcon} />
+            <CloseIcon onClick={() => setCloseModal(0)} />
           </div>
           <S.ModalContent>
             <InfoIcon />

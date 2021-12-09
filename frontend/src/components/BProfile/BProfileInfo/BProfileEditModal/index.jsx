@@ -47,30 +47,23 @@ export default function BProfileEditCont({
       .then((res) => {
         alert("수정되었습니다");
         setInfoEditModal(false);
-        document.querySelector("body").removeAttribute("style");
         getBusiness();
       })
       .catch((err) => alert("수정 내용을 다시 한번 확인해주세요"));
   };
 
-  const clickOutside = (e) => {
-    e.target === e.currentTarget && setInfoEditModal(false);
-    document.querySelector("body").removeAttribute("style");
-  };
-
-  const clickIcon = () => {
-    setInfoEditModal(false);
-    document.querySelector("body").removeAttribute("style");
-  };
-
   return (
     <>
       <Portal>
-        <S.ModalBackground onClick={(e) => clickOutside(e)}>
+        <S.ModalBackground
+          onClick={(e) =>
+            e.target === e.currentTarget && setInfoEditModal(false)
+          }
+        >
           <S.ModalBox>
             <S.ModalHeader>
               <p>비즈니스 프로필 수정하기</p>
-              <S.CloseModalBtn onClick={clickIcon}>
+              <S.CloseModalBtn onClick={() => setInfoEditModal(false)}>
                 <CloseIcon />
               </S.CloseModalBtn>
             </S.ModalHeader>

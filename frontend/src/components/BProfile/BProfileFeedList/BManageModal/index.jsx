@@ -119,15 +119,6 @@ export default function BManageModal({ postId, setModalSwitch }) {
     }
   };
 
-  const modalOff = () => {
-    setModalSwitch(false);
-    document.querySelector("body").removeAttribute("style");
-  };
-  const clickOutside = (e) => {
-    e.target === e.currentTarget && setModalSwitch(false);
-    document.querySelector("body").removeAttribute("style");
-  };
-
   const rejectOn = (user, e) => {
     setRejectUserInfo(user);
     e.currentTarget.previousSibling.value = null;
@@ -149,7 +140,9 @@ export default function BManageModal({ postId, setModalSwitch }) {
 
   return (
     <Portal>
-      <S.ModalBackground onClick={(e) => clickOutside(e)}>
+      <S.ModalBackground
+        onClick={(e) => e.target === e.currentTarget && setModalSwitch(false)}
+      >
         <S.ModalBox>
           <S.ButtonTab>
             <button
@@ -170,7 +163,7 @@ export default function BManageModal({ postId, setModalSwitch }) {
             </button>
           </S.ButtonTab>
           <S.ModalHeader>
-            <S.CloseModalBtn onClick={modalOff}>
+            <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
               <CloseIcon />
             </S.CloseModalBtn>
             <div>

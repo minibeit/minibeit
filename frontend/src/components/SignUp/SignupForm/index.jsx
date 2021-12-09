@@ -160,7 +160,6 @@ export default function SignUpComponent({ setFinish }) {
           res.data.data.avatar === null ? "noImg" : res.data.data.avatar;
         setLoginState(copy);
         setFinish(true);
-        document.querySelector("body").removeAttribute("style");
       })
       .catch((err) => {
         alert("회원가입에 실패하였습니다. 잠시후에 다시 시도해주세요");
@@ -172,11 +171,6 @@ export default function SignUpComponent({ setFinish }) {
       setChangeEmail(true);
     }
   }, [guest.email]);
-
-  const goHome = () => {
-    history.push("/");
-    document.querySelector("body").removeAttribute("style");
-  };
 
   return (
     <Portal>
@@ -201,7 +195,7 @@ export default function SignUpComponent({ setFinish }) {
                 <p>나의 직업 설정하기</p>
               </>
             )}
-            <S.CloseModalBtn onClick={goHome}>
+            <S.CloseModalBtn onClick={() => history.push("/")}>
               <CloseIcon />
             </S.CloseModalBtn>
           </S.ModalHeader>

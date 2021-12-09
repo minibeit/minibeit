@@ -106,7 +106,6 @@ export default function TimeSelectModal({
 
   const modalOff = () => {
     setModalSwitch(!modalSwitch);
-    document.querySelector("body").removeAttribute("style");
   };
 
   return (

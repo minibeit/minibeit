@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { useRecoilState } from "recoil";
+import axios from "axios";
 import { geustState, userState } from "../../recoil/userState";
 
 function ProcessLogin({ match }) {
@@ -26,7 +27,7 @@ function ProcessLogin({ match }) {
   });
   const signupCheck = useCallback(() => {
     if (data.didSignup) {
-      localStorage.setItem("accessToken", match.params.accessToken);
+      axios.defaults.headers.common["Authorization"] = match.params.accessToken;
       setUser(data);
     } else {
       data.accessToken = match.params.accessToken;

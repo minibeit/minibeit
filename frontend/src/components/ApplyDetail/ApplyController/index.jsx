@@ -7,13 +7,9 @@ export default function ApplyController({ apply, feedDetailData, checkLogin }) {
   const value =
     payment === "현금" ? feedDetailData.cache + "원" : feedDetailData.goods;
 
-  const handleCopyClipBoard = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      alert("복사되었습니다. 원하는곳에서 붙여넣기 해주세요!");
-    } catch (error) {
-      alert("복사 실패!");
-    }
+  const handleCopyClipBoard = () => {
+    navigator.clipboard.writeText(window.location.href);
+    alert("복사되었습니다. 원하는곳에서 붙여넣기 해주세요!");
   };
 
   const num = Math.floor(Math.random() * 10) + 1;
@@ -48,9 +44,7 @@ export default function ApplyController({ apply, feedDetailData, checkLogin }) {
           >
             신청하기
           </button>
-          <button onClick={() => handleCopyClipBoard(window.location.href)}>
-            공유하기
-          </button>
+          <button onClick={() => handleCopyClipBoard()}>공유하기</button>
         </S.ApplyBtnGroup>
       </S.Controller>
     </S.RemoteBox>

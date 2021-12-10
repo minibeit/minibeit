@@ -3,18 +3,13 @@ import styled from "styled-components";
 /* Common */
 
 export const ProfilePage = styled.div`
-  width: 100vw;
   display: flex;
-  padding: 3rem 0;
   justify-content: center;
   align-items: center;
+  max-width: 100%;
+  width: 100vw;
+  padding: 3rem 0;
   background: #f3f3f3;
-  overflow: scroll;
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none; /* for Chrome, Safari, and Opera */
-  }
   & > div:first-child {
     width: 80%;
     height: 80%;
@@ -37,7 +32,7 @@ export const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  height: 100%;
+  min-height: 100vh;
 `;
 export const ImgBox = styled.div`
   overflow: hidden;

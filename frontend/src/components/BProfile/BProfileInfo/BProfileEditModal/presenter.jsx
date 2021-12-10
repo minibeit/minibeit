@@ -112,7 +112,7 @@ export default function BProfileEditCont({
               <p>상세주소</p>
               <input
                 defaultValue={BProfileData.placeDetail}
-                name="detailPlace"
+                name="placeDetail"
                 type="text"
                 placeholder="상세 주소"
                 onChange={onChange}

@@ -29,7 +29,8 @@ export const deleteBprofile = async (businessId) => {
 export const editBprofile = (BProfileData) => {
   const formData = new FormData();
   formData.append("name", BProfileData.name);
-  formData.append("place", BProfileData.place + " " + BProfileData.detailPlace);
+  formData.append("place", BProfileData.place);
+  formData.append("placeDetail", BProfileData.placeDetail);
   formData.append("contact", BProfileData.contact);
   if (typeof BProfileData.avatar !== "string") {
     formData.append("avatarChanged", true);

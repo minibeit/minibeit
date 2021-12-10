@@ -27,8 +27,8 @@ export function setInterceptors(instance) {
           })
           .catch((err) => {
             alert("다시 로그인 해주세요!");
-            localStorage.removeItem("recoil-persist");
             window.location.replace("/");
+            localStorage.removeItem("recoil-persist");
           });
       } else {
         return Promise.reject(err);

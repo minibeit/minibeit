@@ -1,25 +1,7 @@
 import { withAuthInstance } from "./common";
 import { API_URLS } from "../constants";
 
-const {
-  BPROFILE_NEW,
-  BPROFILELIST,
-  BPROFILE_GET,
-  BPROFILE_DELETE,
-  BPROFILE_EDIT,
-  BPROFILE_JOIN,
-  BPROFILE_JOIN_DEL,
-  GET_BP_USERGROUP,
-  SEARCH_USER,
-  BPROFILE_MAKE_LIST,
-  ASSIGN_CHANGE,
-  GET_WAIT_LIST,
-  GET_APPROVE_LIST,
-  CANCEL_ONE,
-  APPROVE_ONE,
-  SET_ATTEND,
-  REJECT_ONE,
-} = API_URLS;
+const { API_BUSINESS, API_USER, API_POST } = API_URLS;
 
 export const bprofileNew = async (infoData) => {
   const formData = new FormData();
@@ -29,17 +11,17 @@ export const bprofileNew = async (infoData) => {
   if (infoData.avatar) {
     formData.append("avatar", infoData.avatar);
   }
-  return await withAuthInstance.post(BPROFILE_NEW, formData);
+  return await withAuthInstance.post(API_BUSINESS + "profile/", formData);
 };
 export const bprofileListGet = async () => {
-  return await withAuthInstance.get(BPROFILELIST);
+  return await withAuthInstance.get(API_BUSINESS + "profile/mine/list");
 };
 
 export const getBprofileInfo = async (businessId) => {
-  return await withAuthInstance.get(BPROFILE_GET + businessId);
+  return await withAuthInstance.get(API_BUSINESS + "profile/" + businessId);
 };
 export const deleteBprofile = async (businessId) => {
-  return await withAuthInstance.delete(BPROFILE_DELETE + businessId);
+  return await withAuthInstance.delete(API_BUSINESS + "profile/" + businessId);
 };
 
 export const editBprofile = (BProfileData) => {
@@ -54,35 +36,41 @@ export const editBprofile = (BProfileData) => {
     formData.append("avatarChanged", false);
   }
 
-  return withAuthInstance.post(BPROFILE_EDIT + BProfileData.id, formData);
+  return withAuthInstance.post(
+    API_BUSINESS + "profile/" + BProfileData.id,
+    formData
+  );
 };
 
 export const bprofileJoin = async (businessId, userId) => {
   return await withAuthInstance.post(
-    BPROFILE_JOIN + businessId + "/share/" + userId
+    API_BUSINESS + "profile/" + businessId + "/share/" + userId
   );
 };
 export const bprofileJoinDel = async (businessId, userId) => {
   return await withAuthInstance.delete(
-    BPROFILE_JOIN_DEL + businessId + "/expel/" + userId
+    API_BUSINESS + "profile/" + businessId + "/expel/" + userId
   );
 };
 export const getBPusergroup = async (businessId) => {
-  return await withAuthInstance.get(GET_BP_USERGROUP + businessId);
+  return await withAuthInstance.get(
+    API_USER + "list/business/profile/" + businessId
+  );
 };
 export const getSearchUser = async (input) => {
-  return await withAuthInstance.get(SEARCH_USER + "?nickname=" + input);
+  return await withAuthInstance.get(API_USER + "search?nickname=" + input);
 };
 
 export const assignChange = async (businessId, userId) => {
   return await withAuthInstance.post(
-    ASSIGN_CHANGE + businessId + "/change/" + userId
+    API_BUSINESS + "profile/" + businessId + "/change/" + userId
   );
 };
 
 export const getMakelistApi = async (businessId, page, status) => {
   return await withAuthInstance.get(
-    BPROFILE_MAKE_LIST +
+    API_POST +
+      "business/profile/" +
       businessId +
       "/list?page=" +
       page +
@@ -92,28 +80,24 @@ export const getMakelistApi = async (businessId, page, status) => {
 };
 export const getWaitListApi = async (postId, doDate) => {
   return await withAuthInstance.get(
-    GET_WAIT_LIST + postId + "/applicant/list?doDate=" + doDate + "&status=WAIT"
+    API_POST + postId + "/applicant/list?doDate=" + doDate + "&status=WAIT"
   );
 };
 
 export const getApproveListApi = async (postId, doDate) => {
   return await withAuthInstance.get(
-    GET_APPROVE_LIST +
-      postId +
-      "/applicant/list?doDate=" +
-      doDate +
-      "&status=APPROVE"
+    API_POST + postId + "/applicant/list?doDate=" + doDate + "&status=APPROVE"
   );
 };
 
 export const approveOneApi = async (postdoDateId, userId) => {
   return await withAuthInstance.post(
-    APPROVE_ONE + "date/" + postdoDateId + "/apply/approve/" + userId
+    API_POST + "date/" + postdoDateId + "/apply/approve/" + userId
   );
 };
 export const cancelOneApi = async (postdoDateId, userId) => {
   return await withAuthInstance.post(
-    CANCEL_ONE + "date/" + postdoDateId + "/apply/approve/cancel/" + userId
+    API_POST + "date/" + postdoDateId + "/apply/approve/cancel/" + userId
   );
 };
 export const rejectOneApi = async (postdoDateId, userId, comment) => {
@@ -121,7 +105,7 @@ export const rejectOneApi = async (postdoDateId, userId, comment) => {
     comment: comment === "" ? null : comment,
   };
   return await withAuthInstance.post(
-    REJECT_ONE + "date/" + postdoDateId + "/apply/reject/" + userId,
+    API_POST + "date/" + postdoDateId + "/apply/reject/" + userId,
     data
   );
 };
@@ -130,7 +114,7 @@ export const setAttendApi = async (postdoDateId, userId, attend) => {
     isAttend: attend,
   };
   return await withAuthInstance.post(
-    SET_ATTEND + "date/" + postdoDateId + "/attend/change/" + userId,
+    API_POST + "date/" + postdoDateId + "/attend/change/" + userId,
     data
   );
 };

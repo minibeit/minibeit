@@ -2,7 +2,7 @@ import axios from "axios";
 import { API_URLS } from "../constants";
 import { withAuthInstance, withoutAuthInstance } from "./common";
 
-const { LOGOUT, SIGNUP, N_CHECK } = API_URLS;
+const { API_USER } = API_URLS;
 
 export const signupInfoApi = (inputData, accessToken) => {
   const formData = new FormData();
@@ -22,7 +22,7 @@ export const signupInfoApi = (inputData, accessToken) => {
   }
   return axios({
     method: "POST",
-    url: process.env.REACT_APP_API_URL + SIGNUP,
+    url: process.env.REACT_APP_API_URL + API_USER + "signup",
     data: formData,
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -33,12 +33,12 @@ export const signupInfoApi = (inputData, accessToken) => {
 };
 
 export const logoutFunc = async () => {
-  return await withAuthInstance.post(LOGOUT);
+  return await withAuthInstance.post(API_USER + "logout");
 };
 
 export const nickCheckApi = async (nickname) => {
   const data = {
     nickname: nickname,
   };
-  return await withoutAuthInstance.post(N_CHECK, data);
+  return await withoutAuthInstance.post(API_USER + "nickname/check", data);
 };

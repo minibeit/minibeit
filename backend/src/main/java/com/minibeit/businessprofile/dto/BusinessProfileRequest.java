@@ -35,6 +35,7 @@ public class BusinessProfileRequest {
         private String name;
         @NotBlank(message = "비즈니스 프로필 장소은 공백일 수 없습니다.")
         private String place;
+        private String placeDetail;
         @NotBlank(message = "비즈니스 프로필 연락처은 공백일 수 없습니다.")
         private String contact;
         private MultipartFile avatar;

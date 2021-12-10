@@ -220,6 +220,7 @@ class BusinessProfileControllerTest extends MvcTest {
                 .file(avatar)
                 .param("name", "네모 실험실")
                 .param("place", "네모 대학교")
+                .param("placeDetail", "네모네모 123호")
                 .param("contact", "010-1234-5678")
                 .param("avatarChanged", "true")
                 .contentType(MediaType.MULTIPART_FORM_DATA)
@@ -235,6 +236,7 @@ class BusinessProfileControllerTest extends MvcTest {
                         requestParameters(
                                 parameterWithName("name").description("실험실 이름"),
                                 parameterWithName("place").description("실험실 장소"),
+                                parameterWithName("placeDetail").description("실험실 장소 세부 사항"),
                                 parameterWithName("contact").description("실험실 연락처"),
                                 parameterWithName("avatarChanged").description("비즈니스 프로필 이미지 수정되었다면 true 아니면 false")
                         ),

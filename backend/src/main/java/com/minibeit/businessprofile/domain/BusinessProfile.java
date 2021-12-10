@@ -48,6 +48,7 @@ public class BusinessProfile extends BaseEntity {
     public void update(BusinessProfileRequest.Update createRequest) {
         this.name = createRequest.getName();
         this.place = createRequest.getPlace();
+        this.placeDetail = createRequest.getPlaceDetail();
         this.contact = createRequest.getContact();
     }
 

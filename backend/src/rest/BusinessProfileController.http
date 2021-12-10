@@ -5,12 +5,16 @@ Content-Type: multipart/form-data; boundary=boundary
 --boundary
 Content-Disposition: form-data; name="name";
 
-
 테스트
 --boundary
 Content-Disposition: form-data; name="place";
 
 고려대
+
+--boundary
+Content-Disposition: form-data; name="placeDetail";
+
+신공학관 123호
 --boundary
 Content-Disposition: form-data; name="contact";
 
@@ -26,7 +30,7 @@ GET {{apiUrl}}/business/profile/mine/list
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/business/profile/2
+GET {{apiUrl}}/business/profile/1
 Authorization: {{authorizationToken}}
 
 ###

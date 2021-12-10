@@ -19,21 +19,20 @@ Content-Type: application/json;charset=UTF-8
   "doTime": 60,
   "schoolId": 17,
   "businessProfileId": 1,
-
-  "startDate": "2021-11-27T09:30",
-  "endDate": "2021-11-30T09:30",
+  "startDate": "2021-12-11T09:30",
+  "endDate": "2021-12-14T09:30",
   "doDateList": [
     {
-      "doDate": "2021-11-27T10:00"
+      "doDate": "2021-12-11T10:00"
     },
     {
-      "doDate": "2021-11-28T20:30"
+      "doDate": "2021-12-12T20:30"
     },
     {
-      "doDate": "2021-11-29T11:30"
+      "doDate": "2021-12-13T11:30"
     },
     {
-      "doDate": "2021-11-30T12:30"
+      "doDate": "2021-12-14T12:30"
     }
   ]
 }

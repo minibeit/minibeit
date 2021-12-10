@@ -229,6 +229,7 @@ public class PostResponse {
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime endTime;
         private Boolean isWritable;
+        private Boolean writeReview;
         private Long businessProfileId;
 
         @Builder
@@ -241,6 +242,7 @@ public class PostResponse {
             this.doDate = doDate;
             this.startTime = doDate;
             this.endTime = doDate.plusMinutes(time);
+            this.writeReview = writeReview;
             this.isWritable = doDate.plusDays(7).isAfter(LocalDateTime.now()) && businessFinish && !writeReview;
             this.businessProfileId = businessProfileId;
         }

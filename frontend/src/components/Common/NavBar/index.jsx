@@ -51,7 +51,7 @@ export default function NavBar() {
         </S.NavBarMenu>
       </S.NavBarLogoContainer>
       <S.NavBarMenuContainer>
-        {user.didSignup === true ? (
+        {user.isLogin === true ? (
           <>
             <Link to={"/profile?approve"}>
               <img

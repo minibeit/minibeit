@@ -2,11 +2,11 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import axios from "axios";
-import { geustState, userState } from "../../recoil/userState";
+import { guestState, userState } from "../../recoil/userState";
 
 function ProcessLogin({ match }) {
   const [, setUser] = useRecoilState(userState);
-  const [, setGuest] = useRecoilState(geustState);
+  const [, setGuest] = useRecoilState(guestState);
   const [data] = useState({
     isLogin: true,
     id: parseInt(match.params.id),
@@ -14,21 +14,20 @@ function ProcessLogin({ match }) {
     email: match.params.email === "null" ? null : match.params.email,
     didSignup: JSON.parse(match.params.signupCheck),
     schoolId: parseInt(match.params.schoolId),
-    bpId: 0,
     avatar:
-      match.params.a !== "0"
-        ? "https://" +
-          match.params.a +
-          "/" +
-          match.params.b +
-          "/" +
-          match.params.c
+      match.params.imgUrl1 !== "0"
+        ? `https://${match.params.imgUrl1}/${match.params.imgUrl2}/${match.params.imgUrl3}`
         : "noImg",
   });
+
   const signupCheck = useCallback(() => {
     if (data.didSignup) {
       axios.defaults.headers.common["Authorization"] = match.params.accessToken;
-      setUser(data);
+      setUser({
+        isLogin: true,
+        schoolId: data.schoolId,
+        avatar: data.avatar,
+      });
     } else {
       data.accessToken = match.params.accessToken;
       setGuest(data);

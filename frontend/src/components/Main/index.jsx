@@ -11,8 +11,7 @@ import { ReactComponent as ArrowDown } from "../../svg/체크.svg";
 
 export default function MainComponent() {
   const history = useHistory();
-  const user = useRecoilValue(userState);
-  const isLogin = user.isLogin;
+  const isLogin = useRecoilValue(userState).isLogin;
   const [modalSwitch, setModalSwitch] = useState(false);
 
   const goApply = () => {

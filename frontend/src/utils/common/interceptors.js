@@ -1,49 +1,38 @@
 import axios from "axios";
 
 export function setInterceptors(instance) {
-  //요청 인터셉터
   instance.interceptors.request.use(
-    (response) => {
-      // 토큰을 추가하여 리턴
-      response.headers.Authorization = `Bearer ${localStorage.getItem(
-        "accessToken"
-      )}`;
-      return response;
-    },
-    (error) => {
-      return Promise.reject(error);
-    }
-  );
-
-  //응답 인터셉터
-  instance.interceptors.response.use(
     (res) => {
+      res.headers.Authorization = `Bearer ${axios.defaults.headers.common["Authorization"]}`;
       return res;
     },
-    // 리프레쉬 관련
-    async (error) => {
-      const {
-        config,
-        response: { status },
-      } = error;
-      if (status === 401 ) {
-        const originalRequest = config;
-        const refreshData = await axios.post(
-          process.env.REACT_APP_API_URL + "/api/user/refreshtoken",
-          {} // token refresh api
-        );
-        if (refreshData.data.error === "Unauthorized") {
-          alert("다시 로그인 해주세요!")
-          localStorage.removeItem("recoil-persist")
-          window.location.replace("/");
-        }
-        // 새로운 토큰 저장
-        localStorage.setItem("accessToken", refreshData.data.data.accessToken);
-        originalRequest.headers.Authorization = `Bearer ${refreshData.data.data.accessToken}`;
-        // 401로 요청 실패했던 요청 새로운 accessToken으로 재요청
-        return axios(originalRequest);
+    (err) => Promise.reject(err)
+  );
+
+  instance.interceptors.response.use(
+    (res) => res,
+    (err) => {
+      const { config, response } = err;
+      let originalRequest = config;
+      if (response.data.error === "Unauthorized") {
+        return axios
+          .post(process.env.REACT_APP_API_URL + "/api/user/refreshtoken")
+          .then((res) => {
+            axios.defaults.headers.common["Authorization"] =
+              res.data.data.accessToken;
+          })
+          .then(() => {
+            originalRequest.headers.Authorization = `Bearer ${axios.defaults.headers.common["Authorization"]}`;
+            return axios(originalRequest);
+          })
+          .catch((err) => {
+            alert("다시 로그인 해주세요!");
+            localStorage.removeItem("recoil-persist");
+            window.location.replace("/");
+          });
+      } else {
+        return Promise.reject(err);
       }
-      return Promise.reject(error);
     }
   );
   return instance;

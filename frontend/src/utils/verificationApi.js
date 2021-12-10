@@ -1,7 +1,7 @@
 import { API_URLS } from "../constants";
 import axios from "axios";
 import { withAuthInstance } from "./common";
-const { VERIFICATION_SMS, VERIFICATION, CHECK_CODE } = API_URLS;
+const { API_USER, API_MAIL } = API_URLS;
 
 /* guest 상태 */
 export const guestCheckPhoneApi = (token, userId, phonenumber) => {
@@ -10,7 +10,7 @@ export const guestCheckPhoneApi = (token, userId, phonenumber) => {
   };
   return axios({
     method: "POST",
-    url: process.env.REACT_APP_API_URL + VERIFICATION_SMS + `${userId}/sms`,
+    url: process.env.REACT_APP_API_URL + API_USER + `${userId}/sms`,
     data: data,
     headers: {
       Authorization: `Bearer ${token}`,
@@ -26,9 +26,7 @@ export const guestCheckEmailApi = (token, userId, userEmail) => {
   return axios({
     method: "POST",
     url:
-      process.env.REACT_APP_API_URL +
-      VERIFICATION +
-      `${userId}/email/verification`,
+      process.env.REACT_APP_API_URL + API_MAIL + `${userId}/email/verification`,
     data: data,
     headers: {
       Authorization: `Bearer ${token}`,
@@ -44,7 +42,7 @@ export const guestCheckCodeApi = (token, code, userId, type) => {
   };
   return axios({
     method: "POST",
-    url: process.env.REACT_APP_API_URL + CHECK_CODE + `${userId}/verification`,
+    url: process.env.REACT_APP_API_URL + API_USER + `${userId}/verification`,
     data: data,
     headers: {
       Authorization: `Bearer ${token}`,
@@ -59,22 +57,19 @@ export const checkPhoneApi = (userId, phonenumber) => {
   var data = {
     receiverPhoneNumber: phonenumber,
   };
-  return withAuthInstance.post(VERIFICATION_SMS + `${userId}/sms`, data);
+  return withAuthInstance.post(API_USER + `${userId}/sms`, data);
 };
 
 export const checkEmailApi = (userId, userEmail) => {
   var data = {
     toEmail: userEmail,
   };
-  return withAuthInstance.post(
-    VERIFICATION + `${userId}/email/verification`,
-    data
-  );
+  return withAuthInstance.post(API_MAIL + `${userId}/email/verification`, data);
 };
 export const checkCodeApi = (code, userId, type) => {
   var data = {
     code: code,
     verificationKinds: type,
   };
-  return withAuthInstance.post(CHECK_CODE + `${userId}/verification`, data);
+  return withAuthInstance.post(API_USER + `${userId}/verification`, data);
 };

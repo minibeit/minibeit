@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { useHistory } from "react-router";
+import axios from "axios";
 import CloseIcon from "@mui/icons-material/Close";
 
 import Portal from "../../Common/Modal/Portal";
 import { nickCheckApi, signupInfoApi } from "../../../utils/auth";
 import { signupState } from "../../../recoil/signupState";
-import { geustState, userState } from "../../../recoil/userState";
+import { guestState, userState } from "../../../recoil/userState";
 
 import InfoData from "./InfoData";
 import SchoolSelect from "./SchoolSelect";
@@ -21,8 +22,9 @@ import {
 
 export default function SignUpComponent({ setFinish }) {
   const [inputData, setInputData] = useRecoilState(signupState);
-  const [, setLoginState] = useRecoilState(userState);
-  const guest = useRecoilValue(geustState);
+  const [, setUser] = useRecoilState(userState);
+  const guest = useRecoilValue(guestState);
+  const resetGuest = useResetRecoilState(guestState);
   const [step, setStep] = useState(1);
   const history = useHistory();
   const [changeNickname, setChangeNickname] = useState(false);
@@ -150,15 +152,14 @@ export default function SignUpComponent({ setFinish }) {
   const onSubmit = () => {
     signupInfoApi(inputData, guest.accessToken)
       .then((res) => {
-        const copy = { ...guest };
-        localStorage.setItem("accessToken", guest.accessToken);
-        delete copy.accessToken;
-        copy.didSignup = true;
-        copy.name = res.data.data.nickname;
-        copy.schoolId = res.data.data.schoolId;
-        copy.avatar =
-          res.data.data.avatar === null ? "noImg" : res.data.data.avatar;
-        setLoginState(copy);
+        axios.defaults.headers.common["Authorization"] = guest.accessToken;
+        setUser({
+          avatar:
+            res.data.data.avatar === null ? "noImg" : res.data.data.avatar,
+          isLogin: true,
+          schoolId: res.data.data.schoolId,
+        });
+        resetGuest();
         setFinish(true);
       })
       .catch((err) => {

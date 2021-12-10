@@ -5,25 +5,19 @@ export const userState = atom({
   key: "userState",
   default: {
     isLogin: false,
-    name: null,
-    id: null,
-    didSignup: false,
     schoolId: null,
-    bpId: 0,
     avatar: null,
-    email: null,
   },
   effects_UNSTABLE: [persistAtom],
 });
-export const geustState = atom({
-  key: "geustState",
+export const guestState = atom({
+  key: "guestState",
   default: {
     isLogin: false,
     name: null,
     id: null,
     didSignup: false,
     schoolId: null,
-    bpId: 0,
     avatar: null,
     email: "",
   },

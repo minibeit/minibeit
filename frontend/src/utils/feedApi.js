@@ -2,15 +2,7 @@ import { API_URLS } from "../constants";
 import { withAuthInstance, withoutAuthInstance } from "./common";
 import moment from "moment";
 
-const {
-  CREATE_FEED,
-  FEED_DELETE,
-  GET_FEEDLIST,
-  GET_FEEDDETAIL,
-  APPLY_POST,
-  BOOKMARK_POST,
-  STATE_COMPLETE,
-} = API_URLS;
+const { API_POST } = API_URLS;
 
 export const feedCreateApi = async (recruit) => {
   function conditionDetail(arr) {
@@ -48,7 +40,7 @@ export const feedCreateApi = async (recruit) => {
     doDateList: recruit.doDateList,
   };
 
-  return await withAuthInstance.post(CREATE_FEED + "/info", data);
+  return await withAuthInstance.post(API_POST + "info", data);
 };
 
 export const feedAddfileApi = async (postId, files) => {
@@ -56,28 +48,25 @@ export const feedAddfileApi = async (postId, files) => {
   for (var i = 0; i < files.length; i++) {
     formData.append("files", files[i]);
   }
-  return await withAuthInstance.post(
-    CREATE_FEED + `/${postId}/files`,
-    formData
-  );
+  return await withAuthInstance.post(API_POST + `${postId}/files`, formData);
 };
 
 export const feedDetailApi = async (feedId, isLogin) => {
   if (isLogin) {
-    return await withAuthInstance.get(GET_FEEDDETAIL + feedId);
+    return await withAuthInstance.get(API_POST + feedId);
   } else {
-    return await withoutAuthInstance.get(GET_FEEDDETAIL + feedId);
+    return await withoutAuthInstance.get(API_POST + feedId);
   }
 };
 
 export const feedDetailTimeApi = async (feedId, doDate) => {
   return await withoutAuthInstance.get(
-    GET_FEEDDETAIL + feedId + `/start?doDate=${doDate}`
+    API_POST + feedId + `/start?doDate=${doDate}`
   );
 };
 
 export const feedEditApi = async (postId, data) => {
-  return await withAuthInstance.put(APPLY_POST + postId, {
+  return await withAuthInstance.put(API_POST + postId, {
     updatedContent: data,
   });
 };
@@ -93,8 +82,8 @@ export const feedlistApi = async (
   const doDate = moment(date.date).format("YYYY-MM-DD");
   if (isLogin) {
     return await withAuthInstance.get(
-      GET_FEEDLIST +
-        `${schoolId}?page=${page}&size=10&category=${
+      API_POST +
+        `list/${schoolId}?page=${page}&size=10&category=${
           category.category
         }&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${
           filter.paymentType === "CACHE" ? filter.minPay : ""
@@ -104,8 +93,8 @@ export const feedlistApi = async (
     );
   } else {
     return await withoutAuthInstance.get(
-      GET_FEEDLIST +
-        `${schoolId}?page=${page}&size=10&category=${
+      API_POST +
+        `list/${schoolId}?page=${page}&size=10&category=${
           category.category
         }&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${
           filter.paymentType === "CACHE" ? filter.minPay : ""
@@ -117,23 +106,20 @@ export const feedlistApi = async (
 };
 
 export const applyApi = async (postDoDateId) => {
-  return await withAuthInstance.post(APPLY_POST + `date/${postDoDateId}/apply`);
+  return await withAuthInstance.post(API_POST + `date/${postDoDateId}/apply`);
 };
 
 export const bookmarkApi = async (postId) => {
-  return await withAuthInstance.post(BOOKMARK_POST + `${postId}/like`);
+  return await withAuthInstance.post(API_POST + `${postId}/like`);
 };
 
 export const stateCompleteApi = async (postId, rejectComment) => {
   const data = {
     rejectComment: rejectComment,
   };
-  return await withAuthInstance.post(
-    STATE_COMPLETE + postId + "/completed",
-    data
-  );
+  return await withAuthInstance.post(API_POST + postId + "/completed", data);
 };
 
 export const feedDeleteApi = async (postId) => {
-  return await withAuthInstance.delete(FEED_DELETE + postId);
+  return await withAuthInstance.delete(API_POST + postId);
 };

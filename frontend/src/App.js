@@ -38,7 +38,7 @@ function App() {
             <Switch location={pathname}>
               <Route path="/" exact component={Main} />
               <Route
-                path="/callback/:id/:nickname/:email/:accessToken/:schoolId/:signupCheck/:a/:b/:c"
+                path="/callback/:id/:nickname/:email/:accessToken/:schoolId/:signupCheck/:imgUrl1/:imgUrl2/:imgUrl3"
                 component={ProcessLogin}
               />
               <Route path="/signup" component={SignUp} />

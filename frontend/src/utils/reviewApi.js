@@ -1,7 +1,7 @@
 import { API_URLS } from "../constants";
 import { withAuthInstance, withoutAuthInstance } from "./common";
 
-const { BPROFILE_REVIEW } = API_URLS;
+const { API_BUSINESS } = API_URLS;
 
 export const createBusinessReviewApi = (
   businessId,
@@ -9,13 +9,10 @@ export const createBusinessReviewApi = (
   reviewData
 ) => {
   return withAuthInstance.post(
-    BPROFILE_REVIEW +
-      `${businessId}/date/${postDoDateId}/review/${reviewData}`
+    API_BUSINESS + `${businessId}/date/${postDoDateId}/review/${reviewData}`
   );
 };
 
 export const viewBusinessReviewApi = (businessId) => {
-  return withoutAuthInstance.get(
-    BPROFILE_REVIEW + `${businessId}/good-reviews`
-  );
+  return withoutAuthInstance.get(API_BUSINESS + `${businessId}/good-reviews`);
 };

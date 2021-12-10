@@ -6,13 +6,15 @@ const { API_BUSINESS, API_USER, API_POST } = API_URLS;
 export const bprofileNew = async (infoData) => {
   const formData = new FormData();
   formData.append("name", infoData.name);
-  formData.append("place", infoData.place + " " + infoData.detailPlace);
+  formData.append("place", infoData.place);
+  formData.append("placeDetail", infoData.detailPlace);
   formData.append("contact", infoData.contact);
   if (infoData.avatar) {
     formData.append("avatar", infoData.avatar);
   }
   return await withAuthInstance.post(API_BUSINESS + "profile/", formData);
 };
+
 export const bprofileListGet = async () => {
   return await withAuthInstance.get(API_BUSINESS + "profile/mine/list");
 };
@@ -27,7 +29,8 @@ export const deleteBprofile = async (businessId) => {
 export const editBprofile = (BProfileData) => {
   const formData = new FormData();
   formData.append("name", BProfileData.name);
-  formData.append("place", BProfileData.place + " " + BProfileData.detailPlace);
+  formData.append("place", BProfileData.place);
+  formData.append("placeDetail", BProfileData.placeDetail);
   formData.append("contact", BProfileData.contact);
   if (typeof BProfileData.avatar !== "string") {
     formData.append("avatarChanged", true);

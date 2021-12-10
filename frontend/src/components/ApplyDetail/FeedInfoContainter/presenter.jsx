@@ -86,8 +86,16 @@ export default function Presenter({
         <S.DataHeader>
           <div>
             <p>상세내용</p>
-            {isMine && editSwitch === false && (
-              <S.EditBtn onClick={() => setEditAlert(true)}>수정하기</S.EditBtn>
+            {isMine && (
+              <>
+                {editSwitch ? (
+                  <S.EditBtn onClick={editSubmit}>수정완료</S.EditBtn>
+                ) : (
+                  <S.EditBtn onClick={() => setEditAlert(true)}>
+                    수정하기
+                  </S.EditBtn>
+                )}
+              </>
             )}
           </div>
           {editAlert && (
@@ -99,23 +107,19 @@ export default function Presenter({
           )}
         </S.DataHeader>
         <S.DataContent2>
-          <S.SmTitle>{feedDetailData.title}</S.SmTitle>
           {editSwitch ? (
-            <div>
-              <S.EditTextArea
-                defaultValue={updatedContent ? updatedContent : content}
-                onChange={(e) => {
-                  if (e.target.value.length > 500) {
-                    alert("500자 이내로 입력해주세요");
-                    e.target.value = e.target.value.slice(0, 500);
-                    setNewContent(e.target.value);
-                  } else {
-                    setNewContent(e.target.value);
-                  }
-                }}
-              />
-              <S.EditBtn onClick={editSubmit}>수정완료</S.EditBtn>
-            </div>
+            <S.EditTextArea
+              defaultValue={updatedContent ? updatedContent : content}
+              onChange={(e) => {
+                if (e.target.value.length > 500) {
+                  alert("500자 이내로 입력해주세요");
+                  e.target.value = e.target.value.slice(0, 500);
+                  setNewContent(e.target.value);
+                } else {
+                  setNewContent(e.target.value);
+                }
+              }}
+            />
           ) : (
             <S.DetailContent>
               {updatedContent ? <p>{updatedContent}</p> : <p>{content}</p>}

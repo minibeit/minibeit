@@ -192,19 +192,13 @@ export const DataContent2 = styled(DataContent)`
     align-items: flex-start;
   }
 `;
-export const SmTitle = styled.p`
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin: 0.5rem 0 1rem;
-`;
-
 export const EditBtn = styled.button`
   background-color: #0642ff;
   border: 1px solid #0642ff;
   color: #fff;
-  border-radius: 1rem;
-  height: 1.5rem;
-  width: 4.5rem;
+  border-radius: 2em;
+  white-space: nowrap;
+  padding: 0.6em 2em;
   cursor: pointer;
   :hover {
     color: #0642ff;
@@ -472,6 +466,7 @@ export const ViewNum = styled.div`
   padding: 0.5rem;
   background-color: #e0e8ff;
   border-radius: 0.6rem;
+  white-space: nowrap;
   & > span {
     font-weight: 600;
   }

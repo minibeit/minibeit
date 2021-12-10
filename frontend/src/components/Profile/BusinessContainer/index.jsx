@@ -11,10 +11,12 @@ import { PVImg } from "../../Common";
 import BProfileCreateModal from "../../Common/Modal/BProfileCreateModal";
 
 import * as S from "../style";
+import { useCallback } from "react";
 
 export default function BusinessContainer() {
   const [modalSwitch, setModalSwitch] = useState(false);
-  const [BProfileList, setBProfileList] = useState();
+
+  const [BProfileList, setBProfileList] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const history = useHistory();
 
@@ -31,96 +33,92 @@ export default function BusinessContainer() {
     }
   };
 
-  const getBProfile = () => {
+  const getBProfile = useCallback(() => {
     bprofileListGet().then((res) => setBProfileList(res.data.data));
-  };
+  }, []);
 
   useEffect(() => {
     getBProfile();
-  }, []);
+  }, [getBProfile]);
 
   return (
     <S.Container>
-      {BProfileList && (
-        <S.BusinessListBox>
-          <S.BusinessHeader>
-            <div>
-              <p>어떤 프로필을 사용하여 참여자를 모집하시겠어요?</p>
-              <p>
-                사용하실 비즈니스 프로필을 골라보세요.
-                <br />
-                최대 3개까지 생성할 수 있어요.
-              </p>
-            </div>
-            <S.BusinessEditBtn>
-              {editMode ? (
-                <button onClick={() => setEditMode(false)}>확인</button>
-              ) : (
-                <PenIcon onClick={() => setEditMode(true)} />
-              )}
-            </S.BusinessEditBtn>
-          </S.BusinessHeader>
+      <S.BusinessListBox>
+        <S.BusinessHeader>
           <div>
-            {BProfileList.map((a) => {
-              return (
-                <S.BusinessProfile key={a.id}>
-                  <S.DeleteBtn
-                    style={{
-                      opacity: editMode && a.admin ? 1 : 0,
-                      zIndex: editMode && a.admin ? 1 : -9999,
-                    }}
-                    onClick={() => setDeleteAlert(1)}
-                  >
-                    <CloseIcon />
-                  </S.DeleteBtn>
-                  <div>
-                    <S.BImgBox
-                      onClick={() => history.push(`/business/${a.id}`)}
-                    >
-                      {a.avatar ? (
-                        <PVImg img={a.avatar} />
-                      ) : (
-                        <PVImg img="/images/기본프로필.png" />
-                      )}
-                    </S.BImgBox>
-                    <p>{a.name}</p>
-                  </div>
-                  {deleteAlert === 1 && (
-                    <DeleteBProfile
-                      a={a}
-                      deleteBusiness={deleteBusiness}
-                      setDeleteAlert={setDeleteAlert}
-                    />
-                  )}
-                  {deleteAlert === 2 && (
-                    <Recruting a={a} setDeleteAlert={setDeleteAlert} />
-                  )}
-                </S.BusinessProfile>
-              );
-            })}
-            {BProfileList.length < 3 && (
-              <S.BusinessProfile>
+            <p>어떤 프로필을 사용하여 참여자를 모집하시겠어요?</p>
+            <p>
+              사용하실 비즈니스 프로필을 골라보세요.
+              <br />
+              최대 3개까지 생성할 수 있어요.
+            </p>
+          </div>
+          <S.BusinessEditBtn>
+            {editMode ? (
+              <button onClick={() => setEditMode(false)}>확인</button>
+            ) : (
+              <PenIcon onClick={() => setEditMode(true)} />
+            )}
+          </S.BusinessEditBtn>
+        </S.BusinessHeader>
+        <div>
+          {BProfileList.map((a) => {
+            return (
+              <S.BusinessProfile key={a.id}>
                 <S.DeleteBtn
                   style={{
-                    opacity: 0,
-                    zIndex: -9999,
+                    opacity: editMode && a.admin ? 1 : 0,
+                    zIndex: editMode && a.admin ? 1 : -9999,
                   }}
+                  onClick={() => setDeleteAlert(1)}
                 >
                   <CloseIcon />
                 </S.DeleteBtn>
-                <S.ImgBox>
-                  <S.AddBProfileBtn onClick={() => setModalSwitch(true)}>
-                    <AddIcon />
-                  </S.AddBProfileBtn>
-                  {modalSwitch && (
-                    <BProfileCreateModal setModalSwitch={setModalSwitch} />
-                  )}
-                </S.ImgBox>
+                <div>
+                  <S.BImgBox onClick={() => history.push(`/business/${a.id}`)}>
+                    {a.avatar ? (
+                      <PVImg img={a.avatar} />
+                    ) : (
+                      <PVImg img="/images/기본프로필.png" />
+                    )}
+                  </S.BImgBox>
+                  <p>{a.name}</p>
+                </div>
+                {deleteAlert === 1 && (
+                  <DeleteBProfile
+                    a={a}
+                    deleteBusiness={deleteBusiness}
+                    setDeleteAlert={setDeleteAlert}
+                  />
+                )}
+                {deleteAlert === 2 && (
+                  <Recruting a={a} setDeleteAlert={setDeleteAlert} />
+                )}
               </S.BusinessProfile>
-            )}
-          </div>
-        </S.BusinessListBox>
-      )}
+            );
+          })}
+          {BProfileList.length < 3 && (
+            <S.BusinessProfile>
+              <S.DeleteBtn
+                style={{
+                  opacity: 0,
+                  zIndex: -9999,
+                }}
+              >
+                <CloseIcon />
+              </S.DeleteBtn>
+              <S.ImgBox>
+                <S.AddBProfileBtn onClick={() => setModalSwitch(true)}>
+                  <AddIcon />
+                </S.AddBProfileBtn>
+                {modalSwitch && (
+                  <BProfileCreateModal setModalSwitch={setModalSwitch} />
+                )}
+              </S.ImgBox>
+            </S.BusinessProfile>
+          )}
+        </div>
+      </S.BusinessListBox>
     </S.Container>
   );
 }

@@ -122,15 +122,20 @@
                                 <div style="mso-line-height-rule: exactly;mso-text-raise: 11px;vertical-align: middle;">
                                     <blockquote
                                             style="Margin-top: 0;Margin-bottom: 20px;Margin-left: 0;Margin-right: 0;padding-left: 14px;border-left: 4px solid #ccc;">
-                                        <p style="Margin-top: 0;Margin-bottom: 0;"><span style="color:#0a010a" th:text="|게시글 제목 : ${result.postTitle}|"></span>
+                                        <p style="Margin-top: 0;Margin-bottom: 0;"><span style="color:#0a010a"
+                                                                                         th:text="|게시글 제목 : ${result.postTitle}|"></span>
                                         </p>
-                                        <p style="Margin-top: 20px;Margin-bottom: 0;"><span style="color:#0a010a" th:text="|날짜 : ${#temporals.format(result.doDate,'yyyy-MM-dd')}|"></span>
+                                        <p style="Margin-top: 20px;Margin-bottom: 0;"><span style="color:#0a010a"
+                                                                                            th:text="|날짜 : ${#temporals.format(result.doDate,'yyyy-MM-dd')}|"></span>
                                         </p>
-                                        <p style="Margin-top: 20px;Margin-bottom: 0;"><span style="color:#0a010a" th:text="|시간 : ${#temporals.format(result.doDate,'HH:mm')} ~ ${#temporals.format(result.endTime,'HH:mm')} |"></span>
+                                        <p style="Margin-top: 20px;Margin-bottom: 0;"><span style="color:#0a010a"
+                                                                                            th:text="|시간 : ${#temporals.format(result.doDate,'HH:mm')} ~ ${#temporals.format(result.endTime,'HH:mm')} |"></span>
                                         </p>
-                                        <p style="Margin-top: 20px;Margin-bottom: 0;"><span style="color:#0a010a" th:text="|이름 : ${result.applicantName}|"></span>
+                                        <p style="Margin-top: 20px;Margin-bottom: 0;"><span style="color:#0a010a"
+                                                                                            th:text="|이름 : ${result.applicantName}|"></span>
                                         </p>
-                                        <p style="Margin-top: 20px;Margin-bottom: 20px;"><span style="color:#0a010a" th:text="|연락처 : ${result.applicantContact}|"></span>
+                                        <p style="Margin-top: 20px;Margin-bottom: 20px;"><span style="color:#0a010a"
+                                                                                               th:text="|연락처 : ${result.applicantContact}|"></span>
                                         </p></blockquote>
                                 </div>
                             </div>
@@ -142,9 +147,11 @@
 
                             <div style="Margin-left: 20px;Margin-right: 20px;Margin-bottom: 24px;">
                                 <div class="btn btn--flat btn--large" style="text-align:center;">
-                                    <!--[if !mso]--><a
-                                        style="border-radius: 4px;display: inline-block;font-size: 14px;font-weight: bold;line-height: 24px;padding: 12px 24px;text-align: center;text-decoration: none !important;transition: opacity 0.1s ease-in;color: #ffffff !important;background-color: #2d73cd;font-family: Arial, sans-serif;"
-                                        href="https://clmoi.createsend1.com/t/y-i-bllkkdy-l-y/">미니바이트 웹사이트로 이동</a>
+                                    <!--[if !mso]-->
+                                    <a style="border-radius: 4px;display: inline-block;font-size: 14px;font-weight: bold;line-height: 24px;padding: 12px 24px;text-align: center;text-decoration: none !important;transition: opacity 0.1s ease-in;color: #ffffff !important;background-color: #2d73cd;font-family: Arial, sans-serif;"
+                                       th:href="@{'https://dev2.minibeit.com/business/'+${result.businessProfileId}}">
+                                        미니바이트 웹사이트로 이동
+                                    </a>
                                     <!--[endif]-->
                                     <!--[if mso]><p style="line-height:0;margin:0;">&nbsp;</p><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" href="https://clmoi.createsend1.com/t/y-i-bllkkdy-l-y/" style="width:224px" arcsize="9%" fillcolor="#2D73CD" stroke="f"><v:textbox style="mso-fit-shape-to-text:t" inset="0px,11px,0px,11px"><center style="font-size:14px;line-height:24px;color:#FFFFFF;font-family:Arial,sans-serif;font-weight:bold;mso-line-height-rule:exactly;mso-text-raise:4px">&#48120;&#45768;&#48148;&#51060;&#53944; &#50937;&#49324;&#51060;&#53944;&#47196; &#51060;&#46041;</center></v:textbox></v:roundrect><![endif]-->
                                 </div>

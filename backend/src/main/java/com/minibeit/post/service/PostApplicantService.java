@@ -71,7 +71,7 @@ public class PostApplicantService {
             Post post = postDoDate.getPost();
             List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
             postDoDate.updateFull(approvedPostApplicant);
-            PostApplicantResponse.ApplicantCancelMail result = PostApplicantResponse.ApplicantCancelMail.build(user.getName(), user.getPhoneNum(), postDoDate.getDoDate(), post.getDoTime(), post.getTitle());
+            PostApplicantResponse.ApplicantCancelMail result = PostApplicantResponse.ApplicantCancelMail.build(user.getName(), user.getPhoneNum(), postDoDate.getDoDate(), post.getDoTime(), post.getTitle(), post.getBusinessProfile().getId());
             mailService.mailSend(PostMailCondition.APPLICANTCANCEL, Collections.singletonList(post.getBusinessProfile().getAdmin().getEmail()), result);
         }
     }

@@ -111,7 +111,7 @@ export default function BProfileEditCont({
             <div>
               <p>상세주소</p>
               <input
-                defaultValue=""
+                defaultValue={BProfileData.placeDetail}
                 name="detailPlace"
                 type="text"
                 placeholder="상세 주소"

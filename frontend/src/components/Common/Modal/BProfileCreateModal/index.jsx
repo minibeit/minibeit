@@ -63,7 +63,7 @@ export default function BProfileCreateModal({ setModalSwitch }) {
         <S.ModalBox>
           <S.ModalHeader>
             <p>비즈니스 프로필 생성하기</p>
-            <S.CloseModalBtn onClick={setModalSwitch(false)}>
+            <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
               <CloseIcon />
             </S.CloseModalBtn>
           </S.ModalHeader>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import * as S from "../style";
 
@@ -11,8 +11,9 @@ export default function ApplyController({ apply, feedDetailData, checkLogin }) {
     navigator.clipboard.writeText(window.location.href);
     alert("복사되었습니다. 원하는곳에서 붙여넣기 해주세요!");
   };
-
-  const num = Math.floor(Math.random() * 10) + 1;
+  const num = useMemo(() => {
+    return Math.floor(Math.random() * 10) + 1;
+  }, []);
 
   return (
     <S.RemoteBox>

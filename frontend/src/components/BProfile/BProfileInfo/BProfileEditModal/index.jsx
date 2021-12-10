@@ -51,6 +51,7 @@ export default function BProfileEditCont({
       })
       .catch((err) => alert("수정 내용을 다시 한번 확인해주세요"));
   };
+  console.log(BProfileData);
 
   return (
     <>

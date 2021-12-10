@@ -25,6 +25,8 @@ public class BusinessProfile extends BaseEntity {
 
     private String place;
 
+    private String placeDetail;
+
     private String contact;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -57,6 +59,7 @@ public class BusinessProfile extends BaseEntity {
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(request.getName())
                 .place(request.getPlace())
+                .placeDetail(request.getPlaceDetail())
                 .contact(request.getContact())
                 .avatar(avatar)
                 .admin(admin)

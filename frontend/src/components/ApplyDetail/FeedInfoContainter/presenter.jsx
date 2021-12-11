@@ -73,7 +73,8 @@ export default function Presenter({
         <S.DataContent>
           <ul>
             <li>
-              <span>금액</span> {payment === "CACHE" ? `${cache}원` : goods}
+              <span>{payment === "CACHE" ? "금액" : "보상"}</span>
+              {payment === "CACHE" ? `${cache}원` : goods}
             </li>
             <li>
               <span>지급</span> {paymentDetail}
@@ -190,9 +191,7 @@ export default function Presenter({
                   window.open(`https://map.naver.com/v5/search/${address}`);
                 }}
               >
-                {addressDetail
-                  ? `${address} + " " + ${addressDetail}`
-                  : `${address}`}
+                {addressDetail ? `${address} ${addressDetail}` : `${address}`}
               </S.AddressBox>
             </li>
             <li>

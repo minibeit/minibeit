@@ -304,7 +304,6 @@ export const CategoryConfirm = styled(CategoryBtn)`
   gap: 0.5rem;
   border: none;
   background: none;
-
   & p {
     font-weight: bold;
     color: #0642ff;
@@ -314,6 +313,18 @@ export const CategoryConfirm = styled(CategoryBtn)`
     transform: rotate(270deg);
     & path {
       fill: #0642ff;
+    }
+  }
+  :disabled {
+    border: none;
+    & p {
+      font-weight: bold;
+      color: #c4c4c4;
+    }
+    & svg {
+      & path {
+        fill: #c4c4c4;
+      }
     }
   }
 `;

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState, useRef } from "react";
-import { useRecoilValue, useResetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { useHistory } from "react-router";
 
 import { userState } from "../../recoil/userState";
@@ -12,7 +12,7 @@ import InfoData from "./InfoData";
 import { recruitState } from "../../recoil/recruitState";
 
 export default function RecruitComponent() {
-  const [recruit, setRecruit] = useState(useRecoilValue(recruitState));
+  const [recruit, setRecruit] = useRecoilState(recruitState);
   const resetRecruit = useResetRecoilState(recruitState);
   const history = useHistory();
   const userId = useRecoilValue(userState).id;
@@ -64,14 +64,26 @@ export default function RecruitComponent() {
   };
 
   useEffect(() => {
-    if (!isLogin) {
-      history.push("/");
-    }
+    if (!isLogin) history.push("/");
   });
 
   useEffect(() => {
     getbpList();
   }, [getbpList]);
+
+  useEffect(() => {
+    return history.block((loca, action) => {
+      if (
+        (action === "POP" || action === "PUSH") &&
+        loca.pathname.slice(0, loca.pathname.length - 1) !==
+          "/recruit/complete/"
+      ) {
+        let value = window.confirm("변경내용이 저장되지 않을 수 있습니다");
+        if (value) resetRecruit();
+        return value;
+      }
+    });
+  }, [history, resetRecruit]);
 
   return (
     <div ref={page}>

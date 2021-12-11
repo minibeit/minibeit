@@ -399,6 +399,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                 );
               })}
               <S.CategoryConfirm
+                disabled={category === null ? true : false}
                 onClick={() => {
                   const copy = { ...recruit };
                   copy["category"] = category;

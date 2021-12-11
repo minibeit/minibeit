@@ -51,7 +51,7 @@ public class BusinessUserReviewService {
         return BusinessUserReviewResponse.OnlyId.build(savedReview);
     }
 
-    public void createUserReview(Long businessProfileId, Long userId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
+    public BusinessUserReviewResponse.OnlyId createUserReview(Long businessProfileId, Long userId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
         User applicantUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
@@ -65,7 +65,8 @@ public class BusinessUserReviewService {
         postApplicant.updateEvaluatedBusiness();
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);
         BusinessUserReview businessUserReview = BusinessUserReview.createWithUser(applicantUser, businessUserReviewDetail);
-        businessUserReviewRepository.save(businessUserReview);
+        BusinessUserReview review = businessUserReviewRepository.save(businessUserReview);
+        return BusinessUserReviewResponse.OnlyId.build(review);
     }
 
     @Transactional(readOnly = true)

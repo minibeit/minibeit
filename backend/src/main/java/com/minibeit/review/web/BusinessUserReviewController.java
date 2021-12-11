@@ -29,10 +29,10 @@ public class BusinessUserReviewController {
     }
 
     @PostMapping("/business/{businessProfileId}/user/{userId}/date/{postDoDateId}/review/{reviewDetailId}")
-    public ResponseEntity<ApiResult<Void>> createUserReview(@PathVariable Long businessProfileId, @PathVariable Long userId, @PathVariable Long postDoDateId,
-                                                            @PathVariable Long reviewDetailId, @CurrentUser CustomUserDetails customUserDetails) {
-        businessUserReviewService.createUserReview(businessProfileId, userId, postDoDateId, reviewDetailId, LocalDateTime.now(), customUserDetails.getUser());
-        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
+    public ResponseEntity<ApiResult<BusinessUserReviewResponse.OnlyId>> createUserReview(@PathVariable Long businessProfileId, @PathVariable Long userId, @PathVariable Long postDoDateId,
+                                                                                         @PathVariable Long reviewDetailId, @CurrentUser CustomUserDetails customUserDetails) {
+        BusinessUserReviewResponse.OnlyId response = businessUserReviewService.createUserReview(businessProfileId, userId, postDoDateId, reviewDetailId, LocalDateTime.now(), customUserDetails.getUser());
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
     @GetMapping("/business/user/reviews")

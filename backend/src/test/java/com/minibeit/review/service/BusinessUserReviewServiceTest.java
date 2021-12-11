@@ -68,6 +68,7 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
     private PostDoDate postDoDate;
     private Post post;
     private BusinessUserReviewDetail goodBReviewDetail;
+    private BusinessUserReviewDetail goodUReviewDetail;
 
     @BeforeEach
     void setup() {
@@ -85,6 +86,9 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
     void reviewDetailSetup() {
         BusinessUserReviewDetail createdReviewDetail = BusinessUserReviewDetail.builder().id(1L).content("좋은 실험입니다.").type(BusinessUserReviewType.B).evalType(BusinessUserReviewEvalType.GOOD).build();
         goodBReviewDetail = businessUserReviewDetailRepository.save(createdReviewDetail);
+
+        BusinessUserReviewDetail createdReviewDetail2 = BusinessUserReviewDetail.builder().id(2L).content("성실한 참가자 입니다.").type(BusinessUserReviewType.B).evalType(BusinessUserReviewEvalType.GOOD).build();
+        goodUReviewDetail = businessUserReviewDetailRepository.save(createdReviewDetail2);
     }
 
     void userAndBusinessSetup() {
@@ -174,14 +178,15 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
         postApplicantRepository.save(postApplicant1);
 
         PostApplicant postApplicant2 = PostApplicant.create(postDoDate, notAttendUser);
-        postApplicant1.updateStatus(ApplyStatus.APPROVE);
-        postApplicant1.changeBusinessFinish(false);
-        postApplicant1.updateMyFinish();
+        postApplicant2.updateStatus(ApplyStatus.APPROVE);
+        postApplicant2.changeBusinessFinish(false);
+        postApplicant2.updateEvaluatedBusiness();
+        postApplicant2.updateMyFinish();
         postApplicantRepository.save(postApplicant2);
 
         PostApplicant postApplicant3 = PostApplicant.create(postDoDate, notCompleteSelf);
-        postApplicant1.updateStatus(ApplyStatus.APPROVE);
-        postApplicant1.changeBusinessFinish(true);
+        postApplicant3.updateStatus(ApplyStatus.APPROVE);
+        postApplicant3.changeBusinessFinish(true);
         postApplicantRepository.save(postApplicant3);
     }
 
@@ -193,30 +198,65 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
     }
 
     @Test
-    @DisplayName("비즈니스 후기 작성 실패(지원자가 아닌 경우)")
+    @DisplayName("비즈니스 후기 작성 - 실패(지원자가 아닌 경우)")
     void createBusinessReviewNotFoundApplicant() {
         assertThatThrownBy(() -> businessUserReviewService.createBusinessReview(businessProfile.getId(), postDoDate.getId(), goodBReviewDetail.getId(), LocalDateTime.of(2021, 9, 30, 0, 0), userInBusinessProfile))
                 .isExactlyInstanceOf(PostApplicantNotFoundException.class);
     }
 
     @Test
-    @DisplayName("비즈니스 후기 작성 실패(비즈니스에서 불참을 누른 경우)")
+    @DisplayName("비즈니스 후기 작성 - 실패(비즈니스에서 불참을 누른 경우)")
     void createBusinessReviewNotAttend() {
         assertThatThrownBy(() -> businessUserReviewService.createBusinessReview(businessProfile.getId(), postDoDate.getId(), goodBReviewDetail.getId(), LocalDateTime.of(2021, 9, 30, 0, 0), notAttendUser))
                 .isExactlyInstanceOf(PermissionException.class);
     }
 
     @Test
-    @DisplayName("비즈니스 후기 작성 실패(참여한지 7일이 지난 경우)")
+    @DisplayName("비즈니스 후기 작성 - 실패(참여한지 7일이 지난 경우)")
     void createBusinessReviewAfter7Day() {
         assertThatThrownBy(() -> businessUserReviewService.createBusinessReview(businessProfile.getId(), postDoDate.getId(), goodBReviewDetail.getId(), LocalDateTime.of(2021, 10, 7, 0, 0), user2))
                 .isExactlyInstanceOf(PermissionException.class);
     }
 
     @Test
-    @DisplayName("비즈니스 후기 작성 실패(자신이 완료버튼을 누르지 않은 경우)")
+    @DisplayName("비즈니스 후기 작성 - 실패(자신이 완료버튼을 누르지 않은 경우)")
     void createBusinessReviewNotCompleteSelf() {
         assertThatThrownBy(() -> businessUserReviewService.createBusinessReview(businessProfile.getId(), postDoDate.getId(), goodBReviewDetail.getId(), LocalDateTime.of(2021, 10, 7, 0, 0), notCompleteSelf))
+                .isExactlyInstanceOf(PermissionException.class);
+    }
+
+    @Test
+    @DisplayName("지원자 후기 작성 - 성공")
+    void createUserReview() {
+        BusinessUserReviewResponse.OnlyId response = businessUserReviewService.createUserReview(businessProfile.getId(), user2.getId(), postDoDate.getId(), goodUReviewDetail.getId(), LocalDateTime.of(2021, 9, 30, 0, 0), userInBusinessProfile);
+        assertNotNull(businessUserReviewRepository.findById(response.getId()));
+    }
+
+    @Test
+    @DisplayName("지원자 후기 작성 - 실패(비즈니스 소속원이 아닌경우)")
+    void createUserReviewNotInBusiness() {
+        assertThatThrownBy(() -> businessUserReviewService.createUserReview(businessProfile.getId(), user2.getId(), postDoDate.getId(), goodUReviewDetail.getId(), LocalDateTime.of(2021, 9, 30, 0, 0), user2))
+                .isExactlyInstanceOf(PermissionException.class);
+    }
+
+    @Test
+    @DisplayName("지원자 후기 작성 - 실패(참여하지 않은 지원자인 경우)")
+    void createUserReviewNotFoundApplicant() {
+        assertThatThrownBy(() -> businessUserReviewService.createUserReview(businessProfile.getId(), userInBusinessProfile.getId(), postDoDate.getId(), goodUReviewDetail.getId(), LocalDateTime.of(2021, 9, 30, 0, 0), userInBusinessProfile))
+                .isExactlyInstanceOf(PostApplicantNotFoundException.class);
+    }
+
+    @Test
+    @DisplayName("지원자 후기 작성 - 실패(이미 후기를 작성한 경우)")
+    void createUserReviewAlreadyWriteReview() {
+        assertThatThrownBy(() -> businessUserReviewService.createUserReview(businessProfile.getId(), notAttendUser.getId(), postDoDate.getId(), goodUReviewDetail.getId(), LocalDateTime.of(2021, 9, 30, 0, 0), userInBusinessProfile))
+                .isExactlyInstanceOf(PermissionException.class);
+    }
+
+    @Test
+    @DisplayName("지원자 후기 작성 - 실패(7일이 지난 경우)")
+    void createUserReviewAfter() {
+        assertThatThrownBy(() -> businessUserReviewService.createUserReview(businessProfile.getId(), user2.getId(), postDoDate.getId(), goodUReviewDetail.getId(), LocalDateTime.of(2021, 10, 7, 0, 0), userInBusinessProfile))
                 .isExactlyInstanceOf(PermissionException.class);
     }
 }

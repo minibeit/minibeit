@@ -77,6 +77,10 @@ class BusinessUserReviewControllerTest extends MvcTest {
     @Test
     @DisplayName("지원자에 대한 리뷰 생성 문서화")
     public void createUserReview() throws Exception {
+        BusinessUserReviewResponse.OnlyId response = BusinessUserReviewResponse.OnlyId.builder().id(1L).build();
+
+        given(businessUserReviewService.createUserReview(any(),any(),any(),any(),any(),any())).willReturn(response);
+
         ResultActions results = mvc.perform(post("/api/business/{businessProfileId}/user/{userId}/date/{postDoDateId}/review/{reviewDetailId}", 1, 1, 1,1)
                 .contentType(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8"));
@@ -93,7 +97,7 @@ class BusinessUserReviewControllerTest extends MvcTest {
                         responseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
-                                fieldWithPath("data").description("data 없다면 null")
+                                fieldWithPath("data.id").description("리뷰 식별자")
                         )
                 ));
     }

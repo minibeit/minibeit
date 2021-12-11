@@ -1,10 +1,14 @@
 package com.minibeit.common.component.file;
 
+import com.amazonaws.AmazonClientException;
+import com.amazonaws.AmazonServiceException;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
-import com.minibeit.common.domain.FileServer;
+import com.amazonaws.services.s3.model.S3Object;
 import com.minibeit.common.component.exception.S3FileUploadException;
+import com.minibeit.common.domain.FileServer;
 import com.minibeit.common.dto.SavedFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,9 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -93,6 +95,31 @@ public class S3Uploader {
             return Optional.of(convertFile);
         }
         return Optional.empty();
+    }
+
+    public ByteArrayOutputStream downloadFile(String keyName) {
+        try {
+            S3Object s3object = s3Client.getObject(new GetObjectRequest(s3Bucket, keyName));
+
+            InputStream is = s3object.getObjectContent();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            int len;
+            byte[] buffer = new byte[4096];
+            while ((len = is.read(buffer, 0, buffer.length)) != -1) {
+                outputStream.write(buffer, 0, len);
+            }
+
+            return outputStream;
+        } catch (IOException ioException) {
+            log.error("IOException: " + ioException.getMessage());
+        } catch (AmazonServiceException serviceException) {
+            log.info("AmazonServiceException Message:    " + serviceException.getMessage());
+            throw serviceException;
+        } catch (AmazonClientException clientException) {
+            log.info("AmazonClientException Message: " + clientException.getMessage());
+            throw clientException;
+        }
+        return null;
     }
 
     public void delete(String fileName) {

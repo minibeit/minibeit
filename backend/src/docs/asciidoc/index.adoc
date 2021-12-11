@@ -8,3 +8,4 @@
 - link:/docs/post.html[게시물 API]
 - link:/docs/mail.html[메일 API]
 - link:/docs/phonepush.html[PUSH API]
+- link:/docs/file.html[파일 API]

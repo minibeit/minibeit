@@ -10,12 +10,13 @@ public class PostFileDto {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Image {
         private String url;
+        private String name;
 
         public static PostFileDto.Image build(PostFile postFile) {
             if (postFile == null) {
                 return null;
             }
-            return PostFileDto.Image.builder().url(postFile.getUrl()).build();
+            return Image.builder().url(postFile.getUrl()).name(postFile.getName()).build();
         }
     }
 }

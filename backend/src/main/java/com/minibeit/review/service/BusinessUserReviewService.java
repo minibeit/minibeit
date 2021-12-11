@@ -38,7 +38,7 @@ public class BusinessUserReviewService {
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final UserRepository userRepository;
 
-    public void createBusinessReview(Long businessProfileId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
+    public BusinessUserReviewResponse.OnlyId createBusinessReview(Long businessProfileId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
         if (!postApplicant.writeBusinessReviewIsPossible(now)) {
             throw new PermissionException();
@@ -47,10 +47,11 @@ public class BusinessUserReviewService {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);
         BusinessUserReview businessUserReview = BusinessUserReview.createWithBusiness(businessProfile, businessUserReviewDetail);
-        businessUserReviewRepository.save(businessUserReview);
+        BusinessUserReview savedReview = businessUserReviewRepository.save(businessUserReview);
+        return BusinessUserReviewResponse.OnlyId.build(savedReview);
     }
 
-    public void createUserReview(Long businessProfileId, Long userId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
+    public BusinessUserReviewResponse.OnlyId createUserReview(Long businessProfileId, Long userId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
         User applicantUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
@@ -64,13 +65,14 @@ public class BusinessUserReviewService {
         postApplicant.updateEvaluatedBusiness();
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);
         BusinessUserReview businessUserReview = BusinessUserReview.createWithUser(applicantUser, businessUserReviewDetail);
-        businessUserReviewRepository.save(businessUserReview);
+        BusinessUserReview review = businessUserReviewRepository.save(businessUserReview);
+        return BusinessUserReviewResponse.OnlyId.build(review);
     }
 
     @Transactional(readOnly = true)
-    public List<BusinessUserReviewResponse.IdAndName> getList(BusinessUserReviewType type, BusinessUserReviewEvalType evalType) {
+    public List<BusinessUserReviewResponse.IdAndContent> getList(BusinessUserReviewType type, BusinessUserReviewEvalType evalType) {
         List<BusinessUserReviewDetail> businessUserReviewDetailList = businessBusinessUserReviewDetailRepository.findAllByTypeAndEvalType(type, evalType);
-        return businessUserReviewDetailList.stream().map(BusinessUserReviewResponse.IdAndName::build).collect(Collectors.toList());
+        return businessUserReviewDetailList.stream().map(BusinessUserReviewResponse.IdAndContent::build).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

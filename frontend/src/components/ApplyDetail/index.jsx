@@ -117,15 +117,8 @@ export default function ApplyDetailComponent({ feedId, date }) {
     <S.FeedContainer>
       {feedDetailData && (
         <TitleContiner
-          title={feedDetailData.title}
-          businessProfileInfo={feedDetailData.businessProfileInfo}
+          feedDetailData={feedDetailData}
           clickBookmark={clickBookmark}
-          category={feedDetailData.category}
-          isLogin={user.isLogin}
-          id={feedDetailData.id}
-          isLike={feedDetailData.isLike}
-          likes={feedDetailData.likes}
-          likeToLogIn={likeToLogIn}
         />
       )}
       {feedDetailData && (

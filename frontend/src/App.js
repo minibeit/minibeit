@@ -4,6 +4,8 @@ import { Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { RecoilRoot } from "recoil";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Main from "./pages/Main";
 import ProcessLogin from "./pages/ProcessLogin";
@@ -29,6 +31,7 @@ function App() {
       <RecoilRoot>
         <GlobalStyle />
         <NavBar />
+        <ToastContainer />
         <TransitionGroup className="transition-group">
           <CSSTransition
             key={pathname.pathname}

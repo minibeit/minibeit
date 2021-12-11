@@ -1,10 +1,23 @@
 package com.minibeit.review.dto;
 
+import com.minibeit.review.domain.BusinessUserReview;
 import com.minibeit.review.domain.BusinessUserReviewDetail;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 
 public class BusinessUserReviewResponse {
+    @Getter
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class OnlyId {
+        private Long id;
+
+        public static BusinessUserReviewResponse.OnlyId build(BusinessUserReview review) {
+            return BusinessUserReviewResponse.OnlyId.builder().id(review.getId()).build();
+        }
+    }
+
     @Getter
     @Builder
     @NoArgsConstructor

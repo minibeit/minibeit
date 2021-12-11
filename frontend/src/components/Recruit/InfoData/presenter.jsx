@@ -48,6 +48,7 @@ export default function Presenter({
           <p>제목</p>
           <input
             name="title"
+            defaultValue={recruit.title}
             placeholder="참여자에게 보여주실 제목을 작성해주세요."
             onChange={(e) => {
               if (e.target.value.length > 20) {
@@ -76,6 +77,7 @@ export default function Presenter({
               <S.ConditionInput disabled={!recruit.condition} key={i}>
                 <input
                   id={i}
+                  defaultValue={recruit.conditionDetail[i]}
                   disabled={recruit.condition ? false : true}
                   onChange={(e) => {
                     if (e.target.value.length > 20) {
@@ -121,10 +123,16 @@ export default function Presenter({
                 <S.PayInput>
                   <input
                     name="pay"
-                    type="number"
-                    onChange={onChange}
-                    step={100}
-                    min={0}
+                    type="text"
+                    defaultValue={recruit.pay}
+                    onChange={(e) => {
+                      if (isNaN(parseInt(e.target.value))) {
+                        e.target.value = 0;
+                      } else {
+                        e.target.value = parseInt(e.target.value);
+                      }
+                      onChange(e);
+                    }}
                   />
                   <span>원</span>
                 </S.PayInput>
@@ -149,6 +157,7 @@ export default function Presenter({
               <input
                 name="pay"
                 placeholder="무엇을 지급하시나요?  ex) 아메리카노 기프티콘"
+                defaultValue={recruit.pay}
                 onChange={(e) => {
                   if (e.target.value.length > 100) {
                     alert("100자 이내로 입력해주세요");
@@ -164,6 +173,7 @@ export default function Presenter({
           <S.PayInput>
             <input
               name="payMemo"
+              defaultValue={recruit.payMemo}
               placeholder="남기실 메모가 있다면 적어주세요"
               onChange={(e) => {
                 if (e.target.value.length > 100) {
@@ -181,6 +191,7 @@ export default function Presenter({
           <p>상세 글</p>
           <textarea
             name="content"
+            defaultValue={recruit.content}
             placeholder="자세하게 서술하수록 참여자를 빠르게 모집할 수 있어요."
             onChange={(e) => {
               if (e.target.value.length > 500) {
@@ -208,6 +219,7 @@ export default function Presenter({
           <S.Input>
             <input
               name="detailAddress"
+              defaultValue={recruit.detailAddress}
               placeholder="상세 주소를 입력해주세요."
               onChange={onChange}
             />
@@ -228,6 +240,7 @@ export default function Presenter({
           <S.Input>
             <input
               placeholder="'-' 없이 숫자만 입력"
+              defaultValue={recruit.contact}
               onChange={(e) => {
                 const copy = { ...recruit };
                 copy.contact = e.target.value;

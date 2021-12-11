@@ -56,6 +56,10 @@ export const TitleContent = styled.div`
       font-size: 2rem;
       font-weight: 700;
     }
+    & > div:nth-child(2) {
+      display: flex;
+      gap: 1rem;
+    }
   }
   & > div:nth-child(3) {
     display: flex;
@@ -69,6 +73,16 @@ export const TitleContent = styled.div`
     }
   }
 `;
+export const CopyTemplateBtn = styled.button`
+  color: #0642ff;
+  background-color: #fff;
+  border: 1px solid #0642ff;
+  border-radius: 2rem;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  cursor: pointer;
+`;
+
 export const TitleBookMark = styled.div`
   margin-top: 0.5rem;
   display: flex;

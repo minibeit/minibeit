@@ -81,7 +81,7 @@ class PostControllerTest extends MvcTest {
                 .school(School.builder().id(1L).name("고려대학교").build())
                 .businessProfile(businessProfile)
                 .postDoDateList(Collections.singletonList(PostDoDate.builder().id(1L).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build()))
-                .postFileList(Collections.singletonList(PostFile.builder().id(1L).url("profile image url").build()))
+                .postFileList(Collections.singletonList(PostFile.builder().id(1L).url("profile image url").name("fileName").build()))
                 .build();
         post1.setCreatedBy(user);
 
@@ -105,7 +105,7 @@ class PostControllerTest extends MvcTest {
                 .school(School.builder().id(1L).name("고려대학교").build())
                 .businessProfile(businessProfile)
                 .postDoDateList(Collections.singletonList(PostDoDate.builder().id(1L).doDate(LocalDateTime.of(2021, 9, 4, 9, 30)).build()))
-                .postFileList(Collections.singletonList(PostFile.builder().id(1L).url("profile image url").build()))
+                .postFileList(Collections.singletonList(PostFile.builder().id(1L).url("profile image url").name("fileName").build()))
                 .build();
         post2.setCreatedBy(user);
 
@@ -174,7 +174,8 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("data.schoolName").type(JsonFieldType.STRING).description("학교 이름"),
                                 fieldWithPath("data.startDate").type(JsonFieldType.STRING).description("모집 시작 날짜"),
                                 fieldWithPath("data.endDate").type(JsonFieldType.STRING).description("모집 마감 날짜"),
-                                fieldWithPath("data.files[].url").type(JsonFieldType.STRING).description("파일"),
+                                fieldWithPath("data.files[].url").type(JsonFieldType.STRING).description("파일 url"),
+                                fieldWithPath("data.files[].name").type(JsonFieldType.STRING).description("파일 이름"),
                                 fieldWithPath("data.businessProfileInfo.id").type(JsonFieldType.NUMBER).description("게시물을 작성한 비즈니스 프로필 식별자"),
                                 fieldWithPath("data.businessProfileInfo.name").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 이름"),
                                 fieldWithPath("data.businessProfileInfo.avatar").type(JsonFieldType.STRING).description("게시물을 작성한 비즈니스 프로필 이미지"),

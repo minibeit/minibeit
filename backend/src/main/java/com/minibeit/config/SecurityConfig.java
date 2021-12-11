@@ -47,6 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/user/refreshtoken", "/api/user/login", "/api/user/nickname/check", "/api/school/search",
                         "/api/post/{postId}", "/api/post/{postId}/start", "/api/post/list/{schoolId}",
                         "/api/business/{businessProfileId}/good-reviews", "/api/business/profile/review/{businessProfileReviewId}",
+                        "/api/file/download",
                         "/api/profile/**").permitAll()
                 .anyRequest().authenticated()
                 .and()

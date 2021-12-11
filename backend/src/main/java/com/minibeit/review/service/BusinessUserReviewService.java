@@ -70,9 +70,9 @@ public class BusinessUserReviewService {
     }
 
     @Transactional(readOnly = true)
-    public List<BusinessUserReviewResponse.IdAndName> getList(BusinessUserReviewType type, BusinessUserReviewEvalType evalType) {
+    public List<BusinessUserReviewResponse.IdAndContent> getList(BusinessUserReviewType type, BusinessUserReviewEvalType evalType) {
         List<BusinessUserReviewDetail> businessUserReviewDetailList = businessBusinessUserReviewDetailRepository.findAllByTypeAndEvalType(type, evalType);
-        return businessUserReviewDetailList.stream().map(BusinessUserReviewResponse.IdAndName::build).collect(Collectors.toList());
+        return businessUserReviewDetailList.stream().map(BusinessUserReviewResponse.IdAndContent::build).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)

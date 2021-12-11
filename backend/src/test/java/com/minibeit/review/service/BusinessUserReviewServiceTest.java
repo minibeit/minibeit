@@ -36,7 +36,7 @@ import java.util.Collections;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@DisplayName("BusinessUserReviewService 흐름 테스트")
+@DisplayName("BusinessUserReviewService 후기 작성 흐름 테스트")
 class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
     @Autowired
     private BusinessUserReviewService businessUserReviewService;

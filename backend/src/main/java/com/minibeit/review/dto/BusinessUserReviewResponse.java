@@ -22,12 +22,12 @@ public class BusinessUserReviewResponse {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class IdAndName {
+    public static class IdAndContent {
         private Long id;
         private String content;
 
-        public static BusinessUserReviewResponse.IdAndName build(BusinessUserReviewDetail businessUserReviewDetail) {
-            return BusinessUserReviewResponse.IdAndName.builder().id(businessUserReviewDetail.getId()).content(businessUserReviewDetail.getContent()).build();
+        public static IdAndContent build(BusinessUserReviewDetail businessUserReviewDetail) {
+            return IdAndContent.builder().id(businessUserReviewDetail.getId()).content(businessUserReviewDetail.getContent()).build();
         }
     }
 

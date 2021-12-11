@@ -36,8 +36,8 @@ public class BusinessUserReviewController {
     }
 
     @GetMapping("/business/user/reviews")
-    public ResponseEntity<ApiResult<List<BusinessUserReviewResponse.IdAndName>>> getList(@RequestParam(name = "reviewType") BusinessUserReviewType type, @RequestParam(name = "evalType") BusinessUserReviewEvalType evalType) {
-        List<BusinessUserReviewResponse.IdAndName> response = businessUserReviewService.getList(type, evalType);
+    public ResponseEntity<ApiResult<List<BusinessUserReviewResponse.IdAndContent>>> getList(@RequestParam(name = "reviewType") BusinessUserReviewType type, @RequestParam(name = "evalType") BusinessUserReviewEvalType evalType) {
+        List<BusinessUserReviewResponse.IdAndContent> response = businessUserReviewService.getList(type, evalType);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 

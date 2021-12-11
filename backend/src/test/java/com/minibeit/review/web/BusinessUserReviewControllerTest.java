@@ -105,10 +105,10 @@ class BusinessUserReviewControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 리뷰 만족 불만족 리스트 조회")
     public void getList() throws Exception {
-        List<BusinessUserReviewResponse.IdAndName> response = new ArrayList<>();
-        BusinessUserReviewResponse.IdAndName response1 = BusinessUserReviewResponse.IdAndName.build(businessUserReviewDetail1);
-        BusinessUserReviewResponse.IdAndName response2 = BusinessUserReviewResponse.IdAndName.build(businessUserReviewDetail2);
-        BusinessUserReviewResponse.IdAndName response3 = BusinessUserReviewResponse.IdAndName.build(businessUserReviewDetail3);
+        List<BusinessUserReviewResponse.IdAndContent> response = new ArrayList<>();
+        BusinessUserReviewResponse.IdAndContent response1 = BusinessUserReviewResponse.IdAndContent.build(businessUserReviewDetail1);
+        BusinessUserReviewResponse.IdAndContent response2 = BusinessUserReviewResponse.IdAndContent.build(businessUserReviewDetail2);
+        BusinessUserReviewResponse.IdAndContent response3 = BusinessUserReviewResponse.IdAndContent.build(businessUserReviewDetail3);
         response.add(response1);
         response.add(response2);
         response.add(response3);

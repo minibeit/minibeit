@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-toastify";
 
 import { PVImg } from "../../../Common";
 import * as S from "../style";
@@ -102,7 +103,7 @@ export default function InfoData({
                 if (!exceptName(e.target.value)) {
                   e.target.value = "";
                   onChange(e);
-                  alert("이름은 2~5글자 한글로 입력해주세요");
+                  toast.info("이름은 2~5글자 한글로 입력해주세요");
                 }
               }}
             />
@@ -123,7 +124,9 @@ export default function InfoData({
                   if (exceptNickname(value)) {
                     checkingNickname(e.target.previousSibling.value);
                   } else {
-                    alert("닉네임은 2글자 이상 10글자 이내로 입력해주세요");
+                    toast.info(
+                      "닉네임은 2글자 이상 10글자 이내로 입력해주세요"
+                    );
                   }
                 }}
               >
@@ -206,7 +209,7 @@ export default function InfoData({
                         "display:flex"
                       );
                     } else {
-                      alert("휴대폰 번호를 다시 확인해주세요");
+                      toast.info("휴대폰 번호를 다시 확인해주세요");
                     }
                   }}
                 >
@@ -249,7 +252,7 @@ export default function InfoData({
                         "display:flex"
                       );
                     } else {
-                      alert("이메일 형식을 확인해주세요");
+                      toast.info("이메일 형식을 확인해주세요");
                     }
                   }}
                 >

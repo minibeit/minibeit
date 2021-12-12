@@ -5,6 +5,7 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 import * as S from "./style";
 import Portal from "../../../Common/Modal/Portal";
 import { stateCompleteApi } from "../../../../utils";
+import { toast } from "react-toastify";
 
 export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
   const [comment, setComment] = useState(""); //input에 담긴 코멘트를 담음
@@ -36,7 +37,7 @@ export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
           setCloseModal(2);
         })
         .catch((err) => {
-          alert("종료할 수 없는 게시물 입니다");
+          toast.error("종료할 수 없는 게시물 입니다");
         });
     }
   };
@@ -44,13 +45,13 @@ export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
   const onSubmit = () => {
     if (selected === "직접입력") {
       if (comment === "") {
-        alert("종료사유를 입력하세요");
+        toast.error("종료사유를 입력하세요");
       } else {
         stateComplete(postId, comment);
       }
     } else {
       if (selected === "사유를 골라주세요.") {
-        alert("종료사유를 골라주세요.");
+        toast.info("종료사유를 골라주세요.");
       } else {
         stateComplete(postId, selected);
       }

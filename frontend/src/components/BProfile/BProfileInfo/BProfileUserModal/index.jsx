@@ -9,6 +9,7 @@ import {
 } from "../../../../utils";
 import { assignChange } from "../../../../utils/bprofileApi";
 import Portal from "../../../Common/Modal/Portal";
+import { toast } from "react-toastify";
 
 import Presenter from "./presenter";
 import * as S from "./style";
@@ -24,19 +25,19 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
   const getUsergroup = useCallback(() => {
     getBPusergroup(businessId)
       .then((res) => setBisnessUsers(res.data.data))
-      .catch(() => alert("비즈니스 유저 리스트를 불러오지 못했습니다"));
+      .catch(() => toast.error("비즈니스 유저 리스트를 불러오지 못했습니다"));
   }, [businessId]);
 
   const addUser = (user) => {
     if (!user) {
-      alert("닉네임을 입력한 후 초대해 주세요");
+      toast.info("닉네임을 입력한 후 초대해 주세요");
     } else {
       bprofileJoin(businessId, user.value)
         .then(() => {
-          alert("초대되었습니다");
+          toast.info("초대되었습니다");
           getUsergroup();
         })
-        .catch((err) => alert("초대가 불가능한 유저입니다"));
+        .catch((err) => toast.error("초대가 불가능한 유저입니다"));
     }
   };
 
@@ -47,7 +48,7 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
     if (value) {
       bprofileJoinDel(businessId, user.id)
         .then(() => {
-          alert(user.nickname + "님이 그룹에서 제외되었습니다");
+          toast.info(user.nickname + "님이 그룹에서 제외되었습니다");
           getUsergroup();
         })
         .catch((err) => {
@@ -55,9 +56,9 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
             err.response.data.error.type ===
             "BusinessProfileAdminCantCancelException"
           ) {
-            alert("관리자 유저는 제외시킬 수 없습니다");
+            toast.error("관리자 유저는 제외시킬 수 없습니다");
           } else {
-            alert("제외시킬 수 없는 유저입니다");
+            toast.error("제외시킬 수 없는 유저입니다");
           }
         });
     }
@@ -70,12 +71,12 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
       if (value) {
         assignChange(businessId, user.id)
           .then(() => {
-            alert("관리자가 양도되었습니다");
+            toast.info("관리자가 양도되었습니다");
             setModalSwitch(false);
             history.push("/business/" + businessId);
             history.go(0);
           })
-          .catch((err) => alert("관리자가 될 수 없는 유저입니다"));
+          .catch((err) => toast.error("관리자가 될 수 없는 유저입니다"));
       } else {
         setAdminName("");
       }

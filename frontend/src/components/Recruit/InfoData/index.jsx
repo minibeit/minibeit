@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 import Presenter from "./presenter";
 
@@ -46,7 +47,7 @@ export default function InfoData({
     const copy = { ...recruit };
     const imgArr = [...copy.images];
     if (imgArr.length >= 10) {
-      alert("이미지는 10개만 추가 가능합니다");
+      toast.info("이미지는 10개만 추가 가능합니다");
       return;
     } else {
       if (e.target.files[0]) {

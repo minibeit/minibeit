@@ -17,6 +17,7 @@ import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
 import { ReactComponent as CalendarIcon } from "../../../svg/달력.svg";
 import { ReactComponent as ArrowIcon } from "../../../svg/체크.svg";
 import NextIcon from "@mui/icons-material/ArrowForwardIos";
+import { toast } from "react-toastify";
 
 import * as S from "../style";
 import "./date-picker.css";
@@ -327,7 +328,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                         setRecruit(copy);
                         setViewTimeSelect(false);
                       } else {
-                        alert("시작시간과 종료시간을 선택해주세요");
+                        toast.info("시작시간과 종료시간을 선택해주세요");
                       }
                     }}
                   >
@@ -366,7 +367,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
           <S.NextBtn
             onClick={() => {
               if (viewTimeSelect) {
-                alert("시간 입력을 적용한 후 시도해주세요");
+                toast.info("시간 입력을 적용한 후 시도해주세요");
               } else {
                 setViewCategory(true);
               }

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import moment from "moment";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
+import { toast } from "react-toastify";
 
 import * as S from "./style";
 import Portal from "../../../Common/Modal/Portal";
@@ -30,7 +31,7 @@ export default function FeedCloseModal({
   const submit = () => {
     if (reviewData) {
       if (mode === "bad") {
-        alert("후기 작성을 완료했습니다");
+        toast.info("후기 작성을 완료했습니다");
         setModalSwitch(false);
       } else if (mode === "good") {
         createBusinessReviewApi(
@@ -39,18 +40,18 @@ export default function FeedCloseModal({
           reviewData
         )
           .then((res) => {
-            alert("평가가 완료되었습니다");
+            toast.info("평가가 완료되었습니다");
             changeFeedData();
             setModalSwitch(false);
           })
           .catch((err) => {
-            alert("평가에 실패했습니다");
+            toast.error("평가에 실패했습니다");
             changeFeedData();
             setModalSwitch(false);
           });
       }
     } else {
-      alert("이유를 선택해주세요");
+      toast.info("이유를 선택해주세요");
     }
   };
 

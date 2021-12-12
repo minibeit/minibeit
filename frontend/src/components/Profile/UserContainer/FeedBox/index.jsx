@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 
 import { deleteCancelApi, doJoinApi, doNotJoinApi } from "../../../../utils";
-
+import { toast } from "react-toastify";
 import CreateReviewModal from "../CreateReviewModal";
 
 import * as S from "../../style";
@@ -16,10 +16,10 @@ export default function FeedBox({ status, data, changeFeedData }) {
     if (value) {
       doNotJoinApi(id)
         .then(() => {
-          alert("실험이 참여 취소 되었습니다.");
+          toast.info("실험이 참여 취소 되었습니다.");
           changeFeedData();
         })
-        .catch((err) => alert("취소할 수 없는 실험입니다."));
+        .catch((err) => toast.error("취소할 수 없는 실험입니다."));
     }
   };
 
@@ -28,10 +28,10 @@ export default function FeedBox({ status, data, changeFeedData }) {
     if (value) {
       deleteCancelApi(id)
         .then(() => {
-          alert("반려 게시물이 삭제되었습니다");
+          toast.info("반려 게시물이 삭제되었습니다");
           changeFeedData();
         })
-        .catch((err) => alert("삭제할 수 없는 실험입니다."));
+        .catch((err) => toast.error("삭제할 수 없는 실험입니다."));
     }
   };
 
@@ -39,7 +39,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
     doJoinApi(id)
       .then(() => setReviewModal(true))
       .then(() => changeFeedData())
-      .catch((err) => alert("완료할 수 없는 실험입니다."));
+      .catch((err) => toast.error("완료할 수 없는 실험입니다."));
   };
 
   return (

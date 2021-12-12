@@ -274,6 +274,7 @@ export const FeedBox = styled.div`
   display: flex;
   border-radius: 14px;
   height: 10rem;
+  cursor: pointer;
   & > div:first-child {
     flex: 1;
     position: relative;
@@ -299,25 +300,29 @@ export const FeedHeader = styled.div`
   & > div:first-child > p:first-child {
     font-size: 25px;
     font-weight: 600;
-    cursor: pointer;
   }
 `;
 export const FeedLikeBox = styled.div`
-  width: 2rem;
-  height: 3rem;
+  width: 1.3rem;
+  height: 2.2rem;
   position: absolute;
   top: 1rem;
   left: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
   & svg {
-    cursor: pointer;
     width: 1.3rem;
     path {
-      fill: ${({ isLike }) => (isLike ? "#fff" : "")};
+      fill: ${({ isLike }) => (isLike ? "red" : "#fff")};
     }
   }
   & > p {
     text-align: center;
-    color: ${({ isLike }) => (isLike ? "#fff" : "")};
+    font-size: 0.9rem;
+    color: ${({ isLike }) => (isLike ? "red" : "#fff")};
   }
 `;
 export const FeedInfoData = styled.div`

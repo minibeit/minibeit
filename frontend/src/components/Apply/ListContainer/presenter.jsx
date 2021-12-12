@@ -15,24 +15,24 @@ export default function Presenter({
     <S.ListContainer>
       {feedList.length !== 0 ? (
         feedList.map((a) => {
-          console.log(a);
           return (
-            <S.FeedBox key={a.id}>
+            <S.FeedBox key={a.id} onClick={() => goToDetailPage(a)}>
               <div>
                 <S.FeedImg
                   src={a.file ? a.file.url : "/images/기본프로필.png"}
                 />
-                <S.FeedLikeBox isLike={a.isLike}>
-                  <Star onClick={() => clickBookmark(a)} />
+                <S.FeedLikeBox
+                  isLike={a.isLike}
+                  onClick={(e) => clickBookmark(a, e)}
+                >
+                  <Star />
                   <p>{a.likes}</p>
                 </S.FeedLikeBox>
               </div>
               <div>
                 <S.FeedHeader isLike={a.isLike}>
                   <div>
-                    <p id={a.id} onClick={goToDetailPage}>
-                      {a.title}
-                    </p>
+                    <p>{a.title}</p>
                     <p>{a.businessProfileName}</p>
                   </div>
                 </S.FeedHeader>

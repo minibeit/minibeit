@@ -30,16 +30,6 @@ public class UserVerificationCode extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public SimpleMailMessage makeMessage(String toEmail, String fromEmail, String code) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setTo(toEmail);
-        message.setFrom(fromEmail);
-        message.setSubject("이메일 인증번호를 확인해주세요.");
-        message.setText("이메일 인증번호 : " + code);
-
-        return message;
-    }
-
     public void update(UserVerificationCode userVerificationCode) {
         this.code = userVerificationCode.getCode();
         this.expirationDate = userVerificationCode.getExpirationDate();

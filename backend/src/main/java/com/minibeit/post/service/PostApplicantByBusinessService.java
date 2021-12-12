@@ -1,6 +1,6 @@
 package com.minibeit.post.service;
 
-import com.minibeit.mail.condition.PostMailCondition;
+import com.minibeit.mail.condition.MailCondition;
 import com.minibeit.mail.service.MailService;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
@@ -54,7 +54,7 @@ public class PostApplicantByBusinessService {
         postDoDate.updateFull(approvedPostApplicant);
         PostResponse.GetMyApplyList getMyApplyList = new PostResponse.GetMyApplyList(post.getId(), post.getTitle(), post.getDoTime(), post.getContact(), post.isRecruitCondition(), postDoDateId, postDoDate.getDoDate(), postApplicant.getApplyStatus().name(), postApplicant.isBusinessFinish(), post.getBusinessProfile().getId());
 
-        mailService.mailSend(PostMailCondition.APPROVE, Collections.singletonList(applicant.getEmail()), getMyApplyList);
+        mailService.mailSend(MailCondition.APPROVE, Collections.singletonList(applicant.getEmail()), getMyApplyList);
     }
 
     public void applyApproveCancel(Long postDoDateId, Long userId, User user) {
@@ -71,7 +71,7 @@ public class PostApplicantByBusinessService {
 
         PostResponse.GetMyApplyList getMyApplyList = new PostResponse.GetMyApplyList(post.getId(), post.getTitle(), post.getDoTime(), post.getContact(), post.isRecruitCondition(), postDoDateId, postDoDate.getDoDate(), postApplicant.getApplyStatus().name(), postApplicant.isBusinessFinish(), post.getBusinessProfile().getId());
 
-        mailService.mailSend(PostMailCondition.APPROVECANCEL, Collections.singletonList(applicant.getEmail()), getMyApplyList);
+        mailService.mailSend(MailCondition.APPROVECANCEL, Collections.singletonList(applicant.getEmail()), getMyApplyList);
     }
 
     public void applyReject(Long postDoDateId, Long userId, PostApplicantRequest.ApplyReject request, User user) {
@@ -85,7 +85,7 @@ public class PostApplicantByBusinessService {
         RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getComment(), postApplicant.getUser());
         rejectPostRepository.save(rejectPost);
 
-        mailService.mailSend(PostMailCondition.REJECT, Collections.singletonList(applicant.getEmail()), rejectPost);
+        mailService.mailSend(MailCondition.REJECT, Collections.singletonList(applicant.getEmail()), rejectPost);
     }
 
     public void attendChange(Long postDoDateId, Long userId, PostApplicantRequest.AttendChange request, User user) {

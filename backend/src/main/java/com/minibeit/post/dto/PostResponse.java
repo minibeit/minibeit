@@ -128,9 +128,10 @@ public class PostResponse {
         private String businessProfileName;
         private Boolean isLike;
         private Integer likes;
+        private PostFileDto.Image file;
 
         public static PostResponse.GetList build(Post post, CustomUserDetails customUserDetails) {
-            return GetList.builder()
+            GetListBuilder builder = GetList.builder()
                     .id(post.getId())
                     .title(post.getTitle())
                     .category(post.getCategory())
@@ -141,8 +142,11 @@ public class PostResponse {
                     .doTime(post.getDoTime())
                     .businessProfileName(post.getBusinessProfile().getName())
                     .isLike(post.isLike(customUserDetails))
-                    .likes(post.getPostLikeList().size())
-                    .build();
+                    .likes(post.getPostLikeList().size());
+            if (!post.getPostFileList().isEmpty()) {
+                builder.file(PostFileDto.Image.build(post.getPostFileList().get(0))).build();
+            }
+            return builder.build();
         }
     }
 

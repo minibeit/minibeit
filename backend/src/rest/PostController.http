@@ -18,7 +18,7 @@ Content-Type: application/json;charset=UTF-8
   "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
   "doTime": 60,
   "schoolId": 2,
-  "businessProfileId": 1,
+  "businessProfileId": 2,
   "startDate": "2021-12-11T09:30",
   "endDate": "2021-12-14T09:30",
   "doDateList": [
@@ -38,7 +38,7 @@ Content-Type: application/json;charset=UTF-8
 }
 
 ###
-POST {{apiUrl}}/post/2/files
+POST {{apiUrl}}/post/5/files
 Authorization: {{authorizationToken}}
 Content-Type: multipart/form-data; boundary=boundary
 
@@ -95,7 +95,7 @@ GET {{apiUrl}}/post/2
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/list/0?doDate=2021-12-13&page=1&size=15&paymentType=&category=&startTime=&endTime=&minPay=&doTime=
+GET {{apiUrl}}/post/list/2?doDate=2021-12-13&page=1&size=15&paymentType=&category=&startTime=&endTime=&minPay=&doTime=
 
 ###
 GET {{apiUrl}}/post/2/start?doDate=2021-09-27

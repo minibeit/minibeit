@@ -10,7 +10,7 @@ const fadeIn = keyframes`
 `;
 
 export const ListPageContainer = styled.div`
-  margin: 4rem 8rem 4rem 8rem;
+  margin: 4rem 13rem;
   min-height: 70vh;
   & > div:nth-child(2) {
     display: flex;
@@ -271,12 +271,26 @@ export const ListContainer = styled.div`
 
 export const FeedBox = styled.div`
   background-color: #f8f8f8;
+  display: flex;
   border-radius: 14px;
-  padding: 1.5rem;
-  height: 7rem;
+  height: 10rem;
+  & > div:first-child {
+    flex: 1;
+    position: relative;
+  }
+  & > div:nth-child(2) {
+    flex: 2.5;
+    padding: 1.5rem;
+  }
+`;
+
+export const FeedImg = styled.img`
+  border-radius: 14px 0 0 14px;
+  object-fit: cover;
+  width: 16rem;
+  height: 10rem;
 `;
 export const FeedHeader = styled.div`
-  display: flex;
   & > div:first-child {
     display: flex;
     flex-direction: column;
@@ -289,17 +303,21 @@ export const FeedHeader = styled.div`
   }
 `;
 export const FeedLikeBox = styled.div`
-  margin-left: auto;
+  width: 2rem;
+  height: 3rem;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
   & svg {
     cursor: pointer;
     width: 1.3rem;
     path {
-      fill: ${({ isLike }) => (isLike ? "#0642ff" : "")};
+      fill: ${({ isLike }) => (isLike ? "#fff" : "")};
     }
   }
   & > p {
     text-align: center;
-    color: ${({ isLike }) => (isLike ? "#0642ff" : "")};
+    color: ${({ isLike }) => (isLike ? "#fff" : "")};
   }
 `;
 export const FeedInfoData = styled.div`

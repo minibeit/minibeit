@@ -15,29 +15,37 @@ export default function Presenter({
     <S.ListContainer>
       {feedList.length !== 0 ? (
         feedList.map((a) => {
+          console.log(a);
           return (
             <S.FeedBox key={a.id}>
-              <S.FeedHeader isLike={a.isLike}>
-                <div>
-                  <p id={a.id} onClick={goToDetailPage}>
-                    {a.title}
-                  </p>
-                  <p>{a.businessProfileName}</p>
-                </div>
+              <div>
+                <S.FeedImg
+                  src={a.file ? a.file.url : "/images/기본프로필.png"}
+                />
                 <S.FeedLikeBox isLike={a.isLike}>
                   <Star onClick={() => clickBookmark(a)} />
                   <p>{a.likes}</p>
                 </S.FeedLikeBox>
-              </S.FeedHeader>
-              <S.FeedInfoData>
-                <p>소요시간: {a.doTime}분</p>
-                {a.payment === "CACHE" ? (
-                  <p>지급: {a.cache}원</p>
-                ) : (
-                  <p>지급: 상품</p>
-                )}
-                <p>필수조건: {a.recruitCondition ? "있음" : "없음"}</p>
-              </S.FeedInfoData>
+              </div>
+              <div>
+                <S.FeedHeader isLike={a.isLike}>
+                  <div>
+                    <p id={a.id} onClick={goToDetailPage}>
+                      {a.title}
+                    </p>
+                    <p>{a.businessProfileName}</p>
+                  </div>
+                </S.FeedHeader>
+                <S.FeedInfoData>
+                  <p>소요시간: {a.doTime}분</p>
+                  {a.payment === "CACHE" ? (
+                    <p>지급: {a.cache}원</p>
+                  ) : (
+                    <p>지급: 상품</p>
+                  )}
+                  <p>필수조건: {a.recruitCondition ? "있음" : "없음"}</p>
+                </S.FeedInfoData>
+              </div>
             </S.FeedBox>
           );
         })

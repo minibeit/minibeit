@@ -1,6 +1,6 @@
 package com.minibeit.mail.dto;
 
-import com.minibeit.mail.condition.PostMailCondition;
+import com.minibeit.mail.condition.MailCondition;
 import lombok.*;
 
 import java.util.List;
@@ -11,7 +11,7 @@ public class MailRequest {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class PostStatusMail {
-        private PostMailCondition postMailCondition;
+        private MailCondition mailCondition;
         private List<String> toEmailList;
     }
 

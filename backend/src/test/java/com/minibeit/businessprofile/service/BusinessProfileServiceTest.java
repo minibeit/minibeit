@@ -54,8 +54,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Autowired
     private BusinessProfileRepository businessProfileRepository;
     @Autowired
-    private BusinessUserReviewRepository businessUserReviewRepository;
-    @Autowired
     private UserRepository userRepository;
     @Autowired
     private UserBusinessProfileRepository userBusinessProfileRepository;
@@ -77,7 +75,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     private PostApplicant postApplicant1;
     private PostApplicant postApplicant2;
 
-    private BusinessUserReview businessUserReview;
     private School school;
 
     private PostRequest.CreateInfo createInfoRequest;
@@ -240,7 +237,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스프로필 업데이트 - 성공 (admin 유저)")
     void update() {
-
         businessProfileService.update(businessProfile.getId(), request, admin);
 
         assertAll(
@@ -248,13 +244,11 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
                 () -> assertThat(businessProfile.getPlace()).isEqualTo(request.getPlace()),
                 () -> assertThat(businessProfile.getContact()).isEqualTo(request.getContact())
         );
-
     }
 
     @Test
     @DisplayName("비즈니스프로필 업데이트 - 실패 (admin이 아닌 유저)")
     void updateFailureWhenNotAdmin() {
-
         businessProfileService.update(businessProfile.getId(), request, admin);
 
         assertThatThrownBy(
@@ -268,7 +262,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 목록 조회 - 성공")
     void getListIsMine() {
-
         final int businessProfiles = 1;
         List<BusinessProfileResponse.GetList> listIsMine = businessProfileService.getListIsMine(admin);
 
@@ -282,7 +275,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 목록 조회 - 성공(어드민이 아닐 때)")
     void getListIsMineWhenNotAdmin() {
-
         final int businessProfiles = 1;
         List<BusinessProfileResponse.GetList> listIsMine = businessProfileService.getListIsMine(userInBusinessProfile);
 
@@ -296,7 +288,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 단건 조회 - 성공")
     void getOne() {
-
         BusinessProfileResponse.GetOne getOne = businessProfileService.getOne(businessProfile.getId(), admin);
 
         assertAll(
@@ -311,7 +302,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 단건 조회 - 성공(어드민이 아닐 때)")
     void getOneFailureWhenNotAdmin() {
-
         BusinessProfileResponse.GetOne getOne = businessProfileService.getOne(businessProfile.getId(), userInBusinessProfile);
 
         assertAll(
@@ -326,7 +316,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 단건 조회 - 성공(비즈니스프로필 공유자가 아닐 때)")
     void getOneFailureWhenNotUserInBusinessProfile() {
-
         BusinessProfileResponse.GetOne getOne = businessProfileService.getOne(businessProfile.getId(), anotherUser);
 
         assertAll(
@@ -353,7 +342,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 삭제 - 실패(어드민이 아닐때)")
     void deleteFailureWhenNotAdmin() {
-
         assertThatThrownBy(
                 () -> businessProfileService.delete(businessProfile.getId(), anotherUser)
         ).isInstanceOf(PermissionException.class);
@@ -367,7 +355,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 - 성공(어드민일때)")
     void sharingBusinessProfile() {
-
         businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), admin);
         final int afterSharedBusinessProfileUsers = originalSharedBusinessProfileUsers + 1;
 
@@ -380,7 +367,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 - 실패(어드민이 아닐때)")
     void sharingBusinessProfileFailureWhenNotAdmin() {
-
         assertThatThrownBy(
                 () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), userInBusinessProfile)
         ).isInstanceOf(PermissionException.class);
@@ -394,7 +380,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 - 실패(없는 유저 초대할 때)")
     void sharingBusinessProfileFailureWhenNotUserSharing() {
-
         Long notUserId = 100L;
 
         assertThatThrownBy(
@@ -407,7 +392,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 - 실패(이미 공유된 유저 초대할 때)")
     void sharingBusinessProfileFailureWhenInviteSharedUser() {
-
         assertThatThrownBy(
                 () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), userInBusinessProfile.getId(), admin)
         ).isInstanceOf(DuplicateShareException.class);
@@ -430,7 +414,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 취소 - 실패(어드민이 아닐때)")
     void sharingCancelFailureWhenNotAdmin() {
-
         assertThatThrownBy(
                 () -> businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), userInBusinessProfile)
         ).isInstanceOf(PermissionException.class);
@@ -445,7 +428,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 취소 - 실패(공유된 유저가 아닐때)")
     void sharingCancelFailureWhenNotSharedUser() {
-
         assertThatThrownBy(
                 () -> businessProfileService.cancelShare(businessProfile.getId(), anotherUser.getId(), admin)
         ).isInstanceOf(UserBusinessProfileNotFoundException.class);
@@ -456,7 +438,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("비즈니스 프로필 공유 취소 - 실패(자신의 id가 들어갈 때)")
     void sharingCancelFailureWhenAdminId() {
-
         assertThatThrownBy(
                 () -> businessProfileService.cancelShare(businessProfile.getId(), admin.getId(), admin)
         ).isInstanceOf(BusinessProfileAdminCantCancelException.class);
@@ -467,7 +448,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("어드민 권한 양도 - 성공")
     void transferOfAuthority() {
-
         businessProfileService.changeAdmin(businessProfile.getId(), userInBusinessProfile.getId(), admin);
 
         assertThat(businessProfile.getAdmin().getId()).isEqualTo(userInBusinessProfile.getId());
@@ -476,7 +456,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("어드민 권한 양도 - 실패(공유된 유저가 아닐때)")
     void transferOfAuthorityFailureWhenNotSharedUser() {
-
         assertThatThrownBy(
                 () -> businessProfileService.changeAdmin(businessProfile.getId(), anotherUser.getId(), admin)
         ).isInstanceOf(UserNotFoundException.class);
@@ -486,7 +465,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @Test
     @DisplayName("어드민 권한 양도 - 실패(권한없는 유저가 시도할때)")
     void transferOfAuthorityFailureWhenNotAdmin() {
-
         assertThatThrownBy(
                 () -> businessProfileService.changeAdmin(businessProfile.getId(), userInBusinessProfile.getId(), userInBusinessProfile)
         ).isInstanceOf(PermissionException.class);

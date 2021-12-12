@@ -10,6 +10,7 @@ import EndRecruting from "../../../Common/Alert/EndRecruting";
 import * as S from "../../style";
 import EndSchedule from "../../../Common/Alert/EndSchedule";
 import AskEndSchedule from "../../../Common/Alert/AskEndSchedule";
+import { toast } from "react-toastify";
 
 export default function FeedBox({ status, data, changeFeedData }) {
   const [manageModal, setManageModal] = useState(false);
@@ -23,7 +24,9 @@ export default function FeedBox({ status, data, changeFeedData }) {
         // changeFeedData("완료된 모집공고");
       })
       .catch(() => {
-        alert("삭제할 수 없는 게시물입니다. 확정자가 있는지 확인해주세요.");
+        toast.error(
+          "삭제할 수 없는 게시물입니다. 확정자가 있는지 확인해주세요."
+        );
         setEndAlert(0);
       });
   };

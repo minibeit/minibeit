@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Portal from "../../../Common/Modal/Portal";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 import { editBprofile } from "../../../../utils/bprofileApi";
+import { toast } from "react-toastify";
 
 import Presenter from "./presenter";
 
@@ -45,11 +46,11 @@ export default function BProfileEditCont({
   const submitEditBusiness = (BProfileData) => {
     editBprofile(BProfileData)
       .then((res) => {
-        alert("수정되었습니다");
+        toast.info("수정되었습니다");
         setInfoEditModal(false);
         getBusiness();
       })
-      .catch((err) => alert("수정 내용을 다시 한번 확인해주세요"));
+      .catch((err) => toast.info("수정 내용을 다시 한번 확인해주세요"));
   };
 
   return (

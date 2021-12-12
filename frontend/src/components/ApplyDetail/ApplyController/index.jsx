@@ -14,7 +14,6 @@ export default function ApplyController({ apply, feedDetailData, checkLogin }) {
   const num = useMemo(() => {
     return Math.floor(Math.random() * 10) + 1;
   }, []);
-
   return (
     <S.RemoteBox>
       <S.Controller>

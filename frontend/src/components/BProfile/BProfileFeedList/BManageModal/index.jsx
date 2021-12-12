@@ -14,6 +14,8 @@ import Portal from "../../../Common/Modal/Portal";
 import Presenter from "./presenter";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 import { ReactComponent as CalendarTodayIcon } from "../../../../svg/달력.svg";
+import { toast } from "react-toastify";
+
 import * as S from "./style";
 
 export default function BManageModal({ postId, setModalSwitch }) {
@@ -28,18 +30,18 @@ export default function BManageModal({ postId, setModalSwitch }) {
       .then((res) => {
         setFeedData(res.data.data);
       })
-      .catch((err) => alert("데이터를 불러오지 못했습니다"));
+      .catch((err) => toast.error("데이터를 불러오지 못했습니다"));
   }, [postId]);
 
   const getList = useCallback(() => {
     if (tab === "대기자") {
       getWaitListApi(postId, date)
         .then((res) => setUserList(res.data.data))
-        .catch((err) => alert("데이터를 불러오지 못했습니다"));
+        .catch((err) => toast.error("데이터를 불러오지 못했습니다"));
     } else {
       getApproveListApi(postId, date)
         .then((res) => setUserList(res.data.data))
-        .catch((err) => alert("데이터를 불러오지 못했습니다"));
+        .catch((err) => toast.error("데이터를 불러오지 못했습니다"));
     }
   }, [date, postId, tab]);
 
@@ -48,11 +50,11 @@ export default function BManageModal({ postId, setModalSwitch }) {
     if (value) {
       approveOneApi(postDoDateId, userId)
         .then((res) => {
-          alert("해당 실험자의 실험 참여가 허락되었습니다");
+          toast.info("해당 실험자의 실험 참여가 허락되었습니다");
           getList();
         })
         .catch((err) =>
-          alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
+          toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
         );
     }
   };
@@ -80,7 +82,7 @@ export default function BManageModal({ postId, setModalSwitch }) {
           getList();
         })
         .catch((err) =>
-          alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
+          toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
         );
     }
   };
@@ -94,7 +96,7 @@ export default function BManageModal({ postId, setModalSwitch }) {
           getList();
         })
         .catch((err) =>
-          alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
+          toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
         );
     }
   };
@@ -106,7 +108,7 @@ export default function BManageModal({ postId, setModalSwitch }) {
     if (value) {
       setAttendApi(postDoDateId, userId, status ? false : true)
         .then((res) => {
-          alert(
+          toast.info(
             `해당 실험자의 실험 참여가 ${
               status ? "'불참'" : "'참여'"
             } 처리되었습니다`
@@ -114,7 +116,7 @@ export default function BManageModal({ postId, setModalSwitch }) {
           getList();
         })
         .catch((err) =>
-          alert("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
+          toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
         );
     }
   };

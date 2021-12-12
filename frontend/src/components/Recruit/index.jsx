@@ -10,6 +10,7 @@ import BProfileSelect from "./BProfileSelect";
 import DataSelect from "./DataSelect";
 import InfoData from "./InfoData";
 import { recruitState } from "../../recoil/recruitState";
+import { toast } from "react-toastify";
 
 export default function RecruitComponent() {
   const [recruit, setRecruit] = useRecoilState(recruitState);
@@ -45,7 +46,7 @@ export default function RecruitComponent() {
           history.push(`/recruit/complete/${res.data.data.id}`);
         })
         .catch((err) => {
-          alert("게시물 작성에 실패했습니다");
+          toast.error("게시물 작성에 실패했습니다");
           setAskComplete(0);
         });
     }

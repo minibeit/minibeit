@@ -1,11 +1,18 @@
 import styled, { keyframes } from "styled-components";
 
 const fadeOut = keyframes`
-from {
+0% {
  opacity:1;
+transform:translateY(0);
 }
-to {
-  opacity:0;
+50% {
+  opacity:0.6;
+  transform:translateY(0.5rem);
+
+}
+100%{
+ opacity:1;
+ transform:translateY(0);
 
 }
 `;
@@ -475,7 +482,7 @@ export const Div = styled.div`
 `;
 
 export const ViewNum = styled.div`
-  animation: ${fadeOut} 5s ease-out;
+  animation: ${fadeOut} 5s infinite;
   font-size: 0.8rem;
   padding: 0.5rem;
   background-color: #e0e8ff;

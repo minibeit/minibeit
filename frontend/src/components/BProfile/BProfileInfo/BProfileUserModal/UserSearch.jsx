@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { getSearchUser } from "../../../../utils";
+import { toast } from "react-toastify";
 
 export default function UserSearch({ onChange, defaultValue }) {
   const [users, setUsers] = useState([]);
@@ -17,7 +18,7 @@ export default function UserSearch({ onChange, defaultValue }) {
           }
           setUsers(arr);
         })
-        .catch((err) => alert("유저를 불러오지 못했습니다"));
+        .catch((err) => toast.error("유저를 불러오지 못했습니다"));
     }
   };
 

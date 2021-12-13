@@ -1,5 +1,6 @@
 import React from "react";
 import { ReactComponent as Star } from "../../../svg/별.svg";
+import { ReactComponent as Home } from "../../../svg/홈.svg";
 import CreateAuthModal from "../../Common/Modal/CreateAuthModal";
 
 import * as S from "../style";
@@ -21,29 +22,36 @@ export default function Presenter({
                 <S.FeedImg
                   src={a.file ? a.file.url : "/images/기본프로필.png"}
                 />
-                <S.FeedLikeBox
-                  isLike={a.isLike}
-                  onClick={(e) => clickBookmark(a, e)}
-                >
-                  <Star />
-                  <p>{a.likes}</p>
+                <S.FeedLikeBox>
+                  <div onClick={(e) => clickBookmark(a, e)}>
+                    <Star />
+                    <p>{a.likes}</p>
+                  </div>
                 </S.FeedLikeBox>
               </div>
               <div>
                 <S.FeedHeader isLike={a.isLike}>
+                  <p>{a.title}</p>
                   <div>
-                    <p>{a.title}</p>
+                    <Home />
                     <p>{a.businessProfileName}</p>
                   </div>
                 </S.FeedHeader>
-                <S.FeedInfoData>
+                <S.FeedInfoData
+                  payment={a.payment}
+                  condition={a.recruitCondition}
+                >
                   <p>소요시간: {a.doTime}분</p>
+                  <div>참여조건 {a.recruitCondition ? "있음" : "없음"}</div>
                   {a.payment === "CACHE" ? (
-                    <p>지급: {a.cache}원</p>
+                    <div>
+                      <span>현금</span> {a.cache}원
+                    </div>
                   ) : (
-                    <p>지급: 상품</p>
+                    <div>
+                      <span>물품</span> {a.goods}
+                    </div>
                   )}
-                  <p>필수조건: {a.recruitCondition ? "있음" : "없음"}</p>
                 </S.FeedInfoData>
               </div>
             </S.FeedBox>

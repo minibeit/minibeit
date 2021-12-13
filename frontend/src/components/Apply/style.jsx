@@ -280,56 +280,93 @@ export const FeedBox = styled.div`
     position: relative;
   }
   & > div:nth-child(2) {
-    flex: 2.5;
-    padding: 1.5rem;
+    flex: 2;
+    padding: 1rem 0.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 `;
 
 export const FeedImg = styled.img`
   border-radius: 14px 0 0 14px;
+  position: absolute;
   object-fit: cover;
   width: 16rem;
   height: 10rem;
+  z-index: 1;
 `;
 export const FeedHeader = styled.div`
-  & > div:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  & > div:nth-child(2) {
     display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.4rem;
+    font-size: 0.9rem;
+    color: #8e8e8e;
+    & > svg {
+      width: 1rem;
+      path {
+        fill: #8e8e8e;
+      }
+    }
   }
-  & > div:first-child > p:first-child {
-    font-size: 25px;
+  & > p:first-child {
+    font-size: 1.4rem;
     font-weight: 600;
   }
 `;
 export const FeedLikeBox = styled.div`
-  width: 1.3rem;
-  height: 2.2rem;
+  width: 16rem;
+  border-radius: 14px 0 0 14px;
+  height: 10rem;
   position: absolute;
-  top: 1rem;
-  left: 1rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  background-color: rgba(0, 0, 0, 0.4);
   cursor: pointer;
-  & svg {
+  z-index: 5;
+  & > div {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 9;
+    top: 1rem;
+    left: 1rem;
     width: 1.3rem;
-    path {
-      fill: ${({ isLike }) => (isLike ? "red" : "#fff")};
+    height: 2.2rem;
+    & svg {
+      width: 1.3rem;
+      path {
+        fill: #fff;
+      }
     }
-  }
-  & > p {
-    text-align: center;
-    font-size: 0.9rem;
-    color: ${({ isLike }) => (isLike ? "red" : "#fff")};
+    & > p {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #fff;
+    }
   }
 `;
 export const FeedInfoData = styled.div`
-  & > p {
-    color: #c4c4c4;
-  }
+  color: #7c7c7c;
+  font-size: 0.9rem;
   display: flex;
-  gap: 20px;
-  margin-top: 3rem;
+  align-items: center;
+  gap: 2rem;
+  & > div:nth-child(2) {
+    padding: 0.4rem 1rem;
+    border-radius: 5px;
+    background-color: ${({ condition }) => {
+      return condition ? "rgba(124,124,124,0.1)" : "#e6ecff";
+    }};
+  }
+  & > div:nth-child(3) {
+    & > span {
+      margin-right: 0.3rem;
+      color: ${({ payment }) => {
+        return payment === "CACHE" ? "#00bb34" : "#3558c7";
+      }};
+    }
+  }
 `;

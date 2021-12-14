@@ -19,15 +19,16 @@ export default function Presenter({
           return (
             <S.FeedBox key={a.id} onClick={() => goToDetailPage(a)}>
               <div>
-                <S.FeedImg
+                <img
+                  alt="썸네일"
                   src={a.file ? a.file.url : "/images/기본프로필.png"}
                 />
-                <S.FeedLikeBox>
+                <div>
                   <div onClick={(e) => clickBookmark(a, e)}>
                     <Star />
                     <p>{a.likes}</p>
                   </div>
-                </S.FeedLikeBox>
+                </div>
               </div>
               <div>
                 <S.FeedHeader isLike={a.isLike}>

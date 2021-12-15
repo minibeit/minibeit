@@ -239,6 +239,9 @@ export const Navigation = styled.div`
     display: flex;
     align-items: center;
     gap: 1rem;
+    flex: 1;
+    justify-content: center;
+    transform: translate(2rem, 0);
     & > p {
       font-weight: bold;
       white-space: nowrap;

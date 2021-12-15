@@ -8,7 +8,6 @@ import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.dto.PostApplicantDto;
 import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostApplicantResponse;
-import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.exception.ExistedApplySameTimeException;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostDoDateIsFullException;
@@ -82,7 +81,7 @@ public class PostApplicantByBusinessService {
 
         postApplicant.updateStatus(ApplyStatus.REJECT);
 
-        RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getComment(), postApplicant.getUser());
+        RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getPlaceDetail(), post.getContact(), post.isRecruitCondition(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getComment(), postApplicant.getUser(), post.getBusinessProfile().getName());
         rejectPostRepository.save(rejectPost);
 
         mailService.mailSend(MailCondition.REJECT, Collections.singletonList(applicant.getEmail()), rejectPost);

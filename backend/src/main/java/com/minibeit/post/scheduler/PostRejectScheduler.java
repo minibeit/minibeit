@@ -1,5 +1,6 @@
 package com.minibeit.post.scheduler;
 
+import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.mail.condition.MailCondition;
 import com.minibeit.mail.service.MailService;
 import com.minibeit.post.domain.*;
@@ -33,7 +34,8 @@ public class PostRejectScheduler {
         postApplicantList.forEach(postApplicant -> {
             PostDoDate postDoDate = postApplicant.getPostDoDate();
             Post post = postDoDate.getPost();
-            RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postDoDate.getDoDate(), REJECT_MSG, postApplicant.getUser());
+            BusinessProfile businessProfile = post.getBusinessProfile();
+            RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getPlaceDetail(), post.getContact(), post.isRecruitCondition(), post.getDoTime(), postDoDate.getDoDate(), REJECT_MSG, postApplicant.getUser(), businessProfile.getName());
 
             rejectPosts.add(rejectPost);
             postApplicantIds.add(postApplicant.getId());

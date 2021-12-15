@@ -74,7 +74,8 @@ public class PostByBusinessService {
 
     public void recruitmentCompleted(Long postId, PostRequest.RejectComment request, User user) {
         Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
-        postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
+        BusinessProfile businessProfile = post.getBusinessProfile();
+        postPermissionCheck.userInBusinessProfileCheck(businessProfile.getId(), user);
 
         List<PostApplicant> rejectedApplicantList = postApplicantRepository.findAllByPostIdAndApplyStatus(postId, ApplyStatus.WAIT);
 
@@ -82,7 +83,7 @@ public class PostByBusinessService {
         postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT);
 
         List<RejectPost> rejectPostList = rejectedApplicantList.stream()
-                .map(postApplicant -> RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getRejectComment(), postApplicant.getUser())).collect(Collectors.toList());
+                .map(postApplicant -> RejectPost.create(post.getTitle(), post.getPlace(), post.getPlaceDetail(), post.getContact(), post.isRecruitCondition(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getRejectComment(), postApplicant.getUser(), businessProfile.getName())).collect(Collectors.toList());
         rejectPostRepository.saveAll(rejectPostList);
 
         post.completed();

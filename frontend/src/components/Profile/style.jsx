@@ -306,7 +306,7 @@ export const FeedButton = styled.div`
   justify-content: end;
   gap: 1rem;
   & > button {
-    width: 9rem;
+    width: 8.5rem;
   }
 `;
 

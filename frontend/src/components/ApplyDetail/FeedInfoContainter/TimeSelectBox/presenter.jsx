@@ -1,7 +1,7 @@
 import React from "react";
 import moment from "moment";
 import { ReactComponent as ArrowIcon } from "../../../../svg/체크.svg";
-import CalendarButton from "./CalendarButton";
+import { CalendarButton } from "../../../Common";
 
 import * as S from "../../style";
 
@@ -45,8 +45,8 @@ export default function Presenter({
           <CalendarButton
             minDate={new Date(startDate)}
             maxDate={new Date(endDate)}
-            viewDoDate={new Date(viewDoDate)}
-            setViewDoDate={setViewDoDate}
+            currentDate={new Date(viewDoDate)}
+            setCurrentDate={setViewDoDate}
           />
         </S.Navigation>
         <S.TimeView>

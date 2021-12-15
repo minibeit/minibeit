@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const DateInputBox = styled.div`
   margin: 0 1rem;
+  z-index: 3;
 `;
 export const CalendarWrapper = styled.div`
   position: absolute;

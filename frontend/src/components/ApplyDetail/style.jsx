@@ -239,9 +239,12 @@ export const Navigation = styled.div`
     display: flex;
     align-items: center;
     gap: 1rem;
+    & > p {
+      font-weight: bold;
+      white-space: nowrap;
+    }
     & > svg {
-      font-size: 2.5rem;
-      color: #aaaaaa;
+      width: 1rem;
       cursor: pointer;
     }
   }
@@ -256,36 +259,30 @@ export const TimeView = styled.div`
   background: #f5f5f5;
   border-radius: 0 0 20px 20px;
   padding: 2rem;
-  & > div > button {
-    background: white;
-    border: none;
-    width: 8rem;
-    height: 3rem;
-    border-radius: 1rem;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-  }
 `;
 
-export const Xdiv = styled.div`
-  & > div {
-    background: rgba(0, 0, 0, 0.3);
-    width: 8rem;
-    height: 3rem;
-    border-radius: 1rem;
-    z-index: 3;
-    position: absolute;
+export const TimeBtn = styled.div`
+  & > input {
+    display: none;
   }
-  & > button {
-    position: relative;
+  & > label {
+    padding: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    border-radius: 0.7rem;
     background: white;
-    border: none;
-    width: 8rem;
-    height: 3rem;
-    border-radius: 1rem;
-    font-size: 1rem;
-    font-weight: 500;
+    color: black;
+    border: 3px solid white;
+  }
+  & > input:checked + label {
+    border: 3px solid #0642ff;
+  }
+  & > input:hover + label {
+    color: #0642ff;
+  }
+  & > input:disabled + label {
+    color: grey;
+    cursor: default;
   }
 `;
 

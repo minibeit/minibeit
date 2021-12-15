@@ -42,7 +42,7 @@ export default function TimeSelectBox({ feedId, date, startDate, endDate }) {
     const apply_cp = { ...apply };
     apply_cp["postId"] = feedId;
     apply_cp["postDoDateId"] = parseInt(e.target.id);
-    apply_cp["doTime"] = e.target.textContent;
+    apply_cp["doTime"] = e.target.value;
     apply_cp["doDate"] = viewDoDate;
     setApply(apply_cp);
   };

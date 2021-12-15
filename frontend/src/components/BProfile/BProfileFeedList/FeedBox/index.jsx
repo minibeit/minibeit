@@ -61,22 +61,25 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <S.BlueBtn
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setManageModal(true);
-                  }}
-                >
-                  참여자 관리
-                </S.BlueBtn>
-                <S.WhiteBtn
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setCloseModal(1);
-                  }}
-                >
-                  모집종료
-                </S.WhiteBtn>
+                <span>모집 취소 혹은 완료를 원하시면 모집종료를 누르세요</span>
+                <div>
+                  <S.BlueBtn
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setManageModal(true);
+                    }}
+                  >
+                    참여자 관리
+                  </S.BlueBtn>
+                  <S.WhiteBtn
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCloseModal(1);
+                    }}
+                  >
+                    모집종료
+                  </S.WhiteBtn>
+                </div>
               </S.FeedButton>
             </>
           )}
@@ -91,14 +94,19 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <S.WhiteBtn
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setEndAlert(1);
-                  }}
-                >
-                  일정종료
-                </S.WhiteBtn>
+                <span>
+                  남은 일정 취소 혹은 일정 완료를 원하시면, 이 버튼을 누르세요.
+                </span>
+                <div>
+                  <S.WhiteBtn
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setEndAlert(1);
+                    }}
+                  >
+                    일정종료
+                  </S.WhiteBtn>
+                </div>
               </S.FeedButton>
             </>
           )}

@@ -277,12 +277,33 @@ export const FeedInfo = styled.div`
 `;
 
 export const FeedButton = styled.div`
-  margin: 0 1rem 0.6rem 0;
-  display: flex;
-  justify-content: end;
-  gap: 1rem;
-  & > button {
-    width: 8rem;
+  :hover {
+    & > span {
+      visibility: visible;
+      opacity: 1;
+    }
+  }
+  & > div {
+    margin: 0 1rem 0.6rem 0;
+    display: flex;
+    justify-content: end;
+    gap: 1rem;
+    & > button {
+      width: 7.5rem;
+    }
+  }
+
+  & > span {
+    position: absolute;
+    transform: translate(6rem, -2rem);
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #0642ff;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.5rem;
+    border-radius: 10px;
+    visibility: hidden;
+    opacity: 0;
   }
 `;
 
@@ -293,6 +314,7 @@ export const WhiteBtn = styled.button`
   padding: 0.3rem 0.5rem;
   border-radius: 1rem;
   cursor: pointer;
+  position: relative;
   font-weight: 600;
   &:disabled {
     cursor: default;

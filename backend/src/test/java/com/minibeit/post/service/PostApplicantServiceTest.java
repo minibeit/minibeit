@@ -256,7 +256,6 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
         postApplicantService.apply(recruitPostPostDoDate1.getId(), applyUser1);
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(recruitPostPostDoDate1.getId(), applyUser1.getId()).orElseThrow(PostApplicantNotFoundException::new);
         assertThat(postApplicant.getApplyStatus()).isEqualTo(ApplyStatus.WAIT);
-        assertThat(postApplicant.isMyFinish()).isEqualTo(false);
         assertThat(postApplicant.isBusinessFinish()).isEqualTo(true);
         assertThat(postApplicant.isWriteReview()).isEqualTo(false);
 
@@ -309,7 +308,7 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
         postApplicantService.applyMyFinish(recruitPostPostDoDate1.getId(), now, applyUser1);
         PostApplicant postApplicant = postApplicantRepository.findById(postApplicantApplyUser.getId()).orElseThrow(PostApplicantNotFoundException::new);
 
-        assertThat(postApplicant.isMyFinish()).isEqualTo(true);
+        assertThat(postApplicant.getApplyStatus()).isEqualTo(ApplyStatus.COMPLETE);
     }
 
     @Test

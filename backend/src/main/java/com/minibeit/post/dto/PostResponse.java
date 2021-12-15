@@ -186,6 +186,7 @@ public class PostResponse {
         private Long id;
         private String title;
         private String contact;
+        private String thumbnail;
         private boolean recruitCondition;
         private Long postDoDateId;
         private Integer time;
@@ -197,15 +198,18 @@ public class PostResponse {
         private LocalDateTime endTime;
         private boolean finish;
         private String status;
-        private Long businessProfileId;
+        private Boolean isWritable;
+        private Boolean writeReview;
+        private PostDto.BusinessProfileSimpleInfo businessProfile;
 
         @Builder
         @QueryProjection
-        public GetMyApplyList(Long id, String title, Integer time, String contact, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status, boolean businessFinish, Long businessProfileId) {
+        public GetMyApplyList(Long id, String title, Integer time, String contact, String thumbnail, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status, boolean businessFinish, boolean writeReview, Long businessProfileId, String businessProfileName) {
             this.id = id;
             this.title = title;
             this.time = time;
             this.contact = contact;
+            this.thumbnail = thumbnail;
             this.recruitCondition = recruitCondition;
             this.postDoDateId = postDoDateId;
             this.doDate = doDate;
@@ -213,42 +217,9 @@ public class PostResponse {
             this.endTime = doDate.plusMinutes(time);
             this.status = status;
             this.finish = endTime.isBefore(LocalDateTime.now()) && businessFinish && status.equals(ApplyStatus.APPROVE.name());
-            this.businessProfileId = businessProfileId;
-        }
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class GetMyCompletedList {
-        private Long id;
-        private Long postDoDateId;
-        private String title;
-        private Integer time;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-        private LocalDateTime doDate;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
-        private LocalDateTime startTime;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
-        private LocalDateTime endTime;
-        private Boolean isWritable;
-        private Boolean writeReview;
-        private Long businessProfileId;
-
-        @Builder
-        @QueryProjection
-        public GetMyCompletedList(Long id, Long postDoDateId, String title, Integer time, LocalDateTime doDate, Long businessProfileId, Boolean businessFinish, Boolean writeReview) {
-            this.id = id;
-            this.postDoDateId = postDoDateId;
-            this.title = title;
-            this.time = time;
-            this.doDate = doDate;
-            this.startTime = doDate;
-            this.endTime = doDate.plusMinutes(time);
             this.writeReview = writeReview;
             this.isWritable = doDate.plusDays(7).isAfter(LocalDateTime.now()) && businessFinish && !writeReview;
-            this.businessProfileId = businessProfileId;
+            this.businessProfile = PostDto.BusinessProfileSimpleInfo.build(businessProfileId, businessProfileName);
         }
     }
 

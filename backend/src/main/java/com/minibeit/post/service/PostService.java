@@ -62,12 +62,8 @@ public class PostService {
         return posts.map(PostResponse.GetLikeList::build);
     }
 
-    public Page<PostResponse.GetMyApplyList> getListByApplyStatus(ApplyStatus applyStatus, User user, LocalDateTime now, PageDto pageDto) {
-        return postRepository.findAllByApplyStatus(applyStatus, user, now, pageDto.of());
-    }
-
-    public Page<PostResponse.GetMyCompletedList> getListByMyCompleteList(User user, PageDto pageDto) {
-        return postRepository.findAllByMyCompleted(user, pageDto.of());
+    public Page<PostResponse.GetMyApplyList> getListByApplyStatus(ApplyStatus status, User user, LocalDateTime now, PageDto pageDto) {
+        return postRepository.findAllByApplyStatus(status, user, now, pageDto.of());
     }
 
     @Transactional

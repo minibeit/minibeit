@@ -356,8 +356,7 @@ class PostServiceTest extends ServiceIntegrationTest {
         applicantPost1 = postRepository.save(post);
         postDoDate1 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 10, 4, 17, 30), post));
         PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, testUser);
-        postApplicant1.updateStatus(ApplyStatus.APPROVE);
-        postApplicant1.updateMyFinish();
+        postApplicant1.updateStatus(ApplyStatus.COMPLETE);
         postApplicantRepository.save(postApplicant1);
         PostRequest.CreateInfo createRequest2 = PostRequest.CreateInfo.builder()
                 .title("완료2")
@@ -386,7 +385,7 @@ class PostServiceTest extends ServiceIntegrationTest {
         PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, testUser);
         postApplicantRepository.save(postApplicant2);
         postApplicant1.updateStatus(ApplyStatus.APPROVE);
-        postApplicant2.updateMyFinish();
+        postApplicant2.updateStatus(ApplyStatus.COMPLETE);
         postApplicant2.changeBusinessFinish(false);
         PostRequest.CreateInfo createRequest3 = PostRequest.CreateInfo.builder()
                 .title("완료3")
@@ -494,15 +493,6 @@ class PostServiceTest extends ServiceIntegrationTest {
                 Arguments.of(ApplyStatus.WAIT, LocalDateTime.of(2021, 10, 4, 0, 0), new PageDto(1, 5), List.of("지원1")),
                 Arguments.of(ApplyStatus.APPROVE, LocalDateTime.of(2021, 9, 29, 18, 0), new PageDto(1, 5), List.of("확정1"))
         );
-    }
-
-    @Test
-    @DisplayName("자신이 완료한 게시물 목록 조회 - 성공")
-    void getListByMyCompleteList() {
-        initCompletedPost();
-        PageDto pageDto = new PageDto(1, 5);
-        Page<PostResponse.GetMyCompletedList> response = postService.getListByMyCompleteList(testUser, pageDto);
-        assertThat(response.getContent()).extracting("title").containsExactly("완료1");
     }
 
     @Test

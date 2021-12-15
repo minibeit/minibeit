@@ -58,7 +58,7 @@ public class PostApplicantService {
         if (!postDoDate.getDoDate().plusMinutes(post.getDoTime()).isBefore(now) || !postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
             throw new PermissionException();
         }
-        postApplicant.updateMyFinish();
+        postApplicant.updateStatus(ApplyStatus.COMPLETE);
     }
 
     public void applyCancel(Long postDoDateId, User user) {

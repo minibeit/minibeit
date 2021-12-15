@@ -142,7 +142,7 @@ include::{snippets}/post-doDate-list/response-fields.adoc[]
 
 === 게시물 목록 조회
 
-`GET /api/post/list/{schoolId}`
+`GET /api/posts/{schoolId}`
 
 요청 HTTP
 include::{snippets}/post-getList/http-request.adoc[]
@@ -154,7 +154,7 @@ include::{snippets}/post-getList/http-response.adoc[]
 
 === 자신이 즐겨찾기한 게시물 목록 조회
 
-`GET /api/post/like/list`
+`GET /api/posts/like`
 
 요청 HTTP
 include::{snippets}/post-getList-like/http-request.adoc[]
@@ -164,9 +164,9 @@ include::{snippets}/post-getList-like/request-parameters.adoc[]
 include::{snippets}/post-getList-like/http-response.adoc[]
 include::{snippets}/post-getList-like/response-fields.adoc[]
 
-=== 자신이 지원한 게시물 목록 조회(APPROVE,WAIT)
+=== 자신이 지원한 게시물 목록 조회(APPROVE,WAIT,COMPLETE)
 
-`GET /api/post/apply/list`
+`GET /api/posts/apply`
 
 요청 HTTP
 include::{snippets}/post-apply-list/http-request.adoc[]
@@ -175,18 +175,6 @@ include::{snippets}/post-apply-list/request-parameters.adoc[]
 성공 응답 HTTP
 include::{snippets}/post-apply-list/http-response.adoc[]
 include::{snippets}/post-apply-list/response-fields.adoc[]
-
-=== 자신이 완료한 게시물 목록 조회
-
-`GET /api/post/myComplete/list`
-
-요청 HTTP
-include::{snippets}/post-myCompleted-list/http-request.adoc[]
-include::{snippets}/post-myCompleted-list/request-parameters.adoc[]
-
-성공 응답 HTTP
-include::{snippets}/post-myCompleted-list/http-response.adoc[]
-include::{snippets}/post-myCompleted-list/response-fields.adoc[]
 
 === 자신이 반려된 게시물 목록 조회
 

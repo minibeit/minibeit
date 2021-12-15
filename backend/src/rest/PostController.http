@@ -18,7 +18,7 @@ Content-Type: application/json;charset=UTF-8
   "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
   "doTime": 60,
   "schoolId": 2,
-  "businessProfileId": 2,
+  "businessProfileId": 1,
   "startDate": "2021-12-11T09:30",
   "endDate": "2021-12-14T09:30",
   "doDateList": [
@@ -42,13 +42,14 @@ POST {{apiUrl}}/post/5/files
 Authorization: {{authorizationToken}}
 Content-Type: multipart/form-data; boundary=boundary
 
+
 --boundary
 Content-Disposition: form-data; name="files"; filename="enjoy.png"
 
 < ./../main/resources/mock/images/enjoy.png
 
 --boundary
-Content-Disposition: form-data; name="files"; filename="enjoy.png"
+Content-Disposition: form-data; name="thumbnail"; filename="enjoy2.png"
 
 < ./../main/resources/mock/images/enjoy.png
 

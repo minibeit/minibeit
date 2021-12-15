@@ -178,8 +178,11 @@ class PostByBusinessControllerTest extends MvcTest {
     @Test
     @DisplayName("게시물 파일 추가")
     public void addFiles() throws Exception {
-        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
-        MockMultipartFile files = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is.readAllBytes());
+        InputStream is1 = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile files = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is1.readAllBytes());
+        InputStream is2 = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile thumbnail = new MockMultipartFile("thumbnail", "avatar.jpg", "image/jpg", is2.readAllBytes());
+
         PostResponse.OnlyId response = PostResponse.OnlyId.builder().id(1L).build();
 
         given(postByBusinessService.addFiles(any(), any(), any())).willReturn(response);
@@ -187,6 +190,7 @@ class PostByBusinessControllerTest extends MvcTest {
         ResultActions results = mvc.perform(
                 fileUpload("/api/post/{postId}/files", 1)
                         .file(files)
+                        .file(thumbnail)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .characterEncoding("UTF-8")
         );
@@ -197,7 +201,8 @@ class PostByBusinessControllerTest extends MvcTest {
                                 parameterWithName("postId").description("게시물 식별자")
                         ),
                         requestParts(
-                                partWithName("files").description("게시물에 추가할 파일")
+                                partWithName("files").description("게시물에 추가할 파일(썸네일 제외)"),
+                                partWithName("thumbnail").description("게시물에 추가할 썸네일")
                         ),
                         responseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),

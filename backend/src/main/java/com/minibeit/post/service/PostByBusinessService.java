@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,14 +58,17 @@ public class PostByBusinessService {
     public PostResponse.OnlyId addFiles(Long postId, PostRequest.AddFile request, User user) {
         Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
-
-        List<SavedFile> savedFiles = new ArrayList<>();
-        if (request.getFiles() != null) {
-            savedFiles = s3Uploader.uploadFileList(request.getFiles());
+        if (request.getThumbnail() != null) {
+            SavedFile uploadedThumbnail = s3Uploader.upload(request.getThumbnail());
+            PostFile thumbnail = PostFile.create(post, uploadedThumbnail);
+            post.updateThumbnail(thumbnail.getUrl());
+            postFileRepository.save(thumbnail);
         }
-        List<PostFile> postFiles = savedFiles.stream().map(savedFile -> PostFile.create(post, savedFile)).collect(Collectors.toList());
-        postFileRepository.saveAll(postFiles);
-
+        if (request.getFiles() != null) {
+            List<SavedFile> savedFiles = s3Uploader.uploadFileList(request.getFiles());
+            List<PostFile> postFiles = savedFiles.stream().map(savedFile -> PostFile.create(post, savedFile)).collect(Collectors.toList());
+            postFileRepository.saveAll(postFiles);
+        }
         return PostResponse.OnlyId.build(post);
     }
 

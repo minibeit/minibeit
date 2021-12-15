@@ -114,11 +114,15 @@ export default function FeedBox({ status, data, changeFeedData }) {
             <>
               <S.FeedInfo>
                 <div>
-                  <p>후기 사라지는 거 보고 바꿀 예정</p>
+                  <span>후기 사라지는 거 보고 바꿀 예정</span>
                 </div>
               </S.FeedInfo>
               <S.FeedButton>
-                <button>더보기</button>
+                <div>
+                  <S.WhiteBtn onClick={(e) => e.stopPropagation()}>
+                    더보기
+                  </S.WhiteBtn>
+                </div>
               </S.FeedButton>
             </>
           )}

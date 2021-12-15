@@ -176,12 +176,14 @@ export const FeedBox = styled.div`
     width: 100%;
     position: relative;
     flex: 1;
+    transform: translateY(-1px);
+
     & > img {
       width: inherit;
       border-radius: 14px 0 0 14px;
       position: absolute;
       object-fit: cover;
-      height: 8rem;
+      height: calc(8rem + 2px);
     }
     & > div:nth-child(2) {
       width: 100%;
@@ -189,7 +191,7 @@ export const FeedBox = styled.div`
       padding: 1rem 0;
       z-index: 9;
       position: absolute;
-      height: 6rem;
+      height: calc(6rem + 2px);
       border-radius: 14px 0 0 14px;
     }
   }
@@ -304,6 +306,7 @@ export const FeedButton = styled.div`
   justify-content: end;
   gap: 1rem;
   & > button {
+    width: 9rem;
   }
 `;
 
@@ -311,7 +314,7 @@ export const WhiteBtn = styled.button`
   color: #0642ff;
   background-color: #fff;
   border: 1px solid #0642ff;
-  padding: 0.3rem 2.5rem;
+  padding: 0.3rem 0.5rem;
   border-radius: 1rem;
   cursor: pointer;
   font-weight: 600;

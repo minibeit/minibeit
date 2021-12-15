@@ -44,7 +44,6 @@ export default function FeedBox({ status, data, changeFeedData }) {
       .then(() => changeFeedData())
       .catch((err) => alert("완료할 수 없는 실험입니다."));
   };
-  console.log(data);
   return (
     <>
       <S.FeedLabel status={status} postStatus={data.postStatus}>

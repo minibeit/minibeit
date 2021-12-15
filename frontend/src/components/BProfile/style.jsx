@@ -19,7 +19,7 @@ export const ModeSelectBtn = styled.button`
   background: #e5e5e5;
   border: none;
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 4rem;
   border-radius: 0.5rem 0.5rem 0 0;
   font-weight: bold;
   &:disabled {
@@ -111,7 +111,7 @@ export const FeedContainer = styled.div`
 `;
 export const CategoryBtnBox = styled.div`
   margin-top: 1rem;
-  padding-top: 1rem;
+  padding: 1rem 0;
   & button {
     cursor: pointer;
     background: white;
@@ -161,78 +161,154 @@ export const FeedGroup = styled.div`
 `;
 export const FeedBox = styled.div`
   display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
   width: 100%;
-  min-height: 7rem;
-  background: #f3f3f3;
+  cursor: pointer;
+  height: 8rem;
+  gap: 1.5rem;
+  border: 1px solid #c4c4c4;
+  box-sizing: content-box;
+  background: #fff;
   border-radius: 1rem;
-  gap: 1rem;
-  padding: 1rem;
+  & > div:first-child {
+    width: 100%;
+    position: relative;
+    flex: 1;
+    transform: translateY(-1px);
+    & > img {
+      width: inherit;
+      border-radius: 14px 0 0 14px;
+      position: absolute;
+      object-fit: cover;
+      height: calc(8rem + 2px);
+    }
+    & > div:nth-child(2) {
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 1rem 0;
+      z-index: 9;
+      position: absolute;
+      height: calc(6rem + 2px);
+      border-radius: 14px 0 0 14px;
+    }
+  }
+  & > div:nth-child(2) {
+    width: 100%;
+    flex: 1;
+    padding: 1rem 0;
+  }
 `;
 export const FeedLabel = styled.div`
   width: 3.7rem;
   padding: 0.3rem;
   text-align: center;
   background: #fff;
-  border: 1px solid #0642ff;
+  position: absolute;
+  z-index: 90;
+  border: ${({ status }) => {
+    return status === "생성한 모집공고"
+      ? "1px solid #1ae5da"
+      : "1px solid #7b68ff";
+  }};
   border-radius: 2rem;
-  transform: translate(15%, 50%);
-  color: #0642ff;
+  transform: translate(15%, -50%);
+  color: ${({ status }) => {
+    return status === "생성한 모집공고" ? "#1ae5da" : "#7b68ff";
+  }};
   font-size: 0.85rem;
 `;
-export const FeedTitleBox = styled.div`
-  display: flex;
-  gap: 0.5rem;
-  padding: 0 0.6rem;
+
+export const FeedTitle = styled.div`
+  padding: 0.5rem 1.5rem 0;
+  color: #fff;
   flex-direction: column;
-  & > p:nth-child(2) {
-    font-size: 0.7rem;
-  }
-  & > a:nth-child(3) {
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    color: black;
-    max-height: 2.2rem;
-  }
-`;
-export const FeedContentBox = styled.div``;
-export const FeedInfo = styled.div`
   display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  & > div {
+  align-items: flex-start;
+  & > div:first-child {
     display: flex;
-    align-items: center;
-    color: #8c8c8c;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
+    height: 1rem;
+    align-items: baseline;
     gap: 0.2rem;
     & > svg {
-      width: 1rem;
-      height: 1rem;
+      width: 0.7rem;
       path {
-        fill: #8c8c8c;
+        fill: #fff;
       }
     }
   }
+  & > p:nth-child(2) {
+    font-size: 1.1rem;
+    font-weight: 700;
+    white-space: pre-line;
+    height: 3rem;
+  }
+  & > p:nth-child(3) {
+    font-weight: 600;
+    height: 1.2rem;
+    line-height: 1.1rem;
+    font-size: 0.9rem;
+  }
+  & > p:nth-child(4) {
+    font-size: 0.7rem;
+  }
 `;
+export const FeedContentBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 7rem;
+`;
+
+export const FeedInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  justify-content: flex-start;
+  padding-bottom: 1rem;
+  font-size: 0.75rem;
+  & > div {
+    display: flex;
+    align-items: baseline;
+    & span {
+      margin-left: 0.5rem;
+      font-weight: 600;
+    }
+  }
+`;
+
 export const FeedButton = styled.div`
-  margin-top: auto;
+  margin: 0 1rem 0.6rem 0;
   display: flex;
   justify-content: end;
   gap: 1rem;
   & > button {
-    background: #ddd;
-    color: #000;
+    width: 8rem;
+  }
+`;
+
+export const WhiteBtn = styled.button`
+  color: #0642ff;
+  background-color: #fff;
+  border: 1px solid #0642ff;
+  padding: 0.3rem 0.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  &:disabled {
+    cursor: default;
+    color: #7c7c7c;
+    border: 1px solid #7c7c7c;
+  }
+`;
+
+export const BlueBtn = styled(WhiteBtn)`
+  color: #fff;
+  background-color: #0642ff;
+  &:disabled {
+    background: #c4c4c4;
+    cursor: default;
+    color: #7c7c7c;
     border: none;
-    padding: 0.4rem 0.8rem 0.4rem 0.8rem;
-    border-radius: 1rem;
-    cursor: pointer;
-    :hover {
-      background: #0642ff;
-      color: #fff;
-    }
   }
 `;
 

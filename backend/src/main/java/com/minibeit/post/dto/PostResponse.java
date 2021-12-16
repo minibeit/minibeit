@@ -263,4 +263,27 @@ public class PostResponse {
                     .build();
         }
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class ApproveAndApproveCancelTemplate {
+        private String title;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+        private LocalDateTime doDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime startTime;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime endTime;
+
+        public static ApproveAndApproveCancelTemplate build(String title, LocalDateTime doDate, Integer doTime) {
+            return ApproveAndApproveCancelTemplate.builder()
+                    .title(title)
+                    .doDate(doDate)
+                    .startTime(doDate)
+                    .endTime(doDate.plusMinutes(doTime))
+                    .build();
+        }
+    }
 }

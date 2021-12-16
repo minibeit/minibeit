@@ -283,7 +283,7 @@ class PostByBusinessControllerTest extends MvcTest {
         given(postByBusinessService.getListByBusinessProfile(any(), any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/business/profile/{businessProfileId}/list", 1)
+                .get("/api/posts/business/profile/{businessProfileId}", 1)
                 .param("page", "1")
                 .param("size", "5")
                 .param("status", "RECRUIT"));
@@ -324,7 +324,7 @@ class PostByBusinessControllerTest extends MvcTest {
         given(postByBusinessService.getDoDateListByYearMonth(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/{postId}/exist/doDate/list", 1)
+                .get("/api/post/{postId}/doDates", 1)
                 .param("yearMonth", "2021-09"));
 
         results.andExpect(status().isOk())

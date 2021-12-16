@@ -8,6 +8,7 @@ import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.dto.PostApplicantDto;
 import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostApplicantResponse;
+import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.exception.ExistedApplySameTimeException;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostDoDateIsFullException;
@@ -51,9 +52,9 @@ public class PostApplicantByBusinessService {
 
         List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
         postDoDate.updateFull(approvedPostApplicant);
-//        PostResponse.GetMyApplyList getMyApplyList = new PostResponse.GetMyApplyList(post.getId(), post.getTitle(), post.getDoTime(), post.getContact(), post.isRecruitCondition(), postDoDateId, postDoDate.getDoDate(), postApplicant.getApplyStatus().name(), postApplicant.isBusinessFinish(), post.getBusinessProfile().getId());
-//
-//        mailService.mailSend(MailCondition.APPROVE, Collections.singletonList(applicant.getEmail()), getMyApplyList);
+
+        PostResponse.ApproveAndApproveCancelTemplate templateResponse = PostResponse.ApproveAndApproveCancelTemplate.build(post.getTitle(), postDoDate.getDoDate(), post.getDoTime());
+        mailService.mailSend(MailCondition.APPROVE, Collections.singletonList(applicant.getEmail()), templateResponse);
     }
 
     public void applyApproveCancel(Long postDoDateId, Long userId, User user) {
@@ -68,9 +69,8 @@ public class PostApplicantByBusinessService {
         List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
         postDoDate.updateFull(approvedPostApplicant);
 
-//        PostResponse.GetMyApplyList getMyApplyList = new PostResponse.GetMyApplyList(post.getId(), post.getTitle(), post.getDoTime(), post.getContact(), post.isRecruitCondition(), postDoDateId, postDoDate.getDoDate(), postApplicant.getApplyStatus().name(), postApplicant.isBusinessFinish(), post.getBusinessProfile().getId());
-//
-//        mailService.mailSend(MailCondition.APPROVECANCEL, Collections.singletonList(applicant.getEmail()), getMyApplyList);
+        PostResponse.ApproveAndApproveCancelTemplate templateResponse = PostResponse.ApproveAndApproveCancelTemplate.build(post.getTitle(), postDoDate.getDoDate(), post.getDoTime());
+        mailService.mailSend(MailCondition.APPROVECANCEL, Collections.singletonList(applicant.getEmail()), templateResponse);
     }
 
     public void applyReject(Long postDoDateId, Long userId, PostApplicantRequest.ApplyReject request, User user) {

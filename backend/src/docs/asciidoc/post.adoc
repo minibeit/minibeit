@@ -131,7 +131,7 @@ include::{snippets}/post-getStartTime-list/response-fields.adoc[]
 
 === 해당 게시물에 실험이 있는 날짜 조회
 
-`GET /api/post/{postId}/doDates`
+`GET /api/post/{postId}/dates`
 
 요청 HTTP
 include::{snippets}/post-doDate-list/http-request.adoc[]

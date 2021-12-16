@@ -116,11 +116,11 @@ GET {{apiUrl}}/posts/apply?page=1&size=4&status=WAIT
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/4/exist/doDate/list?yearMonth=2021-09
+GET {{apiUrl}}/post/4/dates?yearMonth=2021-09
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/business/profile/1/list?page=1&size=1&status=COMPLETE
+GET {{apiUrl}}/posts/business/profile/1?page=1&size=1&status=RECRUIT
 Authorization: {{authorizationToken}}
 
 ###

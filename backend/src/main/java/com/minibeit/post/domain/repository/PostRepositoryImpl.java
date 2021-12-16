@@ -119,6 +119,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, LocalDateTime now, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
+                .join(post.businessProfile).fetchJoin()
                 .where(post.businessProfile.id.eq(businessProfileId)
                         .and(postStatusEq(postStatus, now)))
                 .offset(pageable.getOffset())

@@ -68,6 +68,7 @@ class PostByBusinessControllerTest extends MvcTest {
                 .recruitPeople(10)
                 .payment(Payment.CACHE)
                 .paymentCache(50000)
+                .thumbnail("thumbnail url")
                 .recruitCondition(true)
                 .recruitConditionDetail("운전면허 있는 사람만")
                 .paymentDetail("계좌이체로 지급")
@@ -90,6 +91,7 @@ class PostByBusinessControllerTest extends MvcTest {
                 .placeDetail("신공학관 123호")
                 .contact("010-1234-5786")
                 .category("디자인")
+                .thumbnail("thumbnail url")
                 .recruitPeople(10)
                 .payment(Payment.GOODS)
                 .paymentGoods("커피 기프티콘")
@@ -305,6 +307,10 @@ class PostByBusinessControllerTest extends MvcTest {
                                 fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("data.content[].title").type(JsonFieldType.STRING).description("제목"),
                                 fieldWithPath("data.content[].likes").type(JsonFieldType.NUMBER).description("즐겨찾기 수"),
+                                fieldWithPath("data.content[].address").type(JsonFieldType.STRING).description("게시물 주소"),
+                                fieldWithPath("data.content[].addressDetail").type(JsonFieldType.STRING).description("게시물 상세 주소"),
+                                fieldWithPath("data.content[].thumbnail").type(JsonFieldType.STRING).description("게시물 썸네일 없다면 null"),
+                                fieldWithPath("data.content[].businessName").type(JsonFieldType.STRING).description("게시물 작성한 비즈니스 프로필 이름"),
                                 fieldWithPath("data.totalElements").description("전체 개수"),
                                 fieldWithPath("data.last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("data.totalPages").description("전체 페이지")
@@ -324,7 +330,7 @@ class PostByBusinessControllerTest extends MvcTest {
         given(postByBusinessService.getDoDateListByYearMonth(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/{postId}/doDates", 1)
+                .get("/api/post/{postId}/dates", 1)
                 .param("yearMonth", "2021-09"));
 
         results.andExpect(status().isOk())

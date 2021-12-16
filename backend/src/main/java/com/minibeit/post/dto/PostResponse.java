@@ -237,13 +237,20 @@ public class PostResponse {
         private Long id;
         private String title;
         private Integer likes;
+        private String thumbnail;
+        private String address;
+        private String addressDetail;
+        private String businessName;
 
         public static GetListByBusinessProfile build(Post post) {
-
             return GetListByBusinessProfile.builder()
                     .id(post.getId())
                     .title(post.getTitle())
+                    .address(post.getPlace())
+                    .thumbnail(post.getThumbnail())
+                    .addressDetail(post.getPlaceDetail())
                     .likes(post.getPostLikeList().size())
+                    .businessName(post.getBusinessProfile().getName())
                     .build();
         }
     }

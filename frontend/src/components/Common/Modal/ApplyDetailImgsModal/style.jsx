@@ -30,10 +30,6 @@ export const ModalBtn = styled.button`
   border-radius: 1rem;
   background: none;
   cursor: pointer;
-  & > a {
-    text-decoration: none;
-    color: #fff;
-  }
 `;
 
 // slider

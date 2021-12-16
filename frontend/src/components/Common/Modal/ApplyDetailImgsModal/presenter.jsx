@@ -1,4 +1,5 @@
 import React from "react";
+import { downloadFileApi } from "../../../../utils";
 
 import * as S from "./style";
 
@@ -14,16 +15,25 @@ export default function Presenter({
   const modalOff = () => {
     setSliderSwitch(false);
   };
-  const link = files[currentSlide].url;
-  console.log(link);
+
   return (
     <>
       <div>
         <S.ModalBtn onClick={modalOff}>X 닫기</S.ModalBtn>
-        <S.ModalBtn>
-          <a href={link} download>
-            다운로드
-          </a>
+        <S.ModalBtn
+          onClick={() => {
+            downloadFileApi(files[currentSlide].name).then((res) => {
+              const url = window.URL.createObjectURL(new Blob([res.data]));
+              const link = document.createElement("a");
+              link.href = url;
+              link.setAttribute("download", files[currentSlide].name);
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            });
+          }}
+        >
+          다운로드
         </S.ModalBtn>
       </div>
       <S.Container>

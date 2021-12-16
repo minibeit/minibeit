@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import moment from "moment";
-import Calendar from "react-calendar";
 import {
   approveOneApi,
   cancelOneApi,
@@ -11,9 +10,9 @@ import {
   setAttendApi,
 } from "../../../../utils";
 import Portal from "../../../Common/Modal/Portal";
+import { CalendarButton } from "../../../Common";
 import Presenter from "./presenter";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
-import { ReactComponent as CalendarTodayIcon } from "../../../../svg/달력.svg";
 import { toast } from "react-toastify";
 
 import * as S from "./style";
@@ -23,7 +22,6 @@ export default function BManageModal({ postId, setModalSwitch }) {
   const [feedData, setFeedData] = useState({});
   const [userList, setUserList] = useState([]);
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
-  const [calendarView, setCalendarView] = useState(false);
 
   const getFeedData = useCallback(() => {
     feedDetailApi(postId, true)
@@ -170,29 +168,12 @@ export default function BManageModal({ postId, setModalSwitch }) {
             </S.CloseModalBtn>
             <div>
               <p>{feedData.title}</p>
-              <S.CalendarBtn onClick={() => setCalendarView(!calendarView)}>
-                <CalendarTodayIcon />
-              </S.CalendarBtn>
-            </div>
-            <div>
-              {calendarView && (
-                <S.CalendarWrapper>
-                  <Calendar
-                    calendarType="US"
-                    defaultValue={new Date()}
-                    minDate={new Date(feedData.startDate)}
-                    maxDate={new Date(feedData.endDate)}
-                    onClickDay={(date) => {
-                      setDate(moment(date).format("YYYY-MM-DD"));
-                      setCalendarView(false);
-                    }}
-                    minDetail="month"
-                    next2Label={null}
-                    prev2Label={null}
-                    showNeighboringMonth={false}
-                  />
-                </S.CalendarWrapper>
-              )}
+              <CalendarButton
+                minDate={new Date(feedData.startDate)}
+                maxDate={new Date(feedData.endDate)}
+                currentDate={new Date(date)}
+                setCurrentDate={setDate}
+              />
             </div>
           </S.ModalHeader>
           <S.ModalContent>

@@ -1,76 +1,75 @@
 import React from "react";
-import ArrowLeftIcon from "@mui/icons-material/ArrowLeft";
-import ArrowRightIcon from "@mui/icons-material/ArrowRight";
+import moment from "moment";
+import { ReactComponent as ArrowIcon } from "../../../../svg/체크.svg";
+import { CalendarButton } from "../../../Common";
 
 import * as S from "../../style";
-import moment from "moment";
 
 export default function Presenter({
   moveDate,
   viewDoDate,
+  setViewDoDate,
   doTimeList,
+  startDate,
+  endDate,
   selectDate,
   apply,
 }) {
-  const nowDay = moment().format("YYYY-MM-DD");
-  const nowTime = moment().format("HH:mm:ss");
+  const disableTimeBtn = (time, isFull) => {
+    if (moment(time) < moment(new Date())) {
+      return true;
+    } else if (isFull) {
+      return true;
+    } else {
+      return false;
+    }
+  };
 
   return (
     <div>
       <S.TimeSelectBox>
         <S.Navigation>
           <div>
-            <ArrowLeftIcon id="pre" onClick={moveDate} />
+            <ArrowIcon
+              style={{ transform: " rotate(90deg)" }}
+              id="pre"
+              onClick={moveDate}
+            />
             <p>{viewDoDate}</p>
-            <ArrowRightIcon id="next" onClick={moveDate} />
+            <ArrowIcon
+              style={{ transform: " rotate(270deg)" }}
+              id="next"
+              onClick={moveDate}
+            />
           </div>
+          <CalendarButton
+            minDate={new Date(startDate)}
+            maxDate={new Date(endDate)}
+            currentDate={new Date(viewDoDate)}
+            setCurrentDate={setViewDoDate}
+          />
         </S.Navigation>
         <S.TimeView>
-          {doTimeList ? (
+          {doTimeList &&
             doTimeList.map((a) => {
               return (
-                <div key={a.id}>
-                  {viewDoDate > nowDay ? (
-                    <button
-                      id={a.id}
-                      onClick={selectDate}
-                      disabled={
-                        a.id === parseInt(apply["postDoDateId"]) ? true : false
-                      }
-                    >
-                      {a.startTime}~{a.endTime}
-                    </button>
-                  ) : viewDoDate === nowDay && a.startTime > nowTime ? (
-                    <button
-                      id={a.id}
-                      onClick={selectDate}
-                      disabled={
-                        a.id === parseInt(apply["postDoDateId"]) ? true : false
-                      }
-                    >
-                      {a.startTime}~{a.endTime}
-                    </button>
-                  ) : (
-                    <S.Xdiv>
-                      <div onClick={() => alert("지원할 수 없습니다!")} />
-                      <button
-                        id={a.id}
-                        disabled={
-                          a.id === parseInt(apply["postDoDateId"])
-                            ? true
-                            : false
-                        }
-                      >
-                        {a.startTime}~{a.endTime}
-                      </button>
-                    </S.Xdiv>
-                  )}
-                </div>
+                <S.TimeBtn key={a.id}>
+                  <input
+                    id={a.id}
+                    disabled={disableTimeBtn(
+                      `${viewDoDate}T${a.startTime}`,
+                      a.isFull
+                    )}
+                    value={`${a.startTime}~${a.endTime}`}
+                    onClick={selectDate}
+                    defaultChecked={a.id === apply.postDoDateId}
+                    type="radio"
+                    name="time"
+                  />
+                  <label htmlFor={a.id}>{`${a.startTime}~${a.endTime}`}</label>
+                </S.TimeBtn>
               );
-            })
-          ) : (
-            <p>이 날은 실험이 없습니다</p>
-          )}
+            })}
         </S.TimeView>
       </S.TimeSelectBox>
     </div>

@@ -34,6 +34,7 @@ export const ModalHeader = styled.div`
     display: flex;
     justify-content: space-between;
     align-items: baseline;
+    margin: 1rem 0;
     & > p {
       padding: 0.5rem 0.5rem 0 0;
       font-weight: bold;

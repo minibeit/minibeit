@@ -9,8 +9,9 @@ const Paging = ({ page, count, setPage, onChange }) => {
       itemsCountPerPage={10}
       totalItemsCount={count}
       pageRangeDisplayed={10}
-      prevPageText={"‹"}
-      nextPageText={"›"}
+      prevPageText={"이전"}
+      nextPageText={"다음"}
+      hideFirstLastPages={true}
       onChange={(e) => {
         if (setPage) {
           setPage(e);

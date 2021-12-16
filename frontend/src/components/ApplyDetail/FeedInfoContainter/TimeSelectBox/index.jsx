@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import { feedDetailTimeApi } from "../../../../utils/feedApi";
 import { useRecoilState } from "recoil";
 import { applyState } from "../../../../recoil/applyState";
 
 import Presenter from "./presenter";
 
-export default function TimeSelectBox({ feedId, date, startDate, endDate }) {
+export default function CalendarButton({ feedId, date, startDate, endDate }) {
   const [apply, setApply] = useRecoilState(applyState);
   const [doTimeList, setDoTimeList] = useState();
   const [doDateList] = useState(createDoDateList(startDate, endDate));
@@ -13,9 +14,9 @@ export default function TimeSelectBox({ feedId, date, startDate, endDate }) {
     date === "" ? doDateList[0] : date
   );
   const getFeedDetailTime = async (id, doDate) => {
-    await feedDetailTimeApi(id, doDate)
-      .then(async (res) => await setDoTimeList(res.data.data))
-      .catch((err) => console.log(err));
+    await feedDetailTimeApi(id, doDate).then(
+      async (res) => await setDoTimeList(res.data.data)
+    );
   };
   const moveDate = (e) => {
     let target = e.target.nodeName === "path" ? e.target.parentNode : e.target;
@@ -42,7 +43,7 @@ export default function TimeSelectBox({ feedId, date, startDate, endDate }) {
     const apply_cp = { ...apply };
     apply_cp["postId"] = feedId;
     apply_cp["postDoDateId"] = parseInt(e.target.id);
-    apply_cp["doTime"] = e.target.textContent;
+    apply_cp["doTime"] = e.target.value;
     apply_cp["doDate"] = viewDoDate;
     setApply(apply_cp);
   };
@@ -55,31 +56,22 @@ export default function TimeSelectBox({ feedId, date, startDate, endDate }) {
     <Presenter
       moveDate={moveDate}
       viewDoDate={viewDoDate}
+      setViewDoDate={setViewDoDate}
       doTimeList={doTimeList}
+      startDate={startDate}
+      endDate={endDate}
       selectDate={selectDate}
       apply={apply}
     />
   );
 }
 
-// 시작날짜와 끝날짜를 입력하면 사이날짜를 뽑아주는 로직
 const createDoDateList = (startDate, endDate) => {
-  let dateList = [];
-
-  const date = new Date(startDate);
-  if (startDate === endDate) {
-    dateList.push(startDate);
-  } else {
-    while (date.toISOString().slice(0, 10) <= endDate) {
-      dateList.push(
-        `${date.getFullYear()}-${
-          date.getMonth() + 1 < 10
-            ? `0${date.getMonth() + 1}`
-            : date.getMonth() + 1
-        }-${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`
-      );
-      date.setDate(date.getDate() + 1);
-    }
+  let dateArr = [];
+  let currentDate = moment(startDate);
+  while (currentDate <= moment(endDate)) {
+    dateArr.push(currentDate.format("YYYY-MM-DD"));
+    currentDate.add(1, "days");
   }
-  return dateList;
+  return dateArr;
 };

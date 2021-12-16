@@ -37,3 +37,4 @@ export {
   getFinishlistApi,
 } from "./profileApi";
 export { createBusinessReviewApi, viewBusinessReviewApi } from "./reviewApi";
+export { downloadFileApi } from "./fileApi";

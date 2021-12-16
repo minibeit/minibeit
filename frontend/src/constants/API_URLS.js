@@ -1,5 +1,6 @@
 const API_URLS = {
   // api post
+  API_POSTS: "/api/posts/",
   API_POST: "/api/post/",
   API_USER: "/api/user/",
   API_BUSINESS: "/api/business/",

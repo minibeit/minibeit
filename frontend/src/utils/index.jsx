@@ -26,15 +26,14 @@ export {
   rejectOneApi,
 } from "./bprofileApi";
 export {
-  getLikeListApi,
+  getMyLikeListApi,
   getMyInfo,
   editMyInfo,
   doJoinApi,
   doNotJoinApi,
-  getCancellistApi,
-  getJoinlistApi,
-  deleteCancelApi,
-  getFinishlistApi,
+  getMyRejectListApi,
+  getMyFeedList,
+  deleteRejectedApi,
 } from "./profileApi";
 export { createBusinessReviewApi, viewBusinessReviewApi } from "./reviewApi";
 export { downloadFileApi } from "./fileApi";

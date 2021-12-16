@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 
-import { deleteCancelApi, doJoinApi, doNotJoinApi } from "../../../../utils";
+import { deleteRejectedApi, doJoinApi, doNotJoinApi } from "../../../../utils";
 import { toast } from "react-toastify";
 import CreateReviewModal from "../CreateReviewModal";
 
@@ -28,7 +28,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
     e.stopPropagation();
     let value = window.confirm("게시물을 리스트에서 삭제하시겠습니까?");
     if (value) {
-      deleteCancelApi(id)
+      deleteRejectedApi(id)
         .then(() => {
           toast.info("반려 게시물이 삭제되었습니다");
           changeFeedData();

@@ -1,7 +1,7 @@
 import { withAuthInstance } from "./common";
 import { API_URLS } from "../constants";
 
-const { API_BUSINESS, API_USER, API_POST } = API_URLS;
+const { API_BUSINESS, API_USER, API_POST, API_POSTS } = API_URLS;
 
 export const bprofileNew = async (infoData) => {
   const formData = new FormData();
@@ -72,13 +72,8 @@ export const assignChange = async (businessId, userId) => {
 
 export const getMakelistApi = async (businessId, page, status) => {
   return await withAuthInstance.get(
-    API_POST +
-      "business/profile/" +
-      businessId +
-      "/list?page=" +
-      page +
-      "&size=10&status=" +
-      status
+    API_POSTS +
+      `business/profile/${businessId}?page=${page}&size=5&status=${status}`
   );
 };
 export const getWaitListApi = async (postId, doDate) => {

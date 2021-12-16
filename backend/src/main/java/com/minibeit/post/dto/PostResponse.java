@@ -241,6 +241,11 @@ public class PostResponse {
         private String address;
         private String addressDetail;
         private String businessName;
+        private Integer headcount;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+        private LocalDateTime startDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+        private LocalDateTime endDate;
 
         public static GetListByBusinessProfile build(Post post) {
             return GetListByBusinessProfile.builder()
@@ -250,6 +255,9 @@ public class PostResponse {
                     .thumbnail(post.getThumbnail())
                     .addressDetail(post.getPlaceDetail())
                     .likes(post.getPostLikeList().size())
+                    .startDate(post.getStartDate())
+                    .endDate(post.getEndDate())
+                    .headcount(post.getRecruitPeople())
                     .businessName(post.getBusinessProfile().getName())
                     .build();
         }

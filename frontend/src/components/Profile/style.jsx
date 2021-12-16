@@ -19,7 +19,7 @@ export const ModeSelectBtn = styled.button`
   background: #e5e5e5;
   border: none;
   cursor: pointer;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 4rem;
   border-radius: 0.5rem 0.5rem 0 0;
   font-weight: bold;
 
@@ -48,10 +48,11 @@ export const ImgBox = styled.div`
 /* user */
 
 export const UserInfoContainer = styled.div`
-  flex: 1.5;
-  padding: 1rem 0 1rem 1rem;
+  flex: 1;
+  margin-left: 1.5rem;
   min-width: 18rem;
-  margin-top: 1rem;
+  /* border: 1px solid #7c7c7c; */
+  margin-top: 2rem;
   & > div:first-child {
     padding: 1rem;
     display: flex;
@@ -102,11 +103,12 @@ export const UserInfoData = styled.div`
   }
 `;
 export const FeedContainer = styled.div`
-  flex: 3;
-  padding: 1rem 2rem 1rem 1rem;
+  flex: 3.5;
+  padding: 1rem 1rem 1rem 0;
 `;
 export const CategoryBtnBox = styled.div`
   padding: 1rem;
+  margin-bottom: 1rem;
   & button {
     cursor: pointer;
     background: white;
@@ -159,101 +161,178 @@ export const FeedGroup = styled.div`
 
 export const FeedBox = styled.div`
   display: flex;
-  width: inherit;
-  min-height: 5rem;
+  width: 100%;
+  cursor: pointer;
+  height: 8rem;
+  gap: 1.5rem;
+  border: 1px solid #c4c4c4;
+  box-sizing: content-box;
   background: ${({ postStatus, status }) => {
     if (status === "like" && postStatus === "COMPLETE") return "#b4b4b4";
-    else return "#f3f3f3";
+    else return "#fff";
   }};
   border-radius: 1rem;
-  gap: 0.5rem;
-  padding: 1rem;
+  & > div:first-child {
+    width: 100%;
+    position: relative;
+    flex: 1;
+    transform: translateY(-1px);
+
+    & > img {
+      width: inherit;
+      border-radius: 14px 0 0 14px;
+      position: absolute;
+      object-fit: cover;
+      height: calc(8rem + 2px);
+    }
+    & > div:nth-child(2) {
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.4);
+      padding: 1rem 0;
+      z-index: 9;
+      position: absolute;
+      height: calc(6rem + 2px);
+      border-radius: 14px 0 0 14px;
+    }
+  }
+  & > div:nth-child(2) {
+    width: 100%;
+    flex: 1;
+    padding: 1rem 0;
+  }
+`;
+
+export const FeedTitle = styled.div`
+  padding: 0.5rem 1.5rem 0;
+  color: #fff;
+  flex-direction: column;
+  display: flex;
+  align-items: flex-start;
+  & > p:first-child {
+    font-size: 0.8rem;
+    height: 1rem;
+  }
+  & > p:nth-child(2) {
+    font-size: 1.1rem;
+    font-weight: 700;
+    white-space: pre-line;
+    height: 3rem;
+  }
+  & > p:nth-child(3) {
+    font-weight: 600;
+    height: 1.2rem;
+    line-height: 1.1rem;
+    font-size: 0.9rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+  }
+  & > p:nth-child(4) {
+    font-size: 0.7rem;
+  }
 `;
 export const FeedLabel = styled.div`
+  position: absolute;
   width: 3.7rem;
+  z-index: 19;
   padding: 0.3rem;
   text-align: center;
   border-radius: 2rem;
-  transform: translate(15%, 50%);
+  transform: translate(15%, -50%);
   color: ${({ status, postStatus }) => {
-    if (status === "approve") return "#0642ff";
-    else if (status === "wait") return "#c4c4c4";
-    else if (status === "complete") return "#fff";
+    if (status === "approve") return "#7b68ff";
+    else if (status === "wait") return "#16b4ab";
+    else if (status === "complete") return "#0642ff";
     else if (status === "reject") return "#ff0606";
     else if (status === "like" && postStatus === "RECRUIT") return "#0642ff";
     else return "#000";
   }};
   border: ${({ status, postStatus }) => {
-    if (status === "approve") return "1px solid #0642ff";
-    else if (status === "wait") return "1px solid #c4c4c4";
+    if (status === "approve") return "1px solid #7b68ff";
+    else if (status === "wait") return "1px solid #16b4ab";
     else if (status === "complete") return "1px solid #0642ff";
     else if (status === "reject") return "1px solid #ff0606";
     else if (status === "like" && postStatus === "RECRUIT")
       return "1px solid #0642ff";
     else return "1px solid #000";
   }};
-  background: ${({ status }) => {
-    return status === "complete" ? "#0642ff" : "#fff";
-  }};
+  background: #fff;
   font-size: 0.85rem;
 `;
-export const FeedTitleBox = styled.div`
-  flex: 1;
-  display: flex;
-  gap: 0.5rem;
-  flex-direction: column;
-  padding: 1rem 0;
-  & > p:first-child {
-    font-size: 0.7rem;
-  }
-  & > p:nth-child(2) {
-    font-size: 1rem;
-    font-weight: 600;
-    text-decoration: none;
-    color: black;
-    cursor: pointer;
-    white-space: pre-line;
-  }
-`;
+
 export const FeedContentBox = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
-  margin-left: auto;
+  justify-content: space-between;
+  height: 7rem;
 `;
 export const FeedInfo = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
+  justify-content: flex-start;
   padding-bottom: 1rem;
-  & p {
-    font-size: 0.7rem;
-    white-space: nowrap;
-  }
+  font-size: 0.75rem;
   & > div {
     display: flex;
-    gap: 2rem;
-    & > p:nth-child(2) {
-      margin-left: auto;
+    align-items: baseline;
+    & > div:first-child {
+      flex: 1;
+    }
+    & > div:nth-child(2) {
+      flex: 1;
+      ::before {
+        content: "|";
+        color: #c4c4c4;
+        margin-right: 1rem;
+      }
+    }
+    & span {
+      font-weight: 600;
     }
   }
+  & > div:nth-child(2) > div:nth-child(2) > span {
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    ${({ condition }) => {
+      return condition
+        ? "background-color: rgba(123,104,255,0.1); color:#7b68ff;"
+        : "background-color:rgba(124,124,124,0.1); color: #7c7c7c";
+    }};
+  }
 `;
+
 export const FeedButton = styled.div`
-  margin-top: auto;
+  margin: 0 1rem 0.6rem 0;
   display: flex;
   justify-content: end;
   gap: 1rem;
   & > button {
-    background: #0642ff;
-    color: white;
+    width: 8.5rem;
+  }
+`;
+
+export const WhiteBtn = styled.button`
+  color: #0642ff;
+  background-color: #fff;
+  border: 1px solid #0642ff;
+  padding: 0.3rem 0.5rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  &:disabled {
+    cursor: default;
+    color: #7c7c7c;
+    border: 1px solid #7c7c7c;
+  }
+`;
+
+export const BlueBtn = styled(WhiteBtn)`
+  color: #fff;
+  background-color: #0642ff;
+  &:disabled {
+    background: #c4c4c4;
+    cursor: default;
+    color: #7c7c7c;
     border: none;
-    padding: 0.3rem 1rem 0.3rem 1rem;
-    border-radius: 1rem;
-    cursor: pointer;
-    &:disabled {
-      background: #c4c4c4;
-      cursor: inherit;
-    }
   }
 `;
 

@@ -7,6 +7,7 @@ CREATE TABLE `reject_post`
     `title`                 VARCHAR(100) NOT NULL,
     `place`                 VARCHAR(100) NOT NULL,
     `place_detail`          VARCHAR(50)  NOT NULL,
+    `category`                 VARCHAR(100) NOT NULL,
     `contact`               VARCHAR(50)  NOT NULL,
     `recruit_condition`     TINYINT(1)   NOT NULL,
     `do_time`               INTEGER      NOT NULL,

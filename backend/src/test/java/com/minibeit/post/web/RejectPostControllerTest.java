@@ -48,7 +48,11 @@ class RejectPostControllerTest extends MvcTest {
                 .doDate(LocalDateTime.of(2021, 9, 28, 9, 30))
                 .doTime(30)
                 .contact("010-1234-1234")
+                .category("기타")
+                .businessProfileName("동그라미 실험실")
+                .recruitCondition(true)
                 .place("고려대 연구실")
+                .placeDetail("신공학관")
                 .build();
         rejectPost2 = RejectPost.builder()
                 .id(2L)
@@ -56,8 +60,12 @@ class RejectPostControllerTest extends MvcTest {
                 .rejectComment("모집이 완료되었습니다.")
                 .doDate(LocalDateTime.of(2021, 9, 28, 9, 30))
                 .doTime(30)
+                .category("기타")
+                .businessProfileName("동그라미 실험실")
+                .recruitCondition(true)
                 .contact("010-1234-1234")
                 .place("고려대 연구실")
+                .placeDetail("신공학관")
                 .build();
         rejectPost3 = RejectPost.builder()
                 .id(3L)
@@ -65,8 +73,12 @@ class RejectPostControllerTest extends MvcTest {
                 .rejectComment("게시글이 삭제되었습니다.")
                 .doDate(LocalDateTime.of(2021, 9, 28, 9, 30))
                 .doTime(30)
+                .category("기타")
+                .businessProfileName("동그라미 실험실")
+                .recruitCondition(true)
                 .contact("010-1234-1234")
                 .place("고려대 연구실")
+                .placeDetail("신공학관")
                 .build();
     }
 
@@ -86,7 +98,7 @@ class RejectPostControllerTest extends MvcTest {
         given(rejectPostService.getList(any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/rejectPost/list")
+                .get("/api/rejected-posts")
                 .param("page", "1")
                 .param("size", "5"));
 
@@ -103,6 +115,13 @@ class RejectPostControllerTest extends MvcTest {
                                 fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("data.content[].title").type(JsonFieldType.STRING).description("제목"),
                                 fieldWithPath("data.content[].rejectComment").type(JsonFieldType.STRING).description("반려 이유"),
+                                fieldWithPath("data.content[].category").type(JsonFieldType.STRING).description("모집 분야"),
+                                fieldWithPath("data.content[].address").type(JsonFieldType.STRING).description("주소"),
+                                fieldWithPath("data.content[].addressDetail").type(JsonFieldType.STRING).description("상세주소"),
+                                fieldWithPath("data.content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("조건 유무"),
+                                fieldWithPath("data.content[].startTime").type(JsonFieldType.STRING).description("시작 시간"),
+                                fieldWithPath("data.content[].endTime").type(JsonFieldType.STRING).description("끝나는 시간"),
+                                fieldWithPath("data.content[].businessName").type(JsonFieldType.STRING).description("모집한 비즈니스 프로필 이름"),
                                 fieldWithPath("data.totalElements").description("전체 개수"),
                                 fieldWithPath("data.last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("data.totalPages").description("전체 페이지")
@@ -114,11 +133,11 @@ class RejectPostControllerTest extends MvcTest {
     @DisplayName("반려게시물 삭제 문서화")
     public void deleteOne() throws Exception {
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .delete("/api/rejectPost/{rejectPostId}", 1));
+                .delete("/api/rejected-post/{rejectPostId}", 1));
 
         results.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("rejectPost-deleteOne",
+                .andDo(document("reject-post-deleteOne",
                         pathParameters(
                                 parameterWithName("rejectPostId").description("삭제할 반려 게시물 식별자")
                         ),

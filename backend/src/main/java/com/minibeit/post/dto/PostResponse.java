@@ -190,6 +190,9 @@ public class PostResponse {
         private boolean recruitCondition;
         private Long postDoDateId;
         private Integer time;
+        private String category;
+        private String address;
+        private String addressDetail;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         private LocalDateTime doDate;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
@@ -204,10 +207,13 @@ public class PostResponse {
 
         @Builder
         @QueryProjection
-        public GetMyApplyList(Long id, String title, Integer time, String contact, String thumbnail, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status, boolean businessFinish, boolean writeReview, Long businessProfileId, String businessProfileName) {
+        public GetMyApplyList(Long id, String title, Integer time, String category, String address, String addressDetail, String contact, String thumbnail, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status, boolean businessFinish, boolean writeReview, Long businessProfileId, String businessProfileName) {
             this.id = id;
             this.title = title;
             this.time = time;
+            this.category = category;
+            this.address = address;
+            this.addressDetail = addressDetail;
             this.contact = contact;
             this.thumbnail = thumbnail;
             this.recruitCondition = recruitCondition;

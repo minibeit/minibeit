@@ -156,7 +156,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     @Override
     public Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus status, User user, LocalDateTime now, Pageable pageable) {
         JPAQuery<PostResponse.GetMyApplyList> query = queryFactory.select(new QPostResponse_GetMyApplyList(
-                        post.id, post.title, post.doTime, post.contact, post.thumbnail, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue(), postApplicant.businessFinish, postApplicant.writeReview, businessProfile.id, businessProfile.name
+                        post.id, post.title, post.doTime, post.category, post.place, post.placeDetail, post.contact, post.thumbnail, post.recruitCondition, postDoDate.id, postDoDate.doDate, postApplicant.applyStatus.stringValue(), postApplicant.businessFinish, postApplicant.writeReview, businessProfile.id, businessProfile.name
                 ))
                 .from(post)
                 .join(post.businessProfile, businessProfile)

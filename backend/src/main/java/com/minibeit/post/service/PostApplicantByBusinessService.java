@@ -81,7 +81,7 @@ public class PostApplicantByBusinessService {
 
         postApplicant.updateStatus(ApplyStatus.REJECT);
 
-        RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getPlaceDetail(), post.getContact(), post.isRecruitCondition(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getComment(), postApplicant.getUser(), post.getBusinessProfile().getName());
+        RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getPlaceDetail(), post.getCategory(), post.getContact(), post.isRecruitCondition(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getComment(), postApplicant.getUser(), post.getBusinessProfile().getName());
         rejectPostRepository.save(rejectPost);
 
         mailService.mailSend(MailCondition.REJECT, Collections.singletonList(applicant.getEmail()), rejectPost);

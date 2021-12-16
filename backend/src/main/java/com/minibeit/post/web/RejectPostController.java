@@ -14,17 +14,17 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/rejectPost")
+@RequestMapping("/api")
 public class RejectPostController {
     private final RejectPostService rejectPostService;
 
-    @GetMapping("/list")
+    @GetMapping("/rejected-posts")
     public ResponseEntity<ApiResult<Page<RejectPostResponse.GetList>>> getList(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
         Page<RejectPostResponse.GetList> response = rejectPostService.getList(pageDto, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
-    @DeleteMapping("/{rejectPostId}")
+    @DeleteMapping("/rejected-post/{rejectPostId}")
     public ResponseEntity<ApiResult<Void>> deleteOne(@PathVariable Long rejectPostId, @CurrentUser CustomUserDetails customUserDetails) {
         rejectPostService.deleteOne(rejectPostId, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));

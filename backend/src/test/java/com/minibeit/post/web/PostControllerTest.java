@@ -328,6 +328,9 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(1L)
                 .title("간단한 실험")
                 .time(60)
+                .category("기타")
+                .address("서울")
+                .addressDetail("고려대 신공학관")
                 .thumbnail("thumbnail url")
                 .doDate(LocalDateTime.of(2021, 9, 10, 9, 30))
                 .recruitCondition(true)
@@ -342,6 +345,9 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(2L)
                 .title("복잡한 실험")
                 .time(120)
+                .category("기타")
+                .address("서울")
+                .addressDetail("고려대 신공학관")
                 .thumbnail("thumbnail url")
                 .doDate(LocalDateTime.of(2021, 9, 10, 12, 30))
                 .recruitCondition(true)
@@ -378,6 +384,9 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("data.content[].contact").type(JsonFieldType.STRING).description("게시물 연락처"),
                                 fieldWithPath("data.content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("게시물 조건 유무"),
                                 fieldWithPath("data.content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
+                                fieldWithPath("data.content[].category").type(JsonFieldType.STRING).description("게시물 실험 분야"),
+                                fieldWithPath("data.content[].address").type(JsonFieldType.STRING).description("게시물 주소"),
+                                fieldWithPath("data.content[].addressDetail").type(JsonFieldType.STRING).description("게시물 상세 주소"),
                                 fieldWithPath("data.content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
                                 fieldWithPath("data.content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
                                 fieldWithPath("data.content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),

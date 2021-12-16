@@ -35,7 +35,7 @@ public class PostRejectScheduler {
             PostDoDate postDoDate = postApplicant.getPostDoDate();
             Post post = postDoDate.getPost();
             BusinessProfile businessProfile = post.getBusinessProfile();
-            RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getPlaceDetail(), post.getContact(), post.isRecruitCondition(), post.getDoTime(), postDoDate.getDoDate(), REJECT_MSG, postApplicant.getUser(), businessProfile.getName());
+            RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getPlaceDetail(), post.getCategory(), post.getContact(), post.isRecruitCondition(), post.getDoTime(), postDoDate.getDoDate(), REJECT_MSG, postApplicant.getUser(), businessProfile.getName());
 
             rejectPosts.add(rejectPost);
             postApplicantIds.add(postApplicant.getId());

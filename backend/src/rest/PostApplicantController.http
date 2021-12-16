@@ -1,4 +1,4 @@
-POST {{apiUrl}}/post/date/5/apply
+POST {{apiUrl}}/post/date/6/apply
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 

@@ -24,6 +24,8 @@ public class RejectPost extends BaseEntity {
 
     private String placeDetail;
 
+    private String category;
+
     private String contact;
 
     private Boolean recruitCondition;
@@ -40,11 +42,12 @@ public class RejectPost extends BaseEntity {
 
     private String businessProfileName;
 
-    public static RejectPost create(String title, String place, String placeDetail, String contact, Boolean recruitCondition, Integer doTime, LocalDateTime doDate, String rejectComment, User user, String businessProfileName) {
+    public static RejectPost create(String title, String place, String placeDetail, String category, String contact, Boolean recruitCondition, Integer doTime, LocalDateTime doDate, String rejectComment, User user, String businessProfileName) {
         return RejectPost.builder()
                 .title(title)
                 .place(place)
                 .placeDetail(placeDetail)
+                .category(category)
                 .contact(contact)
                 .recruitCondition(recruitCondition)
                 .doTime(doTime)

@@ -1,5 +1,6 @@
 import React from "react";
 import { ReactComponent as Star } from "../../../svg/별.svg";
+import { ReactComponent as Home } from "../../../svg/홈.svg";
 import CreateAuthModal from "../../Common/Modal/CreateAuthModal";
 
 import * as S from "../style";
@@ -16,28 +17,44 @@ export default function Presenter({
       {feedList.length !== 0 ? (
         feedList.map((a) => {
           return (
-            <S.FeedBox key={a.id}>
-              <S.FeedHeader isLike={a.isLike}>
+            <S.FeedBox key={a.id} onClick={() => goToDetailPage(a)}>
+              <div>
+                <img
+                  alt="썸네일"
+                  src={a.file ? a.file.url : "/images/기본프로필.png"}
+                />
                 <div>
-                  <p id={a.id} onClick={goToDetailPage}>
-                    {a.title}
-                  </p>
-                  <p>{a.businessProfileName}</p>
+                  <div onClick={(e) => clickBookmark(a, e)}>
+                    <Star />
+                    <p>{a.likes}</p>
+                  </div>
                 </div>
-                <S.FeedLikeBox isLike={a.isLike}>
-                  <Star onClick={() => clickBookmark(a)} />
-                  <p>{a.likes}</p>
-                </S.FeedLikeBox>
-              </S.FeedHeader>
-              <S.FeedInfoData>
-                <p>소요시간: {a.doTime}분</p>
-                {a.payment === "CACHE" ? (
-                  <p>지급: {a.cache}원</p>
-                ) : (
-                  <p>지급: 상품</p>
-                )}
-                <p>필수조건: {a.recruitCondition ? "있음" : "없음"}</p>
-              </S.FeedInfoData>
+              </div>
+              <div>
+                <S.FeedHeader isLike={a.isLike}>
+                  <p>{a.title}</p>
+                  <div>
+                    <Home />
+                    <p>{a.businessProfileName}</p>
+                  </div>
+                </S.FeedHeader>
+                <S.FeedInfoData
+                  payment={a.payment}
+                  condition={a.recruitCondition}
+                >
+                  <p>소요시간: {a.doTime}분</p>
+                  <div>참여조건 {a.recruitCondition ? "있음" : "없음"}</div>
+                  {a.payment === "CACHE" ? (
+                    <div>
+                      <span>현금</span> {a.cache}원
+                    </div>
+                  ) : (
+                    <div>
+                      <span>물품</span> {a.goods}
+                    </div>
+                  )}
+                </S.FeedInfoData>
+              </div>
             </S.FeedBox>
           );
         })

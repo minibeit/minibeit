@@ -8,6 +8,7 @@ import Portal from "../../Common/Modal/Portal";
 import { nickCheckApi, signupInfoApi } from "../../../utils/auth";
 import { signupState } from "../../../recoil/signupState";
 import { guestState, userState } from "../../../recoil/userState";
+import { toast } from "react-toastify";
 
 import InfoData from "./InfoData";
 import SchoolSelect from "./SchoolSelect";
@@ -59,31 +60,33 @@ export default function SignUpComponent({ setFinish }) {
     if (nickname) {
       nickCheckApi(nickname)
         .then((res) => {
-          alert("사용가능한 아이디 입니다");
+          toast.info("사용가능한 아이디 입니다");
           let copy = { ...inputData };
           copy.nickname = nickname;
           setInputData(copy);
           setChangeNickname(true);
         })
         .catch((err) => {
-          alert("중복된 아이디 입니다");
+          toast.info("중복된 아이디 입니다");
         });
     }
   };
   const checkingPhone = (phoneNum) => {
     guestCheckPhoneApi(guest.accessToken, guest.id, phoneNum).then((res) => {
-      if (res.status !== 200) alert("오류가 발생했습니다. 다시 시도해주세요");
+      if (res.status !== 200)
+        toast.error("오류가 발생했습니다. 다시 시도해주세요");
       else {
-        alert("인증번호를 발송했습니다");
+        toast.info("인증번호를 발송했습니다");
         setNewPhone(phoneNum);
       }
     });
   };
   const checkingEmail = (email) => {
     guestCheckEmailApi(guest.accessToken, guest.id, email).then((res) => {
-      if (res.status !== 200) alert("오류가 발생했습니다. 다시 시도해주세요");
+      if (res.status !== 200)
+        toast.error("오류가 발생했습니다. 다시 시도해주세요");
       else {
-        alert("인증번호를 발송했습니다");
+        toast.info("인증번호를 발송했습니다");
         setNewEmail(email);
       }
     });
@@ -91,7 +94,7 @@ export default function SignUpComponent({ setFinish }) {
   const checkingCode = (code, type) => {
     guestCheckCodeApi(guest.accessToken, code, guest.id, type).then((res) => {
       if (res.status === 200) {
-        alert("인증 성공!");
+        toast.info("인증 성공!");
         let copy = { ...inputData };
         if (type === "EMAIL") {
           setChangeEmail(true);
@@ -103,7 +106,7 @@ export default function SignUpComponent({ setFinish }) {
           setInputData(copy);
         }
       } else {
-        alert("인증번호가 잘못되었습니다.");
+        toast.error("인증번호가 잘못되었습니다.");
       }
     });
   };
@@ -116,16 +119,16 @@ export default function SignUpComponent({ setFinish }) {
       !inputData.month ||
       !inputData.date
     ) {
-      alert("정보를 확인해주세요");
+      toast.info("정보를 확인해주세요");
       return false;
     } else if (!changeNickname) {
-      alert("닉네임 중복을 확인해주세요");
+      toast.info("닉네임 중복을 확인해주세요");
       return false;
     } else if (!changePhone) {
-      alert("연락처를 확인해 주세요");
+      toast.info("연락처를 확인해 주세요");
       return false;
     } else if (!changeEmail) {
-      alert("이메일을 확인해 주세요");
+      toast.info("이메일을 확인해 주세요");
       return false;
     } else return true;
   };
@@ -144,7 +147,7 @@ export default function SignUpComponent({ setFinish }) {
       if (inputData.schoolId) {
         setStep(3);
       } else {
-        alert("학교를 선택해주세요");
+        toast.info("학교를 선택해주세요");
       }
     } else if (step === 3) setStep(4);
   };
@@ -163,7 +166,7 @@ export default function SignUpComponent({ setFinish }) {
         setFinish(true);
       })
       .catch((err) => {
-        alert("회원가입에 실패하였습니다. 잠시후에 다시 시도해주세요");
+        toast.error("회원가입에 실패하였습니다. 잠시후에 다시 시도해주세요");
       });
   };
 

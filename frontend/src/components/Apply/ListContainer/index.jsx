@@ -14,11 +14,12 @@ export default function ListContainer({ feedList, postBookmark, setFeedList }) {
   const history = useHistory();
   const [modalSwitch, setModalSwitch] = useState(false);
 
-  const goToDetailPage = (e) => {
-    history.push(`/apply/${e.target.id}?${moment(date).format("YYYY-MM-DD")}`);
+  const goToDetailPage = (a) => {
+    history.push(`/apply/${a.id}?${moment(date).format("YYYY-MM-DD")}`);
   };
 
-  const clickBookmark = (a) => {
+  const clickBookmark = (a, e) => {
+    e.stopPropagation();
     if (isLogin) {
       postBookmark(a.id);
       var Data = [...feedList];

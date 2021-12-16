@@ -18,7 +18,6 @@ public class SmsMessageRequest {
     private List<MessageDto> messages;
 
     public static SmsMessageRequest makeSmsRequest(String from, List<MessageDto> messages) {
-
         return SmsMessageRequest.builder()
                 .type("SMS")
                 .contentType("COMM")

@@ -22,22 +22,22 @@ public class BusinessUserReviewController {
     private final BusinessUserReviewService businessUserReviewService;
 
     @PostMapping("/business/{businessProfileId}/date/{postDoDateId}/review/{reviewDetailId}")
-    public ResponseEntity<ApiResult<Void>> createBusinessReview(@PathVariable Long businessProfileId, @PathVariable Long postDoDateId,
-                                                                @PathVariable Long reviewDetailId, @CurrentUser CustomUserDetails customUserDetails) {
-        businessUserReviewService.createBusinessReview(businessProfileId, postDoDateId, reviewDetailId, LocalDateTime.now(), customUserDetails.getUser());
-        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
+    public ResponseEntity<ApiResult<BusinessUserReviewResponse.OnlyId>> createBusinessReview(@PathVariable Long businessProfileId, @PathVariable Long postDoDateId,
+                                                                                             @PathVariable Long reviewDetailId, @CurrentUser CustomUserDetails customUserDetails) {
+        BusinessUserReviewResponse.OnlyId response = businessUserReviewService.createBusinessReview(businessProfileId, postDoDateId, reviewDetailId, LocalDateTime.now(), customUserDetails.getUser());
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
     @PostMapping("/business/{businessProfileId}/user/{userId}/date/{postDoDateId}/review/{reviewDetailId}")
-    public ResponseEntity<ApiResult<Void>> createUserReview(@PathVariable Long businessProfileId, @PathVariable Long userId, @PathVariable Long postDoDateId,
-                                                            @PathVariable Long reviewDetailId, @CurrentUser CustomUserDetails customUserDetails) {
-        businessUserReviewService.createUserReview(businessProfileId, userId, postDoDateId, reviewDetailId, LocalDateTime.now(), customUserDetails.getUser());
-        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
+    public ResponseEntity<ApiResult<BusinessUserReviewResponse.OnlyId>> createUserReview(@PathVariable Long businessProfileId, @PathVariable Long userId, @PathVariable Long postDoDateId,
+                                                                                         @PathVariable Long reviewDetailId, @CurrentUser CustomUserDetails customUserDetails) {
+        BusinessUserReviewResponse.OnlyId response = businessUserReviewService.createUserReview(businessProfileId, userId, postDoDateId, reviewDetailId, LocalDateTime.now(), customUserDetails.getUser());
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
     @GetMapping("/business/user/reviews")
-    public ResponseEntity<ApiResult<List<BusinessUserReviewResponse.IdAndName>>> getList(@RequestParam(name = "reviewType") BusinessUserReviewType type, @RequestParam(name = "evalType") BusinessUserReviewEvalType evalType) {
-        List<BusinessUserReviewResponse.IdAndName> response = businessUserReviewService.getList(type, evalType);
+    public ResponseEntity<ApiResult<List<BusinessUserReviewResponse.IdAndContent>>> getList(@RequestParam(name = "reviewType") BusinessUserReviewType type, @RequestParam(name = "evalType") BusinessUserReviewEvalType evalType) {
+        List<BusinessUserReviewResponse.IdAndContent> response = businessUserReviewService.getList(type, evalType);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 

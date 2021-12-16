@@ -13,6 +13,7 @@ import {
   checkCodeApi,
   checkEmailApi,
 } from "../../../../utils/verificationApi";
+import { toast } from "react-toastify";
 
 export default function UserInfoEditModal({
   infoData,
@@ -54,7 +55,7 @@ export default function UserInfoEditModal({
   const checkingNickname = (nickname) => {
     nickCheckApi(nickname)
       .then((res) => {
-        alert("사용가능한 아이디 입니다");
+        toast.info("사용가능한 아이디 입니다");
         let copy = { ...userData };
         copy.nickname = nickname;
         setUserData(copy);
@@ -66,10 +67,10 @@ export default function UserInfoEditModal({
   const checkingPhone = (phoneNum) => {
     checkPhoneApi(userData.id, phoneNum)
       .then((res) => {
-        alert("인증번호를 발송했습니다");
+        toast.info("인증번호를 발송했습니다");
         setNewPhone(phoneNum);
       })
-      .catch(() => alert("휴대전화 형식을 다시한번 확인해주세요"));
+      .catch(() => toast.info("휴대전화 형식을 다시한번 확인해주세요"));
   };
 
   const closeModal = () => {
@@ -79,10 +80,10 @@ export default function UserInfoEditModal({
   const checkingEmail = (email) => {
     checkEmailApi(userData.id, email)
       .then((res) => {
-        alert("인증번호를 발송했습니다");
+        toast.info("인증번호를 발송했습니다");
         setNewEmail(email);
       })
-      .catch(() => alert("이메일 형식을 다시한번 확인해주세요"));
+      .catch(() => toast.info("이메일 형식을 다시한번 확인해주세요"));
   };
 
   const checkingCode = (code, type) => {
@@ -98,9 +99,9 @@ export default function UserInfoEditModal({
           copy.phoneNum = newPhone;
           setUserData(copy);
         }
-        alert("인증 완료");
+        toast.info("인증 완료");
       })
-      .catch(() => alert("인증번호가 잘못되었습니다."));
+      .catch(() => toast.error("인증번호가 잘못되었습니다."));
   };
 
   const submitEditUser = (userData, schoolId, newNickname) => {
@@ -111,13 +112,13 @@ export default function UserInfoEditModal({
       !userData.name ||
       !userData.phoneNum
     ) {
-      alert("정보를 확인해 주세요");
+      toast.info("정보를 확인해 주세요");
     } else if (!changeNickname) {
-      alert("닉네임 중복확인을 해주세요");
+      toast.info("닉네임 중복확인을 해주세요");
     } else if (!changePhone) {
-      alert("휴대폰 인증을 해주세요");
+      toast.info("휴대폰 인증을 해주세요");
     } else if (!changeEmail) {
-      alert("이메일 인증을 해주세요");
+      toast.info("이메일 인증을 해주세요");
     } else {
       editMyInfo(userData, schoolId, originalNickname)
         .then((res) => {
@@ -125,11 +126,11 @@ export default function UserInfoEditModal({
           copy.name = res.data.data.nickname;
           copy.schoolId = res.data.data.schoolId;
           setUser(copy);
-          alert("수정이 완료되었습니다!");
+          toast.info("수정이 완료되었습니다!");
           setModalSwitch(false);
           getUserData();
         })
-        .catch((err) => alert("수정 내용을 다시 한번 확인해주세요"));
+        .catch((err) => toast.info("수정 내용을 다시 한번 확인해주세요"));
     }
   };
 

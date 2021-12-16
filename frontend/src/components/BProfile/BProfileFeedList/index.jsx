@@ -89,6 +89,7 @@ export default function BProfileInfo({ businessId }) {
             </div>
           ))
         )}
+
         {feedData.length !== 0 && (
           <Pagination
             page={page}

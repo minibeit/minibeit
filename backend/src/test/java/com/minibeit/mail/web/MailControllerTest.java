@@ -1,7 +1,6 @@
 package com.minibeit.mail.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.mail.condition.PostMailCondition;
 import com.minibeit.mail.dto.MailRequest;
 import com.minibeit.mail.service.MailService;
 import org.junit.jupiter.api.DisplayName;
@@ -12,8 +11,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
-
-import java.util.List;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;

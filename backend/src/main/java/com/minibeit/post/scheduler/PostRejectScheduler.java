@@ -1,6 +1,6 @@
 package com.minibeit.post.scheduler;
 
-import com.minibeit.mail.condition.PostMailCondition;
+import com.minibeit.mail.condition.MailCondition;
 import com.minibeit.mail.service.MailService;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
@@ -37,7 +37,7 @@ public class PostRejectScheduler {
 
             rejectPosts.add(rejectPost);
             postApplicantIds.add(postApplicant.getId());
-            mailService.mailSend(PostMailCondition.REJECT, Collections.singletonList(postApplicant.getUser().getEmail()), rejectPost);
+            mailService.mailSend(MailCondition.REJECT, Collections.singletonList(postApplicant.getUser().getEmail()), rejectPost);
         });
 
         rejectPostRepository.saveAll(rejectPosts);

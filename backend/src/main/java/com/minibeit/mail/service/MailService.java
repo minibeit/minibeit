@@ -1,7 +1,7 @@
 package com.minibeit.mail.service;
 
+import com.minibeit.mail.condition.MailCondition;
 import com.minibeit.mail.condition.MailPostCondition;
-import com.minibeit.mail.condition.PostMailCondition;
 import com.minibeit.mail.dto.MailRequest;
 import com.minibeit.mail.dto.PostStatusMail;
 import com.minibeit.user.domain.User;
@@ -32,7 +32,7 @@ public class MailService {
     private final SpringTemplateEngine templateEngine;
 
     @Async
-    public <T> void mailSend(PostMailCondition postMailCondition, List<String> toMailList, T data) {
+    public <T> void mailSend(MailCondition postMailCondition, List<String> toMailList, T data) {
         toMailList.stream().map(mail -> PostStatusMail.create(postMailCondition, mail))
                 .forEach(postStatusMail -> {
                     MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -59,16 +59,14 @@ public class MailService {
         }
         MimeMessage message = mailSender.createMimeMessage();
 
-        message.addRecipients(MimeMessage.RecipientType.TO, request.getToEmail());
-        message.setSubject("[미니바이트] 인증번호를 안내해드립니다.");
-        message.setText(setContext(userVerificationCode.getCode()), "utf-8", "html");
+        PostStatusMail postStatusMail = PostStatusMail.create(MailCondition.VERIFICATION, request.getToEmail());
+        postStatusMail.getMailCondition().makeMimeMessage(message, templateEngine, request.getToEmail(), userVerificationCode);
+//
+//
+//        message.addRecipients(MimeMessage.RecipientType.TO, request.getToEmail());
+//        message.setSubject("[미니바이트] 인증번호를 안내해드립니다.");
+//        message.setText(setContext(userVerificationCode.getCode()), "utf-8", "html");
 
         mailSender.send(message);
-    }
-
-    private String setContext(String code) {
-        Context context = new Context();
-        context.setVariable("code", code);
-        return templateEngine.process("emailVerification", context);
     }
 }

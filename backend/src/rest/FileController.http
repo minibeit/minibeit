@@ -1,0 +1,2 @@
+GET {{apiUrl}}/file/download?fileName=
+Authorization: {{authorizationToken}}

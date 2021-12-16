@@ -30,18 +30,25 @@ public class BusinessUserReview extends BaseEntity {
     @JoinColumn(name = "business_review_detail_id")
     private BusinessUserReviewDetail businessUserReviewDetail;
 
+    private void setBusinessUserReviewDetail(BusinessUserReviewDetail businessUserReviewDetail) {
+        this.businessUserReviewDetail = businessUserReviewDetail;
+        businessUserReviewDetail.getBusinessUserReviewList().add(this);
+    }
+
     public static BusinessUserReview createWithBusiness(BusinessProfile businessProfile, BusinessUserReviewDetail businessUserReviewDetail) {
-        return BusinessUserReview.builder()
+        BusinessUserReview businessReview = BusinessUserReview.builder()
                 .businessProfile(businessProfile)
-                .businessUserReviewDetail(businessUserReviewDetail)
                 .build();
+        businessReview.setBusinessUserReviewDetail(businessUserReviewDetail);
+        return businessReview;
     }
 
     public static BusinessUserReview createWithUser(User applicantUser, BusinessUserReviewDetail businessUserReviewDetail) {
-        return BusinessUserReview.builder()
+        BusinessUserReview userReview = BusinessUserReview.builder()
                 .user(applicantUser)
-                .businessUserReviewDetail(businessUserReviewDetail)
                 .build();
+        userReview.setBusinessUserReviewDetail(businessUserReviewDetail);
+        return userReview;
     }
 }
 

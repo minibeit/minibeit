@@ -2,6 +2,7 @@ import React from "react";
 
 import { PVImg } from "../../../Common";
 import Address from "../../../Common/Address";
+import { toast } from "react-toastify";
 
 import * as S from "./style";
 
@@ -66,7 +67,7 @@ export default function Presenter({
                   if (!exceptName(e.target.value)) {
                     e.target.value = "";
                     onChange(e);
-                    alert("이름은 2~8글자로 입력해주세요");
+                    toast.info("이름은 2~8글자로 입력해주세요");
                   }
                 }}
               />
@@ -122,7 +123,7 @@ export default function Presenter({
                   if (!exceptPhone(e.target.value)) {
                     e.target.value = "";
                     onChange(e);
-                    alert("휴대폰 번호를 다시 확인해주세요");
+                    toast.info("휴대폰 번호를 다시 확인해주세요");
                   }
                 }}
               />

@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { RecoilRoot } from "recoil";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, Slide } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import Main from "./pages/Main";
@@ -31,7 +31,13 @@ function App() {
       <RecoilRoot>
         <GlobalStyle />
         <NavBar />
-        <ToastContainer />
+        <ToastContainer
+          position="top-center"
+          hideProgressBar
+          transition={Slide}
+          theme="colored"
+          autoClose={3000}
+        />
         <TransitionGroup className="transition-group">
           <CSSTransition
             key={pathname.pathname}

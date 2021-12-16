@@ -1,7 +1,7 @@
 package com.minibeit.post.service;
 
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.mail.condition.PostMailCondition;
+import com.minibeit.mail.condition.MailCondition;
 import com.minibeit.mail.service.MailService;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
@@ -71,8 +71,8 @@ public class PostApplicantService {
             Post post = postDoDate.getPost();
             List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
             postDoDate.updateFull(approvedPostApplicant);
-            PostApplicantResponse.ApplicantCancelMail result = PostApplicantResponse.ApplicantCancelMail.build(user.getName(), user.getPhoneNum(), postDoDate.getDoDate(), post.getDoTime(), post.getTitle());
-            mailService.mailSend(PostMailCondition.APPLICANTCANCEL, Collections.singletonList(post.getBusinessProfile().getAdmin().getEmail()), result);
+            PostApplicantResponse.ApplicantCancelMail result = PostApplicantResponse.ApplicantCancelMail.build(user.getName(), user.getPhoneNum(), postDoDate.getDoDate(), post.getDoTime(), post.getTitle(), post.getBusinessProfile().getId());
+            mailService.mailSend(MailCondition.APPLICANTCANCEL, Collections.singletonList(post.getBusinessProfile().getAdmin().getEmail()), result);
         }
     }
 }

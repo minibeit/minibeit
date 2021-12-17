@@ -45,7 +45,8 @@ export const feedCreateApi = async (recruit) => {
 
 export const feedAddfileApi = (postId, files) => {
   const formData = new FormData();
-  for (var i = 0; i < files.length; i++) {
+  formData.append("thumbnail", files[0]);
+  for (var i = 1; i < files.length; i++) {
     formData.append("files", files[i]);
   }
   return withAuthInstance.post(API_POST + `${postId}/files`, formData);

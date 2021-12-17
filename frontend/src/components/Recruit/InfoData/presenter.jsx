@@ -274,6 +274,7 @@ export default function Presenter({
                 ? recruit.images.map((a, i) => {
                     return (
                       <S.ImgBox key={i}>
+                        {i === 0 && <S.ThumbnailTag>썸네일</S.ThumbnailTag>}
                         <S.DeleteImg name={a.name} onClick={deleteImg}>
                           <CloseIcon />
                         </S.DeleteImg>

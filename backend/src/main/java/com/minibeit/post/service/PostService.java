@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -52,6 +53,11 @@ public class PostService {
         return postDoDateList.stream().map(postDoDate -> PostResponse.GetPostStartTime.build(postDoDate, postDoDate.getPost())).collect(Collectors.toList());
     }
 
+    public PostResponse.DoDateList getDoDateListByYearMonth(Long postId, YearMonth yearMonth) {
+        List<PostDoDate> postDoDateList = postDoDateRepository.findAllByPostIdAndYearMonth(postId, yearMonth);
+        return PostResponse.DoDateList.build(postDoDateList);
+    }
+
     public Page<PostResponse.GetList> getList(Long schoolId, LocalDate doDate, String category, PageDto pageDto, Payment paymentType, LocalTime startTime, LocalTime endTime, Integer minPay, Integer doTime, CustomUserDetails customUserDetails) {
         Page<Post> posts = postRepository.findAllBySchoolIdAndDoDate(schoolId, doDate, paymentType, category, startTime, endTime, minPay, doTime, pageDto.of());
         return posts.map(post -> PostResponse.GetList.build(post, customUserDetails));
@@ -62,12 +68,8 @@ public class PostService {
         return posts.map(PostResponse.GetLikeList::build);
     }
 
-    public Page<PostResponse.GetMyApplyList> getListByApplyStatus(ApplyStatus applyStatus, User user, LocalDateTime now, PageDto pageDto) {
-        return postRepository.findAllByApplyStatus(applyStatus, user, now, pageDto.of());
-    }
-
-    public Page<PostResponse.GetMyCompletedList> getListByMyCompleteList(User user, PageDto pageDto) {
-        return postRepository.findAllByMyCompleted(user, pageDto.of());
+    public Page<PostResponse.GetMyApplyList> getListByApplyStatus(ApplyStatus status, User user, LocalDateTime now, PageDto pageDto) {
+        return postRepository.findAllByApplyStatus(status, user, now, pageDto.of());
     }
 
     @Transactional

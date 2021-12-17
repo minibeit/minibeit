@@ -10,6 +10,7 @@ CREATE TABLE `post`
     `place_detail`             VARCHAR(50)  NOT NULL,
     `category`                 VARCHAR(100) NOT NULL,
     `recruit_people`           INTEGER      NOT NULL,
+    `thumbnail`                VARCHAR(2083),
     `contact`                  VARCHAR(50)  NOT NULL,
     `payment`                  VARCHAR(50)  NOT NULL,
     `payment_cache`            INTEGER,

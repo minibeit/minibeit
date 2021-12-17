@@ -172,20 +172,18 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
         postDoDateRepository.save(postDoDate3);
 
         PostApplicant postApplicant1 = PostApplicant.create(postDoDate, user2);
-        postApplicant1.updateStatus(ApplyStatus.APPROVE);
+        postApplicant1.updateStatus(ApplyStatus.COMPLETE);
         postApplicant1.changeBusinessFinish(true);
-        postApplicant1.updateMyFinish();
         postApplicantRepository.save(postApplicant1);
 
         PostApplicant postApplicant2 = PostApplicant.create(postDoDate, notAttendUser);
-        postApplicant2.updateStatus(ApplyStatus.APPROVE);
+        postApplicant2.updateStatus(ApplyStatus.COMPLETE);
         postApplicant2.changeBusinessFinish(false);
         postApplicant2.updateEvaluatedBusiness();
-        postApplicant2.updateMyFinish();
         postApplicantRepository.save(postApplicant2);
 
         PostApplicant postApplicant3 = PostApplicant.create(postDoDate, notCompleteSelf);
-        postApplicant3.updateStatus(ApplyStatus.APPROVE);
+        postApplicant3.updateStatus(ApplyStatus.COMPLETE);
         postApplicant3.changeBusinessFinish(true);
         postApplicantRepository.save(postApplicant3);
     }

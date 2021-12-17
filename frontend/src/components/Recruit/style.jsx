@@ -21,8 +21,7 @@ const fadeIn = () => {
 
 /* Common */
 export const Page = styled.div`
-  height: 100vh;
-  width: 100vw;
+  min-height: 100vh;
   max-width: 100%;
   display: flex;
   justify-content: center;
@@ -331,7 +330,7 @@ export const CategoryConfirm = styled(CategoryBtn)`
 
 /* Info Data */
 export const InputPage = styled(Page)`
-  height: 120rem;
+  padding: 10rem 0;
 `;
 export const InputContainer = styled(Container)``;
 export const Input = styled.div`
@@ -448,42 +447,36 @@ export const PayInput = styled(Input)`
 
 /* img and address */
 export const ImgForm = styled.div`
-  position: relative;
   display: flex;
   width: 100%;
-  overflow-x: scroll;
   & > div {
     display: flex;
-    gap: 20px;
-  }
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background-color: #c4c4c4;
-  }
-  ::-webkit-scrollbar-button {
-    width: 0;
-    height: 0;
+    flex-wrap: wrap;
+    gap: 1rem;
   }
 `;
+
 export const ImgBox = styled.div`
   background: #ffffff;
   box-shadow: 10px 10px 30px rgba(189, 189, 189, 0.2);
   border: rgba(189, 189, 189, 0.2) 0.5px solid;
-  border-radius: 30px;
   overflow: hidden;
-  width: 15rem;
-  height: 15rem;
+  width: 13rem;
+  height: 13rem;
   display: inline-block;
 `;
+export const ThumbnailTag = styled.div`
+  position: absolute;
+  background: #e5ecff;
+  border-radius: 0.2em;
+  padding: 0.2em 0.7em;
+  color: #0642ff;
+  transform: translate(0.5em, 0.5em);
+`;
+
 export const DeleteImg = styled.button`
   position: absolute;
-  transform: translate(216px, 0px);
+  transform: translate(14em, -1em);
   width: 30px;
   height: 30px;
   display: flex;
@@ -504,16 +497,18 @@ export const FileLabel = styled.label`
   background: #ffffff;
   box-shadow: 10px 10px 30px rgba(189, 189, 189, 0.2);
   border: rgba(189, 189, 189, 0.2) 0.5px solid;
-  border-radius: 30px;
   overflow: hidden;
-  width: 15rem;
-  height: 15rem;
+  width: 13rem;
+  height: 13rem;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   & > svg {
-    width: 2rem;
+    width: 3em;
+    & path {
+      fill: #dedede;
+    }
   }
 `;
 export const FileInput = styled.input`

@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.YearMonth;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,20 +58,24 @@ public class PostByBusinessService {
     public PostResponse.OnlyId addFiles(Long postId, PostRequest.AddFile request, User user) {
         Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
-
-        List<SavedFile> savedFiles = new ArrayList<>();
-        if (request.getFiles() != null) {
-            savedFiles = s3Uploader.uploadFileList(request.getFiles());
+        if (request.getThumbnail() != null) {
+            SavedFile uploadedThumbnail = s3Uploader.upload(request.getThumbnail());
+            PostFile thumbnail = PostFile.create(post, uploadedThumbnail);
+            post.updateThumbnail(thumbnail.getUrl());
+            postFileRepository.save(thumbnail);
         }
-        List<PostFile> postFiles = savedFiles.stream().map(savedFile -> PostFile.create(post, savedFile)).collect(Collectors.toList());
-        postFileRepository.saveAll(postFiles);
-
+        if (request.getFiles() != null) {
+            List<SavedFile> savedFiles = s3Uploader.uploadFileList(request.getFiles());
+            List<PostFile> postFiles = savedFiles.stream().map(savedFile -> PostFile.create(post, savedFile)).collect(Collectors.toList());
+            postFileRepository.saveAll(postFiles);
+        }
         return PostResponse.OnlyId.build(post);
     }
 
     public void recruitmentCompleted(Long postId, PostRequest.RejectComment request, User user) {
         Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
-        postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
+        BusinessProfile businessProfile = post.getBusinessProfile();
+        postPermissionCheck.userInBusinessProfileCheck(businessProfile.getId(), user);
 
         List<PostApplicant> rejectedApplicantList = postApplicantRepository.findAllByPostIdAndApplyStatus(postId, ApplyStatus.WAIT);
 
@@ -80,7 +83,7 @@ public class PostByBusinessService {
         postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT);
 
         List<RejectPost> rejectPostList = rejectedApplicantList.stream()
-                .map(postApplicant -> RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getRejectComment(), postApplicant.getUser())).collect(Collectors.toList());
+                .map(postApplicant -> RejectPost.create(post.getTitle(), post.getPlace(), post.getPlaceDetail(), post.getCategory(), post.getContact(), post.isRecruitCondition(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getRejectComment(), postApplicant.getUser(), businessProfile.getName())).collect(Collectors.toList());
         rejectPostRepository.saveAll(rejectPostList);
 
         post.completed();
@@ -90,12 +93,6 @@ public class PostByBusinessService {
     public Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfile(Long businessProfileId, PostStatus postStatus, LocalDateTime now, PageDto pageDto) {
         Page<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, postStatus, now, pageDto.of());
         return posts.map(PostResponse.GetListByBusinessProfile::build);
-    }
-
-    @Transactional(readOnly = true)
-    public PostResponse.DoDateList getDoDateListByYearMonth(Long postId, YearMonth yearMonth) {
-        List<PostDoDate> postDoDateList = postDoDateRepository.findAllByPostIdAndYearMonth(postId, yearMonth);
-        return PostResponse.DoDateList.build(postDoDateList);
     }
 
     public PostResponse.OnlyId updateContent(Long postId, PostRequest.UpdateContent request, User user) {

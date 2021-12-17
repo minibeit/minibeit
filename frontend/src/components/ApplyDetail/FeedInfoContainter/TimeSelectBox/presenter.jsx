@@ -6,6 +6,7 @@ import { CalendarButton } from "../../../Common";
 import * as S from "../../style";
 
 export default function Presenter({
+  feedId,
   moveDate,
   viewDoDate,
   setViewDoDate,
@@ -43,6 +44,7 @@ export default function Presenter({
             />
           </div>
           <CalendarButton
+            feedId={feedId}
             minDate={new Date(startDate)}
             maxDate={new Date(endDate)}
             currentDate={new Date(viewDoDate)}

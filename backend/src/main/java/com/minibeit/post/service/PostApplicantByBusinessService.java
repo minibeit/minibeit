@@ -52,9 +52,9 @@ public class PostApplicantByBusinessService {
 
         List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
         postDoDate.updateFull(approvedPostApplicant);
-        PostResponse.GetMyApplyList getMyApplyList = new PostResponse.GetMyApplyList(post.getId(), post.getTitle(), post.getDoTime(), post.getContact(), post.isRecruitCondition(), postDoDateId, postDoDate.getDoDate(), postApplicant.getApplyStatus().name(), postApplicant.isBusinessFinish(), post.getBusinessProfile().getId());
 
-        mailService.mailSend(MailCondition.APPROVE, Collections.singletonList(applicant.getEmail()), getMyApplyList);
+        PostResponse.ApproveAndApproveCancelTemplate templateResponse = PostResponse.ApproveAndApproveCancelTemplate.build(post.getTitle(), postDoDate.getDoDate(), post.getDoTime());
+        mailService.mailSend(MailCondition.APPROVE, Collections.singletonList(applicant.getEmail()), templateResponse);
     }
 
     public void applyApproveCancel(Long postDoDateId, Long userId, User user) {
@@ -69,9 +69,8 @@ public class PostApplicantByBusinessService {
         List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
         postDoDate.updateFull(approvedPostApplicant);
 
-        PostResponse.GetMyApplyList getMyApplyList = new PostResponse.GetMyApplyList(post.getId(), post.getTitle(), post.getDoTime(), post.getContact(), post.isRecruitCondition(), postDoDateId, postDoDate.getDoDate(), postApplicant.getApplyStatus().name(), postApplicant.isBusinessFinish(), post.getBusinessProfile().getId());
-
-        mailService.mailSend(MailCondition.APPROVECANCEL, Collections.singletonList(applicant.getEmail()), getMyApplyList);
+        PostResponse.ApproveAndApproveCancelTemplate templateResponse = PostResponse.ApproveAndApproveCancelTemplate.build(post.getTitle(), postDoDate.getDoDate(), post.getDoTime());
+        mailService.mailSend(MailCondition.APPROVECANCEL, Collections.singletonList(applicant.getEmail()), templateResponse);
     }
 
     public void applyReject(Long postDoDateId, Long userId, PostApplicantRequest.ApplyReject request, User user) {
@@ -82,7 +81,7 @@ public class PostApplicantByBusinessService {
 
         postApplicant.updateStatus(ApplyStatus.REJECT);
 
-        RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getContact(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getComment(), postApplicant.getUser());
+        RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getPlaceDetail(), post.getCategory(), post.getContact(), post.isRecruitCondition(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getComment(), postApplicant.getUser(), post.getBusinessProfile().getName());
         rejectPostRepository.save(rejectPost);
 
         mailService.mailSend(MailCondition.REJECT, Collections.singletonList(applicant.getEmail()), rejectPost);

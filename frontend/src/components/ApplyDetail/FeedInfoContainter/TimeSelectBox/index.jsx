@@ -54,6 +54,7 @@ export default function CalendarButton({ feedId, date, startDate, endDate }) {
 
   return (
     <Presenter
+      feedId={feedId}
       moveDate={moveDate}
       viewDoDate={viewDoDate}
       setViewDoDate={setViewDoDate}

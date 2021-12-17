@@ -68,6 +68,7 @@ class PostByBusinessControllerTest extends MvcTest {
                 .recruitPeople(10)
                 .payment(Payment.CACHE)
                 .paymentCache(50000)
+                .thumbnail("thumbnail url")
                 .recruitCondition(true)
                 .recruitConditionDetail("운전면허 있는 사람만")
                 .paymentDetail("계좌이체로 지급")
@@ -90,6 +91,7 @@ class PostByBusinessControllerTest extends MvcTest {
                 .placeDetail("신공학관 123호")
                 .contact("010-1234-5786")
                 .category("디자인")
+                .thumbnail("thumbnail url")
                 .recruitPeople(10)
                 .payment(Payment.GOODS)
                 .paymentGoods("커피 기프티콘")
@@ -178,8 +180,11 @@ class PostByBusinessControllerTest extends MvcTest {
     @Test
     @DisplayName("게시물 파일 추가")
     public void addFiles() throws Exception {
-        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
-        MockMultipartFile files = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is.readAllBytes());
+        InputStream is1 = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile files = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is1.readAllBytes());
+        InputStream is2 = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile thumbnail = new MockMultipartFile("thumbnail", "avatar.jpg", "image/jpg", is2.readAllBytes());
+
         PostResponse.OnlyId response = PostResponse.OnlyId.builder().id(1L).build();
 
         given(postByBusinessService.addFiles(any(), any(), any())).willReturn(response);
@@ -187,6 +192,7 @@ class PostByBusinessControllerTest extends MvcTest {
         ResultActions results = mvc.perform(
                 fileUpload("/api/post/{postId}/files", 1)
                         .file(files)
+                        .file(thumbnail)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
                         .characterEncoding("UTF-8")
         );
@@ -197,7 +203,8 @@ class PostByBusinessControllerTest extends MvcTest {
                                 parameterWithName("postId").description("게시물 식별자")
                         ),
                         requestParts(
-                                partWithName("files").description("게시물에 추가할 파일")
+                                partWithName("files").description("게시물에 추가할 파일(썸네일 제외)"),
+                                partWithName("thumbnail").description("게시물에 추가할 썸네일")
                         ),
                         responseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
@@ -278,7 +285,7 @@ class PostByBusinessControllerTest extends MvcTest {
         given(postByBusinessService.getListByBusinessProfile(any(), any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/business/profile/{businessProfileId}/list", 1)
+                .get("/api/posts/business/profile/{businessProfileId}", 1)
                 .param("page", "1")
                 .param("size", "5")
                 .param("status", "RECRUIT"));
@@ -300,41 +307,16 @@ class PostByBusinessControllerTest extends MvcTest {
                                 fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("data.content[].title").type(JsonFieldType.STRING).description("제목"),
                                 fieldWithPath("data.content[].likes").type(JsonFieldType.NUMBER).description("즐겨찾기 수"),
+                                fieldWithPath("data.content[].address").type(JsonFieldType.STRING).description("게시물 주소"),
+                                fieldWithPath("data.content[].addressDetail").type(JsonFieldType.STRING).description("게시물 상세 주소"),
+                                fieldWithPath("data.content[].startDate").type(JsonFieldType.STRING).description("게시물 시작 날짜"),
+                                fieldWithPath("data.content[].endDate").type(JsonFieldType.STRING).description("게시물 마감 날짜"),
+                                fieldWithPath("data.content[].headcount").type(JsonFieldType.NUMBER).description("게시물 모집인원"),
+                                fieldWithPath("data.content[].thumbnail").type(JsonFieldType.STRING).description("게시물 썸네일 없다면 null"),
+                                fieldWithPath("data.content[].businessName").type(JsonFieldType.STRING).description("게시물 작성한 비즈니스 프로필 이름"),
                                 fieldWithPath("data.totalElements").description("전체 개수"),
                                 fieldWithPath("data.last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("data.totalPages").description("전체 페이지")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("게시물 실험이 있는 날짜 목록 조회(년,월 기준) 문서화")
-    public void getDoDateList() throws Exception {
-        Set<LocalDate> localDates = new HashSet<>();
-        localDates.add(LocalDate.of(2021, 9, 21));
-        localDates.add(LocalDate.of(2021, 9, 22));
-        localDates.add(LocalDate.of(2021, 9, 23));
-        PostResponse.DoDateList response = PostResponse.DoDateList.builder().doDateList(localDates).build();
-
-        given(postByBusinessService.getDoDateListByYearMonth(any(), any())).willReturn(response);
-
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/{postId}/exist/doDate/list", 1)
-                .param("yearMonth", "2021-09"));
-
-        results.andExpect(status().isOk())
-                .andDo(print())
-                .andDo(document("post-doDate-list",
-                        pathParameters(
-                                parameterWithName("postId").description("게시물 식별자")
-                        ),
-                        requestParameters(
-                                parameterWithName("yearMonth").description("조회할 날짜")
-                        ),
-                        responseFields(
-                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
-                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
-                                fieldWithPath("data.doDateList[]").type(JsonFieldType.ARRAY).description("실험 있는 날짜")
                         )
                 ));
     }

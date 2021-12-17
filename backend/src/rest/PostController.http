@@ -19,28 +19,35 @@ Content-Type: application/json;charset=UTF-8
   "doTime": 60,
   "schoolId": 2,
   "businessProfileId": 1,
-  "startDate": "2021-12-11T09:30",
-  "endDate": "2021-12-14T09:30",
+  "startDate": "2021-12-14T09:30",
+  "endDate": "2021-12-19T09:30",
   "doDateList": [
     {
-      "doDate": "2021-12-11T10:00"
+      "doDate": "2021-12-14T10:00"
     },
     {
-      "doDate": "2021-12-12T20:30"
+      "doDate": "2021-12-15T10:00"
     },
     {
-      "doDate": "2021-12-13T11:30"
+      "doDate": "2021-12-16T10:00"
     },
     {
-      "doDate": "2021-12-14T12:30"
+      "doDate": "2021-12-17T20:30"
+    },
+    {
+      "doDate": "2021-12-18T11:30"
+    },
+    {
+      "doDate": "2021-12-19T12:30"
     }
   ]
 }
 
 ###
-POST {{apiUrl}}/post/2/files
+POST {{apiUrl}}/post/5/files
 Authorization: {{authorizationToken}}
 Content-Type: multipart/form-data; boundary=boundary
+
 
 --boundary
 Content-Disposition: form-data; name="files"; filename="enjoy.png"
@@ -48,7 +55,7 @@ Content-Disposition: form-data; name="files"; filename="enjoy.png"
 < ./../main/resources/mock/images/enjoy.png
 
 --boundary
-Content-Disposition: form-data; name="files"; filename="enjoy.png"
+Content-Disposition: form-data; name="thumbnail"; filename="enjoy2.png"
 
 < ./../main/resources/mock/images/enjoy.png
 
@@ -95,29 +102,25 @@ GET {{apiUrl}}/post/2
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/list/0?doDate=2021-12-13&page=1&size=15&paymentType=&category=&startTime=&endTime=&minPay=&doTime=
+GET {{apiUrl}}/posts/2?doDate=2021-12-13&page=1&size=15&paymentType=&category=&startTime=&endTime=&minPay=&doTime=
 
 ###
 GET {{apiUrl}}/post/2/start?doDate=2021-09-27
 
 ###
-GET {{apiUrl}}/post/like/list?page=1&size=6
+GET {{apiUrl}}/posts/like?page=1&size=6
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/apply/list?page=1&size=4&status=APPROVE
+GET {{apiUrl}}/posts/apply?page=1&size=4&status=WAIT
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/myComplete/list?page=1&size=10
+GET {{apiUrl}}/post/4/dates?yearMonth=2021-09
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/4/exist/doDate/list?yearMonth=2021-09
-Authorization: {{authorizationToken}}
-
-###
-GET {{apiUrl}}/post/business/profile/1/list?page=1&size=1&status=COMPLETE
+GET {{apiUrl}}/posts/business/profile/1?page=1&size=1&status=RECRUIT
 Authorization: {{authorizationToken}}
 
 ###

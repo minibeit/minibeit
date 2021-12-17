@@ -22,10 +22,9 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -231,7 +230,7 @@ class PostControllerTest extends MvcTest {
         given(postService.getList(any(), any(), any(), any(), any(), any(), any(), any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/list/{schoolId}", 1)
+                .get("/api/posts/{schoolId}", 1)
                 .param("page", "1")
                 .param("size", "10")
                 .param("category", "식품")
@@ -270,6 +269,8 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("data.content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
                                 fieldWithPath("data.content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
                                 fieldWithPath("data.content[].likes").type(JsonFieldType.NUMBER).description("좋아요 수"),
+                                fieldWithPath("data.content[].file.url").type(JsonFieldType.STRING).description("파일 url"),
+                                fieldWithPath("data.content[].file.name").type(JsonFieldType.STRING).description("파일 이름"),
                                 fieldWithPath("data.totalElements").description("전체 개수"),
                                 fieldWithPath("data.last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("data.totalPages").description("전체 페이지")
@@ -286,7 +287,7 @@ class PostControllerTest extends MvcTest {
         given(postService.getListByLike(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/like/list")
+                .get("/api/posts/like")
                 .param("page", "1")
                 .param("size", "6"));
 
@@ -317,7 +318,7 @@ class PostControllerTest extends MvcTest {
     }
 
     @Test
-    @DisplayName("자신이 신청한 게시물 목록 조회 (status = WAIT, APPROVE)")
+    @DisplayName("자신이 신청한 게시물 목록 조회 (status = WAIT, APPROVE, COMPLETE)")
     public void getListByApplyStatus() throws Exception {
         List<PostResponse.GetMyApplyList> response = new ArrayList<>();
         PostResponse.GetMyApplyList approveAndWaitList1 = PostResponse.GetMyApplyList.builder()
@@ -326,10 +327,16 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(1L)
                 .title("간단한 실험")
                 .time(60)
+                .category("기타")
+                .address("서울")
+                .addressDetail("고려대 신공학관")
+                .thumbnail("thumbnail url")
                 .doDate(LocalDateTime.of(2021, 9, 10, 9, 30))
                 .recruitCondition(true)
                 .status(ApplyStatus.APPROVE.name())
+                .writeReview(true)
                 .businessProfileId(1L)
+                .businessProfileName("동그라미실험실")
                 .build();
         PostResponse.GetMyApplyList approveAndWaitList2 = PostResponse.GetMyApplyList.builder()
                 .id(2L)
@@ -337,10 +344,16 @@ class PostControllerTest extends MvcTest {
                 .postDoDateId(2L)
                 .title("복잡한 실험")
                 .time(120)
+                .category("기타")
+                .address("서울")
+                .addressDetail("고려대 신공학관")
+                .thumbnail("thumbnail url")
                 .doDate(LocalDateTime.of(2021, 9, 10, 12, 30))
                 .recruitCondition(true)
                 .status(ApplyStatus.WAIT.name())
+                .writeReview(true)
                 .businessProfileId(1L)
+                .businessProfileName("동그라미실험실")
                 .build();
         response.add(approveAndWaitList1);
         response.add(approveAndWaitList2);
@@ -348,7 +361,7 @@ class PostControllerTest extends MvcTest {
         given(postService.getListByApplyStatus(any(), any(), any(), any())).willReturn(postPage);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/apply/list")
+                .get("/api/posts/apply")
                 .param("page", "1")
                 .param("size", "3")
                 .param("status", "APPROVE")
@@ -360,7 +373,7 @@ class PostControllerTest extends MvcTest {
                         requestParameters(
                                 parameterWithName("page").description("조회할 페이지"),
                                 parameterWithName("size").description("조회할 사이즈"),
-                                parameterWithName("status").description("게시물 상태 APPROVE or WAIT")
+                                parameterWithName("status").description("게시물 상태 APPROVE or WAIT or COMPLETE")
                         ),
                         relaxedResponseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
@@ -370,12 +383,18 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("data.content[].contact").type(JsonFieldType.STRING).description("게시물 연락처"),
                                 fieldWithPath("data.content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("게시물 조건 유무"),
                                 fieldWithPath("data.content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
+                                fieldWithPath("data.content[].category").type(JsonFieldType.STRING).description("게시물 실험 분야"),
+                                fieldWithPath("data.content[].address").type(JsonFieldType.STRING).description("게시물 주소"),
+                                fieldWithPath("data.content[].addressDetail").type(JsonFieldType.STRING).description("게시물 상세 주소"),
                                 fieldWithPath("data.content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
                                 fieldWithPath("data.content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
                                 fieldWithPath("data.content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
                                 fieldWithPath("data.content[].status").type(JsonFieldType.STRING).description("게시물 지원 상태(WAIT or APPROVE or REJECT)"),
                                 fieldWithPath("data.content[].finish").type(JsonFieldType.BOOLEAN).description("참여완료 버튼 활성화이면 true 아니면 false"),
-                                fieldWithPath("data.content[].businessProfileId").type(JsonFieldType.NUMBER).description("비스니스 프로필 식별자"),
+                                fieldWithPath("data.content[].isWritable").description("리뷰를 작성할 수 있다면 true(실험후 일주일동안 가능)"),
+                                fieldWithPath("data.content[].writeReview").description("리뷰를 작성했다면 true"),
+                                fieldWithPath("data.content[].businessProfile.id").type(JsonFieldType.NUMBER).description("비스니스 프로필 식별자"),
+                                fieldWithPath("data.content[].businessProfile.name").type(JsonFieldType.STRING).description("비스니스 프로필 이름"),
                                 fieldWithPath("data.totalElements").description("전체 개수"),
                                 fieldWithPath("data.last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("data.totalPages").description("전체 페이지")
@@ -384,82 +403,37 @@ class PostControllerTest extends MvcTest {
     }
 
     @Test
-    @DisplayName("자신이 완료한 게시물 목록 조회")
-    public void getListByApplyAndFinishedWithoutReview() throws Exception {
-        List<PostResponse.GetMyCompletedList> response = new ArrayList<>();
-        PostResponse.GetMyCompletedList getMyCompletedList1 = PostResponse.GetMyCompletedList.builder()
-                .id(1L)
-                .title("간단한 실험")
-                .postDoDateId(1L)
-                .time(120)
-                .doDate(LocalDateTime.of(2021, 10, 2, 9, 30))
-                .startTime(LocalDateTime.of(2021, 10, 2, 9, 30))
-                .endTime(LocalDateTime.of(2021, 10, 2, 11, 30))
-                .isWritable(true)
-                .writeReview(true)
-                .businessProfileId(1L)
-                .build();
-        PostResponse.GetMyCompletedList getMyCompletedList2 = PostResponse.GetMyCompletedList.builder()
-                .id(2L)
-                .title("간단한 실험2")
-                .postDoDateId(2L)
-                .time(120)
-                .doDate(LocalDateTime.of(2021, 10, 2, 9, 30))
-                .startTime(LocalDateTime.of(2021, 10, 2, 9, 30))
-                .endTime(LocalDateTime.of(2021, 10, 2, 11, 30))
-                .isWritable(true)
-                .writeReview(true)
-                .businessProfileId(1L)
-                .build();
-        PostResponse.GetMyCompletedList getMyCompletedList3 = PostResponse.GetMyCompletedList.builder()
-                .id(2L)
-                .title("간단한 실험2")
-                .postDoDateId(2L)
-                .time(120)
-                .doDate(LocalDateTime.of(2021, 10, 2, 9, 30))
-                .startTime(LocalDateTime.of(2021, 10, 2, 9, 30))
-                .endTime(LocalDateTime.of(2021, 10, 2, 11, 30))
-                .isWritable(false)
-                .writeReview(false)
-                .businessProfileId(1L)
-                .build();
-        response.add(getMyCompletedList1);
-        response.add(getMyCompletedList2);
-        response.add(getMyCompletedList3);
-        Page<PostResponse.GetMyCompletedList> postPage = new PageImpl<>(response, PageRequest.of(1, 6), postList.size());
-        given(postService.getListByMyCompleteList(any(), any())).willReturn(postPage);
+    @DisplayName("게시물 실험이 있는 날짜 목록 조회(년,월 기준) 문서화")
+    public void getDoDateList() throws Exception {
+        Set<LocalDate> localDates = new HashSet<>();
+        localDates.add(LocalDate.of(2021, 9, 21));
+        localDates.add(LocalDate.of(2021, 9, 22));
+        localDates.add(LocalDate.of(2021, 9, 23));
+        PostResponse.DoDateList response = PostResponse.DoDateList.builder().doDateList(localDates).build();
+
+        given(postService.getDoDateListByYearMonth(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/myComplete/list")
-                .param("page", "1")
-                .param("size", "3"));
+                .get("/api/post/{postId}/dates", 1)
+                .param("yearMonth", "2021-09"));
 
         results.andExpect(status().isOk())
                 .andDo(print())
-                .andDo(document("post-myCompleted-list",
-                        requestParameters(
-                                parameterWithName("page").description("조회할 페이지"),
-                                parameterWithName("size").description("조회할 사이즈")
+                .andDo(document("post-doDate-list",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자")
                         ),
-                        relaxedResponseFields(
+                        requestParameters(
+                                parameterWithName("yearMonth").description("조회할 날짜")
+                        ),
+                        responseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
-                                fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
-                                fieldWithPath("data.content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("data.content[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 시작 시간 식별자"),
-                                fieldWithPath("data.content[].time").type(JsonFieldType.NUMBER).description("게시물 실험 소요 시간"),
-                                fieldWithPath("data.content[].doDate").type(JsonFieldType.STRING).description("게시물 실험 날짜"),
-                                fieldWithPath("data.content[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
-                                fieldWithPath("data.content[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
-                                fieldWithPath("data.content[].isWritable").description("리뷰를 작성할 수 있다면 true(실험후 일주일동안 가능)"),
-                                fieldWithPath("data.content[].writeReview").description("리뷰를 작성했다면 true"),
-                                fieldWithPath("data.content[].businessProfileId").type(JsonFieldType.NUMBER).description("비스니스 프로필 식별자"),
-                                fieldWithPath("data.totalElements").description("전체 개수"),
-                                fieldWithPath("data.last").description("마지막 페이지인지 식별"),
-                                fieldWithPath("data.totalPages").description("전체 페이지")
+                                fieldWithPath("data.doDateList[]").type(JsonFieldType.ARRAY).description("실험 있는 날짜")
                         )
                 ));
     }
+
 
     @Test
     @DisplayName("즐겨찾기 목록에서 모집완료된 게시물 일괄삭제 문서화")

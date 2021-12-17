@@ -65,7 +65,8 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
                 queryFactory.selectFrom(postApplicant)
                         .join(postApplicant.user).fetchJoin()
                         .join(postApplicant.postDoDate, postDoDate).fetchJoin()
-                        .join(postDoDate.post).fetchJoin()
+                        .join(postDoDate.post, post).fetchJoin()
+                        .join(post.businessProfile).fetchJoin()
                         .where(postDoDate.id.eq(postDoDateId).and(postApplicant.user.id.eq(userId)))
                         .fetchOne()
         );
@@ -75,7 +76,8 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
     public List<PostApplicant> findAllByDoDateBeforeToday(LocalDateTime now) {
         return queryFactory.selectFrom(postApplicant)
                 .join(postApplicant.postDoDate, postDoDate).fetchJoin()
-                .join(postDoDate.post).fetchJoin()
+                .join(postDoDate.post, post).fetchJoin()
+                .join(post.businessProfile).fetchJoin()
                 .where(postDoDate.doDate.lt(now).and(postApplicant.applyStatus.eq(ApplyStatus.WAIT)))
                 .fetch();
     }

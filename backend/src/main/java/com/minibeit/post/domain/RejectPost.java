@@ -22,7 +22,13 @@ public class RejectPost extends BaseEntity {
 
     private String place;
 
+    private String placeDetail;
+
+    private String category;
+
     private String contact;
+
+    private Boolean recruitCondition;
 
     private Integer doTime;
 
@@ -34,14 +40,20 @@ public class RejectPost extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public static RejectPost create(String title, String place, String contact, Integer doTime, LocalDateTime doDate, String rejectComment, User user) {
+    private String businessProfileName;
+
+    public static RejectPost create(String title, String place, String placeDetail, String category, String contact, Boolean recruitCondition, Integer doTime, LocalDateTime doDate, String rejectComment, User user, String businessProfileName) {
         return RejectPost.builder()
                 .title(title)
                 .place(place)
+                .placeDetail(placeDetail)
+                .category(category)
                 .contact(contact)
+                .recruitCondition(recruitCondition)
                 .doTime(doTime)
                 .doDate(doDate)
                 .rejectComment(rejectComment)
+                .businessProfileName(businessProfileName)
                 .user(user)
                 .build();
     }

@@ -169,6 +169,7 @@ export default function BManageModal({ postId, setModalSwitch }) {
             <div>
               <p>{feedData.title}</p>
               <CalendarButton
+                feedId={feedData.id}
                 minDate={new Date(feedData.startDate)}
                 maxDate={new Date(feedData.endDate)}
                 currentDate={new Date(date)}

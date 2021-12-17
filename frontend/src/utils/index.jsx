@@ -1,6 +1,7 @@
 export {
   feedCreateApi,
   feedDetailApi,
+  feedDetailDateApi,
   feedEditApi,
   feedlistApi,
   stateCompleteApi,

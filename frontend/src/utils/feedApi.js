@@ -59,6 +59,11 @@ export const feedDetailApi = async (feedId, isLogin) => {
   }
 };
 
+export const feedDetailDateApi = async (feedId, yearMonth) => {
+  return await withoutAuthInstance.get(
+    `/api/post/${feedId}/dates?yearMonth=${yearMonth}`
+  );
+};
 export const feedDetailTimeApi = async (feedId, doDate) => {
   return await withoutAuthInstance.get(
     API_POST + feedId + `/start?doDate=${doDate}`

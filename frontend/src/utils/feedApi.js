@@ -2,7 +2,7 @@ import { API_URLS } from "../constants";
 import { withAuthInstance, withoutAuthInstance } from "./common";
 import moment from "moment";
 
-const { API_POST } = API_URLS;
+const { API_POST, API_POSTS } = API_URLS;
 
 export const feedCreateApi = async (recruit) => {
   function conditionDetail(arr) {
@@ -43,12 +43,13 @@ export const feedCreateApi = async (recruit) => {
   return await withAuthInstance.post(API_POST + "info", data);
 };
 
-export const feedAddfileApi = async (postId, files) => {
+export const feedAddfileApi = (postId, files) => {
   const formData = new FormData();
-  for (var i = 0; i < files.length; i++) {
+  formData.append("thumbnail", files[0]);
+  for (var i = 1; i < files.length; i++) {
     formData.append("files", files[i]);
   }
-  return await withAuthInstance.post(API_POST + `${postId}/files`, formData);
+  return withAuthInstance.post(API_POST + `${postId}/files`, formData);
 };
 
 export const feedDetailApi = async (feedId, isLogin) => {
@@ -59,6 +60,11 @@ export const feedDetailApi = async (feedId, isLogin) => {
   }
 };
 
+export const feedDetailDateApi = async (feedId, yearMonth) => {
+  return await withoutAuthInstance.get(
+    `/api/post/${feedId}/dates?yearMonth=${yearMonth}`
+  );
+};
 export const feedDetailTimeApi = async (feedId, doDate) => {
   return await withoutAuthInstance.get(
     API_POST + feedId + `/start?doDate=${doDate}`
@@ -82,8 +88,8 @@ export const feedlistApi = async (
   const doDate = moment(date.date).format("YYYY-MM-DD");
   if (isLogin) {
     return await withAuthInstance.get(
-      API_POST +
-        `list/${schoolId}?page=${page}&size=10&category=${
+      API_POSTS +
+        `${schoolId}?page=${page}&size=10&category=${
           category.category
         }&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${
           filter.paymentType === "CACHE" ? filter.minPay : ""
@@ -93,8 +99,8 @@ export const feedlistApi = async (
     );
   } else {
     return await withoutAuthInstance.get(
-      API_POST +
-        `list/${schoolId}?page=${page}&size=10&category=${
+      API_POSTS +
+        `${schoolId}?page=${page}&size=10&category=${
           category.category
         }&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${
           filter.paymentType === "CACHE" ? filter.minPay : ""

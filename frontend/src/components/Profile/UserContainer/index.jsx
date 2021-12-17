@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import {
-  getCancellistApi,
-  getFinishlistApi,
-  getJoinlistApi,
-  getLikeListApi,
+  getMyRejectListApi,
+  getMyFeedList,
+  getMyLikeListApi,
   getMyInfo,
 } from "../../../utils";
 
@@ -43,31 +42,31 @@ export default function UserContainer({ view }) {
     (page) => {
       switch (view) {
         case "approve":
-          getJoinlistApi(page ? page : 1, "APPROVE").then((res) => {
+          getMyFeedList(page ? page : 1, "APPROVE").then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
           });
           break;
         case "wait":
-          getJoinlistApi(page ? page : 1, "WAIT").then((res) => {
+          getMyFeedList(page ? page : 1, "WAIT").then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
           });
           break;
         case "complete":
-          getFinishlistApi(page ? page : 1).then((res) => {
+          getMyFeedList(page ? page : 1, "COMPLETE").then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
           });
           break;
         case "reject":
-          getCancellistApi(page ? page : 1).then((res) => {
+          getMyRejectListApi(page ? page : 1).then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
           });
           break;
         case "like":
-          getLikeListApi(page ? page : 1).then((res) => {
+          getMyLikeListApi(page ? page : 1).then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
           });

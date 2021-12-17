@@ -1,7 +1,7 @@
 import { withAuthInstance } from "./common";
 import { API_URLS } from "../constants";
 
-const { API_USER, API_POST, API_REJECTPOST } = API_URLS;
+const { API_USER, API_POST, API_POSTS } = API_URLS;
 
 export const getMyInfo = async () => {
   return await withAuthInstance.get(API_USER + "me");
@@ -32,31 +32,22 @@ export const editMyInfo = (userData, schoolId, originalNickname) => {
   return withAuthInstance.post(API_USER + "update", formData);
 };
 
-export const getLikeListApi = async (page) => {
-  return await withAuthInstance.get(
-    API_POST + "like/list?page=" + page + `&size=6`
-  );
-};
-export const getJoinlistApi = async (page, state) => {
-  return await withAuthInstance.get(
-    API_POST + "apply/list?page=" + page + "&size=10&status=" + state
+export const getMyFeedList = (page, status) => {
+  return withAuthInstance.get(
+    API_POSTS + `apply?page=${page}&size=5&status=${status}`
   );
 };
 
-export const getCancellistApi = async (page) => {
-  return await withAuthInstance.get(
-    API_REJECTPOST + "list?page=" + page + "&size=10"
-  );
+export const getMyRejectListApi = (page) => {
+  return withAuthInstance.get(`/api/rejected-posts?page=${page}&size=5`);
 };
 
-export const getFinishlistApi = async (page) => {
-  return await withAuthInstance.get(
-    API_POST + "myComplete/list?page=" + page + "&size=10"
-  );
+export const getMyLikeListApi = async (page) => {
+  return await withAuthInstance.get(API_POSTS + `like?page=${page}&size=5`);
 };
 
-export const deleteCancelApi = async (rejectPostId) => {
-  return await withAuthInstance.delete(API_REJECTPOST + rejectPostId);
+export const deleteRejectedApi = (rejectPostId) => {
+  return withAuthInstance.delete(`/api/rejected-post/${rejectPostId}`);
 };
 
 export const doJoinApi = async (postDoDateId) => {

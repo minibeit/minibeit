@@ -60,6 +60,8 @@ public class Post extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private PostStatus postStatus;
 
+    private String thumbnail;
+
     @Builder.Default
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<PostFile> postFileList = new ArrayList<>();
@@ -95,6 +97,10 @@ public class Post extends BaseEntity {
 
     public void updateContent(String updatedContent) {
         this.content = updatedContent;
+    }
+
+    public void updateThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
     }
 
     public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile) {

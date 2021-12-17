@@ -22,31 +22,31 @@ import java.time.YearMonth;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/post")
+@RequestMapping("/api")
 public class PostByBusinessController {
     private final PostByBusinessService postByBusinessService;
 
-    @PostMapping("/info")
+    @PostMapping("/post/info")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ApiResult<PostResponse.OnlyId>> createInfo(@Valid @RequestBody PostRequest.CreateInfo request, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.OnlyId response = postByBusinessService.createInfo(request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(ApiResult.build(HttpStatus.CREATED.value(), response));
     }
 
-    @PostMapping("/{postId}/files")
+    @PostMapping("/post/{postId}/files")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ApiResult<PostResponse.OnlyId>> addFiles(@PathVariable Long postId, PostRequest.AddFile request, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.OnlyId response = postByBusinessService.addFiles(postId, request, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(ApiResult.build(HttpStatus.CREATED.value(), response));
     }
 
-    @PostMapping("/{postId}/completed")
+    @PostMapping("/post/{postId}/completed")
     public ResponseEntity<ApiResult<Void>> recruitmentCompleted(@PathVariable Long postId, @Valid @RequestBody PostRequest.RejectComment request, @CurrentUser CustomUserDetails customUserDetails) {
         postByBusinessService.recruitmentCompleted(postId, request, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 
-    @GetMapping("/business/profile/{businessProfileId}/list")
+    @GetMapping("/posts/business/profile/{businessProfileId}")
     public ResponseEntity<ApiResult<Page<PostResponse.GetListByBusinessProfile>>> getListByBusinessProfile(@PathVariable Long businessProfileId,
                                                                                                            @RequestParam(defaultValue = "RECRUIT", name = "status") PostStatus postStatus,
                                                                                                            PageDto pageDto) {
@@ -54,21 +54,14 @@ public class PostByBusinessController {
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
-    @GetMapping("/{postId}/exist/doDate/list")
-    public ResponseEntity<ApiResult<PostResponse.DoDateList>> getDoDateList(@PathVariable Long postId,
-                                                                            @RequestParam(name = "yearMonth") @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {
-        PostResponse.DoDateList response = postByBusinessService.getDoDateListByYearMonth(postId, yearMonth);
-        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
-    }
-
-    @PutMapping("/{postId}")
+    @PutMapping("/post/{postId}")
     public ResponseEntity<ApiResult<PostResponse.OnlyId>> updateContent(@PathVariable Long postId, @Valid @RequestBody PostRequest.UpdateContent request,
                                                                         @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.OnlyId response = postByBusinessService.updateContent(postId, request, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
-    @DeleteMapping("/{postId}")
+    @DeleteMapping("/post/{postId}")
     public ResponseEntity<ApiResult<Void>> deleteOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         postByBusinessService.deleteOne(postId, LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));

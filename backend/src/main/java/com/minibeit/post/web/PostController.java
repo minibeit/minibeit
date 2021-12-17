@@ -18,34 +18,42 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/post")
+@RequestMapping("/api")
 public class PostController {
     private final PostService postService;
 
-    @PostMapping("/{postId}/like")
+    @PostMapping("/post/{postId}/like")
     public ResponseEntity<ApiResult<Void>> like(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         postService.createOrDeletePostLike(postId, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 
-    @GetMapping("/{postId}")
+    @GetMapping("/post/{postId}")
     public ResponseEntity<ApiResult<PostResponse.GetOne>> getOne(@PathVariable Long postId, @CurrentUser CustomUserDetails customUserDetails) {
         PostResponse.GetOne response = postService.getOne(postId, customUserDetails);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
-    @GetMapping("/{postId}/start")
+    @GetMapping("/post/{postId}/start")
     public ResponseEntity<ApiResult<List<PostResponse.GetPostStartTime>>> getPostStartTimeList(@PathVariable Long postId,
                                                                                                @RequestParam(name = "doDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate) {
         List<PostResponse.GetPostStartTime> response = postService.getPostStartTimeList(postId, doDate);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
-    @GetMapping("/list/{schoolId}")
+    @GetMapping("/post/{postId}/dates")
+    public ResponseEntity<ApiResult<PostResponse.DoDateList>> getDoDateList(@PathVariable Long postId,
+                                                                            @RequestParam(name = "yearMonth") @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {
+        PostResponse.DoDateList response = postService.getDoDateListByYearMonth(postId, yearMonth);
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
+    }
+
+    @GetMapping("/posts/{schoolId}")
     public ResponseEntity<ApiResult<Page<PostResponse.GetList>>> getList(@PathVariable Long schoolId,
                                                                          @RequestParam(defaultValue = "ALL") Payment paymentType,
                                                                          @RequestParam(name = "doDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate,
@@ -59,13 +67,13 @@ public class PostController {
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
-    @GetMapping("/like/list")
+    @GetMapping("/posts/like")
     public ResponseEntity<ApiResult<Page<PostResponse.GetLikeList>>> getListByLike(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
         Page<PostResponse.GetLikeList> response = postService.getListByLike(customUserDetails.getUser(), pageDto);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
-    @GetMapping("/apply/list")
+    @GetMapping("/posts/apply")
     public ResponseEntity<ApiResult<Page<PostResponse.GetMyApplyList>>> getListByApplyStatus(@RequestParam(name = "status") ApplyStatus applyStatus,
                                                                                              PageDto pageDto,
                                                                                              @CurrentUser CustomUserDetails customUserDetails) {
@@ -73,13 +81,7 @@ public class PostController {
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
-    @GetMapping("/myComplete/list")
-    public ResponseEntity<ApiResult<Page<PostResponse.GetMyCompletedList>>> getListByMyCompleteList(PageDto pageDto, @CurrentUser CustomUserDetails customUserDetails) {
-        Page<PostResponse.GetMyCompletedList> response = postService.getListByMyCompleteList(customUserDetails.getUser(), pageDto);
-        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
-    }
-
-    @DeleteMapping("/likes")
+    @DeleteMapping("/post/likes")
     public ResponseEntity<ApiResult<Void>> deleteLikeOfCompletedPost(@CurrentUser CustomUserDetails customUserDetails) {
         postService.deleteLikeOfCompletedPost(customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));

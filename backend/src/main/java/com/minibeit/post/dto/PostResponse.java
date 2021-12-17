@@ -128,9 +128,10 @@ public class PostResponse {
         private String businessProfileName;
         private Boolean isLike;
         private Integer likes;
+        private PostFileDto.Image file;
 
         public static PostResponse.GetList build(Post post, CustomUserDetails customUserDetails) {
-            return GetList.builder()
+            GetListBuilder builder = GetList.builder()
                     .id(post.getId())
                     .title(post.getTitle())
                     .category(post.getCategory())
@@ -141,8 +142,11 @@ public class PostResponse {
                     .doTime(post.getDoTime())
                     .businessProfileName(post.getBusinessProfile().getName())
                     .isLike(post.isLike(customUserDetails))
-                    .likes(post.getPostLikeList().size())
-                    .build();
+                    .likes(post.getPostLikeList().size());
+            if (!post.getPostFileList().isEmpty()) {
+                builder.file(PostFileDto.Image.build(post.getPostFileList().get(0))).build();
+            }
+            return builder.build();
         }
     }
 
@@ -182,9 +186,13 @@ public class PostResponse {
         private Long id;
         private String title;
         private String contact;
+        private String thumbnail;
         private boolean recruitCondition;
         private Long postDoDateId;
         private Integer time;
+        private String category;
+        private String address;
+        private String addressDetail;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
         private LocalDateTime doDate;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
@@ -193,15 +201,21 @@ public class PostResponse {
         private LocalDateTime endTime;
         private boolean finish;
         private String status;
-        private Long businessProfileId;
+        private Boolean isWritable;
+        private Boolean writeReview;
+        private PostDto.BusinessProfileSimpleInfo businessProfile;
 
         @Builder
         @QueryProjection
-        public GetMyApplyList(Long id, String title, Integer time, String contact, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status, boolean businessFinish, Long businessProfileId) {
+        public GetMyApplyList(Long id, String title, Integer time, String category, String address, String addressDetail, String contact, String thumbnail, boolean recruitCondition, Long postDoDateId, LocalDateTime doDate, String status, boolean businessFinish, boolean writeReview, Long businessProfileId, String businessProfileName) {
             this.id = id;
             this.title = title;
             this.time = time;
+            this.category = category;
+            this.address = address;
+            this.addressDetail = addressDetail;
             this.contact = contact;
+            this.thumbnail = thumbnail;
             this.recruitCondition = recruitCondition;
             this.postDoDateId = postDoDateId;
             this.doDate = doDate;
@@ -209,42 +223,9 @@ public class PostResponse {
             this.endTime = doDate.plusMinutes(time);
             this.status = status;
             this.finish = endTime.isBefore(LocalDateTime.now()) && businessFinish && status.equals(ApplyStatus.APPROVE.name());
-            this.businessProfileId = businessProfileId;
-        }
-    }
-
-    @Getter
-    @Builder
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    @AllArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class GetMyCompletedList {
-        private Long id;
-        private Long postDoDateId;
-        private String title;
-        private Integer time;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
-        private LocalDateTime doDate;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
-        private LocalDateTime startTime;
-        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
-        private LocalDateTime endTime;
-        private Boolean isWritable;
-        private Boolean writeReview;
-        private Long businessProfileId;
-
-        @Builder
-        @QueryProjection
-        public GetMyCompletedList(Long id, Long postDoDateId, String title, Integer time, LocalDateTime doDate, Long businessProfileId, Boolean businessFinish, Boolean writeReview) {
-            this.id = id;
-            this.postDoDateId = postDoDateId;
-            this.title = title;
-            this.time = time;
-            this.doDate = doDate;
-            this.startTime = doDate;
-            this.endTime = doDate.plusMinutes(time);
             this.writeReview = writeReview;
             this.isWritable = doDate.plusDays(7).isAfter(LocalDateTime.now()) && businessFinish && !writeReview;
-            this.businessProfileId = businessProfileId;
+            this.businessProfile = PostDto.BusinessProfileSimpleInfo.build(businessProfileId, businessProfileName);
         }
     }
 
@@ -256,13 +237,28 @@ public class PostResponse {
         private Long id;
         private String title;
         private Integer likes;
+        private String thumbnail;
+        private String address;
+        private String addressDetail;
+        private String businessName;
+        private Integer headcount;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+        private LocalDateTime startDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+        private LocalDateTime endDate;
 
         public static GetListByBusinessProfile build(Post post) {
-
             return GetListByBusinessProfile.builder()
                     .id(post.getId())
                     .title(post.getTitle())
+                    .address(post.getPlace())
+                    .thumbnail(post.getThumbnail())
+                    .addressDetail(post.getPlaceDetail())
                     .likes(post.getPostLikeList().size())
+                    .startDate(post.getStartDate())
+                    .endDate(post.getEndDate())
+                    .headcount(post.getRecruitPeople())
+                    .businessName(post.getBusinessProfile().getName())
                     .build();
         }
     }
@@ -279,6 +275,29 @@ public class PostResponse {
             List<LocalDate> localDates = postDoDates.stream().map(postDoDate -> postDoDate.getDoDate().toLocalDate()).collect(Collectors.toList());
             return DoDateList.builder()
                     .doDateList(Sets.newHashSet(localDates))
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class ApproveAndApproveCancelTemplate {
+        private String title;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
+        private LocalDateTime doDate;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime startTime;
+        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
+        private LocalDateTime endTime;
+
+        public static ApproveAndApproveCancelTemplate build(String title, LocalDateTime doDate, Integer doTime) {
+            return ApproveAndApproveCancelTemplate.builder()
+                    .title(title)
+                    .doDate(doDate)
+                    .startTime(doDate)
+                    .endTime(doDate.plusMinutes(doTime))
                     .build();
         }
     }

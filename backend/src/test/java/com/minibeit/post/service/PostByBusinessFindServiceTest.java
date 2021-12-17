@@ -188,13 +188,4 @@ public class PostByBusinessFindServiceTest extends ServiceIntegrationTest {
                 Arguments.of(PostStatus.RECRUIT, LocalDateTime.of(2021, 9, 30, 0, 0), new PageDto(1, 5))
         );
     }
-
-    @Test
-    @DisplayName("게시물에서 실험이 있는 날짜 조회 - 성공")
-    void getDoDateListByYearMonth() {
-        YearMonth yearMonth = YearMonth.of(2021, 9);
-        PostResponse.DoDateList response = postByBusinessService.getDoDateListByYearMonth(post.getId(), yearMonth);
-        assertThat(response.getDoDateList().size()).isEqualTo(1);
-        assertThat(response.getDoDateList()).containsExactly(LocalDate.of(2021, 9, 29));
-    }
 }

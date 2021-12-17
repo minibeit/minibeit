@@ -56,6 +56,7 @@ public class PostRequest {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class AddFile {
+        private MultipartFile thumbnail;
         private List<MultipartFile> files;
     }
 

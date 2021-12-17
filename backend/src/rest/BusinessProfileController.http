@@ -10,7 +10,6 @@ Content-Disposition: form-data; name="name";
 Content-Disposition: form-data; name="place";
 
 고려대
-
 --boundary
 Content-Disposition: form-data; name="placeDetail";
 

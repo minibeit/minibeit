@@ -20,7 +20,7 @@ public class PostDto {
         private String adminName;
 
         public static PostDto.BusinessProfileInfo build(BusinessProfile businessProfile) {
-            final BusinessProfileInfoBuilder businessProfileInfoBuilder = BusinessProfileInfo.builder()
+            BusinessProfileInfoBuilder businessProfileInfoBuilder = BusinessProfileInfo.builder()
                     .id(businessProfile.getId())
                     .name(businessProfile.getName())
                     .address(businessProfile.getContact())
@@ -32,6 +32,23 @@ public class PostDto {
             return businessProfileInfoBuilder.build();
         }
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class BusinessProfileSimpleInfo {
+        private Long id;
+        private String name;
+
+        public static PostDto.BusinessProfileSimpleInfo build(Long id, String name) {
+            return BusinessProfileSimpleInfo.builder()
+                    .id(id)
+                    .name(name)
+                    .build();
+        }
+    }
+
 
     @Getter
     @Builder

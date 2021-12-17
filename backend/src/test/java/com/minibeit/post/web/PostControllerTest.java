@@ -22,10 +22,9 @@ import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -402,6 +401,39 @@ class PostControllerTest extends MvcTest {
                         )
                 ));
     }
+
+    @Test
+    @DisplayName("게시물 실험이 있는 날짜 목록 조회(년,월 기준) 문서화")
+    public void getDoDateList() throws Exception {
+        Set<LocalDate> localDates = new HashSet<>();
+        localDates.add(LocalDate.of(2021, 9, 21));
+        localDates.add(LocalDate.of(2021, 9, 22));
+        localDates.add(LocalDate.of(2021, 9, 23));
+        PostResponse.DoDateList response = PostResponse.DoDateList.builder().doDateList(localDates).build();
+
+        given(postService.getDoDateListByYearMonth(any(), any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/post/{postId}/dates", 1)
+                .param("yearMonth", "2021-09"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-doDate-list",
+                        pathParameters(
+                                parameterWithName("postId").description("게시물 식별자")
+                        ),
+                        requestParameters(
+                                parameterWithName("yearMonth").description("조회할 날짜")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.doDateList[]").type(JsonFieldType.ARRAY).description("실험 있는 날짜")
+                        )
+                ));
+    }
+
 
     @Test
     @DisplayName("즐겨찾기 목록에서 모집완료된 게시물 일괄삭제 문서화")

@@ -54,13 +54,6 @@ public class PostByBusinessController {
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 
-    @GetMapping("/post/{postId}/dates")
-    public ResponseEntity<ApiResult<PostResponse.DoDateList>> getDoDateList(@PathVariable Long postId,
-                                                                            @RequestParam(name = "yearMonth") @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {
-        PostResponse.DoDateList response = postByBusinessService.getDoDateListByYearMonth(postId, yearMonth);
-        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
-    }
-
     @PutMapping("/post/{postId}")
     public ResponseEntity<ApiResult<PostResponse.OnlyId>> updateContent(@PathVariable Long postId, @Valid @RequestBody PostRequest.UpdateContent request,
                                                                         @CurrentUser CustomUserDetails customUserDetails) {

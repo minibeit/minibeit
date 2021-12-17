@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.List;
 
 @RestController
@@ -42,6 +43,13 @@ public class PostController {
     public ResponseEntity<ApiResult<List<PostResponse.GetPostStartTime>>> getPostStartTimeList(@PathVariable Long postId,
                                                                                                @RequestParam(name = "doDate") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate) {
         List<PostResponse.GetPostStartTime> response = postService.getPostStartTimeList(postId, doDate);
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
+    }
+
+    @GetMapping("/post/{postId}/dates")
+    public ResponseEntity<ApiResult<PostResponse.DoDateList>> getDoDateList(@PathVariable Long postId,
+                                                                            @RequestParam(name = "yearMonth") @DateTimeFormat(pattern = "yyyy-MM") YearMonth yearMonth) {
+        PostResponse.DoDateList response = postService.getDoDateListByYearMonth(postId, yearMonth);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 

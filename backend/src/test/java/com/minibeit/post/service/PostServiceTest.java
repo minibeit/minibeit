@@ -34,6 +34,7 @@ import org.springframework.data.domain.Page;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.YearMonth;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -78,9 +79,6 @@ class PostServiceTest extends ServiceIntegrationTest {
     private Post likePost;
     private Post notLikePost;
     private PostFile postFile;
-    private Post applicantPost1;
-    private Post applicantPost2;
-    private Post applicantPost3;
     private PostDoDate postDoDate1;
     private PostDoDate postDoDate2;
     private PostDoDate postDoDate3;
@@ -269,7 +267,7 @@ class PostServiceTest extends ServiceIntegrationTest {
                 .build();
 
         Post post = Post.create(createRequest, KSchool, businessProfile);
-        applicantPost1 = postRepository.save(post);
+        postRepository.save(post);
         postDoDate1 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 10, 4, 17, 30), post));
         PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, testUser);
         postApplicantRepository.save(postApplicant1);
@@ -296,7 +294,7 @@ class PostServiceTest extends ServiceIntegrationTest {
                 .build();
 
         Post post2 = Post.create(createRequest2, KSchool, businessProfile);
-        applicantPost2 = postRepository.save(post2);
+        postRepository.save(post2);
         postDoDate2 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 10, 3, 12, 30), post2));
         PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, testUser);
         postApplicantRepository.save(postApplicant2);
@@ -323,93 +321,7 @@ class PostServiceTest extends ServiceIntegrationTest {
                 .build();
 
         Post post3 = Post.create(createRequest3, KSchool, businessProfile);
-        applicantPost3 = postRepository.save(post3);
-        postDoDate3 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 10, 5, 12, 30), post3));
-        PostApplicant postApplicant3 = PostApplicant.create(postDoDate3, testUser);
-        postApplicant3.updateStatus(ApplyStatus.APPROVE);
-        postApplicantRepository.save(postApplicant3);
-    }
-
-    private void initCompletedPost() {
-        PostRequest.CreateInfo createRequest = PostRequest.CreateInfo.builder()
-                .title("완료1")
-                .content("실험 내용")
-                .place("고려대학교 연구실")
-                .contact("010-1234-1234")
-                .category("미디어")
-                .headcount(10)
-                .payment(Payment.CACHE)
-                .cache(10000)
-                .goods(null)
-                .paymentDetail("계좌로 지급해드립니다.")
-                .condition(true)
-                .conditionDetail("커피 많이 드시는 사람|")
-                .doTime(60)
-                .schoolId(KSchool.getId())
-                .businessProfileId(businessProfile.getId())
-                .startDate(LocalDateTime.of(2021, 9, 29, 9, 30))
-                .endDate(LocalDateTime.of(2021, 10, 5, 12, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 4, 17, 30)).build()))
-                .build();
-
-        Post post = Post.create(createRequest, KSchool, businessProfile);
-        applicantPost1 = postRepository.save(post);
-        postDoDate1 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 10, 4, 17, 30), post));
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, testUser);
-        postApplicant1.updateStatus(ApplyStatus.COMPLETE);
-        postApplicantRepository.save(postApplicant1);
-        PostRequest.CreateInfo createRequest2 = PostRequest.CreateInfo.builder()
-                .title("완료2")
-                .content("실험 내용")
-                .place("고려대학교 연구실")
-                .contact("010-1234-1234")
-                .category("미디어")
-                .headcount(10)
-                .payment(Payment.CACHE)
-                .cache(10000)
-                .goods(null)
-                .paymentDetail("계좌로 지급해드립니다.")
-                .condition(true)
-                .conditionDetail("커피 많이 드시는 사람|")
-                .doTime(60)
-                .schoolId(KSchool.getId())
-                .businessProfileId(businessProfile.getId())
-                .startDate(LocalDateTime.of(2021, 9, 29, 9, 30))
-                .endDate(LocalDateTime.of(2021, 10, 5, 12, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 12, 30)).build()))
-                .build();
-
-        Post post2 = Post.create(createRequest2, KSchool, businessProfile);
-        applicantPost2 = postRepository.save(post2);
-        postDoDate2 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 10, 3, 12, 30), post2));
-        PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, testUser);
-        postApplicantRepository.save(postApplicant2);
-        postApplicant1.updateStatus(ApplyStatus.APPROVE);
-        postApplicant2.updateStatus(ApplyStatus.COMPLETE);
-        postApplicant2.changeBusinessFinish(false);
-        PostRequest.CreateInfo createRequest3 = PostRequest.CreateInfo.builder()
-                .title("완료3")
-                .content("실험 내용")
-                .place("고려대학교 연구실")
-                .contact("010-1234-1234")
-                .category("미디어")
-                .headcount(10)
-                .payment(Payment.CACHE)
-                .cache(10000)
-                .goods(null)
-                .paymentDetail("계좌로 지급해드립니다.")
-                .condition(true)
-                .conditionDetail("커피 많이 드시는 사람|")
-                .doTime(60)
-                .schoolId(KSchool.getId())
-                .businessProfileId(businessProfile.getId())
-                .startDate(LocalDateTime.of(2021, 9, 29, 9, 30))
-                .endDate(LocalDateTime.of(2021, 10, 5, 12, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 5, 12, 30)).build()))
-                .build();
-
-        Post post3 = Post.create(createRequest3, KSchool, businessProfile);
-        applicantPost3 = postRepository.save(post3);
+        postRepository.save(post3);
         postDoDate3 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 10, 5, 12, 30), post3));
         PostApplicant postApplicant3 = PostApplicant.create(postDoDate3, testUser);
         postApplicant3.updateStatus(ApplyStatus.APPROVE);
@@ -526,4 +438,13 @@ class PostServiceTest extends ServiceIntegrationTest {
         int afterLikes = postLikeRepository.findAllByUserIdWithCompletedPost(testUser.getId()).size();
         assertThat(beforeLikes - 1).isEqualTo(afterLikes);
     }
+
+//    @Test
+//    @DisplayName("게시물에서 실험이 있는 날짜 조회 - 성공")
+//    void getDoDateListByYearMonth() {
+//        initPostForGet();
+//        YearMonth yearMonth = YearMonth.of(2021, 9);
+//        PostResponse.DoDateList response = postService.getDoDateListByYearMonth(postDoDateForGet.getId(), yearMonth);
+//        assertThat(response.getDoDateList()).containsExactly(LocalDate.of(2021, 9, 29));
+//    }
 }

@@ -95,12 +95,6 @@ public class PostByBusinessService {
         return posts.map(PostResponse.GetListByBusinessProfile::build);
     }
 
-    @Transactional(readOnly = true)
-    public PostResponse.DoDateList getDoDateListByYearMonth(Long postId, YearMonth yearMonth) {
-        List<PostDoDate> postDoDateList = postDoDateRepository.findAllByPostIdAndYearMonth(postId, yearMonth);
-        return PostResponse.DoDateList.build(postDoDateList);
-    }
-
     public PostResponse.OnlyId updateContent(Long postId, PostRequest.UpdateContent request, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);

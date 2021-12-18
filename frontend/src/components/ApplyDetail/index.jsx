@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
-import PropTypes from "prop-types";
+
+import { toast } from "react-toastify";
 import {
   applyApi,
   bookmarkApi,
@@ -20,11 +21,6 @@ import AskCompleteApplication from "../Common/Alert/AskCompleteApplication";
 import CompleteApplication from "../Common/Alert/CompleteApplication";
 import CreateAuthModal from "../Common/Modal/CreateAuthModal";
 
-ApplyDetailComponent.propTypes = {
-  feedId: PropTypes.number.isRequired,
-  date: PropTypes.string,
-};
-
 export default function ApplyDetailComponent({ feedId, date }) {
   const [feedDetailData, setFeedDetailData] = useState();
   const user = useRecoilValue(userState);
@@ -39,7 +35,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
         .then((res) => setFeedDetailData(res.data.data))
         .catch((err) => {
           if (err.response.status === 400) {
-            alert("삭제된 게시물 입니다.");
+            toast.info("삭제된 게시물 입니다.");
             history.goBack();
           }
         });
@@ -87,7 +83,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
           setApplyAlert(2);
         })
         .catch((err) => {
-          alert("지원이 실패하였습니다");
+          toast.error("지원이 실패하였습니다");
           setApplyAlert(0);
           //   신청한 실험일 때, 날짜를 고르지 않았을 때 에러 추가해야함
         });

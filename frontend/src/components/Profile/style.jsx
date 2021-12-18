@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 /* Common */
 
@@ -164,71 +164,63 @@ export const FeedBox = styled.div`
   width: 100%;
   cursor: pointer;
   height: 8rem;
-  gap: 1.5rem;
   border: 1px solid #c4c4c4;
   box-sizing: content-box;
+  border-radius: 1em;
+  overflow: hidden;
   background: ${({ postStatus, status }) => {
     if (status === "like" && postStatus === "COMPLETE") return "#b4b4b4";
     else return "#fff";
   }};
-  border-radius: 1rem;
-  & > div:first-child {
-    width: 100%;
-    position: relative;
-    flex: 1;
-    transform: translateY(-1px);
+`;
 
-    & > img {
-      width: inherit;
-      border-radius: 14px 0 0 14px;
-      position: absolute;
-      object-fit: cover;
-      height: calc(8rem + 2px);
-    }
-    & > div:nth-child(2) {
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      padding: 1rem 0;
-      z-index: 9;
-      position: absolute;
-      height: calc(6rem + 2px);
-      border-radius: 14px 0 0 14px;
-    }
-  }
-  & > div:nth-child(2) {
-    width: 100%;
-    flex: 1;
-    padding: 1rem 0;
+export const FeedImgView = styled.div`
+  width: 100%;
+  position: relative;
+  flex: 1;
+  & > img {
+    width: inherit;
+    position: absolute;
+    object-fit: cover;
+    height: calc(8rem);
   }
 `;
 
 export const FeedTitle = styled.div`
-  padding: 0.5rem 1.5rem 0;
-  color: #fff;
-  flex-direction: column;
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 0.3em;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  padding: 1.2em;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 9;
+  position: absolute;
   & > p:first-child {
-    font-size: 0.8rem;
-    height: 1rem;
+    color: white;
+    font-size: 1.5rem;
   }
   & > p:nth-child(2) {
-    font-size: 1.1rem;
-    font-weight: 700;
-    white-space: pre-line;
-    height: 3rem;
+    color: white;
+    font-weight: bold;
+    margin-top: auto;
   }
   & > p:nth-child(3) {
-    font-weight: 600;
-    height: 1.2rem;
-    line-height: 1.1rem;
-    font-size: 0.9rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
-  }
-  & > p:nth-child(4) {
-    font-size: 0.7rem;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 100;
   }
 `;
+
+export const FeedContentView = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  padding: 0.8em;
+`;
+
 export const FeedLabel = styled.div`
   position: absolute;
   width: 3.7rem;
@@ -237,68 +229,39 @@ export const FeedLabel = styled.div`
   text-align: center;
   border-radius: 2rem;
   transform: translate(15%, -50%);
-  color: ${({ status, postStatus }) => {
-    if (status === "approve") return "#7b68ff";
-    else if (status === "wait") return "#16b4ab";
-    else if (status === "complete") return "#0642ff";
-    else if (status === "reject") return "#ff0606";
-    else if (status === "like" && postStatus === "RECRUIT") return "#0642ff";
-    else return "#000";
-  }};
-  border: ${({ status, postStatus }) => {
-    if (status === "approve") return "1px solid #7b68ff";
-    else if (status === "wait") return "1px solid #16b4ab";
-    else if (status === "complete") return "1px solid #0642ff";
-    else if (status === "reject") return "1px solid #ff0606";
+  ${({ status, postStatus }) => {
+    if (status === "approve")
+      return css`
+        color: #7b68ff;
+        border: 1px solid #7b68ff;
+      `;
+    else if (status === "wait")
+      return css`
+        color: #16b4ab;
+        border: 1px solid #16b4ab;
+      `;
+    else if (status === "complete")
+      return css`
+        color: #0642ff;
+        border: 1px solid #0642ff;
+      `;
+    else if (status === "reject")
+      return css`
+        color: #ff0606;
+        border: 1px solid #ff0606;
+      `;
     else if (status === "like" && postStatus === "RECRUIT")
-      return "1px solid #0642ff";
-    else return "1px solid #000";
-  }};
+      return css`
+        color: #0642ff;
+        border: 1px solid #0642ff;
+      `;
+    else return null;
+  }}
   background: #fff;
   font-size: 0.85rem;
 `;
 
-export const FeedContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 7rem;
-`;
-export const FeedInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  justify-content: flex-start;
-  padding-bottom: 1rem;
-  font-size: 0.75rem;
-  & > div {
-    display: flex;
-    align-items: baseline;
-    & > div:first-child {
-      flex: 1;
-    }
-    & > div:nth-child(2) {
-      flex: 1;
-      ::before {
-        content: "|";
-        color: #c4c4c4;
-        margin-right: 1rem;
-      }
-    }
-    & span {
-      font-weight: 600;
-    }
-  }
-  & > div:nth-child(2) > div:nth-child(2) > span {
-    padding: 0.3rem 0.8rem;
-    border-radius: 4px;
-    ${({ condition }) => {
-      return condition
-        ? "background-color: rgba(123,104,255,0.1); color:#7b68ff;"
-        : "background-color:rgba(124,124,124,0.1); color: #7c7c7c";
-    }};
-  }
-`;
+export const FeedInfo = styled.div``;
 
 export const FeedButton = styled.div`
   margin: 0 1rem 0.6rem 0;

@@ -40,7 +40,7 @@ public class PostByBusinessService {
     private final S3Uploader s3Uploader;
     private final PostFileRepository postFileRepository;
 
-    public PostResponse.OnlyId createInfo(PostRequest.CreateInfo request, List<MultipartFile> files, MultipartFile thumbnail, User user) {
+    public PostResponse.OnlyId create(PostRequest.CreateInfo request, List<MultipartFile> files, MultipartFile thumbnail, User user) {
         postPermissionCheck.userInBusinessProfileCheck(request.getBusinessProfileId(), user);
 
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);

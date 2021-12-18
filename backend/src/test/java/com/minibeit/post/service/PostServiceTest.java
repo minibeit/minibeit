@@ -74,15 +74,9 @@ class PostServiceTest extends ServiceIntegrationTest {
     private School KSchool;
     private School YSchool;
     private BusinessProfile businessProfile;
-    private Post postForGet;
-    private PostDoDate postDoDateForGet;
     private Post likePost;
     private Post notLikePost;
-    private PostFile postFile;
-    private PostDoDate postDoDate1;
-    private PostDoDate postDoDate2;
-    private PostDoDate postDoDate3;
-    private final SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
+
 
     @BeforeEach
     public void init() {
@@ -131,35 +125,6 @@ class PostServiceTest extends ServiceIntegrationTest {
                 .build();
         businessProfileRepository.save(businessProfile);
         userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
-    }
-
-    private void initPostForGet() {
-        PostRequest.CreateInfo createRequest = PostRequest.CreateInfo.builder()
-                .title("게시물")
-                .content("실험 내용")
-                .place("고려대학교 연구실")
-                .contact("010-1234-1234")
-                .category("미디어")
-                .headcount(10)
-                .payment(Payment.CACHE)
-                .cache(10000)
-                .goods(null)
-                .paymentDetail("계좌로 지급해드립니다.")
-                .condition(true)
-                .conditionDetail("커피 많이 드시는 사람|")
-                .doTime(60)
-                .schoolId(KSchool.getId())
-                .businessProfileId(businessProfile.getId())
-                .startDate(LocalDateTime.of(2021, 9, 29, 9, 30))
-                .endDate(LocalDateTime.of(2021, 9, 29, 12, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 17, 30)).build()))
-                .build();
-
-        Post post = Post.create(createRequest, KSchool, businessProfile);
-        postForGet = postRepository.save(post);
-        PostFile createdPostFile = PostFile.create(postForGet, savedFile);
-        postFile = postFileRepository.save(createdPostFile);
-        postDoDateForGet = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), post));
     }
 
     private void initPostForLike() {
@@ -214,120 +179,6 @@ class PostServiceTest extends ServiceIntegrationTest {
         notLikePost = postRepository.save(post3);
     }
 
-    private void initPostListForList() {
-        for (int i = 1; i <= 3; i++) {
-            PostRequest.CreateInfo createRequest = PostRequest.CreateInfo.builder()
-                    .title("즐겨찾기" + i)
-                    .content("실험 내용")
-                    .place("고려대학교 연구실")
-                    .contact("010-1234-1234")
-                    .category("미디어")
-                    .headcount(10)
-                    .payment(Payment.CACHE)
-                    .cache(10000)
-                    .goods(null)
-                    .paymentDetail("계좌로 지급해드립니다.")
-                    .condition(true)
-                    .conditionDetail("커피 많이 드시는 사람|")
-                    .doTime(60)
-                    .schoolId(KSchool.getId())
-                    .businessProfileId(businessProfile.getId())
-                    .startDate(LocalDateTime.of(2021, 9, 29, 9, 30))
-                    .endDate(LocalDateTime.of(2021, 9, 29, 12, 30))
-                    .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 17, 30)).build()))
-                    .build();
-
-            Post post = Post.create(createRequest, KSchool, businessProfile);
-            postRepository.save(post);
-            PostLike postLike = PostLike.create(post, testUser);
-            postLikeRepository.save(postLike);
-        }
-    }
-
-    private void initApplicantPost() {
-        PostRequest.CreateInfo createRequest = PostRequest.CreateInfo.builder()
-                .title("지원1")
-                .content("실험 내용")
-                .place("고려대학교 연구실")
-                .contact("010-1234-1234")
-                .category("미디어")
-                .headcount(10)
-                .payment(Payment.CACHE)
-                .cache(10000)
-                .goods(null)
-                .paymentDetail("계좌로 지급해드립니다.")
-                .condition(true)
-                .conditionDetail("커피 많이 드시는 사람|")
-                .doTime(60)
-                .schoolId(KSchool.getId())
-                .businessProfileId(businessProfile.getId())
-                .startDate(LocalDateTime.of(2021, 9, 29, 9, 30))
-                .endDate(LocalDateTime.of(2021, 10, 5, 12, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 4, 17, 30)).build()))
-                .build();
-
-        Post post = Post.create(createRequest, KSchool, businessProfile);
-        postRepository.save(post);
-        postDoDate1 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 10, 4, 17, 30), post));
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, testUser);
-        postApplicantRepository.save(postApplicant1);
-
-        PostRequest.CreateInfo createRequest2 = PostRequest.CreateInfo.builder()
-                .title("지원2")
-                .content("실험 내용")
-                .place("고려대학교 연구실")
-                .contact("010-1234-1234")
-                .category("미디어")
-                .headcount(10)
-                .payment(Payment.CACHE)
-                .cache(10000)
-                .goods(null)
-                .paymentDetail("계좌로 지급해드립니다.")
-                .condition(true)
-                .conditionDetail("커피 많이 드시는 사람|")
-                .doTime(60)
-                .schoolId(KSchool.getId())
-                .businessProfileId(businessProfile.getId())
-                .startDate(LocalDateTime.of(2021, 9, 29, 9, 30))
-                .endDate(LocalDateTime.of(2021, 10, 5, 12, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 12, 30)).build()))
-                .build();
-
-        Post post2 = Post.create(createRequest2, KSchool, businessProfile);
-        postRepository.save(post2);
-        postDoDate2 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 10, 3, 12, 30), post2));
-        PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, testUser);
-        postApplicantRepository.save(postApplicant2);
-
-        PostRequest.CreateInfo createRequest3 = PostRequest.CreateInfo.builder()
-                .title("확정1")
-                .content("실험 내용")
-                .place("고려대학교 연구실")
-                .contact("010-1234-1234")
-                .category("미디어")
-                .headcount(10)
-                .payment(Payment.CACHE)
-                .cache(10000)
-                .goods(null)
-                .paymentDetail("계좌로 지급해드립니다.")
-                .condition(true)
-                .conditionDetail("커피 많이 드시는 사람|")
-                .doTime(60)
-                .schoolId(KSchool.getId())
-                .businessProfileId(businessProfile.getId())
-                .startDate(LocalDateTime.of(2021, 9, 29, 9, 30))
-                .endDate(LocalDateTime.of(2021, 10, 5, 12, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 5, 12, 30)).build()))
-                .build();
-
-        Post post3 = Post.create(createRequest3, KSchool, businessProfile);
-        postRepository.save(post3);
-        postDoDate3 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 10, 5, 12, 30), post3));
-        PostApplicant postApplicant3 = PostApplicant.create(postDoDate3, testUser);
-        postApplicant3.updateStatus(ApplyStatus.APPROVE);
-        postApplicantRepository.save(postApplicant3);
-    }
-
     @Test
     @DisplayName("즐겨찾기 생성 - 성공")
     void createLike() {
@@ -359,73 +210,6 @@ class PostServiceTest extends ServiceIntegrationTest {
     }
 
     @Test
-    @DisplayName("게시물 단건 조회 -성공")
-    void getOne() {
-        initPostForGet();
-        CustomUserDetails customUserDetails = CustomUserDetails.create(userInBusinessProfile);
-        PostResponse.GetOne response = postService.getOne(postForGet.getId(), customUserDetails);
-        assertThat(response.getId()).isEqualTo(postForGet.getId());
-        assertThat(response.getFiles()).extracting("url").containsExactly(postFile.getUrl());
-        assertThat(response.getBusinessProfileInfo().getId()).isEqualTo(businessProfile.getId());
-    }
-
-    @Test
-    @DisplayName("게시물 월별 실험 시작 시간 목록 조회 -성공")
-    void getPostStartTimeList() {
-        initPostForGet();
-        List<PostResponse.GetPostStartTime> response = postService.getPostStartTimeList(postForGet.getId(), LocalDate.of(2021, 9, 29));
-        Post findPost = postRepository.findById(postForGet.getId()).orElseThrow(PostNotFoundException::new);
-        assertThat(response).extracting("id").containsExactly(postDoDateForGet.getId());
-        assertThat(response).extracting("startTime").containsExactly(postDoDateForGet.getDoDate());
-        assertThat(response).extracting("endTime").containsExactly(postDoDateForGet.getDoDate().plusMinutes(findPost.getDoTime()));
-        assertThat(response).extracting("isFull").containsExactly(false);
-    }
-
-    @Test
-    @DisplayName("즐겨찾기한 게시물 조회 - 성공")
-    void getListByLike() {
-        initPostListForList();
-        PageDto pageDto = new PageDto(1, 10);
-        Page<PostResponse.GetLikeList> response = postService.getListByLike(testUser, pageDto);
-
-        assertThat(response.getContent()).extracting("title").containsExactlyElementsOf(Arrays.asList("즐겨찾기3", "즐겨찾기2", "즐겨찾기1"));
-    }
-
-    @ParameterizedTest(name = "자신이 지원한 게시물 상태에 따라 목록 조회(대기중,확정)- 성공")
-    @MethodSource
-    void getListByApplyStatus(ApplyStatus applyStatus, LocalDateTime now, PageDto pageDto, List<String> contentResult) {
-        initApplicantPost();
-        Page<PostResponse.GetMyApplyList> response = postService.getListByApplyStatus(applyStatus, testUser, now, pageDto);
-        assertThat(response.getContent()).extracting("title").containsExactlyElementsOf(contentResult);
-    }
-
-    static Stream<Arguments> getListByApplyStatus() {
-        return Stream.of(
-                Arguments.of(ApplyStatus.WAIT, LocalDateTime.of(2021, 9, 29, 18, 0), new PageDto(1, 5), Arrays.asList("지원2", "지원1")),
-                Arguments.of(ApplyStatus.WAIT, LocalDateTime.of(2021, 10, 4, 0, 0), new PageDto(1, 5), List.of("지원1")),
-                Arguments.of(ApplyStatus.APPROVE, LocalDateTime.of(2021, 9, 29, 18, 0), new PageDto(1, 5), List.of("확정1"))
-        );
-    }
-
-    @Test
-    @DisplayName("게시물 전체 조회 - 성공")
-    void getList() {
-        initPostForGet();
-        CustomUserDetails customUserDetails = CustomUserDetails.create(testUser);
-        PageDto pageDto = new PageDto(1, 5);
-        Page<PostResponse.GetList> response = postService.getList(KSchool.getId(), LocalDate.of(2021, 9, 29), "미디어", pageDto, Payment.CACHE, LocalTime.of(9, 30), LocalTime.of(12, 30), 5000, 60, customUserDetails);
-
-        Page<PostResponse.GetList> allResponse = postService.getList(0L, LocalDate.of(2021, 9, 29), "미디어", pageDto, Payment.CACHE, LocalTime.of(9, 30), LocalTime.of(12, 30), 5000, 60, customUserDetails);
-        List<Post> all = postRepository.findAll();
-
-        assertAll(
-                () -> assertThat(response.getTotalElements()).isEqualTo(1L),
-                () -> assertThat((int) allResponse.getTotalElements()).isEqualTo(all.size())
-        );
-
-    }
-
-    @Test
     @DisplayName("즐겨찾기 목록에서 모집완료된 게시물 일괄삭제 - 성공")
     void deleteLikeOfCompletedPost() {
         initPostForLike();
@@ -438,13 +222,4 @@ class PostServiceTest extends ServiceIntegrationTest {
         int afterLikes = postLikeRepository.findAllByUserIdWithCompletedPost(testUser.getId()).size();
         assertThat(beforeLikes - 1).isEqualTo(afterLikes);
     }
-
-//    @Test
-//    @DisplayName("게시물에서 실험이 있는 날짜 조회 - 성공")
-//    void getDoDateListByYearMonth() {
-//        initPostForGet();
-//        YearMonth yearMonth = YearMonth.of(2021, 9);
-//        PostResponse.DoDateList response = postService.getDoDateListByYearMonth(postDoDateForGet.getId(), yearMonth);
-//        assertThat(response.getDoDateList()).containsExactly(LocalDate.of(2021, 9, 29));
-//    }
 }

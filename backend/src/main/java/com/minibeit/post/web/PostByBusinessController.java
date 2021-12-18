@@ -32,7 +32,7 @@ public class PostByBusinessController {
                                                                      @RequestPart(value = "files", required = false) List<MultipartFile> files,
                                                                      @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
                                                                      @CurrentUser CustomUserDetails customUserDetails) {
-        PostResponse.OnlyId response = postByBusinessService.createInfo(request, files, thumbnail, customUserDetails.getUser());
+        PostResponse.OnlyId response = postByBusinessService.create(request, files, thumbnail, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(ApiResult.build(HttpStatus.CREATED.value(), response));
     }
 

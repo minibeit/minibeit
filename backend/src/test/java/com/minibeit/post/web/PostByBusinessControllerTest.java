@@ -145,7 +145,7 @@ class PostByBusinessControllerTest extends MvcTest {
 
         PostResponse.OnlyId response = PostResponse.OnlyId.builder().id(1L).build();
 
-        given(postByBusinessService.createInfo(any(), any(), any(), any())).willReturn(response);
+        given(postByBusinessService.create(any(), any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(multipart("/api/post")
                 .file(postInfoRequest)

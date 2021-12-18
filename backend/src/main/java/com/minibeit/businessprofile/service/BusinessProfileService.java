@@ -116,6 +116,16 @@ public class BusinessProfileService {
         return BusinessProfileResponse.GetOne.build(businessProfile, user);
     }
 
+    public void goOutBusinessProfile(Long businessProfileId, User user) {
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+        if (businessProfile.getAdmin().getId().equals(user.getId())) {
+            throw new BusinessProfileAdminCantCancelException();
+        }
+
+        UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(user.getId(), businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
+        userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
+    }
+
     public void delete(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 

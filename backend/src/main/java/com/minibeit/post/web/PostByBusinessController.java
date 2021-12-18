@@ -10,15 +10,15 @@ import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -26,17 +26,13 @@ import java.time.YearMonth;
 public class PostByBusinessController {
     private final PostByBusinessService postByBusinessService;
 
-    @PostMapping("/post/info")
+    @PostMapping("/post")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ApiResult<PostResponse.OnlyId>> createInfo(@Valid @RequestBody PostRequest.CreateInfo request, @CurrentUser CustomUserDetails customUserDetails) {
-        PostResponse.OnlyId response = postByBusinessService.createInfo(request, customUserDetails.getUser());
-        return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(ApiResult.build(HttpStatus.CREATED.value(), response));
-    }
-
-    @PostMapping("/post/{postId}/files")
-    @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<ApiResult<PostResponse.OnlyId>> addFiles(@PathVariable Long postId, PostRequest.AddFile request, @CurrentUser CustomUserDetails customUserDetails) {
-        PostResponse.OnlyId response = postByBusinessService.addFiles(postId, request, customUserDetails.getUser());
+    public ResponseEntity<ApiResult<PostResponse.OnlyId>> createInfo(@Valid @RequestPart(value = "postInfo") PostRequest.CreateInfo request,
+                                                                     @RequestPart(value = "files", required = false) List<MultipartFile> files,
+                                                                     @RequestPart(value = "thumbnail", required = false) MultipartFile thumbnail,
+                                                                     @CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.OnlyId response = postByBusinessService.createInfo(request, files, thumbnail, customUserDetails.getUser());
         return ResponseEntity.created(URI.create("/api/post/" + response.getId())).body(ApiResult.build(HttpStatus.CREATED.value(), response));
     }
 

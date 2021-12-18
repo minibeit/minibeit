@@ -29,17 +29,17 @@ import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.io.InputStream;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.fileUpload;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.restdocs.request.RequestDocumentation.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -114,6 +114,11 @@ class PostByBusinessControllerTest extends MvcTest {
     @Test
     @DisplayName("게시물 정보입력(생성) 문서화")
     public void createInfo() throws Exception {
+        InputStream is1 = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile files = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is1.readAllBytes());
+        InputStream is2 = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile thumbnail = new MockMultipartFile("thumbnail", "avatar.jpg", "image/jpg", is2.readAllBytes());
+
         PostRequest.CreateInfo request = PostRequest.CreateInfo.builder()
                 .title("커피를 얼마나 마셔야 잠을 못잘까~?")
                 .content("실험 내용")
@@ -135,81 +140,34 @@ class PostByBusinessControllerTest extends MvcTest {
                 .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
                 .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
                 .build();
+        String content = objectMapper.writeValueAsString(request);
+        MockMultipartFile postInfoRequest = new MockMultipartFile("postInfo", "", "application/json", content.getBytes());
+
         PostResponse.OnlyId response = PostResponse.OnlyId.builder().id(1L).build();
 
-        given(postByBusinessService.createInfo(any(), any())).willReturn(response);
+        given(postByBusinessService.createInfo(any(), any(), any(), any())).willReturn(response);
 
-        ResultActions results = mvc.perform(post("/api/post/info")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
+        ResultActions results = mvc.perform(multipart("/api/post")
+                .file(postInfoRequest)
+                .file(files)
+                .file(thumbnail)
+                .contentType(MediaType.MULTIPART_MIXED)
+                .accept(MediaType.APPLICATION_JSON)
                 .characterEncoding("UTF-8")
         );
 
         results.andExpect(status().isCreated())
                 .andDo(print())
                 .andDo(document("post-create-info",
-                        requestFields(
-                                fieldWithPath("title").type(JsonFieldType.STRING).description("제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).description("내용"),
-                                fieldWithPath("place").type(JsonFieldType.STRING).description("장소"),
-                                fieldWithPath("placeDetail").type(JsonFieldType.STRING).description("장소 세부 사항"),
-                                fieldWithPath("contact").type(JsonFieldType.STRING).description("연락처"),
-                                fieldWithPath("category").type(JsonFieldType.STRING).description("분야"),
-                                fieldWithPath("headcount").type(JsonFieldType.NUMBER).description("인원수"),
-                                fieldWithPath("payment").type(JsonFieldType.STRING).description("CACHE or GOODS"),
-                                fieldWithPath("cache").description("현금 payment가 GOODS라면 null"),
-                                fieldWithPath("goods").description("물품 payment가 CACHE라면 null"),
-                                fieldWithPath("paymentDetail").type(JsonFieldType.STRING).description("지급 방법 및 세부사항"),
-                                fieldWithPath("condition").type(JsonFieldType.BOOLEAN).description("모집조건이 있다면 true"),
-                                fieldWithPath("conditionDetail").description("모집 조건 세부사항 조건 1개당 | 로 구분지어주세요!"),
-                                fieldWithPath("doTime").type(JsonFieldType.NUMBER).description("게시물 실험 소요시간"),
-                                fieldWithPath("schoolId").type(JsonFieldType.NUMBER).description("학교 식별자"),
-                                fieldWithPath("businessProfileId").type(JsonFieldType.NUMBER).description("비즈니스 프로필 식별자"),
-                                fieldWithPath("startDate").type(JsonFieldType.STRING).description("모집 시작 날짜 및 시간 ex)2021-09-27T09:30"),
-                                fieldWithPath("endDate").type(JsonFieldType.STRING).description("모집 마감 날짜 및 시간 ex)2021-09-27T09:30"),
-                                fieldWithPath("doDateList[].doDate").type(JsonFieldType.STRING).description("참여 가능 날짜(시간포함) ex)2021-09-27T09:30")
+                        requestParts(
+                                partWithName("postInfo").description("게시물 정보 JSON"),
+                                partWithName("files").description("게시물에 추가할 파일 (썸네일 제외)"),
+                                partWithName("thumbnail").description("게시물 썸네일")
                         ),
                         responseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
                                 fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("생성된 게시물 식별자")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("게시물 파일 추가")
-    public void addFiles() throws Exception {
-        InputStream is1 = new ClassPathResource("mock/images/enjoy.png").getInputStream();
-        MockMultipartFile files = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is1.readAllBytes());
-        InputStream is2 = new ClassPathResource("mock/images/enjoy.png").getInputStream();
-        MockMultipartFile thumbnail = new MockMultipartFile("thumbnail", "avatar.jpg", "image/jpg", is2.readAllBytes());
-
-        PostResponse.OnlyId response = PostResponse.OnlyId.builder().id(1L).build();
-
-        given(postByBusinessService.addFiles(any(), any(), any())).willReturn(response);
-
-        ResultActions results = mvc.perform(
-                fileUpload("/api/post/{postId}/files", 1)
-                        .file(files)
-                        .file(thumbnail)
-                        .contentType(MediaType.MULTIPART_FORM_DATA)
-                        .characterEncoding("UTF-8")
-        );
-
-        results.andExpect(status().isCreated())
-                .andDo(document("post-add-files",
-                        pathParameters(
-                                parameterWithName("postId").description("게시물 식별자")
-                        ),
-                        requestParts(
-                                partWithName("files").description("게시물에 추가할 파일(썸네일 제외)"),
-                                partWithName("thumbnail").description("게시물에 추가할 썸네일")
-                        ),
-                        responseFields(
-                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
-                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
-                                fieldWithPath("data.id").type(JsonFieldType.NUMBER).description("게시물 식별자")
                         )
                 ));
     }

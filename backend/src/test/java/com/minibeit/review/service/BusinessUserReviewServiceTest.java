@@ -32,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -135,7 +136,7 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
     }
 
     void postSetup() {

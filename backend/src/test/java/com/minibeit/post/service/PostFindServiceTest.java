@@ -115,7 +115,7 @@ public class PostFindServiceTest extends ServiceIntegrationTest {
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
     }
 
     private void initPost() {

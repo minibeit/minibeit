@@ -21,16 +21,13 @@ import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -91,7 +88,7 @@ public class PostByBusinessFindServiceTest extends ServiceIntegrationTest {
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
     }
 
     private void initPost() {

@@ -5,19 +5,16 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
-import com.minibeit.common.domain.FileServer;
-import com.minibeit.common.domain.FileType;
-import com.minibeit.common.dto.PageDto;
-import com.minibeit.common.dto.SavedFile;
-import com.minibeit.post.domain.*;
+import com.minibeit.post.domain.Payment;
+import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostLike;
+import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
-import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
-import com.minibeit.security.userdetails.CustomUserDetails;
 import com.minibeit.user.domain.Role;
 import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;
@@ -25,25 +22,15 @@ import com.minibeit.user.domain.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.YearMonth;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("Post Service 흐름 테스트")
 class PostServiceTest extends ServiceIntegrationTest {
@@ -124,7 +111,7 @@ class PostServiceTest extends ServiceIntegrationTest {
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
     }
 
     private void initPostForLike() {

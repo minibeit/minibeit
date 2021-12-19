@@ -2,15 +2,13 @@ package com.minibeit.businessprofile.service;
 
 import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.review.domain.BusinessUserReview;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
-import com.minibeit.review.domain.repository.BusinessUserReviewRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.dto.BusinessProfileResponse;
-import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.BusinessProfileAdminCantCancelException;
+import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.PermissionException;
@@ -217,8 +215,8 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
 
         businessProfile = businessProfileRepository.save(businessProfile1);
         businessProfileRepository.save(emptyBusinessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(admin, businessProfile));
-        cancelUserBusinessProfile = userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(admin, businessProfile, List.of(BusinessProfile.builder().build())));
+        cancelUserBusinessProfile = userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
     }
 
     @Test

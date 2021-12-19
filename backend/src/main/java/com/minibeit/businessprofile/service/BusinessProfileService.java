@@ -36,13 +36,9 @@ public class BusinessProfileService {
 
         List<BusinessProfile> businessProfileOfShareUser = businessProfileRepository.findAllByUserId(user.getId());
 
-        if (businessProfileOfShareUser.size() >= 3) {
-            throw new BusinessProfileCountExceedException();
-        }
-
         Avatar avatar = avatarService.upload(request.getAvatar());
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(findUser);
-        BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar, findUser);
+        BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar, findUser, businessProfileOfShareUser);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
 
         return BusinessProfileResponse.IdAndName.build(savedBusinessProfile);
@@ -69,14 +65,7 @@ public class BusinessProfileService {
         User userToShare = userRepository.findById(invitedUserId).orElseThrow(UserNotFoundException::new);
 
         List<BusinessProfile> businessProfileOfShareUser = businessProfileRepository.findAllByUserId(userToShare.getId());
-        if (businessProfileOfShareUser.contains(businessProfile)) {
-            throw new DuplicateShareException();
-        }
-        if (businessProfileOfShareUser.size() >= 3) {
-            throw new BusinessProfileCountExceedException();
-        }
-
-        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile, businessProfileOfShareUser);
 
         userBusinessProfileRepository.save(userBusinessProfile);
     }

@@ -48,10 +48,10 @@ export default function FeedBox({ status, data, changeFeedData }) {
   return (
     <>
       <S.FeedLabel status={status} postStatus={data.postStatus}>
-        {status === "approve" && "참여확정"}
-        {status === "wait" && "참여대기"}
-        {status === "complete" && "참여완료"}
-        {status === "reject" && "참여반려"}
+        {status === "approve" && "참여 확정"}
+        {status === "wait" && "참여 대기"}
+        {status === "complete" && "참여 완료"}
+        {status === "reject" && "참여 반려"}
       </S.FeedLabel>
       <S.FeedBox
         onClick={() => history.push(`/apply/${data.id}`)}
@@ -59,7 +59,6 @@ export default function FeedBox({ status, data, changeFeedData }) {
         postStatus={data.postStatus}
       >
         <S.FeedImgView>
-          <img alt="썸네일" src="/images/기본프로필.png" />
           <S.FeedTitle>
             <p>{data.title}</p>
             <p>
@@ -81,20 +80,22 @@ export default function FeedBox({ status, data, changeFeedData }) {
           </div>
           <div>
             <S.InfoTable>
-              <tr>
-                <td>날짜</td>
-                <td>{moment(data.doDate).format("YYYY.MM.DD (dd)")}</td>
-                <td>번호</td>
-                <td>{data.contact}</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td>시간</td>
-                <td>
-                  {data.startTime}-{data.endTime}
-                </td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>날짜</td>
+                  <td>{moment(data.doDate).format("YYYY.MM.DD (dd)")}</td>
+                  <td>번호</td>
+                  <td>{data.contact}</td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td>시간</td>
+                  <td>
+                    {data.startTime}-{data.endTime}
+                  </td>
+                </tr>
+              </tbody>
             </S.InfoTable>
           </div>
           <div>

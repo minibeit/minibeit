@@ -51,57 +51,45 @@ export const UserInfoContainer = styled.div`
   flex: 1;
   margin-left: 1.5rem;
   min-width: 18rem;
-  /* border: 1px solid #7c7c7c; */
   margin-top: 2rem;
   & > div:first-child {
-    padding: 1rem;
+    border: 1px solid #c4c4c4;
+    border-radius: 1em;
+    padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
     align-items: center;
-    & button {
-      width: 100%;
-      padding: 0.8rem;
-      border: none;
-      border-radius: 0.8rem;
-      background: #c4c4c4;
-      color: white;
-      cursor: pointer;
-    }
   }
 `;
-export const UserInfoData = styled.div`
+export const UserNameBox = styled.div`
   display: flex;
-  width: -webkit-fill-available;
-  background: #f1f1f1;
-  flex-direction: column;
-  gap: 0.7rem;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  margin-top: 1rem;
-  & > div {
-    font-size: 0.8rem;
-    display: flex;
-    align-items: flex-start;
-
-    & > span:first-child {
-      flex: 2.5;
-      white-space: nowrap;
-      ::before {
-        content: "•";
-        margin-right: 0.2rem;
-      }
-    }
-    & > span:nth-child(2) {
-      flex: 4;
-      max-height: 2.5rem;
-      ::before {
-        content: ":";
-        margin: 0 0.2rem;
-      }
-    }
+  gap: 0.5em;
+  & > p:first-child {
+    font-weight: bold;
+  }
+  & > p:nth-child(2) {
+    color: #c4c4c4;
+    font-weight: bold;
   }
 `;
+export const UserInfoBtn = styled.button`
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 2rem;
+  color: black;
+  font-size: 1em;
+  cursor: pointer;
+`;
+export const ProfileBtn = styled(UserInfoBtn)`
+  border: 1px solid #c4c4c4;
+  background: white;
+`;
+export const LikeBtn = styled(UserInfoBtn)`
+  border: none;
+  background: #f8f8f8; ;
+`;
+
 export const FeedContainer = styled.div`
   flex: 3.5;
   padding: 1rem 1rem 1rem 0;
@@ -113,14 +101,15 @@ export const CategoryBtnBox = styled.div`
     cursor: pointer;
     background: white;
     border: none;
+    border-bottom: 2px solid #c4c4c4;
     font-size: 1rem;
     font-weight: bold;
     color: #cccccc;
+    padding: 0.3em 0.5em;
   }
   & button:disabled {
     color: black;
-    text-decoration: underline;
-    text-decoration-color: #0642ff;
+    border-bottom: 2px solid #0642ff;
   }
 `;
 
@@ -159,14 +148,32 @@ export const FeedGroup = styled.div`
   padding: 1rem;
 `;
 
+export const FeedBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #c4c4c480;
+  box-sizing: content-box;
+  border-radius: 1em;
+  box-shadow: 2px 2px 12px 0px #00000033;
+  background: ${({ postStatus, status }) => {
+    if (status === "like" && postStatus === "COMPLETE") return "#b4b4b4";
+    else return "#fff";
+  }};
+  &:hover {
+    transform: scale(1.01);
+  }
+`;
+
 export const FeedLabel = styled.div`
   position: absolute;
-  width: 3.7rem;
-  z-index: 19;
+  transform: translate(0.3rem, -0.7rem);
+  z-index: 99;
   padding: 0.3rem;
   text-align: center;
   border-radius: 2rem;
-  transform: translate(15%, -50%);
   ${({ status, postStatus }) => {
     if (status === "approve")
       return css`
@@ -199,53 +206,38 @@ export const FeedLabel = styled.div`
   font-size: 0.85rem;
 `;
 
-export const FeedBox = styled.div`
-  display: flex;
-  max-width: 100%;
-  cursor: pointer;
-  border: 1px solid #c4c4c480;
-  box-sizing: content-box;
-  border-radius: 1em;
-  overflow: hidden;
-  box-shadow: 2px 2px 12px 0px #00000033;
-  background: ${({ postStatus, status }) => {
-    if (status === "like" && postStatus === "COMPLETE") return "#b4b4b4";
-    else return "#fff";
-  }};
-`;
-
 export const FeedImgView = styled.div`
-  width: 100%;
-  position: relative;
+  min-width: 50%;
+  background-image: url("/images/기본프로필.png");
+  background-size: cover;
+  background-position: center;
   flex: 1;
-  & > img {
-    width: inherit;
-    position: absolute;
-    object-fit: cover;
-    height: calc(10rem);
-  }
 `;
 
 export const FeedTitle = styled.div`
   display: flex;
+  flex: 1;
+  height: 100%;
   flex-direction: column;
+  flex-wrap: nowrap;
   gap: 0.3em;
-  width: -webkit-fill-available;
-  height: -webkit-fill-available;
-  padding: 1.2em;
+  padding: 2em;
+  box-sizing: border-box;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 9;
-  position: absolute;
   & > p:first-child {
+    white-space: nowrap;
     color: white;
     font-size: 1.5rem;
   }
   & > p:nth-child(2) {
+    white-space: nowrap;
     color: white;
     font-weight: bold;
     margin-top: auto;
   }
   & > p:nth-child(3) {
+    white-space: nowrap;
     color: white;
     font-size: 0.8rem;
     font-weight: 100;
@@ -301,6 +293,7 @@ export const InfoTable = styled.table`
   width: 100%;
   & td {
     padding: 0.3em;
+    white-space: nowrap;
   }
 `;
 export const FeedButton = styled.button`
@@ -311,18 +304,29 @@ export const FeedButton = styled.button`
     padding: 0.2em 0;
     white-space:nowrap;
     gap: 1rem;
+    
 }
 `;
 export const WhiteButton = styled(FeedButton)`
   background: #ffffff;
   border: 1px solid #0642ff;
   color: #0642ff;
+  &:hover {
+    background: #0642ff;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+  }
 `;
 
 export const BlueButton = styled(FeedButton)`
   background: #0642ff;
   border: 1px solid white;
   color: white;
+  &:hover {
+    background: white;
+    border: 1px solid #0642ff;
+    color: #0642ff;
+  }
 `;
 
 /* business Profile */

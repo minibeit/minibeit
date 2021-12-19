@@ -85,31 +85,13 @@ export default function UserContainer({ view }) {
                 <PVImg img="/images/기본프로필.png" />
               )}
             </S.ImgBox>
-            <S.UserInfoData>
-              <div>
-                <span>이름</span> <span>{userData.name}</span>
-              </div>
-              <div>
-                <span>닉네임</span> <span>{userData.nickname}</span>
-              </div>
-              <div>
-                <span>성별</span>
-                <span>{userData.gender === "MALE" ? "남자" : "여자"}</span>
-              </div>
-              <div>
-                <span>생년월일</span> <span>{userData.birth}</span>
-              </div>
-              <div>
-                <span>관심학교</span> <span>{userData.schoolName}</span>
-              </div>
-              <div>
-                <span>직업</span> <span>{userData.job}</span>
-              </div>
-              <div>
-                <span>전화번호</span> <span>{userData.phoneNum}</span>
-              </div>
-            </S.UserInfoData>
-            <button onClick={() => setModalSwitch(true)}>수정하기</button>
+            <S.UserNameBox>
+              <p>{userData.name}</p> <p>님</p>
+            </S.UserNameBox>
+            <S.ProfileBtn onClick={() => setModalSwitch(true)}>
+              내 프로필 보기
+            </S.ProfileBtn>
+            <S.LikeBtn>관심공고 확인하기</S.LikeBtn>
             {modalSwitch && (
               <UserInfoEditModal
                 infoData={userData}

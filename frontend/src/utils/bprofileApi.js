@@ -12,18 +12,18 @@ export const bprofileNew = async (infoData) => {
   if (infoData.avatar) {
     formData.append("avatar", infoData.avatar);
   }
-  return await withAuthInstance.post(API_BUSINESS + "profile/", formData);
+  return await withAuthInstance.post(API_BUSINESS, formData);
 };
 
 export const bprofileListGet = async () => {
-  return await withAuthInstance.get(API_BUSINESS + "profile/mine/list");
+  return await withAuthInstance.get("/api/business-profiles/mine");
 };
 
 export const getBprofileInfo = async (businessId) => {
-  return await withAuthInstance.get(API_BUSINESS + "profile/" + businessId);
+  return await withAuthInstance.get(API_BUSINESS + businessId);
 };
 export const deleteBprofile = async (businessId) => {
-  return await withAuthInstance.delete(API_BUSINESS + "profile/" + businessId);
+  return await withAuthInstance.delete(API_BUSINESS + businessId + "/user");
 };
 
 export const editBprofile = (BProfileData) => {
@@ -39,26 +39,21 @@ export const editBprofile = (BProfileData) => {
     formData.append("avatarChanged", false);
   }
 
-  return withAuthInstance.post(
-    API_BUSINESS + "profile/" + BProfileData.id,
-    formData
-  );
+  return withAuthInstance.post(API_BUSINESS + BProfileData.id, formData);
 };
 
 export const bprofileJoin = async (businessId, userId) => {
   return await withAuthInstance.post(
-    API_BUSINESS + "profile/" + businessId + "/share/" + userId
+    API_BUSINESS + businessId + "/share/" + userId
   );
 };
 export const bprofileJoinDel = async (businessId, userId) => {
   return await withAuthInstance.delete(
-    API_BUSINESS + "profile/" + businessId + "/expel/" + userId
+    API_BUSINESS + businessId + "/user/" + userId
   );
 };
 export const getBPusergroup = async (businessId) => {
-  return await withAuthInstance.get(
-    API_USER + "list/business/profile/" + businessId
-  );
+  return await withAuthInstance.get("/api/users/business-profile" + businessId);
 };
 export const getSearchUser = async (input) => {
   return await withAuthInstance.get(API_USER + "search?nickname=" + input);
@@ -66,7 +61,7 @@ export const getSearchUser = async (input) => {
 
 export const assignChange = async (businessId, userId) => {
   return await withAuthInstance.post(
-    API_BUSINESS + "profile/" + businessId + "/change/" + userId
+    API_BUSINESS + businessId + "/change/" + userId
   );
 };
 

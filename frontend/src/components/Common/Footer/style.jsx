@@ -2,7 +2,6 @@ import styled from "styled-components";
 
 export const FooterContainer = styled.div`
   position: relative;
-  z-index: -1;
   background: white;
   max-height: 5.5rem;
   margin: 0 12rem;
@@ -30,10 +29,19 @@ export const FooterContainer = styled.div`
         }
       }
     }
-    & > div:nth-child(3) {
+    & > div:nth-child(2) {
       display: flex;
-      justify-content: space-evenly;
-      gap: 1rem;
+      flex-direction: column;
+      gap: 0.4rem;
+      & > div {
+        display: flex;
+        justify-content: center;
+        & > div {
+          font-weight: 600;
+          flex: 1;
+          cursor: pointer;
+        }
+      }
     }
   }
 `;

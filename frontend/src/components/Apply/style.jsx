@@ -177,7 +177,7 @@ export const FilterBox = styled.div`
   animation-fill-mode: forwards;
 `;
 export const FilterResetBtn = styled.div`
-  margin-top: 1rem;
+  margin: 1rem;
   cursor: pointer;
   font-size: 1em;
   color: #8c8c8c;

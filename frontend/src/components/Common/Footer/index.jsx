@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import * as S from "./style";
+import Conditions from "../Alert/Conditions";
+import PersonalInformation from "../Alert/PersonalInformation";
 
 export default function Footer() {
+  const [alert, setConditionsAlert] = useState(0);
   return (
     <S.FooterContainer>
+      {alert === 1 && <Conditions setConditionsAlert={setConditionsAlert} />}
+      {alert === 2 && (
+        <PersonalInformation setConditionsAlert={setConditionsAlert} />
+      )}
       <div>
         <div>
           <a
@@ -22,6 +29,10 @@ export default function Footer() {
           </a>
         </div>
         <div>
+          <div>
+            <div onClick={() => setConditionsAlert(1)}>이용약관</div>
+            <div onClick={() => setConditionsAlert(2)}>개인정보처리방침</div>
+          </div>
           <p>미니바이트 | 서울시 동대문구 제기로6길 37-2 103호</p>
           <p>Produced by CLMOI - Korea University StartUp Team</p>
         </div>

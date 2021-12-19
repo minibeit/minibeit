@@ -3,7 +3,6 @@ package com.minibeit.businessprofile.service;
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.domain.BusinessProfiles;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
@@ -37,12 +36,9 @@ public class BusinessProfileService {
 
         List<BusinessProfile> businessProfileOfShareUser = businessProfileRepository.findAllByUserId(user.getId());
 
-        BusinessProfiles businessProfiles = BusinessProfiles.create(businessProfileOfShareUser);
-        businessProfiles.countExceedValidation();
-
         Avatar avatar = avatarService.upload(request.getAvatar());
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(findUser);
-        BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar, findUser);
+        BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar, findUser, businessProfileOfShareUser);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
 
         return BusinessProfileResponse.IdAndName.build(savedBusinessProfile);
@@ -69,11 +65,7 @@ public class BusinessProfileService {
         User userToShare = userRepository.findById(invitedUserId).orElseThrow(UserNotFoundException::new);
 
         List<BusinessProfile> businessProfileOfShareUser = businessProfileRepository.findAllByUserId(userToShare.getId());
-        BusinessProfiles businessProfiles = BusinessProfiles.create(businessProfileOfShareUser);
-        businessProfiles.countExceedValidation();
-        businessProfiles.duplicateShareValidation(businessProfile);
-
-        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile);
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(userToShare, businessProfile, businessProfileOfShareUser);
 
         userBusinessProfileRepository.save(userBusinessProfile);
     }

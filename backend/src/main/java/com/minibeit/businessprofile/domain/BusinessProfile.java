@@ -2,6 +2,7 @@ package com.minibeit.businessprofile.domain;
 
 import com.minibeit.avatar.domain.Avatar;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
+import com.minibeit.businessprofile.service.exception.BusinessProfileCountExceedException;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.user.domain.User;
 import lombok.*;
@@ -41,6 +42,8 @@ public class BusinessProfile extends BaseEntity {
     @JoinColumn(name = "admin_id")
     private User admin;
 
+    private static final int MAX_SIZE = 3;
+
     public void changeAdmin(User changedAdmin) {
         this.admin = changedAdmin;
     }
@@ -56,7 +59,8 @@ public class BusinessProfile extends BaseEntity {
         this.avatar = avatar;
     }
 
-    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, Avatar avatar, User admin) {
+    public static BusinessProfile create(BusinessProfileRequest.Create request, UserBusinessProfile userBusinessProfile, Avatar avatar, User admin, List<BusinessProfile> businessProfileOfShareUser) {
+        countExceedValidation(businessProfileOfShareUser);
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(request.getName())
                 .place(request.getPlace())
@@ -67,6 +71,13 @@ public class BusinessProfile extends BaseEntity {
                 .build();
         userBusinessProfile.setBusinessProfile(businessProfile);
         return businessProfile;
+    }
+
+
+    private static void countExceedValidation(List<BusinessProfile> businessProfileOfShareUser) {
+        if (businessProfileOfShareUser.size() >= MAX_SIZE) {
+            throw new BusinessProfileCountExceedException();
+        }
     }
 
     @Override

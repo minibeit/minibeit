@@ -1,10 +1,13 @@
 package com.minibeit.businessprofile.domain;
 
+import com.minibeit.businessprofile.service.exception.BusinessProfileCountExceedException;
+import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Builder
@@ -25,6 +28,8 @@ public class UserBusinessProfile extends BaseEntity {
     @JoinColumn(name = "business_profile_id")
     private BusinessProfile businessProfile;
 
+    private static final int MAX_SIZE = 3;
+
     public void setBusinessProfile(BusinessProfile businessProfile) {
         this.businessProfile = businessProfile;
         businessProfile.getUserBusinessProfileList().add(this);
@@ -41,10 +46,24 @@ public class UserBusinessProfile extends BaseEntity {
         return userBusinessProfile;
     }
 
-    public static UserBusinessProfile createWithBusinessProfile(User user, BusinessProfile businessProfile) {
+    public static UserBusinessProfile createWithBusinessProfile(User user, BusinessProfile businessProfile, List<BusinessProfile> businessProfileOfShareUser) {
+        countExceedValidation(businessProfileOfShareUser);
+        duplicateShareValidation(businessProfileOfShareUser, businessProfile);
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.builder().build();
         userBusinessProfile.addUser(user);
         userBusinessProfile.setBusinessProfile(businessProfile);
         return userBusinessProfile;
+    }
+
+    private static void countExceedValidation(List<BusinessProfile> businessProfileOfShareUser) {
+        if (businessProfileOfShareUser.size() >= MAX_SIZE) {
+            throw new BusinessProfileCountExceedException();
+        }
+    }
+
+    private static void duplicateShareValidation(List<BusinessProfile> businessProfileOfShareUser, BusinessProfile businessProfile) {
+        if (businessProfileOfShareUser.contains(businessProfile)) {
+            throw new DuplicateShareException();
+        }
     }
 }

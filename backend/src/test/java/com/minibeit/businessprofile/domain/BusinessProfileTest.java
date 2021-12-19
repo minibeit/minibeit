@@ -9,10 +9,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 @DisplayName("비즈니스프로필 도메인 테스트")
 class BusinessProfileTest {
@@ -69,7 +69,7 @@ class BusinessProfileTest {
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(admin);
         avatar = Avatar.builder().id(1L).url("test.url").build();
 
-        BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar, admin);
+        BusinessProfile businessProfile = BusinessProfile.create(request, userBusinessProfile, avatar, admin, List.of(BusinessProfile.builder().build()));
         assertAll(
                 () -> assertThat(businessProfile.getName()).isEqualTo(request.getName()),
                 () -> assertThat(businessProfile.getContact()).isEqualTo(request.getContact())

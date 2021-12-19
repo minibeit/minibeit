@@ -159,68 +159,6 @@ export const FeedGroup = styled.div`
   padding: 1rem;
 `;
 
-export const FeedBox = styled.div`
-  display: flex;
-  width: 100%;
-  cursor: pointer;
-  height: 8rem;
-  border: 1px solid #c4c4c4;
-  box-sizing: content-box;
-  border-radius: 1em;
-  overflow: hidden;
-  background: ${({ postStatus, status }) => {
-    if (status === "like" && postStatus === "COMPLETE") return "#b4b4b4";
-    else return "#fff";
-  }};
-`;
-
-export const FeedImgView = styled.div`
-  width: 100%;
-  position: relative;
-  flex: 1;
-  & > img {
-    width: inherit;
-    position: absolute;
-    object-fit: cover;
-    height: calc(8rem);
-  }
-`;
-
-export const FeedTitle = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.3em;
-  width: -webkit-fill-available;
-  height: -webkit-fill-available;
-  padding: 1.2em;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 9;
-  position: absolute;
-  & > p:first-child {
-    color: white;
-    font-size: 1.5rem;
-  }
-  & > p:nth-child(2) {
-    color: white;
-    font-weight: bold;
-    margin-top: auto;
-  }
-  & > p:nth-child(3) {
-    color: white;
-    font-size: 0.8rem;
-    font-weight: 100;
-  }
-`;
-
-export const FeedContentView = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  width: -webkit-fill-available;
-  height: -webkit-fill-available;
-  padding: 0.8em;
-`;
-
 export const FeedLabel = styled.div`
   position: absolute;
   width: 3.7rem;
@@ -261,42 +199,130 @@ export const FeedLabel = styled.div`
   font-size: 0.85rem;
 `;
 
-export const FeedInfo = styled.div``;
-
-export const FeedButton = styled.div`
-  margin: 0 1rem 0.6rem 0;
+export const FeedBox = styled.div`
   display: flex;
-  justify-content: end;
-  gap: 1rem;
-  & > button {
-    width: 8.5rem;
-  }
-`;
-
-export const WhiteBtn = styled.button`
-  color: #0642ff;
-  background-color: #fff;
-  border: 1px solid #0642ff;
-  padding: 0.3rem 0.5rem;
-  border-radius: 1rem;
+  max-width: 100%;
   cursor: pointer;
-  font-weight: 600;
-  &:disabled {
-    cursor: default;
-    color: #7c7c7c;
-    border: 1px solid #7c7c7c;
+  border: 1px solid #c4c4c480;
+  box-sizing: content-box;
+  border-radius: 1em;
+  overflow: hidden;
+  box-shadow: 2px 2px 12px 0px #00000033;
+  background: ${({ postStatus, status }) => {
+    if (status === "like" && postStatus === "COMPLETE") return "#b4b4b4";
+    else return "#fff";
+  }};
+`;
+
+export const FeedImgView = styled.div`
+  width: 100%;
+  position: relative;
+  flex: 1;
+  & > img {
+    width: inherit;
+    position: absolute;
+    object-fit: cover;
+    height: calc(10rem);
   }
 `;
 
-export const BlueBtn = styled(WhiteBtn)`
-  color: #fff;
-  background-color: #0642ff;
-  &:disabled {
-    background: #c4c4c4;
-    cursor: default;
-    color: #7c7c7c;
-    border: none;
+export const FeedTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  padding: 1.2em;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 9;
+  position: absolute;
+  & > p:first-child {
+    color: white;
+    font-size: 1.5rem;
   }
+  & > p:nth-child(2) {
+    color: white;
+    font-weight: bold;
+    margin-top: auto;
+  }
+  & > p:nth-child(3) {
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 100;
+  }
+`;
+
+export const FeedContentView = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  padding: 0.8em;
+  gap: 0.5em;
+  & > div:first-child {
+    flex: 1;
+    display: flex;
+    gap: 0.5em;
+    flex-wrap: wrap;
+  }
+  & > div:nth-child(2) {
+    flex: 2;
+  }
+  & > div:nth-child(3) {
+    flex: 1.5;
+    display: flex;
+    justify-content: flex-end;
+  }
+`;
+
+export const Tag = styled.div`
+  border-radius: 4px;
+  width: fit-content;
+  padding: 0.3em 1em;
+  background: #7c7c7c1a;
+  color: #7c7c7c;
+  white-space: nowrap;
+`;
+export const RecruitTag = styled(Tag)`
+  ${({ recruit }) => {
+    return recruit
+      ? css`
+          background: rgba(123, 104, 255, 0.1);
+          color: #7b68ff;
+        `
+      : css`
+          background: #7c7c7c1a;
+          color: #7c7c7c;
+        `;
+  }}
+`;
+export const InfoTable = styled.table`
+  width: 100%;
+  & td {
+    padding: 0.3em;
+  }
+`;
+export const FeedButton = styled.button`
+  border-radius: 2rem;
+    font-size: 1.3rem;
+    width: 47%;
+    cursor: pointer;
+    padding: 0.2em 0;
+    white-space:nowrap;
+    gap: 1rem;
+}
+`;
+export const WhiteButton = styled(FeedButton)`
+  background: #ffffff;
+  border: 1px solid #0642ff;
+  color: #0642ff;
+`;
+
+export const BlueButton = styled(FeedButton)`
+  background: #0642ff;
+  border: 1px solid white;
+  color: white;
 `;
 
 /* business Profile */

@@ -1,10 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  getMyRejectListApi,
-  getMyFeedList,
-  getMyLikeListApi,
-  getMyInfo,
-} from "../../../utils";
+import { getMyRejectListApi, getMyFeedList, getMyInfo } from "../../../utils";
 
 import UserInfoEditModal from "./UserInfoEditModal";
 import FeedBox from "./FeedBox";
@@ -27,7 +22,6 @@ export default function UserContainer({ view }) {
     { id: "wait", value: "대기중 목록" },
     { id: "complete", value: "완료한 목록" },
     { id: "reject", value: "반려된 목록" },
-    { id: "like", value: "즐겨찾기 목록" },
   ];
 
   const getUserData = () => {
@@ -61,12 +55,6 @@ export default function UserContainer({ view }) {
           break;
         case "reject":
           getMyRejectListApi(page ? page : 1).then((res) => {
-            setTotalEle(res.data.data.totalElements);
-            setFeedData(res.data.data.content);
-          });
-          break;
-        case "like":
-          getMyLikeListApi(page ? page : 1).then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
           });

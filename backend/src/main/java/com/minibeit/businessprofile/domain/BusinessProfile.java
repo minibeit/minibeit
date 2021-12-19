@@ -18,6 +18,9 @@ import java.util.List;
 @Entity
 @Table(name = "business_profile")
 public class BusinessProfile extends BaseEntity {
+
+    private static final int MAX_SHARE_SIZE = 3;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,7 +45,6 @@ public class BusinessProfile extends BaseEntity {
     @JoinColumn(name = "admin_id")
     private User admin;
 
-    private static final int MAX_SIZE = 3;
 
     public void changeAdmin(User changedAdmin) {
         this.admin = changedAdmin;
@@ -73,9 +75,8 @@ public class BusinessProfile extends BaseEntity {
         return businessProfile;
     }
 
-
-    private static void countExceedValidation(List<BusinessProfile> businessProfileOfShareUser) {
-        if (businessProfileOfShareUser.size() >= MAX_SIZE) {
+    public static void countExceedValidation(List<BusinessProfile> businessProfileOfShareUser) {
+        if (businessProfileOfShareUser.size() >= MAX_SHARE_SIZE) {
             throw new BusinessProfileCountExceedException();
         }
     }

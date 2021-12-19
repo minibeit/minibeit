@@ -136,7 +136,7 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(businessProfile)));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
     }
 
     void postSetup() {

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import * as S from "./style";
-import MainSlide from "./MainSlide";
 import { Link } from "react-scroll";
 import { useHistory } from "react-router";
 import { useRecoilValue } from "recoil";
@@ -13,17 +12,6 @@ export default function MainComponent() {
   const history = useHistory();
   const isLogin = useRecoilValue(userState).isLogin;
   const [modalSwitch, setModalSwitch] = useState(false);
-
-  const goApply = () => {
-    if (isLogin) {
-      history.push("/apply");
-    } else {
-      let value = window.confirm("이용하려면 로그인 먼저 해주세요!");
-      if (value) {
-        setModalSwitch(true);
-      }
-    }
-  };
 
   const goRecruit = () => {
     if (isLogin) {
@@ -38,52 +26,61 @@ export default function MainComponent() {
 
   return (
     <S.BackGround>
-      <div>
-        <p>
-          초단기 구인구직을 위한
-          <br /> 딱 맞는 퍼즐, 미니바이트
-        </p>
+      <S.MainBox>
+        <img src="/images/main4.png" alt="mainImg" />
         <div>
-          <Link to="1" spy={true} smooth={true}>
-            <S.WhiteButton>참여하기</S.WhiteButton>
-          </Link>
-          <Link to="2" spy={true} smooth={true}>
-            <S.WhiteButton>모집하기</S.WhiteButton>
+          <div>
+            <Link to="1" spy={true} smooth={true}>
+              <S.WhiteButton>참여하기</S.WhiteButton>
+            </Link>
+            <Link to="2" spy={true} smooth={true}>
+              <S.BlueButton>모집하기</S.BlueButton>
+            </Link>
+          </div>
+          <p onClick={() => history.push("/apply")}>일단 둘러볼래요</p>
+          <Link to="3" spy={true} smooth={true}>
+            <div>
+              <ArrowDown />
+            </div>
           </Link>
         </div>
-        <p>일단 둘러볼래요</p>
-        <Link to="3" spy={true} smooth={true}>
-          <S.Icon>
-            <ArrowDown />
-          </S.Icon>
-        </Link>
-      </div>
-      <S.Section id="1">
-        <S.BlueButton onClick={goApply}>참여하기</S.BlueButton>
-        <p>
-          가까운 위치에, 남는 시간에 <br /> 간편하게 지원하기
-        </p>
-        <MainSlide />
-      </S.Section>
-      {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
-      <S.Section id="2">
-        <S.BlueButton onClick={goRecruit}>모집하기</S.BlueButton>
-        <p>
-          가장 쉽고 빠르게 <br /> 원하는 스케줄로 모집하기
-        </p>
-        <MainSlide />
-      </S.Section>
-      <div id="3">
-        <S.LastJumbo>
-          <p>
+      </S.MainBox>
+      <S.MainBox2 id="1">
+        <div>
+          <div>
+            <span>가까운 위치</span>에, <span>남는 시간</span>에 <br /> 간편하게
+            지원하기
+          </div>
+          <S.BlueButton onClick={() => history.push("/apply")}>
+            참여하기
+          </S.BlueButton>
+        </div>
+        <img src="/images/main.png" alt="mainImg" />
+      </S.MainBox2>
+      <S.MainBox3 id="2">
+        <div>
+          <div>
+            가장 쉽고 빠르게 <br /> <span>원하는 스케줄</span>로 모집하기
+          </div>
+          <S.BlueButton onClick={goRecruit}>모집하기</S.BlueButton>
+        </div>
+        <img src="/images/main2.png" alt="mainImg" />
+      </S.MainBox3>
+      <S.LastBox id="3">
+        <div>
+          <div>
             세상에 없었던
             <br />
             새로운 <span>구인구직</span> 서비스,
             <br />
             미니바이트
-          </p>
-        </S.LastJumbo>
-      </div>
+          </div>
+          <div>
+            <img src="/images/mainLogo.png" alt="MainImg" />
+          </div>
+        </div>
+      </S.LastBox>
+      {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
     </S.BackGround>
   );
 }

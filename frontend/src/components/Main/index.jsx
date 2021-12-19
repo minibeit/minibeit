@@ -17,10 +17,7 @@ export default function MainComponent() {
     if (isLogin) {
       history.push("/recruit");
     } else {
-      let value = window.confirm("이용하려면 로그인 먼저 해주세요!");
-      if (value) {
-        setModalSwitch(true);
-      }
+      setModalSwitch(true);
     }
   };
 

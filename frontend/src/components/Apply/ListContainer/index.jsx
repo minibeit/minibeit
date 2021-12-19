@@ -34,10 +34,7 @@ export default function ListContainer({ feedList, postBookmark, setFeedList }) {
         setFeedList(Data);
       }
     } else {
-      let value = window.confirm("이용하려면 로그인 먼저 해주세요!");
-      if (value) {
-        setModalSwitch(true);
-      }
+      setModalSwitch(true);
     }
   };
 

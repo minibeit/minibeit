@@ -1,7 +1,15 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+`;
 export const BackGround = styled.div`
   width: 100vw;
   background-color: #fff;
@@ -18,6 +26,7 @@ export const MainBox = styled.div`
     object-fit: cover;
     padding: 1rem 0;
     box-sizing: border-box;
+    animation: ${fadeIn} 3s ease-in;
   }
   & > div {
     position: absolute;

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const AlertBackground = styled.div`
   position: fixed;
   top: 0;
@@ -32,17 +31,16 @@ const Button = styled.button`
 `;
 
 export const GrayButton = styled(Button)`
-color: #FFFFFF;
-border: 1px solid #FFFFFF;
-background: #C4C4C4;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  background: #c4c4c4;
 `;
 
 export const BlueButton = styled(Button)`
-color: #FFFFFF;
-border: 1px solid #0642FF;
-background: #0642FF;
+  color: #ffffff;
+  border: 1px solid #0642ff;
+  background: #0642ff;
 `;
-
 
 export const AlertContent = styled.div`
   transform: translate(-50%, -50%);
@@ -57,9 +55,9 @@ export const AlertContent = styled.div`
   padding: 20px;
   margin-top: 1rem;
 
-  & > p:first-child{
+  & > p:first-child {
     width: 25rem;
-    font-size: 20px;
+    font-size: 23px;
     text-align: center;
     line-height: 34px;
   }
@@ -70,7 +68,7 @@ export const AlertContent = styled.div`
 
   & > p:nth-child(2) {
     width: 25rem;
-    font-size: 12px;
+    font-size: 13px;
     text-align: center;
     line-height: 20px;
   }

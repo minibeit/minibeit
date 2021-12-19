@@ -30,7 +30,6 @@ export const Page = styled.div`
 export const Container = styled.div`
   position: relative;
   width: 80%;
-  height: 80%;
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -150,7 +149,7 @@ export const DateBox = styled(Box)`
     & input {
       padding: 0.5rem;
       font-size: 15px;
-      max-width: 8rem;
+      max-width: 9rem;
       border: none;
       background: none;
       outline: none;
@@ -331,8 +330,38 @@ export const CategoryConfirm = styled(CategoryBtn)`
 /* Info Data */
 export const InputPage = styled(Page)`
   padding: 10rem 0;
+  z-index: 1;
 `;
-export const InputContainer = styled(Container)``;
+export const InputContainer = styled(Container)`
+  & > div:first-child {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem 0;
+    & > button {
+      border: none;
+      padding: 0;
+      background: none;
+      color: #7c7c7c;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: baseline;
+      & > svg {
+        width: 0.9rem;
+        margin-right: 0.3rem;
+        transform: rotate(90deg);
+        path {
+          fill: #7c7c7c;
+        }
+      }
+    }
+    & > p {
+      color: #0642ff;
+    }
+  }
+`;
 export const Input = styled.div`
   width: 100%;
   border-radius: 15px;
@@ -356,11 +385,15 @@ export const InputBox = styled.div`
   margin-bottom: 3rem;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: flex-start;
+  gap: 1rem;
   & > p:first-child {
     font-size: 2rem;
     font-weight: bold;
-    text-align: start;
+  }
+  & > p:nth-child(2) {
+    font-size: 1.1rem;
+    margin: 1rem 0 0.5rem;
   }
 `;
 export const TitleBox = styled(InputBox)`

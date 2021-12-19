@@ -12,6 +12,7 @@ import RegisterFeed from "../../Common/Alert/RegisterFeed";
 import * as S from "../style";
 import NotEnoughWrite from "../../Common/Alert/NotEnoughWrite";
 import { toast } from "react-toastify";
+import { ReactComponent as ArrowIcon } from "../../../svg/체크.svg";
 
 export default function Presenter({
   onChange,
@@ -45,6 +46,16 @@ export default function Presenter({
   return (
     <S.InputPage>
       <S.InputContainer>
+        <div>
+          <button onClick={() => movePage(1)}>
+            <ArrowIcon />
+            뒤로가기
+          </button>
+          <p>
+            마지막 단계에요. 아래의 내용들을 채우시고, 모집공고 작성을
+            완료해보세요.
+          </p>
+        </div>
         <S.TitleBox>
           <p>제목</p>
           <input
@@ -80,6 +91,7 @@ export default function Presenter({
                   id={i}
                   defaultValue={recruit.conditionDetail[i]}
                   disabled={recruit.condition ? false : true}
+                  placeholder="원하시는 참여자의 조건을 작성해주세요."
                   onChange={(e) => {
                     if (e.target.value.length > 20) {
                       toast.info("참여 조건은 20자 이내로 입력해주세요");
@@ -175,7 +187,7 @@ export default function Presenter({
             <input
               name="payMemo"
               defaultValue={recruit.payMemo}
-              placeholder="남기실 메모가 있다면 적어주세요"
+              placeholder="지급 기한과 같은, 보상과 관련한 내용이 있다면 작성해주세요."
               onChange={(e) => {
                 if (e.target.value.length > 100) {
                   toast.info("100자 이내로 입력해주세요");
@@ -208,6 +220,7 @@ export default function Presenter({
         </S.ContentBox>
         <S.InputBox>
           <p>참여 장소</p>
+          <p>참여자와 만나게 될 장소를 작성해주세요.</p>
           <S.Input>
             <input
               type="text"
@@ -238,6 +251,7 @@ export default function Presenter({
         </S.InputBox>
         <S.InputBox>
           <p>담당자 연락처</p>
+          <p>참여자가 모집 공고에 관해 연락할 수 있는 연락처를 작성해주세요.</p>
           <S.Input>
             <input
               placeholder="'-' 없이 숫자만 입력"
@@ -259,6 +273,7 @@ export default function Presenter({
         </S.InputBox>
         <S.InputBox>
           <p>이미지</p>
+          <p>이미지를 제공하시면, 참여자가 쉽게 이해할 수 있어요.</p>
           <S.ImgForm>
             <div>
               <S.FileLabel htmlFor="file">

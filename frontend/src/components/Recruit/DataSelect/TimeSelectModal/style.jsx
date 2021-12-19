@@ -67,14 +67,11 @@ export const InfoBox = styled.div`
   background-color: white;
   position: absolute;
   border: 1px solid #c4c4c4;
-  width: 17rem;
+  width: 19rem;
   height: 6rem;
   z-index: 99;
   border-radius: 1rem;
 
-  & > svg {
-    width: 1rem;
-  }
   & > p {
     font-size: 0.8em;
   }

@@ -117,9 +117,9 @@ export default function TimeSelectModal({
             <S.Info>
               <InfoIcon />
               <S.InfoBox>
-                <PlusIcon />
-                <p>날짜를 선택해</p>
-                <p>스케줄마다 실험이 열리는 시간을 조절해보세요</p>
+                <p>⊕를 눌러서 스케줄을 추가해보세요.</p>
+                <p>해당 스케줄을 반영하실 날짜들을 달력에서 클릭하시고,</p>
+                <p>해당스케줄의 참여 시간을 조절해보세요</p>
               </S.InfoBox>
             </S.Info>
             <p>동일한 시간표로 적용할 날짜를 선택해보세요</p>

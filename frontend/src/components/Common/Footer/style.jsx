@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
+//     white-space: nowrap;
+
 export const FooterContainer = styled.div`
-  position: relative;
   background: #eee;
   z-index: 0;
   max-height: 10rem;

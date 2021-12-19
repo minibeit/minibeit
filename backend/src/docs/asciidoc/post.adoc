@@ -13,27 +13,124 @@
 
 === 게시물 기본 정보 입력(생성)
 
-`POST /api/post/info`
+`POST /api/post`
 
 요청 HTTP
-include::{snippets}/post-create-info/request-body.adoc[]
-include::{snippets}/post-create-info/request-fields.adoc[]
+include::{snippets}/post-create-info/request-parts.adoc[]
+
+postInfo JSON data
+
+[source]
+----
+{
+  "title": "테스트40",
+  "content": "실험 내용",
+  "place": "고려대학교 연구실",
+  "placeDetail": "고려대학교 연구실 123호",
+  "contact": "010-1234-1234",
+  "category": "미디어",
+  "headcount": 5,
+  "payment": "CACHE",
+  "cache": 5000,
+  "goods": null,
+  "paymentDetail": "계좌로 지급해드립니다.",
+  "condition": true,
+  "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
+  "doTime": 60,
+  "schoolId": 2,
+  "businessProfileId": 1,
+  "startDate": "2021-12-14T09:30",
+  "endDate": "2021-12-19T09:30",
+  "doDateList": [
+    {
+      "doDate": "2021-12-14T10:00"
+    },
+    {
+      "doDate": "2021-12-15T10:00"
+    },
+    {
+      "doDate": "2021-12-16T10:00"
+    },
+    {
+      "doDate": "2021-12-17T20:30"
+    },
+    {
+      "doDate": "2021-12-18T11:30"
+    },
+    {
+      "doDate": "2021-12-19T12:30"
+    }
+  ]
+}
+----
+
+[cols=3*]
+|===
+|Path
+|Type
+|Description
+|title
+|STRING
+|제목
+|content
+|STRING
+|내용
+|place
+|STRING
+|장소
+|placeDetail
+|STRING
+|장소 세부 사항
+|contact
+|STRING
+|연락처
+|category
+|STRING
+|분야
+|headcount
+|NUMBER
+|인원수
+|payment
+|STRING
+|CACHE or GOODS
+|cache
+|NUMBER
+|현금 payment가 GOODS라면 null
+|goods
+|STRING
+|물품 payment가 CACHE라면 null
+|paymentDetail
+|STRING
+|지급 방법 및 세부사항
+|condition
+|BOOLEAN
+|모집조건이 있다면 true
+|conditionDetail
+|STRING
+|모집 조건 세부사항 조건 1개당 \| 로 구분지어주세요!
+|doTime
+|NUMBER
+|실험 소요시간
+|schoolId
+|NUMBER
+|학교 식별자
+|businessProfileId
+|NUMBER
+|비즈니스 프로필 식별자
+|startDate
+|STRING
+|모집 시작 날짜 및 시간 ex)2021-09-27T09:30
+|endDate
+|STRING
+|모집 마감 날짜 및 시간 ex)2021-09-27T09:30
+|doDateList[].doDate
+|STRING
+|참여 가능 날짜(시간포함) ex)2021-09-27T09:30
+|===
 
 성공 응답 HTTP
 include::{snippets}/post-create-info/http-response.adoc[]
 include::{snippets}/post-create-info/response-fields.adoc[]
-
-=== 게시물 파일 추가
-`POST /api/post/{postId}/files`
-
-요청 HTTP
-
-include::{snippets}/post-add-files/path-parameters.adoc[]
-include::{snippets}/post-add-files/request-parts.adoc[]
-
-성공 응답 HTTP
-include::{snippets}/post-add-files/http-response.adoc[]
-include::{snippets}/post-add-files/response-fields.adoc[]
 
 === 게시물 세부 사항 수정하기
 
@@ -86,12 +183,12 @@ include::{snippets}/post-deleteOne/response-fields.adoc[]
 `DELETE /api/rejected-post/{rejectPostId}`
 
 요청 HTTP
-include::{snippets}/rejectPost-deleteOne/http-request.adoc[]
-include::{snippets}/rejectPost-deleteOne/path-parameters.adoc[]
+include::{snippets}/reject-post-deleteOne/http-request.adoc[]
+include::{snippets}/reject-post-deleteOne/path-parameters.adoc[]
 
 성공 응답 HTTP
-include::{snippets}/rejectPost-deleteOne/http-response.adoc[]
-include::{snippets}/rejectPost-deleteOne/response-fields.adoc[]
+include::{snippets}/reject-post-deleteOne/http-response.adoc[]
+include::{snippets}/reject-post-deleteOne/response-fields.adoc[]
 
 === 게시물 모집완료
 

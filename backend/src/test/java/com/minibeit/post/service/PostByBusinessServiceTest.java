@@ -1,13 +1,13 @@
 package com.minibeit.post.service;
 
 import com.minibeit.ServiceIntegrationTest;
-import com.minibeit.common.domain.FileType;
-import com.minibeit.common.domain.FileServer;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.common.component.file.S3Uploader;
+import com.minibeit.common.domain.FileServer;
+import com.minibeit.common.domain.FileType;
 import com.minibeit.common.dto.SavedFile;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.*;
@@ -46,8 +46,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 
 @DisplayName("비즈니스 프로필 Post Service 생성, 수정, 삭제 흐름 테스트")
 class PostByBusinessServiceTest extends ServiceIntegrationTest {
@@ -206,7 +204,7 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
         PostFile createdPostFile = PostFile.create(post, savedFile);
         postFile = postFileRepository.save(createdPostFile);
 
-        PostLike createdPostLike = PostLike.create(createdPost,userInBusinessProfile);
+        PostLike createdPostLike = PostLike.create(createdPost, userInBusinessProfile);
         postLike = postLikeRepository.save(createdPostLike);
 
         PostDoDate createdPostDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
@@ -230,46 +228,32 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
 
     @Test
     @DisplayName("게시물 생성 - 성공")
-    void createInfo() {
-        PostResponse.OnlyId response = postByBusinessService.createInfo(createInfoRequest, userInBusinessProfile);
+    void createInfo() throws IOException {
+        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile file = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is.readAllBytes());
+        InputStream is2 = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile thumbnail = new MockMultipartFile("thumbnail", "thumbnail.jpg", "image/jpg", is2.readAllBytes());
 
+        given(s3Uploader.uploadFileList(any())).willReturn(Collections.singletonList(savedFile));
+        given(s3Uploader.upload(any())).willReturn(savedFile);
+
+        PostResponse.OnlyId response = postByBusinessService.create(createInfoRequest, Collections.singletonList(file), thumbnail, userInBusinessProfile);
         Post findPost = postRepository.findById(response.getId()).orElseThrow(PostNotFoundException::new);
 
         assertThat(findPost.getTitle()).isEqualTo(createInfoRequest.getTitle());
+        assertThat(findPost.getThumbnail()).isNotNull();
     }
 
     @Test
     @DisplayName("게시물 생성 - 실패(비즈니스프로필에 없는 유저)")
-    void createInfoNotBusinessProfile() {
-        assertThatThrownBy(() -> postByBusinessService.createInfo(createInfoRequest, anotherUser))
+    void createInfoNotBusinessProfile() throws IOException {
+        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile file = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is.readAllBytes());
+        InputStream is2 = new ClassPathResource("mock/images/enjoy.png").getInputStream();
+        MockMultipartFile thumbnail = new MockMultipartFile("thumbnail", "thumbnail.jpg", "image/jpg", is2.readAllBytes());
+
+        assertThatThrownBy(() -> postByBusinessService.create(createInfoRequest, Collections.singletonList(file), thumbnail, anotherUser))
                 .isExactlyInstanceOf(PermissionException.class);
-    }
-
-    @Test
-    @DisplayName("게시물에 파일 추가 - 성공")
-    void addFiles() throws IOException {
-        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
-        MockMultipartFile file = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is.readAllBytes());
-        PostRequest.AddFile addFileRequest = PostRequest.AddFile.builder().files(Collections.singletonList(file)).build();
-
-        given(s3Uploader.uploadFileList(any())).willReturn(Collections.singletonList(savedFile));
-
-        postByBusinessService.addFiles(post.getId(), addFileRequest, userInBusinessProfile);
-
-        verify(s3Uploader, times(1)).uploadFileList(any());
-    }
-
-    @Test
-    @DisplayName("게시물에 파일 추가 - 실패(게시물이 없는 경우)")
-    void addFilesNotFoundPost() throws IOException {
-        InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
-        MockMultipartFile file = new MockMultipartFile("files", "avatar.jpg", "image/jpg", is.readAllBytes());
-        PostRequest.AddFile addFileRequest = PostRequest.AddFile.builder().files(Collections.singletonList(file)).build();
-
-        given(s3Uploader.uploadFileList(any())).willReturn(Collections.singletonList(savedFile));
-
-        assertThatThrownBy(() -> postByBusinessService.addFiles(9999L, addFileRequest, userInBusinessProfile))
-                .isExactlyInstanceOf(PostNotFoundException.class);
     }
 
     @Test

@@ -279,7 +279,7 @@ class UserControllerTest extends MvcTest {
         response.add(UserResponse.IdAndNickname.build(user1));
         given(userService.getListInBusinessProfile(any())).willReturn(response);
 
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/user/list/business/profile/{businessProfileId}", 1));
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/users/business-profile/{businessProfileId}", 1));
 
         results.andExpect(status().isOk())
                 .andDo(print())

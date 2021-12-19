@@ -20,9 +20,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
-import java.time.YearMonth;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +40,7 @@ public class PostByBusinessService {
     private final S3Uploader s3Uploader;
     private final PostFileRepository postFileRepository;
 
-    public PostResponse.OnlyId createInfo(PostRequest.CreateInfo request, User user) {
+    public PostResponse.OnlyId create(PostRequest.CreateInfo request, List<MultipartFile> files, MultipartFile thumbnail, User user) {
         postPermissionCheck.userInBusinessProfileCheck(request.getBusinessProfileId(), user);
 
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
@@ -52,24 +52,19 @@ public class PostByBusinessService {
         List<PostDoDate> postDoDateList = request.getDoDateList().stream().map(doDate -> PostDoDate.create(doDate.getDoDate(), post)).collect(Collectors.toList());
         postDoDateRepository.saveAll(postDoDateList);
 
-        return PostResponse.OnlyId.build(savedPost);
-    }
-
-    public PostResponse.OnlyId addFiles(Long postId, PostRequest.AddFile request, User user) {
-        Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
-        postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
-        if (request.getThumbnail() != null) {
-            SavedFile uploadedThumbnail = s3Uploader.upload(request.getThumbnail());
-            PostFile thumbnail = PostFile.create(post, uploadedThumbnail);
-            post.updateThumbnail(thumbnail.getUrl());
-            postFileRepository.save(thumbnail);
+        if (thumbnail != null) {
+            SavedFile uploadedThumbnail = s3Uploader.upload(thumbnail);
+            PostFile createdThumbnail = PostFile.create(post, uploadedThumbnail);
+            post.updateThumbnail(createdThumbnail.getUrl());
+            postFileRepository.save(createdThumbnail);
         }
-        if (request.getFiles() != null) {
-            List<SavedFile> savedFiles = s3Uploader.uploadFileList(request.getFiles());
+        if (files != null) {
+            List<SavedFile> savedFiles = s3Uploader.uploadFileList(files);
             List<PostFile> postFiles = savedFiles.stream().map(savedFile -> PostFile.create(post, savedFile)).collect(Collectors.toList());
             postFileRepository.saveAll(postFiles);
         }
-        return PostResponse.OnlyId.build(post);
+
+        return PostResponse.OnlyId.build(savedPost);
     }
 
     public void recruitmentCompleted(Long postId, PostRequest.RejectComment request, User user) {

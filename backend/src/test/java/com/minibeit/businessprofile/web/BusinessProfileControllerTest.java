@@ -115,7 +115,7 @@ class BusinessProfileControllerTest extends MvcTest {
         given(businessProfileService.create(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(
-                multipart("/api/business/profile")
+                multipart("/api/business-profile")
                         .file(avatar)
                         .param("name", "동그라미 실험실")
                         .param("place", "고려대")
@@ -158,7 +158,7 @@ class BusinessProfileControllerTest extends MvcTest {
 
         given(businessProfileService.getListIsMine(any())).willReturn(getLists);
 
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/mine/list"));
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business-profiles/mine"));
 
         results.andExpect(status().isOk())
                 .andDo(print())
@@ -181,7 +181,7 @@ class BusinessProfileControllerTest extends MvcTest {
 
         given(businessProfileService.getOne(any(), any())).willReturn(response);
 
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business/profile/{businessProfileId}", 1));
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/business-profile/{businessProfileId}", 1));
 
         results.andExpect(status().isOk())
                 .andDo(print())
@@ -216,7 +216,7 @@ class BusinessProfileControllerTest extends MvcTest {
         given(businessProfileService.update(any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .fileUpload("/api/business/profile/{businessProfileId}", 1)
+                .fileUpload("/api/business-profile/{businessProfileId}", 1)
                 .file(avatar)
                 .param("name", "네모 실험실")
                 .param("place", "네모 대학교")
@@ -255,7 +255,7 @@ class BusinessProfileControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 삭제 문서화")
     public void delete() throws Exception {
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.delete("/api/business/profile/{businessProfileId}", 1));
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.delete("/api/business-profile/{businessProfileId}", 1));
 
         results.andExpect(status().isOk())
                 .andDo(print())
@@ -275,7 +275,7 @@ class BusinessProfileControllerTest extends MvcTest {
     @DisplayName("비즈니스 프로필 공유(초대) 문서화")
     public void shareBusinessProfile() throws Exception {
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/business/profile/{businessProfileId}/share/{userId}", 1, 1));
+                .post("/api/business-profile/{businessProfileId}/share/{userId}", 1, 1));
 
         results.andExpect(status().isOk())
                 .andDo(print())
@@ -293,10 +293,10 @@ class BusinessProfileControllerTest extends MvcTest {
     }
 
     @Test
-    @DisplayName("비즈니스 프로필 공유 삭제 문서화")
+    @DisplayName("비즈니스 프로필 추방 문서화")
     public void cancelShare() throws Exception {
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .delete("/api/business/profile/{businessProfileId}/expel/{userId}", 1, 2));
+                .delete("/api/business-profile/{businessProfileId}/user/{userId}", 1, 2));
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("business-profile-share-cancel",
@@ -313,10 +313,29 @@ class BusinessProfileControllerTest extends MvcTest {
     }
 
     @Test
+    @DisplayName("비즈니스 프로필 탈퇴 문서화")
+    public void goOut() throws Exception {
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .delete("/api/business-profile/{businessProfileId}/user", 1, 2));
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("business-profile-go-out",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data").description("data 없다면 null")
+                        )
+                ));
+    }
+
+    @Test
     @DisplayName("권한 양도 문서화")
     public void transferOfAuthority() throws Exception {
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .post("/api/business/profile/{businessProfileId}/change/{userId}", 1, 1));
+                .post("/api/business-profile/{businessProfileId}/change/{userId}", 1, 1));
 
         results.andExpect(status().isOk())
                 .andDo(print())

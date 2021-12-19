@@ -1,4 +1,4 @@
-POST {{apiUrl}}/business/profile
+POST {{apiUrl}}/business-profile
 Authorization: {{authorizationToken}}
 Content-Type: multipart/form-data; boundary=boundary
 
@@ -25,15 +25,15 @@ Content-Disposition: form-data; name="contact";
 #< ./../main/resources/mock/images/enjoy.png
 
 ###
-GET {{apiUrl}}/business/profile/mine/list
+GET {{apiUrl}}/business-profiles/mine
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/business/profile/1
+GET {{apiUrl}}/business-profile/1
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business/profile/1
+POST {{apiUrl}}/business-profile/1
 Content-Type: multipart/form-data; boundary=boundary
 Authorization: {{authorizationToken}}
 
@@ -63,17 +63,21 @@ Content-Disposition: form-data; name="avatarChanged";
 true
 
 ###
-DELETE {{apiUrl}}/business/profile/2
+DELETE {{apiUrl}}/business-profile/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business/profile/1/share/3
+POST {{apiUrl}}/business-profile/1/share/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 ###
-DELETE {{apiUrl}}/business/profile/1/expel/4
+DELETE {{apiUrl}}/business-profile/1/user/1
+Authorization: {{authorizationToken}}
+
+###
+DELETE {{apiUrl}}/business-profile/1/user
 Authorization: {{authorizationToken}}
 
 ###

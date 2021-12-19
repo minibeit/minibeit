@@ -1,6 +1,8 @@
 package com.minibeit.post.domain;
 
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.post.service.exception.DuplicateApplyException;
+import com.minibeit.post.service.exception.PostDoDateIsFullException;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
@@ -77,7 +79,9 @@ public class PostApplicant extends BaseEntity {
         return false;
     }
 
-    public static PostApplicant create(PostDoDate postDoDate, User user) {
+    public static PostApplicant create(PostDoDate postDoDate, User user, List<Long> postApplicantUserIdList) {
+        duplicateValidation(user, postApplicantUserIdList);
+        doDateIsFullValidation(postDoDate);
         PostApplicant postApplicant = PostApplicant.builder()
                 .user(user)
                 .businessFinish(true)
@@ -86,5 +90,17 @@ public class PostApplicant extends BaseEntity {
                 .build();
         postApplicant.setPostDoDate(postDoDate);
         return postApplicant;
+    }
+
+    private static void doDateIsFullValidation(PostDoDate postDoDate) {
+        if (!postDoDate.applyIsPossible(postDoDate.getPost())) {
+            throw new PostDoDateIsFullException();
+        }
+    }
+
+    private static void duplicateValidation(User user, List<Long> postApplicantUserIdList) {
+        if (postApplicantUserIdList.contains(user.getId())) {
+            throw new DuplicateApplyException();
+        }
     }
 }

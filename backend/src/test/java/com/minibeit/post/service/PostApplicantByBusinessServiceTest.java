@@ -217,27 +217,27 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
         PostDoDate postDoDate4 = PostDoDate.create(LocalDateTime.of(2021, 10, 4, 10, 0), recruitPost2);
         recruitPostPostDoDate3 = postDoDateRepository.save(postDoDate4);
 
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1);
+        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1, List.of(0L));
         postApplicantApplyUser = postApplicantRepository.save(postApplicant1);
 
-        PostApplicant postApplicant2 = PostApplicant.create(postDoDate1, rejectUser);
+        PostApplicant postApplicant2 = PostApplicant.create(postDoDate1, rejectUser, List.of(0L));
         postApplicantRepository.save(postApplicant2);
 
-        PostApplicant postApplicant3 = PostApplicant.create(postDoDate2, applyUser2);
+        PostApplicant postApplicant3 = PostApplicant.create(postDoDate2, applyUser2, List.of(0L));
         postApplicantRepository.save(postApplicant3);
 
-        PostApplicant postApplicant4 = PostApplicant.create(postDoDate4, approvedUser);
+        PostApplicant postApplicant4 = PostApplicant.create(postDoDate4, approvedUser, List.of(0L));
         postApplicant4.updateStatus(ApplyStatus.APPROVE);
         postApplicantRepository.save(postApplicant4);
 
-        PostApplicant postApplicant5 = PostApplicant.create(postDoDate3, approvedUser);
+        PostApplicant postApplicant5 = PostApplicant.create(postDoDate3, approvedUser, List.of(0L));
 
         postApplicantRepository.save(postApplicant5);
 
         List<PostApplicant> postApplicants = Collections.singletonList(postApplicant3);
         postDoDate2.updateFull(postApplicants);
 
-        PostApplicant postApplicant6 = PostApplicant.create(postDoDate3, notAttendUser);
+        PostApplicant postApplicant6 = PostApplicant.create(postDoDate3, notAttendUser, List.of(0L));
         postApplicantRepository.save(postApplicant6);
     }
 

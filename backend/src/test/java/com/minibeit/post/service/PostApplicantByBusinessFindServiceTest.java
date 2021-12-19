@@ -178,23 +178,23 @@ public class PostApplicantByBusinessFindServiceTest extends ServiceIntegrationTe
         postDoDateRepository.save(postDoDate2);
 
 
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, rejectUser1);
+        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, rejectUser1, List.of(0L));
         postApplicant1.updateStatus(ApplyStatus.REJECT);
         postApplicantRepository.save(postApplicant1);
-        PostApplicant postApplicant2 = PostApplicant.create(postDoDate1, rejectUser2);
+        PostApplicant postApplicant2 = PostApplicant.create(postDoDate1, rejectUser2, List.of(0L));
         postApplicant2.updateStatus(ApplyStatus.REJECT);
         postApplicantRepository.save(postApplicant2);
-        PostApplicant postApplicant3 = PostApplicant.create(postDoDate1, approveUser1);
+        PostApplicant postApplicant3 = PostApplicant.create(postDoDate1, approveUser1, List.of(0L));
         postApplicant3.updateStatus(ApplyStatus.APPROVE);
         postApplicantRepository.save(postApplicant3);
-        PostApplicant postApplicant4 = PostApplicant.create(postDoDate1, approveUser2);
+        PostApplicant postApplicant4 = PostApplicant.create(postDoDate1, approveUser2, List.of(0L));
         postApplicant4.updateStatus(ApplyStatus.APPROVE);
         postApplicantRepository.save(postApplicant4);
-        PostApplicant postApplicant5 = PostApplicant.create(postDoDate1, waitUser);
+        PostApplicant postApplicant5 = PostApplicant.create(postDoDate1, waitUser, List.of(0L));
         postApplicantRepository.save(postApplicant5);
-        PostApplicant postApplicant6 = PostApplicant.create(postDoDate2, waitUser);
+        PostApplicant postApplicant6 = PostApplicant.create(postDoDate2, waitUser, List.of(0L));
         postApplicantRepository.save(postApplicant6);
-        PostApplicant postApplicant7 = PostApplicant.create(postDoDate2, approveUser1);
+        PostApplicant postApplicant7 = PostApplicant.create(postDoDate2, approveUser1, List.of(0L));
         postApplicant7.updateStatus(ApplyStatus.APPROVE);
         postApplicantRepository.save(postApplicant7);
     }

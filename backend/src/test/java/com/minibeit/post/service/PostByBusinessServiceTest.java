@@ -214,14 +214,14 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
         postDoDate2 = postDoDateRepository.save(createdPostDoDate2);
         postDoDate3 = postDoDateRepository.save(createdPostDoDate3);
 
-        approvePostApplicant1 = PostApplicant.create(postDoDate1, approveUser1);
+        approvePostApplicant1 = PostApplicant.create(postDoDate1, approveUser1, List.of(0L));
         approvePostApplicant1.updateStatus(ApplyStatus.APPROVE);
-        approvePostApplicant2 = PostApplicant.create(postDoDate3, approveUser2);
+        approvePostApplicant2 = PostApplicant.create(postDoDate3, approveUser2, List.of(0L));
         approvePostApplicant2.updateStatus(ApplyStatus.APPROVE);
 
-        waitPostApplicant1 = PostApplicant.create(postDoDate2, waitUser3);
-        waitPostApplicant2 = PostApplicant.create(postDoDate3, waitUser1);
-        waitPostApplicant3 = PostApplicant.create(postDoDate3, waitUser2);
+        waitPostApplicant1 = PostApplicant.create(postDoDate2, waitUser3, List.of(0L));
+        waitPostApplicant2 = PostApplicant.create(postDoDate3, waitUser1, List.of(0L));
+        waitPostApplicant3 = PostApplicant.create(postDoDate3, waitUser2, List.of(0L));
 
         postApplicantRepository.saveAll(Arrays.asList(approvePostApplicant1, approvePostApplicant2, waitPostApplicant1, waitPostApplicant2, waitPostApplicant3));
     }

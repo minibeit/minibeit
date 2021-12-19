@@ -11,9 +11,7 @@ import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.dto.PostApplicantResponse;
-import com.minibeit.post.service.exception.DuplicateApplyException;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
-import com.minibeit.post.service.exception.PostDoDateIsFullException;
 import com.minibeit.post.service.exception.PostDoDateNotFoundException;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -38,14 +36,7 @@ public class PostApplicantService {
         PostDoDate postDoDate = postDoDateRepository.findByIdWithPostAndApplicant(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
         List<Long> postApplicantUserIdList = postDoDate.getPostApplicantList().stream().map(postApplicant -> postApplicant.getUser().getId()).collect(Collectors.toList());
 
-        if (postApplicantUserIdList.contains(user.getId())) {
-            throw new DuplicateApplyException();
-        }
-        if (!postDoDate.applyIsPossible(postDoDate.getPost())) {
-            throw new PostDoDateIsFullException();
-        }
-
-        PostApplicant postApplicant = PostApplicant.create(postDoDate, user);
+        PostApplicant postApplicant = PostApplicant.create(postDoDate, user, postApplicantUserIdList);
         postApplicantRepository.save(postApplicant);
 
         postLikeRepository.deleteByPostId(postDoDate.getPost().getId());

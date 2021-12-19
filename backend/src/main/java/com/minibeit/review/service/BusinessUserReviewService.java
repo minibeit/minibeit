@@ -58,7 +58,7 @@ public class BusinessUserReviewService {
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
             throw new PermissionException();
         }
-
+        //TODO: createWithUser()안으로 넣기
         if (!postApplicant.writeUserReviewIsPossible(now)) {
             throw new PermissionException();
         }

@@ -126,10 +126,10 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
         PostDoDate postDoDate3 = PostDoDate.create(LocalDateTime.of(2021, 10, 2, 9, 30), createdPost);
         PostDoDate postDoDate4 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
         postDoDateRepository.saveAll(Arrays.asList(postDoDate1, postDoDate2, postDoDate3, postDoDate4));
-        postApplicant1 = PostApplicant.create(postDoDate1, approveUser1);
-        postApplicant2 = PostApplicant.create(postDoDate2, approveUser2);
-        PostApplicant postApplicant3 = PostApplicant.create(postDoDate3, waitUser1);
-        PostApplicant postApplicant4 = PostApplicant.create(postDoDate4, waitUser2);
+        postApplicant1 = PostApplicant.create(postDoDate1, approveUser1, List.of(0L));
+        postApplicant2 = PostApplicant.create(postDoDate2, approveUser2, List.of(0L));
+        PostApplicant postApplicant3 = PostApplicant.create(postDoDate3, waitUser1, List.of(0L));
+        PostApplicant postApplicant4 = PostApplicant.create(postDoDate4, waitUser2, List.of(0L));
         postApplicant1.updateStatus(ApplyStatus.APPROVE);
         postApplicant2.updateStatus(ApplyStatus.APPROVE);
         postApplicantRepository.saveAll(Arrays.asList(postApplicant1, postApplicant2, postApplicant3, postApplicant4));

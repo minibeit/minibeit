@@ -147,7 +147,7 @@ public class PostFindServiceTest extends ServiceIntegrationTest {
         postDoDate = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost));
         PostLike postLike = PostLike.create(post, userInBusinessProfile);
         postLikeRepository.save(postLike);
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate, testUser);
+        PostApplicant postApplicant1 = PostApplicant.create(postDoDate, testUser, List.of(0L));
         postApplicantRepository.save(postApplicant1);
 
         PostRequest.CreateInfo createRequest2 = PostRequest.CreateInfo.builder()
@@ -177,7 +177,7 @@ public class PostFindServiceTest extends ServiceIntegrationTest {
         PostLike postLike2 = PostLike.create(post2, userInBusinessProfile);
         postLikeRepository.save(postLike2);
         PostDoDate postDoDate2 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 10, 3, 12, 30), post2));
-        PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, testUser);
+        PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, testUser, List.of(0L));
         postApplicant2.updateStatus(ApplyStatus.APPROVE);
         postApplicantRepository.save(postApplicant2);
 
@@ -206,7 +206,7 @@ public class PostFindServiceTest extends ServiceIntegrationTest {
         Post post3 = postRepository.save(createdPost3);
 
         PostDoDate postDoDate3 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 9, 15, 12, 30), post3));
-        PostApplicant postApplicant3 = PostApplicant.create(postDoDate3, testUser);
+        PostApplicant postApplicant3 = PostApplicant.create(postDoDate3, testUser, List.of(0L));
         postApplicant3.updateStatus(ApplyStatus.COMPLETE);
         postApplicantRepository.save(postApplicant3);
     }

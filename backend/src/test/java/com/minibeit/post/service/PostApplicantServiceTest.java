@@ -198,7 +198,7 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
         recruitPostPostDoDate1 = postDoDateRepository.save(postDoDate1);
         recruitPostPostDoDate2 = postDoDateRepository.save(postDoDate2);
 
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1);
+        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1, List.of(0L));
         postApplicant1.updateStatus(ApplyStatus.APPROVE);
         postApplicantApplyUser = postApplicantRepository.save(postApplicant1);
     }
@@ -232,14 +232,14 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
         recruitPostPostDoDate1 = postDoDateRepository.save(postDoDate1);
         PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
         recruitPostPostDoDate2 = postDoDateRepository.save(postDoDate2);
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1);
+        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1, List.of(0L));
         postApplicant1.updateStatus(ApplyStatus.APPROVE);
         postApplicantApplyUser = postApplicantRepository.save(postApplicant1);
 
         List<PostApplicant> postApplicants = Collections.singletonList(postApplicantApplyUser);
         postDoDate1.updateFull(postApplicants);
 
-        PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, applyUser2);
+        PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, applyUser2, List.of(0L));
         postApplicant2.updateStatus(ApplyStatus.APPROVE);
         postApplicantRepository.save(postApplicant2);
     }

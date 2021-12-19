@@ -199,13 +199,13 @@ class UserServiceTest extends ServiceIntegrationTest {
         fullPostPostDoDate2 = postDoDateRepository.save(postDoDate2);
         recruitPostPostDoDate2 = postDoDateRepository.save(postDoDate3);
 
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1);
+        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1, List.of(0L));
         postApplicantApplyUser = postApplicantRepository.save(postApplicant1);
 
-        PostApplicant postApplicant2 = PostApplicant.create(postDoDate1, rejectUser);
+        PostApplicant postApplicant2 = PostApplicant.create(postDoDate1, rejectUser, List.of(0L));
         postApplicantRepository.save(postApplicant2);
 
-        PostApplicant postApplicant3 = PostApplicant.create(postDoDate2, applyUser2);
+        PostApplicant postApplicant3 = PostApplicant.create(postDoDate2, applyUser2, List.of(0L));
         postApplicantRepository.save(postApplicant3);
 
         List<PostApplicant> postApplicants = Collections.singletonList(postApplicant3);

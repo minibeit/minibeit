@@ -53,7 +53,9 @@ export const bprofileJoinDel = async (businessId, userId) => {
   );
 };
 export const getBPusergroup = async (businessId) => {
-  return await withAuthInstance.get("/api/users/business-profile" + businessId);
+  return await withAuthInstance.get(
+    "/api/users/business-profile/" + businessId
+  );
 };
 export const getSearchUser = async (input) => {
   return await withAuthInstance.get(API_USER + "search?nickname=" + input);

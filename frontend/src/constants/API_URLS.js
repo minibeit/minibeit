@@ -3,7 +3,7 @@ const API_URLS = {
   API_POSTS: "/api/posts/",
   API_POST: "/api/post/",
   API_USER: "/api/user/",
-  API_BUSINESS: "/api/business/",
+  API_BUSINESS: "/api/business-profile/",
   API_SCHOOL: "/api/school/",
   API_MAIL: "/api/mail/user/",
   API_REJECTPOST: "/api/rejectPost/",

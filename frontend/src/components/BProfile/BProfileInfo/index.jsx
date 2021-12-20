@@ -6,11 +6,13 @@ import BProfileEditModal from "./BProfileEditModal";
 import BProfileUserModal from "./BProfileUserModal";
 
 import * as S from "../style";
+import { useHistory } from "react-router-dom";
 
 export default function BProfileInfo({ businessId }) {
   const [bProfileInfo, setBProfileInfo] = useState();
   const [infoEditModal, setInfoEditModal] = useState(false);
   const [userListModal, setUserListModal] = useState(false);
+  const history = useHistory();
 
   const getBusiness = useCallback(() => {
     getBprofileInfo(businessId).then((res) => {
@@ -33,27 +35,15 @@ export default function BProfileInfo({ businessId }) {
               <PVImg img="/images/기본프로필.png" />
             )}
           </S.ImgBox>
+          <S.ChangeBProfile
+            onClick={() => {
+              history.push("/profile?business");
+            }}
+          >
+            프로필 전환하기
+          </S.ChangeBProfile>
           <S.UserInfoData>
-            <div>
-              <span>이름</span>
-              <span>{bProfileInfo.name}</span>
-            </div>
-            <div>
-              <span>담당자</span>
-              <span>{bProfileInfo.adminNickname}</span>
-            </div>
-            <div>
-              <span>주소</span>
-              <span>{bProfileInfo.place && "등록완료"}</span>
-            </div>
-            <div>
-              <span>소속인원</span>
-              <span>{bProfileInfo.numberOfEmployees}명</span>
-            </div>
-            <div>
-              <span>전화번호</span>
-              <span>{bProfileInfo.contact}</span>
-            </div>
+            <p>{bProfileInfo.name}</p> <p>님</p>
           </S.UserInfoData>
           {bProfileInfo.admin && (
             <S.InfoEditBtn
@@ -61,7 +51,7 @@ export default function BProfileInfo({ businessId }) {
                 setInfoEditModal(true);
               }}
             >
-              수정하기
+              비즈니스 프로필 보기
             </S.InfoEditBtn>
           )}
           {infoEditModal && (
@@ -73,7 +63,7 @@ export default function BProfileInfo({ businessId }) {
           )}
           {bProfileInfo.admin && (
             <S.UserListBtn onClick={() => setUserListModal(true)}>
-              소속인원 목록
+              소속인원 보기
             </S.UserListBtn>
           )}
           {userListModal && (

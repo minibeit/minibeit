@@ -39,6 +39,7 @@ export default function UserContainer({ view }) {
 
   const changeFeedData = useCallback(
     (page) => {
+      setFeedData();
       switch (view) {
         case "approve":
           getMyFeedList(page ? page : 1, "APPROVE").then((res) => {
@@ -86,7 +87,7 @@ export default function UserContainer({ view }) {
 
   return (
     <S.Container>
-      {view === "like" ? (
+      {view === "like" && feedData ? (
         <S.LikeFeedContainer>
           <div>관심공고 확인하기</div>
           <div>
@@ -177,33 +178,35 @@ export default function UserContainer({ view }) {
                 );
               })}
             </S.CategoryBtnBox>
-            <S.FeedGroup>
-              {feedData.length === 0 ? (
-                <S.NoneDiv>
-                  <PVImg img="/images/검색결과없음.png" />
-                  <S.WhiteButton onClick={() => history.push("/apply")}>
-                    실험에 참여하러 가기
-                  </S.WhiteButton>
-                </S.NoneDiv>
-              ) : (
-                feedData.map((a, i) => (
-                  <FeedBox
-                    key={i}
-                    status={view}
-                    data={a}
-                    changeFeedData={changeFeedData}
+            {feedData && (
+              <S.FeedGroup>
+                {feedData.length === 0 ? (
+                  <S.NoneDiv>
+                    <PVImg img="/images/검색결과없음.png" />
+                    <S.WhiteButton onClick={() => history.push("/apply")}>
+                      실험에 참여하러 가기
+                    </S.WhiteButton>
+                  </S.NoneDiv>
+                ) : (
+                  feedData.map((a, i) => (
+                    <FeedBox
+                      key={i}
+                      status={view}
+                      data={a}
+                      changeFeedData={changeFeedData}
+                    />
+                  ))
+                )}
+                {feedData.length !== 0 && (
+                  <Pagination
+                    page={page}
+                    count={totalEle}
+                    setPage={setPage}
+                    onChange={(e) => changeFeedData(e)}
                   />
-                ))
-              )}
-              {feedData.length !== 0 && (
-                <Pagination
-                  page={page}
-                  count={totalEle}
-                  setPage={setPage}
-                  onChange={(e) => changeFeedData(e)}
-                />
-              )}
-            </S.FeedGroup>
+                )}
+              </S.FeedGroup>
+            )}
           </S.FeedContainer>
         </>
       )}

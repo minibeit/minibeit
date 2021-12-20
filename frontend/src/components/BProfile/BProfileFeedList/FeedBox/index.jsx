@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import moment from "moment";
 import { ReactComponent as StarIcon } from "../../../../svg/별.svg";
 import { useHistory } from "react-router";
 
@@ -31,140 +32,49 @@ export default function FeedBox({ status, data, changeFeedData }) {
       });
   };
   return (
-    <>
+    <S.FeedBox
+      onClick={() => history.push(`/apply/${data.id}`)}
+      status={status}
+      postStatus={data.postStatus}
+    >
       <S.FeedLabel status={status}>
         {status === "생성한 모집공고" && "모집중"}
         {status === "완료된 모집공고" && "모집완료"}
-        {status === "후기 모아보기" && "???"}
       </S.FeedLabel>
-      <S.FeedBox onClick={() => history.push(`/apply/${data.id}`)}>
+      <S.FeedImgView thumbnail={data.thumbnail}>
+        <S.FeedTitle>
+          <p>{data.title}</p>
+          <p>{data.businessName}</p>
+          <p>
+            {data.address &&
+              data.address.split(" ")[0] + " " + data.address.split(" ")[1]}
+          </p>
+        </S.FeedTitle>
+      </S.FeedImgView>
+      <S.FeedContentView>
         <div>
-          <img alt="썸네일" src="/images/기본프로필.png" />
-          <div>
-            <S.FeedTitle>
-              <div>
-                <StarIcon />
-                {data.likes}
-              </div>
-              <p>{data.title}</p>
-              <p>클모이랩</p>
-              <p>서울시 마포구</p>
-            </S.FeedTitle>
-          </div>
+          <p>날짜</p>
+          <p>
+            {moment(data.startDate).format("YYYY.MM.DD (dd)")}-
+            {moment(data.endDate).format("YYYY.MM.DD (dd)")}
+          </p>
         </div>
-        <S.FeedContentBox>
+        <div>
+          <p>총 모집 인원</p>
+          <p>{data.headcount} 명</p>
+        </div>
+        <div>
           {status === "생성한 모집공고" && (
             <>
-              <S.FeedInfo>
-                <div>
-                  날짜 <span>2021.08.30 ~ 2021.09.30</span>
-                </div>
-                <div>
-                  시간 <span>12:30 ~ 12:30</span>
-                </div>
-              </S.FeedInfo>
-              <S.FeedButton>
-                <span>모집 취소 혹은 완료를 원하시면 모집종료를 누르세요</span>
-                <div>
-                  <S.BlueBtn
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setManageModal(true);
-                    }}
-                  >
-                    참여자 관리
-                  </S.BlueBtn>
-                  <S.WhiteBtn
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setCloseModal(1);
-                    }}
-                  >
-                    모집종료
-                  </S.WhiteBtn>
-                </div>
-              </S.FeedButton>
+              <S.BlueButton>참여 완료</S.BlueButton>
+              <S.WhiteButton>참여 취소</S.WhiteButton>
             </>
           )}
           {status === "완료된 모집공고" && (
-            <>
-              <S.FeedInfo>
-                <div>
-                  날짜 <span>2021.08.30 ~ 2021.09.30</span>
-                </div>
-                <div>
-                  시간 <span>12:30 ~ 12:30</span>
-                </div>
-              </S.FeedInfo>
-              <S.FeedButton>
-                <span>
-                  남은 일정 취소 혹은 일정 완료를 원하시면, 이 버튼을 누르세요.
-                </span>
-                <div>
-                  <S.WhiteBtn
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setEndAlert(1);
-                    }}
-                  >
-                    일정종료
-                  </S.WhiteBtn>
-                </div>
-              </S.FeedButton>
-            </>
+            <S.WhiteButton>참여 취소</S.WhiteButton>
           )}
-          {status === "후기 모아보기" && (
-            <>
-              <S.FeedInfo>
-                <div>
-                  <span>후기 사라지는 거 보고 바꿀 예정</span>
-                </div>
-              </S.FeedInfo>
-              <S.FeedButton>
-                <div>
-                  <S.WhiteBtn onClick={(e) => e.stopPropagation()}>
-                    더보기
-                  </S.WhiteBtn>
-                </div>
-              </S.FeedButton>
-            </>
-          )}
-        </S.FeedContentBox>
-      </S.FeedBox>
-      {manageModal && (
-        <BManageModal
-          title={data.title}
-          postId={data.id}
-          setModalSwitch={setManageModal}
-        />
-      )}
-      {closeModal === 1 && (
-        <FeedCloseModal
-          postId={data.id}
-          closeModal={closeModal}
-          changeFeedData={changeFeedData}
-          setCloseModal={setCloseModal}
-        />
-      )}
-      {closeModal === 2 && (
-        <EndRecruting
-          changeFeedData={changeFeedData}
-          setCloseModal={setCloseModal}
-        />
-      )}
-      {endAlert === 1 && (
-        <AskEndSchedule
-          setEndAlert={setEndAlert}
-          deleteFeed={deleteFeed}
-          data={data}
-        />
-      )}
-      {endAlert === 2 && (
-        <EndSchedule
-          setEndAlert={setEndAlert}
-          changeFeedData={changeFeedData}
-        />
-      )}
-    </>
+        </div>
+      </S.FeedContentView>
+    </S.FeedBox>
   );
 }

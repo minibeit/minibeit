@@ -1,6 +1,15 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 /* Common */
+
+const fadeIn = keyframes`
+  from{
+    opacity:0
+  }
+  to{
+    opacity:1
+  }
+`;
 
 export const ProfilePage = styled.div`
   display: flex;
@@ -59,6 +68,7 @@ export const UserInfoContainer = styled.div`
     flex-direction: column;
     gap: 1rem;
     align-items: center;
+    animation: ${fadeIn} 0.7s ease-in;
   }
 `;
 export const UserNameBox = styled.div`
@@ -166,6 +176,7 @@ export const FeedGroup = styled.div`
   align-items: center;
   gap: 1.5rem;
   padding: 1rem;
+  animation: ${fadeIn} 0.7s ease-out;
 `;
 
 export const NoneDiv = styled.div`
@@ -297,6 +308,7 @@ export const FeedContentView = styled.div`
     flex: 1.5;
     display: flex;
     justify-content: flex-end;
+    gap: 1em;
   }
 `;
 

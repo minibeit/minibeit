@@ -1,6 +1,15 @@
-import styled from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 /* Common */
+
+const fadeIn = keyframes`
+  from{
+    opacity:0
+  }
+  to{
+    opacity:1
+  }
+`;
 
 export const ProfilePage = styled.div`
   display: flex;
@@ -49,288 +58,244 @@ export const SImgBox = styled(ImgBox)`
 /* user */
 
 export const UserInfoContainer = styled.div`
-  flex: 1.5;
-  padding: 1rem;
+  flex: 1;
+  margin: 2rem 1.5rem;
   min-width: 18rem;
-  margin-top: 1rem;
   & > div:first-child {
-    padding: 1rem;
+    border: 1px solid #c4c4c4;
+    border-radius: 1em;
+    padding: 2rem 1rem;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
     align-items: center;
+    animation: ${fadeIn} 0.7s ease-in;
   }
+`;
+export const ChangeBProfile = styled.div`
+  font-size: 0.8rem;
+  cursor: pointer;
+  color: #7c7c7c;
 `;
 export const UserInfoData = styled.div`
   display: flex;
-  width: -webkit-fill-available;
-  background: #f1f1f1;
-  flex-direction: column;
-  gap: 0.7rem;
-  border-radius: 1rem;
-  padding: 1.5rem;
-  margin-top: 1rem;
-  & > div {
-    display: flex;
-    align-items: flex-start;
-    font-size: 0.8rem;
-
-    & > span:first-child {
-      flex: 2.5;
-      ::before {
-        content: "•";
-        margin-right: 0.2rem;
-      }
-    }
-    & > span:nth-child(2) {
-      flex: 5;
-      max-height: 3.5rem;
-      ::before {
-        content: ":";
-        margin-right: 0.2rem;
-      }
-    }
+  gap: 0.5em;
+  & > p:first-child {
+    font-weight: bold;
+  }
+  & > p:nth-child(2) {
+    color: #c4c4c4;
+    font-weight: bold;
   }
 `;
 
-export const UserListBtn = styled.button`
+export const UserInfoBtn = styled.button`
   width: 100%;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 0.8rem;
-  background: #0642ff;
-  color: white;
+  padding: 0.7rem;
+  border-radius: 2rem;
+  color: black;
+  font-size: 1em;
   cursor: pointer;
 `;
-export const InfoEditBtn = styled(UserListBtn)`
-  background: #c4c4c4;
+export const InfoEditBtn = styled(UserInfoBtn)`
+  border: 1px solid #c4c4c4;
+  background: white;
 `;
+export const UserListBtn = styled(UserInfoBtn)`
+  border: none;
+  background: #f8f8f8;
+`;
+
 export const FeedContainer = styled.div`
-  flex: 3;
-  padding: 3rem;
+  flex: 3.5;
+  padding: 1rem 1rem 1rem 0;
 `;
 export const CategoryBtnBox = styled.div`
-  margin-top: 1rem;
-  padding: 1rem 0;
+  padding: 1rem;
+  margin-bottom: 1rem;
   & button {
     cursor: pointer;
     background: white;
     border: none;
+    border-bottom: 2px solid #c4c4c4;
     font-size: 1rem;
     font-weight: bold;
     color: #cccccc;
+    padding: 0.3em 0.5em;
   }
   & button:disabled {
     color: black;
-    text-decoration: underline;
-    text-decoration-color: #0642ff;
+    border-bottom: 2px solid #0642ff;
   }
 `;
 export const NoneDiv = styled.div`
-  width: 100%;
-  height: 20rem;
-  margin-top: 1rem;
-  background-color: #f1f1f1;
+  max-width: 30em;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  gap: 1rem;
-  border-radius: 1rem;
-  font-size: 0.9rem;
-  & > button {
-    max-width: 11rem;
-    line-height: 1.2rem;
-    padding: 0.3rem 0.5rem;
-    border-radius: 1.2rem;
-    border: none;
-    background: #0642ff;
-    color: #fff;
-    cursor: pointer;
-  }
-  & > p {
-    color: #acacac;
-  }
+  gap: 2em;
 `;
 export const FeedGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 1rem 0;
+  padding: 1rem;
+  animation: ${fadeIn} 0.7s ease-in;
 `;
 export const FeedBox = styled.div`
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
+  overflow: hidden;
   cursor: pointer;
-  height: 8rem;
-  gap: 1.5rem;
-  border: 1px solid #c4c4c4;
+  border: 1px solid #c4c4c480;
   box-sizing: content-box;
-  background: #fff;
-  border-radius: 1rem;
-  & > div:first-child {
-    width: 100%;
-    position: relative;
-    flex: 1;
-    transform: translateY(-1px);
-    & > img {
-      width: inherit;
-      border-radius: 14px 0 0 14px;
-      position: absolute;
-      object-fit: cover;
-      height: calc(8rem + 2px);
+  border-radius: 1em;
+  box-shadow: 2px 2px 12px 0px #00000033;
+  background: ${({ postStatus, status }) => {
+    if (status === "like" && postStatus === "COMPLETE") return "#b4b4b4";
+    else return "#fff";
+  }};
+  &:hover {
+    transform: scale(1.01);
+    & > div:first-child {
+      display: none;
     }
-    & > div:nth-child(2) {
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.4);
-      padding: 1rem 0;
-      z-index: 9;
-      position: absolute;
-      height: calc(6rem + 2px);
-      border-radius: 14px 0 0 14px;
-    }
-  }
-  & > div:nth-child(2) {
-    width: 100%;
-    flex: 1;
-    padding: 1rem 0;
   }
 `;
+
 export const FeedLabel = styled.div`
-  width: 3.7rem;
+  position: absolute;
+  transform: translate(0.3rem, -0.7rem);
+  z-index: 99;
   padding: 0.3rem;
   text-align: center;
-  background: #fff;
-  position: absolute;
-  z-index: 90;
-  border: ${({ status }) => {
-    return status === "생성한 모집공고"
-      ? "1px solid #1ae5da"
-      : "1px solid #7b68ff";
-  }};
   border-radius: 2rem;
-  transform: translate(15%, -50%);
-  color: ${({ status }) => {
-    return status === "생성한 모집공고" ? "#1ae5da" : "#7b68ff";
-  }};
+  ${({ status }) => {
+    if (status === "생성한 모집공고")
+      return css`
+        color: #7b68ff;
+        border: 1px solid #7b68ff;
+      `;
+    else if (status === "완료된 모집공고")
+      return css`
+        color: #16b4ab;
+        border: 1px solid #16b4ab;
+      `;
+    else return null;
+  }}
+  background: #fff;
   font-size: 0.85rem;
 `;
 
+export const FeedImgView = styled.div`
+  min-width: 50%;
+  background-image: ${({ thumbnail }) =>
+    thumbnail ? `url(${thumbnail})` : 'url("/images/기본프로필.png")'};
+  background-size: cover;
+  background-position: center;
+  flex: 1;
+`;
+
 export const FeedTitle = styled.div`
-  padding: 0.5rem 1.5rem 0;
-  color: #fff;
-  flex-direction: column;
   display: flex;
-  align-items: flex-start;
-  & > div:first-child {
-    display: flex;
-    font-size: 0.8rem;
-    height: 1rem;
-    align-items: baseline;
-    gap: 0.2rem;
-    & > svg {
-      width: 0.7rem;
-      path {
-        fill: #fff;
-      }
-    }
+  flex: 1;
+  height: 100%;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 0.3em;
+  padding: 2em;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 9;
+  & > p:first-child {
+    white-space: nowrap;
+    color: white;
+    font-size: 1.5rem;
   }
   & > p:nth-child(2) {
-    font-size: 1.1rem;
-    font-weight: 700;
-    white-space: pre-line;
-    height: 3rem;
+    white-space: nowrap;
+    color: white;
+    font-weight: bold;
+    margin-top: auto;
   }
   & > p:nth-child(3) {
-    font-weight: 600;
-    height: 1.2rem;
-    line-height: 1.1rem;
-    font-size: 0.9rem;
-  }
-  & > p:nth-child(4) {
-    font-size: 0.7rem;
-  }
-`;
-export const FeedContentBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 7rem;
-`;
-
-export const FeedInfo = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.4rem;
-  justify-content: flex-start;
-  padding-bottom: 1rem;
-  font-size: 0.75rem;
-  & > div {
-    display: flex;
-    align-items: baseline;
-    & span {
-      margin-left: 0.5rem;
-      font-weight: 600;
-    }
-  }
-`;
-
-export const FeedButton = styled.div`
-  :hover {
-    & > span {
-      visibility: visible;
-      opacity: 1;
-    }
-  }
-  & > div {
-    margin: 0 1rem 0.6rem 0;
-    display: flex;
-    justify-content: end;
-    gap: 1rem;
-    & > button {
-      width: 7.5rem;
-    }
-  }
-
-  & > span {
-    position: absolute;
-    transform: translate(6rem, -2rem);
-    background-color: #fff;
-    border: 1px solid #ddd;
-    color: #0642ff;
+    white-space: nowrap;
+    color: white;
     font-size: 0.8rem;
-    padding: 0.3rem 0.5rem;
-    border-radius: 10px;
-    visibility: hidden;
-    opacity: 0;
+    font-weight: 100;
   }
 `;
 
-export const WhiteBtn = styled.button`
-  color: #0642ff;
-  background-color: #fff;
-  border: 1px solid #0642ff;
-  padding: 0.3rem 0.5rem;
-  border-radius: 1rem;
+export const FeedContentView = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: -webkit-fill-available;
+  height: -webkit-fill-available;
+  padding: 0.8em;
+  gap: 0.5em;
+  & > div:first-child {
+    flex: 1;
+    display: flex;
+    gap: 0.5em;
+    & > p {
+      font-size: 0.85em;
+      white-space: nowrap;
+    }
+    & > p:nth-child(2) {
+      font-weight: bold;
+    }
+  }
+  & > div:nth-child(2) {
+    min-height: 3em;
+    display: flex;
+    gap: 0.5em;
+    & > p {
+      font-size: 0.85em;
+      white-space: nowrap;
+    }
+    & > p:nth-child(2) {
+      font-weight: bold;
+    }
+  }
+  & > div:nth-child(3) {
+    flex: 1.5;
+    display: flex;
+    justify-content: flex-end;
+    gap: 1em;
+  }
+`;
+
+export const FeedButton = styled.button`
+  border-radius: 2rem;
+  font-size: 1.3rem;
+  width: 47%;
   cursor: pointer;
-  position: relative;
-  font-weight: 600;
-  &:disabled {
-    cursor: default;
-    color: #7c7c7c;
-    border: 1px solid #7c7c7c;
+  padding: 0.2em 0;
+  white-space: nowrap;
+  gap: 1rem;
+`;
+
+export const WhiteButton = styled(FeedButton)`
+  background: #ffffff;
+  border: 1px solid #0642ff;
+  color: #0642ff;
+  &:hover {
+    background: #0642ff;
+    border: 1px solid #ffffff;
+    color: #ffffff;
   }
 `;
 
-export const BlueBtn = styled(WhiteBtn)`
-  color: #fff;
-  background-color: #0642ff;
-  &:disabled {
-    background: #c4c4c4;
-    cursor: default;
-    color: #7c7c7c;
-    border: none;
+export const BlueButton = styled(FeedButton)`
+  background: #0642ff;
+  border: 1px solid white;
+  color: white;
+  &:hover {
+    background: white;
+    border: 1px solid #0642ff;
+    color: #0642ff;
   }
 `;
 

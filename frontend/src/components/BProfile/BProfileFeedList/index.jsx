@@ -4,7 +4,7 @@ import { useHistory } from "react-router";
 
 import FeedBox from "./FeedBox";
 
-import { Pagination } from "../../Common";
+import { Pagination, PVImg } from "../../Common";
 
 import * as S from "../style";
 
@@ -17,6 +17,7 @@ export default function BProfileInfo({ businessId }) {
 
   const changeFeedData = useCallback(
     (status, page) => {
+      setFeedData();
       switch (status) {
         case "생성한 모집공고":
           getMakelistApi(businessId, page ? page : 1, "RECRUIT").then((res) => {
@@ -67,38 +68,36 @@ export default function BProfileInfo({ businessId }) {
           );
         })}
       </S.CategoryBtnBox>
-      <S.FeedGroup>
-        {feedData.length === 0 ? (
-          <S.NoneDiv>
-            <p>아직 {feedSwitch}가 없네요.</p>
-            {feedSwitch !== "생성한 모집공고" && (
-              <p>먼저 모집공고를 올려보세요.</p>
-            )}
-            <button onClick={() => history.push("/recruit")}>
-              모집공고 게시하기
-            </button>
-          </S.NoneDiv>
-        ) : (
-          feedData.map((a) => (
-            <div key={a.id}>
-              <FeedBox
-                status={feedSwitch}
-                data={a}
-                changeFeedData={changeFeedData}
-              />
-            </div>
-          ))
-        )}
-
-        {feedData.length !== 0 && (
-          <Pagination
-            page={page}
-            count={totalEle}
-            setPage={setPage}
-            onChange={(e) => changeFeedData(feedSwitch, e)}
-          />
-        )}
-      </S.FeedGroup>
+      {feedData && (
+        <S.FeedGroup>
+          {feedData.length === 0 ? (
+            <S.NoneDiv>
+              <PVImg img="/images/검색결과없음.png" />
+              <S.WhiteButton onClick={() => history.push("/recruit")}>
+                실험자 모집하러 가기
+              </S.WhiteButton>
+            </S.NoneDiv>
+          ) : (
+            feedData.map((a) => (
+              <div key={a.id}>
+                <FeedBox
+                  status={feedSwitch}
+                  data={a}
+                  changeFeedData={changeFeedData}
+                />
+              </div>
+            ))
+          )}
+          {feedData.length !== 0 && (
+            <Pagination
+              page={page}
+              count={totalEle}
+              setPage={setPage}
+              onChange={(e) => changeFeedData(feedSwitch, e)}
+            />
+          )}
+        </S.FeedGroup>
+      )}
     </>
   );
 }

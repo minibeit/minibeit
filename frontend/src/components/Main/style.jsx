@@ -20,6 +20,8 @@ export const MainBox = styled.div`
   width: 100vw;
   height: calc(100vh - 3.5rem);
   position: relative;
+  animation: ${fadeIn} 2s ease-in;
+
   & > img {
     width: inherit;
     height: calc(100vh - 3.5rem);

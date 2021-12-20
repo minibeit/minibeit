@@ -157,25 +157,22 @@ public class PostResponse {
     public static class GetLikeList {
         private Long id;
         private String title;
-        private String place;
+        private String thumbnail;
         private String payment;
-        private String goods;
-        private Integer cache;
         private boolean recruitCondition;
         private Integer doTime;
-        private String postStatus;
+        private PostDto.BusinessProfileSimpleInfo businessProfile;
+
 
         public static PostResponse.GetLikeList build(Post post) {
             return GetLikeList.builder()
                     .id(post.getId())
                     .title(post.getTitle())
-                    .place(post.getPlace())
+                    .thumbnail(post.getThumbnail())
                     .payment(post.getPayment().name())
-                    .goods(post.getPaymentGoods())
-                    .cache(post.getPaymentCache())
                     .recruitCondition(post.isRecruitCondition())
                     .doTime(post.getDoTime())
-                    .postStatus(post.getPostStatus().name())
+                    .businessProfile(PostDto.BusinessProfileSimpleInfo.build(post.getBusinessProfile().getId(), post.getBusinessProfile().getName()))
                     .build();
         }
     }

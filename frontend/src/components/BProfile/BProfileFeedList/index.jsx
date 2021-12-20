@@ -78,14 +78,13 @@ export default function BProfileInfo({ businessId }) {
               </S.WhiteButton>
             </S.NoneDiv>
           ) : (
-            feedData.map((a) => (
-              <div key={a.id}>
-                <FeedBox
-                  status={feedSwitch}
-                  data={a}
-                  changeFeedData={changeFeedData}
-                />
-              </div>
+            feedData.map((a, i) => (
+              <FeedBox
+                key={i}
+                status={feedSwitch}
+                data={a}
+                changeFeedData={changeFeedData}
+              />
             ))
           )}
           {feedData.length !== 0 && (

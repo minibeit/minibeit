@@ -76,6 +76,15 @@ export const ChangeBProfile = styled.div`
   font-size: 0.8rem;
   cursor: pointer;
   color: #7c7c7c;
+  display: flex;
+  gap: 0.5em;
+  & svg {
+    width: 0.8rem;
+    transform: rotate(270deg);
+    & path {
+      fill: #7c7c7c;
+    }
+  }
 `;
 export const UserInfoData = styled.div`
   display: flex;
@@ -138,9 +147,10 @@ export const NoneDiv = styled.div`
 export const FeedGroup = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1.5rem;
   padding: 1rem;
-  animation: ${fadeIn} 0.7s ease-in;
+  animation: ${fadeIn} 0.7s ease-out;
 `;
 export const FeedBox = styled.div`
   display: flex;
@@ -167,7 +177,7 @@ export const FeedBox = styled.div`
 export const FeedLabel = styled.div`
   position: absolute;
   transform: translate(0.3rem, -0.7rem);
-  z-index: 99;
+  z-index: 1;
   padding: 0.3rem;
   text-align: center;
   border-radius: 2rem;
@@ -208,19 +218,28 @@ export const FeedTitle = styled.div`
   box-sizing: border-box;
   background-color: rgba(0, 0, 0, 0.3);
   z-index: 9;
-  & > p:first-child {
-    white-space: nowrap;
+  & > div:first-child {
+    display: flex;
+    gap: 0.3em;
+    font-size: 0.9em;
+    color: white;
+    & svg {
+      width: 0.9em;
+      & path {
+        fill: white;
+      }
+    }
+  }
+  & > p:nth-child(2) {
     color: white;
     font-size: 1.5rem;
   }
-  & > p:nth-child(2) {
-    white-space: nowrap;
+  & > p:nth-child(3) {
     color: white;
     font-weight: bold;
     margin-top: auto;
   }
-  & > p:nth-child(3) {
-    white-space: nowrap;
+  & > p:nth-child(4) {
     color: white;
     font-size: 0.8rem;
     font-weight: 100;
@@ -232,7 +251,7 @@ export const FeedContentView = styled.div`
   flex-direction: column;
   flex: 1;
   width: -webkit-fill-available;
-  height: -webkit-fill-available;
+  height: auto;
   padding: 0.8em;
   gap: 0.5em;
   & > div:first-child {
@@ -248,7 +267,7 @@ export const FeedContentView = styled.div`
     }
   }
   & > div:nth-child(2) {
-    min-height: 3em;
+    min-height: 4em;
     display: flex;
     gap: 0.5em;
     & > p {
@@ -260,7 +279,7 @@ export const FeedContentView = styled.div`
     }
   }
   & > div:nth-child(3) {
-    flex: 1.5;
+    flex: 1;
     display: flex;
     justify-content: flex-end;
     gap: 1em;
@@ -271,6 +290,7 @@ export const FeedButton = styled.button`
   border-radius: 2rem;
   font-size: 1.3rem;
   width: 47%;
+  max-height: 2.5rem;
   cursor: pointer;
   padding: 0.2em 0;
   white-space: nowrap;

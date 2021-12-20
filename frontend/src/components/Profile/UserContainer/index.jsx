@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import {
   getMyRejectListApi,
   getMyFeedList,
@@ -9,9 +10,9 @@ import {
 import UserInfoEditModal from "./UserInfoEditModal";
 import FeedBox from "./FeedBox";
 
-import * as S from "../style";
+import { ReactComponent as ArrowIcon } from "../../../svg/체크.svg";
 import { PVImg, Pagination } from "../../Common";
-import { useHistory } from "react-router";
+import * as S from "../style";
 
 export default function UserContainer({ view }) {
   const history = useHistory();
@@ -89,6 +90,10 @@ export default function UserContainer({ view }) {
     <S.Container>
       {view === "like" && feedData ? (
         <S.LikeFeedContainer>
+          <div onClick={() => history.push("/profile?approve")}>
+            <ArrowIcon />
+            뒤로가기
+          </div>
           <div>관심공고 확인하기</div>
           <div>
             {feedData.map((a, i) => {
@@ -97,10 +102,12 @@ export default function UserContainer({ view }) {
                   key={i}
                   onClick={() => history.push(`/apply/${a.id}`)}
                 >
-                  <PVImg img={"/images/기본프로필.png"} />
+                  <S.FeedImgView thumbnail={a.thumbnail}>
+                    <div />
+                  </S.FeedImgView>
                   <S.LikeFeedInfo>
                     <div>{a.title}</div>
-                    <div>비즈니스 프로필 이름</div>
+                    <div>{a.businessProfile.name}</div>
                     <div>
                       <S.LikePayment payment={a.payment}>
                         {a.payment === "CACHE" ? "현금" : "물품"}

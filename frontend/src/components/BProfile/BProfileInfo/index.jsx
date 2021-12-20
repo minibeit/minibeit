@@ -1,12 +1,13 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { getBprofileInfo } from "../../../utils";
+import { ReactComponent as ArrowIcon } from "../../../svg/체크.svg";
 import { PVImg } from "../../Common";
 
 import BProfileEditModal from "./BProfileEditModal";
 import BProfileUserModal from "./BProfileUserModal";
 
 import * as S from "../style";
-import { useHistory } from "react-router-dom";
 
 export default function BProfileInfo({ businessId }) {
   const [bProfileInfo, setBProfileInfo] = useState();
@@ -41,6 +42,7 @@ export default function BProfileInfo({ businessId }) {
             }}
           >
             프로필 전환하기
+            <ArrowIcon />
           </S.ChangeBProfile>
           <S.UserInfoData>
             <p>{bProfileInfo.name}</p> <p>님</p>

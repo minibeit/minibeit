@@ -57,18 +57,11 @@ export default function InfoData({
     }
   };
 
-  const deleteImg = (e) => {
-    var target;
-    if (e.target.nodeName === "svg") {
-      target = e.target.parentNode;
-    } else if (e.target.nodeName === "path") {
-      target = e.target.parentNode.parentNode;
-    } else {
-      target = e.target;
-    }
+  const deleteImg = (idx) => {
     const copy = { ...recruit };
-    const targetFile = copy.images.find((ele) => ele.name === target.name);
-    copy.images.splice(copy.images.indexOf(targetFile), 1);
+    const imgArr = [...copy.images];
+    imgArr.splice(idx, 1);
+    copy.images = imgArr;
     setRecruit(copy);
   };
 

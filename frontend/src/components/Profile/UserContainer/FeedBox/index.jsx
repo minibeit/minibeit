@@ -47,18 +47,18 @@ export default function FeedBox({ status, data, changeFeedData }) {
   };
   return (
     <>
-      <S.FeedLabel status={status} postStatus={data.postStatus}>
-        {status === "approve" && "참여 확정"}
-        {status === "wait" && "참여 대기"}
-        {status === "complete" && "참여 완료"}
-        {status === "reject" && "참여 반려"}
-      </S.FeedLabel>
       <S.FeedBox
         onClick={() => history.push(`/apply/${data.id}`)}
         status={status}
         postStatus={data.postStatus}
       >
-        <S.FeedImgView>
+        <S.FeedLabel status={status} postStatus={data.postStatus}>
+          {status === "approve" && "참여 확정"}
+          {status === "wait" && "참여 대기"}
+          {status === "complete" && "참여 완료"}
+          {status === "reject" && "참여 반려"}
+        </S.FeedLabel>
+        <S.FeedImgView thumbnail={data.thumbnail}>
           <S.FeedTitle>
             <p>{data.title}</p>
             <p>
@@ -67,7 +67,8 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 : data.businessName}
             </p>
             <p>
-              {data.address.split(" ")[0] + " " + data.address.split(" ")[1]}
+              {data.address &&
+                data.address.split(" ")[0] + " " + data.address.split(" ")[1]}
             </p>
           </S.FeedTitle>
         </S.FeedImgView>

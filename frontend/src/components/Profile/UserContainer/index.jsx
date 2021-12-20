@@ -1,5 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { getMyRejectListApi, getMyFeedList, getMyInfo } from "../../../utils";
+import {
+  getMyRejectListApi,
+  getMyFeedList,
+  getMyInfo,
+  getMyLikeListApi,
+} from "../../../utils";
 
 import UserInfoEditModal from "./UserInfoEditModal";
 import FeedBox from "./FeedBox";
@@ -15,7 +20,7 @@ export default function UserContainer({ view }) {
   const [modalSwitch, setModalSwitch] = useState(false);
   const [page, setPage] = useState(1);
   const [totalEle, setTotalEle] = useState(0);
-  const [feedSwitch, setFeedSwitch] = useState("확정된 목록");
+  const [, setFeedSwitch] = useState("확정된 목록");
 
   const status = [
     { id: "approve", value: "확정된 목록" },
@@ -59,6 +64,12 @@ export default function UserContainer({ view }) {
             setFeedData(res.data.data.content);
           });
           break;
+        case "like":
+          getMyLikeListApi(page ? page : 1).then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+          });
+          break;
         default:
       }
     },
@@ -75,70 +86,34 @@ export default function UserContainer({ view }) {
 
   return (
     <S.Container>
-      <S.UserInfoContainer>
-        {userData && (
+      {view === "like" ? (
+        <S.LikeFeedContainer>
+          <div>관심공고 확인하기</div>
           <div>
-            <S.ImgBox>
-              {userData.avatar !== null ? (
-                <PVImg img={userData.avatar} />
-              ) : (
-                <PVImg img="/images/기본프로필.png" />
-              )}
-            </S.ImgBox>
-            <S.UserNameBox>
-              <p>{userData.name}</p> <p>님</p>
-            </S.UserNameBox>
-            <S.ProfileBtn onClick={() => setModalSwitch(true)}>
-              내 프로필 보기
-            </S.ProfileBtn>
-            <S.LikeBtn>관심공고 확인하기</S.LikeBtn>
-            {modalSwitch && (
-              <UserInfoEditModal
-                infoData={userData}
-                getUserData={getUserData}
-                setModalSwitch={setModalSwitch}
-              />
-            )}
+            {feedData.map((a, i) => {
+              return (
+                <S.LikeFeedBox
+                  key={i}
+                  onClick={() => history.push(`/apply/${a.id}`)}
+                >
+                  <PVImg img={"/images/기본프로필.png"} />
+                  <S.LikeFeedInfo>
+                    <div>{a.title}</div>
+                    <div>비즈니스 프로필 이름</div>
+                    <div>
+                      <S.LikePayment payment={a.payment}>
+                        {a.payment === "CACHE" ? "현금" : "물품"}
+                      </S.LikePayment>
+                      <div>{a.doTime}분</div>
+                    </div>
+                    <S.RecruitTag recruit={a.recruitCondition}>
+                      {a.recruitCondition ? "참여조건 있음" : "참여조건 없음"}
+                    </S.RecruitTag>
+                  </S.LikeFeedInfo>
+                </S.LikeFeedBox>
+              );
+            })}
           </div>
-        )}
-      </S.UserInfoContainer>
-      <S.FeedContainer>
-        <S.CategoryBtnBox>
-          {status.map((a, i) => {
-            return (
-              <button
-                key={i}
-                onClick={() => {
-                  setPage(1);
-                  setFeedSwitch(a.value);
-                  history.push(`/profile?${a.id}`);
-                }}
-                disabled={a.id === view ? true : false}
-              >
-                {a.value}
-              </button>
-            );
-          })}
-        </S.CategoryBtnBox>
-        <S.FeedGroup>
-          {feedData.length === 0 ? (
-            <S.NoneDiv>
-              <p>아직 {feedSwitch}이 존재하지 않습니다.</p>
-              <button onClick={() => history.push("/apply")}>
-                실험에 참여하러 가기
-              </button>
-            </S.NoneDiv>
-          ) : (
-            feedData.map((a, i) => (
-              <div key={i}>
-                <FeedBox
-                  status={view}
-                  data={a}
-                  changeFeedData={changeFeedData}
-                />
-              </div>
-            ))
-          )}
           {feedData.length !== 0 && (
             <Pagination
               page={page}
@@ -147,8 +122,91 @@ export default function UserContainer({ view }) {
               onChange={(e) => changeFeedData(e)}
             />
           )}
-        </S.FeedGroup>
-      </S.FeedContainer>
+        </S.LikeFeedContainer>
+      ) : (
+        <>
+          <S.UserInfoContainer>
+            {userData && (
+              <div>
+                <S.ImgBox>
+                  {userData.avatar !== null ? (
+                    <PVImg img={userData.avatar} />
+                  ) : (
+                    <PVImg img="/images/기본프로필.png" />
+                  )}
+                </S.ImgBox>
+                <S.UserNameBox>
+                  <p>{userData.name}</p> <p>님</p>
+                </S.UserNameBox>
+                <S.ProfileBtn onClick={() => setModalSwitch(true)}>
+                  내 프로필 보기
+                </S.ProfileBtn>
+                <S.LikeBtn
+                  onClick={() => {
+                    setPage(1);
+                    history.push(`/profile?like`);
+                  }}
+                >
+                  관심공고 확인하기
+                </S.LikeBtn>
+                {modalSwitch && (
+                  <UserInfoEditModal
+                    infoData={userData}
+                    getUserData={getUserData}
+                    setModalSwitch={setModalSwitch}
+                  />
+                )}
+              </div>
+            )}
+          </S.UserInfoContainer>
+          <S.FeedContainer>
+            <S.CategoryBtnBox>
+              {status.map((a, i) => {
+                return (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setPage(1);
+                      setFeedSwitch(a.value);
+                      history.push(`/profile?${a.id}`);
+                    }}
+                    disabled={a.id === view ? true : false}
+                  >
+                    {a.value}
+                  </button>
+                );
+              })}
+            </S.CategoryBtnBox>
+            <S.FeedGroup>
+              {feedData.length === 0 ? (
+                <S.NoneDiv>
+                  <PVImg img="/images/검색결과없음.png" />
+                  <S.WhiteButton onClick={() => history.push("/apply")}>
+                    실험에 참여하러 가기
+                  </S.WhiteButton>
+                </S.NoneDiv>
+              ) : (
+                feedData.map((a, i) => (
+                  <FeedBox
+                    key={i}
+                    status={view}
+                    data={a}
+                    changeFeedData={changeFeedData}
+                  />
+                ))
+              )}
+              {feedData.length !== 0 && (
+                <Pagination
+                  page={page}
+                  count={totalEle}
+                  setPage={setPage}
+                  onChange={(e) => changeFeedData(e)}
+                />
+              )}
+            </S.FeedGroup>
+          </S.FeedContainer>
+        </>
+      )}
     </S.Container>
   );
 }

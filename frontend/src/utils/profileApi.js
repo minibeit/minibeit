@@ -43,7 +43,7 @@ export const getMyRejectListApi = (page) => {
 };
 
 export const getMyLikeListApi = async (page) => {
-  return await withAuthInstance.get(API_POSTS + `like?page=${page}&size=5`);
+  return await withAuthInstance.get(API_POSTS + `like?page=${page}&size=6`);
 };
 
 export const deleteRejectedApi = (postId) => {

@@ -49,9 +49,8 @@ export const ImgBox = styled.div`
 
 export const UserInfoContainer = styled.div`
   flex: 1;
-  margin-left: 1.5rem;
+  margin: 2rem 1.5rem;
   min-width: 18rem;
-  margin-top: 2rem;
   & > div:first-child {
     border: 1px solid #c4c4c4;
     border-radius: 1em;
@@ -87,7 +86,55 @@ export const ProfileBtn = styled(UserInfoBtn)`
 `;
 export const LikeBtn = styled(UserInfoBtn)`
   border: none;
-  background: #f8f8f8; ;
+  background: #f8f8f8;
+`;
+
+export const LikeFeedContainer = styled.div`
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+  & > div:first-child {
+    font-size: 1.5rem;
+    font-weight: bold;
+    padding: 0.5em 0;
+    border-bottom: 1.5px solid #afafaf;
+  }
+  & > div:nth-child(2) {
+    padding: 1em 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1em;
+  }
+`;
+export const LikeFeedBox = styled.div`
+  min-width: 15em;
+  cursor: pointer;
+  height: fit-content;
+  & > div:first-child {
+    width: 100%;
+    height: 15em;
+    border-radius: 1em;
+  }
+`;
+export const LikeFeedInfo = styled.div`
+  padding: 0.5em 0;
+  & > div:first-child {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin: 0 0 1em 0;
+  }
+  & > div:nth-child(2) {
+    font-weight: bold;
+    margin: 0 0 0.8em 0;
+  }
+  & > div:nth-child(3) {
+    display: flex;
+    gap: 1em;
+    margin: 0 0 0.5em 0;
+  }
+`;
+export const LikePayment = styled.div`
+  color: ${({ payment }) => (payment === "CACHE" ? "#00BB34" : "#3558C7")};
 `;
 
 export const FeedContainer = styled.div`
@@ -113,45 +160,26 @@ export const CategoryBtnBox = styled.div`
   }
 `;
 
-export const NoneDiv = styled.div`
-  width: 100%;
-  height: 20rem;
-  margin-top: 1rem;
-  background-color: #f1f1f1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 1rem;
-  border-radius: 1rem;
-  font-size: 0.9rem;
-  & > button {
-    max-width: 11rem;
-    line-height: 1.2rem;
-    padding: 0.3rem 0.5rem;
-    border-radius: 1.2rem;
-    border: none;
-    background: #0642ff;
-    color: #fff;
-    cursor: pointer;
-  }
-  & > p {
-    color: #acacac;
-    line-height: 1.2rem;
-  }
-`;
 export const FeedGroup = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1.5rem;
   padding: 1rem;
+`;
+
+export const NoneDiv = styled.div`
+  max-width: 30em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2em;
 `;
 
 export const FeedBox = styled.div`
   display: flex;
   flex-wrap: wrap;
-  max-width: 100%;
+  width: 100%;
   overflow: hidden;
   cursor: pointer;
   border: 1px solid #c4c4c480;
@@ -164,6 +192,9 @@ export const FeedBox = styled.div`
   }};
   &:hover {
     transform: scale(1.01);
+    & > div:first-child {
+      display: none;
+    }
   }
 `;
 
@@ -208,7 +239,8 @@ export const FeedLabel = styled.div`
 
 export const FeedImgView = styled.div`
   min-width: 50%;
-  background-image: url("/images/기본프로필.png");
+  background-image: ${({ thumbnail }) =>
+    thumbnail ? `url(${thumbnail})` : 'url("/images/기본프로필.png")'};
   background-size: cover;
   background-position: center;
   flex: 1;

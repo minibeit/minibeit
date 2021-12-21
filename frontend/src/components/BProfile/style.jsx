@@ -370,3 +370,70 @@ export const AddBProfileBtn = styled.div`
     height: 3rem;
   }
 `;
+
+/* review page */
+export const ReviewImgBox = styled.div`
+  width: 100%;
+  min-height: 18em;
+  background: gray;
+`;
+export const ReviewBar = styled.div`
+  width: 100%;
+  min-width: 20em;
+  display: flex;
+`;
+export const ReviewItem = styled.div`
+  text-align: center;
+  width: ${({ width }) => width};
+  & > div:first-child {
+    height: 0.5em;
+    background: #0640ffae;
+    border: 1px solid white;
+  }
+`;
+export const ReviewInfo = styled.div`
+  display: ${({ view }) => view};
+  margin: auto;
+  width: fit-content;
+  & > p:first-child {
+    margin: 0.5em 0;
+    background: #0642ff1a;
+    padding: 0.2em 0.6em;
+    border-radius: 0.3em;
+    color: #0642ff;
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  & > p:nth-child(2) {
+    font-weight: bold;
+  }
+`;
+export const ReviewList = styled.div`
+  display: flex;
+  margin: 1em 0.5em;
+  gap: 0.5em;
+  & > div:nth-child(3) {
+  }
+`;
+export const ReviewTitle = styled.div`
+  display: flex;
+  gap: 0.5em;
+  & > p {
+    font-weight: bold;
+    color: #404040;
+  }
+`;
+export const ReviewCount = styled.div`
+  display: flex;
+  gap: 0.5em;
+  & svg {
+    width: 1rem;
+    & path {
+      fill: #0642ff;
+    }
+  }
+  & > p {
+    font-weight: bold;
+  }
+  margin-left: auto;
+`;

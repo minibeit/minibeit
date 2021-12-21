@@ -2,10 +2,13 @@ package com.minibeit.review.domain;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.common.exception.PermissionException;
+import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -35,7 +38,8 @@ public class BusinessUserReview extends BaseEntity {
         businessUserReviewDetail.getBusinessUserReviewList().add(this);
     }
 
-    public static BusinessUserReview createWithBusiness(BusinessProfile businessProfile, BusinessUserReviewDetail businessUserReviewDetail) {
+    public static BusinessUserReview createWithBusiness(BusinessProfile businessProfile, BusinessUserReviewDetail businessUserReviewDetail, PostApplicant postApplicant, LocalDateTime now) {
+        permissionValidation(postApplicant, now);
         BusinessUserReview businessReview = BusinessUserReview.builder()
                 .businessProfile(businessProfile)
                 .build();
@@ -43,12 +47,19 @@ public class BusinessUserReview extends BaseEntity {
         return businessReview;
     }
 
-    public static BusinessUserReview createWithUser(User applicantUser, BusinessUserReviewDetail businessUserReviewDetail) {
+    public static BusinessUserReview createWithUser(User applicantUser, BusinessUserReviewDetail businessUserReviewDetail, PostApplicant postApplicant, LocalDateTime now) {
+        permissionValidation(postApplicant, now);
         BusinessUserReview userReview = BusinessUserReview.builder()
                 .user(applicantUser)
                 .build();
         userReview.setBusinessUserReviewDetail(businessUserReviewDetail);
         return userReview;
+    }
+
+    private static void permissionValidation(PostApplicant postApplicant, LocalDateTime now) {
+        if (!postApplicant.writeUserReviewIsPossible(now)) {
+            throw new PermissionException();
+        }
     }
 }
 

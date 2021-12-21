@@ -5,6 +5,8 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
+import com.minibeit.post.domain.PostApplicant;
+import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.review.domain.BusinessUserReview;
 import com.minibeit.review.domain.BusinessUserReviewDetail;
 import com.minibeit.review.domain.BusinessUserReviewEvalType;
@@ -24,6 +26,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -93,11 +96,17 @@ public class BusinessUserReviewFindServiceTest extends ServiceIntegrationTest {
                 .admin(savedUser)
                 .build();
         businessProfile = businessProfileRepository.save(createdBusiness);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(savedUser, businessProfile,List.of(BusinessProfile.builder().build())));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(savedUser, businessProfile, List.of(BusinessProfile.builder().build())));
 
+        PostApplicant postApplicant1 = PostApplicant.builder()
+                .evaluatedBusiness(false)
+                .postDoDate(PostDoDate.builder().doDate(LocalDateTime.now()).build()).build();
+        PostApplicant postApplicant2 = PostApplicant.builder()
+                .evaluatedBusiness(false)
+                .postDoDate(PostDoDate.builder().doDate(LocalDateTime.now()).build()).build();
 
-        BusinessUserReview review1 = BusinessUserReview.createWithBusiness(businessProfile, businessGoodReview1);
-        BusinessUserReview review2 = BusinessUserReview.createWithBusiness(businessProfile, businessGoodReview2);
+        BusinessUserReview review1 = BusinessUserReview.createWithBusiness(businessProfile, businessGoodReview1, postApplicant1, LocalDateTime.now());
+        BusinessUserReview review2 = BusinessUserReview.createWithBusiness(businessProfile, businessGoodReview2, postApplicant2, LocalDateTime.now());
         businessUserReviewRepository.save(review1);
         businessUserReviewRepository.save(review2);
     }

@@ -40,13 +40,11 @@ public class BusinessUserReviewService {
 
     public BusinessUserReviewResponse.OnlyId createBusinessReview(Long businessProfileId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
-        if (!postApplicant.writeBusinessReviewIsPossible(now)) {
-            throw new PermissionException();
-        }
+
         postApplicant.updateWriteReview();
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);
-        BusinessUserReview businessUserReview = BusinessUserReview.createWithBusiness(businessProfile, businessUserReviewDetail);
+        BusinessUserReview businessUserReview = BusinessUserReview.createWithBusiness(businessProfile, businessUserReviewDetail, postApplicant, now);
         BusinessUserReview savedReview = businessUserReviewRepository.save(businessUserReview);
         return BusinessUserReviewResponse.OnlyId.build(savedReview);
     }
@@ -58,13 +56,9 @@ public class BusinessUserReviewService {
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
             throw new PermissionException();
         }
-        //TODO: createWithUser()안으로 넣기
-        if (!postApplicant.writeUserReviewIsPossible(now)) {
-            throw new PermissionException();
-        }
         postApplicant.updateEvaluatedBusiness();
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);
-        BusinessUserReview businessUserReview = BusinessUserReview.createWithUser(applicantUser, businessUserReviewDetail);
+        BusinessUserReview businessUserReview = BusinessUserReview.createWithUser(applicantUser, businessUserReviewDetail, postApplicant, now);
         BusinessUserReview review = businessUserReviewRepository.save(businessUserReview);
         return BusinessUserReviewResponse.OnlyId.build(review);
     }

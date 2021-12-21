@@ -58,7 +58,9 @@ export default function MainComponent() {
             참여하기
           </S.BlueButton>
         </div>
-        <img src="/images/main.png" alt="mainImg" />
+        <div>
+          <img src="/images/main.png" alt="mainImg" />
+        </div>
       </S.MainBox2>
       <S.MainBox3 id="2" data-aos="fade-in">
         <div>
@@ -67,7 +69,9 @@ export default function MainComponent() {
           </div>
           <S.BlueButton onClick={goRecruit}>모집하기</S.BlueButton>
         </div>
-        <img src="/images/main2.png" alt="mainImg" />
+        <div>
+          <img src="/images/main2.png" alt="mainImg" />
+        </div>
       </S.MainBox3>
       <S.LastBox id="3" data-aos="fade-in">
         <div>

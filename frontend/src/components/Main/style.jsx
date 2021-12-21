@@ -25,7 +25,7 @@ export const MainBox = styled.div`
   & > img {
     width: inherit;
     height: calc(100vh - 3.5rem);
-    object-fit: cover;
+    object-fit: contain;
     padding: 1rem 0;
     box-sizing: border-box;
     animation: ${fadeIn} 3s ease-in;
@@ -33,8 +33,8 @@ export const MainBox = styled.div`
   & > div {
     position: absolute;
     left: 50%;
-    top: 92%;
-    transform: translate(-50%, -92%);
+    top: 90%;
+    transform: translate(-50%, -90%);
     z-index: 9;
     display: flex;
     flex-direction: column;
@@ -93,13 +93,21 @@ export const MainBox2 = styled.div`
       }
     }
   }
-  & > img {
-    width: inherit;
+  & > div:nth-child(2) {
+    width: 70%;
+    top: 50%;
+    left: 50%;
+    margin: auto;
     position: relative;
-    height: calc(100vh - 3.5rem);
-    object-fit: contain;
-    padding: 4rem 0 2rem;
-    box-sizing: border-box;
+    transform: translate(-50%, -50%);
+    & > img {
+      width: inherit;
+      position: relative;
+      height: calc(100vh - 3.5rem);
+      object-fit: contain;
+      padding: 4rem 0 2rem;
+      box-sizing: border-box;
+    }
   }
 `;
 

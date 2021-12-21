@@ -56,7 +56,6 @@ public class BusinessUserReviewService {
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
             throw new PermissionException();
         }
-        postApplicant.updateEvaluatedBusiness();
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);
         BusinessUserReview businessUserReview = BusinessUserReview.createWithUser(applicantUser, businessUserReviewDetail, postApplicant, now);
         BusinessUserReview review = businessUserReviewRepository.save(businessUserReview);

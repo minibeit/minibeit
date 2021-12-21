@@ -87,6 +87,7 @@ public class PostApplicant extends BaseEntity {
                 .businessFinish(true)
                 .writeReview(false)
                 .applyStatus(ApplyStatus.WAIT)
+                .evaluatedBusiness(false)
                 .build();
         postApplicant.setPostDoDate(postDoDate);
         return postApplicant;

@@ -53,6 +53,7 @@ public class BusinessUserReview extends BaseEntity {
                 .user(applicantUser)
                 .build();
         userReview.setBusinessUserReviewDetail(businessUserReviewDetail);
+        postApplicant.updateEvaluatedBusiness();
         return userReview;
     }
 

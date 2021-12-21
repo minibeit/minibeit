@@ -1,19 +1,19 @@
 import React, { useState } from "react";
-import { editMyInfo } from "../../../../utils/profileApi";
-
 import { useRecoilState } from "recoil";
+import { toast } from "react-toastify";
+
+import { editMyInfo } from "../../../../utils/profileApi";
 import { userState } from "../../../../recoil/userState";
 import Presenter from "./presenter";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 import Portal from "../../../Common/Modal/Portal";
-import * as S from "./style";
 import { nickCheckApi } from "../../../../utils/auth";
 import {
   checkPhoneApi,
   checkCodeApi,
   checkEmailApi,
 } from "../../../../utils/verificationApi";
-import { toast } from "react-toastify";
+import * as S from "./style";
 
 export default function UserInfoEditModal({
   infoData,
@@ -61,7 +61,7 @@ export default function UserInfoEditModal({
         setUserData(copy);
         setChangeNickname(true);
       })
-      .catch((err) => alert(err.response.data.error.info));
+      .catch((err) => toast.error(err.response.data.error.info));
   };
 
   const checkingPhone = (phoneNum) => {

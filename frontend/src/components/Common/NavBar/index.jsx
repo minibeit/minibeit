@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
+import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { logoutFunc } from "../../../utils/auth";
@@ -16,14 +17,14 @@ export default function NavBar() {
     setModalSwitch(true);
   };
 
-  const logout = async () => {
-    await logoutFunc()
-      .then(async () => {
-        window.alert("로그아웃이 되었습니다!");
+  const logout = () => {
+    logoutFunc().then(() => {
+      toast.info("로그아웃이 되었습니다!");
+      setTimeout(() => {
         window.location.replace("/");
         localStorage.clear();
-      })
-      .catch((err) => console.log(err));
+      }, 500);
+    });
   };
 
   return (

@@ -2,7 +2,6 @@ import React from "react";
 import { useHistory } from "react-router";
 
 import BProfileInfo from "./BProfileInfo";
-import BProfileList from "./BProfileList";
 import BProfileFeedList from "./BProfileFeedList";
 
 import * as S from "./style";
@@ -20,7 +19,6 @@ export default function BProfileComponent({ businessId }) {
         <S.Container>
           <BProfileInfo businessId={businessId} />
           <S.FeedContainer>
-            <BProfileList businessId={businessId} />
             <BProfileFeedList businessId={businessId} />
           </S.FeedContainer>
         </S.Container>

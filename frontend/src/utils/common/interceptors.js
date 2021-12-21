@@ -1,5 +1,4 @@
 import axios from "axios";
-import { toast } from "react-toastify";
 
 export function setInterceptors(instance) {
   instance.interceptors.request.use(
@@ -27,9 +26,8 @@ export function setInterceptors(instance) {
             return axios(originalRequest);
           })
           .catch((err) => {
-            toast.info("다시 로그인 해주세요!");
             window.location.replace("/");
-            localStorage.removeItem("recoil-persist");
+            localStorage.clear();
           });
       } else {
         return Promise.reject(err);

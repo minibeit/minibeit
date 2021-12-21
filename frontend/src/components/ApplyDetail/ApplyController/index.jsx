@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { toast } from "react-toastify";
 
 import * as S from "../style";
 
@@ -9,7 +10,7 @@ export default function ApplyController({ apply, feedDetailData, checkLogin }) {
 
   const handleCopyClipBoard = () => {
     navigator.clipboard.writeText(window.location.href);
-    alert("복사되었습니다. 원하는곳에서 붙여넣기 해주세요!");
+    toast.info("복사되었습니다. 원하는곳에서 붙여넣기 해주세요!");
   };
   const num = useMemo(() => {
     return Math.floor(Math.random() * 10) + 1;

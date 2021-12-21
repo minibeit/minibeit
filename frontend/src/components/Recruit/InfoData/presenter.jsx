@@ -290,7 +290,7 @@ export default function Presenter({
                     return (
                       <S.ImgBox key={i}>
                         {i === 0 && <S.ThumbnailTag>썸네일</S.ThumbnailTag>}
-                        <S.DeleteImg name={a.name} onClick={deleteImg}>
+                        <S.DeleteImg name={a.name} onClick={() => deleteImg(i)}>
                           <CloseIcon />
                         </S.DeleteImg>
                         <PVImg img={recruit.images[i]} />

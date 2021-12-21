@@ -1,6 +1,7 @@
 import { API_URLS } from "../constants";
 import { withAuthInstance, withoutAuthInstance } from "./common";
 import moment from "moment";
+import axios from "axios";
 
 const { API_POST, API_POSTS } = API_URLS;
 
@@ -12,7 +13,7 @@ export const feedCreateApi = async (recruit) => {
     }
     return string;
   }
-  const data = {
+  const postInfo = {
     title: recruit.title,
     content: recruit.content,
     place: recruit.address,
@@ -39,17 +40,29 @@ export const feedCreateApi = async (recruit) => {
     ).format("HH:mm")}`,
     doDateList: recruit.doDateList,
   };
-
-  return await withAuthInstance.post(API_POST + "info", data);
-};
-
-export const feedAddfileApi = (postId, files) => {
   const formData = new FormData();
-  formData.append("thumbnail", files[0]);
-  for (var i = 1; i < files.length; i++) {
-    formData.append("files", files[i]);
+  formData.append(
+    "postInfo",
+    new Blob([JSON.stringify(postInfo)], { type: "application/json" })
+  );
+  if (recruit.images.length !== 0) {
+    formData.append("thumbnail", recruit.images[0]);
+    if (recruit.images.length > 1) {
+      for (var i = 1; i < recruit.images.length; i++) {
+        formData.append("files", recruit.images[i]);
+      }
+    }
   }
-  return withAuthInstance.post(API_POST + `${postId}/files`, formData);
+
+  return axios({
+    method: "POST",
+    url: process.env.REACT_APP_API_URL + API_POST,
+    data: formData,
+    headers: {
+      Authorization: `Bearer ${axios.defaults.headers.common["Authorization"]}`,
+      "Content-Type": `multipart/form-data`,
+    },
+  });
 };
 
 export const feedDetailApi = async (feedId, isLogin) => {

@@ -4,7 +4,6 @@ import { useHistory } from "react-router";
 
 import { userState } from "../../recoil/userState";
 import { bprofileListGet, feedCreateApi } from "../../utils";
-import { feedAddfileApi } from "../../utils/feedApi";
 
 import BProfileSelect from "./BProfileSelect";
 import DataSelect from "./DataSelect";
@@ -39,9 +38,6 @@ export default function RecruitComponent() {
     if (askComplete) {
       feedCreateApi(recruit)
         .then((res) => {
-          if (recruit.images.length !== 0) {
-            feedAddfileApi(res.data.data.id, recruit.images);
-          }
           resetRecruit();
           history.push(`/recruit/complete/${res.data.data.id}`);
         })

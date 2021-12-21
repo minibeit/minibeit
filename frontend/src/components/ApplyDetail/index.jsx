@@ -95,10 +95,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
   };
 
   const likeToLogIn = () => {
-    let value = window.confirm("이용하려면 로그인 먼저 해주세요!");
-    if (value) {
-      setModalSwitch(true);
-    }
+    setModalSwitch(true);
   };
   const checkLogin = () => {
     if (user.isLogin) {

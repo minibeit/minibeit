@@ -139,6 +139,9 @@ export const LikeFeedBox = styled.div`
     border-radius: 1em;
     overflow: hidden;
   }
+  :hover {
+    transform: scale(1.01);
+  }
 `;
 
 export const LikeFeedInfo = styled.div`

@@ -147,7 +147,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .where(postLike.user.id.eq(user.getId()))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(post.id.desc());
+                .orderBy(postLike.id.desc());
 
         QueryResults<Post> results = query.fetchResults();
 

@@ -64,6 +64,7 @@ class PostControllerTest extends MvcTest {
                 .title("개발자는 하루에 커피를 몇 잔 마실까..")
                 .content("실험실 세부사항")
                 .place("고려대")
+                .thumbnail("thumbnail")
                 .placeDetail("123호")
                 .contact("010-1234-5786")
                 .recruitPeople(10)
@@ -91,6 +92,7 @@ class PostControllerTest extends MvcTest {
                 .place("고려대")
                 .placeDetail("123호")
                 .contact("010-1234-5786")
+                .thumbnail("thumbnail")
                 .category("디자인")
                 .recruitPeople(10)
                 .payment(Payment.GOODS)
@@ -303,13 +305,12 @@ class PostControllerTest extends MvcTest {
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
                                 fieldWithPath("data.content[].id").type(JsonFieldType.NUMBER).description("게시물 식별자"),
                                 fieldWithPath("data.content[].title").type(JsonFieldType.STRING).description("게시물 제목"),
-                                fieldWithPath("data.content[].place").type(JsonFieldType.STRING).description("실험 장소"),
+                                fieldWithPath("data.content[].thumbnail").type(JsonFieldType.STRING).description("게시물 썸네일"),
                                 fieldWithPath("data.content[].payment").type(JsonFieldType.STRING).description("지급수단(CACHE or GOODS)"),
-                                fieldWithPath("data.content[].goods").description("지급 수단이 GOODS 인 경우 물품 보상").optional(),
-                                fieldWithPath("data.content[].cache").description("지급 수단이 CACHE 인 경우 현금 보상").optional(),
                                 fieldWithPath("data.content[].recruitCondition").type(JsonFieldType.BOOLEAN).description("구인조건이 있다면 true"),
                                 fieldWithPath("data.content[].doTime").type(JsonFieldType.NUMBER).description("실험 소요 시간"),
-                                fieldWithPath("data.content[].postStatus").type(JsonFieldType.STRING).description("게시물 모집 상태(RECRUIT or COMPLETE)"),
+                                fieldWithPath("data.content[].businessProfile.id").type(JsonFieldType.NUMBER).description("비즈니스 식별자"),
+                                fieldWithPath("data.content[].businessProfile.name").type(JsonFieldType.STRING).description("비즈니스 이름"),
                                 fieldWithPath("data.totalElements").description("전체 개수"),
                                 fieldWithPath("data.last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("data.totalPages").description("전체 페이지")

@@ -30,7 +30,6 @@ export default function MainComponent() {
   return (
     <S.BackGround>
       <S.MainBox>
-        <img src="/images/main4.png" alt="mainImg" />
         <div>
           <div>
             <Link to="1" spy={true} smooth={true}>
@@ -51,26 +50,30 @@ export default function MainComponent() {
       <S.MainBox2 id="1" data-aos="fade-in">
         <div>
           <div>
-            <span>가까운 위치</span>에, <span>남는 시간</span>에 <br /> 간편하게
-            지원하기
+            <div>
+              <span>가까운 위치</span>에, <span>남는 시간</span>에 <br />{" "}
+              간편하게 지원하기
+            </div>
+            <S.BlueButton onClick={() => history.push("/apply")}>
+              참여하기
+            </S.BlueButton>
           </div>
-          <S.BlueButton onClick={() => history.push("/apply")}>
-            참여하기
-          </S.BlueButton>
-        </div>
-        <div>
-          <img src="/images/main.png" alt="mainImg" />
+          <div>
+            <img src="/images/main.png" alt="mainImg" />
+          </div>
         </div>
       </S.MainBox2>
       <S.MainBox3 id="2" data-aos="fade-in">
         <div>
           <div>
-            가장 쉽고 빠르게 <br /> <span>원하는 스케줄</span>로 모집하기
+            <div>
+              가장 쉽고 빠르게 <br /> <span>원하는 스케줄</span>로 모집하기
+            </div>
+            <S.BlueButton onClick={goRecruit}>모집하기</S.BlueButton>
           </div>
-          <S.BlueButton onClick={goRecruit}>모집하기</S.BlueButton>
-        </div>
-        <div>
-          <img src="/images/main2.png" alt="mainImg" />
+          <div>
+            <img src="/images/main2.png" alt="mainImg" />
+          </div>
         </div>
       </S.MainBox3>
       <S.LastBox id="3" data-aos="fade-in">

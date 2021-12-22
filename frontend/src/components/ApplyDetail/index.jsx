@@ -108,39 +108,41 @@ export default function ApplyDetailComponent({ feedId, date }) {
 
   return (
     <S.FeedContainer>
-      {feedDetailData && (
-        <TitleContiner
-          feedDetailData={feedDetailData}
-          clickBookmark={clickBookmark}
-        />
-      )}
-      {feedDetailData && (
-        <S.UnderTitle>
-          <FeedInfoContainer
+      <div>
+        {feedDetailData && (
+          <TitleContiner
             feedDetailData={feedDetailData}
-            date={date}
-            editDetail={editDetail}
-            sliderSwitch={sliderSwitch}
-            setSliderSwitch={setSliderSwitch}
+            clickBookmark={clickBookmark}
           />
-          <ApplyController
-            apply={apply}
-            feedDetailData={feedDetailData}
-            checkLogin={checkLogin}
-          />
-          {applyAlert === 1 && (
-            <AskCompleteApplication
-              apply={apply}
-              setApplyAlert={setApplyAlert}
-              submit={submit}
+        )}
+        {feedDetailData && (
+          <S.UnderTitle>
+            <FeedInfoContainer
+              feedDetailData={feedDetailData}
+              date={date}
+              editDetail={editDetail}
+              sliderSwitch={sliderSwitch}
+              setSliderSwitch={setSliderSwitch}
             />
-          )}
-          {applyAlert === 2 && (
-            <CompleteApplication user={user} setApplyAlert={setApplyAlert} />
-          )}
-          {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
-        </S.UnderTitle>
-      )}
+            <ApplyController
+              apply={apply}
+              feedDetailData={feedDetailData}
+              checkLogin={checkLogin}
+            />
+            {applyAlert === 1 && (
+              <AskCompleteApplication
+                apply={apply}
+                setApplyAlert={setApplyAlert}
+                submit={submit}
+              />
+            )}
+            {applyAlert === 2 && (
+              <CompleteApplication user={user} setApplyAlert={setApplyAlert} />
+            )}
+            {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
+          </S.UnderTitle>
+        )}
+      </div>
     </S.FeedContainer>
   );
 }

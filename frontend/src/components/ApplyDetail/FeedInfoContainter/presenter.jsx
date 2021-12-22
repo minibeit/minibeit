@@ -39,7 +39,7 @@ export default function Presenter({
 }) {
   return (
     <S.ContentBox>
-      <S.DataBox>
+      <div>
         <S.DataHeader style={{ border: "none" }}>
           <p>참여날짜 및 시간 선택하기</p>
         </S.DataHeader>
@@ -51,54 +51,64 @@ export default function Presenter({
             endDate={endDate}
           />
         </S.DataContent>
-      </S.DataBox>
-      <S.ConditionsDataBox>
+      </div>
+      <div>
         <S.DataHeader>
           <p>참여조건</p>
         </S.DataHeader>
         <S.DataContent>
-          <ul>
-            {recruitCondition ? (
-              recruitConditionDetail.map((a, i) => <li key={i}>{a}</li>)
-            ) : (
-              <li>참여조건 없음</li>
-            )}
-          </ul>
+          <S.RecruitLabel condition={recruitCondition}>
+            {recruitCondition ? "참여조건 있음" : "참여조건 없음"}
+          </S.RecruitLabel>
+          <div>
+            {recruitCondition &&
+              recruitConditionDetail.map((a, i) => (
+                <S.ListBox key={i}>
+                  <li>{a}</li>
+                </S.ListBox>
+              ))}
+          </div>
         </S.DataContent>
-      </S.ConditionsDataBox>
-      <S.DataBox>
+      </div>
+      <div>
         <S.DataHeader>
           <p>지급방식 및 상세내용</p>
         </S.DataHeader>
         <S.DataContent>
-          <ul>
+          <S.ListBox>
             <li>
-              <span>{payment === "CACHE" ? "금액" : "보상"}</span>
-              {payment === "CACHE" ? `${cache}원` : goods}
+              <div>금액</div>
+              <S.PaymentLabel payment={payment}>
+                {payment === "CACHE" ? `현금` : "물품"}
+              </S.PaymentLabel>
+              <div style={{ color: "#505050" }}>
+                {payment === "CACHE" ? `${cache}원` : goods}
+              </div>
             </li>
+          </S.ListBox>
+          <S.ListBox>
             <li>
-              <span>지급</span> {paymentDetail}
+              <div>지급</div>
+              <div>{paymentDetail}</div>
             </li>
-          </ul>
+          </S.ListBox>
         </S.DataContent>
-      </S.DataBox>
+      </div>
 
-      <S.DataBox>
+      <div>
         <S.DataHeader>
-          <div>
-            <p>상세내용</p>
-            {isMine && (
-              <>
-                {editSwitch ? (
-                  <S.EditBtn onClick={editSubmit}>수정완료</S.EditBtn>
-                ) : (
-                  <S.EditBtn onClick={() => setEditAlert(true)}>
-                    수정하기
-                  </S.EditBtn>
-                )}
-              </>
-            )}
-          </div>
+          <p>상세내용</p>
+          {isMine && (
+            <>
+              {editSwitch ? (
+                <S.EditBtn onClick={editSubmit}>수정완료</S.EditBtn>
+              ) : (
+                <S.EditBtn onClick={() => setEditAlert(true)}>
+                  수정하기
+                </S.EditBtn>
+              )}
+            </>
+          )}
           {editAlert && (
             <EditOnlyDetails
               setEditSwitch={setEditSwitch}
@@ -107,7 +117,7 @@ export default function Presenter({
             />
           )}
         </S.DataHeader>
-        <S.DataContent2>
+        <S.DataContent>
           {editSwitch ? (
             <S.EditTextArea
               defaultValue={updatedContent ? updatedContent : content}
@@ -164,7 +174,7 @@ export default function Presenter({
                   )}
                 </div>
                 {feedDetailData.files.length > 4 ? (
-                  <S.Div onClick={imgOnClick}>+{files.length - 4}</S.Div>
+                  <div onClick={imgOnClick}>+{files.length - 4}</div>
                 ) : null}
               </div>
               {sliderSwitch ? (
@@ -176,41 +186,45 @@ export default function Presenter({
               ) : null}
             </S.ApplyImgContainer>
           ) : null}
-        </S.DataContent2>
-      </S.DataBox>
-      <S.DataBox2>
+        </S.DataContent>
+      </div>
+      <div>
         <S.DataHeader>
           <p>참여 장소 및 연락처</p>
         </S.DataHeader>
         <S.DataContent>
-          <ul>
+          <S.ListBox>
             <li>
-              <span>주소</span>{" "}
-              <S.AddressBox
+              <div>주소</div>{" "}
+              <S.AddressText
                 onClick={() => {
                   window.open(`https://map.naver.com/v5/search/${address}`);
                 }}
               >
                 {addressDetail ? `${address} ${addressDetail}` : `${address}`}
-              </S.AddressBox>
+              </S.AddressText>
             </li>
+          </S.ListBox>
+          <S.ListBox>
             <li>
-              <span>연락처</span> {contact}
+              <div>연락처</div> {contact}
             </li>
+          </S.ListBox>
+          <S.ListBox>
             <li>
-              <span>담당자</span> {businessProfileInfo.adminName}
+              <div>담당자</div> {businessProfileInfo.adminName}
             </li>
-          </ul>
+          </S.ListBox>
         </S.DataContent>
-      </S.DataBox2>
-      <S.DataBox>
+      </div>
+      <div>
         <S.DataHeader>
           <p>실험 후기</p>
         </S.DataHeader>
         <S.DataContent>
           <ReveiwBox businessId={businessProfileInfo.id} />
         </S.DataContent>
-      </S.DataBox>
+      </div>
     </S.ContentBox>
   );
 }

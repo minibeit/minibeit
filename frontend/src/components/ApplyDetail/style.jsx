@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 const fadeOut = keyframes`
 0% {
@@ -20,39 +20,38 @@ export const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 1.5rem 10rem;
+  & > div {
+    padding: 3rem 5rem;
+  }
 `;
+
 export const UnderTitle = styled.div`
   position: relative;
   display: flex;
-  left: 1rem;
+  flex-wrap: wrap;
   gap: 1rem;
-  & > div:nth-child(2) {
-    display: flex;
-    left: 1rem;
-    padding: 1rem 0;
-    gap: 1rem;
-  }
+  padding: 3em 0;
 `;
 /* Title */
 export const TitleBox = styled.div`
   position: relative;
   display: flex;
-  width: 100%;
   padding: 1rem 0;
   border-bottom: 1px solid #c4c4c4;
-  left: 1rem;
 `;
 export const TitleContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: inherit;
+  width: 100%;
   & > p:first-child {
-    color: #c4c4c4;
-    font-size: 1rem;
-    font-weight: 700;
-    margin: 0.6rem 0;
+    background: #0642ff2e;
+    width: fit-content;
+    padding: 0.4em 0.7em;
+    border-radius: 1em;
+    color: #003dff;
+    font-weight: bold;
+    white-space: nowrap;
   }
   & > div:nth-child(2) {
     display: flex;
@@ -71,12 +70,15 @@ export const TitleContent = styled.div`
   & > div:nth-child(3) {
     display: flex;
     align-items: center;
-    color: black;
-    text-decoration: none;
-    gap: 0.5rem;
+    color: #8c8c8c;
+    font-weight: bold;
+    gap: 0.3rem;
     & > svg {
       width: 1rem;
       height: 1rem;
+      & path {
+        fill: #8c8c8c;
+      }
     }
   }
 `;
@@ -116,103 +118,70 @@ export const TitleBookMark = styled.div`
 `;
 /* Content */
 export const ContentBox = styled.div`
-  width: 75%;
+  flex: 3;
+  min-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 `;
 
-export const DataBox = styled.div`
-  position: relative;
-  & > div:first-child {
-    border-bottom: 1px solid #c4c4c4;
-    & > div:first-child {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      & > p:first-child {
-        font-size: 1.5rem;
-        font-weight: bold;
-        padding: 1rem 1rem 1rem 0;
-      }
-    }
-  }
-  & > div:nth-child(2) {
-    & > ul {
-      margin: 1rem 0;
-      list-style: none;
-      & > li {
-        margin: 1rem 0;
-        & > span {
-          font-weight: 500;
-          font-size: 1rem;
-          color: #8c8c8c;
-          margin-right: 2rem;
-          ::before {
-            content: "•";
-            color: inherit;
-            font-size: inherit;
-            margin-right: 0.4rem;
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const ConditionsDataBox = styled(DataBox)`
-  position: relative;
-  & > div:nth-child(2) {
-    & > ul {
-      & > li {
-        ::before {
-          content: "•";
-          color: inherit;
-          font-size: inherit;
-          margin-right: 0.7rem;
-        }
-      }
-    }
-  }
-`;
-export const DataBox2 = styled(DataBox)`
-  & > div:nth-child(2) {
-    & > ul {
-      & > li {
-        display: flex;
-        & > span {
-          margin-right: 1rem;
-          min-width: 4rem;
-        }
-        & > div {
-          max-height: 3rem;
-        }
-      }
-    }
-  }
-`;
 export const DataHeader = styled.div`
-  border-bottom: 1px solid #c4c4c4;
-  & > p:first-child {
-    font-size: 1.5rem;
+  border-bottom: #11111129 solid 1px;
+  padding: 0 0 1.2rem 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  & p {
+    font-size: 1.4rem;
     font-weight: bold;
-    padding: 1rem 1rem 1rem 0;
   }
 `;
-
 export const DataContent = styled.div`
-  min-height: 8rem;
   padding: 1rem 0;
 `;
-export const AddressBox = styled.div`
-  color: #0642ff;
-  text-decoration: underline;
-  cursor: pointer;
-`;
-export const DataContent2 = styled(DataContent)`
-  margin-bottom: 2rem;
-  & > div:nth-child(2) {
+export const ListBox = styled.ul`
+  display: flex;
+  margin: 0.5em 0;
+  li {
     display: flex;
-    align-items: flex-start;
+    & > div:first-child {
+      min-width: 4em;
+      font-weight: bold;
+    }
+    :before {
+      content: "ㆍ";
+    }
   }
 `;
+
+export const RecruitLabel = styled.p`
+  width: fit-content;
+  padding: 0.3em 0.7em;
+  font-weight: bold;
+  color: #7c7c7c;
+  border-radius: 0.3em;
+  ${({ condition }) =>
+    condition
+      ? css`
+          background: #e5ecff;
+        `
+      : css`
+          background: #f2f2f2;
+        `}
+`;
+
+export const PaymentLabel = styled.p`
+  margin-right: 0.5em;
+  font-weight: bold;
+  color: ${({ payment }) => (payment === "CACHE" ? "#00BB34" : "#3558C7")};
+`;
+
+export const AddressText = styled.div`
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+`;
+
 export const EditBtn = styled.button`
   background-color: #0642ff;
   border: 1px solid #0642ff;
@@ -342,11 +311,7 @@ export const ReviewCount = styled.div`
 `;
 
 /* apply remote controller */
-export const RemoteBox = styled.div`
-  position: relative;
-  width: 25%;
-  right: 0;
-`;
+export const RemoteBox = styled.div``;
 
 export const Controller = styled.div`
   display: flex;

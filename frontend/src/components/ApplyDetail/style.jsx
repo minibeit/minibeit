@@ -21,7 +21,7 @@ export const FeedContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   & > div {
-    padding: 3rem 5rem;
+    padding: 5rem 10rem;
   }
 `;
 
@@ -32,6 +32,7 @@ export const UnderTitle = styled.div`
   gap: 1rem;
   padding: 3em 0;
 `;
+
 /* Title */
 export const TitleBox = styled.div`
   position: relative;
@@ -118,7 +119,7 @@ export const TitleBookMark = styled.div`
 `;
 /* Content */
 export const ContentBox = styled.div`
-  flex: 3;
+  flex: 2;
   min-width: 20rem;
   display: flex;
   flex-direction: column;
@@ -203,12 +204,16 @@ export const TimeSelectBox = styled.div`
   min-height: 19rem;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  & > div:nth-child(2) {
+    flex: 1;
+  }
 `;
 export const Navigation = styled.div`
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 3em;
   font-size: 1.5rem;
   font-weight: 500;
   & > div:first-child {
@@ -229,38 +234,40 @@ export const Navigation = styled.div`
   }
 `;
 export const TimeView = styled.div`
-  flex: 2.5;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  background: #f5f5f5;
-  border-radius: 0 0 20px 20px;
-  padding: 2rem;
+  gap: 1rem 0.2rem;
+  background: white;
+  padding: 2em;
 `;
 
 export const TimeBtn = styled.div`
+  flex: 1 0 25%;
+  max-width: 24%;
   & > input {
     display: none;
   }
   & > label {
-    padding: 0.5rem;
+    padding: 1em 1.5em;
+    justify-content: center;
     cursor: pointer;
     display: flex;
-    border-radius: 0.7rem;
-    background: white;
+    background: #e5ecff;
     color: black;
-    border: 3px solid white;
   }
   & > input:checked + label {
-    border: 3px solid #0642ff;
+    background: #0642ff;
+    color: white;
   }
   & > input:hover + label {
-    color: #0642ff;
+    transform: scale(1.1);
+  }
+  & > input:disabled:hover + label {
+    transform: scale(1);
   }
   & > input:disabled + label {
-    color: grey;
+    background: #ebebeb;
+    color: #c4c4c4;
     cursor: default;
   }
 `;
@@ -271,8 +278,12 @@ export const DetailContent = styled.div`
   font-size: 1rem;
 `;
 export const EditTextArea = styled.textarea`
-  width: 80%;
+  width: 100%;
   height: 20em;
+  border: 1px solid #c4c4c4;
+  border-radius: 0.5rem;
+  padding: 0.5em;
+  box-sizing: border-box;
 `;
 
 export const Img = styled.img`
@@ -311,7 +322,9 @@ export const ReviewCount = styled.div`
 `;
 
 /* apply remote controller */
-export const RemoteBox = styled.div``;
+export const RemoteBox = styled.div`
+  flex: 1;
+`;
 
 export const Controller = styled.div`
   display: flex;
@@ -319,9 +332,10 @@ export const Controller = styled.div`
   flex-direction: column;
   padding: 1rem;
   position: sticky;
+  max-width: 15em;
   height: 19rem;
-  margin-top: 3.3rem;
   top: 4rem;
+  margin: 3.5em auto;
   border: 1px solid #c4c4c4;
   border-radius: 1.25rem;
   & > p:first-child {
@@ -330,32 +344,24 @@ export const Controller = styled.div`
     font-weight: bold;
   }
   & > div:nth-child(3) {
-    font-size: 0.9rem;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 0.5rem;
-    padding: 0 1rem;
-    & > div > span {
-      margin-right: 0.4rem;
-      font-weight: 600;
+    & > div:first-child {
+      font-weight: bold;
+      min-width: 3em;
     }
   }
 `;
-export const ApplyData = styled.div`
-  border: 1px solid #c4c4c4;
-  border-radius: 7px;
-  & > div {
-    padding: 0.7rem;
-    font-size: 0.8rem;
-    font-weight: 200;
-    & > span {
-      font-weight: bold;
-      margin: 0 0.7rem;
+export const ApplyData = styled.table`
+  border: 0.5px solid #C4C4C4
+  border-radius: 0.5em;
+  & tr {
+    border: 1px solid #c4c4c4;
+    &>td:first-child{
+      font-weight:bold;
     }
   }
-  & > div:first-child {
-    border-bottom: 1px solid #c4c4c4;
+  & td {
+    padding: 0.5em;
   }
 `;
 export const ApplyBtnGroup = styled.div`
@@ -363,29 +369,29 @@ export const ApplyBtnGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  & > button {
-    font-size: 1rem;
-    padding: 7px;
-    border: none;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
+`;
+export const ControllerBtn = styled.button`
+  font-size: 1rem;
+  padding: 0.5em;
+  border: none;
+  border-radius: 1.5em;
+  font-weight: 600;
+  cursor: pointer;
+`;
+export const ApplyBtn = styled(ControllerBtn)`
+  background: #0642ff;
+  border: 2px solid #0642ff;
+  color: white;
+  :disabled {
+    background: #00000070;
+    border: 2px solid #00000070;
+    cursor: default;
   }
-  & > button:first-child {
-    background: #0642ff;
-    color: white;
-    &:disabled {
-      background: #c4c4c4;
-    }
-  }
-  & > button:nth-child(2) {
-    background: #f1f1f1;
-    color: #c4c4c4;
-    :hover {
-      background: #0642ff;
-      color: #fff;
-    }
-  }
+`;
+export const CopyBtn = styled(ControllerBtn)`
+  background: white;
+  border: 2px solid #0642ff;
+  color: #0642ff;
 `;
 
 // apply detail imgs slider

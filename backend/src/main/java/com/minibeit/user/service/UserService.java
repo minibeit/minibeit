@@ -1,7 +1,7 @@
 package com.minibeit.user.service;
 
-import com.minibeit.avatar.domain.Avatar;
-import com.minibeit.avatar.service.AvatarService;
+import com.minibeit.file.domain.Avatar;
+import com.minibeit.file.service.AvatarService;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.common.exception.InvalidOperationException;

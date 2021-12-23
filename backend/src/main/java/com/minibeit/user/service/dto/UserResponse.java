@@ -2,7 +2,7 @@ package com.minibeit.user.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.minibeit.avatar.domain.Avatar;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.security.token.Token;
 import com.minibeit.user.domain.User;
 import lombok.*;

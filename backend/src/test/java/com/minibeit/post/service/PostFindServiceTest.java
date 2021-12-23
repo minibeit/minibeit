@@ -5,12 +5,17 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
-import com.minibeit.common.domain.FileServer;
-import com.minibeit.common.domain.FileType;
 import com.minibeit.common.dto.PageDto;
-import com.minibeit.common.dto.SavedFile;
+import com.minibeit.file.domain.FileServer;
+import com.minibeit.file.domain.FileType;
+import com.minibeit.file.domain.PostFile;
+import com.minibeit.file.domain.repository.PostFileRepository;
+import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.*;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.post.domain.repository.PostDoDateRepository;
+import com.minibeit.post.domain.repository.PostLikeRepository;
+import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
@@ -73,7 +78,7 @@ public class PostFindServiceTest extends ServiceIntegrationTest {
     private Post post;
     private PostFile postFile;
     private PostDoDate postDoDate;
-    private final SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
+    private final SavedFile savedFile = new SavedFile("files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
 
 
     @BeforeEach
@@ -142,7 +147,7 @@ public class PostFindServiceTest extends ServiceIntegrationTest {
 
         Post createdPost = Post.create(createRequest, KSchool, businessProfile);
         post = postRepository.save(createdPost);
-        PostFile createdPostFile = PostFile.create(post, savedFile);
+        PostFile createdPostFile = PostFile.create(post, savedFile.toPostFile());
         postFile = postFileRepository.save(createdPostFile);
         postDoDate = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost));
         PostLike postLike = PostLike.create(post, userInBusinessProfile);

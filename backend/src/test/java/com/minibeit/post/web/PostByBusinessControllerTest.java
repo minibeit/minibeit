@@ -1,12 +1,12 @@
 package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.avatar.domain.Avatar;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.post.domain.PostFile;
+import com.minibeit.file.domain.PostFile;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;

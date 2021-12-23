@@ -1,15 +1,15 @@
 package com.minibeit.user.service;
 
 import com.minibeit.ServiceIntegrationTest;
-import com.minibeit.avatar.domain.Avatar;
-import com.minibeit.avatar.service.AvatarService;
+import com.minibeit.file.domain.Avatar;
+import com.minibeit.file.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
-import com.minibeit.common.domain.FileServer;
-import com.minibeit.common.domain.FileType;
-import com.minibeit.common.dto.SavedFile;
+import com.minibeit.file.domain.FileServer;
+import com.minibeit.file.domain.FileType;
+import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
@@ -261,9 +261,9 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .birth(LocalDate.of(2222, 1, 1))
                 .avatar(multipartFile)
                 .avatarChanged(true).build();
-        SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
+        SavedFile savedFile = new SavedFile( "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
 
-        Avatar avatar = Avatar.create(savedFile);
+        Avatar avatar = Avatar.create(savedFile.toAvatar());
 
         given(avatarService.upload(any())).willReturn(avatar);
         userService.update(updateInfo, user);
@@ -297,9 +297,9 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .birth(LocalDate.of(2000, 12, 12))
                 .avatar(multipartFile)
                 .avatarChanged(true).build();
-        SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
+        SavedFile savedFile = new SavedFile("files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
 
-        Avatar avatar = Avatar.create(savedFile);
+        Avatar avatar = Avatar.create(savedFile.toAvatar());
 
         given(avatarService.upload(any())).willReturn(avatar);
         userService.update(updateInfo, user);

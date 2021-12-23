@@ -1,11 +1,9 @@
-package com.minibeit.avatar.domain;
+package com.minibeit.file.domain;
 
 import javax.persistence.Enumerated;
 
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.common.domain.FileServer;
-import com.minibeit.common.domain.FileType;
-import com.minibeit.common.dto.SavedFile;
+import com.minibeit.file.service.dto.SavedFile;
 import lombok.*;
 import javax.persistence.*;
 
@@ -35,16 +33,16 @@ public class Avatar extends BaseEntity {
     private Integer width;
     private Integer height;
 
-    public static Avatar create(SavedFile file) {
+    public static Avatar create(Avatar avatar) {
         return Avatar.builder()
-                .name(file.getName())
-                .type(file.getFileType())
-                .server(file.getFileServer())
-                .extension(file.getExtension())
-                .height(file.getHeight())
-                .width(file.getWidth())
-                .size(file.getSize())
-                .url(file.getPublicUrl())
+                .name(avatar.getName())
+                .type(avatar.getType())
+                .server(avatar.getServer())
+                .extension(avatar.getExtension())
+                .height(avatar.getHeight())
+                .width(avatar.getWidth())
+                .size(avatar.getSize())
+                .url(avatar.getUrl())
                 .build();
     }
 }

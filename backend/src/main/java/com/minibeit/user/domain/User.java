@@ -1,6 +1,6 @@
 package com.minibeit.user.domain;
 
-import com.minibeit.avatar.domain.Avatar;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;

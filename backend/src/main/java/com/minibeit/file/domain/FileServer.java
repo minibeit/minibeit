@@ -1,4 +1,4 @@
-package com.minibeit.common.domain;
+package com.minibeit.file.domain;
 
 import lombok.Getter;
 

@@ -1,7 +1,7 @@
 package com.minibeit.user.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.avatar.domain.Avatar;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.User;

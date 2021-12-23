@@ -5,11 +5,13 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
-import com.minibeit.common.component.file.S3Uploader;
-import com.minibeit.common.domain.FileServer;
-import com.minibeit.common.domain.FileType;
-import com.minibeit.common.dto.SavedFile;
+import com.minibeit.file.domain.repository.PostFileRepository;
+import com.minibeit.file.service.S3Uploader;
+import com.minibeit.file.domain.FileServer;
+import com.minibeit.file.domain.FileType;
+import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.common.exception.PermissionException;
+import com.minibeit.file.domain.PostFile;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.dto.PostDto;
@@ -97,7 +99,7 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
     private PostDoDate postDoDate1;
     private PostDoDate postDoDate2;
     private PostDoDate postDoDate3;
-    private final SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
+    private final SavedFile savedFile = new SavedFile("files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
 
     @BeforeEach
     public void init() {
@@ -201,7 +203,7 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
         Post createdPost = Post.create(createInfoRequest, school, businessProfile);
         post = postRepository.save(createdPost);
 
-        PostFile createdPostFile = PostFile.create(post, savedFile);
+        PostFile createdPostFile = PostFile.create(post, savedFile.toPostFile());
         postFile = postFileRepository.save(createdPostFile);
 
         PostLike createdPostLike = PostLike.create(createdPost, userInBusinessProfile);

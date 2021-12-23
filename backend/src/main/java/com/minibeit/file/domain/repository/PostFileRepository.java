@@ -1,6 +1,6 @@
-package com.minibeit.post.domain.repository;
+package com.minibeit.file.domain.repository;
 
-import com.minibeit.post.domain.PostFile;
+import com.minibeit.file.domain.PostFile;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PostFileRepository extends JpaRepository<PostFile, Long> {

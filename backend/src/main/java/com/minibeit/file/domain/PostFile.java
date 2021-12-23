@@ -1,9 +1,8 @@
-package com.minibeit.post.domain;
+package com.minibeit.file.domain;
 
-import com.minibeit.common.domain.FileServer;
-import com.minibeit.common.domain.FileType;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.common.dto.SavedFile;
+import com.minibeit.file.service.dto.SavedFile;
+import com.minibeit.post.domain.Post;
 import lombok.*;
 
 import javax.persistence.*;
@@ -42,16 +41,16 @@ public class PostFile extends BaseEntity {
         post.getPostFileList().add(this);
     }
 
-    public static PostFile create(Post post, SavedFile file) {
+    public static PostFile create(Post post, PostFile file) {
         PostFile postFile = PostFile.builder()
                 .name(file.getName())
-                .type(file.getFileType())
-                .server(file.getFileServer())
+                .type(file.getType())
+                .server(file.getServer())
                 .extension(file.getExtension())
                 .height(file.getHeight())
                 .width(file.getWidth())
                 .size(file.getSize())
-                .url(file.getPublicUrl())
+                .url(file.getUrl())
                 .build();
         postFile.setPost(post);
         return postFile;

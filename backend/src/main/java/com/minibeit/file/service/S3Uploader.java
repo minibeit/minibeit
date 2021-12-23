@@ -1,4 +1,4 @@
-package com.minibeit.common.component.file;
+package com.minibeit.file.service;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;
@@ -7,9 +7,10 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.GetObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.S3Object;
-import com.minibeit.common.component.exception.S3FileUploadException;
-import com.minibeit.common.domain.FileServer;
-import com.minibeit.common.dto.SavedFile;
+import com.minibeit.common.exception.FileConvertException;
+import com.minibeit.common.utils.RandomStringBuilder;
+import com.minibeit.file.domain.FileServer;
+import com.minibeit.file.service.dto.SavedFile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -63,9 +64,9 @@ public class S3Uploader {
             removeNewFile(uploadFile);
         } catch (IOException e) {
             log.info(e.getMessage());
-            throw new S3FileUploadException();
+            throw new FileConvertException("S3 업로드 과정이 실패하였습니다.");
         }
-        return SavedFile.create(s3FileName, extension, FileServer.S3, originalName, file.getSize(), isImage, publicUrl, width, height);
+        return SavedFile.create(s3FileName, extension, FileServer.S3, file.getSize(), isImage, publicUrl, width, height);
     }
 
     private void putS3(File uploadFile, String fileName) {

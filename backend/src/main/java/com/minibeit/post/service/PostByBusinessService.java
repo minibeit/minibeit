@@ -3,9 +3,11 @@ package com.minibeit.post.service;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
-import com.minibeit.common.component.file.S3Uploader;
+import com.minibeit.file.domain.repository.PostFileRepository;
+import com.minibeit.file.service.S3Uploader;
 import com.minibeit.common.dto.PageDto;
-import com.minibeit.common.dto.SavedFile;
+import com.minibeit.file.service.dto.SavedFile;
+import com.minibeit.file.domain.PostFile;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.dto.PostRequest;
@@ -54,13 +56,13 @@ public class PostByBusinessService {
 
         if (thumbnail != null) {
             SavedFile uploadedThumbnail = s3Uploader.upload(thumbnail);
-            PostFile createdThumbnail = PostFile.create(post, uploadedThumbnail);
+            PostFile createdThumbnail = PostFile.create(post, uploadedThumbnail.toPostFile());
             post.updateThumbnail(createdThumbnail.getUrl());
             postFileRepository.save(createdThumbnail);
         }
         if (files != null) {
             List<SavedFile> savedFiles = s3Uploader.uploadFileList(files);
-            List<PostFile> postFiles = savedFiles.stream().map(savedFile -> PostFile.create(post, savedFile)).collect(Collectors.toList());
+            List<PostFile> postFiles = savedFiles.stream().map(savedFile -> PostFile.create(post, savedFile.toPostFile())).collect(Collectors.toList());
             postFileRepository.saveAll(postFiles);
         }
 

@@ -1,9 +1,8 @@
 package com.minibeit.user.domain;
 
-import com.minibeit.avatar.domain.Avatar;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.school.domain.School;
-import com.minibeit.user.service.dto.UserRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

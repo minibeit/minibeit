@@ -1,7 +1,7 @@
 package com.minibeit.businessprofile.service;
 
-import com.minibeit.avatar.domain.Avatar;
-import com.minibeit.avatar.service.AvatarService;
+import com.minibeit.file.domain.Avatar;
+import com.minibeit.file.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;

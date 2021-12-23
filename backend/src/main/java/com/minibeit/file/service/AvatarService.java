@@ -1,8 +1,7 @@
-package com.minibeit.avatar.service;
+package com.minibeit.file.service;
 
-import com.minibeit.avatar.domain.Avatar;
-import com.minibeit.avatar.domain.repository.AvatarRepository;
-import com.minibeit.common.component.file.S3Uploader;
+import com.minibeit.file.domain.Avatar;
+import com.minibeit.file.domain.repository.AvatarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,7 +16,7 @@ public class AvatarService {
         if (file == null) {
             return null;
         }
-        return avatarRepository.save(Avatar.create(s3Uploader.upload(file)));
+        return avatarRepository.save(Avatar.create(s3Uploader.upload(file).toAvatar()));
     }
 
     public void deleteOne(Avatar file) {

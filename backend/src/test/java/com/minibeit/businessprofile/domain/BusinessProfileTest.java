@@ -1,6 +1,6 @@
 package com.minibeit.businessprofile.domain;
 
-import com.minibeit.avatar.domain.Avatar;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.businessprofile.dto.BusinessProfileRequest;
 import com.minibeit.user.domain.Role;
 import com.minibeit.user.domain.SignupProvider;

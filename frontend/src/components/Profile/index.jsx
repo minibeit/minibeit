@@ -1,6 +1,7 @@
 import React from "react";
 
 import UserContainer from "./UserContainer";
+import UserLikeContainer from "./UserLikeContainer";
 import BusinessContainer from "./BusinessContainer";
 
 import * as S from "./style";
@@ -23,11 +24,19 @@ export default function ProfileComponent({ view }) {
         >
           비즈니스 프로필
         </S.ModeSelectBtn>
-        {view === "business" ? (
-          <BusinessContainer />
-        ) : (
-          <UserContainer view={view} />
-        )}
+        <S.Container>
+          {view === "business" ? (
+            <BusinessContainer />
+          ) : (
+            <>
+              {view === "like" ? (
+                <UserLikeContainer />
+              ) : (
+                <UserContainer view={view} />
+              )}
+            </>
+          )}
+        </S.Container>
       </div>
     </S.ProfilePage>
   );

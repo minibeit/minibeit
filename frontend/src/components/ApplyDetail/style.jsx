@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 const fadeOut = keyframes`
 0% {
@@ -20,39 +20,39 @@ export const FeedContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: 1.5rem 10rem;
+  & > div {
+    padding: 5rem 10rem;
+  }
 `;
+
 export const UnderTitle = styled.div`
   position: relative;
   display: flex;
-  left: 1rem;
+  flex-wrap: wrap;
   gap: 1rem;
-  & > div:nth-child(2) {
-    display: flex;
-    left: 1rem;
-    padding: 1rem 0;
-    gap: 1rem;
-  }
+  padding: 3em 0;
 `;
+
 /* Title */
 export const TitleBox = styled.div`
   position: relative;
   display: flex;
-  width: 100%;
   padding: 1rem 0;
   border-bottom: 1px solid #c4c4c4;
-  left: 1rem;
 `;
 export const TitleContent = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  width: inherit;
+  width: 100%;
   & > p:first-child {
-    color: #c4c4c4;
-    font-size: 1rem;
-    font-weight: 700;
-    margin: 0.6rem 0;
+    background: #0642ff2e;
+    width: fit-content;
+    padding: 0.4em 0.7em;
+    border-radius: 1em;
+    color: #003dff;
+    font-weight: bold;
+    white-space: nowrap;
   }
   & > div:nth-child(2) {
     display: flex;
@@ -71,12 +71,15 @@ export const TitleContent = styled.div`
   & > div:nth-child(3) {
     display: flex;
     align-items: center;
-    color: black;
-    text-decoration: none;
-    gap: 0.5rem;
+    color: #8c8c8c;
+    font-weight: bold;
+    gap: 0.3rem;
     & > svg {
       width: 1rem;
       height: 1rem;
+      & path {
+        fill: #8c8c8c;
+      }
     }
   }
 `;
@@ -116,103 +119,70 @@ export const TitleBookMark = styled.div`
 `;
 /* Content */
 export const ContentBox = styled.div`
-  width: 75%;
+  flex: 2;
+  min-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
 `;
 
-export const DataBox = styled.div`
-  position: relative;
-  & > div:first-child {
-    border-bottom: 1px solid #c4c4c4;
-    & > div:first-child {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      & > p:first-child {
-        font-size: 1.5rem;
-        font-weight: bold;
-        padding: 1rem 1rem 1rem 0;
-      }
-    }
-  }
-  & > div:nth-child(2) {
-    & > ul {
-      margin: 1rem 0;
-      list-style: none;
-      & > li {
-        margin: 1rem 0;
-        & > span {
-          font-weight: 500;
-          font-size: 1rem;
-          color: #8c8c8c;
-          margin-right: 2rem;
-          ::before {
-            content: "•";
-            color: inherit;
-            font-size: inherit;
-            margin-right: 0.4rem;
-          }
-        }
-      }
-    }
-  }
-`;
-
-export const ConditionsDataBox = styled(DataBox)`
-  position: relative;
-  & > div:nth-child(2) {
-    & > ul {
-      & > li {
-        ::before {
-          content: "•";
-          color: inherit;
-          font-size: inherit;
-          margin-right: 0.7rem;
-        }
-      }
-    }
-  }
-`;
-export const DataBox2 = styled(DataBox)`
-  & > div:nth-child(2) {
-    & > ul {
-      & > li {
-        display: flex;
-        & > span {
-          margin-right: 1rem;
-          min-width: 4rem;
-        }
-        & > div {
-          max-height: 3rem;
-        }
-      }
-    }
-  }
-`;
 export const DataHeader = styled.div`
-  border-bottom: 1px solid #c4c4c4;
-  & > p:first-child {
-    font-size: 1.5rem;
+  border-bottom: #11111129 solid 1px;
+  padding: 0 0 1.2rem 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  & p {
+    font-size: 1.4rem;
     font-weight: bold;
-    padding: 1rem 1rem 1rem 0;
   }
 `;
-
 export const DataContent = styled.div`
-  min-height: 8rem;
   padding: 1rem 0;
 `;
-export const AddressBox = styled.div`
-  color: #0642ff;
-  text-decoration: underline;
-  cursor: pointer;
-`;
-export const DataContent2 = styled(DataContent)`
-  margin-bottom: 2rem;
-  & > div:nth-child(2) {
+export const ListBox = styled.ul`
+  display: flex;
+  margin: 0.5em 0;
+  li {
     display: flex;
-    align-items: flex-start;
+    & > div:first-child {
+      min-width: 4em;
+      font-weight: bold;
+    }
+    :before {
+      content: "ㆍ";
+    }
   }
 `;
+
+export const RecruitLabel = styled.p`
+  width: fit-content;
+  padding: 0.3em 0.7em;
+  font-weight: bold;
+  color: #7c7c7c;
+  border-radius: 0.3em;
+  ${({ condition }) =>
+    condition
+      ? css`
+          background: #e5ecff;
+        `
+      : css`
+          background: #f2f2f2;
+        `}
+`;
+
+export const PaymentLabel = styled.p`
+  margin-right: 0.5em;
+  font-weight: bold;
+  color: ${({ payment }) => (payment === "CACHE" ? "#00BB34" : "#3558C7")};
+`;
+
+export const AddressText = styled.div`
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+`;
+
 export const EditBtn = styled.button`
   background-color: #0642ff;
   border: 1px solid #0642ff;
@@ -234,12 +204,16 @@ export const TimeSelectBox = styled.div`
   min-height: 19rem;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
+  & > div:nth-child(2) {
+    flex: 1;
+  }
 `;
 export const Navigation = styled.div`
-  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-height: 3em;
   font-size: 1.5rem;
   font-weight: 500;
   & > div:first-child {
@@ -260,38 +234,40 @@ export const Navigation = styled.div`
   }
 `;
 export const TimeView = styled.div`
-  flex: 2.5;
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-  background: #f5f5f5;
-  border-radius: 0 0 20px 20px;
-  padding: 2rem;
+  gap: 1rem 0.2rem;
+  background: white;
+  padding: 2em;
 `;
 
 export const TimeBtn = styled.div`
+  flex: 1 0 25%;
+  max-width: 24%;
   & > input {
     display: none;
   }
   & > label {
-    padding: 0.5rem;
+    padding: 1em 1.5em;
+    justify-content: center;
     cursor: pointer;
     display: flex;
-    border-radius: 0.7rem;
-    background: white;
+    background: #e5ecff;
     color: black;
-    border: 3px solid white;
   }
   & > input:checked + label {
-    border: 3px solid #0642ff;
+    background: #0642ff;
+    color: white;
   }
   & > input:hover + label {
-    color: #0642ff;
+    transform: scale(1.1);
+  }
+  & > input:disabled:hover + label {
+    transform: scale(1);
   }
   & > input:disabled + label {
-    color: grey;
+    background: #ebebeb;
+    color: #c4c4c4;
     cursor: default;
   }
 `;
@@ -302,8 +278,12 @@ export const DetailContent = styled.div`
   font-size: 1rem;
 `;
 export const EditTextArea = styled.textarea`
-  width: 80%;
+  width: 100%;
   height: 20em;
+  border: 1px solid #c4c4c4;
+  border-radius: 0.5rem;
+  padding: 0.5em;
+  box-sizing: border-box;
 `;
 
 export const Img = styled.img`
@@ -343,9 +323,7 @@ export const ReviewCount = styled.div`
 
 /* apply remote controller */
 export const RemoteBox = styled.div`
-  position: relative;
-  width: 25%;
-  right: 0;
+  flex: 1;
 `;
 
 export const Controller = styled.div`
@@ -354,9 +332,10 @@ export const Controller = styled.div`
   flex-direction: column;
   padding: 1rem;
   position: sticky;
+  max-width: 15em;
   height: 19rem;
-  margin-top: 3.3rem;
   top: 4rem;
+  margin: 3.5em auto;
   border: 1px solid #c4c4c4;
   border-radius: 1.25rem;
   & > p:first-child {
@@ -365,32 +344,24 @@ export const Controller = styled.div`
     font-weight: bold;
   }
   & > div:nth-child(3) {
-    font-size: 0.9rem;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 0.5rem;
-    padding: 0 1rem;
-    & > div > span {
-      margin-right: 0.4rem;
-      font-weight: 600;
+    & > div:first-child {
+      font-weight: bold;
+      min-width: 3em;
     }
   }
 `;
-export const ApplyData = styled.div`
-  border: 1px solid #c4c4c4;
-  border-radius: 7px;
-  & > div {
-    padding: 0.7rem;
-    font-size: 0.8rem;
-    font-weight: 200;
-    & > span {
-      font-weight: bold;
-      margin: 0 0.7rem;
+export const ApplyData = styled.table`
+  border: 0.5px solid #C4C4C4
+  border-radius: 0.5em;
+  & tr {
+    border: 1px solid #c4c4c4;
+    &>td:first-child{
+      font-weight:bold;
     }
   }
-  & > div:first-child {
-    border-bottom: 1px solid #c4c4c4;
+  & td {
+    padding: 0.5em;
   }
 `;
 export const ApplyBtnGroup = styled.div`
@@ -398,29 +369,29 @@ export const ApplyBtnGroup = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  & > button {
-    font-size: 1rem;
-    padding: 7px;
-    border: none;
-    border-radius: 20px;
-    font-weight: 600;
-    cursor: pointer;
+`;
+export const ControllerBtn = styled.button`
+  font-size: 1rem;
+  padding: 0.5em;
+  border: none;
+  border-radius: 1.5em;
+  font-weight: 600;
+  cursor: pointer;
+`;
+export const ApplyBtn = styled(ControllerBtn)`
+  background: #0642ff;
+  border: 2px solid #0642ff;
+  color: white;
+  :disabled {
+    background: #00000070;
+    border: 2px solid #00000070;
+    cursor: default;
   }
-  & > button:first-child {
-    background: #0642ff;
-    color: white;
-    &:disabled {
-      background: #c4c4c4;
-    }
-  }
-  & > button:nth-child(2) {
-    background: #f1f1f1;
-    color: #c4c4c4;
-    :hover {
-      background: #0642ff;
-      color: #fff;
-    }
-  }
+`;
+export const CopyBtn = styled(ControllerBtn)`
+  background: white;
+  border: 2px solid #0642ff;
+  color: #0642ff;
 `;
 
 // apply detail imgs slider

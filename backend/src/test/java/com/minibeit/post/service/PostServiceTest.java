@@ -10,7 +10,10 @@ import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostLike;
 import com.minibeit.post.domain.PostStatus;
-import com.minibeit.post.domain.repository.*;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.post.domain.repository.PostDoDateRepository;
+import com.minibeit.post.domain.repository.PostLikeRepository;
+import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.service.exception.PostNotFoundException;
@@ -27,7 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -112,7 +114,7 @@ class PostServiceTest extends ServiceIntegrationTest {
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
+        userBusinessProfileRepository.save(UserBusinessProfile.create(userInBusinessProfile, businessProfile));
     }
 
     private void initPostForLike() {

@@ -1,9 +1,11 @@
 package com.minibeit.user.domain;
 
-import com.minibeit.file.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.common.exception.DuplicateException;
+import com.minibeit.common.exception.InvalidOperationException;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.school.domain.School;
 import lombok.*;
 
@@ -11,6 +13,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -19,6 +22,8 @@ import java.util.List;
 @Entity
 @Table(name = "user")
 public class User extends BaseEntity {
+    private static final int MAX_SHARE_SIZE = 3;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -93,5 +98,18 @@ public class User extends BaseEntity {
 
     public boolean isAdminInBusinessProfile(BusinessProfile businessProfile) {
         return businessProfile.getAdmin().getId().equals(this.getId());
+    }
+
+    public void businessProfileCountValidate() {
+        if (userBusinessProfileList.size() >= MAX_SHARE_SIZE) {
+            throw new InvalidOperationException("비즈니스 프로필 개수가 너무 많습니다.");
+        }
+    }
+
+    public void duplicateShareValidation(BusinessProfile businessProfile) {
+        List<Long> businessProfileIdListByUser = userBusinessProfileList.stream().map(userBusinessProfile -> userBusinessProfile.getBusinessProfile().getId()).collect(Collectors.toList());
+        if (businessProfileIdListByUser.contains(businessProfile.getId())) {
+            throw new DuplicateException("이미 공유된 유저입니다.");
+        }
     }
 }

@@ -41,7 +41,7 @@ public class BusinessUserReviewService {
     public BusinessUserReviewResponse.OnlyId createBusinessReview(Long businessProfileId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
         if (!postApplicant.writeBusinessReviewIsPossible(now)) {
-            throw new PermissionException();
+            throw new PermissionException("권한이 없습니다.");
         }
         postApplicant.updateWriteReview();
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
@@ -56,11 +56,11 @@ public class BusinessUserReviewService {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
-            throw new PermissionException();
+            throw new PermissionException("권한이 없습니다.");
         }
 
         if (!postApplicant.writeUserReviewIsPossible(now)) {
-            throw new PermissionException();
+            throw new PermissionException("권한이 없습니다.");
         }
         postApplicant.updateEvaluatedBusiness();
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);

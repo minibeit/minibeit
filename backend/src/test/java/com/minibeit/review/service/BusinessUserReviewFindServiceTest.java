@@ -93,7 +93,7 @@ public class BusinessUserReviewFindServiceTest extends ServiceIntegrationTest {
                 .admin(savedUser)
                 .build();
         businessProfile = businessProfileRepository.save(createdBusiness);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(savedUser, businessProfile,List.of(BusinessProfile.builder().build())));
+        userBusinessProfileRepository.save(UserBusinessProfile.create(savedUser, businessProfile));
 
 
         BusinessUserReview review1 = BusinessUserReview.createWithBusiness(businessProfile, businessGoodReview1);

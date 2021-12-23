@@ -143,7 +143,7 @@ public class PostApplicantByBusinessFindServiceTest extends ServiceIntegrationTe
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
+        userBusinessProfileRepository.save(UserBusinessProfile.create(userInBusinessProfile, businessProfile));
     }
 
     private void initApplyPost() {

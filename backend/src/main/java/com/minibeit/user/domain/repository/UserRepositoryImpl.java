@@ -49,4 +49,13 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         .fetchOne()
         );
     }
+
+    @Override
+    public Optional<User> findByIdWithUserBusinessProfile(Long userId) {
+        return Optional.ofNullable(
+                queryFactory.selectFrom(user)
+                        .leftJoin(user.userBusinessProfileList).fetchJoin()
+                        .where(user.id.eq(userId))
+                        .fetchOne());
+    }
 }

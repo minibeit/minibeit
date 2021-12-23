@@ -56,7 +56,7 @@ public class PostApplicantService {
         PostDoDate postDoDate = postApplicant.getPostDoDate();
         Post post = postDoDate.getPost();
         if (!postDoDate.getDoDate().plusMinutes(post.getDoTime()).isBefore(now) || !postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
-            throw new PermissionException();
+            throw new PermissionException("권한이 없습니다.");
         }
         postApplicant.updateStatus(ApplyStatus.COMPLETE);
     }

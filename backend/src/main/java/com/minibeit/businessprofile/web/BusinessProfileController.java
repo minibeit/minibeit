@@ -66,9 +66,9 @@ public class BusinessProfileController {
     }
 
     @DeleteMapping("/business-profile/{businessProfileId}/user/{userId}")
-    public ResponseEntity<ApiResult<Void>> cancelShare(@PathVariable Long businessProfileId,
-                                                       @PathVariable Long userId,
-                                                       @CurrentUser CustomUserDetails customUserDetails) {
+    public ResponseEntity<ApiResult<Void>> expelUser(@PathVariable Long businessProfileId,
+                                                     @PathVariable Long userId,
+                                                     @CurrentUser CustomUserDetails customUserDetails) {
         businessProfileService.cancelShare(businessProfileId, userId, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
@@ -76,7 +76,7 @@ public class BusinessProfileController {
     @DeleteMapping("/business-profile/{businessProfileId}/user")
     public ResponseEntity<ApiResult<Void>> goOutBusinessProfile(@PathVariable Long businessProfileId,
                                                                 @CurrentUser CustomUserDetails customUserDetails) {
-        businessProfileService.goOutBusinessProfile(businessProfileId, customUserDetails.getUser());
+        businessProfileService.leaveBusinessProfile(businessProfileId, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 

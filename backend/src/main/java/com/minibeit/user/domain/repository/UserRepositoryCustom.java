@@ -13,4 +13,6 @@ public interface UserRepositoryCustom {
     Optional<User> findByIdWithSchool(Long userId);
 
     Optional<User> findByIdWithAvatar(Long userId);
+
+    Optional<User> findByIdWithUserBusinessProfile(Long userId);
 }

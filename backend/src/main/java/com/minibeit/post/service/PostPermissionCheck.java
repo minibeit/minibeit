@@ -13,7 +13,7 @@ class PostPermissionCheck {
 
     public void userInBusinessProfileCheck(Long businessProfileId, User user) {
         if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
-            throw new PermissionException();
+            throw new PermissionException("권한이 없습니다.");
         }
     }
 }

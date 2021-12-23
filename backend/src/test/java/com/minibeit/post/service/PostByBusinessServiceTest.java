@@ -5,13 +5,13 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
-import com.minibeit.file.domain.repository.PostFileRepository;
-import com.minibeit.file.service.S3Uploader;
+import com.minibeit.common.exception.PermissionException;
 import com.minibeit.file.domain.FileServer;
 import com.minibeit.file.domain.FileType;
-import com.minibeit.file.service.dto.SavedFile;
-import com.minibeit.common.exception.PermissionException;
 import com.minibeit.file.domain.PostFile;
+import com.minibeit.file.domain.repository.PostFileRepository;
+import com.minibeit.file.service.S3Uploader;
+import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.dto.PostDto;
@@ -173,7 +173,7 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
+        userBusinessProfileRepository.save(UserBusinessProfile.create(userInBusinessProfile, businessProfile));
     }
 
     private void initPostRequest() {

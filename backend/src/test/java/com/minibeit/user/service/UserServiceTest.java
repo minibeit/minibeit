@@ -1,16 +1,16 @@
 package com.minibeit.user.service;
 
 import com.minibeit.ServiceIntegrationTest;
-import com.minibeit.file.domain.Avatar;
-import com.minibeit.file.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
+import com.minibeit.common.exception.DuplicateException;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.file.domain.FileServer;
 import com.minibeit.file.domain.FileType;
+import com.minibeit.file.service.AvatarService;
 import com.minibeit.file.service.dto.SavedFile;
-import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostApplicant;
@@ -29,9 +29,9 @@ import com.minibeit.user.domain.Role;
 import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
-import com.minibeit.user.service.exception.UserNotFoundException;
 import com.minibeit.user.service.dto.UserRequest;
 import com.minibeit.user.service.dto.UserResponse;
+import com.minibeit.user.service.exception.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -167,7 +167,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .build();
         businessProfile.setCreatedBy(userInBusinessProfile);
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
+        userBusinessProfileRepository.save(UserBusinessProfile.create(userInBusinessProfile, businessProfile));
     }
 
     private void initApplyPost() {
@@ -261,7 +261,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .birth(LocalDate.of(2222, 1, 1))
                 .avatar(multipartFile)
                 .avatarChanged(true).build();
-        SavedFile savedFile = new SavedFile( "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
+        SavedFile savedFile = new SavedFile("files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
 
         Avatar avatar = Avatar.create(savedFile.toAvatar());
 

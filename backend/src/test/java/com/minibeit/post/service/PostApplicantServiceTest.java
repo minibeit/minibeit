@@ -134,7 +134,7 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
         businessProfileRepository.save(businessProfile);
         List<BusinessProfile> businessProfileList = new ArrayList<>();
         businessProfileList.add(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
+        userBusinessProfileRepository.save(UserBusinessProfile.create(userInBusinessProfile, businessProfile));
     }
 
     private void initApplyPost() {
@@ -259,7 +259,7 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
         assertThat(postApplicant.isWriteReview()).isEqualTo(false);
 
         int afterLikes = postLikeRepository.findAll().size();
-        assertThat(beforeLikes - 1 ).isEqualTo(afterLikes);
+        assertThat(beforeLikes - 1).isEqualTo(afterLikes);
     }
 
     @Test

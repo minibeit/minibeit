@@ -70,11 +70,7 @@ export default function RecruitComponent() {
 
   useEffect(() => {
     return history.block((loca, action) => {
-      if (
-        (action === "POP" || action === "PUSH") &&
-        loca.pathname.slice(0, loca.pathname.length - 1) !==
-          "/recruit/complete/"
-      ) {
+      if (!loca.pathname.includes("/recruit")) {
         let value = window.confirm("변경내용이 저장되지 않을 수 있습니다");
         if (value) resetRecruit();
         return value;

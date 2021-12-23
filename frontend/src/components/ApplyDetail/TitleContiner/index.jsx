@@ -48,7 +48,7 @@ export default function TitleContainer({ feedDetailData, clickBookmark }) {
               </S.CopyTemplateBtn>
             )}
             <S.TitleBookMark isLike={feedDetailData.isLike}>
-              <Star id={feedDetailData.id} onClick={clickBookmark} />
+              <Star onClick={() => clickBookmark(feedDetailData.id)} />
               <p>{feedDetailData.likes}</p>
             </S.TitleBookMark>
           </div>

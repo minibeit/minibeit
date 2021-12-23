@@ -17,8 +17,7 @@ import Recruit from "./pages/Recruit";
 import RecruitComplete from "./pages/RecruitComplete";
 import SignUp from "./pages/SignUp";
 
-import { NavBar } from "./components/Common";
-import FooterComponent from "./components/Common/Footer";
+import { NavBar, Footer } from "./components/Common";
 
 function App() {
   const pathname = useLocation();
@@ -64,7 +63,7 @@ function App() {
             </Switch>
           </CSSTransition>
         </TransitionGroup>
-        <FooterComponent />
+        <Footer />
       </RecoilRoot>
     </>
   );

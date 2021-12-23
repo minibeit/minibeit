@@ -47,9 +47,9 @@ export default function ApplyDetailComponent({ feedId, date }) {
     await bookmarkApi(postId).then().catch();
   };
 
-  const clickBookmark = (e) => {
+  const clickBookmark = (feedId) => {
     if (user.isLogin) {
-      postBookmark(e.target.id);
+      postBookmark(feedId);
       if (feedDetailData.isLike) {
         setFeedDetailData({
           ...feedDetailData,

@@ -18,13 +18,13 @@ export default function ListContainer({ feedList, postBookmark, setFeedList }) {
     history.push(`/apply/${a.id}?${moment(date).format("YYYY-MM-DD")}`);
   };
 
-  const clickBookmark = (a, e) => {
+  const clickBookmark = (feedData, e) => {
     e.stopPropagation();
     if (isLogin) {
-      postBookmark(a.id);
+      postBookmark(feedData.id);
       var Data = [...feedList];
-      var likeData = Data[feedList.findIndex((i) => i.id === a.id)];
-      if (a.isLike) {
+      var likeData = Data[feedList.findIndex((i) => i.id === feedData.id)];
+      if (feedData.isLike) {
         likeData.likes = likeData.likes - 1;
         likeData.isLike = !likeData.isLike;
         setFeedList(Data);

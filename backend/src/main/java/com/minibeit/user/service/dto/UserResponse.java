@@ -1,4 +1,4 @@
-package com.minibeit.user.dto;
+package com.minibeit.user.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;

@@ -1,6 +1,7 @@
-package com.minibeit.user.dto;
+package com.minibeit.user.service.dto;
 
 import com.minibeit.user.domain.Gender;
+import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.VerificationKinds;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
@@ -38,8 +39,19 @@ public class UserRequest {
         private LocalDate birth;
         @NotNull(message = "학교 식별자가 공백일 수 없습니다.")
         private Long schoolId;
-        private List<Long> interestsIds;
         private MultipartFile avatar;
+
+        public User toEntity(){
+            return User.builder()
+                    .name(name)
+                    .nickname(nickname)
+                    .email(email)
+                    .gender(gender)
+                    .phoneNum(phoneNum)
+                    .job(job)
+                    .birth(birth)
+                    .build();
+        }
     }
 
     @Setter
@@ -69,6 +81,18 @@ public class UserRequest {
         private LocalDate birth;
         private MultipartFile avatar;
         private boolean avatarChanged;
+
+        public User toEntity(){
+            return User.builder()
+                    .name(name)
+                    .nickname(nickname)
+                    .email(email)
+                    .gender(gender)
+                    .phoneNum(phoneNum)
+                    .job(job)
+                    .birth(birth)
+                    .build();
+        }
     }
 
     @Getter

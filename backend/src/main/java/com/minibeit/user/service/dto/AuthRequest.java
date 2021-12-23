@@ -1,4 +1,4 @@
-package com.minibeit.user.dto;
+package com.minibeit.user.service.dto;
 
 import lombok.*;
 

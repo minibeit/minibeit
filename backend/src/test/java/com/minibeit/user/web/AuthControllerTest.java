@@ -4,7 +4,7 @@ import com.minibeit.MvcTest;
 import com.minibeit.security.token.RefreshTokenService;
 import com.minibeit.security.token.Token;
 import com.minibeit.security.token.TokenProvider;
-import com.minibeit.user.dto.UserResponse;
+import com.minibeit.user.service.dto.UserResponse;
 import com.minibeit.user.service.AuthService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

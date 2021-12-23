@@ -5,7 +5,6 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.school.domain.School;
-import com.minibeit.user.dto.UserRequest;
 import lombok.*;
 
 import javax.persistence.*;
@@ -62,29 +61,29 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserBusinessProfile> userBusinessProfileList = new ArrayList<>();
 
-    public User signup(UserRequest.Signup request, School school, Avatar avatar) {
-        this.name = request.getName();
-        this.nickname = request.getNickname();
-        this.email = request.getEmail();
-        this.gender = request.getGender();
-        this.job = request.getJob();
-        this.phoneNum = request.getPhoneNum();
-        this.birth = request.getBirth();
+    public User signup(User user, School school, Avatar avatar) {
+        this.name = user.getName();
+        this.nickname = user.getNickname();
+        this.email = user.getEmail();
+        this.gender = user.getGender();
+        this.job = user.getJob();
+        this.phoneNum = user.getPhoneNum();
+        this.birth = user.getBirth();
         this.signupCheck = true;
         this.school = school;
         this.avatar = avatar;
         return this;
     }
 
-    public User update(UserRequest.Update request, School school) {
-        this.name = request.getName();
-        this.nickname = request.getNickname();
-        this.email = request.getEmail();
-        this.gender = request.getGender();
-        this.job = request.getJob();
-        this.phoneNum = request.getPhoneNum();
+    public User update(User user, School school) {
+        this.name = user.getName();
+        this.nickname = user.getNickname();
+        this.email = user.getEmail();
+        this.gender = user.getGender();
+        this.job = user.getJob();
+        this.phoneNum = user.getPhoneNum();
         this.school = school;
-        this.birth = request.getBirth();
+        this.birth = user.getBirth();
         return this;
     }
 

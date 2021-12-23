@@ -15,7 +15,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
@@ -61,11 +60,6 @@ public class MailService {
 
         PostStatusMail postStatusMail = PostStatusMail.create(MailCondition.VERIFICATION, request.getToEmail());
         postStatusMail.getMailCondition().makeMimeMessage(message, templateEngine, request.getToEmail(), userVerificationCode);
-//
-//
-//        message.addRecipients(MimeMessage.RecipientType.TO, request.getToEmail());
-//        message.setSubject("[미니바이트] 인증번호를 안내해드립니다.");
-//        message.setText(setContext(userVerificationCode.getCode()), "utf-8", "html");
 
         mailSender.send(message);
     }

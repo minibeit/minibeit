@@ -2,14 +2,15 @@ package com.minibeit.user.service;
 
 import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.avatar.domain.Avatar;
-import com.minibeit.common.domain.FileServer;
-import com.minibeit.common.domain.FileType;
 import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
+import com.minibeit.common.domain.FileServer;
+import com.minibeit.common.domain.FileType;
 import com.minibeit.common.dto.SavedFile;
+import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostApplicant;
@@ -23,12 +24,14 @@ import com.minibeit.post.service.PostApplicantByBusinessService;
 import com.minibeit.post.service.PostByBusinessService;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
-import com.minibeit.user.domain.*;
+import com.minibeit.user.domain.Gender;
+import com.minibeit.user.domain.Role;
+import com.minibeit.user.domain.SignupProvider;
+import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
-import com.minibeit.user.dto.UserRequest;
-import com.minibeit.user.dto.UserResponse;
-import com.minibeit.user.service.exception.DuplicateNickNameException;
 import com.minibeit.user.service.exception.UserNotFoundException;
+import com.minibeit.user.service.dto.UserRequest;
+import com.minibeit.user.service.dto.UserResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -232,7 +235,7 @@ class UserServiceTest extends ServiceIntegrationTest {
 
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname(applyUser1.getNickname()).build();
 
-        assertThatThrownBy(() -> userService.nickNameCheck(request)).isInstanceOf(DuplicateNickNameException.class);
+        assertThatThrownBy(() -> userService.nickNameCheck(request)).isInstanceOf(DuplicateException.class);
 
         User findUser = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
         assertThat(findUser.getNickname()).isEqualTo(request.getNickname());
@@ -334,7 +337,7 @@ class UserServiceTest extends ServiceIntegrationTest {
 
         //when
         assertThatThrownBy(() -> userService.update(updateInfo, user))
-                .isInstanceOf(DuplicateNickNameException.class);
+                .isInstanceOf(DuplicateException.class);
         //then
         User noUpdatedUser = userRepository.findById(applyUser1.getId()).orElseThrow(UserNotFoundException::new);
         assertThat(noUpdatedUser.getNickname()).isEqualTo(applyUser1.getNickname());
@@ -456,6 +459,6 @@ class UserServiceTest extends ServiceIntegrationTest {
         UserRequest.Nickname updatedNickName = UserRequest.Nickname.builder().nickname("새로운 닉네임").build();
 
         assertThatThrownBy(() -> userService.nickNameCheck(updatedNickName))
-                .isInstanceOf(DuplicateNickNameException.class);
+                .isInstanceOf(DuplicateException.class);
     }
 }

@@ -18,10 +18,48 @@ export default function SearchBar({
   const userSchoolId = useRecoilValue(userState).schoolId;
   return (
     <S.SearchBox>
-      <p>참여하기</p>
-      <p>내 일정에 맞는 리서치를 검색하시고 보상을 획득하세요!</p>
+      <p>일정에 맞는 모집 공고를 검색해보세요</p>
       <div>
-        <S.PlaceInput>
+        <S.SearchInput>
+          <S.InputItem>
+            <p>위치</p>
+            <SchoolInput
+              defaultId={userSchoolId}
+              onChange={(e) => {
+                const copy = { ...school };
+                copy.schoolId = e.id;
+                copy.schoolName = e.name;
+                setSchool(copy);
+              }}
+            />
+          </S.InputItem>
+          <S.InputItem>
+            <p>날짜</p>
+            <DateInput
+              minDate={new Date()}
+              currentDate={date.date}
+              setCurrentDate={setDate}
+            />
+          </S.InputItem>
+          <S.InputItem>
+            <p>시작시간</p>
+            <input />
+          </S.InputItem>
+          <S.InputItem style={{ border: "none" }}>
+            <p>소요시간</p>
+            <input />
+          </S.InputItem>
+          <div>
+            <S.SearchBtn
+              onClick={() =>
+                search(school.schoolId ? school.schoolId : userSchoolId, 1)
+              }
+            >
+              검색
+            </S.SearchBtn>
+          </div>
+        </S.SearchInput>
+        {/* <S.PlaceInput>
           <SchoolInput
             defaultId={userSchoolId}
             onChange={(e) => {
@@ -39,14 +77,7 @@ export default function SearchBar({
             currentDate={date.date}
             setCurrentDate={setDate}
           />
-        </S.DateInput>
-        <S.SearchBtn
-          onClick={() =>
-            search(school.schoolId ? school.schoolId : userSchoolId, 1)
-          }
-        >
-          검색하기
-        </S.SearchBtn>
+        </S.DateInput> */}
       </div>
     </S.SearchBox>
   );

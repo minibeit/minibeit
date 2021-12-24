@@ -13,6 +13,19 @@ export default function DateInput({
 }) {
   const [calendarView, setCalendarView] = useState(false);
 
+  const tileContent = ({ date, view }) => {
+    if (view === "month") {
+      if (
+        moment(currentDate).format("YYYY-MM-DD") ===
+        moment(date).format("YYYY-MM-DD")
+      ) {
+        return <S.ColorView>{moment(date).format("D")}</S.ColorView>;
+      } else {
+        return null;
+      }
+    }
+  };
+
   return (
     <ClickAwayListener onClickAway={() => setCalendarView(false)}>
       <S.DateInputBox>
@@ -35,6 +48,7 @@ export default function DateInput({
               minDetail="month"
               next2Label={null}
               prev2Label={null}
+              tileContent={tileContent}
               showNeighboringMonth={false}
               formatDay={(locale, date) => moment(date).format("D")}
             />

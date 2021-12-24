@@ -89,16 +89,14 @@ export const FilterLabel = styled.div`
 export const SearchBox = styled.div`
   display: flex;
   flex-direction: column;
+
   gap: 1rem;
   & > p:first-child {
-    color: #0642ff;
-    font-size: 2rem;
+    font-size: 1.5em;
     font-weight: bold;
+    text-align: center;
   }
-  & > p:nth-child(2) {
-    font-weight: bold;
-  }
-  & > div:nth-child(3) {
+  & > div:nth-child(2) {
     display: flex;
     gap: 10px;
     margin-bottom: 2rem;
@@ -106,40 +104,45 @@ export const SearchBox = styled.div`
 `;
 export const SearchInput = styled.div`
   background: #f8f8f8;
+  flex-wrap: wrap;
   display: flex;
-  align-items: center;
-  max-height: 3rem;
-  border-radius: 1.5rem;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  & > p:first-child {
-    white-space: nowrap;
-  }
-  & svg {
-    width: 1rem;
-  }
+  width: 100%;
+  justify-content: space-around;
+  padding: 0.5em;
+  border-radius: 1em;
 `;
-export const PlaceInput = styled(SearchInput)``;
-export const DateInput = styled(SearchInput)`
+export const InputItem = styled.div`
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 10em;
+  gap: 0.5em;
+  padding: 0 0.5em;
+  border-right: 0.5px solid #918d8ddd;
+  & > p {
+    color: #3f3f3f;
+  }
   & input {
-    background: none;
-    height: 100%;
-    border: none;
-    width: 13rem;
-    outline: none;
+    width: 100%;
     text-align: center;
-    font-size: 1rem;
+    border: none;
+    background: none;
+    color: black;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
   }
 `;
 export const SearchBtn = styled.button`
+  flex: 0.5;
+  min-width: 4em;
+  min-height: 4em;
   color: white;
-  background-color: #0642ff;
+  background: #0642ff;
   border: none;
-  font-weight: 600;
+  border-radius: 50%;
   cursor: pointer;
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  white-space: nowrap;
 `;
 
 /* detail filter */

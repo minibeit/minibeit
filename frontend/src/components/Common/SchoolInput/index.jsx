@@ -35,7 +35,6 @@ export default function SchoolInput({ defaultId, onChange }) {
     >
       <div>
         <S.SearchInput>
-          <PlaceIcon />
           <input
             type="text"
             className="schoolInput"

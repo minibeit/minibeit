@@ -26,6 +26,19 @@ export default function CalendarButton({
     [feedId]
   );
 
+  const tileContent = ({ date, view }) => {
+    if (view === "month") {
+      if (
+        moment(currentDate).format("YYYY-MM-DD") ===
+        moment(date).format("YYYY-MM-DD")
+      ) {
+        return <S.ColorView>{moment(date).format("D")}</S.ColorView>;
+      } else {
+        return null;
+      }
+    }
+  };
+
   const tileDisabled = ({ date }) => {
     if (activeDate.find((a) => a === moment(date).format("YYYY-MM-DD"))) {
       return false;
@@ -59,6 +72,7 @@ export default function CalendarButton({
                 setCurrentDate(moment(date).format("YYYY-MM-DD"));
                 setCalendarView(!calendarView);
               }}
+              tileContent={tileContent}
               minDetail="month"
               next2Label={null}
               prev2Label={null}

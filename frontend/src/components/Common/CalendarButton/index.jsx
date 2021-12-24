@@ -34,19 +34,6 @@ export default function CalendarButton({
     }
   };
 
-  const tileContent = ({ date, view }) => {
-    if (view === "month") {
-      if (
-        moment(currentDate).format("YYYY-MM-DD") ===
-        moment(date).format("YYYY-MM-DD")
-      ) {
-        return <S.ColorView>{moment(date).format("D")}</S.ColorView>;
-      } else {
-        return null;
-      }
-    }
-  };
-
   useEffect(() => {
     getActiveDate();
   }, [getActiveDate]);
@@ -76,7 +63,6 @@ export default function CalendarButton({
               next2Label={null}
               prev2Label={null}
               showNeighboringMonth={false}
-              tileContent={tileContent}
               formatDay={(locale, date) => moment(date).format("D")}
             />
           </S.CalendarWrapper>

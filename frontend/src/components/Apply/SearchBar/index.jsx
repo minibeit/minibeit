@@ -16,7 +16,6 @@ export default function SearchBar({
   search,
 }) {
   const userSchoolId = useRecoilValue(userState).schoolId;
-
   return (
     <S.SearchBox>
       <p>참여하기</p>
@@ -37,12 +36,8 @@ export default function SearchBar({
           <CalendarIcon />
           <DateInput
             minDate={new Date()}
-            onChange={(e) => {
-              const copy = { ...date };
-              copy.date = e;
-              setDate(copy);
-            }}
-            defaultDate={date.date}
+            currentDate={date.date}
+            setCurrentDate={setDate}
           />
         </S.DateInput>
         <S.SearchBtn

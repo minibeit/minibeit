@@ -51,13 +51,11 @@ export const Box = styled.div`
 `;
 
 const Button = styled.button`
-  position: relative;
-  width: 16rem;
-  height: 2.5rem;
-  font-size: 14px;
-  font-weight: 600;
-  line-height: 2.5rem;
-  border-radius: 30px;
+  min-width: 15em;
+  padding: 1em 1.5em;
+  border-radius: 2em;
+  font-weight: bold;
+  cursor: pointer;
 `;
 
 export const GrayButton = styled(Button)`

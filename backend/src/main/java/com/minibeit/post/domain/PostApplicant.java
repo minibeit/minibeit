@@ -1,6 +1,7 @@
 package com.minibeit.post.domain;
 
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.common.exception.PermissionException;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
@@ -45,20 +46,19 @@ public class PostApplicant extends BaseEntity {
         this.applyStatus = applyStatus;
     }
 
-    public boolean writeBusinessReviewIsPossible(LocalDateTime now) {
-        return this.applyStatus.equals(ApplyStatus.COMPLETE) && !this.writeReview &&
-                this.businessFinish && this.postDoDate.getDoDate().plusDays(7).isAfter(now);
-    }
-
     public boolean writeUserReviewIsPossible(LocalDateTime now) {
         return !this.evaluatedBusiness && this.postDoDate.getDoDate().plusDays(7).isAfter(now);
     }
 
-    public void updateEvaluatedBusiness() {
-        this.evaluatedBusiness = true;
+    private boolean writeBusinessReviewIsPossible(LocalDateTime now) {
+        return this.applyStatus.equals(ApplyStatus.COMPLETE) && !this.writeReview &&
+                this.businessFinish && this.postDoDate.getDoDate().plusDays(7).isAfter(now);
     }
 
-    public void updateWriteReview() {
+    public void updateWriteReview(LocalDateTime now) {
+        if (!writeBusinessReviewIsPossible(now)) {
+            throw new PermissionException("리뷰를 작성할 수 없습니다.");
+        }
         this.writeReview = true;
     }
 
@@ -86,5 +86,12 @@ public class PostApplicant extends BaseEntity {
                 .build();
         postApplicant.setPostDoDate(postDoDate);
         return postApplicant;
+    }
+
+    public void evaluated(LocalDateTime now, User userInBusiness, Long businessProfileId) {
+        if (!writeUserReviewIsPossible(now) || !userInBusiness.userInBusiness(businessProfileId)) {
+            throw new PermissionException("참여자를 평가할 수 없습니다.");
+        }
+        this.evaluatedBusiness = true;
     }
 }

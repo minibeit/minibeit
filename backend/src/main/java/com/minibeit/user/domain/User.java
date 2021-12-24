@@ -106,10 +106,8 @@ public class User extends BaseEntity {
         }
     }
 
-    public void duplicateShareValidation(BusinessProfile businessProfile) {
+    public boolean userInBusiness(Long businessProfileId) {
         List<Long> businessProfileIdListByUser = userBusinessProfileList.stream().map(userBusinessProfile -> userBusinessProfile.getBusinessProfile().getId()).collect(Collectors.toList());
-        if (businessProfileIdListByUser.contains(businessProfile.getId())) {
-            throw new DuplicateException("이미 공유된 유저입니다.");
-        }
+        return businessProfileIdListByUser.contains(businessProfileId);
     }
 }

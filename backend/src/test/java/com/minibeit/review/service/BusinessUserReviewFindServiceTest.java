@@ -11,7 +11,7 @@ import com.minibeit.review.domain.BusinessUserReviewEvalType;
 import com.minibeit.review.domain.BusinessUserReviewType;
 import com.minibeit.review.domain.repository.BusinessUserReviewDetailRepository;
 import com.minibeit.review.domain.repository.BusinessUserReviewRepository;
-import com.minibeit.review.dto.BusinessUserReviewResponse;
+import com.minibeit.review.service.dto.BusinessUserReviewResponse;
 import com.minibeit.user.domain.Role;
 import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;

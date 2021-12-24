@@ -1,6 +1,7 @@
 package com.minibeit.businessprofile.domain;
 
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.file.domain.Avatar;
@@ -74,7 +75,9 @@ public class BusinessProfile extends BaseEntity {
     public UserBusinessProfile invite(User invitedUser, BusinessProfile businessProfile, User loginUser) {
         adminValidate(loginUser);
         invitedUser.businessProfileCountValidate();
-        invitedUser.duplicateShareValidation(businessProfile);
+        if (invitedUser.userInBusiness(businessProfile.getId())) {
+            throw new DuplicateException("이미 공유된 유저입니다.");
+        }
         return UserBusinessProfile.create(invitedUser);
     }
 

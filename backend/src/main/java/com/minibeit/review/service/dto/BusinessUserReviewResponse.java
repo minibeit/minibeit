@@ -1,4 +1,4 @@
-package com.minibeit.review.dto;
+package com.minibeit.review.service.dto;
 
 import com.minibeit.review.domain.BusinessUserReview;
 import com.minibeit.review.domain.BusinessUserReviewDetail;

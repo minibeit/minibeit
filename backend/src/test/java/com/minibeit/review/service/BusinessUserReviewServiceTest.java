@@ -18,7 +18,7 @@ import com.minibeit.review.domain.BusinessUserReviewEvalType;
 import com.minibeit.review.domain.BusinessUserReviewType;
 import com.minibeit.review.domain.repository.BusinessUserReviewDetailRepository;
 import com.minibeit.review.domain.repository.BusinessUserReviewRepository;
-import com.minibeit.review.dto.BusinessUserReviewResponse;
+import com.minibeit.review.service.dto.BusinessUserReviewResponse;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -179,7 +179,7 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
         PostApplicant postApplicant2 = PostApplicant.create(postDoDate, notAttendUser);
         postApplicant2.updateStatus(ApplyStatus.COMPLETE);
         postApplicant2.changeBusinessFinish(false);
-        postApplicant2.updateEvaluatedBusiness();
+        postApplicant2.evaluated(LocalDateTime.of(2021, 9, 30, 0, 0), userInBusinessProfile, businessProfile.getId());
         postApplicantRepository.save(postApplicant2);
 
         PostApplicant postApplicant3 = PostApplicant.create(postDoDate, notCompleteSelf);

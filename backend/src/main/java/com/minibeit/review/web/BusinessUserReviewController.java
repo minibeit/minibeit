@@ -3,7 +3,7 @@ package com.minibeit.review.web;
 import com.minibeit.common.dto.ApiResult;
 import com.minibeit.review.domain.BusinessUserReviewEvalType;
 import com.minibeit.review.domain.BusinessUserReviewType;
-import com.minibeit.review.dto.BusinessUserReviewResponse;
+import com.minibeit.review.service.dto.BusinessUserReviewResponse;
 import com.minibeit.review.service.BusinessUserReviewService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;

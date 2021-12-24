@@ -1,4 +1,4 @@
-package com.minibeit.post.service.exception;
+package com.minibeit.postapplicant.service.exception;
 
 import com.minibeit.common.exception.InvalidValueException;
 

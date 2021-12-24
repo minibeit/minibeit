@@ -3,7 +3,7 @@ package com.minibeit.post.service;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.RejectPost;
 import com.minibeit.post.domain.repository.RejectPostRepository;
-import com.minibeit.post.dto.RejectPostResponse;
+import com.minibeit.post.service.dto.RejectPostResponse;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

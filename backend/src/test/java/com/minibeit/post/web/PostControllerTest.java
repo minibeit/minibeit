@@ -5,7 +5,7 @@ import com.minibeit.file.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.file.domain.PostFile;
 import com.minibeit.post.domain.*;
-import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.PostService;
 import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.school.domain.School;

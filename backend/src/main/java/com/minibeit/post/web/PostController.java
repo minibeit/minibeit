@@ -4,7 +4,7 @@ import com.minibeit.common.dto.ApiResult;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
-import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.PostService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;

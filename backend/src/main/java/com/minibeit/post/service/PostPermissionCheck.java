@@ -2,7 +2,7 @@ package com.minibeit.post.service;
 
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.service.exception.ExistApprovedApplicantException;
+import com.minibeit.postapplicant.service.exception.ExistApprovedApplicantException;
 import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;

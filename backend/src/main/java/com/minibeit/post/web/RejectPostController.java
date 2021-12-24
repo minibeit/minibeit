@@ -2,7 +2,7 @@ package com.minibeit.post.web;
 
 import com.minibeit.common.dto.ApiResult;
 import com.minibeit.common.dto.PageDto;
-import com.minibeit.post.dto.RejectPostResponse;
+import com.minibeit.post.service.dto.RejectPostResponse;
 import com.minibeit.post.service.RejectPostService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;

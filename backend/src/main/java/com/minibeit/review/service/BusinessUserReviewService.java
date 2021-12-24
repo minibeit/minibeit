@@ -5,7 +5,7 @@ import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.postapplicant.domain.PostApplicant;
 import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
-import com.minibeit.post.service.exception.PostApplicantNotFoundException;
+import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
 import com.minibeit.review.domain.BusinessUserReview;
 import com.minibeit.review.domain.BusinessUserReviewDetail;
 import com.minibeit.review.domain.BusinessUserReviewEvalType;

@@ -1,9 +1,9 @@
 package com.minibeit.mail.service;
 
-import com.minibeit.mail.condition.MailCondition;
-import com.minibeit.mail.condition.MailPostCondition;
-import com.minibeit.mail.dto.MailRequest;
-import com.minibeit.mail.dto.PostStatusMail;
+import com.minibeit.mail.service.dto.condition.MailCondition;
+import com.minibeit.mail.service.dto.condition.MailPostCondition;
+import com.minibeit.mail.service.dto.MailRequest;
+import com.minibeit.mail.service.dto.PostStatusMail;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.UserVerificationCode;
 import com.minibeit.user.domain.VerificationKinds;

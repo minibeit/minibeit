@@ -1,4 +1,4 @@
-package com.minibeit.mail.condition;
+package com.minibeit.mail.service.dto.condition;
 
 import org.thymeleaf.TemplateEngine;
 

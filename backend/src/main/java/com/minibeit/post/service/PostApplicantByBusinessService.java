@@ -1,6 +1,6 @@
 package com.minibeit.post.service;
 
-import com.minibeit.mail.condition.MailCondition;
+import com.minibeit.mail.service.dto.condition.MailCondition;
 import com.minibeit.mail.service.MailService;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;

@@ -1,6 +1,6 @@
-package com.minibeit.mail.dto;
+package com.minibeit.mail.service.dto;
 
-import com.minibeit.mail.condition.*;
+import com.minibeit.mail.service.dto.condition.*;
 import lombok.*;
 
 @Getter

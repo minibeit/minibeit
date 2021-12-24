@@ -1,7 +1,7 @@
 package com.minibeit.post.service;
 
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.mail.condition.MailCondition;
+import com.minibeit.mail.service.dto.condition.MailCondition;
 import com.minibeit.mail.service.MailService;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;

@@ -1,7 +1,7 @@
 package com.minibeit.post.scheduler;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.mail.condition.MailCondition;
+import com.minibeit.mail.service.dto.condition.MailCondition;
 import com.minibeit.mail.service.MailService;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;

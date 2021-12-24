@@ -1,4 +1,4 @@
-package com.minibeit.message.dto;
+package com.minibeit.message.service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

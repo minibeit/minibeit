@@ -24,6 +24,20 @@
 * {
   font-family: NotoSansKR;
 }
+body::-webkit-scrollbar {
+  width: 10px;
+}
+body::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+body::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  background-color: #0000006b;
+}
+body::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
 
 .pageTransition-enter {
   opacity: 0.01;

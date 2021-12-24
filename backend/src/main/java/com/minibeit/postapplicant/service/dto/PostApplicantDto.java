@@ -1,7 +1,7 @@
-package com.minibeit.post.dto;
+package com.minibeit.postapplicant.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.user.domain.Gender;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.AccessLevel;

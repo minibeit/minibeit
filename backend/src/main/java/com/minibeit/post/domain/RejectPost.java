@@ -1,6 +1,8 @@
 package com.minibeit.post.domain;
 
+import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.postapplicant.domain.PostApplicant;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
@@ -42,18 +44,18 @@ public class RejectPost extends BaseEntity {
 
     private String businessProfileName;
 
-    public static RejectPost create(String title, String place, String placeDetail, String category, String contact, Boolean recruitCondition, Integer doTime, LocalDateTime doDate, String rejectComment, User user, String businessProfileName) {
+    public static RejectPost create(Post post, PostDoDate postDoDate, BusinessProfile businessProfile, User user, String rejectComment) {
         return RejectPost.builder()
-                .title(title)
-                .place(place)
-                .placeDetail(placeDetail)
-                .category(category)
-                .contact(contact)
-                .recruitCondition(recruitCondition)
-                .doTime(doTime)
-                .doDate(doDate)
+                .title(post.getTitle())
+                .place(post.getPlace())
+                .placeDetail(post.getPlaceDetail())
+                .category(post.getCategory())
+                .contact(post.getContact())
+                .recruitCondition(post.isRecruitCondition())
+                .doTime(post.getDoTime())
+                .doDate(postDoDate.getDoDate())
                 .rejectComment(rejectComment)
-                .businessProfileName(businessProfileName)
+                .businessProfileName(businessProfile.getName())
                 .user(user)
                 .build();
     }

@@ -88,7 +88,7 @@ public class PostByBusinessFindServiceTest extends ServiceIntegrationTest {
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.create(userInBusinessProfile, businessProfile));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
     }
 
     private void initPost() {
@@ -111,15 +111,15 @@ public class PostByBusinessFindServiceTest extends ServiceIntegrationTest {
                     .businessProfileId(businessProfile.getId())
                     .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
                     .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
-                    .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                    .doDateList(Arrays.asList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build(),
+                            PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 9, 30)).build()))
                     .build();
-
-            Post createdPost = Post.create(createRequest, school, businessProfile);
+            Post createdPost = createRequest.toEntity();
+            List<PostDoDate> postDoDates = createRequest.toPostDoDates();
+            postDoDates.forEach(postDoDate -> postDoDate.assignPost(createdPost));
+            createdPost.create(school, businessProfile);
             post = postRepository.save(createdPost);
-
-            PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
-            PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
-            postDoDateRepository.saveAll(Arrays.asList(postDoDate1, postDoDate2));
+            postDoDateRepository.saveAll(postDoDates);
 
             PostLike postLike = PostLike.create(createdPost, userInBusinessProfile);
             postLikeRepository.save(postLike);
@@ -143,16 +143,18 @@ public class PostByBusinessFindServiceTest extends ServiceIntegrationTest {
                     .businessProfileId(businessProfile.getId())
                     .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
                     .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
-                    .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                    .doDateList(Arrays.asList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build(),
+                            PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 9, 30)).build()))
                     .build();
 
-            Post createdPost = Post.create(createRequest, school, businessProfile);
+            Post createdPost = createRequest.toEntity();
+            List<PostDoDate> postDoDates = createRequest.toPostDoDates();
+            postDoDates.forEach(postDoDate -> postDoDate.assignPost(createdPost));
+            createdPost.create(school, businessProfile);
             createdPost.completed();
-            postRepository.save(createdPost);
+            post = postRepository.save(createdPost);
 
-            PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
-            PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
-            postDoDateRepository.saveAll(Arrays.asList(postDoDate1, postDoDate2));
+            postDoDateRepository.saveAll(postDoDates);
         }
     }
 

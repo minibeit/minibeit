@@ -33,7 +33,7 @@ public class BusinessProfileService {
     private final AvatarService avatarService;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
-        User findUser = userRepository.findByIdWithUserBusinessProfile(user.getId()).orElseThrow(UserNotFoundException::new);
+        User findUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(user.getId()).orElseThrow(UserNotFoundException::new);
         Avatar avatar = avatarService.upload(request.getAvatar());
         BusinessProfile businessProfile = BusinessProfile.create(request.toEntity(), avatar, findUser);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
@@ -54,7 +54,7 @@ public class BusinessProfileService {
 
     public void shareBusinessProfile(Long businessProfileId, Long invitedUserId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-        User invitedUser = userRepository.findByIdWithUserBusinessProfile(invitedUserId).orElseThrow(UserNotFoundException::new);
+        User invitedUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(invitedUserId).orElseThrow(UserNotFoundException::new);
         UserBusinessProfile userBusinessProfile = businessProfile.invite(invitedUser, businessProfile, user);
 
         userBusinessProfileRepository.save(userBusinessProfile);
@@ -70,7 +70,7 @@ public class BusinessProfileService {
 
     public void changeAdmin(Long businessProfileId, Long userId, User loginUser) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-        User changeUser = userRepository.findByIdWithUserBusinessProfile(userId).orElseThrow(UserNotFoundException::new);
+        User changeUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(userId).orElseThrow(UserNotFoundException::new);
         businessProfile.changeAdmin(loginUser, changeUser);
     }
 

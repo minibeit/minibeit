@@ -13,13 +13,19 @@ import com.minibeit.file.domain.repository.PostFileRepository;
 import com.minibeit.file.service.S3Uploader;
 import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.*;
+import com.minibeit.post.domain.repository.PostDoDateRepository;
+import com.minibeit.post.domain.repository.PostLikeRepository;
+import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.exception.ExistApprovedApplicantException;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostNotFoundException;
+import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -166,14 +172,14 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
                 .build();
         userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser, approveUser1, approveUser2, waitUser1, waitUser2, waitUser3));
 
-        businessProfile = BusinessProfile.builder()
+        BusinessProfile createdBusiness = BusinessProfile.builder()
                 .name("동그라미 실험실")
                 .place("고려대")
                 .contact("010-1234-5786")
                 .admin(userInBusinessProfile)
                 .build();
-        businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.create(userInBusinessProfile, businessProfile));
+        businessProfile = businessProfileRepository.save(createdBusiness);
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, createdBusiness));
     }
 
     private void initPostRequest() {
@@ -195,12 +201,15 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
                 .businessProfileId(businessProfile.getId())
                 .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
                 .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                .doDateList(Arrays.asList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 1, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 9, 30)).build()))
                 .build();
     }
 
     private void initPost() {
-        Post createdPost = Post.create(createInfoRequest, school, businessProfile);
+        Post createdPost = createInfoRequest.toEntity();
+        createdPost.create(school, businessProfile);
         post = postRepository.save(createdPost);
 
         PostFile createdPostFile = PostFile.create(post, savedFile.toPostFile());
@@ -209,12 +218,12 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
         PostLike createdPostLike = PostLike.create(createdPost, userInBusinessProfile);
         postLike = postLikeRepository.save(createdPostLike);
 
-        PostDoDate createdPostDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
-        PostDoDate createdPostDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 1, 9, 30), createdPost);
-        PostDoDate createdPostDoDate3 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
-        postDoDate1 = postDoDateRepository.save(createdPostDoDate1);
-        postDoDate2 = postDoDateRepository.save(createdPostDoDate2);
-        postDoDate3 = postDoDateRepository.save(createdPostDoDate3);
+        List<PostDoDate> postDoDates = createInfoRequest.toPostDoDates();
+        postDoDates.forEach(postDoDate -> postDoDate.assignPost(post));
+        postDoDateRepository.saveAll(postDoDates);
+        postDoDate1 = postDoDates.get(0);
+        postDoDate2 = postDoDates.get(1);
+        postDoDate3 = postDoDates.get(2);
 
         approvePostApplicant1 = PostApplicant.create(postDoDate1, approveUser1);
         approvePostApplicant1.updateStatus(ApplyStatus.APPROVE);

@@ -1,4 +1,4 @@
-package com.minibeit.post.dto;
+package com.minibeit.postapplicant.service.dto;
 
 import lombok.*;
 

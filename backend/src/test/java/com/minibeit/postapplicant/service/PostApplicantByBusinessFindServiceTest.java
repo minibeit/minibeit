@@ -1,4 +1,4 @@
-package com.minibeit.post.service;
+package com.minibeit.postapplicant.service;
 
 import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
@@ -6,13 +6,16 @@ import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
-import com.minibeit.post.dto.PostApplicantDto;
-import com.minibeit.post.dto.PostApplicantResponse;
+import com.minibeit.postapplicant.service.dto.PostApplicantDto;
+import com.minibeit.postapplicant.service.dto.PostApplicantResponse;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
+import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.postapplicant.service.PostApplicantByBusinessService;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -143,7 +146,7 @@ public class PostApplicantByBusinessFindServiceTest extends ServiceIntegrationTe
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.create(userInBusinessProfile, businessProfile));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
     }
 
     private void initApplyPost() {
@@ -165,18 +168,19 @@ public class PostApplicantByBusinessFindServiceTest extends ServiceIntegrationTe
                 .businessProfileId(businessProfile.getId())
                 .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
                 .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                .doDateList(Arrays.asList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 10, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 11, 9, 30)).build()))
                 .build();
 
-        Post createdPost = Post.create(createRequest, school, businessProfile);
+        Post createdPost = createRequest.toEntity();
+        createdPost.create(school, businessProfile);
         recruitPost = postRepository.save(createdPost);
+        List<PostDoDate> postDoDates = createRequest.toPostDoDates();
+        postDoDates.forEach(postDoDate -> postDoDate.assignPost(recruitPost));
+        postDoDateRepository.saveAll(postDoDates);
 
-        PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 10, 10, 9, 30), recruitPost);
-        PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 11, 9, 30), recruitPost);
-
-        postDoDateRepository.save(postDoDate1);
-        postDoDateRepository.save(postDoDate2);
-
+        PostDoDate postDoDate1 = postDoDates.get(0);
+        PostDoDate postDoDate2 = postDoDates.get(1);
 
         PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, rejectUser1);
         postApplicant1.updateStatus(ApplyStatus.REJECT);

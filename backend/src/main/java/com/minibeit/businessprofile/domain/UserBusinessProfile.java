@@ -35,13 +35,13 @@ public class UserBusinessProfile extends BaseEntity {
         this.user = user;
     }
 
-    public static UserBusinessProfile create(User user) {
+    public static UserBusinessProfile createWithBusinessProfile(User user) {
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.builder().build();
         userBusinessProfile.addUser(user);
         return userBusinessProfile;
     }
 
-    public static UserBusinessProfile create(User invitedUser, BusinessProfile businessProfile) {
+    public static UserBusinessProfile createWithBusinessProfile(User invitedUser, BusinessProfile businessProfile) {
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.builder().build();
         userBusinessProfile.addUser(invitedUser);
         userBusinessProfile.setBusinessProfile(businessProfile);

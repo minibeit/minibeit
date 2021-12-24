@@ -1,4 +1,4 @@
-package com.minibeit.post.service;
+package com.minibeit.postapplicant.service;
 
 import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
@@ -6,8 +6,10 @@ import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.post.domain.Payment;
+import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.PostLike;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
@@ -17,6 +19,9 @@ import com.minibeit.post.service.exception.DuplicateApplyException;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostDoDateIsFullException;
 import com.minibeit.post.service.exception.PostDoDateNotFoundException;
+import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -134,7 +139,7 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
         businessProfileRepository.save(businessProfile);
         List<BusinessProfile> businessProfileList = new ArrayList<>();
         businessProfileList.add(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.create(userInBusinessProfile, businessProfile));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
     }
 
     private void initApplyPost() {
@@ -156,16 +161,21 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
                 .businessProfileId(businessProfile.getId())
                 .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
                 .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                .doDateList(Arrays.asList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 9, 30)).build()))
                 .build();
 
-        Post createdPost = Post.create(createRequest, school, businessProfile);
+        Post createdPost = createRequest.toEntity();
+        createdPost.create(school, businessProfile);
         recruitPost = postRepository.save(createdPost);
+        List<PostDoDate> postDoDates = createRequest.toPostDoDates();
+        postDoDates.forEach(postDoDate -> postDoDate.assignPost(recruitPost));
+        postDoDateRepository.saveAll(postDoDates);
 
-        PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), recruitPost);
-        PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), recruitPost);
-        recruitPostPostDoDate1 = postDoDateRepository.save(postDoDate1);
-        recruitPostPostDoDate2 = postDoDateRepository.save(postDoDate2);
+        recruitPostPostDoDate1 = postDoDates.get(0);
+        recruitPostPostDoDate2 = postDoDates.get(1);
+
+
     }
 
     private void initApplyMyFinishPost() {
@@ -187,18 +197,21 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
                 .businessProfileId(businessProfile.getId())
                 .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
                 .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                .doDateList(Arrays.asList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 9, 30)).build()))
                 .build();
 
-        Post createdPost = Post.create(createRequest, school, businessProfile);
+        Post createdPost = createRequest.toEntity();
+        createdPost.create(school, businessProfile);
         recruitPost = postRepository.save(createdPost);
+        List<PostDoDate> postDoDates = createRequest.toPostDoDates();
+        postDoDates.forEach(postDoDate -> postDoDate.assignPost(recruitPost));
+        postDoDateRepository.saveAll(postDoDates);
 
-        PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
-        PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
-        recruitPostPostDoDate1 = postDoDateRepository.save(postDoDate1);
-        recruitPostPostDoDate2 = postDoDateRepository.save(postDoDate2);
+        recruitPostPostDoDate1 = postDoDates.get(0);
+        recruitPostPostDoDate2 = postDoDates.get(1);
 
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1);
+        PostApplicant postApplicant1 = PostApplicant.create(recruitPostPostDoDate1, applyUser1);
         postApplicant1.updateStatus(ApplyStatus.APPROVE);
         postApplicantApplyUser = postApplicantRepository.save(postApplicant1);
     }
@@ -222,24 +235,28 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
                 .businessProfileId(businessProfile.getId())
                 .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
                 .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                .doDateList(Arrays.asList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 9, 30)).build()))
                 .build();
 
-        Post createdPost = Post.create(createRequest, school, businessProfile);
+        Post createdPost = createRequest.toEntity();
+        createdPost.create(school, businessProfile);
         recruitPost = postRepository.save(createdPost);
+        List<PostDoDate> postDoDates = createRequest.toPostDoDates();
+        postDoDates.forEach(postDoDate -> postDoDate.assignPost(recruitPost));
+        postDoDateRepository.saveAll(postDoDates);
 
-        PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
-        recruitPostPostDoDate1 = postDoDateRepository.save(postDoDate1);
-        PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
-        recruitPostPostDoDate2 = postDoDateRepository.save(postDoDate2);
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1);
+        recruitPostPostDoDate1 = postDoDates.get(0);
+        recruitPostPostDoDate2 = postDoDates.get(1);
+
+        PostApplicant postApplicant1 = PostApplicant.create(recruitPostPostDoDate1, applyUser1);
         postApplicant1.updateStatus(ApplyStatus.APPROVE);
         postApplicantApplyUser = postApplicantRepository.save(postApplicant1);
 
         List<PostApplicant> postApplicants = Collections.singletonList(postApplicantApplyUser);
-        postDoDate1.updateFull(postApplicants);
+        recruitPostPostDoDate1.updateFull(postApplicants);
 
-        PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, applyUser2);
+        PostApplicant postApplicant2 = PostApplicant.create(recruitPostPostDoDate2, applyUser2);
         postApplicant2.updateStatus(ApplyStatus.APPROVE);
         postApplicantRepository.save(postApplicant2);
     }

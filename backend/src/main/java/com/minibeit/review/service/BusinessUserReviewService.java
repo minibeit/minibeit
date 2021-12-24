@@ -2,11 +2,9 @@ package com.minibeit.review.service;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
-import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
-import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.PostApplicant;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.review.domain.BusinessUserReview;
 import com.minibeit.review.domain.BusinessUserReviewDetail;
@@ -50,7 +48,7 @@ public class BusinessUserReviewService {
     }
 
     public BusinessUserReviewResponse.OnlyId createUserReview(Long businessProfileId, Long userId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
-        User applicantUser = userRepository.findByIdWithUserBusinessProfile(userId).orElseThrow(UserNotFoundException::new);
+        User applicantUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(userId).orElseThrow(UserNotFoundException::new);
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
         postApplicant.evaluated(now, user, businessProfileId);

@@ -14,5 +14,5 @@ public interface UserRepositoryCustom {
 
     Optional<User> findByIdWithAvatar(Long userId);
 
-    Optional<User> findByIdWithUserBusinessProfile(Long userId);
+    Optional<User> findByIdWithUserBusinessProfileAndBusiness(Long userId);
 }

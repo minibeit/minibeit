@@ -2,7 +2,7 @@ package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.collect.Sets;
-import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.security.userdetails.CustomUserDetails;

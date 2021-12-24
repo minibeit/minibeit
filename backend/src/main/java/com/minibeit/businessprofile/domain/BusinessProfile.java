@@ -11,7 +11,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -46,8 +45,7 @@ public class BusinessProfile extends BaseEntity {
 
     public void changeAdmin(User loginUser, User changedAdmin) {
         adminValidate(loginUser);
-        List<Long> userIdListInBusiness = userBusinessProfileList.stream().map(userBusinessProfile -> userBusinessProfile.getUser().getId()).collect(Collectors.toList());
-        if (!userIdListInBusiness.contains(changedAdmin.getId())) {
+        if (!changedAdmin.userInBusiness(this.id)) {
             throw new InvalidOperationException("비즈니스 프로필에 속하지 않은 사람에게 관리자를 양도할 수 없습니다.");
         }
         this.admin = changedAdmin;
@@ -71,14 +69,13 @@ public class BusinessProfile extends BaseEntity {
         }
     }
 
-
     public UserBusinessProfile invite(User invitedUser, BusinessProfile businessProfile, User loginUser) {
         adminValidate(loginUser);
         invitedUser.businessProfileCountValidate();
         if (invitedUser.userInBusiness(businessProfile.getId())) {
             throw new DuplicateException("이미 공유된 유저입니다.");
         }
-        return UserBusinessProfile.create(invitedUser);
+        return UserBusinessProfile.createWithBusinessProfile(invitedUser, businessProfile);
     }
 
     public void expel(User user, Long expelUserId) {
@@ -96,7 +93,7 @@ public class BusinessProfile extends BaseEntity {
 
     public static BusinessProfile create(BusinessProfile createdBusinessProfile, Avatar avatar, User admin) {
         admin.businessProfileCountValidate();
-        UserBusinessProfile userBusinessProfile = UserBusinessProfile.create(admin);
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(admin);
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(createdBusinessProfile.getName())
                 .place(createdBusinessProfile.getPlace())

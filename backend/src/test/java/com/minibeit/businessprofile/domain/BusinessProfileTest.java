@@ -29,15 +29,6 @@ class BusinessProfileTest {
     }
 
     private void initUsersAndBusinessProfile() {
-        userInBusinessProfile = User.builder()
-                .id(2L)
-                .oauthId("1")
-                .nickname("테스터1")
-                .role(Role.USER)
-                .signupCheck(true)
-                .provider(SignupProvider.KAKAO)
-                .build();
-
         admin = User.builder()
                 .id(2L)
                 .oauthId("3")
@@ -49,6 +40,7 @@ class BusinessProfileTest {
                 .build();
 
         businessProfile = BusinessProfile.builder()
+                .id(1L)
                 .name("동그라미 실험실")
                 .place("고려대")
                 .contact("010-1234-5786")
@@ -61,6 +53,16 @@ class BusinessProfileTest {
                 .place("고려대 수정")
                 .contact("010-1234-5786")
                 .admin(admin)
+                .build();
+
+        userInBusinessProfile = User.builder()
+                .id(2L)
+                .oauthId("1")
+                .nickname("테스터1")
+                .role(Role.USER)
+                .signupCheck(true)
+                .provider(SignupProvider.KAKAO)
+                .userBusinessProfileList(Collections.singletonList(UserBusinessProfile.builder().businessProfile(businessProfile).build()))
                 .build();
     }
 
@@ -91,7 +93,6 @@ class BusinessProfileTest {
     @Test
     @DisplayName("비즈니스프로필의 어드민 변경")
     void changeAdmin() {
-
         businessProfile.changeAdmin(admin, userInBusinessProfile);
         assertThat(businessProfile.getAdmin()).isEqualTo(userInBusinessProfile);
     }

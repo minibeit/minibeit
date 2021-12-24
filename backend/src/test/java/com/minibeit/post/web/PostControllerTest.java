@@ -7,6 +7,7 @@ import com.minibeit.file.domain.PostFile;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.dto.PostResponse;
 import com.minibeit.post.service.PostService;
+import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.school.domain.School;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import com.minibeit.user.domain.User;

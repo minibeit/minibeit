@@ -1,7 +1,7 @@
 package com.minibeit.post.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.minibeit.post.domain.Payment;
+import com.minibeit.post.domain.*;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,6 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class PostRequest {
     @Getter
@@ -48,6 +49,32 @@ public class PostRequest {
         private LocalDateTime endDate;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm", timezone = "Asia/Seoul")
         private List<PostDto.PostDoDate> doDateList;
+
+        public Post toEntity() {
+            return Post.builder()
+                    .title(title)
+                    .content(content)
+                    .place(place)
+                    .placeDetail(placeDetail)
+                    .contact(contact)
+                    .category(category)
+                    .recruitPeople(headcount)
+                    .payment(payment)
+                    .paymentCache(cache)
+                    .paymentGoods(goods)
+                    .paymentDetail(paymentDetail)
+                    .recruitCondition(condition)
+                    .recruitConditionDetail(conditionDetail)
+                    .doTime(doTime)
+                    .startDate(startDate)
+                    .endDate(endDate)
+                    .postStatus(PostStatus.RECRUIT)
+                    .build();
+        }
+
+        public List<PostDoDate> toPostDoDates() {
+            return doDateList.stream().map(postDoDate -> PostDoDate.builder().doDate(postDoDate.getDoDate()).isFull(false).build()).collect(Collectors.toList());
+        }
     }
 
     @Setter
@@ -67,6 +94,12 @@ public class PostRequest {
     public static class UpdateContent {
         @NotBlank(message = "수정내용이 공백일 수 없습니다.")
         private String updatedContent;
+
+        public Post toEntity() {
+            return Post.builder()
+                    .content(updatedContent)
+                    .build();
+        }
     }
 
     @Getter
@@ -76,5 +109,9 @@ public class PostRequest {
     public static class RejectComment {
         @NotBlank(message = "반려 사유가 공백일 수 없습니다.")
         private String rejectComment;
+
+        public RejectPost toEntity() {
+            return RejectPost.builder().rejectComment(getRejectComment()).build();
+        }
     }
 }

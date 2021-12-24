@@ -1,4 +1,4 @@
-package com.minibeit.post.service;
+package com.minibeit.postapplicant.service;
 
 import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
@@ -6,17 +6,22 @@ import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.post.domain.Payment;
+import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.RejectPost;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.domain.repository.RejectPostRepository;
-import com.minibeit.post.dto.PostApplicantRequest;
 import com.minibeit.post.dto.PostDto;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.service.exception.ExistedApplySameTimeException;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostDoDateIsFullException;
+import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
+import com.minibeit.postapplicant.service.dto.PostApplicantRequest;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -29,6 +34,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -155,7 +161,7 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.create(userInBusinessProfile, businessProfile));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
     }
 
     private void initApplyPost() {
@@ -180,7 +186,8 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
                 .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
                 .build();
 
-        Post createdPost = Post.create(createRequest, school, businessProfile);
+        Post createdPost = createRequest.toEntity();
+        createdPost.create(school, businessProfile);
         recruitPost = postRepository.save(createdPost);
 
         PostRequest.CreateInfo createRequest2 = PostRequest.CreateInfo.builder()
@@ -201,43 +208,45 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
                 .businessProfileId(businessProfile.getId())
                 .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
                 .endDate(LocalDateTime.of(2021, 10, 10, 17, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                .doDateList(Arrays.asList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 4, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 4, 10, 0)).build()))
                 .build();
 
-        Post createdPost2 = Post.create(createRequest2, school, businessProfile);
-        Post recruitPost2= postRepository.save(createdPost2);
+        Post createdPost2 = createRequest2.toEntity();
+        createdPost2.create(school, businessProfile);
+        Post recruitPost2 = postRepository.save(createdPost);
+        List<PostDoDate> postDoDates2 = createRequest2.toPostDoDates();
+        postDoDates2.forEach(postDoDate -> postDoDate.assignPost(recruitPost2));
+        postDoDateRepository.saveAll(postDoDates2);
 
-        PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), recruitPost);
-        PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), recruitPost);
-        PostDoDate postDoDate3 = PostDoDate.create(LocalDateTime.of(2021, 10, 4, 9, 30), recruitPost);
-        recruitPostPostDoDate1 = postDoDateRepository.save(postDoDate1);
-        fullPostPostDoDate2 = postDoDateRepository.save(postDoDate2);
-        recruitPostPostDoDate2 = postDoDateRepository.save(postDoDate3);
+        recruitPostPostDoDate1 = postDoDates2.get(0);
+        fullPostPostDoDate2 = postDoDates2.get(1);
+        recruitPostPostDoDate2 = postDoDates2.get(2);
+        recruitPostPostDoDate3 = postDoDates2.get(3);
 
-        PostDoDate postDoDate4 = PostDoDate.create(LocalDateTime.of(2021, 10, 4, 10, 0), recruitPost2);
-        recruitPostPostDoDate3 = postDoDateRepository.save(postDoDate4);
-
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1);
+        PostApplicant postApplicant1 = PostApplicant.create(recruitPostPostDoDate1, applyUser1);
         postApplicantApplyUser = postApplicantRepository.save(postApplicant1);
 
-        PostApplicant postApplicant2 = PostApplicant.create(postDoDate1, rejectUser);
+        PostApplicant postApplicant2 = PostApplicant.create(recruitPostPostDoDate1, rejectUser);
         postApplicantRepository.save(postApplicant2);
 
-        PostApplicant postApplicant3 = PostApplicant.create(postDoDate2, applyUser2);
+        PostApplicant postApplicant3 = PostApplicant.create(fullPostPostDoDate2, applyUser2);
         postApplicantRepository.save(postApplicant3);
 
-        PostApplicant postApplicant4 = PostApplicant.create(postDoDate4, approvedUser);
+        PostApplicant postApplicant4 = PostApplicant.create(recruitPostPostDoDate3, approvedUser);
         postApplicant4.updateStatus(ApplyStatus.APPROVE);
         postApplicantRepository.save(postApplicant4);
 
-        PostApplicant postApplicant5 = PostApplicant.create(postDoDate3, approvedUser);
+        PostApplicant postApplicant5 = PostApplicant.create(recruitPostPostDoDate2, approvedUser);
 
         postApplicantRepository.save(postApplicant5);
 
         List<PostApplicant> postApplicants = Collections.singletonList(postApplicant3);
-        postDoDate2.updateFull(postApplicants);
+        fullPostPostDoDate2.updateFull(postApplicants);
 
-        PostApplicant postApplicant6 = PostApplicant.create(postDoDate3, notAttendUser);
+        PostApplicant postApplicant6 = PostApplicant.create(recruitPostPostDoDate3, notAttendUser);
         postApplicantRepository.save(postApplicant6);
     }
 
@@ -363,9 +372,9 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
     public void attendChange() {
         PostApplicantRequest.AttendChange request = PostApplicantRequest.AttendChange.builder().isAttend(false).build();
 
-        postApplicantByBusinessService.attendChange(recruitPostPostDoDate2.getId(), notAttendUser.getId(), request, userInBusinessProfile);
+        postApplicantByBusinessService.attendChange(recruitPostPostDoDate3.getId(), notAttendUser.getId(), request, userInBusinessProfile);
 
-        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(recruitPostPostDoDate2.getId(), notAttendUser.getId()).orElseThrow(PostApplicantNotFoundException::new);
+        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(recruitPostPostDoDate3.getId(), notAttendUser.getId()).orElseThrow(PostApplicantNotFoundException::new);
 
         assertThat(postApplicant.isBusinessFinish()).isEqualTo(false);
     }
@@ -393,7 +402,7 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
     public void attendChangeLoginUserNotInBusinessProfile() {
         PostApplicantRequest.AttendChange request = PostApplicantRequest.AttendChange.builder().isAttend(false).build();
 
-        assertThatThrownBy(() -> postApplicantByBusinessService.attendChange(recruitPostPostDoDate2.getId(), notAttendUser.getId(), request, applyUser2))
+        assertThatThrownBy(() -> postApplicantByBusinessService.attendChange(recruitPostPostDoDate3.getId(), notAttendUser.getId(), request, applyUser2))
                 .isExactlyInstanceOf(PermissionException.class);
     }
 }

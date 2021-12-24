@@ -1,7 +1,8 @@
-package com.minibeit.post.domain;
+package com.minibeit.postapplicant.domain;
 
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.common.exception.PermissionException;
+import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.user.domain.User;
 import lombok.*;
 

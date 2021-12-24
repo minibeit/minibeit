@@ -3,17 +3,24 @@ package com.minibeit.post.service;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
+import com.minibeit.common.dto.PageDto;
+import com.minibeit.file.domain.PostFile;
 import com.minibeit.file.domain.repository.PostFileRepository;
 import com.minibeit.file.service.S3Uploader;
-import com.minibeit.common.dto.PageDto;
 import com.minibeit.file.service.dto.SavedFile;
-import com.minibeit.file.domain.PostFile;
-import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.*;
+import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.domain.RejectPost;
+import com.minibeit.post.domain.repository.PostDoDateRepository;
+import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.dto.PostRequest;
 import com.minibeit.post.dto.PostResponse;
-import com.minibeit.post.service.exception.ExistApprovedApplicantException;
 import com.minibeit.post.service.exception.PostNotFoundException;
+import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.User;
@@ -43,16 +50,17 @@ public class PostByBusinessService {
     private final PostFileRepository postFileRepository;
 
     public PostResponse.OnlyId create(PostRequest.CreateInfo request, List<MultipartFile> files, MultipartFile thumbnail, User user) {
-        postPermissionCheck.userInBusinessProfileCheck(request.getBusinessProfileId(), user);
-
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         BusinessProfile businessProfile = businessProfileRepository.findById(request.getBusinessProfileId()).orElseThrow(BusinessProfileNotFoundException::new);
 
-        Post post = Post.create(request, school, businessProfile);
+        postPermissionCheck.userInBusinessProfileValidate(businessProfile.getId(), user);
+
+        Post post = request.toEntity();
+        post.create(school, businessProfile);
         Post savedPost = postRepository.save(post);
 
-        List<PostDoDate> postDoDateList = request.getDoDateList().stream().map(doDate -> PostDoDate.create(doDate.getDoDate(), post)).collect(Collectors.toList());
-        postDoDateRepository.saveAll(postDoDateList);
+        List<PostDoDate> postDoDates = request.toPostDoDates().stream().map(postDoDate -> postDoDate.assignPost(post)).collect(Collectors.toList());
+        postDoDateRepository.saveAll(postDoDates);
 
         if (thumbnail != null) {
             SavedFile uploadedThumbnail = s3Uploader.upload(thumbnail);
@@ -60,6 +68,7 @@ public class PostByBusinessService {
             post.updateThumbnail(createdThumbnail.getUrl());
             postFileRepository.save(createdThumbnail);
         }
+
         if (files != null) {
             List<SavedFile> savedFiles = s3Uploader.uploadFileList(files);
             List<PostFile> postFiles = savedFiles.stream().map(savedFile -> PostFile.create(post, savedFile.toPostFile())).collect(Collectors.toList());
@@ -72,7 +81,10 @@ public class PostByBusinessService {
     public void recruitmentCompleted(Long postId, PostRequest.RejectComment request, User user) {
         Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
         BusinessProfile businessProfile = post.getBusinessProfile();
-        postPermissionCheck.userInBusinessProfileCheck(businessProfile.getId(), user);
+
+        postPermissionCheck.userInBusinessProfileValidate(businessProfile.getId(), user);
+
+        post.completed();
 
         List<PostApplicant> rejectedApplicantList = postApplicantRepository.findAllByPostIdAndApplyStatus(postId, ApplyStatus.WAIT);
 
@@ -80,10 +92,8 @@ public class PostByBusinessService {
         postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT);
 
         List<RejectPost> rejectPostList = rejectedApplicantList.stream()
-                .map(postApplicant -> RejectPost.create(post.getTitle(), post.getPlace(), post.getPlaceDetail(), post.getCategory(), post.getContact(), post.isRecruitCondition(), post.getDoTime(), postApplicant.getPostDoDate().getDoDate(), request.getRejectComment(), postApplicant.getUser(), businessProfile.getName())).collect(Collectors.toList());
+                .map(postApplicant -> RejectPost.create(post, postApplicant.getPostDoDate(), businessProfile, user, request.toEntity().getRejectComment())).collect(Collectors.toList());
         rejectPostRepository.saveAll(rejectPostList);
-
-        post.completed();
     }
 
     @Transactional(readOnly = true)
@@ -94,20 +104,15 @@ public class PostByBusinessService {
 
     public PostResponse.OnlyId updateContent(Long postId, PostRequest.UpdateContent request, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
-
-        post.updateContent(request.getUpdatedContent());
+        postPermissionCheck.userInBusinessProfileValidate(post.getBusinessProfile().getId(), user);
+        post.updateContent(request.toEntity());
 
         return PostResponse.OnlyId.build(post);
     }
 
     public void deleteOne(Long postId, LocalDateTime now, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        postPermissionCheck.userInBusinessProfileCheck(post.getBusinessProfile().getId(), user);
-
-        if (postApplicantRepository.existsApproveAfterNow(postId, now)) {
-            throw new ExistApprovedApplicantException();
-        }
+        postPermissionCheck.deleteValidate(post.getBusinessProfile().getId(), postId, now, user);
         if (post.getPostFileList() != null) {
             for (PostFile postFile : post.getPostFileList()) {
                 s3Uploader.delete(postFile.getName());

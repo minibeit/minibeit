@@ -1,7 +1,7 @@
-package com.minibeit.post.web;
+package com.minibeit.postapplicant.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.post.service.PostApplicantService;
+import com.minibeit.postapplicant.service.PostApplicantService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

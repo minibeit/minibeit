@@ -6,11 +6,8 @@ import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.file.domain.repository.PostFileRepository;
-import com.minibeit.post.domain.Payment;
-import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostLike;
-import com.minibeit.post.domain.PostStatus;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.post.domain.*;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
@@ -30,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -114,7 +112,7 @@ class PostServiceTest extends ServiceIntegrationTest {
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.create(userInBusinessProfile, businessProfile));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
     }
 
     private void initPostForLike() {
@@ -139,12 +137,14 @@ class PostServiceTest extends ServiceIntegrationTest {
                 .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 17, 30)).build()))
                 .build();
 
-        Post post = Post.create(createRequest, KSchool, businessProfile);
-        likePost = postRepository.save(post);
-        PostLike postLike = PostLike.create(post, anotherUser);
+        Post createdPost = createRequest.toEntity();
+        createdPost.create(KSchool, businessProfile);
+        likePost = postRepository.save(createdPost);
+
+        PostLike postLike = PostLike.create(likePost, anotherUser);
         postLikeRepository.save(postLike);
 
-        PostRequest.CreateInfo createRequest3 = PostRequest.CreateInfo.builder()
+        PostRequest.CreateInfo createRequest2 = PostRequest.CreateInfo.builder()
                 .title("즐겨찾기안한게시물")
                 .content("실험 내용")
                 .place("고려대학교 연구실")
@@ -165,8 +165,9 @@ class PostServiceTest extends ServiceIntegrationTest {
                 .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 17, 30)).build()))
                 .build();
 
-        Post post3 = Post.create(createRequest3, KSchool, businessProfile);
-        notLikePost = postRepository.save(post3);
+        Post createdPost2 = createRequest2.toEntity();
+        createdPost2.create(KSchool, businessProfile);
+        notLikePost = postRepository.save(createdPost2);
     }
 
     @Test

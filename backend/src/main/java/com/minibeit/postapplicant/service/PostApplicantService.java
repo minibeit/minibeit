@@ -1,16 +1,16 @@
-package com.minibeit.post.service;
+package com.minibeit.postapplicant.service;
 
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.mail.service.dto.condition.MailCondition;
 import com.minibeit.mail.service.MailService;
-import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostApplicant;
+import com.minibeit.postapplicant.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
-import com.minibeit.post.dto.PostApplicantResponse;
+import com.minibeit.postapplicant.service.dto.PostApplicantResponse;
 import com.minibeit.post.service.exception.DuplicateApplyException;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostDoDateIsFullException;

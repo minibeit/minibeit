@@ -1,7 +1,7 @@
-package com.minibeit.post.web;
+package com.minibeit.postapplicant.web;
 
 import com.minibeit.common.dto.ApiResult;
-import com.minibeit.post.service.PostApplicantService;
+import com.minibeit.postapplicant.service.PostApplicantService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;

@@ -72,7 +72,7 @@ Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business-profile/1/share/1
+POST {{apiUrl}}/business-profile/2/share/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
@@ -85,7 +85,7 @@ DELETE {{apiUrl}}/business-profile/1/user
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business-profile/1/change/3
+POST {{apiUrl}}/business-profile/2/change/3
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 

@@ -1,10 +1,10 @@
-package com.minibeit.post.web;
+package com.minibeit.postapplicant.web;
 
 import com.minibeit.common.dto.ApiResult;
-import com.minibeit.post.domain.ApplyStatus;
-import com.minibeit.post.dto.PostApplicantRequest;
-import com.minibeit.post.dto.PostApplicantResponse;
-import com.minibeit.post.service.PostApplicantByBusinessService;
+import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.postapplicant.service.dto.PostApplicantRequest;
+import com.minibeit.postapplicant.service.dto.PostApplicantResponse;
+import com.minibeit.postapplicant.service.PostApplicantByBusinessService;
 import com.minibeit.security.userdetails.CurrentUser;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.RequiredArgsConstructor;

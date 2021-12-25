@@ -1,8 +1,8 @@
 package com.minibeit.post.service;
 
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
+import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.postapplicant.service.exception.ExistApprovedApplicantException;
 import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
-public class PostPermissionCheck {
+public class PostValidator {
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final PostApplicantRepository postApplicantRepository;
 
@@ -25,7 +25,7 @@ public class PostPermissionCheck {
     public void deleteValidate(Long businessProfileId, Long postId, LocalDateTime now, User user) {
         userInBusinessProfileValidate(businessProfileId, user);
         if (postApplicantRepository.existsApproveAfterNow(postId, now)) {
-            throw new ExistApprovedApplicantException();
+            throw new InvalidOperationException("끝나지 않은 실험에 확정자가 남아있습니다.");
         }
     }
 

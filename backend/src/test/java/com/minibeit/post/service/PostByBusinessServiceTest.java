@@ -5,6 +5,7 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
+import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.file.domain.FileServer;
 import com.minibeit.file.domain.FileType;
@@ -20,12 +21,11 @@ import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
 import com.minibeit.post.service.dto.PostResponse;
-import com.minibeit.postapplicant.service.exception.ExistApprovedApplicantException;
-import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.postapplicant.domain.PostApplicant;
 import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
+import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -355,7 +355,7 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
     @DisplayName("게시물 삭제 - 실패(실험이 끝나지 않은 날짜에 확정자가 남아있는 경우)")
     void deleteOneExistApprovedApplicant() {
         assertThatThrownBy(() -> postByBusinessService.deleteOne(post.getId(), LocalDateTime.of(2021, 9, 29, 0, 0), userInBusinessProfile))
-                .isExactlyInstanceOf(ExistApprovedApplicantException.class);
+                .isExactlyInstanceOf(InvalidOperationException.class);
     }
 
     @Test

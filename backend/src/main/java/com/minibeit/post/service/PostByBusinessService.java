@@ -45,7 +45,7 @@ public class PostByBusinessService {
     private final PostDoDateRepository postDoDateRepository;
     private final PostApplicantRepository postApplicantRepository;
     private final RejectPostRepository rejectPostRepository;
-    private final PostPermissionCheck postPermissionCheck;
+    private final PostValidator postValidator;
     private final S3Uploader s3Uploader;
     private final PostFileRepository postFileRepository;
 
@@ -53,7 +53,7 @@ public class PostByBusinessService {
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         BusinessProfile businessProfile = businessProfileRepository.findById(request.getBusinessProfileId()).orElseThrow(BusinessProfileNotFoundException::new);
 
-        postPermissionCheck.userInBusinessProfileValidate(businessProfile.getId(), user);
+        postValidator.userInBusinessProfileValidate(businessProfile.getId(), user);
 
         Post post = request.toEntity();
         post.create(school, businessProfile);
@@ -82,7 +82,7 @@ public class PostByBusinessService {
         Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
         BusinessProfile businessProfile = post.getBusinessProfile();
 
-        postPermissionCheck.userInBusinessProfileValidate(businessProfile.getId(), user);
+        postValidator.userInBusinessProfileValidate(businessProfile.getId(), user);
 
         post.completed();
 
@@ -104,7 +104,7 @@ public class PostByBusinessService {
 
     public PostResponse.OnlyId updateContent(Long postId, PostRequest.UpdateContent request, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        postPermissionCheck.userInBusinessProfileValidate(post.getBusinessProfile().getId(), user);
+        postValidator.userInBusinessProfileValidate(post.getBusinessProfile().getId(), user);
         post.updateContent(request.toEntity());
 
         return PostResponse.OnlyId.build(post);
@@ -112,7 +112,7 @@ public class PostByBusinessService {
 
     public void deleteOne(Long postId, LocalDateTime now, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
-        postPermissionCheck.deleteValidate(post.getBusinessProfile().getId(), postId, now, user);
+        postValidator.deleteValidate(post.getBusinessProfile().getId(), postId, now, user);
         if (post.getPostFileList() != null) {
             for (PostFile postFile : post.getPostFileList()) {
                 s3Uploader.delete(postFile.getName());

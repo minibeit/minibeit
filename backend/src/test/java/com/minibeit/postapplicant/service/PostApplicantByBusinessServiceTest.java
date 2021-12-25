@@ -5,6 +5,7 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
+import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
@@ -15,13 +16,11 @@ import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
-import com.minibeit.postapplicant.service.exception.ExistedApplySameTimeException;
-import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
-import com.minibeit.post.service.exception.PostDoDateIsFullException;
 import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.postapplicant.domain.PostApplicant;
 import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.postapplicant.service.dto.PostApplicantRequest;
+import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -287,14 +286,14 @@ class PostApplicantByBusinessServiceTest extends ServiceIntegrationTest {
     @DisplayName("지원자 참여 approve - 실패(모집인원이 가득 찬 경우)")
     public void applyApprovePostDoDateIsFull() {
         assertThatThrownBy(() -> postApplicantByBusinessService.applyApprove(fullPostPostDoDate2.getId(), applyUser2.getId(), userInBusinessProfile))
-                .isExactlyInstanceOf(PostDoDateIsFullException.class);
+                .isExactlyInstanceOf(InvalidOperationException.class);
     }
 
     @Test
     @DisplayName("지원자 참여 approve - 실패(지원자가 동시간대의 확정된 모집이 있는 경우)")
     public void ExistedApplySameTime() {
         assertThatThrownBy(() -> postApplicantByBusinessService.applyApprove(recruitPostPostDoDate2.getId(), approvedUser.getId(), userInBusinessProfile))
-                .isExactlyInstanceOf(ExistedApplySameTimeException.class);
+                .isExactlyInstanceOf(InvalidOperationException.class);
     }
 
     @Test

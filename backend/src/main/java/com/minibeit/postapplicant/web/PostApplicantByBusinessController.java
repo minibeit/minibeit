@@ -51,7 +51,7 @@ public class PostApplicantByBusinessController {
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 
-    @GetMapping("/{postId}/applicant/list")
+    @GetMapping("/{postId}/applicants")
     public ResponseEntity<ApiResult<List<PostApplicantResponse.ApplicantInfo>>> applicantListByDate(@PathVariable Long postId,
                                                                                                     @RequestParam(name = "status") ApplyStatus applyStatus,
                                                                                                     @RequestParam @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate doDate) {

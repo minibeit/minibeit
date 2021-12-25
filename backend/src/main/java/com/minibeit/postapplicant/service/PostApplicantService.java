@@ -1,20 +1,17 @@
 package com.minibeit.postapplicant.service;
 
-import com.minibeit.common.exception.PermissionException;
-import com.minibeit.mail.service.dto.condition.MailCondition;
 import com.minibeit.mail.service.MailService;
-import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.mail.service.dto.condition.MailCondition;
 import com.minibeit.post.domain.Post;
-import com.minibeit.postapplicant.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
-import com.minibeit.postapplicant.service.dto.PostApplicantResponse;
-import com.minibeit.postapplicant.service.exception.DuplicateApplyException;
-import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
-import com.minibeit.post.service.exception.PostDoDateIsFullException;
 import com.minibeit.post.service.exception.PostDoDateNotFoundException;
+import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
+import com.minibeit.postapplicant.service.dto.PostApplicantResponse;
+import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -32,32 +29,28 @@ public class PostApplicantService {
     private final PostDoDateRepository postDoDateRepository;
     private final PostApplicantRepository postApplicantRepository;
     private final PostLikeRepository postLikeRepository;
+    private final PostApplicantValidator postApplicantValidator;
     private final MailService mailService;
 
     public void apply(Long postDoDateId, User user) {
         PostDoDate postDoDate = postDoDateRepository.findByIdWithPostAndApplicant(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
         List<Long> postApplicantUserIdList = postDoDate.getPostApplicantList().stream().map(postApplicant -> postApplicant.getUser().getId()).collect(Collectors.toList());
 
-        if (postApplicantUserIdList.contains(user.getId())) {
-            throw new DuplicateApplyException();
-        }
-        if (!postDoDate.applyIsPossible(postDoDate.getPost())) {
-            throw new PostDoDateIsFullException();
-        }
+        postApplicantValidator.applyValidate(postApplicantUserIdList, postDoDate, user);
 
         PostApplicant postApplicant = PostApplicant.create(postDoDate, user);
-        postApplicantRepository.save(postApplicant);
 
+        postApplicantRepository.save(postApplicant);
         postLikeRepository.deleteByPostId(postDoDate.getPost().getId());
     }
 
-    public void applyMyFinish(Long postDoDateId, LocalDateTime now, User user) {
+    public void applyComplete(Long postDoDateId, LocalDateTime now, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
         PostDoDate postDoDate = postApplicant.getPostDoDate();
         Post post = postDoDate.getPost();
-        if (!postDoDate.getDoDate().plusMinutes(post.getDoTime()).isBefore(now) || !postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
-            throw new PermissionException("권한이 없습니다.");
-        }
+
+        postApplicantValidator.completeValidate(post, postDoDate, postApplicant, now);
+
         postApplicant.updateStatus(ApplyStatus.COMPLETE);
     }
 

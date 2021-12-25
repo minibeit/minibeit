@@ -28,7 +28,7 @@ public class PostApplicantController {
 
     @PostMapping("/date/{postDoDateId}/finish")
     public ResponseEntity<ApiResult<Void>> applyMyFinish(@PathVariable Long postDoDateId, @CurrentUser CustomUserDetails customUserDetails) {
-        postApplicantService.applyMyFinish(postDoDateId, LocalDateTime.now(), customUserDetails.getUser());
+        postApplicantService.applyComplete(postDoDateId, LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 

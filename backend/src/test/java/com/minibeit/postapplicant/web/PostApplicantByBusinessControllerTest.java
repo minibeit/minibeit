@@ -197,7 +197,7 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
         given(postApplicantByBusinessService.getApplicantListByDate(any(), any(), any())).willReturn(result);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/{postId}/applicant/list", 1)
+                .get("/api/post/{postId}/applicants", 1)
                 .param("doDate", "2021-09-09")
                 .param("status", "WAIT")
         );

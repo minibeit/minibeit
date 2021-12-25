@@ -7,16 +7,13 @@ import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.RejectPost;
 import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.service.dto.PostResponse;
-import com.minibeit.post.service.PostPermissionCheck;
-import com.minibeit.postapplicant.service.exception.ExistedApplySameTimeException;
-import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
-import com.minibeit.post.service.exception.PostDoDateIsFullException;
 import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.postapplicant.domain.PostApplicant;
 import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.postapplicant.service.dto.PostApplicantDto;
 import com.minibeit.postapplicant.service.dto.PostApplicantRequest;
 import com.minibeit.postapplicant.service.dto.PostApplicantResponse;
+import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -33,7 +30,7 @@ import java.util.stream.Collectors;
 public class PostApplicantByBusinessService {
     private final PostApplicantRepository postApplicantRepository;
     private final RejectPostRepository rejectPostRepository;
-    private final PostPermissionCheck postPermissionCheck;
+    private final PostApplicantValidator postApplicantValidator;
     private final MailService mailService;
 
     public void applyApprove(Long postDoDateId, Long userId, User user) {
@@ -41,17 +38,10 @@ public class PostApplicantByBusinessService {
         User applicant = postApplicant.getUser();
         PostDoDate postDoDate = postApplicant.getPostDoDate();
         Post post = postDoDate.getPost();
-        postPermissionCheck.userInBusinessProfileValidate(post.getBusinessProfile().getId(), user);
-
         List<PostDoDate> approvedDateByUser = postApplicantRepository.findAllByUserIdAndDoDateAndStatusIsApprove(userId, postDoDate.getDoDate())
                 .stream().map(PostApplicant::getPostDoDate).collect(Collectors.toList());
-        if (postApplicant.duplicatedApply(approvedDateByUser, postDoDate.getDoDate(), post.getDoTime())) {
-            throw new ExistedApplySameTimeException();
-        }
 
-        if (!postDoDate.applyIsPossible(postDoDate.getPost())) {
-            throw new PostDoDateIsFullException();
-        }
+        postApplicantValidator.applyApproveValidate(post, postDoDate, approvedDateByUser, postApplicant, user);
 
         postApplicant.updateStatus(ApplyStatus.APPROVE);
 
@@ -67,7 +57,7 @@ public class PostApplicantByBusinessService {
         User applicant = postApplicant.getUser();
         PostDoDate postDoDate = postApplicant.getPostDoDate();
         Post post = postDoDate.getPost();
-        postPermissionCheck.userInBusinessProfileValidate(post.getBusinessProfile().getId(), user);
+        postApplicantValidator.userInBusinessProfileValidate(post.getBusinessProfile().getId(), user);
 
         postApplicant.updateStatus(ApplyStatus.WAIT);
 
@@ -82,7 +72,7 @@ public class PostApplicantByBusinessService {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
         User applicant = postApplicant.getUser();
         Post post = postApplicant.getPostDoDate().getPost();
-        postPermissionCheck.userInBusinessProfileValidate(post.getBusinessProfile().getId(), user);
+        postApplicantValidator.userInBusinessProfileValidate(post.getBusinessProfile().getId(), user);
 
         postApplicant.updateStatus(ApplyStatus.REJECT);
 
@@ -95,7 +85,7 @@ public class PostApplicantByBusinessService {
     public void attendChange(Long postDoDateId, Long userId, PostApplicantRequest.AttendChange request, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
         Post post = postApplicant.getPostDoDate().getPost();
-        postPermissionCheck.userInBusinessProfileValidate(post.getBusinessProfile().getId(), user);
+        postApplicantValidator.userInBusinessProfileValidate(post.getBusinessProfile().getId(), user);
 
         postApplicant.changeBusinessFinish(request.getIsAttend());
     }

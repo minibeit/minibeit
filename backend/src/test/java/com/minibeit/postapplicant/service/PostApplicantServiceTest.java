@@ -5,6 +5,8 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
+import com.minibeit.common.exception.DuplicateException;
+import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
@@ -15,13 +17,11 @@ import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
-import com.minibeit.postapplicant.service.exception.DuplicateApplyException;
-import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
-import com.minibeit.post.service.exception.PostDoDateIsFullException;
 import com.minibeit.post.service.exception.PostDoDateNotFoundException;
 import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.postapplicant.domain.PostApplicant;
 import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
+import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -293,7 +293,7 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
         initApplyPost();
         postApplicantService.apply(recruitPostPostDoDate1.getId(), duplicatedApplyUser);
         assertThatThrownBy(() -> postApplicantService.apply(recruitPostPostDoDate1.getId(), duplicatedApplyUser))
-                .isExactlyInstanceOf(DuplicateApplyException.class);
+                .isExactlyInstanceOf(DuplicateException.class);
     }
 
     @Test
@@ -313,7 +313,7 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
         recruitPostPostDoDate2.updateFull(postApplicants);
 
         assertThatThrownBy(() -> postApplicantService.apply(recruitPostPostDoDate2.getId(), applyUser2))
-                .isExactlyInstanceOf(PostDoDateIsFullException.class);
+                .isExactlyInstanceOf(InvalidOperationException.class);
     }
 
     @Test
@@ -321,7 +321,7 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
     public void applyMyFinish() {
         initApplyMyFinishPost();
         LocalDateTime now = LocalDateTime.of(2021, 9, 30, 10, 30);
-        postApplicantService.applyMyFinish(recruitPostPostDoDate1.getId(), now, applyUser1);
+        postApplicantService.applyComplete(recruitPostPostDoDate1.getId(), now, applyUser1);
         PostApplicant postApplicant = postApplicantRepository.findById(postApplicantApplyUser.getId()).orElseThrow(PostApplicantNotFoundException::new);
 
         assertThat(postApplicant.getApplyStatus()).isEqualTo(ApplyStatus.COMPLETE);
@@ -331,7 +331,7 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
     @DisplayName("게시물 참여 완료 - 실패(없는 날짜인 경우)")
     public void applyMyFinishNotFoundPostDoDate() {
         LocalDateTime now = LocalDateTime.of(2021, 9, 30, 10, 30);
-        assertThatThrownBy(() -> postApplicantService.applyMyFinish(9999L, now, applyUser1))
+        assertThatThrownBy(() -> postApplicantService.applyComplete(9999L, now, applyUser1))
                 .isExactlyInstanceOf(PostApplicantNotFoundException.class);
     }
 
@@ -340,7 +340,7 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
     public void applyMyFinishNotFoundApplicant() {
         initApplyMyFinishPost();
         LocalDateTime now = LocalDateTime.of(2021, 9, 30, 10, 30);
-        assertThatThrownBy(() -> postApplicantService.applyMyFinish(recruitPostPostDoDate1.getId(), now, notApplyUser))
+        assertThatThrownBy(() -> postApplicantService.applyComplete(recruitPostPostDoDate1.getId(), now, notApplyUser))
                 .isExactlyInstanceOf(PostApplicantNotFoundException.class);
     }
 
@@ -349,7 +349,7 @@ class PostApplicantServiceTest extends ServiceIntegrationTest {
     public void applyMyFinishNotAfterPostDoDate() {
         initApplyMyFinishPost();
         LocalDateTime now = LocalDateTime.of(2021, 9, 16, 10, 30);
-        assertThatThrownBy(() -> postApplicantService.applyMyFinish(recruitPostPostDoDate1.getId(), now, applyUser1))
+        assertThatThrownBy(() -> postApplicantService.applyComplete(recruitPostPostDoDate1.getId(), now, applyUser1))
                 .isExactlyInstanceOf(PermissionException.class);
     }
 

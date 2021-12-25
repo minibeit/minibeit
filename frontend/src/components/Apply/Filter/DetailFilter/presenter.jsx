@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import Slider from "rc-slider";
 import CloseIcon from "@mui/icons-material/Close";
 import { ReactComponent as FilterIcon } from "../../../../svg/필터.svg";
 import { CSSTransition } from "react-transition-group";
 import { useHistory } from "react-router";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
-import "./range.css";
 import * as S from "../../style";
-
-const { createSliderWithTooltip } = Slider;
-const Range = createSliderWithTooltip(Slider.Range);
 
 export default function Presenter({
   filterReset,
@@ -118,28 +113,6 @@ export default function Presenter({
                     data.endTime &&
                     `${data["startTime"]}~${data["endTime"]}`}
                 </p>
-                <div>
-                  <Range
-                    min={0}
-                    max={24}
-                    value={data["startAndEnd"]}
-                    allowCross={false}
-                    pushable={1}
-                    tipFormatter={(e) => timeArr[e]}
-                    onChange={(e) => {
-                      const copy = { ...data };
-                      copy["startAndEnd"] = e;
-                      if (e[0] === 0 && e[1] === 24) {
-                        copy["startTime"] = "";
-                        copy["endTime"] = "";
-                      } else {
-                        copy["startTime"] = timeArr[e[0]];
-                        copy["endTime"] = timeArr[e[1]];
-                      }
-                      setData(copy);
-                    }}
-                  />
-                </div>
               </S.DetailBox>
               <S.FilterResetBtn
                 onClick={() => {

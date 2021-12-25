@@ -43,9 +43,7 @@ export default function ApplyComponent({ page }) {
   );
 
   const postBookmark = (postId) => {
-    bookmarkApi(postId)
-      .then()
-      .catch((err) => console.log(err));
+    bookmarkApi(postId);
   };
 
   useEffect(() => {

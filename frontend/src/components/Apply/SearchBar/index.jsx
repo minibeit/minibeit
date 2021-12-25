@@ -4,7 +4,7 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 
 import { DateInput, SchoolInput } from "../../Common";
-import { ReactComponent as CalendarIcon } from "../../../svg/달력.svg";
+import DoTimeInput from "./StartTimeInput";
 
 import * as S from "../style";
 
@@ -43,7 +43,7 @@ export default function SearchBar({
           </S.InputItem>
           <S.InputItem>
             <p>시작시간</p>
-            <input />
+            <DoTimeInput />
           </S.InputItem>
           <S.InputItem style={{ border: "none" }}>
             <p>소요시간</p>
@@ -59,25 +59,6 @@ export default function SearchBar({
             </S.SearchBtn>
           </div>
         </S.SearchInput>
-        {/* <S.PlaceInput>
-          <SchoolInput
-            defaultId={userSchoolId}
-            onChange={(e) => {
-              const copy = { ...school };
-              copy.schoolId = e.id;
-              copy.schoolName = e.name;
-              setSchool(copy);
-            }}
-          />
-        </S.PlaceInput>
-        <S.DateInput>
-          <CalendarIcon />
-          <DateInput
-            minDate={new Date()}
-            currentDate={date.date}
-            setCurrentDate={setDate}
-          />
-        </S.DateInput> */}
       </div>
     </S.SearchBox>
   );

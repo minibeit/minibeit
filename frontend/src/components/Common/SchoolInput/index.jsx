@@ -46,7 +46,7 @@ export default function SchoolInput({ defaultId, onChange }) {
                   : null
                 : null
             }
-            onClick={() => setListView(true)}
+            onClick={() => setListView(!listView)}
             onChange={(e) => {
               setListView(true);
               setText(e.target.value);

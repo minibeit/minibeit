@@ -5,19 +5,27 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
-import com.minibeit.common.component.file.S3Uploader;
-import com.minibeit.common.domain.FileServer;
-import com.minibeit.common.domain.FileType;
-import com.minibeit.common.dto.SavedFile;
+import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.PermissionException;
+import com.minibeit.file.domain.FileServer;
+import com.minibeit.file.domain.FileType;
+import com.minibeit.file.domain.PostFile;
+import com.minibeit.file.domain.repository.PostFileRepository;
+import com.minibeit.file.service.S3Uploader;
+import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.*;
-import com.minibeit.post.dto.PostDto;
-import com.minibeit.post.dto.PostRequest;
-import com.minibeit.post.dto.PostResponse;
-import com.minibeit.post.service.exception.ExistApprovedApplicantException;
-import com.minibeit.post.service.exception.PostApplicantNotFoundException;
+import com.minibeit.post.domain.repository.PostDoDateRepository;
+import com.minibeit.post.domain.repository.PostLikeRepository;
+import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.domain.repository.RejectPostRepository;
+import com.minibeit.post.service.dto.PostDto;
+import com.minibeit.post.service.dto.PostRequest;
+import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
+import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
+import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -97,7 +105,7 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
     private PostDoDate postDoDate1;
     private PostDoDate postDoDate2;
     private PostDoDate postDoDate3;
-    private final SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
+    private final SavedFile savedFile = new SavedFile("files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
 
     @BeforeEach
     public void init() {
@@ -164,14 +172,14 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
                 .build();
         userRepository.saveAll(Arrays.asList(userInBusinessProfile, anotherUser, approveUser1, approveUser2, waitUser1, waitUser2, waitUser3));
 
-        businessProfile = BusinessProfile.builder()
+        BusinessProfile createdBusiness = BusinessProfile.builder()
                 .name("동그라미 실험실")
                 .place("고려대")
                 .contact("010-1234-5786")
                 .admin(userInBusinessProfile)
                 .build();
-        businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
+        businessProfile = businessProfileRepository.save(createdBusiness);
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, createdBusiness));
     }
 
     private void initPostRequest() {
@@ -193,26 +201,29 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
                 .businessProfileId(businessProfile.getId())
                 .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
                 .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                .doDateList(Arrays.asList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 1, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 9, 30)).build()))
                 .build();
     }
 
     private void initPost() {
-        Post createdPost = Post.create(createInfoRequest, school, businessProfile);
+        Post createdPost = createInfoRequest.toEntity();
+        createdPost.create(school, businessProfile);
         post = postRepository.save(createdPost);
 
-        PostFile createdPostFile = PostFile.create(post, savedFile);
+        PostFile createdPostFile = PostFile.create(post, savedFile.toPostFile());
         postFile = postFileRepository.save(createdPostFile);
 
         PostLike createdPostLike = PostLike.create(createdPost, userInBusinessProfile);
         postLike = postLikeRepository.save(createdPostLike);
 
-        PostDoDate createdPostDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost);
-        PostDoDate createdPostDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 1, 9, 30), createdPost);
-        PostDoDate createdPostDoDate3 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), createdPost);
-        postDoDate1 = postDoDateRepository.save(createdPostDoDate1);
-        postDoDate2 = postDoDateRepository.save(createdPostDoDate2);
-        postDoDate3 = postDoDateRepository.save(createdPostDoDate3);
+        List<PostDoDate> postDoDates = createInfoRequest.toPostDoDates();
+        postDoDates.forEach(postDoDate -> postDoDate.assignPost(post));
+        postDoDateRepository.saveAll(postDoDates);
+        postDoDate1 = postDoDates.get(0);
+        postDoDate2 = postDoDates.get(1);
+        postDoDate3 = postDoDates.get(2);
 
         approvePostApplicant1 = PostApplicant.create(postDoDate1, approveUser1);
         approvePostApplicant1.updateStatus(ApplyStatus.APPROVE);
@@ -344,7 +355,7 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
     @DisplayName("게시물 삭제 - 실패(실험이 끝나지 않은 날짜에 확정자가 남아있는 경우)")
     void deleteOneExistApprovedApplicant() {
         assertThatThrownBy(() -> postByBusinessService.deleteOne(post.getId(), LocalDateTime.of(2021, 9, 29, 0, 0), userInBusinessProfile))
-                .isExactlyInstanceOf(ExistApprovedApplicantException.class);
+                .isExactlyInstanceOf(InvalidOperationException.class);
     }
 
     @Test

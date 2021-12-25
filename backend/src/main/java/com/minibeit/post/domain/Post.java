@@ -2,7 +2,7 @@ package com.minibeit.post.domain;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.post.dto.PostRequest;
+import com.minibeit.file.domain.PostFile;
 import com.minibeit.school.domain.School;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import lombok.*;
@@ -95,35 +95,17 @@ public class Post extends BaseEntity {
         this.postStatus = PostStatus.COMPLETE;
     }
 
-    public void updateContent(String updatedContent) {
-        this.content = updatedContent;
+    public void updateContent(Post updatedPost) {
+        this.content = updatedPost.getContent();
     }
+
 
     public void updateThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
 
-    public static Post create(PostRequest.CreateInfo request, School school, BusinessProfile businessProfile) {
-        return Post.builder()
-                .title(request.getTitle())
-                .content(request.getContent())
-                .place(request.getPlace())
-                .placeDetail(request.getPlaceDetail())
-                .contact(request.getContact())
-                .category(request.getCategory())
-                .recruitPeople(request.getHeadcount())
-                .payment(request.getPayment())
-                .paymentCache(request.getCache())
-                .paymentDetail(request.getPaymentDetail())
-                .paymentGoods(request.getGoods())
-                .recruitCondition(request.isCondition())
-                .recruitConditionDetail(request.getConditionDetail())
-                .doTime(request.getDoTime())
-                .startDate(request.getStartDate())
-                .endDate(request.getEndDate())
-                .businessProfile(businessProfile)
-                .school(school)
-                .postStatus(PostStatus.RECRUIT)
-                .build();
+    public void create(School school, BusinessProfile businessProfile) {
+        this.school = school;
+        this.businessProfile = businessProfile;
     }
 }

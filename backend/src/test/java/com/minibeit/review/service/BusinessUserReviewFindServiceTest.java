@@ -11,7 +11,7 @@ import com.minibeit.review.domain.BusinessUserReviewEvalType;
 import com.minibeit.review.domain.BusinessUserReviewType;
 import com.minibeit.review.domain.repository.BusinessUserReviewDetailRepository;
 import com.minibeit.review.domain.repository.BusinessUserReviewRepository;
-import com.minibeit.review.dto.BusinessUserReviewResponse;
+import com.minibeit.review.service.dto.BusinessUserReviewResponse;
 import com.minibeit.user.domain.Role;
 import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;
@@ -93,7 +93,7 @@ public class BusinessUserReviewFindServiceTest extends ServiceIntegrationTest {
                 .admin(savedUser)
                 .build();
         businessProfile = businessProfileRepository.save(createdBusiness);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(savedUser, businessProfile,List.of(BusinessProfile.builder().build())));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(savedUser, businessProfile));
 
 
         BusinessUserReview review1 = BusinessUserReview.createWithBusiness(businessProfile, businessGoodReview1);

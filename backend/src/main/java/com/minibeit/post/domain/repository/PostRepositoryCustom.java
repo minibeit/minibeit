@@ -1,10 +1,10 @@
 package com.minibeit.post.domain.repository;
 
-import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostStatus;
-import com.minibeit.post.dto.PostResponse;
+import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.user.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

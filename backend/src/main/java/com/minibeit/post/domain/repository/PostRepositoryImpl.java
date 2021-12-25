@@ -1,11 +1,11 @@
 package com.minibeit.post.domain.repository;
 
-import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostStatus;
-import com.minibeit.post.dto.PostResponse;
-import com.minibeit.post.dto.QPostResponse_GetMyApplyList;
+import com.minibeit.post.service.dto.PostResponse;
+import com.minibeit.post.service.dto.QPostResponse_GetMyApplyList;
+import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.user.domain.User;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -24,9 +24,9 @@ import java.util.Optional;
 
 import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
 import static com.minibeit.post.domain.QPost.post;
-import static com.minibeit.post.domain.QPostApplicant.postApplicant;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
 import static com.minibeit.post.domain.QPostLike.postLike;
+import static com.minibeit.postapplicant.domain.QPostApplicant.postApplicant;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {

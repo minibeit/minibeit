@@ -1,7 +1,7 @@
 package com.minibeit.mail.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.mail.dto.MailRequest;
+import com.minibeit.mail.service.dto.MailRequest;
 import com.minibeit.mail.service.MailService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

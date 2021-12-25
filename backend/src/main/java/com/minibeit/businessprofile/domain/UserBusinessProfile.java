@@ -1,12 +1,10 @@
 package com.minibeit.businessprofile.domain;
 
-import com.minibeit.businessprofile.service.exception.DuplicateShareException;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Getter
 @Builder
@@ -37,24 +35,16 @@ public class UserBusinessProfile extends BaseEntity {
         this.user = user;
     }
 
-    public static UserBusinessProfile create(User user) {
+    public static UserBusinessProfile createWithBusinessProfile(User user) {
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.builder().build();
         userBusinessProfile.addUser(user);
         return userBusinessProfile;
     }
 
-    public static UserBusinessProfile createWithBusinessProfile(User user, BusinessProfile businessProfile, List<BusinessProfile> businessProfileOfShareUser) {
-        BusinessProfile.countExceedValidation(businessProfileOfShareUser);
-        duplicateShareValidation(businessProfileOfShareUser, businessProfile);
+    public static UserBusinessProfile createWithBusinessProfile(User invitedUser, BusinessProfile businessProfile) {
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.builder().build();
-        userBusinessProfile.addUser(user);
+        userBusinessProfile.addUser(invitedUser);
         userBusinessProfile.setBusinessProfile(businessProfile);
         return userBusinessProfile;
-    }
-
-    private static void duplicateShareValidation(List<BusinessProfile> businessProfileOfShareUser, BusinessProfile businessProfile) {
-        if (businessProfileOfShareUser.contains(businessProfile)) {
-            throw new DuplicateShareException();
-        }
     }
 }

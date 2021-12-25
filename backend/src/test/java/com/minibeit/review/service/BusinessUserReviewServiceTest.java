@@ -6,19 +6,23 @@ import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.post.domain.Payment;
+import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
-import com.minibeit.post.dto.PostDto;
-import com.minibeit.post.dto.PostRequest;
-import com.minibeit.post.service.exception.PostApplicantNotFoundException;
+import com.minibeit.post.service.dto.PostDto;
+import com.minibeit.post.service.dto.PostRequest;
+import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
+import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.review.domain.BusinessUserReviewDetail;
 import com.minibeit.review.domain.BusinessUserReviewEvalType;
 import com.minibeit.review.domain.BusinessUserReviewType;
 import com.minibeit.review.domain.repository.BusinessUserReviewDetailRepository;
 import com.minibeit.review.domain.repository.BusinessUserReviewRepository;
-import com.minibeit.review.dto.BusinessUserReviewResponse;
+import com.minibeit.review.service.dto.BusinessUserReviewResponse;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -31,7 +35,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -136,7 +140,7 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
                 .admin(userInBusinessProfile)
                 .build();
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
     }
 
     void postSetup() {
@@ -158,19 +162,20 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
                 .businessProfileId(businessProfile.getId())
                 .startDate(LocalDateTime.of(2021, 9, 29, 9, 30))
                 .endDate(LocalDateTime.of(2021, 9, 29, 12, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 17, 30)).build()))
+                .doDateList(Arrays.asList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 4, 9, 30)).build()))
                 .build();
 
-        Post createdPost = Post.create(createRequest, school, businessProfile);
+        Post createdPost = createRequest.toEntity();
+        createdPost.create(school, businessProfile);
         post = postRepository.save(createdPost);
+        List<PostDoDate> postDoDates = createRequest.toPostDoDates();
+        postDoDates.forEach(postDoDate -> postDoDate.assignPost(post));
+        postDoDateRepository.saveAll(postDoDates);
 
-        PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), post);
-        PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), post);
-        PostDoDate postDoDate3 = PostDoDate.create(LocalDateTime.of(2021, 10, 4, 9, 30), post);
+        postDoDate = postDoDates.get(0);
 
-        postDoDate = postDoDateRepository.save(postDoDate1);
-        postDoDateRepository.save(postDoDate2);
-        postDoDateRepository.save(postDoDate3);
 
         PostApplicant postApplicant1 = PostApplicant.create(postDoDate, user2);
         postApplicant1.updateStatus(ApplyStatus.COMPLETE);
@@ -180,7 +185,7 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
         PostApplicant postApplicant2 = PostApplicant.create(postDoDate, notAttendUser);
         postApplicant2.updateStatus(ApplyStatus.COMPLETE);
         postApplicant2.changeBusinessFinish(false);
-        postApplicant2.updateEvaluatedBusiness();
+        postApplicant2.evaluated(LocalDateTime.of(2021, 9, 30, 0, 0), userInBusinessProfile, businessProfile.getId());
         postApplicantRepository.save(postApplicant2);
 
         PostApplicant postApplicant3 = PostApplicant.create(postDoDate, notCompleteSelf);

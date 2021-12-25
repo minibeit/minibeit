@@ -1,5 +1,6 @@
 package com.minibeit.businessprofile.dto;
 
+import com.minibeit.businessprofile.domain.BusinessProfile;
 import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +23,15 @@ public class BusinessProfileRequest {
         @NotBlank(message = "비즈니스 프로필 연락처은 공백일 수 없습니다.")
         private String contact;
         private MultipartFile avatar;
+
+        public BusinessProfile toEntity(){
+            return BusinessProfile.builder()
+                    .name(name)
+                    .place(place)
+                    .placeDetail(placeDetail)
+                    .contact(contact)
+                    .build();
+        }
     }
 
     @Setter
@@ -40,5 +50,14 @@ public class BusinessProfileRequest {
         private String contact;
         private MultipartFile avatar;
         private boolean avatarChanged;
+
+        public BusinessProfile toEntity(){
+            return BusinessProfile.builder()
+                    .name(name)
+                    .place(place)
+                    .placeDetail(placeDetail)
+                    .contact(contact)
+                    .build();
+        }
     }
 }

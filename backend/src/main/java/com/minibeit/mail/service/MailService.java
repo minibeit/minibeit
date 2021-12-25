@@ -1,9 +1,9 @@
 package com.minibeit.mail.service;
 
-import com.minibeit.mail.condition.MailCondition;
-import com.minibeit.mail.condition.MailPostCondition;
-import com.minibeit.mail.dto.MailRequest;
-import com.minibeit.mail.dto.PostStatusMail;
+import com.minibeit.mail.service.dto.condition.MailCondition;
+import com.minibeit.mail.service.dto.condition.MailPostCondition;
+import com.minibeit.mail.service.dto.MailRequest;
+import com.minibeit.mail.service.dto.PostStatusMail;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.UserVerificationCode;
 import com.minibeit.user.domain.VerificationKinds;
@@ -15,7 +15,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
@@ -61,11 +60,6 @@ public class MailService {
 
         PostStatusMail postStatusMail = PostStatusMail.create(MailCondition.VERIFICATION, request.getToEmail());
         postStatusMail.getMailCondition().makeMimeMessage(message, templateEngine, request.getToEmail(), userVerificationCode);
-//
-//
-//        message.addRecipients(MimeMessage.RecipientType.TO, request.getToEmail());
-//        message.setSubject("[미니바이트] 인증번호를 안내해드립니다.");
-//        message.setText(setContext(userVerificationCode.getCode()), "utf-8", "html");
 
         mailSender.send(message);
     }

@@ -50,6 +50,10 @@ Content-Disposition: form-data; name="place";
 
 고려대 신공학관
 --boundary
+Content-Disposition: form-data; name="placeDetail";
+
+신공학관 123호
+--boundary
 Content-Disposition: form-data; name="introduce";
 
 고려대 실험실 입니다 수정 테스트!
@@ -68,7 +72,7 @@ Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business-profile/1/share/2
+POST {{apiUrl}}/business-profile/2/share/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
@@ -81,17 +85,12 @@ DELETE {{apiUrl}}/business-profile/1/user
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business/profile/1/expel/2
+POST {{apiUrl}}/business-profile/2/change/3
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business/profile/3/change/2
-Content-Type: application/json;charset=UTF-8
-Authorization: {{authorizationToken}}
-
-###
-GET {{apiUrl}}/business/profile/1
+GET {{apiUrl}}/business-profile/1
 Authorization: {{authorizationToken}}
 
 

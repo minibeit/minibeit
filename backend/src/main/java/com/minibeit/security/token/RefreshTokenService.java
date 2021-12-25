@@ -2,7 +2,7 @@ package com.minibeit.security.token;
 
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
-import com.minibeit.user.dto.UserResponse;
+import com.minibeit.user.service.dto.UserResponse;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

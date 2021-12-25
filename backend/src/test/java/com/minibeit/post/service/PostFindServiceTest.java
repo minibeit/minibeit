@@ -5,16 +5,26 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
-import com.minibeit.common.domain.FileServer;
-import com.minibeit.common.domain.FileType;
 import com.minibeit.common.dto.PageDto;
-import com.minibeit.common.dto.SavedFile;
-import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.*;
-import com.minibeit.post.dto.PostDto;
-import com.minibeit.post.dto.PostRequest;
-import com.minibeit.post.dto.PostResponse;
+import com.minibeit.file.domain.FileServer;
+import com.minibeit.file.domain.FileType;
+import com.minibeit.file.domain.PostFile;
+import com.minibeit.file.domain.repository.PostFileRepository;
+import com.minibeit.file.service.dto.SavedFile;
+import com.minibeit.post.domain.Payment;
+import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.PostLike;
+import com.minibeit.post.domain.repository.PostDoDateRepository;
+import com.minibeit.post.domain.repository.PostLikeRepository;
+import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.service.dto.PostDto;
+import com.minibeit.post.service.dto.PostRequest;
+import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
+import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.security.userdetails.CustomUserDetails;
@@ -73,7 +83,7 @@ public class PostFindServiceTest extends ServiceIntegrationTest {
     private Post post;
     private PostFile postFile;
     private PostDoDate postDoDate;
-    private final SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
+    private final SavedFile savedFile = new SavedFile("files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
 
 
     @BeforeEach
@@ -108,14 +118,14 @@ public class PostFindServiceTest extends ServiceIntegrationTest {
         userInBusinessProfile = userRepository.save(user1);
         testUser = userRepository.save(user3);
 
-        businessProfile = BusinessProfile.builder()
+        BusinessProfile createdBusiness = BusinessProfile.builder()
                 .name("동그라미 실험실")
                 .place("고려대")
                 .contact("010-1234-5786")
                 .admin(userInBusinessProfile)
                 .build();
-        businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
+        businessProfile = businessProfileRepository.save(createdBusiness);
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, createdBusiness));
     }
 
     private void initPost() {
@@ -140,11 +150,17 @@ public class PostFindServiceTest extends ServiceIntegrationTest {
                 .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 17, 30)).build()))
                 .build();
 
-        Post createdPost = Post.create(createRequest, KSchool, businessProfile);
+        Post createdPost = createRequest.toEntity();
+        createdPost.create(KSchool, businessProfile);
         post = postRepository.save(createdPost);
-        PostFile createdPostFile = PostFile.create(post, savedFile);
+        List<PostDoDate> postDoDates = createRequest.toPostDoDates();
+        postDoDates.forEach(postDoDate -> postDoDate.assignPost(post));
+        postDoDateRepository.saveAll(postDoDates);
+        postDoDate = postDoDates.get(0);
+
+        PostFile createdPostFile = PostFile.create(post, savedFile.toPostFile());
         postFile = postFileRepository.save(createdPostFile);
-        postDoDate = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), createdPost));
+
         PostLike postLike = PostLike.create(post, userInBusinessProfile);
         postLikeRepository.save(postLike);
         PostApplicant postApplicant1 = PostApplicant.create(postDoDate, testUser);
@@ -171,12 +187,17 @@ public class PostFindServiceTest extends ServiceIntegrationTest {
                 .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 12, 30)).build()))
                 .build();
 
-        Post createdPost2 = Post.create(createRequest2, KSchool, businessProfile);
+        Post createdPost2 = createRequest2.toEntity();
+        createdPost2.create(KSchool, businessProfile);
         Post post2 = postRepository.save(createdPost2);
+        List<PostDoDate> postDoDates2 = createRequest2.toPostDoDates();
+        postDoDates2.forEach(postDoDate -> postDoDate.assignPost(post2));
+        postDoDateRepository.saveAll(postDoDates2);
+        PostDoDate postDoDate2 = postDoDates2.get(0);
 
         PostLike postLike2 = PostLike.create(post2, userInBusinessProfile);
         postLikeRepository.save(postLike2);
-        PostDoDate postDoDate2 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 10, 3, 12, 30), post2));
+
         PostApplicant postApplicant2 = PostApplicant.create(postDoDate2, testUser);
         postApplicant2.updateStatus(ApplyStatus.APPROVE);
         postApplicantRepository.save(postApplicant2);
@@ -202,10 +223,14 @@ public class PostFindServiceTest extends ServiceIntegrationTest {
                 .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 12, 30)).build()))
                 .build();
 
-        Post createdPost3 = Post.create(createRequest3, KSchool, businessProfile);
+        Post createdPost3 = createRequest3.toEntity();
+        createdPost3.create(KSchool, businessProfile);
         Post post3 = postRepository.save(createdPost3);
+        List<PostDoDate> postDoDates3 = createRequest3.toPostDoDates();
+        postDoDates3.forEach(postDoDate -> postDoDate.assignPost(post3));
+        postDoDateRepository.saveAll(postDoDates3);
+        PostDoDate postDoDate3 = postDoDates3.get(0);
 
-        PostDoDate postDoDate3 = postDoDateRepository.save(PostDoDate.create(LocalDateTime.of(2021, 9, 15, 12, 30), post3));
         PostApplicant postApplicant3 = PostApplicant.create(postDoDate3, testUser);
         postApplicant3.updateStatus(ApplyStatus.COMPLETE);
         postApplicantRepository.save(postApplicant3);
@@ -261,7 +286,7 @@ public class PostFindServiceTest extends ServiceIntegrationTest {
     void getList() {
         CustomUserDetails customUserDetails = CustomUserDetails.create(testUser);
         PageDto pageDto = new PageDto(1, 5);
-        Page<PostResponse.GetList> response = postService.getList(KSchool.getId(), LocalDate.of(2021, 9, 29), "미디어", pageDto, Payment.CACHE, LocalTime.of(9, 30), LocalTime.of(12, 30), 5000, 60, customUserDetails);
+        Page<PostResponse.GetList> response = postService.getList(KSchool.getId(), LocalDate.of(2021, 9, 29), "미디어", pageDto, Payment.CACHE, LocalTime.of(17, 30), LocalTime.of(19, 30), 5000, 60, customUserDetails);
 
         assertThat(response.getTotalElements()).isEqualTo(1L);
     }

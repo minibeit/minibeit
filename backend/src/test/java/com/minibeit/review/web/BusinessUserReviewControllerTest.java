@@ -1,7 +1,7 @@
 package com.minibeit.review.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.review.dto.BusinessUserReviewResponse;
+import com.minibeit.review.service.dto.BusinessUserReviewResponse;
 import com.minibeit.review.domain.BusinessUserReviewDetail;
 import com.minibeit.review.domain.BusinessUserReviewEvalType;
 import com.minibeit.review.domain.BusinessUserReviewType;

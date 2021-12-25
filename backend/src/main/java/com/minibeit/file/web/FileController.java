@@ -1,6 +1,6 @@
 package com.minibeit.file.web;
 
-import com.minibeit.common.component.file.S3Uploader;
+import com.minibeit.file.service.S3Uploader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

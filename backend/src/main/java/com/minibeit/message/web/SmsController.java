@@ -2,8 +2,8 @@ package com.minibeit.message.web;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.minibeit.common.dto.ApiResult;
-import com.minibeit.message.dto.SmsRequest;
-import com.minibeit.message.dto.SmsResponse;
+import com.minibeit.message.service.dto.SmsRequest;
+import com.minibeit.message.service.dto.SmsResponse;
 import com.minibeit.message.service.SmsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

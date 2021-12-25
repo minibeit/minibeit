@@ -237,6 +237,7 @@ export const PaymentBtn = styled.button`
   border-radius: 0.5rem;
   white-space: nowrap;
   &:disabled {
+    border: 1px solid #0642ff;
     background: #b4c6ff;
   }
 `;

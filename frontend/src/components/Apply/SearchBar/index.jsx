@@ -4,7 +4,8 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 
 import { DateInput, SchoolInput } from "../../Common";
-import DoTimeInput from "./StartTimeInput";
+import StartTimeInput from "./StartTimeInput";
+import DoTimeInput from "./DoTimeInput";
 
 import * as S from "../style";
 
@@ -42,12 +43,12 @@ export default function SearchBar({
             />
           </S.InputItem>
           <S.InputItem>
-            <p>시작시간</p>
-            <DoTimeInput />
+            <p>참여가능시간</p>
+            <StartTimeInput />
           </S.InputItem>
           <S.InputItem style={{ border: "none" }}>
             <p>소요시간</p>
-            <input />
+            <DoTimeInput />
           </S.InputItem>
           <div>
             <S.SearchBtn

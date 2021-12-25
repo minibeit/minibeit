@@ -20,6 +20,10 @@ export default function FilterLabel({
       const copy = { ...category };
       copy.category = "ALL";
       setCategory(copy);
+    } else if (name === "doTime") {
+      const copy = { ...filter };
+      copy[name] = { name: "전체", value: "" };
+      setFilter(copy);
     } else {
       const copy = { ...filter };
       copy[name] = "";
@@ -52,14 +56,9 @@ export default function FilterLabel({
           </button>
         </S.FilterLabel>
       )}
-      {filter.doTime !== "" && (
+      {filter.doTime.value !== "" && (
         <S.FilterLabel>
-          <p>
-            소요시간 : {filter.doTime === "30" && "30분 이내"}
-            {filter.doTime === "60" && "1시간 이내"}
-            {filter.doTime === "180" && "3시간 이내"}
-            {filter.doTime === "181" && "3시간 이상"}
-          </p>
+          <p>소요시간 : {filter.doTime.name}</p>
           <button onClick={() => closeLabel("doTime")}>
             <CloseIcon />
           </button>

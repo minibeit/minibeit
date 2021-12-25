@@ -88,32 +88,6 @@ export default function Presenter({
                   </div>
                 </S.DetailBox>
               </CSSTransition>
-              <S.DetailBox>
-                <p>소요기간</p>
-                <div>
-                  {doTime.map((a, i) => {
-                    return (
-                      <S.SelectBtn
-                        key={i}
-                        name="doTime"
-                        value={a.value}
-                        disabled={data["doTime"] === a.value ? true : false}
-                        onClick={changeFilter}
-                      >
-                        {a.name}
-                      </S.SelectBtn>
-                    );
-                  })}
-                </div>
-              </S.DetailBox>
-              <S.DetailBox>
-                <p>
-                  실험 시작시간{" "}
-                  {data.startTime &&
-                    data.endTime &&
-                    `${data["startTime"]}~${data["endTime"]}`}
-                </p>
-              </S.DetailBox>
               <S.FilterResetBtn
                 onClick={() => {
                   filterReset();

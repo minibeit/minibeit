@@ -13,7 +13,7 @@ export const filterState = atom({
   default: {
     paymentType: "",
     minPay: "",
-    doTime: "",
+    doTime: { name: "전체", value: "" },
     startAndEnd: [0, 24],
     startTime: "",
     endTime: "",

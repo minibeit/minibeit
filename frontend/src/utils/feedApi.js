@@ -106,7 +106,7 @@ export const feedlistApi = async (
           category.category
         }&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${
           filter.paymentType === "CACHE" ? filter.minPay : ""
-        }&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${
+        }&doTime=${filter.doTime.value}&startTime=${filter.startTime}&endTime=${
           filter.endTime
         }`
     );
@@ -117,7 +117,7 @@ export const feedlistApi = async (
           category.category
         }&paymentType=${filter.paymentType}&doDate=${doDate}&minPay=${
           filter.paymentType === "CACHE" ? filter.minPay : ""
-        }&doTime=${filter.doTime}&startTime=${filter.startTime}&endTime=${
+        }&doTime=${filter.doTime.value}&startTime=${filter.startTime}&endTime=${
           filter.endTime
         }`
     );

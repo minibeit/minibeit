@@ -22,8 +22,8 @@ export const filterState = atom({
 export const schoolState = atom({
   key: "schoolState",
   default: {
-    schoolId: null,
-    schoolName: null,
+    schoolId: "0",
+    schoolName: "전체",
   },
 });
 export const categoryState = atom({

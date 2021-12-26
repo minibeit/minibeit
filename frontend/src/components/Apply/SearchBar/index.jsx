@@ -3,7 +3,8 @@ import React from "react";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 
-import { DateInput, SchoolInput } from "../../Common";
+import { DateInput } from "../../Common";
+import SchoolInput from "./SchoolInput";
 import StartTimeInput from "./StartTimeInput";
 import DoTimeInput from "./DoTimeInput";
 

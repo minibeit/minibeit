@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Portal from "../../../Common/Modal/Portal";
 import Calendar from "react-calendar";
+import { toast } from "react-toastify";
 
 import { ReactComponent as InfoIcon } from "../../../../svg/인포.svg";
 import { ReactComponent as PlusIcon } from "../../../../svg/플러스.svg";
@@ -154,7 +155,7 @@ export default function TimeSelectModal({
                     setCreatedGroup([...createdGroup, copy]);
                     setSelectGroup(copy);
                   } else {
-                    alert(`그룹은 최대 ${group.length}개 입니다.`);
+                    toast.error(`그룹은 최대 ${group.length}개 입니다.`);
                   }
                 }}
               />

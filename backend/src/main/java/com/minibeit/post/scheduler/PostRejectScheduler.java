@@ -1,11 +1,15 @@
 package com.minibeit.post.scheduler;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.mail.condition.MailCondition;
 import com.minibeit.mail.service.MailService;
-import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.mail.service.dto.condition.MailCondition;
+import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.RejectPost;
 import com.minibeit.post.domain.repository.RejectPostRepository;
+import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -35,7 +39,7 @@ public class PostRejectScheduler {
             PostDoDate postDoDate = postApplicant.getPostDoDate();
             Post post = postDoDate.getPost();
             BusinessProfile businessProfile = post.getBusinessProfile();
-            RejectPost rejectPost = RejectPost.create(post.getTitle(), post.getPlace(), post.getPlaceDetail(), post.getCategory(), post.getContact(), post.isRecruitCondition(), post.getDoTime(), postDoDate.getDoDate(), REJECT_MSG, postApplicant.getUser(), businessProfile.getName());
+            RejectPost rejectPost = RejectPost.create(post, postDoDate, businessProfile, postApplicant.getUser(), REJECT_MSG);
 
             rejectPosts.add(rejectPost);
             postApplicantIds.add(postApplicant.getId());

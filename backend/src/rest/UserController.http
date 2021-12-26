@@ -82,7 +82,7 @@ test2@test.com
 --boundary
 Content-Disposition: form-data; name="nicknameChanged";
 
-false
+true
 --boundary
 Content-Disposition: form-data; name="gender";
 
@@ -108,7 +108,6 @@ Content-Disposition: form-data; name="schoolId";
 Content-Disposition: form-data; name="avatarChanged";
 
 false
-###
 ###
 GET {{apiUrl}}/user/list/business/profile/1
 Authorization: {{authorizationToken}}

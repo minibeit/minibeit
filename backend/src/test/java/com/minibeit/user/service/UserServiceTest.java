@@ -1,33 +1,36 @@
 package com.minibeit.user.service;
 
 import com.minibeit.ServiceIntegrationTest;
-import com.minibeit.avatar.domain.Avatar;
-import com.minibeit.common.domain.FileServer;
-import com.minibeit.common.domain.FileType;
-import com.minibeit.avatar.service.AvatarService;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
-import com.minibeit.common.dto.SavedFile;
+import com.minibeit.common.exception.DuplicateException;
+import com.minibeit.file.domain.Avatar;
+import com.minibeit.file.domain.FileServer;
+import com.minibeit.file.domain.FileType;
+import com.minibeit.file.service.AvatarService;
+import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
-import com.minibeit.post.dto.PostDto;
-import com.minibeit.post.dto.PostRequest;
-import com.minibeit.post.service.PostApplicantByBusinessService;
+import com.minibeit.post.service.dto.PostDto;
+import com.minibeit.post.service.dto.PostRequest;
 import com.minibeit.post.service.PostByBusinessService;
+import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
+import com.minibeit.postapplicant.service.PostApplicantByBusinessService;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
-import com.minibeit.user.domain.*;
+import com.minibeit.user.domain.Gender;
+import com.minibeit.user.domain.Role;
+import com.minibeit.user.domain.SignupProvider;
+import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
-import com.minibeit.user.dto.UserRequest;
-import com.minibeit.user.dto.UserResponse;
-import com.minibeit.user.service.exception.DuplicateNickNameException;
+import com.minibeit.user.service.dto.UserRequest;
+import com.minibeit.user.service.dto.UserResponse;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,6 +45,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -164,7 +168,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .build();
         businessProfile.setCreatedBy(userInBusinessProfile);
         businessProfileRepository.save(businessProfile);
-        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile, List.of(BusinessProfile.builder().build())));
+        userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(userInBusinessProfile, businessProfile));
     }
 
     private void initApplyPost() {
@@ -186,37 +190,39 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .businessProfileId(businessProfile.getId())
                 .startDate(LocalDateTime.of(2021, 9, 26, 17, 30))
                 .endDate(LocalDateTime.of(2021, 10, 2, 17, 30))
-                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 26, 17, 30)).build()))
+                .doDateList(Arrays.asList(PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 9, 29, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 3, 9, 30)).build(),
+                        PostDto.PostDoDate.builder().doDate(LocalDateTime.of(2021, 10, 4, 9, 30)).build()))
                 .build();
 
-        Post createdPost = Post.create(createRequest, school, businessProfile);
+        Post createdPost = createRequest.toEntity();
+        createdPost.create(school, businessProfile);
         recruitPost = postRepository.save(createdPost);
+        List<PostDoDate> postDoDates = createRequest.toPostDoDates();
+        postDoDates.forEach(postDoDate -> postDoDate.assignPost(recruitPost));
+        postDoDateRepository.saveAll(postDoDates);
 
-        PostDoDate postDoDate1 = PostDoDate.create(LocalDateTime.of(2021, 9, 29, 9, 30), recruitPost);
-        PostDoDate postDoDate2 = PostDoDate.create(LocalDateTime.of(2021, 10, 3, 9, 30), recruitPost);
-        PostDoDate postDoDate3 = PostDoDate.create(LocalDateTime.of(2021, 10, 4, 9, 30), recruitPost);
-        recruitPostPostDoDate1 = postDoDateRepository.save(postDoDate1);
-        fullPostPostDoDate2 = postDoDateRepository.save(postDoDate2);
-        recruitPostPostDoDate2 = postDoDateRepository.save(postDoDate3);
+        recruitPostPostDoDate1 = postDoDates.get(0);
+        fullPostPostDoDate2 = postDoDates.get(1);
+        recruitPostPostDoDate2 = postDoDates.get(2);
 
-        PostApplicant postApplicant1 = PostApplicant.create(postDoDate1, applyUser1);
+        PostApplicant postApplicant1 = PostApplicant.create(recruitPostPostDoDate1, applyUser1);
         postApplicantApplyUser = postApplicantRepository.save(postApplicant1);
 
-        PostApplicant postApplicant2 = PostApplicant.create(postDoDate1, rejectUser);
+        PostApplicant postApplicant2 = PostApplicant.create(recruitPostPostDoDate1, rejectUser);
         postApplicantRepository.save(postApplicant2);
 
-        PostApplicant postApplicant3 = PostApplicant.create(postDoDate2, applyUser2);
+        PostApplicant postApplicant3 = PostApplicant.create(fullPostPostDoDate2, applyUser2);
         postApplicantRepository.save(postApplicant3);
 
         List<PostApplicant> postApplicants = Collections.singletonList(postApplicant3);
-        postDoDate2.updateFull(postApplicants);
+        fullPostPostDoDate2.updateFull(postApplicants);
 
     }
 
     @Test
     @DisplayName("닉네임 중복 체크 - 성공")
     void nicknameCheck() {
-        //given//when//then
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname("중복안된이름").build();
 
         userService.nickNameCheck(request);
@@ -232,7 +238,7 @@ class UserServiceTest extends ServiceIntegrationTest {
 
         UserRequest.Nickname request = UserRequest.Nickname.builder().nickname(applyUser1.getNickname()).build();
 
-        assertThatThrownBy(() -> userService.nickNameCheck(request)).isInstanceOf(DuplicateNickNameException.class);
+        assertThatThrownBy(() -> userService.nickNameCheck(request)).isInstanceOf(DuplicateException.class);
 
         User findUser = userRepository.findByNickname(request.getNickname()).orElseThrow(UserNotFoundException::new);
         assertThat(findUser.getNickname()).isEqualTo(request.getNickname());
@@ -258,9 +264,9 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .birth(LocalDate.of(2222, 1, 1))
                 .avatar(multipartFile)
                 .avatarChanged(true).build();
-        SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
+        SavedFile savedFile = new SavedFile("files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
 
-        Avatar avatar = Avatar.create(savedFile);
+        Avatar avatar = Avatar.create(savedFile.toAvatar());
 
         given(avatarService.upload(any())).willReturn(avatar);
         userService.update(updateInfo, user);
@@ -294,9 +300,9 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .birth(LocalDate.of(2000, 12, 12))
                 .avatar(multipartFile)
                 .avatarChanged(true).build();
-        SavedFile savedFile = new SavedFile("original", "files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
+        SavedFile savedFile = new SavedFile("files", "100", 10L, "avatar.com", 12, 10, true, FileType.IMAGE, FileServer.S3);
 
-        Avatar avatar = Avatar.create(savedFile);
+        Avatar avatar = Avatar.create(savedFile.toAvatar());
 
         given(avatarService.upload(any())).willReturn(avatar);
         userService.update(updateInfo, user);
@@ -334,7 +340,7 @@ class UserServiceTest extends ServiceIntegrationTest {
 
         //when
         assertThatThrownBy(() -> userService.update(updateInfo, user))
-                .isInstanceOf(DuplicateNickNameException.class);
+                .isInstanceOf(DuplicateException.class);
         //then
         User noUpdatedUser = userRepository.findById(applyUser1.getId()).orElseThrow(UserNotFoundException::new);
         assertThat(noUpdatedUser.getNickname()).isEqualTo(applyUser1.getNickname());
@@ -456,6 +462,6 @@ class UserServiceTest extends ServiceIntegrationTest {
         UserRequest.Nickname updatedNickName = UserRequest.Nickname.builder().nickname("새로운 닉네임").build();
 
         assertThatThrownBy(() -> userService.nickNameCheck(updatedNickName))
-                .isInstanceOf(DuplicateNickNameException.class);
+                .isInstanceOf(DuplicateException.class);
     }
 }

@@ -3,7 +3,6 @@ import moment from "moment";
 import {
   approveOneApi,
   cancelOneApi,
-  feedDetailApi,
   getApproveListApi,
   getWaitListApi,
   rejectOneApi,
@@ -17,31 +16,22 @@ import { toast } from "react-toastify";
 
 import * as S from "./style";
 
-export default function BManageModal({ postId, setModalSwitch }) {
+export default function BManageModal({ feedData, setModalSwitch }) {
   const [tab, setTab] = useState("대기자");
-  const [feedData, setFeedData] = useState({});
   const [userList, setUserList] = useState([]);
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
 
-  const getFeedData = useCallback(() => {
-    feedDetailApi(postId, true)
-      .then((res) => {
-        setFeedData(res.data.data);
-      })
-      .catch((err) => toast.error("데이터를 불러오지 못했습니다"));
-  }, [postId]);
-
   const getList = useCallback(() => {
     if (tab === "대기자") {
-      getWaitListApi(postId, date)
+      getWaitListApi(feedData.id, date)
         .then((res) => setUserList(res.data.data))
         .catch((err) => toast.error("데이터를 불러오지 못했습니다"));
     } else {
-      getApproveListApi(postId, date)
+      getApproveListApi(feedData.id, date)
         .then((res) => setUserList(res.data.data))
         .catch((err) => toast.error("데이터를 불러오지 못했습니다"));
     }
-  }, [date, postId, tab]);
+  }, [date, tab, feedData]);
 
   const applyApprove = (postDoDateId, userId) => {
     let value = window.confirm("해당 실험자의 실험 참여를 허락하시겠습니까?");
@@ -129,10 +119,6 @@ export default function BManageModal({ postId, setModalSwitch }) {
     setCancleUserInfo(user);
     setCancleAlert(true);
   };
-
-  useEffect(() => {
-    getFeedData();
-  }, [getFeedData]);
 
   useEffect(() => {
     getList();

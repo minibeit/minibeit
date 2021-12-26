@@ -1,15 +1,18 @@
+import moment from "moment";
 import React, { useMemo } from "react";
+import { toast } from "react-toastify";
 
 import * as S from "../style";
 
 export default function ApplyController({ apply, feedDetailData, checkLogin }) {
-  const payment = feedDetailData.payment === "CACHE" ? "현금" : "보상";
   const value =
-    payment === "현금" ? feedDetailData.cache + "원" : feedDetailData.goods;
+    feedDetailData.payment === "CACHE"
+      ? feedDetailData.cache + "원"
+      : feedDetailData.goods;
 
   const handleCopyClipBoard = () => {
     navigator.clipboard.writeText(window.location.href);
-    alert("복사되었습니다. 원하는곳에서 붙여넣기 해주세요!");
+    toast.info("복사되었습니다. 원하는곳에서 붙여넣기 해주세요!");
   };
   const num = useMemo(() => {
     return Math.floor(Math.random() * 10) + 1;
@@ -18,33 +21,38 @@ export default function ApplyController({ apply, feedDetailData, checkLogin }) {
     <S.RemoteBox>
       <S.Controller>
         <p>선택한 일정</p>
-        <S.ApplyData key={apply}>
-          <div>
-            <span>날짜 </span> {apply.doDate}
-          </div>
-          <div>
-            <span>시간 </span> {apply.doTime}
-          </div>
+        <S.ApplyData>
+          <tbody>
+            <tr>
+              <td>날짜</td>
+              <td>
+                {apply.doDate && moment(apply.doDate).format("MM월 DD일")}
+              </td>
+            </tr>
+            <tr>
+              <td>시간</td>
+              <td>{apply.doTime && apply.doTime}</td>
+            </tr>
+          </tbody>
         </S.ApplyData>
         <div>
-          <div>
-            <span>지급방법 </span> {payment}
-          </div>
-          <div>
-            <span>보상금액 </span> {value}
-          </div>
+          <div>금액</div>
+          <S.PaymentLabel payment={feedDetailData.payment}>
+            {feedDetailData.payment === "CACHE" ? "현금" : "물품"}
+          </S.PaymentLabel>
+          <div style={{ color: "#505050" }}>{value}</div>
         </div>
         <S.ApplyBtnGroup>
           <S.ViewNum>
             이 페이지를 <span>{num}</span>명이 보고 있습니다.
           </S.ViewNum>
-          <button
+          <S.ApplyBtn
             disabled={apply.postDoDateId ? false : true}
             onClick={checkLogin}
           >
             신청하기
-          </button>
-          <button onClick={() => handleCopyClipBoard()}>공유하기</button>
+          </S.ApplyBtn>
+          <S.CopyBtn onClick={() => handleCopyClipBoard()}>공유하기</S.CopyBtn>
         </S.ApplyBtnGroup>
       </S.Controller>
     </S.RemoteBox>

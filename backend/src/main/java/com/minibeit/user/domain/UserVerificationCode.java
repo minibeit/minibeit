@@ -1,6 +1,7 @@
 package com.minibeit.user.domain;
 
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.common.exception.InvalidValueException;
 import lombok.*;
 import org.springframework.mail.SimpleMailMessage;
 
@@ -35,8 +36,10 @@ public class UserVerificationCode extends BaseEntity {
         this.expirationDate = userVerificationCode.getExpirationDate();
     }
 
-    public boolean validate(String code) {
-        return code.equals(this.code) && this.expirationDate.isAfter(LocalDateTime.now());
+    public void validate(String code) {
+        if(code.equals(this.code) && this.expirationDate.isAfter(LocalDateTime.now())){
+            throw new InvalidValueException("잘못된 코드입니다.");
+        }
     }
 
     public static UserVerificationCode create(User user, VerificationKinds verificationKinds) {

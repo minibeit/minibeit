@@ -1,6 +1,6 @@
 package com.minibeit.review.domain.repository;
 
-import com.minibeit.review.dto.BusinessUserReviewResponse;
+import com.minibeit.review.service.dto.BusinessUserReviewResponse;
 
 import java.util.List;
 

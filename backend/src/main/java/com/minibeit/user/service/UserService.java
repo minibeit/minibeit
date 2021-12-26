@@ -1,23 +1,29 @@
 package com.minibeit.user.service;
 
-import com.minibeit.avatar.domain.Avatar;
-import com.minibeit.avatar.service.AvatarService;
+import com.minibeit.file.domain.Avatar;
+import com.minibeit.file.service.AvatarService;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
+import com.minibeit.common.exception.DuplicateException;
+import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.UserVerificationCode;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.domain.repository.UserVerificationCodeRepository;
-import com.minibeit.user.dto.UserRequest;
-import com.minibeit.user.dto.UserResponse;
-import com.minibeit.user.service.exception.*;
+import com.minibeit.user.service.exception.SchoolNotFoundException;
+import com.minibeit.user.service.exception.UserNotFoundException;
+import com.minibeit.user.service.exception.UserVerificationCodeNotFoundException;
+import com.minibeit.user.service.dto.UserRequest;
+import com.minibeit.user.service.dto.UserResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+;
 
 @Service
 @Transactional
@@ -30,13 +36,12 @@ public class UserService {
     private final BusinessProfileRepository businessProfileRepository;
 
     public UserResponse.CreateOrUpdate signup(UserRequest.Signup request, User user) {
-        if (userRepository.findByNickname(request.getNickname()).isPresent()) {
-            throw new DuplicateNickNameException();
-        }
+        nickCheck(request.getNickname());
+
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         Avatar avatar = avatarService.upload(request.getAvatar());
-        User updatedUser = findUser.signup(request, school, avatar);
+        User updatedUser = findUser.signup(request.toEntity(), school, avatar);
 
         return UserResponse.CreateOrUpdate.build(updatedUser, request.getSchoolId(), avatar);
     }
@@ -48,7 +53,7 @@ public class UserService {
         if (request.isNicknameChanged()) {
             nickCheck(request.getNickname());
         }
-        User updatedUser = findUser.update(request, school);
+        User updatedUser = findUser.update(request.toEntity(), school);
 
         Avatar avatar = findUser.getAvatar();
         if (request.isAvatarChanged()) {
@@ -60,10 +65,10 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public UserResponse.Verification codeVerification(Long userId, UserRequest.Verification request) {
-        UserVerificationCode userVerificationCode = userVerificationCodeRepository.findByUserIdAndVerificationKinds(userId, request.getVerificationKinds()).orElseThrow(UserVerificationCodeNotFoundException::new);
-        if (!userVerificationCode.validate(request.getCode())) {
-            throw new InvalidVerificationCodeException();
-        }
+        UserVerificationCode userVerificationCode = userVerificationCodeRepository.findByUserIdAndVerificationKinds(userId, request.getVerificationKinds())
+                .orElseThrow(UserVerificationCodeNotFoundException::new);
+        userVerificationCode.validate(request.getCode());
+
         return UserResponse.Verification.build(userVerificationCode.getUser());
     }
 
@@ -92,7 +97,7 @@ public class UserService {
 
     public void deleteOne(User user) {
         if (!businessProfileRepository.findAllByAdminId(user.getId()).isEmpty()) {
-            throw new UserHaveBusinessProfile();
+            throw new InvalidOperationException("관리자로 있는 비즈니스 프로필이 존재합니다.");
         }
         avatarService.deleteOne(user.getAvatar());
         userRepository.delete(user);
@@ -106,8 +111,8 @@ public class UserService {
     }
 
     private void nickCheck(String nickname) {
-        if (userRepository.findByNickname(nickname).isPresent()) {
-            throw new DuplicateNickNameException();
+        if (userRepository.existsByNickname(nickname)) {
+            throw new DuplicateException("증복된 닉네임입니다.");
         }
     }
 }

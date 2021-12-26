@@ -1,4 +1,4 @@
-POST {{apiUrl}}/post/info
+POST {{apiUrl}}/post
 Authorization: {{authorizationToken}}
 Content-Type: multipart/form-data; boundary=boundary
 Accept: application/json, image/*
@@ -24,26 +24,26 @@ Content-Type: application/json;charset=UTF-8
   "doTime": 60,
   "schoolId": 2,
   "businessProfileId": 1,
-  "startDate": "2021-12-14T09:30",
-  "endDate": "2021-12-19T09:30",
+  "startDate": "2021-12-24T09:30",
+  "endDate": "2021-12-29T09:30",
   "doDateList": [
     {
-      "doDate": "2021-12-14T10:00"
+      "doDate": "2021-12-24T10:00"
     },
     {
-      "doDate": "2021-12-15T10:00"
+      "doDate": "2021-12-25T10:00"
     },
     {
-      "doDate": "2021-12-16T10:00"
+      "doDate": "2021-12-26T10:00"
     },
     {
-      "doDate": "2021-12-17T20:30"
+      "doDate": "2021-12-27T20:30"
     },
     {
-      "doDate": "2021-12-18T11:30"
+      "doDate": "2021-12-28T11:30"
     },
     {
-      "doDate": "2021-12-19T12:30"
+      "doDate": "2021-12-29T12:30"
     }
   ]
 }
@@ -90,7 +90,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-POST {{apiUrl}}/post/82/completed
+POST {{apiUrl}}/post/1/completed
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
@@ -109,7 +109,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-DELETE {{apiUrl}}/post/2
+DELETE {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###

@@ -14,5 +14,5 @@ export const createBusinessReviewApi = (
 };
 
 export const viewBusinessReviewApi = (businessId) => {
-  return withoutAuthInstance.get(API_BUSINESS + `${businessId}/good-reviews`);
+  return withoutAuthInstance.get(`/api/business/${businessId}/good-reviews`);
 };

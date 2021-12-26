@@ -1,7 +1,7 @@
 package com.minibeit.mail.web;
 
 import com.minibeit.common.dto.ApiResult;
-import com.minibeit.mail.dto.MailRequest;
+import com.minibeit.mail.service.dto.MailRequest;
 import com.minibeit.mail.service.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

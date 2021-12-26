@@ -3,7 +3,7 @@ package com.minibeit.post.web;
 import com.minibeit.MvcTest;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.RejectPost;
-import com.minibeit.post.dto.RejectPostResponse;
+import com.minibeit.post.service.dto.RejectPostResponse;
 import com.minibeit.post.service.RejectPostService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

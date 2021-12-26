@@ -1,7 +1,7 @@
 package com.minibeit.file.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.common.component.file.S3Uploader;
+import com.minibeit.file.service.S3Uploader;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

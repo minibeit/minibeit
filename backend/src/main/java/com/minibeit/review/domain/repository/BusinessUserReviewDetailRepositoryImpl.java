@@ -2,8 +2,8 @@ package com.minibeit.review.domain.repository;
 
 import com.minibeit.review.domain.BusinessUserReviewEvalType;
 import com.minibeit.review.domain.BusinessUserReviewType;
-import com.minibeit.review.dto.BusinessUserReviewResponse;
-import com.minibeit.review.dto.QBusinessUserReviewResponse_CountsByReviews;
+import com.minibeit.review.service.dto.BusinessUserReviewResponse;
+import com.minibeit.review.service.dto.QBusinessUserReviewResponse_CountsByReviews;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 

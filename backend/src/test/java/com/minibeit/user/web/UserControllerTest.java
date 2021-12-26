@@ -1,13 +1,13 @@
 package com.minibeit.user.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.avatar.domain.Avatar;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.VerificationKinds;
-import com.minibeit.user.dto.UserRequest;
-import com.minibeit.user.dto.UserResponse;
+import com.minibeit.user.service.dto.UserRequest;
+import com.minibeit.user.service.dto.UserResponse;
 import com.minibeit.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

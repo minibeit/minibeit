@@ -5,54 +5,39 @@ import moment from "moment";
 
 import * as S from "./style";
 
-export default function DateInput({ minDate, maxDate, defaultDate, onChange }) {
+export default function DateInput({
+  minDate,
+  maxDate,
+  currentDate,
+  setCurrentDate,
+}) {
   const [calendarView, setCalendarView] = useState(false);
-  const [selectDate, setSelectDate] = useState(new Date());
 
-  const tileContent = ({ date, view }) => {
-    if (view === "month") {
-      if (moment(selectDate).format("D") === moment(date).format("D")) {
-        return <S.ColorView>{moment(date).format("D")}</S.ColorView>;
-      } else {
-        return null;
-      }
-    }
-  };
   return (
-    <ClickAwayListener
-      onClickAway={() => {
-        setCalendarView(false);
-      }}
-    >
+    <ClickAwayListener onClickAway={() => setCalendarView(false)}>
       <S.DateInputBox>
         <input
           readOnly
-          value={moment(defaultDate).format("YY.MM.DD")}
+          value={moment(currentDate).format("YY.MM.DD")}
           onClick={() => setCalendarView(!calendarView)}
         />
         {calendarView && (
           <S.CalendarWrapper>
             <Calendar
               calendarType="US"
-              value={selectDate}
+              value={currentDate}
               minDate={minDate}
               maxDate={maxDate}
-              onChange={(date) => setSelectDate(date)}
+              onChange={(date) => {
+                setCurrentDate({ date: date });
+                setCalendarView(false);
+              }}
               minDetail="month"
               next2Label={null}
               prev2Label={null}
               showNeighboringMonth={false}
-              tileContent={tileContent}
               formatDay={(locale, date) => moment(date).format("D")}
             />
-            <button
-              onClick={() => {
-                setCalendarView(false);
-                onChange(selectDate);
-              }}
-            >
-              선택 완료
-            </button>
           </S.CalendarWrapper>
         )}
       </S.DateInputBox>

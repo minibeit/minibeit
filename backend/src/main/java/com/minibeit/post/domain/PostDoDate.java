@@ -1,6 +1,7 @@
 package com.minibeit.post.domain;
 
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.postapplicant.domain.PostApplicant;
 import lombok.*;
 
 import javax.persistence.*;
@@ -31,19 +32,14 @@ public class PostDoDate extends BaseEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
-    private void setPost(Post post) {
+    public PostDoDate assignPost(Post post) {
         this.post = post;
         post.getPostDoDateList().add(this);
+        return this;
     }
 
     public void updateFull(List<PostApplicant> approvedPostApplicant) {
         this.isFull = this.post.getRecruitPeople() <= approvedPostApplicant.size();
-    }
-
-    public static PostDoDate create(LocalDateTime doDate, Post post) {
-        PostDoDate postDoDate = PostDoDate.builder().doDate(doDate).isFull(false).build();
-        postDoDate.setPost(post);
-        return postDoDate;
     }
 
     public boolean applyIsPossible(Post post) {

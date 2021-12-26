@@ -5,6 +5,7 @@ export const DateInputBox = styled.div`
   & > input {
     text-align: start;
     font-weight: bold;
+    cursor: pointer;
   }
 `;
 export const CalendarWrapper = styled.div`

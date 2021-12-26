@@ -8,19 +8,17 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function NoAuthority({ setAlertSwitch }) {
   return (
     <Portal>
-      <S.AlertBackground>
-        <S.AlertBox>
-          <S.AlertContent>
-            <InfoIcon />
-            <p>
-              회원님께서는
-              <br />
-              삭제하실 수 있는 권한이 없습니다.
-            </p>
-            <button onClick={() => setAlertSwitch(false)}>네, 알겠어요</button>
-          </S.AlertContent>
-        </S.AlertBox>
-      </S.AlertBackground>
+      <S.AlertBox>
+        <S.AlertContent>
+          <InfoIcon />
+          <p>
+            회원님께서는
+            <br />
+            삭제하실 수 있는 권한이 없습니다.
+          </p>
+          <button onClick={() => setAlertSwitch(false)}>네, 알겠어요</button>
+        </S.AlertContent>
+      </S.AlertBox>
     </Portal>
   );
 }

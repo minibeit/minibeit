@@ -140,69 +140,65 @@ export default function BManageModal({ postId, setModalSwitch }) {
 
   return (
     <Portal>
-      <S.ModalBackground
-        onClick={(e) => e.target === e.currentTarget && setModalSwitch(false)}
-      >
-        <S.ModalBox>
-          <S.ButtonTab>
-            <button
-              onClick={() => {
-                setTab("대기자");
-              }}
-              disabled={tab === "대기자" && true}
-            >
-              대기자 명단
-            </button>
-            <button
-              onClick={() => {
-                setTab("확정자");
-              }}
-              disabled={tab === "확정자" && true}
-            >
-              확정자 명단
-            </button>
-          </S.ButtonTab>
-          <S.ModalHeader>
-            <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
-              <CloseIcon />
-            </S.CloseModalBtn>
-            <div>
-              <p>{feedData.title}</p>
-              <CalendarButton
-                feedId={feedData.id}
-                minDate={new Date(feedData.startDate)}
-                maxDate={new Date(feedData.endDate)}
-                currentDate={new Date(date)}
-                setCurrentDate={setDate}
-              />
-            </div>
-          </S.ModalHeader>
-          <S.ModalContent>
-            <Presenter
-              tab={tab}
-              date={date}
-              userList={userList}
-              applyApprove={applyApprove}
-              cancleApprove={cancleApprove}
-              viewRejectInput={viewRejectInput}
-              rejectAlert={rejectAlert}
-              setRejectAlert={setRejectAlert}
-              setRejectUserInfo={setRejectUserInfo}
-              rejectUserInfo={rejectUserInfo}
-              reason={reason}
-              setReason={setReason}
-              cancleAlert={cancleAlert}
-              setCancleAlert={setCancleAlert}
-              setCancleUserInfo={setCancleUserInfo}
-              cancleUserInfo={cancleUserInfo}
-              rejectApply={rejectApply}
-              changeAttend={changeAttend}
-              rejectOn={rejectOn}
-              cancleOn={cancleOn}
+      <S.ModalBox>
+        <S.ButtonTab>
+          <button
+            onClick={() => {
+              setTab("대기자");
+            }}
+            disabled={tab === "대기자" && true}
+          >
+            대기자 명단
+          </button>
+          <button
+            onClick={() => {
+              setTab("확정자");
+            }}
+            disabled={tab === "확정자" && true}
+          >
+            확정자 명단
+          </button>
+        </S.ButtonTab>
+        <S.ModalHeader>
+          <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
+            <CloseIcon />
+          </S.CloseModalBtn>
+          <div>
+            <p>{feedData.title}</p>
+            <CalendarButton
+              feedId={feedData.id}
+              minDate={new Date(feedData.startDate)}
+              maxDate={new Date(feedData.endDate)}
+              currentDate={new Date(date)}
+              setCurrentDate={setDate}
             />
-          </S.ModalContent>
-        </S.ModalBox>
-      </S.ModalBackground>
+          </div>
+        </S.ModalHeader>
+        <S.ModalContent>
+          <Presenter
+            tab={tab}
+            date={date}
+            userList={userList}
+            applyApprove={applyApprove}
+            cancleApprove={cancleApprove}
+            viewRejectInput={viewRejectInput}
+            rejectAlert={rejectAlert}
+            setRejectAlert={setRejectAlert}
+            setRejectUserInfo={setRejectUserInfo}
+            rejectUserInfo={rejectUserInfo}
+            reason={reason}
+            setReason={setReason}
+            cancleAlert={cancleAlert}
+            setCancleAlert={setCancleAlert}
+            setCancleUserInfo={setCancleUserInfo}
+            cancleUserInfo={cancleUserInfo}
+            rejectApply={rejectApply}
+            changeAttend={changeAttend}
+            rejectOn={rejectOn}
+            cancleOn={cancleOn}
+          />
+        </S.ModalContent>
+      </S.ModalBox>
     </Portal>
   );
 }

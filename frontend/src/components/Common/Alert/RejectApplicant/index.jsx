@@ -13,35 +13,31 @@ export default function RejectApplicant({
 }) {
   return (
     <Portal>
-      <S.AlertBackground
-        onClick={(e) => e.target === e.currentTarget && setRejectAlert(false)}
-      >
-        <S.AlertBox>
-          <S.AlertContent>
-            <InfoIcon />
-            <p>
-              <span>{rejectUserInfo.name}님</span>을<br />
-              정말로 <span>반려</span>하시겠습니까?
-            </p>
-            <div>
-              <S.GrayButton onClick={() => setRejectAlert(false)}>
-                아니오, 관둘래요
-              </S.GrayButton>
-              <S.BlueButton
-                onClick={() =>
-                  rejectApply(
-                    rejectUserInfo.postDoDateId,
-                    rejectUserInfo.id,
-                    reason
-                  )
-                }
-              >
-                네, 반려할래요
-              </S.BlueButton>
-            </div>
-          </S.AlertContent>
-        </S.AlertBox>
-      </S.AlertBackground>
+      <S.AlertBox>
+        <S.AlertContent>
+          <InfoIcon />
+          <p>
+            <span>{rejectUserInfo.name}님</span>을<br />
+            정말로 <span>반려</span>하시겠습니까?
+          </p>
+          <div>
+            <S.GrayButton onClick={() => setRejectAlert(false)}>
+              아니오, 관둘래요
+            </S.GrayButton>
+            <S.BlueButton
+              onClick={() =>
+                rejectApply(
+                  rejectUserInfo.postDoDateId,
+                  rejectUserInfo.id,
+                  reason
+                )
+              }
+            >
+              네, 반려할래요
+            </S.BlueButton>
+          </div>
+        </S.AlertContent>
+      </S.AlertBox>
     </Portal>
   );
 }

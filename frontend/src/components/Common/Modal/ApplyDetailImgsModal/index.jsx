@@ -29,17 +29,15 @@ export default function ApplyImgsModal({ setSliderSwitch, currentImg, files }) {
 
   return (
     <Portal>
-      <S.ModalBackground>
-        <Presenter
-          currentSlide={currentSlide}
-          slideRef={slideRef}
-          setSliderSwitch={setSliderSwitch}
-          currentImg={currentImg}
-          files={files}
-          prevSlide={prevSlide}
-          nextSlide={nextSlide}
-        />
-      </S.ModalBackground>
+      <Presenter
+        currentSlide={currentSlide}
+        slideRef={slideRef}
+        setSliderSwitch={setSliderSwitch}
+        currentImg={currentImg}
+        files={files}
+        prevSlide={prevSlide}
+        nextSlide={nextSlide}
+      />
     </Portal>
   );
 }

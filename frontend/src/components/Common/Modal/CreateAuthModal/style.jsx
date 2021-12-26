@@ -1,14 +1,5 @@
 import styled from "styled-components";
 
-export const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 99;
-`;
 export const ModalBox = styled.div`
   transform: translate(-50%, -50%);
   position: absolute;
@@ -44,7 +35,7 @@ export const Formexplain = styled.div`
 
   & > p > span:first-child,
   & > p > span:nth-child(2) {
-    color: #0642FF;
+    color: #0642ff;
     text-decoration: underline;
     cursor: pointer;
   }

@@ -57,84 +57,82 @@ export default function FeedCloseModal({
 
   return (
     <Portal>
-      <S.ModalBackground>
-        <S.ModalBox>
-          <div>
-            <CloseIcon
-              onClick={() => {
-                setModalSwitch(false);
-              }}
-            />
-          </div>
-          <S.ModalContent>
-            {!mode && (
-              <>
-                <S.TitleBox>
-                  <InfoIcon />
-                  <p>해당 실험이 어떠셨나요?</p>
-                  <p>{data.title}</p>
-                  <p>
-                    참여날짜 : {moment(data.doDate).format("YYYY.MM.DD")} |
-                    참여시간: {data.startTime} ~ {data.endTime}
-                  </p>
-                </S.TitleBox>
-                <S.ButtonBox>
-                  <button onClick={() => setMode("good")}>만족했어요</button>
-                  <button onClick={() => setMode("bad")}>불만족했어요</button>
-                </S.ButtonBox>
-              </>
-            )}
-            {mode === "good" && (
-              <>
-                <S.TitleBox>
-                  <InfoIcon />
-                  <p>만족 사유를 알려주세요</p>
-                </S.TitleBox>
-                <S.SelectBox>
-                  <select
-                    defaultValue="default"
-                    onClick={(e) => setReviewData(e.target.value)}
-                  >
-                    <option value="default" disabled></option>
-                    {goodItem.map((a, i) => (
-                      <option value={i + 1} key={i}>
-                        {a}
-                      </option>
-                    ))}
-                  </select>
-                </S.SelectBox>
-                <S.ButtonBox>
-                  <button onClick={submit}>확인</button>
-                </S.ButtonBox>
-              </>
-            )}
-            {mode === "bad" && (
-              <>
-                <S.TitleBox>
-                  <InfoIcon />
-                  <p>불만족 사유를 알려주세요</p>
-                </S.TitleBox>
-                <S.SelectBox>
-                  <select
-                    defaultValue="default"
-                    onClick={(e) => setReviewData(e.target.value)}
-                  >
-                    <option value="default" disabled></option>
-                    {badItem.map((a, i) => (
-                      <option value={i + 1} key={i}>
-                        {a}
-                      </option>
-                    ))}
-                  </select>
-                </S.SelectBox>
-                <S.ButtonBox>
-                  <button onClick={submit}>확인</button>
-                </S.ButtonBox>
-              </>
-            )}
-          </S.ModalContent>
-        </S.ModalBox>
-      </S.ModalBackground>
+      <S.ModalBox>
+        <div>
+          <CloseIcon
+            onClick={() => {
+              setModalSwitch(false);
+            }}
+          />
+        </div>
+        <S.ModalContent>
+          {!mode && (
+            <>
+              <S.TitleBox>
+                <InfoIcon />
+                <p>해당 실험이 어떠셨나요?</p>
+                <p>{data.title}</p>
+                <p>
+                  참여날짜 : {moment(data.doDate).format("YYYY.MM.DD")} |
+                  참여시간: {data.startTime} ~ {data.endTime}
+                </p>
+              </S.TitleBox>
+              <S.ButtonBox>
+                <button onClick={() => setMode("good")}>만족했어요</button>
+                <button onClick={() => setMode("bad")}>불만족했어요</button>
+              </S.ButtonBox>
+            </>
+          )}
+          {mode === "good" && (
+            <>
+              <S.TitleBox>
+                <InfoIcon />
+                <p>만족 사유를 알려주세요</p>
+              </S.TitleBox>
+              <S.SelectBox>
+                <select
+                  defaultValue="default"
+                  onClick={(e) => setReviewData(e.target.value)}
+                >
+                  <option value="default" disabled></option>
+                  {goodItem.map((a, i) => (
+                    <option value={i + 1} key={i}>
+                      {a}
+                    </option>
+                  ))}
+                </select>
+              </S.SelectBox>
+              <S.ButtonBox>
+                <button onClick={submit}>확인</button>
+              </S.ButtonBox>
+            </>
+          )}
+          {mode === "bad" && (
+            <>
+              <S.TitleBox>
+                <InfoIcon />
+                <p>불만족 사유를 알려주세요</p>
+              </S.TitleBox>
+              <S.SelectBox>
+                <select
+                  defaultValue="default"
+                  onClick={(e) => setReviewData(e.target.value)}
+                >
+                  <option value="default" disabled></option>
+                  {badItem.map((a, i) => (
+                    <option value={i + 1} key={i}>
+                      {a}
+                    </option>
+                  ))}
+                </select>
+              </S.SelectBox>
+              <S.ButtonBox>
+                <button onClick={submit}>확인</button>
+              </S.ButtonBox>
+            </>
+          )}
+        </S.ModalContent>
+      </S.ModalBox>
     </Portal>
   );
 }

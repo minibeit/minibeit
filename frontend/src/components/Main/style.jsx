@@ -34,9 +34,11 @@ export const MainBox = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    & > div {
+    width: 70%;
+    height: 70%;
+    & > div:first-child {
       display: flex;
       gap: 3rem;
     }

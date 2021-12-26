@@ -9,25 +9,21 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function NotEnoughWrite({ setAskComplete, movePage }) {
   return (
     <Portal>
-      <S.AlertBackground
-        onClick={(e) => e.target === e.currentTarget && setAskComplete(0)}
-      >
-        <S.AlertBox>
-          <S.AlertContent>
-            <InfoIcon />
-            <p>제목을 작성하지 않으셨습니다.</p>
-            <p>제목을 작성해주세요.</p>
-            <S.BlueButton
-              onClick={() => {
-                setAskComplete(0);
-                movePage(4);
-              }}
-            >
-              네, 알겠어요.
-            </S.BlueButton>
-          </S.AlertContent>
-        </S.AlertBox>
-      </S.AlertBackground>
+      <S.AlertBox>
+        <S.AlertContent>
+          <InfoIcon />
+          <p>제목을 작성하지 않으셨습니다.</p>
+          <p>제목을 작성해주세요.</p>
+          <S.BlueButton
+            onClick={() => {
+              setAskComplete(0);
+              movePage(4);
+            }}
+          >
+            네, 알겠어요.
+          </S.BlueButton>
+        </S.AlertContent>
+      </S.AlertBox>
     </Portal>
   );
 }

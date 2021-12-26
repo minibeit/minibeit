@@ -71,7 +71,10 @@ export default function NavBar() {
           <S.NavBarAuth>
             <p onClick={onClick}>시작하기</p>
             {modalSwitch ? (
-              <CreateAuthModal setModalSwitch={setModalSwitch} />
+              <CreateAuthModal
+                setModalSwitch={setModalSwitch}
+                modalSwitch={modalSwitch}
+              />
             ) : null}
           </S.NavBarAuth>
         )}

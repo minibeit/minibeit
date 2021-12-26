@@ -138,41 +138,39 @@ export default function UserInfoEditModal({
     <>
       {userData && (
         <Portal>
-          <S.ModalBackground>
-            <S.ModalBox>
-              <S.ModalHeader>
-                <p>내 프로필 수정하기</p>
-                <S.CloseModalBtn onClick={() => closeModal()}>
-                  <CloseIcon />
-                </S.CloseModalBtn>
-              </S.ModalHeader>
-              <S.ModalContent>
-                <Presenter
-                  userData={userData}
-                  onChange={onChange}
-                  onFileChange={onFileChange}
-                  schoolId={schoolId}
-                  setSchoolId={setSchoolId}
-                  checkingNickname={checkingNickname}
-                  changeNickname={changeNickname}
-                  setChangeNickname={setChangeNickname}
-                  checkingPhone={checkingPhone}
-                  changePhone={changePhone}
-                  setChangePhone={setChangePhone}
-                  changeEmail={changeEmail}
-                  checkingEmail={checkingEmail}
-                  setChangeEmail={setChangeEmail}
-                  checkingCode={checkingCode}
-                  submitEditUser={submitEditUser}
-                />
-              </S.ModalContent>
-              <S.SubmitBtnBox>
-                <button onClick={() => submitEditUser(userData, schoolId)}>
-                  수정 완료
-                </button>
-              </S.SubmitBtnBox>
-            </S.ModalBox>
-          </S.ModalBackground>
+          <S.ModalBox>
+            <S.ModalHeader>
+              <p>내 프로필 수정하기</p>
+              <S.CloseModalBtn onClick={() => closeModal()}>
+                <CloseIcon />
+              </S.CloseModalBtn>
+            </S.ModalHeader>
+            <S.ModalContent>
+              <Presenter
+                userData={userData}
+                onChange={onChange}
+                onFileChange={onFileChange}
+                schoolId={schoolId}
+                setSchoolId={setSchoolId}
+                checkingNickname={checkingNickname}
+                changeNickname={changeNickname}
+                setChangeNickname={setChangeNickname}
+                checkingPhone={checkingPhone}
+                changePhone={changePhone}
+                setChangePhone={setChangePhone}
+                changeEmail={changeEmail}
+                checkingEmail={checkingEmail}
+                setChangeEmail={setChangeEmail}
+                checkingCode={checkingCode}
+                submitEditUser={submitEditUser}
+              />
+            </S.ModalContent>
+            <S.SubmitBtnBox>
+              <button onClick={() => submitEditUser(userData, schoolId)}>
+                수정 완료
+              </button>
+            </S.SubmitBtnBox>
+          </S.ModalBox>
         </Portal>
       )}
     </>

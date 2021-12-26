@@ -89,34 +89,30 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
 
   return (
     <Portal>
-      <S.ModalBackground
-        onClick={(e) => e.target === e.currentTarget && setModalSwitch(false)}
-      >
-        <S.ModalBox>
-          <S.ModalHeader>
-            <p>소속인원 목록</p>
-            <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
-              <CloseIcon />
-            </S.CloseModalBtn>
-          </S.ModalHeader>
-          <S.ModalContent>
-            <Presenter
-              bisnessUsers={bisnessUsers}
-              addUser={addUser}
-              deleteUser={deleteUser}
-              changeAdmin={changeAdmin}
-              adminName={adminName}
-              setAdminName={setAdminName}
-              searchUser={searchUser}
-              setSearchUser={setSearchUser}
-              editUserMode={editUserMode}
-              setEditUserMode={setEditUserMode}
-              editCheifMode={editCheifMode}
-              setEditCheifMode={setEditCheifMode}
-            />
-          </S.ModalContent>
-        </S.ModalBox>
-      </S.ModalBackground>
+      <S.ModalBox>
+        <S.ModalHeader>
+          <p>소속인원 목록</p>
+          <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
+            <CloseIcon />
+          </S.CloseModalBtn>
+        </S.ModalHeader>
+        <S.ModalContent>
+          <Presenter
+            bisnessUsers={bisnessUsers}
+            addUser={addUser}
+            deleteUser={deleteUser}
+            changeAdmin={changeAdmin}
+            adminName={adminName}
+            setAdminName={setAdminName}
+            searchUser={searchUser}
+            setSearchUser={setSearchUser}
+            editUserMode={editUserMode}
+            setEditUserMode={setEditUserMode}
+            editCheifMode={editCheifMode}
+            setEditCheifMode={setEditCheifMode}
+          />
+        </S.ModalContent>
+      </S.ModalBox>
     </Portal>
   );
 }

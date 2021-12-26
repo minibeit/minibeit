@@ -8,25 +8,21 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function EditOnlyDetails({ setEditAlert, setEditSwitch }) {
   return (
     <Portal>
-      <S.AlertBackground
-        onClick={(e) => e.target === e.currentTarget && setEditAlert(false)}
-      >
-        <S.AlertBox>
-          <S.AlertContent>
-            <InfoIcon />
-            <p>상세내용 수정만 가능합니다.</p>
-            <p>제목, 시간, 조건, 지급, 내용, 장소 등은 수정이 불가합니다.</p>
-            <button
-              onClick={() => {
-                setEditAlert(false);
-                setEditSwitch(true);
-              }}
-            >
-              네, 알겠어요.
-            </button>
-          </S.AlertContent>
-        </S.AlertBox>
-      </S.AlertBackground>
+      <S.AlertBox>
+        <S.AlertContent>
+          <InfoIcon />
+          <p>상세내용 수정만 가능합니다.</p>
+          <p>제목, 시간, 조건, 지급, 내용, 장소 등은 수정이 불가합니다.</p>
+          <button
+            onClick={() => {
+              setEditAlert(false);
+              setEditSwitch(true);
+            }}
+          >
+            네, 알겠어요.
+          </button>
+        </S.AlertContent>
+      </S.AlertBox>
     </Portal>
   );
 }

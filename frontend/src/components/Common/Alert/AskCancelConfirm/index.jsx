@@ -11,34 +11,30 @@ export default function AskCancelConfirm({
 }) {
   return (
     <Portal>
-      <S.AlertBackground
-        onClick={(e) => e.target === e.currentTarget && setCancleAlert(false)}
-      >
-        <S.AlertBox>
-          <S.AlertContent>
-            <InfoIcon />
-            <p>정말로 해당 확정자를 취소하시겠어요?</p>
-            <p>
-              갑자기 취소 및 반려를 하신 경우, 확정된 참여자들이 당황스러워하실
-              수 있어요.
-              <br />
-              <span>꼭! 개별 연락을 통해 일정 종료를 알려주시길 바라요.</span>
-            </p>
-            <div>
-              <S.GrayButton onClick={() => setCancleAlert(false)}>
-                아니오, 관둘래요
-              </S.GrayButton>
-              <S.BlueButton
-                onClick={() => {
-                  cancleApprove(cancleUserInfo.postDoDateId, cancleUserInfo.id);
-                }}
-              >
-                네, 취소할래요
-              </S.BlueButton>
-            </div>
-          </S.AlertContent>
-        </S.AlertBox>
-      </S.AlertBackground>
+      <S.AlertBox>
+        <S.AlertContent>
+          <InfoIcon />
+          <p>정말로 해당 확정자를 취소하시겠어요?</p>
+          <p>
+            갑자기 취소 및 반려를 하신 경우, 확정된 참여자들이 당황스러워하실 수
+            있어요.
+            <br />
+            <span>꼭! 개별 연락을 통해 일정 종료를 알려주시길 바라요.</span>
+          </p>
+          <div>
+            <S.GrayButton onClick={() => setCancleAlert(false)}>
+              아니오, 관둘래요
+            </S.GrayButton>
+            <S.BlueButton
+              onClick={() => {
+                cancleApprove(cancleUserInfo.postDoDateId, cancleUserInfo.id);
+              }}
+            >
+              네, 취소할래요
+            </S.BlueButton>
+          </div>
+        </S.AlertContent>
+      </S.AlertBox>
     </Portal>
   );
 }

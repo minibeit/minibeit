@@ -1,14 +1,5 @@
 import styled from "styled-components";
 
-export const AlertBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.3);
-  z-index: 98;
-`;
 export const AlertBox = styled.div`
   transform: translate(-50%, -50%);
   position: absolute;

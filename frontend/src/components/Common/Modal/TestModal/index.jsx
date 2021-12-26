@@ -8,18 +8,16 @@ export default function TestModal({ setModalSwitch }) {
   };
   return (
     <Portal>
-      <S.ModalBackground>
-        <S.ModalBox>
-          <S.ModalHeader>
-            <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
-          </S.ModalHeader>
-          <S.ModalContent>
-            {
-              // 진짜 내용 부분
-            }
-          </S.ModalContent>
-        </S.ModalBox>
-      </S.ModalBackground>
+      <S.ModalBox>
+        <S.ModalHeader>
+          <S.CloseModalBtn onClick={closeModal}>닫기</S.CloseModalBtn>
+        </S.ModalHeader>
+        <S.ModalContent>
+          {
+            // 진짜 내용 부분
+          }
+        </S.ModalContent>
+      </S.ModalBox>
     </Portal>
   );
 }

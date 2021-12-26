@@ -23,23 +23,19 @@ export default function Address({ setModalSwitch, handleAddress }) {
     handleAddress(fullAddress);
     setModalSwitch(false);
   };
-  const clickOutside = (e) => {
-    e.target === e.currentTarget && setModalSwitch(false);
-  };
+
   const closeModal = () => {
     setModalSwitch(false);
   };
 
   return (
     <Portal>
-      <S.ModalBackground onClick={(e) => clickOutside(e)}>
-        <S.ModalBox>
-          <S.CloseModalBtn onClick={closeModal}>
-            <ArrowBackIcon />
-          </S.CloseModalBtn>
-          <DaumPostCode onComplete={handleComplete} className="post-code" />
-        </S.ModalBox>
-      </S.ModalBackground>
+      <S.ModalBox>
+        <S.CloseModalBtn onClick={closeModal}>
+          <ArrowBackIcon />
+        </S.CloseModalBtn>
+        <DaumPostCode onComplete={handleComplete} className="post-code" />
+      </S.ModalBox>
     </Portal>
   );
 }

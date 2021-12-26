@@ -54,50 +54,44 @@ export default function BProfileCreateModal({ setModalSwitch }) {
       .catch((err) => toast.info("수정 내용을 다시 한번 확인해주세요"));
   };
 
-  const clickOutside = (e) => {
-    e.target === e.currentTarget && setModalSwitch(false);
-  };
-
   return (
     <Portal>
-      <S.ModalBackground onClick={(e) => clickOutside(e)}>
-        <S.ModalBox>
-          <S.ModalHeader>
-            <p>비즈니스 프로필 생성하기</p>
-            <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
-              <CloseIcon />
-            </S.CloseModalBtn>
-          </S.ModalHeader>
-          <S.ModalContent>
-            <Presenter
-              infoData={infoData}
-              onChange={onChange}
-              onFileChange={onFileChange}
-              addressModal={addressModal}
-              setAddressModal={setAddressModal}
-              onAddressChange={onAddressChange}
-              createBusiness={createBusiness}
-            />
-          </S.ModalContent>
-          <S.SubmitBtnBox>
-            <button
-              onClick={() => {
-                if (
-                  infoData.place.length === 0 &&
-                  infoData.name.length === 0 &&
-                  infoData.contact.length === 0
-                ) {
-                  toast.info("정보를 확인해주세요");
-                } else {
-                  createBusiness(infoData);
-                }
-              }}
-            >
-              생성
-            </button>
-          </S.SubmitBtnBox>
-        </S.ModalBox>
-      </S.ModalBackground>
+      <S.ModalBox>
+        <S.ModalHeader>
+          <p>비즈니스 프로필 생성하기</p>
+          <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
+            <CloseIcon />
+          </S.CloseModalBtn>
+        </S.ModalHeader>
+        <S.ModalContent>
+          <Presenter
+            infoData={infoData}
+            onChange={onChange}
+            onFileChange={onFileChange}
+            addressModal={addressModal}
+            setAddressModal={setAddressModal}
+            onAddressChange={onAddressChange}
+            createBusiness={createBusiness}
+          />
+        </S.ModalContent>
+        <S.SubmitBtnBox>
+          <button
+            onClick={() => {
+              if (
+                infoData.place.length === 0 &&
+                infoData.name.length === 0 &&
+                infoData.contact.length === 0
+              ) {
+                toast.info("정보를 확인해주세요");
+              } else {
+                createBusiness(infoData);
+              }
+            }}
+          >
+            생성
+          </button>
+        </S.SubmitBtnBox>
+      </S.ModalBox>
     </Portal>
   );
 }

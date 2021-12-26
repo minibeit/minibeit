@@ -111,148 +111,144 @@ export default function TimeSelectModal({
 
   return (
     <Portal>
-      <S.ModalBackground>
-        <S.ModalBox>
-          <S.ModalHeader>
-            <p>날짜별 시간 설정</p>
-            <S.Info>
-              <InfoIcon />
-              <S.InfoBox>
-                <p>⊕를 눌러서 스케줄을 추가해보세요.</p>
-                <p>해당 스케줄을 반영하실 날짜들을 달력에서 클릭하시고,</p>
-                <p>해당스케줄의 참여 시간을 조절해보세요</p>
-              </S.InfoBox>
-            </S.Info>
-            <p>동일한 시간표로 적용할 날짜를 선택해보세요</p>
-          </S.ModalHeader>
-          <S.ModalContent>
-            <S.CalendarView blur={createdGroup.length === 0}>
-              <Calendar
-                calendarType="US"
-                minDate={new Date(recruit["startDate"])}
-                maxDate={new Date(recruit["endDate"])}
-                onClickDay={(day, e) => {
-                  if (selectGroup) {
-                    setGroupDateList(e, day);
+      <S.ModalBox>
+        <S.ModalHeader>
+          <p>날짜별 시간 설정</p>
+          <S.Info>
+            <InfoIcon />
+            <S.InfoBox>
+              <p>⊕를 눌러서 스케줄을 추가해보세요.</p>
+              <p>해당 스케줄을 반영하실 날짜들을 달력에서 클릭하시고,</p>
+              <p>해당스케줄의 참여 시간을 조절해보세요</p>
+            </S.InfoBox>
+          </S.Info>
+          <p>동일한 시간표로 적용할 날짜를 선택해보세요</p>
+        </S.ModalHeader>
+        <S.ModalContent>
+          <S.CalendarView blur={createdGroup.length === 0}>
+            <Calendar
+              calendarType="US"
+              minDate={new Date(recruit["startDate"])}
+              maxDate={new Date(recruit["endDate"])}
+              onClickDay={(day, e) => {
+                if (selectGroup) {
+                  setGroupDateList(e, day);
+                }
+              }}
+              defaultValue={new Date(recruit["startDate"])}
+              tileDisabled={tileDisabled}
+              minDetail="month"
+              next2Label={null}
+              prev2Label={null}
+              showNeighboringMonth={false}
+              tileContent={tileContent}
+              formatDay={(locale, date) => moment(date).format("D")}
+            />
+          </S.CalendarView>
+          <S.ScheduleView>
+            <S.CreateScheduleBtn>
+              <PlusIcon
+                onClick={() => {
+                  if (createdGroup.length < 7) {
+                    const copy = { ...group[createdGroup.length] };
+                    copy.timeList = [...recruit.timeList];
+                    setCreatedGroup([...createdGroup, copy]);
+                    setSelectGroup(copy);
+                  } else {
+                    toast.error(`그룹은 최대 ${group.length}개 입니다.`);
                   }
                 }}
-                defaultValue={new Date(recruit["startDate"])}
-                tileDisabled={tileDisabled}
-                minDetail="month"
-                next2Label={null}
-                prev2Label={null}
-                showNeighboringMonth={false}
-                tileContent={tileContent}
-                formatDay={(locale, date) => moment(date).format("D")}
               />
-            </S.CalendarView>
-            <S.ScheduleView>
-              <S.CreateScheduleBtn>
-                <PlusIcon
-                  onClick={() => {
-                    if (createdGroup.length < 7) {
-                      const copy = { ...group[createdGroup.length] };
-                      copy.timeList = [...recruit.timeList];
-                      setCreatedGroup([...createdGroup, copy]);
-                      setSelectGroup(copy);
-                    } else {
-                      toast.error(`그룹은 최대 ${group.length}개 입니다.`);
+              {createdGroup.length === 0 && (
+                <div>
+                  <ArrowIcon />
+                </div>
+              )}
+            </S.CreateScheduleBtn>
+            <S.ScheduleNav>
+              {createdGroup.length !== 0 && (
+                <>
+                  <button
+                    disabled={
+                      selectGroup.id === createdGroup[0].id ? true : false
                     }
-                  }}
-                />
-                {createdGroup.length === 0 && (
-                  <div>
+                    onClick={() => {
+                      setSelectGroup(
+                        createdGroup.find(
+                          (ele) => ele.id === selectGroup.id - 1
+                        )
+                      );
+                    }}
+                  >
                     <ArrowIcon />
-                  </div>
-                )}
-              </S.CreateScheduleBtn>
-              <S.ScheduleNav>
-                {createdGroup.length !== 0 && (
-                  <>
-                    <button
-                      disabled={
-                        selectGroup.id === createdGroup[0].id ? true : false
-                      }
-                      onClick={() => {
-                        setSelectGroup(
-                          createdGroup.find(
-                            (ele) => ele.id === selectGroup.id - 1
-                          )
-                        );
-                      }}
+                  </button>
+                  <p>스케줄 {selectGroup.id}</p>
+                  <button
+                    name="nextSchedule"
+                    disabled={
+                      selectGroup.id ===
+                      createdGroup[createdGroup.length - 1].id
+                        ? true
+                        : false
+                    }
+                    onClick={() => {
+                      setSelectGroup(
+                        createdGroup.find(
+                          (ele) => ele.id === selectGroup.id + 1
+                        )
+                      );
+                    }}
+                  >
+                    <ArrowIcon />
+                  </button>
+                </>
+              )}
+            </S.ScheduleNav>
+            <S.DateList>
+              {selectGroup &&
+                selectGroup.dateList.map((a, i) => {
+                  return (
+                    <S.DateButton key={i}>
+                      {moment(a).format("MM월 DD일")}{" "}
+                      <CloseIcon onClick={() => setGroupDateList(null, a)} />
+                    </S.DateButton>
+                  );
+                })}
+            </S.DateList>
+          </S.ScheduleView>
+          <S.TimeView>
+            <p>시간</p>
+            <S.TimeBtnBox>
+              {selectGroup &&
+                recruit.timeList.map((a, i) => {
+                  return (
+                    <S.TimeBtn
+                      color={selectGroup.color}
+                      key={`${selectGroup.id}_${i}`}
                     >
-                      <ArrowIcon />
-                    </button>
-                    <p>스케줄 {selectGroup.id}</p>
-                    <button
-                      name="nextSchedule"
-                      disabled={
-                        selectGroup.id ===
-                        createdGroup[createdGroup.length - 1].id
-                          ? true
-                          : false
-                      }
-                      onClick={() => {
-                        setSelectGroup(
-                          createdGroup.find(
-                            (ele) => ele.id === selectGroup.id + 1
-                          )
-                        );
-                      }}
-                    >
-                      <ArrowIcon />
-                    </button>
-                  </>
-                )}
-              </S.ScheduleNav>
-              <S.DateList>
-                {selectGroup &&
-                  selectGroup.dateList.map((a, i) => {
-                    return (
-                      <S.DateButton key={i}>
-                        {moment(a).format("MM월 DD일")}{" "}
-                        <CloseIcon onClick={() => setGroupDateList(null, a)} />
-                      </S.DateButton>
-                    );
-                  })}
-              </S.DateList>
-            </S.ScheduleView>
-            <S.TimeView>
-              <p>시간</p>
-              <S.TimeBtnBox>
-                {selectGroup &&
-                  recruit.timeList.map((a, i) => {
-                    return (
-                      <S.TimeBtn
-                        color={selectGroup.color}
-                        key={`${selectGroup.id}_${i}`}
-                      >
-                        <input
-                          type="checkbox"
-                          id={`check_${a}`}
-                          onClick={changeTime}
-                          defaultChecked={
-                            createdGroup[selectGroup.id - 1].timeList.includes(
-                              a
-                            )
-                              ? true
-                              : false
-                          }
-                        />
-                        <label htmlFor={`check_${a}`}>{a}</label>
-                      </S.TimeBtn>
-                    );
-                  })}
-              </S.TimeBtnBox>
-            </S.TimeView>
-          </S.ModalContent>
-          <S.ModalFooter>
-            <div onClick={modalOff}>
-              저장 <ArrowIcon />
-            </div>
-          </S.ModalFooter>
-        </S.ModalBox>
-      </S.ModalBackground>
+                      <input
+                        type="checkbox"
+                        id={`check_${a}`}
+                        onClick={changeTime}
+                        defaultChecked={
+                          createdGroup[selectGroup.id - 1].timeList.includes(a)
+                            ? true
+                            : false
+                        }
+                      />
+                      <label htmlFor={`check_${a}`}>{a}</label>
+                    </S.TimeBtn>
+                  );
+                })}
+            </S.TimeBtnBox>
+          </S.TimeView>
+        </S.ModalContent>
+        <S.ModalFooter>
+          <div onClick={modalOff}>
+            저장 <ArrowIcon />
+          </div>
+        </S.ModalFooter>
+      </S.ModalBox>
     </Portal>
   );
 }

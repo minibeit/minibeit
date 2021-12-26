@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import Portal from "../Portal";
 
 import Presenter from "./presenter";
-import * as S from "./style";
 
 export default function ApplyImgsModal({ setSliderSwitch, currentImg, files }) {
   const [currentSlide, setCurrentSlide] = useState(currentImg);
@@ -29,17 +28,15 @@ export default function ApplyImgsModal({ setSliderSwitch, currentImg, files }) {
 
   return (
     <Portal>
-      <S.ModalBackground>
-        <Presenter
-          currentSlide={currentSlide}
-          slideRef={slideRef}
-          setSliderSwitch={setSliderSwitch}
-          currentImg={currentImg}
-          files={files}
-          prevSlide={prevSlide}
-          nextSlide={nextSlide}
-        />
-      </S.ModalBackground>
+      <Presenter
+        currentSlide={currentSlide}
+        slideRef={slideRef}
+        setSliderSwitch={setSliderSwitch}
+        currentImg={currentImg}
+        files={files}
+        prevSlide={prevSlide}
+        nextSlide={nextSlide}
+      />
     </Portal>
   );
 }

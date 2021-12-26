@@ -17,7 +17,7 @@ export default function Presenter({
   };
 
   return (
-    <>
+    <S.ModalDiv>
       <div>
         <S.ModalBtn onClick={modalOff}>X 닫기</S.ModalBtn>
         <S.ModalBtn
@@ -59,6 +59,6 @@ export default function Presenter({
           <S.NextIcon />
         </S.NextButton>
       </S.ButtonContainer>
-    </>
+    </S.ModalDiv>
   );
 }

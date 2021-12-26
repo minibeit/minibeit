@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { createPortal } from "react-dom";
+import ReactDom from "react-dom";
+import * as S from "./style";
 
 export default function Portal({ children }) {
   useEffect(() => {
@@ -8,6 +9,9 @@ export default function Portal({ children }) {
       document.querySelector("body").setAttribute("style", "");
     };
   }, []);
-
-  return createPortal(children, document.getElementById("modal"));
+  if (children === undefined) return null;
+  return ReactDom.createPortal(
+    <S.Background>{children}</S.Background>,
+    document.getElementById("modal")
+  );
 }

@@ -178,89 +178,87 @@ export default function SignUpComponent({ setFinish }) {
 
   return (
     <Portal>
-      <S.ModalBackground>
-        <S.ModalBox>
-          <S.ModalHeader>
-            {step === 1 && (
-              <>
-                <div>1</div>
-                <p>프로필 작성하기</p>
-              </>
-            )}
-            {step === 2 && (
-              <>
-                <div>2</div>
-                <p>관심학교 설정하기</p>
-              </>
-            )}
-            {step === 3 && (
-              <>
-                <div>3</div>
-                <p>나의 직업 설정하기</p>
-              </>
-            )}
-            <S.CloseModalBtn onClick={() => history.push("/")}>
-              <CloseIcon />
-            </S.CloseModalBtn>
-          </S.ModalHeader>
-          <S.ProgressBar>
-            <S.StepBar step={step && step} />
-          </S.ProgressBar>
-          <S.ModalContent>
-            <S.GreetingMsg>
-              {step === 1 && (
-                <>
-                  <p>반갑습니다!</p>
-                  <p>기본 프로필을 작성해주세요</p>
-                </>
-              )}
-              {step === 2 && (
-                <>
-                  <p>사용자님 주변에 위치한</p>
-                  <p>관심있는 학교를 선택해주세요</p>
-                </>
-              )}
-              {step === 3 && (
-                <>
-                  <p>사용자님은</p>
-                  <p>현재 어떤 분야에서 일하고 계신가요?</p>
-                </>
-              )}
-            </S.GreetingMsg>
-
-            {step === 1 && (
-              <InfoData
-                onChange={onChange}
-                onFileChange={onFileChange}
-                inputData={inputData}
-                setInputData={setInputData}
-                defaultEmail={guest.email}
-                checkingNickname={checkingNickname}
-                checkingEmail={checkingEmail}
-                checkingCode={checkingCode}
-                checkingPhone={checkingPhone}
-                changeNickname={changeNickname}
-                setChangeNickname={setChangeNickname}
-                changePhone={changePhone}
-                setChangePhone={setChangePhone}
-                changeEmail={changeEmail}
-                setChangeEmail={setChangeEmail}
-              />
-            )}
-            {step === 2 && (
-              <SchoolSelect inputData={inputData} setInputData={setInputData} />
-            )}
-            {step === 3 && (
-              <JobSelect inputData={inputData} setInputData={setInputData} />
-            )}
-          </S.ModalContent>
-          {step !== 3 ? (
-            <S.NextBtn onClick={nextStep}>다음</S.NextBtn>
-          ) : (
-            <S.NextBtn onClick={onSubmit}>미니바이트 시작하기</S.NextBtn>
+      <S.ModalBox>
+        <S.ModalHeader>
+          {step === 1 && (
+            <>
+              <div>1</div>
+              <p>프로필 작성하기</p>
+            </>
           )}
-        </S.ModalBox>
-      </S.ModalBackground>
+          {step === 2 && (
+            <>
+              <div>2</div>
+              <p>관심학교 설정하기</p>
+            </>
+          )}
+          {step === 3 && (
+            <>
+              <div>3</div>
+              <p>나의 직업 설정하기</p>
+            </>
+          )}
+          <S.CloseModalBtn onClick={() => history.push("/")}>
+            <CloseIcon />
+          </S.CloseModalBtn>
+        </S.ModalHeader>
+        <S.ProgressBar>
+          <S.StepBar step={step && step} />
+        </S.ProgressBar>
+        <S.ModalContent>
+          <S.GreetingMsg>
+            {step === 1 && (
+              <>
+                <p>반갑습니다!</p>
+                <p>기본 프로필을 작성해주세요</p>
+              </>
+            )}
+            {step === 2 && (
+              <>
+                <p>사용자님 주변에 위치한</p>
+                <p>관심있는 학교를 선택해주세요</p>
+              </>
+            )}
+            {step === 3 && (
+              <>
+                <p>사용자님은</p>
+                <p>현재 어떤 분야에서 일하고 계신가요?</p>
+              </>
+            )}
+          </S.GreetingMsg>
+
+          {step === 1 && (
+            <InfoData
+              onChange={onChange}
+              onFileChange={onFileChange}
+              inputData={inputData}
+              setInputData={setInputData}
+              defaultEmail={guest.email}
+              checkingNickname={checkingNickname}
+              checkingEmail={checkingEmail}
+              checkingCode={checkingCode}
+              checkingPhone={checkingPhone}
+              changeNickname={changeNickname}
+              setChangeNickname={setChangeNickname}
+              changePhone={changePhone}
+              setChangePhone={setChangePhone}
+              changeEmail={changeEmail}
+              setChangeEmail={setChangeEmail}
+            />
+          )}
+          {step === 2 && (
+            <SchoolSelect inputData={inputData} setInputData={setInputData} />
+          )}
+          {step === 3 && (
+            <JobSelect inputData={inputData} setInputData={setInputData} />
+          )}
+        </S.ModalContent>
+        {step !== 3 ? (
+          <S.NextBtn onClick={nextStep}>다음</S.NextBtn>
+        ) : (
+          <S.NextBtn onClick={onSubmit}>미니바이트 시작하기</S.NextBtn>
+        )}
+      </S.ModalBox>
     </Portal>
   );
 }

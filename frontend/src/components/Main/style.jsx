@@ -21,27 +21,24 @@ export const MainBox = styled.div`
   height: calc(100vh - 3.5rem);
   position: relative;
   animation: ${fadeIn} 2s ease-in;
-
-  & > img {
-    width: inherit;
-    height: calc(100vh - 3.5rem);
-    object-fit: cover;
-    padding: 1rem 0;
-    box-sizing: border-box;
-    animation: ${fadeIn} 3s ease-in;
-  }
+  background-image: url("/images/main4.png");
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
   & > div {
-    position: absolute;
-    left: 50%;
-    top: 92%;
-    transform: translate(-50%, -92%);
     z-index: 9;
+    margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
-    & > div {
+    width: 70%;
+    height: 70%;
+    & > div:first-child {
       display: flex;
       gap: 3rem;
     }
@@ -64,47 +61,56 @@ export const MainBox = styled.div`
 
 export const MainBox2 = styled.div`
   width: 100vw;
-  height: 100vh;
-  display: flex;
-  position: relative;
+  height: calc(100vh - 3.5rem);
   background: #f6fbff;
-  flex-direction: column;
+  display: flex;
+  padding: 4rem 0;
   justify-content: center;
-  align-items: flex-start;
-  flex-wrap: wrap;
-  gap: 1rem;
   & > div {
-    position: absolute;
-    top: 20%;
-    left: 30%;
+    flex: 1;
+    position: relative;
     z-index: 9;
-    transform: translate(-30%, -20%);
+    margin: 0 auto;
     display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: center;
     & > div:first-child {
-      font-size: 1.5rem;
-      font-weight: bolder;
-      line-height: 2.3rem;
-      color: #000000;
-      & > span {
+      position: absolute;
+      transform: translate(-10rem, -10rem);
+      display: flex;
+      flex-direction: column;
+      font-size: 1.3rem;
+      font-weight: 700;
+      line-height: 2rem;
+      gap: 1rem;
+      & span {
         color: #0642ff;
       }
     }
-  }
-  & > img {
-    width: inherit;
-    position: relative;
-    height: calc(100vh - 3.5rem);
-    object-fit: contain;
-    padding: 4rem 0 2rem;
-    box-sizing: border-box;
+    & > div:nth-child(2) {
+      width: 20rem;
+      height: inherit;
+      & > img {
+        max-width: 20rem;
+        height: auto;
+      }
+    }
   }
 `;
 
 export const MainBox3 = styled(MainBox2)`
   background: #fff;
+  & > div {
+    & > div:first-child {
+      transform: translate(-10rem, -10rem);
+    }
+    & > div:nth-child(2) {
+      width: 35rem;
+      & > img {
+        max-width: 35em;
+      }
+    }
+  }
 `;
 
 const Button = styled.button`

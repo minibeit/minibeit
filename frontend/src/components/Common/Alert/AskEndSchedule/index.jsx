@@ -8,31 +8,27 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function AskEndSchedule({ setEndAlert, deleteFeed, data }) {
   return (
     <Portal>
-      <S.AlertBackground
-        onClick={(e) => e.target === e.currentTarget && setEndAlert(0)}
-      >
-        <S.AlertBox>
-          <S.AlertContent>
-            <InfoIcon />
-            <p>
-              모든 일정이 <span>종료</span>되었나요?
-            </p>
-            <p>
-              일정이 끝나지 않은 상태에서 일정을 종료하시면
-              <br />
-              해당 일정의 참여자 명단이 사라져요.
-            </p>
-            <div>
-              <S.GrayButton onClick={() => setEndAlert(0)}>
-                아니오, 관둘래요
-              </S.GrayButton>
-              <S.BlueButton onClick={() => deleteFeed(data.id)}>
-                네, 종료됐어요
-              </S.BlueButton>
-            </div>
-          </S.AlertContent>
-        </S.AlertBox>
-      </S.AlertBackground>
+      <S.AlertBox>
+        <S.AlertContent>
+          <InfoIcon />
+          <p>
+            모든 일정이 <span>종료</span>되었나요?
+          </p>
+          <p>
+            일정이 끝나지 않은 상태에서 일정을 종료하시면
+            <br />
+            해당 일정의 참여자 명단이 사라져요.
+          </p>
+          <div>
+            <S.GrayButton onClick={() => setEndAlert(0)}>
+              아니오, 관둘래요
+            </S.GrayButton>
+            <S.BlueButton onClick={() => deleteFeed(data.id)}>
+              네, 종료됐어요
+            </S.BlueButton>
+          </div>
+        </S.AlertContent>
+      </S.AlertBox>
     </Portal>
   );
 }

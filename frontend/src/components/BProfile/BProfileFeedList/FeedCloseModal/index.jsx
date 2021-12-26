@@ -60,45 +60,41 @@ export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
 
   return (
     <Portal>
-      <S.ModalBackground
-        onClick={(e) => e.target === e.currentTarget && setCloseModal(0)}
-      >
-        <S.ModalBox>
+      <S.ModalBox>
+        <div>
+          <CloseIcon onClick={() => setCloseModal(0)} />
+        </div>
+        <S.ModalContent>
+          <InfoIcon />
+          <p>종료 사유를 알려주세요</p>
           <div>
-            <CloseIcon onClick={() => setCloseModal(0)} />
-          </div>
-          <S.ModalContent>
-            <InfoIcon />
-            <p>종료 사유를 알려주세요</p>
+            <S.Select
+              onClick={() => setIsActive(!isActive)}
+              isActive={isActive}
+            >
+              {selected}
+              <span onClick={() => setIsActive(!isActive)}>▲</span>
+            </S.Select>
             <div>
-              <S.Select
-                onClick={() => setIsActive(!isActive)}
-                isActive={isActive}
-              >
-                {selected}
-                <span onClick={() => setIsActive(!isActive)}>▲</span>
-              </S.Select>
-              <div>
-                {isActive &&
-                  items.map((a, i) => (
-                    <S.Option onClick={selectReason} value={a} key={i}>
-                      {a}
-                    </S.Option>
-                  ))}
-              </div>
+              {isActive &&
+                items.map((a, i) => (
+                  <S.Option onClick={selectReason} value={a} key={i}>
+                    {a}
+                  </S.Option>
+                ))}
             </div>
-            {selected === "직접입력" && (
-              <S.Input
-                value={comment}
-                type="text"
-                placeholder="직접입력"
-                onChange={(e) => setComment(e.target.value)}
-              />
-            )}
-            <S.BlueButton onClick={() => onSubmit()}>확인</S.BlueButton>
-          </S.ModalContent>
-        </S.ModalBox>
-      </S.ModalBackground>
+          </div>
+          {selected === "직접입력" && (
+            <S.Input
+              value={comment}
+              type="text"
+              placeholder="직접입력"
+              onChange={(e) => setComment(e.target.value)}
+            />
+          )}
+          <S.BlueButton onClick={() => onSubmit()}>확인</S.BlueButton>
+        </S.ModalContent>
+      </S.ModalBox>
     </Portal>
   );
 }

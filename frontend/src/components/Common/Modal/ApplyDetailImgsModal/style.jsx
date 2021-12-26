@@ -2,22 +2,12 @@ import styled from "styled-components";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
-export const ModalBackground = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.9);
-  z-index: 99;
-
-  & > div:first-child {
-    display: flex;
-    align-items: center;
-    gap: 40rem;
-    justify-content: center;
-    margin-top: 2rem;
-  }
+export const ModalDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 40rem;
+  justify-content: center;
+  margin-top: 2rem;
 `;
 
 export const ModalBtn = styled.button`

@@ -12,30 +12,23 @@ export default function AskleteApplication({ setApplyAlert, apply, submit }) {
 
   return (
     <Portal>
-      <S.AlertBackground
-        onClick={(e) => e.target === e.currentTarget && setApplyAlert(0)}
-      >
-        <S.AlertBox>
-          <S.AlertContent>
-            <p>
-              {doMonth}월 {doDay}일, {time > 12 ? "오후" : "오전"}{" "}
-              {time > 12 ? time - 12 : time}시{" "}
-              {min !== "00" ? `${min}분` : null}
-              <br />
-              참여를 신청하시겠습니까?
-            </p>
-            <p>날짜, 시간, 장소를 꼭 확인해주세요.</p>
-            <div>
-              <S.GrayButton onClick={() => setApplyAlert(0)}>
-                아니오
-              </S.GrayButton>
-              <S.BlueButton onClick={() => submit(apply.postDoDateId)}>
-                신청
-              </S.BlueButton>
-            </div>
-          </S.AlertContent>
-        </S.AlertBox>
-      </S.AlertBackground>
+      <S.AlertBox>
+        <S.AlertContent>
+          <p>
+            {doMonth}월 {doDay}일, {time > 12 ? "오후" : "오전"}{" "}
+            {time > 12 ? time - 12 : time}시 {min !== "00" ? `${min}분` : null}
+            <br />
+            참여를 신청하시겠습니까?
+          </p>
+          <p>날짜, 시간, 장소를 꼭 확인해주세요.</p>
+          <div>
+            <S.GrayButton onClick={() => setApplyAlert(0)}>아니오</S.GrayButton>
+            <S.BlueButton onClick={() => submit(apply.postDoDateId)}>
+              신청
+            </S.BlueButton>
+          </div>
+        </S.AlertContent>
+      </S.AlertBox>
     </Portal>
   );
 }

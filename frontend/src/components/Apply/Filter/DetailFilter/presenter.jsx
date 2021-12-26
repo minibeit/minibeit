@@ -13,11 +13,8 @@ export default function Presenter({
   changePayType,
   changeFilter,
   minPay,
-  doTime,
-  timeArr,
   setFilter,
   data,
-  setData,
 }) {
   const history = useHistory();
   const [filterSwitch, setFilterSwitch] = useState(false);

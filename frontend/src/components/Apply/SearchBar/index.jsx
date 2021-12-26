@@ -2,8 +2,10 @@ import React from "react";
 
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
-
 import { DateInput } from "../../Common";
+
+import { ReactComponent as SearchIcon } from "../../../svg/돋보기.svg";
+
 import SchoolInput from "./SchoolInput";
 import StartTimeInput from "./StartTimeInput";
 import DoTimeInput from "./DoTimeInput";
@@ -20,7 +22,7 @@ export default function SearchBar({
   const userSchoolId = useRecoilValue(userState).schoolId;
   return (
     <S.SearchBox>
-      <p>일정에 맞는 모집 공고를 검색해보세요</p>
+      <p>지원하기</p>
       <div>
         <S.SearchInput>
           <S.InputItem>
@@ -47,20 +49,19 @@ export default function SearchBar({
             <p>참여가능시간</p>
             <StartTimeInput />
           </S.InputItem>
-          <S.InputItem style={{ border: "none" }}>
+          <S.InputItem>
             <p>소요시간</p>
             <DoTimeInput />
           </S.InputItem>
-          <div>
-            <S.SearchBtn
-              onClick={() =>
-                search(school.schoolId ? school.schoolId : userSchoolId, 1)
-              }
-            >
-              검색
-            </S.SearchBtn>
-          </div>
         </S.SearchInput>
+        <S.SearchBtn
+          onClick={() =>
+            search(school.schoolId ? school.schoolId : userSchoolId, 1)
+          }
+        >
+          <SearchIcon />
+          검색
+        </S.SearchBtn>
       </div>
     </S.SearchBox>
   );

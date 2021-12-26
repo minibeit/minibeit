@@ -1,11 +1,8 @@
 import React from "react";
-import { useResetRecoilState } from "recoil";
-
-import { categoryState, filterState } from "../../../recoil/filterState";
 
 import DetailFilter from "./DetailFilter";
-import CategoryFilter from "./CategoryFilter";
 import FilterLabel from "./FilterLabel";
+import CategoryLabel from "./CategoryLabel";
 
 export default function Filter({
   feedList,
@@ -14,8 +11,12 @@ export default function Filter({
   category,
   setCategory,
 }) {
-  const filterReset = useResetRecoilState(filterState);
-  const categoryReset = useResetRecoilState(categoryState);
+  const filterReset = () => {
+    const copy = { ...filter };
+    copy.paymentType = "";
+    copy.minPay = "";
+    setFilter(copy);
+  };
 
   return (
     <>
@@ -27,21 +28,9 @@ export default function Filter({
             filterReset={filterReset}
           />
         )}
-
-        {feedList && (
-          <CategoryFilter
-            category={category}
-            setCategory={setCategory}
-            categoryReset={categoryReset}
-          />
-        )}
+        <FilterLabel filter={filter} setFilter={setFilter} />
       </div>
-      <FilterLabel
-        category={category}
-        setCategory={setCategory}
-        filter={filter}
-        setFilter={setFilter}
-      />
+      <CategoryLabel category={category} setCategory={setCategory} />
     </>
   );
 }

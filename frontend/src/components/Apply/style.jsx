@@ -16,7 +16,8 @@ export const ListPageContainer = styled.div`
     display: flex;
     gap: 1rem;
     padding: 1rem 0;
-    border-top: 1px solid #c4c4c4;
+    border-bottom: 1px solid #c4c4c4;
+    align-items: center;
   }
 `;
 export const FilterBtn = styled.button`
@@ -36,9 +37,9 @@ export const FilterBtn = styled.button`
   }
 `;
 export const SearchResult = styled.p`
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: bold;
-  margin: 1rem 0;
+  margin: 3rem 0 0.5rem 0;
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
   animation-name: ${fadeIn};
@@ -50,11 +51,6 @@ export const FilterLabelBox = styled.div`
   flex-wrap: wrap;
   align-items: center;
   min-height: 3rem;
-  & > p:first-child {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-  }
 `;
 export const FilterLabel = styled.div`
   background: rgba(6, 66, 255, 0.1);
@@ -85,6 +81,38 @@ export const FilterLabel = styled.div`
   animation-fill-mode: forwards;
 `;
 
+export const CategoryBox = styled.div`
+  overflow-x: scroll;
+  padding: 0.5em 0;
+  & > p:first-child {
+    color: #989898;
+    padding: 0.3em 0;
+    margin-top: 1.5em;
+  }
+  ::-webkit-scrollbar {
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: gray;
+  }
+  & > div {
+    display: flex;
+    gap: 0.5em;
+  }
+`;
+export const CategoryBtn = styled.button`
+  white-space: nowrap;
+  min-width: 7em;
+  min-height: 3em;
+  border-radius: 1em;
+  border: 1px solid #c4c4c4;
+  cursor: pointer;
+`;
+
 /*search filter*/
 export const SearchBox = styled.div`
   display: flex;
@@ -94,22 +122,21 @@ export const SearchBox = styled.div`
   & > p:first-child {
     font-size: 1.5em;
     font-weight: bold;
-    text-align: center;
   }
   & > div:nth-child(2) {
     display: flex;
     gap: 10px;
-    margin-bottom: 2rem;
+    background: #f8f8f8;
+    border-radius: 0.3em;
+    overflow: hidden;
   }
 `;
 export const SearchInput = styled.div`
-  background: #f8f8f8;
   flex-wrap: wrap;
   display: flex;
   width: 100%;
   justify-content: space-around;
   padding: 0.5em;
-  border-radius: 1em;
 `;
 export const InputItem = styled.div`
   flex: 2;
@@ -118,8 +145,7 @@ export const InputItem = styled.div`
   align-items: center;
   min-width: 10em;
   gap: 0.5em;
-  padding: 0 0.5em;
-  border-right: 0.5px solid #918d8ddd;
+  padding: 0.5em;
   & > p {
     color: #3f3f3f;
   }
@@ -135,14 +161,22 @@ export const InputItem = styled.div`
   }
 `;
 export const SearchBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex: 0.5;
-  min-width: 4em;
+  min-width: 6em;
   min-height: 4em;
   color: white;
   background: #0642ff;
   border: none;
-  border-radius: 50%;
   cursor: pointer;
+  & svg {
+    width: 1.5em;
+    & path {
+      fill: white;
+    }
+  }
 `;
 
 /* detail filter */
@@ -218,16 +252,6 @@ export const DetailBox = styled(Box)`
     gap: 0.5em;
   }
 `;
-export const CategoryBox = styled(Box)`
-  padding: 0.5rem;
-  & > div {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5em;
-  }
-`;
-
 export const PaymentBtn = styled.button`
   background: white;
   border: 1px solid #c4c4c4;
@@ -244,10 +268,6 @@ export const PaymentBtn = styled.button`
 export const SelectBtn = styled(PaymentBtn)`
   padding: 0.5em 0.5em;
   min-width: 5em;
-`;
-export const CategoryBtn = styled(PaymentBtn)`
-  padding: 0.5em 0.5em;
-  min-width: 9em;
 `;
 export const FilterSaveBtn = styled.button`
   width: 100%;
@@ -266,7 +286,7 @@ export const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  margin-top: 2rem;
+  margin-bottom: 2rem;
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
   animation-name: ${fadeIn};
@@ -390,6 +410,7 @@ export const RecruitTag = styled(Tag)`
 `;
 export const PaymentBox = styled.div`
   color: #505050;
+  min-width: 15em;
   & > span {
     color: ${({ payment }) => (payment === "CACHE" ? "#00BB34" : "#3558C7")};
   }

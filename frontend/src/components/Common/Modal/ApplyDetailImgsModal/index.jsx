@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import Portal from "../Portal";
 
 import Presenter from "./presenter";
-import * as S from "./style";
 
 export default function ApplyImgsModal({ setSliderSwitch, currentImg, files }) {
   const [currentSlide, setCurrentSlide] = useState(currentImg);

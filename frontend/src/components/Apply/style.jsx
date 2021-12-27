@@ -8,6 +8,16 @@ const fadeIn = keyframes`
     opacity:1;
   }
 `;
+const moveSearchBar = keyframes`
+  from{
+    opacity:0.5;
+    transform:translate(0, 70%);
+  }
+  to{
+    opacity:1;
+    transform:translate(0, 0)
+  }
+`;
 
 export const ListPageContainer = styled.div`
   margin: 4rem 13rem;
@@ -117,9 +127,18 @@ export const CategoryBtn = styled.button`
 export const SearchBox = styled.div`
   display: flex;
   flex-direction: column;
-
   gap: 1rem;
-  & > p:first-child {
+  transform: translate(0, 70%);
+  ${({ centerView }) =>
+    !centerView &&
+    css`
+      animation-duration: 0.5s;
+      animation-timing-function: ease-out;
+      animation-name: ${moveSearchBar};
+      animation-fill-mode: forwards;
+    `}
+  &
+    > p:first-child {
     font-size: 1.5em;
     font-weight: bold;
   }
@@ -168,7 +187,7 @@ export const SearchBtn = styled.button`
   min-width: 6em;
   min-height: 4em;
   color: white;
-  background: #0642ff;
+  background: #7495ff;
   border: none;
   cursor: pointer;
   & svg {

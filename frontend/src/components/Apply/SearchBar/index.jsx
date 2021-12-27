@@ -13,6 +13,7 @@ import DoTimeInput from "./DoTimeInput";
 import * as S from "../style";
 
 export default function SearchBar({
+  page,
   school,
   setSchool,
   date,
@@ -20,8 +21,9 @@ export default function SearchBar({
   search,
 }) {
   const userSchoolId = useRecoilValue(userState).schoolId;
+
   return (
-    <S.SearchBox>
+    <S.SearchBox centerView={page ? false : true}>
       <p>지원하기</p>
       <div>
         <S.SearchInput>

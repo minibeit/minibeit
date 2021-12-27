@@ -53,6 +53,7 @@ export default function ApplyComponent({ page }) {
   return (
     <S.ListPageContainer>
       <SearchBar
+        page={page}
         school={school}
         setSchool={setSchool}
         date={date}

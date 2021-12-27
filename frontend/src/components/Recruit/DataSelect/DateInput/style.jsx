@@ -91,5 +91,5 @@ export const ColorView = styled.div`
   border-radius: 50%;
   background: #0642ff;
   position: absolute;
-  transform: translate(-0.1em, -1.9em);
+  transform: translate(0.2em, -1.9em);
 `;

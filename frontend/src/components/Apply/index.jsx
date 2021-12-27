@@ -43,9 +43,7 @@ export default function ApplyComponent({ page }) {
   );
 
   const postBookmark = (postId) => {
-    bookmarkApi(postId)
-      .then()
-      .catch((err) => console.log(err));
+    bookmarkApi(postId);
   };
 
   useEffect(() => {
@@ -55,6 +53,7 @@ export default function ApplyComponent({ page }) {
   return (
     <S.ListPageContainer>
       <SearchBar
+        page={page}
         school={school}
         setSchool={setSchool}
         date={date}

@@ -1,4 +1,4 @@
-import styled, { keyframes } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 const fadeIn = keyframes`
   from{
@@ -6,6 +6,16 @@ const fadeIn = keyframes`
   }
   to{
     opacity:1;
+  }
+`;
+const moveSearchBar = keyframes`
+  from{
+    opacity:0.3;
+    transform:translate(0, 70%);
+  }
+  to{
+    opacity:1;
+    transform:translate(0, 0)
   }
 `;
 
@@ -16,7 +26,8 @@ export const ListPageContainer = styled.div`
     display: flex;
     gap: 1rem;
     padding: 1rem 0;
-    border-top: 1px solid #c4c4c4;
+    border-bottom: 1px solid #c4c4c4;
+    align-items: center;
   }
 `;
 export const FilterBtn = styled.button`
@@ -36,9 +47,9 @@ export const FilterBtn = styled.button`
   }
 `;
 export const SearchResult = styled.p`
-  font-size: 2rem;
+  font-size: 1rem;
   font-weight: bold;
-  margin: 1rem 0;
+  margin: 3rem 0 0.5rem 0;
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
   animation-name: ${fadeIn};
@@ -50,11 +61,6 @@ export const FilterLabelBox = styled.div`
   flex-wrap: wrap;
   align-items: center;
   min-height: 3rem;
-  & > p:first-child {
-    display: flex;
-    align-items: center;
-    white-space: nowrap;
-  }
 `;
 export const FilterLabel = styled.div`
   background: rgba(6, 66, 255, 0.1);
@@ -85,61 +91,111 @@ export const FilterLabel = styled.div`
   animation-fill-mode: forwards;
 `;
 
+export const CategoryBox = styled.div`
+  overflow-x: scroll;
+  padding: 0.5em 0;
+  & > p:first-child {
+    color: #989898;
+    padding: 0.3em 0;
+    margin-top: 1.5em;
+  }
+  ::-webkit-scrollbar {
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: gray;
+  }
+  & > div {
+    display: flex;
+    gap: 0.5em;
+  }
+`;
+export const CategoryBtn = styled.button`
+  white-space: nowrap;
+  min-width: 7em;
+  min-height: 3em;
+  border-radius: 1em;
+  border: 1px solid #c4c4c4;
+  cursor: pointer;
+`;
+
 /*search filter*/
 export const SearchBox = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  & > p:first-child {
-    color: #0642ff;
-    font-size: 2rem;
+  transform: translate(0, 70%);
+  ${({ centerView }) =>
+    !centerView &&
+    css`
+      animation-duration: 0.5s;
+      animation-timing-function: ease-out;
+      animation-name: ${moveSearchBar};
+      animation-fill-mode: forwards;
+    `}
+  &
+    > p:first-child {
+    font-size: 1.5em;
     font-weight: bold;
   }
-  & > p:nth-child(2) {
-    font-weight: bold;
-  }
-  & > div:nth-child(3) {
+  & > div:nth-child(2) {
     display: flex;
     gap: 10px;
-    margin-bottom: 2rem;
+    background: #f8f8f8;
+    border-radius: 0.3em;
+    overflow: hidden;
   }
 `;
 export const SearchInput = styled.div`
-  background: #f8f8f8;
+  flex-wrap: wrap;
   display: flex;
-  align-items: center;
-  max-height: 3rem;
-  border-radius: 1.5rem;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  & > p:first-child {
-    white-space: nowrap;
-  }
-  & svg {
-    width: 1rem;
-  }
+  width: 100%;
+  justify-content: space-around;
+  padding: 0.5em;
 `;
-export const PlaceInput = styled(SearchInput)``;
-export const DateInput = styled(SearchInput)`
+export const InputItem = styled.div`
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 10em;
+  gap: 0.5em;
+  padding: 0.5em;
+  & > p {
+    color: #3f3f3f;
+  }
   & input {
-    background: none;
-    height: 100%;
-    border: none;
-    width: 13rem;
-    outline: none;
+    width: 100%;
     text-align: center;
-    font-size: 1rem;
+    border: none;
+    background: none;
+    color: black;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
   }
 `;
 export const SearchBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 0.5;
+  min-width: 6em;
+  min-height: 4em;
   color: white;
-  background-color: #0642ff;
+  background: #7495ff;
   border: none;
-  font-weight: 600;
   cursor: pointer;
-  border-radius: 0.5rem;
-  padding: 0 0.5rem;
-  white-space: nowrap;
+  & svg {
+    width: 1.5em;
+    & path {
+      fill: white;
+    }
+  }
 `;
 
 /* detail filter */
@@ -215,16 +271,6 @@ export const DetailBox = styled(Box)`
     gap: 0.5em;
   }
 `;
-export const CategoryBox = styled(Box)`
-  padding: 0.5rem;
-  & > div {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.5em;
-  }
-`;
-
 export const PaymentBtn = styled.button`
   background: white;
   border: 1px solid #c4c4c4;
@@ -234,16 +280,13 @@ export const PaymentBtn = styled.button`
   border-radius: 0.5rem;
   white-space: nowrap;
   &:disabled {
+    border: 1px solid #0642ff;
     background: #b4c6ff;
   }
 `;
 export const SelectBtn = styled(PaymentBtn)`
   padding: 0.5em 0.5em;
   min-width: 5em;
-`;
-export const CategoryBtn = styled(PaymentBtn)`
-  padding: 0.5em 0.5em;
-  min-width: 9em;
 `;
 export const FilterSaveBtn = styled.button`
   width: 100%;
@@ -262,7 +305,7 @@ export const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  margin-top: 2rem;
+  margin-bottom: 2rem;
   animation-duration: 0.5s;
   animation-timing-function: ease-out;
   animation-name: ${fadeIn};
@@ -270,110 +313,124 @@ export const ListContainer = styled.div`
 `;
 
 export const FeedBox = styled.div`
-  background-color: #f8f8f8;
   display: flex;
-  justify-content: space-around;
-  border-radius: 14px;
-  height: 10rem;
+  flex-wrap: wrap;
   width: 100%;
+  min-height: 12em;
+  overflow: hidden;
   cursor: pointer;
-  gap: 1rem;
-  & > div:first-child {
-    width: 100%;
-    position: relative;
-    flex: 1;
-    & > img {
-      width: inherit;
-      border-radius: 14px 0 0 14px;
-      position: absolute;
-      object-fit: cover;
-      height: 10rem;
-      z-index: 1;
-    }
-    & > div:nth-child(2) {
-      width: inherit;
-      border-radius: 14px 0 0 14px;
-      height: 10rem;
-      position: absolute;
-      background-color: rgba(0, 0, 0, 0.4);
-      cursor: pointer;
-      z-index: 5;
-      & > div {
-        display: flex;
-        flex-direction: column;
-        position: relative;
-        z-index: 9;
-        top: 1rem;
-        left: 1rem;
-        width: 1.3rem;
-        height: 2.2rem;
-        & svg {
-          width: 1.3rem;
-          path {
-            fill: #fff;
-          }
-        }
-        & > p {
-          text-align: center;
-          font-size: 0.9rem;
-          color: #fff;
-        }
-      }
-    }
-  }
-  & > div:nth-child(2) {
-    flex: 2;
-    width: 100%;
-    padding: 1rem 0.5rem;
-    height: 8rem;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  border: 1px solid #c4c4c480;
+  box-sizing: content-box;
+  border-radius: 1em;
+  box-shadow: 2px 2px 12px 0px #00000033;
+  &:hover {
+    transform: scale(1.01);
   }
 `;
 
+export const FeedImgView = styled.div`
+  background-image: ${({ thumbnail }) =>
+    thumbnail ? `url(${thumbnail})` : 'url("/images/기본프로필.png")'};
+  background-size: cover;
+  background-position: center;
+  flex: 1;
+  min-width: 16em;
+  min-height: 10em;
+  & > div:first-child {
+    display: flex;
+    flex: 1;
+    height: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.3em;
+    padding: 1em;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 9;
+  }
+`;
+export const FeedBookmark = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  text-align: center;
+  color: white;
+  & svg {
+    width: 1em;
+    & path {
+      fill: white;
+    }
+  }
+`;
+
+export const FeedContentView = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  height: auto;
+  padding: 1.5em;
+  max-width: 35em;
+  gap: 0.5em;
+`;
 export const FeedHeader = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.5em;
+  & > p:first-child {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
   & > div:nth-child(2) {
     display: flex;
-    gap: 0.4rem;
-    font-size: 0.9rem;
+    gap: 0.4em;
     color: #8e8e8e;
-    & > svg {
-      width: 1rem;
-      path {
+    & svg {
+      width: 1em;
+      & path {
         fill: #8e8e8e;
       }
     }
   }
-  & > p:first-child {
-    font-size: 1.4rem;
-    font-weight: 600;
+`;
+export const FeedInfoData = styled.div`
+  display: flex;
+  gap: 1em;
+  margin-top: auto;
+  & > div {
+    white-space: nowrap;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+  }
+  & > div:first-child {
+    color: #8c8c8c;
   }
 `;
-
-export const FeedInfoData = styled.div`
+export const Tag = styled.div`
+  border-radius: 4px;
+  width: fit-content;
+  padding: 0.3em 1em;
+  background: #7c7c7c1a;
   color: #7c7c7c;
-  font-size: 0.9rem;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  & > div:nth-child(2) {
-    padding: 0.4rem 1rem;
-    border-radius: 5px;
-    background-color: ${({ condition }) => {
-      return condition ? "#e6ecff" : "rgba(124,124,124,0.1)";
-    }};
-  }
-  & > div:nth-child(3) {
-    & > span {
-      margin-right: 0.3rem;
-      color: ${({ payment }) => {
-        return payment === "CACHE" ? "#00bb34" : "#3558c7";
-      }};
-    }
+  white-space: nowrap;
+`;
+export const RecruitTag = styled(Tag)`
+  ${({ recruit }) => {
+    return recruit
+      ? css`
+          background: rgba(123, 104, 255, 0.1);
+          color: #7b68ff;
+        `
+      : css`
+          background: #7c7c7c1a;
+          color: #7c7c7c;
+        `;
+  }}
+`;
+export const PaymentBox = styled.div`
+  color: #505050;
+  min-width: 15em;
+  & > span {
+    color: ${({ payment }) => (payment === "CACHE" ? "#00BB34" : "#3558C7")};
   }
 `;

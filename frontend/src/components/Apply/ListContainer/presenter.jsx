@@ -18,7 +18,41 @@ export default function Presenter({
         feedList.map((a) => {
           return (
             <S.FeedBox key={a.id} onClick={() => goToDetailPage(a)}>
-              <div>
+              <S.FeedImgView thumbnail={a.file && a.file.url}>
+                <div>
+                  <S.FeedBookmark onClick={(e) => clickBookmark(a, e)}>
+                    <Star />
+                    <p>{a.likes}</p>
+                  </S.FeedBookmark>
+                </div>
+              </S.FeedImgView>
+              <S.FeedContentView>
+                <S.FeedHeader isLike={a.isLike}>
+                  <p>{a.title}</p>
+                  <div>
+                    <Home />
+                    <p>{a.businessProfileName}</p>
+                  </div>
+                </S.FeedHeader>
+                <S.FeedInfoData>
+                  <div>소요시간: {a.doTime}분</div>
+                  <S.RecruitTag recruit={a.recruitCondition}>
+                    참여조건 {a.recruitCondition ? "있음" : "없음"}
+                  </S.RecruitTag>
+                  <S.PaymentBox payment={a.payment}>
+                    {a.payment === "CACHE" ? (
+                      <>
+                        <span>현금</span> {a.cache}원
+                      </>
+                    ) : (
+                      <>
+                        <span>물품</span> {a.goods}
+                      </>
+                    )}
+                  </S.PaymentBox>
+                </S.FeedInfoData>
+              </S.FeedContentView>
+              {/* <div>
                 <img
                   alt="썸네일"
                   src={a.file ? a.file.url : "/images/기본프로필.png"}
@@ -54,7 +88,7 @@ export default function Presenter({
                     </div>
                   )}
                 </S.FeedInfoData>
-              </div>
+              </div> */}
             </S.FeedBox>
           );
         })

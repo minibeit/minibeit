@@ -13,7 +13,7 @@ export const filterState = atom({
   default: {
     paymentType: "",
     minPay: "",
-    doTime: "",
+    doTime: { name: "전체", value: "" },
     startAndEnd: [0, 24],
     startTime: "",
     endTime: "",
@@ -22,8 +22,8 @@ export const filterState = atom({
 export const schoolState = atom({
   key: "schoolState",
   default: {
-    schoolId: null,
-    schoolName: null,
+    schoolId: "0",
+    schoolName: "전체",
   },
 });
 export const categoryState = atom({

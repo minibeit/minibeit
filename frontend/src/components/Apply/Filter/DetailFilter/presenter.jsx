@@ -1,16 +1,11 @@
 import React, { useState } from "react";
-import Slider from "rc-slider";
 import CloseIcon from "@mui/icons-material/Close";
 import { ReactComponent as FilterIcon } from "../../../../svg/필터.svg";
 import { CSSTransition } from "react-transition-group";
 import { useHistory } from "react-router";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 
-import "./range.css";
 import * as S from "../../style";
-
-const { createSliderWithTooltip } = Slider;
-const Range = createSliderWithTooltip(Slider.Range);
 
 export default function Presenter({
   filterReset,
@@ -18,11 +13,8 @@ export default function Presenter({
   changePayType,
   changeFilter,
   minPay,
-  doTime,
-  timeArr,
   setFilter,
   data,
-  setData,
 }) {
   const history = useHistory();
   const [filterSwitch, setFilterSwitch] = useState(false);
@@ -93,54 +85,6 @@ export default function Presenter({
                   </div>
                 </S.DetailBox>
               </CSSTransition>
-              <S.DetailBox>
-                <p>소요기간</p>
-                <div>
-                  {doTime.map((a, i) => {
-                    return (
-                      <S.SelectBtn
-                        key={i}
-                        name="doTime"
-                        value={a.value}
-                        disabled={data["doTime"] === a.value ? true : false}
-                        onClick={changeFilter}
-                      >
-                        {a.name}
-                      </S.SelectBtn>
-                    );
-                  })}
-                </div>
-              </S.DetailBox>
-              <S.DetailBox>
-                <p>
-                  실험 시작시간{" "}
-                  {data.startTime &&
-                    data.endTime &&
-                    `${data["startTime"]}~${data["endTime"]}`}
-                </p>
-                <div>
-                  <Range
-                    min={0}
-                    max={24}
-                    value={data["startAndEnd"]}
-                    allowCross={false}
-                    pushable={1}
-                    tipFormatter={(e) => timeArr[e]}
-                    onChange={(e) => {
-                      const copy = { ...data };
-                      copy["startAndEnd"] = e;
-                      if (e[0] === 0 && e[1] === 24) {
-                        copy["startTime"] = "";
-                        copy["endTime"] = "";
-                      } else {
-                        copy["startTime"] = timeArr[e[0]];
-                        copy["endTime"] = timeArr[e[1]];
-                      }
-                      setData(copy);
-                    }}
-                  />
-                </div>
-              </S.DetailBox>
               <S.FilterResetBtn
                 onClick={() => {
                   filterReset();

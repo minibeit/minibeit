@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import { schoolGetApi } from "../../../utils/schoolApi";
+import { schoolGetApi } from "../../../../utils/schoolApi";
 
-import { ReactComponent as PlaceIcon } from "../../../svg/위치.svg";
+import { ReactComponent as PlaceIcon } from "../../../../svg/위치.svg";
 
 import * as S from "./style";
 
@@ -13,6 +13,7 @@ export default function SchoolInput({ defaultId, onChange }) {
 
   const getSchool = (text) => {
     schoolGetApi(text).then((res) => {
+      res.data.data.unshift({ id: "0", name: "전체" });
       setSchoolList(res.data.data);
     });
   };
@@ -43,7 +44,7 @@ export default function SchoolInput({ defaultId, onChange }) {
               schoolList.length !== 0
                 ? defaultId
                   ? schoolList.find((a) => a.id === defaultId).name
-                  : null
+                  : "전체"
                 : null
             }
             onClick={() => setListView(!listView)}

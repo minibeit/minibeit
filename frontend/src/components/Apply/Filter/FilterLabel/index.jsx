@@ -3,12 +3,7 @@ import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 
 import * as S from "../../style";
 
-export default function FilterLabel({
-  category,
-  setCategory,
-  filter,
-  setFilter,
-}) {
+export default function FilterLabel({ filter, setFilter }) {
   const closeLabel = (name) => {
     if (name === "startAndEnd") {
       const copy = { ...filter };
@@ -16,10 +11,10 @@ export default function FilterLabel({
       copy.startTime = "";
       copy.endTime = "";
       setFilter(copy);
-    } else if (name === "category") {
-      const copy = { ...category };
-      copy.category = "ALL";
-      setCategory(copy);
+    } else if (name === "doTime") {
+      const copy = { ...filter };
+      copy[name] = { name: "전체", value: "" };
+      setFilter(copy);
     } else {
       const copy = { ...filter };
       copy[name] = "";
@@ -29,15 +24,12 @@ export default function FilterLabel({
   return (
     <S.FilterLabelBox>
       {filter.paymentType !== "" && (
-        <>
-          <p>선택한 필터 : </p>
-          <S.FilterLabel>
-            <p>보상방식 : {filter.paymentType === "CACHE" ? "현금" : "물품"}</p>
-            <button onClick={() => closeLabel("paymentType")}>
-              <CloseIcon />
-            </button>
-          </S.FilterLabel>
-        </>
+        <S.FilterLabel>
+          <p>보상방식 : {filter.paymentType === "CACHE" ? "현금" : "물품"}</p>
+          <button onClick={() => closeLabel("paymentType")}>
+            <CloseIcon />
+          </button>
+        </S.FilterLabel>
       )}
       {filter.minPay !== "" && (
         <S.FilterLabel>
@@ -52,14 +44,9 @@ export default function FilterLabel({
           </button>
         </S.FilterLabel>
       )}
-      {filter.doTime !== "" && (
+      {filter.doTime.value !== "" && (
         <S.FilterLabel>
-          <p>
-            소요시간 : {filter.doTime === "30" && "30분 이내"}
-            {filter.doTime === "60" && "1시간 이내"}
-            {filter.doTime === "180" && "3시간 이내"}
-            {filter.doTime === "181" && "3시간 이상"}
-          </p>
+          <p>소요시간 : {filter.doTime.name}</p>
           <button onClick={() => closeLabel("doTime")}>
             <CloseIcon />
           </button>
@@ -71,14 +58,6 @@ export default function FilterLabel({
             시작시간 : {filter.startAndEnd[0]}시 - {filter.startAndEnd[1]}시
           </p>
           <button onClick={() => closeLabel("startAndEnd")}>
-            <CloseIcon />
-          </button>
-        </S.FilterLabel>
-      )}
-      {category.category !== "ALL" && (
-        <S.FilterLabel>
-          <p>{category.category}</p>
-          <button onClick={() => closeLabel("category")}>
             <CloseIcon />
           </button>
         </S.FilterLabel>

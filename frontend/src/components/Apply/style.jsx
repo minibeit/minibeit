@@ -10,7 +10,7 @@ const fadeIn = keyframes`
 `;
 const moveSearchBar = keyframes`
   from{
-    opacity:0.5;
+    opacity:0.3;
     transform:translate(0, 70%);
   }
   to{

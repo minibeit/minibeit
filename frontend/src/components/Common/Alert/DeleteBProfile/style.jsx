@@ -10,6 +10,37 @@ export const AlertBox = styled.div`
   height: 20rem;
   border-radius: 2.25rem;
 `;
+export const AlertContent2 = styled.div`
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  padding: 1.25rem;
+  & > svg {
+    width: 2.5rem;
+    path {
+      fill: #0642ff;
+    }
+  }
+  & > p:nth-child(2) {
+    width: 20rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1.25rem;
+    line-height: 2rem;
+    & > p {
+      font-size: 0.8rem;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.5);
+      line-height: 1.3rem;
+    }
+  }
+`;
 
 const Button = styled.button`
   position: relative;

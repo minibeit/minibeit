@@ -302,20 +302,20 @@ export default function Presenter({
           </S.ImgForm>
         </S.InputBox>
         <S.SaveBtn onClick={clickSubmit}>작성완료</S.SaveBtn>
-        {askComplete ? (
+        {askComplete && (
           <RegisterFeed
             setAskComplete={setAskComplete}
             recruit={recruit}
             submit={submit}
           />
-        ) : null}
-        {notEnough ? (
+        )}
+        {notEnough && (
           <NotEnoughWrite
             setNotEnough={setNotEnough}
             recruit={recruit}
             movePage={movePage}
           />
-        ) : null}
+        )}
       </S.InputContainer>
     </S.InputPage>
   );

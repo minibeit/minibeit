@@ -4,7 +4,6 @@ import { ReactComponent as CloseIcon } from "../../../svg/엑스.svg";
 import { ReactComponent as AddIcon } from "../../../svg/플러스.svg";
 import { ReactComponent as PenIcon } from "../../../svg/연필.svg";
 import DeleteBProfile from "../../Common/Alert/DeleteBProfile";
-import Recruting from "../../Common/Alert/Recruting";
 
 import { bprofileListGet, deleteBprofile } from "../../../utils";
 import { PVImg } from "../../Common";
@@ -20,17 +19,16 @@ export default function BusinessContainer() {
   const [editMode, setEditMode] = useState(false);
   const history = useHistory();
 
-  const [deleteAlert, setDeleteAlert] = useState(0);
+  const [deleteAlert, setDeleteAlert] = useState(false);
+  const [secondAlert, setSecondAlert] = useState(false);
 
   const deleteBusiness = (data) => {
-    if (deleteAlert === 1) {
-      deleteBprofile(data.id)
-        .then((res) => {
-          setDeleteAlert(0);
-          getBProfile();
-        })
-        .catch((err) => setDeleteAlert(2));
-    }
+    deleteBprofile(data.id)
+      .then((res) => {
+        setDeleteAlert(false);
+        getBProfile();
+      })
+      .catch((err) => setSecondAlert(true));
   };
 
   const getBProfile = useCallback(() => {
@@ -69,7 +67,7 @@ export default function BusinessContainer() {
                   opacity: editMode && a.admin ? 1 : 0,
                   zIndex: editMode && a.admin ? 1 : -9999,
                 }}
-                onClick={() => setDeleteAlert(1)}
+                onClick={() => setDeleteAlert(true)}
               >
                 <CloseIcon />
               </S.DeleteBtn>
@@ -83,15 +81,14 @@ export default function BusinessContainer() {
                 </S.BImgBox>
                 <p>{a.name}</p>
               </div>
-              {deleteAlert === 1 && (
+              {deleteAlert && (
                 <DeleteBProfile
                   a={a}
                   deleteBusiness={deleteBusiness}
                   setDeleteAlert={setDeleteAlert}
+                  setSecondAlert={setSecondAlert}
+                  secondAlert={secondAlert}
                 />
-              )}
-              {deleteAlert === 2 && (
-                <Recruting a={a} setDeleteAlert={setDeleteAlert} />
               )}
             </S.BusinessProfile>
           );

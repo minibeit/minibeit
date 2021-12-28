@@ -18,7 +18,6 @@ import TitleContiner from "./TitleContiner";
 import * as S from "./style";
 import { useHistory } from "react-router";
 import AskCompleteApplication from "../Common/Alert/AskCompleteApplication";
-import CompleteApplication from "../Common/Alert/CompleteApplication";
 import CreateAuthModal from "../Common/Modal/CreateAuthModal";
 
 export default function ApplyDetailComponent({ feedId, date }) {
@@ -64,7 +63,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
         });
       }
     } else {
-      likeToLogIn();
+      setModalSwitch(true);
     }
   };
 
@@ -72,32 +71,15 @@ export default function ApplyDetailComponent({ feedId, date }) {
     feedEditApi(postId, data).then((res) => getFeedDetail(res.data.data.id));
   };
 
-  const [applyAlert, setApplyAlert] = useState(0);
+  const [applyAlert, setApplyAlert] = useState(false);
   const [sliderSwitch, setSliderSwitch] = useState(false);
   const [modalSwitch, setModalSwitch] = useState(false);
 
-  const submit = async (postDoDateId) => {
-    if (applyAlert) {
-      applyApi(postDoDateId)
-        .then((res) => {
-          setApplyAlert(2);
-        })
-        .catch((err) => {
-          toast.error("지원이 실패하였습니다");
-          setApplyAlert(0);
-          //   신청한 실험일 때, 날짜를 고르지 않았을 때 에러 추가해야함
-        });
-    }
-  };
-
-  const likeToLogIn = () => {
-    setModalSwitch(true);
-  };
   const checkLogin = () => {
     if (user.isLogin) {
-      setApplyAlert(1);
+      setApplyAlert(true);
     } else {
-      likeToLogIn();
+      setModalSwitch(true);
     }
   };
 
@@ -129,15 +111,13 @@ export default function ApplyDetailComponent({ feedId, date }) {
               feedDetailData={feedDetailData}
               checkLogin={checkLogin}
             />
-            {applyAlert === 1 && (
+            {applyAlert && (
               <AskCompleteApplication
                 apply={apply}
                 setApplyAlert={setApplyAlert}
-                submit={submit}
+                applyAlert={applyAlert}
+                applyApi={applyApi}
               />
-            )}
-            {applyAlert === 2 && (
-              <CompleteApplication user={user} setApplyAlert={setApplyAlert} />
             )}
             {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
           </S.UnderTitle>

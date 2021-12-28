@@ -11,7 +11,7 @@ export default function PersonalInformation({ setConditionsAlert }) {
         <S.AlertContent>
           <div>
             <p>개인정보 보호법 및 시행령</p>
-            <div onClick={() => setConditionsAlert(0)}>×</div>
+            <div onClick={() => setConditionsAlert(false)}>×</div>
           </div>
           <p>
             &lt; CLMOI &gt; ('[www.minibeit.com](http://www.minibeit.com/)'이하

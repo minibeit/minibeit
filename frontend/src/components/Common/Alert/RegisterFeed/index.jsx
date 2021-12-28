@@ -21,7 +21,7 @@ export default function RegisterFeed({ setAskComplete, recruit, submit }) {
             수정이 필요하다면, 다시 한번 확인해주세요.
           </p>
           <div>
-            <S.GrayButton onClick={() => setAskComplete(0)}>
+            <S.GrayButton onClick={() => setAskComplete(false)}>
               아니오, 더 작성할게요
             </S.GrayButton>
             <S.BlueButton onClick={() => submit(recruit)}>

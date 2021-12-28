@@ -21,6 +21,43 @@ export const ModalBox = styled.div`
   }
 `;
 
+export const ModalBox2 = styled.div`
+  transform: translate(-50%, -50%);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background-color: white;
+  width: 30rem;
+  height: 22rem;
+  border-radius: 2.2rem;
+  & > div {
+    width: 30rem;
+    height: 22rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+    & > p {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 0 0 1rem;
+      text-align: center;
+
+      & > span {
+        color: #0642ff;
+      }
+    }
+    & > svg {
+      width: 2rem;
+      height: 2rem;
+      path {
+        fill: #0642ff;
+      }
+    }
+  }
+`;
+
 export const ModalContent = styled.div`
   transform: translate(-50%, -60%);
   position: absolute;

@@ -7,7 +7,12 @@ import Portal from "../../../Common/Modal/Portal";
 import { stateCompleteApi } from "../../../../utils";
 import { toast } from "react-toastify";
 
-export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
+export default function FeedCloseModal({
+  postId,
+  setCloseModal,
+  closeModal,
+  changeFeedData,
+}) {
   const [comment, setComment] = useState(""); //input에 담긴 코멘트를 담음
   const [items] = useState([
     "죄송하지만, 급한 다른 일정이 생겼어요.",
@@ -20,6 +25,7 @@ export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
   ]);
   const [isActive, setIsActive] = useState(false);
   const [selected, setSelected] = useState("사유를 골라주세요.");
+  const [secondAlert, setSecondAlert] = useState(false);
 
   const selectReason = (e) => {
     setSelected(`${e.target.value}`);
@@ -31,12 +37,13 @@ export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
   };
 
   const stateComplete = (postId, rejectComment) => {
-    if (closeModal === 1) {
+    if (closeModal) {
       stateCompleteApi(postId, rejectComment)
         .then(() => {
-          setCloseModal(2);
+          setSecondAlert(true);
         })
         .catch((err) => {
+          setCloseModal(false);
           toast.error("종료할 수 없는 게시물 입니다");
         });
     }
@@ -60,41 +67,62 @@ export default function FeedCloseModal({ postId, setCloseModal, closeModal }) {
 
   return (
     <Portal>
-      <S.ModalBox>
-        <div>
-          <CloseIcon onClick={() => setCloseModal(0)} />
-        </div>
-        <S.ModalContent>
-          <InfoIcon />
-          <p>종료 사유를 알려주세요</p>
+      {!secondAlert ? (
+        <S.ModalBox>
           <div>
-            <S.Select
-              onClick={() => setIsActive(!isActive)}
-              isActive={isActive}
-            >
-              {selected}
-              <span onClick={() => setIsActive(!isActive)}>▲</span>
-            </S.Select>
-            <div>
-              {isActive &&
-                items.map((a, i) => (
-                  <S.Option onClick={selectReason} value={a} key={i}>
-                    {a}
-                  </S.Option>
-                ))}
-            </div>
+            <CloseIcon onClick={() => setCloseModal(false)} />
           </div>
-          {selected === "직접입력" && (
-            <S.Input
-              value={comment}
-              type="text"
-              placeholder="직접입력"
-              onChange={(e) => setComment(e.target.value)}
-            />
-          )}
-          <S.BlueButton onClick={() => onSubmit()}>확인</S.BlueButton>
-        </S.ModalContent>
-      </S.ModalBox>
+          <S.ModalContent>
+            <InfoIcon />
+            <p>종료 사유를 알려주세요</p>
+            <div>
+              <S.Select
+                onClick={() => setIsActive(!isActive)}
+                isActive={isActive}
+              >
+                {selected}
+                <span onClick={() => setIsActive(!isActive)}>▲</span>
+              </S.Select>
+              <div>
+                {isActive &&
+                  items.map((a, i) => (
+                    <S.Option onClick={selectReason} value={a} key={i}>
+                      {a}
+                    </S.Option>
+                  ))}
+              </div>
+            </div>
+            {selected === "직접입력" && (
+              <S.Input
+                value={comment}
+                type="text"
+                placeholder="직접입력"
+                onChange={(e) => setComment(e.target.value)}
+              />
+            )}
+            <S.BlueButton onClick={() => onSubmit()}>확인</S.BlueButton>
+          </S.ModalContent>
+        </S.ModalBox>
+      ) : (
+        <S.ModalBox2>
+          <div>
+            <InfoIcon />
+            <p>
+              해당 모집 공고의
+              <br />
+              <span>모집이 종료</span>되었어요.
+            </p>
+            <S.BlueButton
+              onClick={() => {
+                setCloseModal(false);
+                changeFeedData("생성한 모집공고");
+              }}
+            >
+              닫기
+            </S.BlueButton>
+          </div>
+        </S.ModalBox2>
+      )}
     </Portal>
   );
 }

@@ -12,7 +12,8 @@ CreateAuthModal.propTypes = {
 };
 
 export default function CreateAuthModal({ setModalSwitch, modalSwitch }) {
-  const [conditionsAlert, setConditionsAlert] = useState(0);
+  const [conditionsAlert, setConditionsAlert] = useState(false);
+  const [conditionsAlert2, setConditionsAlert2] = useState(false);
 
   const kakaoLogin = () => {
     window.location.replace(
@@ -53,19 +54,19 @@ export default function CreateAuthModal({ setModalSwitch, modalSwitch }) {
           </S.FormContainer>
           <S.Formexplain>
             <p>
-              회원가입시{" "}
-              <span onClick={() => setConditionsAlert(1)}>
+              회원가입시
+              <span onClick={() => setConditionsAlert(true)}>
                 개인정보 처리방침
               </span>
-              과<span onClick={() => setConditionsAlert(2)}>이용약관</span>을
+              과<span onClick={() => setConditionsAlert(true)}>이용약관</span>을
               확인하였으며, 동의합니다.
             </p>
           </S.Formexplain>
         </S.ModalContent>
-        {conditionsAlert === 1 && (
+        {conditionsAlert && (
           <PersonalInformation setConditionsAlert={setConditionsAlert} />
         )}
-        {conditionsAlert === 2 && (
+        {conditionsAlert2 && (
           <Conditions setConditionsAlert={setConditionsAlert} />
         )}
       </S.ModalBox>

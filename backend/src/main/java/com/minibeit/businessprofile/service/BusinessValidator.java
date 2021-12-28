@@ -34,9 +34,14 @@ public class BusinessValidator {
         }
     }
 
-    public void expelAndLeaveValidate(BusinessProfile businessProfile, User user) {
-        if (businessProfile.getAdmin().getId().equals(user.getId())) {
-            throw new PermissionException("비즈니스 프로필의 관리자 입니다.");
+    public void expelValidate(BusinessProfile businessProfile, Long userId, User loginUser) {
+        adminValidate(businessProfile, loginUser);
+        isAdmin(businessProfile, userId);
+    }
+
+    public void isAdmin(BusinessProfile businessProfile, Long userId) {
+        if (businessProfile.getAdmin().getId().equals(userId)) {
+            throw new InvalidOperationException("비즈니스 프로필의 관리자 입니다.");
         }
     }
 

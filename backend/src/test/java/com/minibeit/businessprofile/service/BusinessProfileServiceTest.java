@@ -132,7 +132,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
         List<PostDoDate> postDoDates = createInfoRequest.toPostDoDates();
         postDoDates.forEach(postDoDate -> postDoDate.assignPost(createdPost));
         createdPost.create(school, businessProfile);
-        Post post = postRepository.save(createdPost);
+        postRepository.save(createdPost);
         postDoDateRepository.saveAll(postDoDates);
 
         PostDoDate postDoDate1 = postDoDates.get(0);
@@ -450,8 +450,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
         assertThatThrownBy(
                 () -> businessProfileService.cancelShare(businessProfile.getId(), admin.getId(), admin)
         ).isInstanceOf(InvalidOperationException.class);
-
-        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
     }
 
     @Test

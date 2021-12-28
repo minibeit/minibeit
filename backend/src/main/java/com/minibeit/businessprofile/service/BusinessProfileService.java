@@ -66,9 +66,9 @@ public class BusinessProfileService {
         userBusinessProfileRepository.save(userBusinessProfile);
     }
 
-    public void cancelShare(Long businessProfileId, Long userId, User user) {
+    public void cancelShare(Long businessProfileId, Long userId, User loginUser) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-        businessValidator.expelAndLeaveValidate(businessProfile, user);
+        businessValidator.expelValidate(businessProfile, userId, loginUser);
         UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userId, businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
     }
@@ -83,7 +83,7 @@ public class BusinessProfileService {
 
     public void leaveBusinessProfile(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-        businessValidator.expelAndLeaveValidate(businessProfile, user);
+        businessValidator.isAdmin(businessProfile, user.getId());
 
         UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(user.getId(), businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());

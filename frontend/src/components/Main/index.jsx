@@ -28,7 +28,7 @@ export default function MainComponent() {
   });
 
   return (
-    <S.BackGround>
+    <div>
       <S.MainBox>
         <div>
           <div>
@@ -91,6 +91,6 @@ export default function MainComponent() {
         </div>
       </S.LastBox>
       {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
-    </S.BackGround>
+    </div>
   );
 }

@@ -96,7 +96,7 @@ class UserTest {
                 .admin(user1)
                 .build();
 
-        assertThat(user1.isAdminInBusinessProfile(businessProfile1)).isEqualTo(true);
+        assertThat(businessProfile1.isAdminInBusinessProfile(user1)).isEqualTo(true);
 
     }
 }

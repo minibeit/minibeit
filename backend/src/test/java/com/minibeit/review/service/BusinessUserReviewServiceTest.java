@@ -185,7 +185,7 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
         PostApplicant postApplicant2 = PostApplicant.create(postDoDate, notAttendUser);
         postApplicant2.updateStatus(ApplyStatus.COMPLETE);
         postApplicant2.changeBusinessFinish(false);
-        postApplicant2.evaluated(LocalDateTime.of(2021, 9, 30, 0, 0), userInBusinessProfile, businessProfile.getId());
+        postApplicant2.evaluated();
         postApplicantRepository.save(postApplicant2);
 
         PostApplicant postApplicant3 = PostApplicant.create(postDoDate, notCompleteSelf);

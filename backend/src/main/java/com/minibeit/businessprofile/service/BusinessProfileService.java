@@ -31,10 +31,13 @@ public class BusinessProfileService {
     private final UserRepository userRepository;
     private final PostRepository postRepository;
     private final AvatarService avatarService;
+    private final BusinessValidator businessValidator;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
         User findUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(user.getId()).orElseThrow(UserNotFoundException::new);
         Avatar avatar = avatarService.upload(request.getAvatar());
+        businessValidator.createValidate(findUser.getUserBusinessProfileList());
+
         BusinessProfile businessProfile = BusinessProfile.create(request.toEntity(), avatar, findUser);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
 
@@ -43,6 +46,7 @@ public class BusinessProfileService {
 
     public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+        businessValidator.adminValidate(businessProfile, user);
         if (request.isAvatarChanged()) {
             avatarService.deleteOne(businessProfile.getAvatar());
             Avatar file = avatarService.upload(request.getAvatar());
@@ -55,15 +59,16 @@ public class BusinessProfileService {
     public void shareBusinessProfile(Long businessProfileId, Long invitedUserId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         User invitedUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(invitedUserId).orElseThrow(UserNotFoundException::new);
-        UserBusinessProfile userBusinessProfile = businessProfile.invite(invitedUser, businessProfile, user);
+        businessValidator.inviteValidate(businessProfile, invitedUser.getUserBusinessProfileList(), user);
+
+        UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(invitedUser, businessProfile);
 
         userBusinessProfileRepository.save(userBusinessProfile);
     }
 
     public void cancelShare(Long businessProfileId, Long userId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-        businessProfile.expel(user, userId);
-
+        businessValidator.expelAndLeaveValidate(businessProfile, user);
         UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userId, businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
     }
@@ -71,12 +76,14 @@ public class BusinessProfileService {
     public void changeAdmin(Long businessProfileId, Long userId, User loginUser) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         User changeUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(userId).orElseThrow(UserNotFoundException::new);
-        businessProfile.changeAdmin(loginUser, changeUser);
+        businessValidator.changeAdminValidate(businessProfile, loginUser, changeUser.getUserBusinessProfileList());
+
+        businessProfile.changeAdmin(changeUser);
     }
 
     public void leaveBusinessProfile(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-        businessProfile.leaveValidate(user);
+        businessValidator.expelAndLeaveValidate(businessProfile, user);
 
         UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(user.getId(), businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
@@ -99,7 +106,7 @@ public class BusinessProfileService {
     public void delete(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
-        businessProfile.adminValidate(user);
+        businessValidator.adminValidate(businessProfile, user);
 
         if (postRepository.existsByBusinessProfileId(businessProfileId)) {
             throw new InvalidOperationException("해당 비즈니스 프로필에 삭제되지 않은 게시물이 있습니다.");

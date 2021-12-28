@@ -41,7 +41,7 @@ public class BusinessProfileResponse {
                     .place(businessProfile.getPlace())
                     .placeDetail(businessProfile.getPlaceDetail())
                     .contact(businessProfile.getContact())
-                    .isAdmin(user.isAdminInBusinessProfile(businessProfile))
+                    .isAdmin(businessProfile.isAdminInBusinessProfile(user))
                     .numberOfEmployees(businessProfile.getUserBusinessProfileList().size());
             if (businessProfile.getAvatar() != null) {
                 return getOneBuilder.avatar(businessProfile.getAvatar().getUrl()).build();
@@ -64,7 +64,7 @@ public class BusinessProfileResponse {
             GetListBuilder getListBuilder = GetList.builder()
                     .id(businessProfile.getId())
                     .name(businessProfile.getName())
-                    .isAdmin(user.isAdminInBusinessProfile(businessProfile));
+                    .isAdmin(businessProfile.isAdminInBusinessProfile(user));
             if (businessProfile.getAvatar() != null) {
                 getListBuilder.avatar(businessProfile.getAvatar().getUrl());
             }

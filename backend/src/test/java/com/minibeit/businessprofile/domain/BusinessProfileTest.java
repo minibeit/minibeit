@@ -93,7 +93,7 @@ class BusinessProfileTest {
     @Test
     @DisplayName("비즈니스프로필의 어드민 변경")
     void changeAdmin() {
-        businessProfile.changeAdmin(admin, userInBusinessProfile);
+        businessProfile.changeAdmin(userInBusinessProfile);
         assertThat(businessProfile.getAdmin()).isEqualTo(userInBusinessProfile);
     }
 }

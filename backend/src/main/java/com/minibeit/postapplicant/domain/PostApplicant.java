@@ -78,6 +78,10 @@ public class PostApplicant extends BaseEntity {
         return false;
     }
 
+    public void evaluated() {
+        this.evaluatedBusiness = true;
+    }
+
     public static PostApplicant create(PostDoDate postDoDate, User user) {
         PostApplicant postApplicant = PostApplicant.builder()
                 .user(user)
@@ -89,10 +93,4 @@ public class PostApplicant extends BaseEntity {
         return postApplicant;
     }
 
-    public void evaluated(LocalDateTime now, User userInBusiness, Long businessProfileId) {
-        if (!writeUserReviewIsPossible(now) || !userInBusiness.userInBusiness(businessProfileId)) {
-            throw new PermissionException("참여자를 평가할 수 없습니다.");
-        }
-        this.evaluatedBusiness = true;
-    }
 }

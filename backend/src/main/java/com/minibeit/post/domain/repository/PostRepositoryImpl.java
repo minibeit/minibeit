@@ -117,6 +117,17 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
+    public Optional<Post> findGetOneByPostId(Long postId) {
+        return Optional.ofNullable(queryFactory.selectFrom(post)
+                .join(post.school).fetchJoin()
+                .join(post.businessProfile, businessProfile).fetchJoin()
+                .leftJoin(post.postFileList).fetchJoin()
+                .leftJoin(businessProfile.avatar).fetchJoin()
+                .where(post.id.eq(postId))
+                .fetchOne());
+    }
+
+    @Override
     public Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, LocalDateTime now, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.businessProfile).fetchJoin()

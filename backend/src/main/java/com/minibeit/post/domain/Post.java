@@ -5,6 +5,7 @@ import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.file.domain.PostFile;
 import com.minibeit.school.domain.School;
 import com.minibeit.security.userdetails.CustomUserDetails;
+import com.minibeit.user.domain.User;
 import lombok.*;
 
 import javax.persistence.*;
@@ -82,13 +83,13 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "school_id")
     private School school;
 
-    public boolean isLike(CustomUserDetails customUserDetails) {
-        return customUserDetails != null && this.postLikeList.stream().anyMatch(postLike -> postLike.getUser().getId().equals(customUserDetails.getUser().getId()));
+    public boolean isLike(User user) {
+        return user != null && this.postLikeList.stream().anyMatch(postLike -> postLike.getUser().getId().equals(user.getId()));
     }
 
-    public boolean isMine(CustomUserDetails customUserDetails) {
-        return customUserDetails != null && this.businessProfile.getUserBusinessProfileList().stream()
-                .anyMatch(userBusinessProfile -> userBusinessProfile.getUser().getId().equals(customUserDetails.getUser().getId()));
+    public boolean isMine(User user) {
+        return user != null && this.businessProfile.getUserBusinessProfileList().stream()
+                .anyMatch(userBusinessProfile -> userBusinessProfile.getUser().getId().equals(user.getId()));
     }
 
     public void completed() {
@@ -98,7 +99,6 @@ public class Post extends BaseEntity {
     public void updateContent(Post updatedPost) {
         this.content = updatedPost.getContent();
     }
-
 
     public void updateThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;

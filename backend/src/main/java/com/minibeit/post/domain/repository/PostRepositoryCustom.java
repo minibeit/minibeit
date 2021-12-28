@@ -24,4 +24,6 @@ public interface PostRepositoryCustom {
     Page<Post> findAllByLike(User user, Pageable pageable);
 
     Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus status, User user, LocalDateTime now, Pageable of);
+
+    Optional<Post> findGetOneByPostId(Long postId);
 }

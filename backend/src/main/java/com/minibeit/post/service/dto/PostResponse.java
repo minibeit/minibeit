@@ -2,9 +2,9 @@ package com.minibeit.post.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.collect.Sets;
-import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.postapplicant.domain.ApplyStatus;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
@@ -78,11 +78,14 @@ public class PostResponse {
                     .schoolName(post.getSchool().getName())
                     .startDate(post.getStartDate())
                     .endDate(post.getEndDate())
+                    .isMine(false)
+                    .isLike(false)
                     .files(post.getPostFileList().stream().map(PostFileDto.Image::build).collect(Collectors.toList()))
                     .businessProfileInfo(PostDto.BusinessProfileInfo.build(post.getBusinessProfile()))
-                    .isMine(post.isMine(customUserDetails))
-                    .isLike(post.isLike(customUserDetails))
                     .likes(post.getPostLikeList().size());
+            if (customUserDetails != null) {
+                getOneBuilder.isMine(post.isMine(customUserDetails.getUser())).isLike(post.isLike(customUserDetails.getUser()));
+            }
             if (post.getRecruitConditionDetail() != null) {
                 getOneBuilder.recruitConditionDetail(post.getRecruitConditionDetail().split("\\|"));
             }
@@ -141,8 +144,10 @@ public class PostResponse {
                     .recruitCondition(post.isRecruitCondition())
                     .doTime(post.getDoTime())
                     .businessProfileName(post.getBusinessProfile().getName())
-                    .isLike(post.isLike(customUserDetails))
                     .likes(post.getPostLikeList().size());
+            if (customUserDetails != null) {
+                builder.isLike(post.isLike(customUserDetails.getUser()));
+            }
             if (!post.getPostFileList().isEmpty()) {
                 builder.file(PostFileDto.Image.build(post.getPostFileList().get(0))).build();
             }

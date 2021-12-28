@@ -44,13 +44,12 @@ public class PostService {
     }
 
     public PostResponse.GetOne getOne(Long postId, CustomUserDetails customUserDetails) {
-        Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
+        Post post = postRepository.findGetOneByPostId(postId).orElseThrow(PostNotFoundException::new);
         return PostResponse.GetOne.build(post, customUserDetails);
     }
 
     public List<PostResponse.GetPostStartTime> getPostStartTimeList(Long postId, LocalDate doDate) {
         List<PostDoDate> postDoDateList = postDoDateRepository.findAllByPostIdAndDoDate(postId, doDate);
-
         return postDoDateList.stream().map(postDoDate -> PostResponse.GetPostStartTime.build(postDoDate, postDoDate.getPost())).collect(Collectors.toList());
     }
 

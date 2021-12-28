@@ -7,35 +7,26 @@ import CreateReviewModal from "../CreateReviewModal";
 
 import * as S from "../../style";
 import moment from "moment";
+import CancleAttend from "../../../Common/Alert/CancleAttend";
+import DeleteRejectList from "../../../Common/Alert/DeleteRejectList";
 
 export default function FeedBox({ status, data, changeFeedData }) {
   const history = useHistory();
   const [reviewModal, setReviewModal] = useState(false);
-
-  const doNotJoin = (e, postDoDateId) => {
-    e.stopPropagation();
-    let value = window.confirm("실험 참여를 취소하시겠습니까?");
-    if (value) {
-      doNotJoinApi(postDoDateId)
-        .then(() => {
-          toast.info("실험이 참여 취소 되었습니다.");
-          changeFeedData();
-        })
-        .catch((err) => toast.error("취소할 수 없는 실험입니다."));
-    }
+  const [cancleAttend, setCancleAttend] = useState(false);
+  const [secondAlert, setSecondAlert] = useState(false);
+  const doNotJoin = (postDoDateId) => {
+    doNotJoinApi(postDoDateId)
+      .then(() => {
+        setSecondAlert(true);
+      })
+      .catch((err) => toast.error("취소할 수 없는 실험입니다."));
   };
-
-  const doDelete = (e, postId) => {
-    e.stopPropagation();
-    let value = window.confirm("게시물을 리스트에서 삭제하시겠습니까?");
-    if (value) {
-      deleteRejectedApi(postId)
-        .then(() => {
-          toast.info("반려 게시물이 삭제되었습니다");
-          changeFeedData();
-        })
-        .catch((err) => toast.error("삭제할 수 없는 실험입니다."));
-    }
+  const [deleteRejectList, setDeleteRejectList] = useState(false);
+  const doDelete = (postId) => {
+    deleteRejectedApi(postId)
+      .then(() => setSecondAlert(true))
+      .catch((err) => toast.error("삭제할 수 없는 실험입니다."));
   };
 
   const doComplete = (e, postDoDateId) => {
@@ -105,13 +96,23 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 <S.BlueButton onClick={(e) => doComplete(e, data.postDoDateId)}>
                   참여 완료
                 </S.BlueButton>
-                <S.WhiteButton onClick={(e) => doNotJoin(e, data.postDoDateId)}>
+                <S.WhiteButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setCancleAttend(true);
+                  }}
+                >
                   참여 취소
                 </S.WhiteButton>
               </>
             )}
             {status === "wait" && (
-              <S.WhiteButton onClick={(e) => doNotJoin(e, data.postDoDateId)}>
+              <S.WhiteButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setCancleAttend(true);
+                }}
+              >
                 참여 취소
               </S.WhiteButton>
             )}
@@ -121,7 +122,12 @@ export default function FeedBox({ status, data, changeFeedData }) {
               </S.WhiteButton>
             )}
             {status === "reject" && (
-              <S.WhiteButton onClick={(e) => doDelete(e, data.id)}>
+              <S.WhiteButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setDeleteRejectList(true);
+                }}
+              >
                 삭제하기
               </S.WhiteButton>
             )}
@@ -133,6 +139,27 @@ export default function FeedBox({ status, data, changeFeedData }) {
           data={data}
           changeFeedData={changeFeedData}
           setModalSwitch={setReviewModal}
+        />
+      )}
+      {cancleAttend && (
+        <CancleAttend
+          setCancleAttend={setCancleAttend}
+          secondAlert={secondAlert}
+          setSecondAlert={setSecondAlert}
+          doNotJoin={doNotJoin}
+          id={data.postDoDateId}
+          changeFeedData={changeFeedData}
+        />
+      )}
+
+      {deleteRejectList && (
+        <DeleteRejectList
+          setDeleteRejectList={setDeleteRejectList}
+          secondAlert={secondAlert}
+          setSecondAlert={setSecondAlert}
+          doDelete={doDelete}
+          id={data.id}
+          changeFeedData={changeFeedData}
         />
       )}
     </>

@@ -3,6 +3,8 @@ import moment from "moment";
 import * as S from "./style";
 import RejectApplicant from "../../../Common/Alert/RejectApplicant";
 import AskCancelConfirm from "../../../Common/Alert/AskCancelConfirm";
+import AskAppove from "../../../Common/Alert/AskApprove";
+import AskAttendance from "../../../Common/Alert/AskAttendance";
 
 export default function Presenter({
   tab,
@@ -23,6 +25,12 @@ export default function Presenter({
   rejectApply,
   changeAttend,
   cancleOn,
+  setApproveUser,
+  approveUser,
+  setSecondAlert,
+  secondAlert,
+  askAttend,
+  setAskAttend,
 }) {
   return (
     <S.UserListView>
@@ -57,11 +65,7 @@ export default function Presenter({
                           {tab === "대기자" ? (
                             user.status === "WAIT" ? (
                               <S.ButtonBox>
-                                <S.Btn
-                                  onClick={() =>
-                                    applyApprove(time.postDoDateId, user.id)
-                                  }
-                                >
+                                <S.Btn onClick={() => setApproveUser(true)}>
                                   확정
                                 </S.Btn>
                                 <S.Btn onClick={viewRejectInput}>반려</S.Btn>
@@ -88,13 +92,7 @@ export default function Presenter({
                               </S.Btn>
                               <S.Btn
                                 attend={user.isAttend}
-                                onClick={(e) => {
-                                  changeAttend(
-                                    time.postDoDateId,
-                                    user.id,
-                                    user.isAttend
-                                  );
-                                }}
+                                onClick={() => setAskAttend(true)}
                               >
                                 {user.isAttend ? "불참" : "참여"}
                               </S.Btn>
@@ -109,6 +107,27 @@ export default function Presenter({
                           <button onClick={(e) => rejectOn(user, e)}>
                             확인
                           </button>
+                          {approveUser && (
+                            <AskAppove
+                              setApproveUser={setApproveUser}
+                              applyApprove={applyApprove}
+                              time={time.postDoDateId}
+                              id={user.id}
+                              setSecondAlert={setSecondAlert}
+                              secondAlert={secondAlert}
+                            />
+                          )}
+                          {askAttend && (
+                            <AskAttendance
+                              setAskAttend={setAskAttend}
+                              setSecondAlert={setSecondAlert}
+                              secondAlert={secondAlert}
+                              time={time.postDoDateId}
+                              id={user.id}
+                              isAttend={user.Attend}
+                              changeAttend={changeAttend}
+                            />
+                          )}
 
                           {rejectAlert && (
                             <RejectApplicant

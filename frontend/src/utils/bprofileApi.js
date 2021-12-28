@@ -75,13 +75,13 @@ export const getMakelistApi = async (businessId, page, status) => {
 };
 export const getWaitListApi = async (postId, doDate) => {
   return await withAuthInstance.get(
-    API_POST + postId + "/applicant/list?doDate=" + doDate + "&status=WAIT"
+    API_POST + postId + "/applicants?doDate=" + doDate + "&status=WAIT"
   );
 };
 
 export const getApproveListApi = async (postId, doDate) => {
   return await withAuthInstance.get(
-    API_POST + postId + "/applicant/list?doDate=" + doDate + "&status=APPROVE"
+    API_POST + postId + "/applicants?doDate=" + doDate + "&status=APPROVE"
   );
 };
 

@@ -20,6 +20,8 @@ export default function BManageModal({ feedData, setModalSwitch }) {
   const [tab, setTab] = useState("대기자");
   const [userList, setUserList] = useState([]);
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
+  const [approveUser, setApproveUser] = useState(false);
+  const [secondAlert, setSecondAlert] = useState(false);
 
   const getList = useCallback(() => {
     if (tab === "대기자") {
@@ -34,17 +36,14 @@ export default function BManageModal({ feedData, setModalSwitch }) {
   }, [date, tab, feedData]);
 
   const applyApprove = (postDoDateId, userId) => {
-    let value = window.confirm("해당 실험자의 실험 참여를 허락하시겠습니까?");
-    if (value) {
-      approveOneApi(postDoDateId, userId)
-        .then((res) => {
-          toast.info("해당 실험자의 실험 참여가 허락되었습니다");
-          getList();
-        })
-        .catch((err) =>
-          toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
-        );
-    }
+    approveOneApi(postDoDateId, userId)
+      .then((res) => {
+        setSecondAlert(true);
+        getList();
+      })
+      .catch((err) =>
+        toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
+      );
   };
 
   const viewRejectInput = (e) => {
@@ -88,25 +87,16 @@ export default function BManageModal({ feedData, setModalSwitch }) {
         );
     }
   };
-
+  const [askAttend, setAskAttend] = useState(false);
   const changeAttend = (postDoDateId, userId, status) => {
-    let value = window.confirm(
-      `해당 실험자를 ${status ? "'불참'" : "'참여'"} 처리하시겠습니까?`
-    );
-    if (value) {
-      setAttendApi(postDoDateId, userId, status ? false : true)
-        .then((res) => {
-          toast.info(
-            `해당 실험자의 실험 참여가 ${
-              status ? "'불참'" : "'참여'"
-            } 처리되었습니다`
-          );
-          getList();
-        })
-        .catch((err) =>
-          toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
-        );
-    }
+    setAttendApi(postDoDateId, userId, status ? false : true)
+      .then((res) => {
+        setSecondAlert(true);
+        getList();
+      })
+      .catch((err) =>
+        toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
+      );
   };
 
   const rejectOn = (user, e) => {
@@ -182,6 +172,12 @@ export default function BManageModal({ feedData, setModalSwitch }) {
             changeAttend={changeAttend}
             rejectOn={rejectOn}
             cancleOn={cancleOn}
+            approveUser={approveUser}
+            setApproveUser={setApproveUser}
+            secondAlert={secondAlert}
+            setSecondAlert={setSecondAlert}
+            setAskAttend={setAskAttend}
+            askAttend={askAttend}
           />
         </S.ModalContent>
       </S.ModalBox>

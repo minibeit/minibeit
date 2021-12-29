@@ -4,14 +4,14 @@ import * as S from "./style";
 
 // 개인정보법 동의 알림창...
 
-export default function PersonalInformation({ setConditionsAlert }) {
+export default function PersonalInformation({ setPersonalInfoAlert }) {
   return (
     <Portal>
       <S.AlertBox>
         <S.AlertContent>
           <div>
             <p>개인정보 보호법 및 시행령</p>
-            <div onClick={() => setConditionsAlert(false)}>×</div>
+            <div onClick={() => setPersonalInfoAlert(false)}>×</div>
           </div>
           <p>
             &lt; CLMOI &gt; ('[www.minibeit.com](http://www.minibeit.com/)'이하

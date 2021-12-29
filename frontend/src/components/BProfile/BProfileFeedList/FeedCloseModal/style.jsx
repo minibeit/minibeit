@@ -9,52 +9,13 @@ export const ModalBox = styled.div`
   width: 30rem;
   height: 22rem;
   border-radius: 2.2rem;
-  & > div:first-child {
-    display: flex;
-    justify-content: flex-end;
-    margin: 1.5rem;
+  & > svg {
+    position: relative;
     cursor: pointer;
-    & > svg {
-      width: 1rem;
-      height: 1rem;
-    }
-  }
-`;
-
-export const ModalBox2 = styled.div`
-  transform: translate(-50%, -50%);
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  background-color: white;
-  width: 30rem;
-  height: 22rem;
-  border-radius: 2.2rem;
-  & > div {
-    width: 30rem;
-    height: 22rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 2rem;
-    & > p {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin: 0 0 1rem;
-      text-align: center;
-
-      & > span {
-        color: #0642ff;
-      }
-    }
-    & > svg {
-      width: 2rem;
-      height: 2rem;
-      path {
-        fill: #0642ff;
-      }
-    }
+    float: right;
+    margin: 1.5rem;
+    width: 1rem;
+    height: 1rem;
   }
 `;
 
@@ -80,10 +41,14 @@ export const ModalContent = styled.div`
 
   & > p:nth-child(2) {
     font-weight: 700;
+    width: 25rem;
     font-size: 1.6rem;
     text-align: center;
     line-height: 1.875rem;
     margin-bottom: 1rem;
+    & span {
+      color: #0642ff;
+    }
   }
 
   & > div > div:nth-child(2) {

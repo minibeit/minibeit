@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Portal from "../Portal";
 import * as S from "./style";
 import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
@@ -8,10 +8,19 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 export default function DeliteBProfile({
   a,
   setDeleteAlert,
-  deleteBusiness,
-  setSecondAlert,
-  secondAlert,
+  deleteBprofile,
+  getBProfile,
 }) {
+  const [secondAlert, setSecondAlert] = useState(false);
+
+  const deleteBusiness = (data) => {
+    deleteBprofile(data.id)
+      .then((res) => {
+        setDeleteAlert(false);
+        getBProfile();
+      })
+      .catch((err) => setSecondAlert(true));
+  };
   return (
     <Portal>
       <S.AlertBox>

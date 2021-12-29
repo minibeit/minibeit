@@ -14,20 +14,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
   const history = useHistory();
   const [reviewModal, setReviewModal] = useState(false);
   const [cancleAttend, setCancleAttend] = useState(false);
-  const [secondAlert, setSecondAlert] = useState(false);
-  const doNotJoin = (postDoDateId) => {
-    doNotJoinApi(postDoDateId)
-      .then(() => {
-        setSecondAlert(true);
-      })
-      .catch((err) => toast.error("취소할 수 없는 실험입니다."));
-  };
   const [deleteRejectList, setDeleteRejectList] = useState(false);
-  const doDelete = (postId) => {
-    deleteRejectedApi(postId)
-      .then(() => setSecondAlert(true))
-      .catch((err) => toast.error("삭제할 수 없는 실험입니다."));
-  };
 
   const doComplete = (e, postDoDateId) => {
     e.stopPropagation();
@@ -144,9 +131,6 @@ export default function FeedBox({ status, data, changeFeedData }) {
       {cancleAttend && (
         <CancleAttend
           setCancleAttend={setCancleAttend}
-          secondAlert={secondAlert}
-          setSecondAlert={setSecondAlert}
-          doNotJoin={doNotJoin}
           id={data.postDoDateId}
           changeFeedData={changeFeedData}
         />
@@ -155,11 +139,10 @@ export default function FeedBox({ status, data, changeFeedData }) {
       {deleteRejectList && (
         <DeleteRejectList
           setDeleteRejectList={setDeleteRejectList}
-          secondAlert={secondAlert}
-          setSecondAlert={setSecondAlert}
-          doDelete={doDelete}
           id={data.id}
           changeFeedData={changeFeedData}
+          deleteRejectedApi={deleteRejectedApi}
+          doNotJoinApi={doNotJoinApi}
         />
       )}
     </>

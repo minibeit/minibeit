@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import Portal from "../Portal";
 import * as S from "./style";
 import { ReactComponent as InfoIcon } from "../../../..//svg/경고.svg";
+import { toast } from "react-toastify";
 
 export default function DeleteRejectList({
   setDeleteRejectList,
-  secondAlert,
-  setSecondAlert,
-  doDelete,
   id,
+  deleteRejectedApi,
   changeFeedData,
 }) {
+  const [secondAlert, setSecondAlert] = useState(false);
+  const doDelete = (postId) => {
+    deleteRejectedApi(postId)
+      .then(() => setSecondAlert(true))
+      .catch((err) => toast.error("삭제할 수 없는 실험입니다."));
+  };
   return (
     <Portal>
       <S.AlertBox>

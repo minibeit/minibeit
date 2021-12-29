@@ -6,12 +6,7 @@ import { toast } from "react-toastify";
 
 //신청을 완료할것인지 묻는 알림창
 
-export default function AskleteApplication({
-  setApplyAlert,
-  apply,
-  applyAlert,
-  applyApi,
-}) {
+export default function AskleteApplication({ setApplyAlert, apply, applyApi }) {
   const history = useHistory();
 
   const doMonth = apply.doDate.substring(5, 7);

@@ -69,9 +69,7 @@ export default function FeedCloseModal({
     <Portal>
       {!secondAlert ? (
         <S.ModalBox>
-          <div>
-            <CloseIcon onClick={() => setCloseModal(false)} />
-          </div>
+          <CloseIcon onClick={() => setCloseModal(false)} />
           <S.ModalContent>
             <InfoIcon />
             <p>종료 사유를 알려주세요</p>
@@ -104,8 +102,8 @@ export default function FeedCloseModal({
           </S.ModalContent>
         </S.ModalBox>
       ) : (
-        <S.ModalBox2>
-          <div>
+        <S.ModalBox>
+          <S.ModalContent>
             <InfoIcon />
             <p>
               해당 모집 공고의
@@ -120,8 +118,8 @@ export default function FeedCloseModal({
             >
               닫기
             </S.BlueButton>
-          </div>
-        </S.ModalBox2>
+          </S.ModalContent>
+        </S.ModalBox>
       )}
     </Portal>
   );

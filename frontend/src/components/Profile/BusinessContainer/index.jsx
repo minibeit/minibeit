@@ -4,33 +4,18 @@ import { ReactComponent as CloseIcon } from "../../../svg/엑스.svg";
 import { ReactComponent as AddIcon } from "../../../svg/플러스.svg";
 import { ReactComponent as PenIcon } from "../../../svg/연필.svg";
 import DeleteBProfile from "../../Common/Alert/DeleteBProfile";
-
 import { bprofileListGet, deleteBprofile } from "../../../utils";
 import { PVImg } from "../../Common";
 import BProfileCreateModal from "../../Common/Modal/BProfileCreateModal";
-
 import * as S from "../style";
 import { useCallback } from "react";
 
 export default function BusinessContainer() {
+  const history = useHistory();
   const [modalSwitch, setModalSwitch] = useState(false);
-
   const [BProfileList, setBProfileList] = useState([]);
   const [editMode, setEditMode] = useState(false);
-  const history = useHistory();
-
   const [deleteAlert, setDeleteAlert] = useState(false);
-  const [secondAlert, setSecondAlert] = useState(false);
-
-  const deleteBusiness = (data) => {
-    deleteBprofile(data.id)
-      .then((res) => {
-        setDeleteAlert(false);
-        getBProfile();
-      })
-      .catch((err) => setSecondAlert(true));
-  };
-
   const getBProfile = useCallback(() => {
     bprofileListGet().then((res) => setBProfileList(res.data.data));
   }, []);
@@ -84,10 +69,9 @@ export default function BusinessContainer() {
               {deleteAlert && (
                 <DeleteBProfile
                   a={a}
-                  deleteBusiness={deleteBusiness}
+                  deleteBprofile={deleteBprofile}
                   setDeleteAlert={setDeleteAlert}
-                  setSecondAlert={setSecondAlert}
-                  secondAlert={secondAlert}
+                  getBProfile={getBProfile}
                 />
               )}
             </S.BusinessProfile>

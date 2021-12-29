@@ -19,17 +19,6 @@ const moveSearchBar = keyframes`
   }
 `;
 
-export const ListPageContainer = styled.div`
-  margin: 4rem 13rem;
-  min-height: 70vh;
-  & > div:nth-child(2) {
-    display: flex;
-    gap: 1rem;
-    padding: 1rem 0;
-    border-bottom: 1px solid #c4c4c4;
-    align-items: center;
-  }
-`;
 export const FilterBtn = styled.button`
   display: flex;
   align-items: center;
@@ -129,6 +118,7 @@ export const SearchBox = styled.div`
   flex-direction: column;
   gap: 1rem;
   transform: translate(0, 70%);
+  margin: 1rem 0;
   ${({ centerView }) =>
     !centerView &&
     css`

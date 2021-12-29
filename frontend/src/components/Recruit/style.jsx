@@ -21,7 +21,7 @@ const fadeIn = () => {
 
 /* Common */
 export const Page = styled.div`
-  min-height: 100vh;
+  min-height: 70vh;
   max-width: 100%;
   display: flex;
   justify-content: center;

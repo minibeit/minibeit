@@ -52,43 +52,6 @@ export default function Presenter({
                   </S.PaymentBox>
                 </S.FeedInfoData>
               </S.FeedContentView>
-              {/* <div>
-                <img
-                  alt="썸네일"
-                  src={a.file ? a.file.url : "/images/기본프로필.png"}
-                />
-                <div>
-                  <div onClick={(e) => clickBookmark(a, e)}>
-                    <Star />
-                    <p>{a.likes}</p>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <S.FeedHeader isLike={a.isLike}>
-                  <p>{a.title}</p>
-                  <div>
-                    <Home />
-                    <p>{a.businessProfileName}</p>
-                  </div>
-                </S.FeedHeader>
-                <S.FeedInfoData
-                  payment={a.payment}
-                  condition={a.recruitCondition}
-                >
-                  <p>소요시간: {a.doTime}분</p>
-                  <div>참여조건 {a.recruitCondition ? "있음" : "없음"}</div>
-                  {a.payment === "CACHE" ? (
-                    <div>
-                      <span>현금</span> {a.cache}원
-                    </div>
-                  ) : (
-                    <div>
-                      <span>물품</span> {a.goods}
-                    </div>
-                  )}
-                </S.FeedInfoData>
-              </div> */}
             </S.FeedBox>
           );
         })

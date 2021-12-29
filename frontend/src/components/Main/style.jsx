@@ -10,14 +10,7 @@ const fadeIn = keyframes`
     opacity: 1;
   }
 `;
-export const BackGround = styled.div`
-  width: 100vw;
-  background-color: #fff;
-  overflow-x: hidden;
-  max-width: 100%;
-`;
 export const MainBox = styled.div`
-  width: 100vw;
   height: calc(100vh - 3.5rem);
   position: relative;
   animation: ${fadeIn} 2s ease-in;
@@ -60,7 +53,6 @@ export const MainBox = styled.div`
 `;
 
 export const MainBox2 = styled.div`
-  width: 100vw;
   height: calc(100vh - 3.5rem);
   background: #f6fbff;
   display: flex;
@@ -145,7 +137,6 @@ export const BlueButton = styled(Button)`
 `;
 
 export const LastBox = styled.div`
-  width: 100vw;
   height: 100vh;
   position: relative;
   & > div {

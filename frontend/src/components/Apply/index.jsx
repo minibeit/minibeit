@@ -51,7 +51,7 @@ export default function ApplyComponent({ page }) {
   }, [search, page, school.schoolId, user.schoolId]);
 
   return (
-    <S.ListPageContainer>
+    <>
       <SearchBar
         page={page}
         school={school}
@@ -89,6 +89,6 @@ export default function ApplyComponent({ page }) {
           )}
         </>
       )}
-    </S.ListPageContainer>
+    </>
   );
 }

@@ -11,19 +11,6 @@ const fadeIn = keyframes`
   }
 `;
 
-export const ProfilePage = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  max-width: 100%;
-  width: 100vw;
-  padding: 3rem 0;
-  background: #f3f3f3;
-  & > div:first-child {
-    width: 80%;
-    height: 80%;
-  }
-`;
 export const ModeSelectBtn = styled.button`
   background: #e5e5e5;
   border: none;

@@ -19,17 +19,6 @@ const moveSearchBar = keyframes`
   }
 `;
 
-export const ListPageContainer = styled.div`
-  margin: 4rem 13rem;
-  min-height: 70vh;
-  & > div:nth-child(2) {
-    display: flex;
-    gap: 1rem;
-    padding: 1rem 0;
-    border-bottom: 1px solid #c4c4c4;
-    align-items: center;
-  }
-`;
 export const FilterBtn = styled.button`
   display: flex;
   align-items: center;
@@ -127,8 +116,11 @@ export const CategoryBtn = styled.button`
 export const SearchBox = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
   gap: 1rem;
   transform: translate(0, 70%);
+  margin: 1rem 0;
   ${({ centerView }) =>
     !centerView &&
     css`
@@ -369,7 +361,6 @@ export const FeedContentView = styled.div`
   flex: 2;
   height: auto;
   padding: 1.5em;
-  max-width: 35em;
   gap: 0.5em;
 `;
 export const FeedHeader = styled.div`
@@ -396,6 +387,7 @@ export const FeedInfoData = styled.div`
   display: flex;
   gap: 1em;
   margin-top: auto;
+  flex-wrap: wrap;
   & > div {
     white-space: nowrap;
     display: flex;
@@ -429,7 +421,6 @@ export const RecruitTag = styled(Tag)`
 `;
 export const PaymentBox = styled.div`
   color: #505050;
-  min-width: 15em;
   & > span {
     color: ${({ payment }) => (payment === "CACHE" ? "#00BB34" : "#3558C7")};
   }

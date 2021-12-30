@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const NavBar = styled.div`
   display: flex;
@@ -25,13 +25,13 @@ export const NavItems = styled.div`
   justify-content: center;
   padding: 10px;
   gap: 1em;
-  cursor: pointer;
   @media only screen and (max-width: 700px) {
     display: none;
   }
 `;
 export const Items = styled.div`
   color: #595959;
+  cursor: pointer;
 `;
 export const AuthBox = styled.div`
   display: flex;
@@ -46,8 +46,17 @@ export const AuthBox = styled.div`
 export const ProfileImg = styled.div`
   background-image: ${({ img }) =>
     img !== "noImg" ? `url(${img})` : 'url("/images/기본프로필.png")'};
-  height: 3em;
-  width: 3em;
+  ${({ sideMenu }) =>
+    sideMenu
+      ? css`
+          width: 5em;
+          height: 5em;
+        `
+      : css`
+          width: 3em;
+          height: 3em;
+        `}
+
   border-radius: 50%;
   background-size: cover;
   cursor: pointer;
@@ -66,4 +75,32 @@ export const LoginBtn = styled.button`
     color: #f8f8f8;
   }
 `;
-export const MobileListBtn = styled.div``;
+export const MobileListBtn = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: auto;
+  @media only screen and (min-width: 700px) {
+    display: none;
+  }
+`;
+export const SideMenu = styled.div`
+  min-width: 10em;
+  & > div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    padding: 1.5em;
+    border-bottom: 1px solid #c4c4c4;
+  }
+  & > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    padding: 1.5em;
+  }
+`;

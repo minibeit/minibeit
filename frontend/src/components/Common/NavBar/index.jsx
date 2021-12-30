@@ -6,6 +6,7 @@ import { userState } from "../../../recoil/userState";
 import { logoutFunc } from "../../../utils/auth";
 import CreateAuthModal from "../Modal/CreateAuthModal";
 import SideMenu from "./SideMenu";
+import MenuIcon from "@mui/icons-material/Menu";
 
 import * as S from "./style";
 
@@ -60,9 +61,17 @@ export default function NavBar() {
         </S.LoginBtn>
       </S.AuthBox>
       <S.MobileListBtn onClick={() => setMenuSwitch(true)}>
-        목록
+        <MenuIcon />
       </S.MobileListBtn>
-      {menuSwitch && <SideMenu setMenuSwitch={setMenuSwitch} />}
+      {menuSwitch && (
+        <SideMenu
+          user={user}
+          onClick={onClick}
+          isLogin={isLogin}
+          setMenuSwitch={setMenuSwitch}
+          setModalSwitch={setModalSwitch}
+        />
+      )}
       {modalSwitch && (
         <CreateAuthModal
           setModalSwitch={setModalSwitch}

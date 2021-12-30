@@ -1,8 +1,8 @@
-package com.minibeit.postapplicant.domain.repository;
+package com.minibeit.post.domain.repository;
 
-import com.minibeit.postapplicant.domain.ApplyStatus;
-import com.minibeit.postapplicant.domain.PostApplicant;
-import com.minibeit.postapplicant.service.dto.PostApplicantDto;
+import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.post.domain.PostApplicant;
+import com.minibeit.post.service.dto.PostApplicantDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

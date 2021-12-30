@@ -1,7 +1,7 @@
-package com.minibeit.postapplicant.domain.repository;
+package com.minibeit.post.domain.repository;
 
-import com.minibeit.postapplicant.domain.ApplyStatus;
-import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.post.domain.PostApplicant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

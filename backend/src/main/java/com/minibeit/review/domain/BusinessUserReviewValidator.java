@@ -1,8 +1,8 @@
-package com.minibeit.review.service;
+package com.minibeit.review.domain;
 
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.post.domain.PostApplicant;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;

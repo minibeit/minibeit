@@ -1,4 +1,4 @@
-package com.minibeit.postapplicant.service.dto;
+package com.minibeit.post.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;

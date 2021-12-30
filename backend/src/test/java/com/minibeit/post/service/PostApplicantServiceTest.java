@@ -1,4 +1,4 @@
-package com.minibeit.postapplicant.service;
+package com.minibeit.post.service;
 
 import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
@@ -15,13 +15,14 @@ import com.minibeit.post.domain.PostLike;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.service.PostApplicantService;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
 import com.minibeit.post.service.exception.PostDoDateNotFoundException;
-import com.minibeit.postapplicant.domain.ApplyStatus;
-import com.minibeit.postapplicant.domain.PostApplicant;
-import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
-import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
+import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.post.domain.PostApplicant;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;

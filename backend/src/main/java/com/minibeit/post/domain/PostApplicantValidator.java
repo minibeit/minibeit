@@ -1,4 +1,4 @@
-package com.minibeit.postapplicant.service;
+package com.minibeit.post.domain;
 
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.common.exception.DuplicateException;
@@ -6,8 +6,8 @@ import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.postapplicant.domain.ApplyStatus;
-import com.minibeit.postapplicant.domain.PostApplicant;
+import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

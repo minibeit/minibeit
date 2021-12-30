@@ -1,8 +1,8 @@
-package com.minibeit.file.domain;
+package com.minibeit.post.domain;
 
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.file.service.dto.SavedFile;
-import com.minibeit.post.domain.Post;
+import com.minibeit.file.domain.FileServer;
+import com.minibeit.file.domain.FileType;
 import lombok.*;
 
 import javax.persistence.*;

@@ -1,4 +1,4 @@
-package com.minibeit.businessprofile.service;
+package com.minibeit.businessprofile.domain;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;

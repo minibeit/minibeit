@@ -7,7 +7,7 @@ import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
-import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.security.userdetails.CustomUserDetails;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;

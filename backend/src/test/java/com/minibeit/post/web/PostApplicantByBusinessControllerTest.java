@@ -1,11 +1,12 @@
-package com.minibeit.postapplicant.web;
+package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.postapplicant.domain.ApplyStatus;
-import com.minibeit.postapplicant.service.dto.PostApplicantDto;
-import com.minibeit.postapplicant.service.dto.PostApplicantRequest;
-import com.minibeit.postapplicant.service.dto.PostApplicantResponse;
-import com.minibeit.postapplicant.service.PostApplicantByBusinessService;
+import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.post.service.dto.PostApplicantDto;
+import com.minibeit.post.service.dto.PostApplicantRequest;
+import com.minibeit.post.service.dto.PostApplicantResponse;
+import com.minibeit.post.service.PostApplicantByBusinessService;
+import com.minibeit.post.web.PostApplicantByBusinessController;
 import com.minibeit.user.domain.Gender;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

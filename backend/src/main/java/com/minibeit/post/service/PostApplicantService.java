@@ -1,17 +1,14 @@
-package com.minibeit.postapplicant.service;
+package com.minibeit.post.service;
 
 import com.minibeit.mail.service.MailService;
 import com.minibeit.mail.service.dto.condition.MailCondition;
-import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.service.exception.PostDoDateNotFoundException;
-import com.minibeit.postapplicant.domain.ApplyStatus;
-import com.minibeit.postapplicant.domain.PostApplicant;
-import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
-import com.minibeit.postapplicant.service.dto.PostApplicantResponse;
-import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.post.service.dto.PostApplicantResponse;
+import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

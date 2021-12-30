@@ -1,6 +1,6 @@
 package com.minibeit.post.service.dto;
 
-import com.minibeit.file.domain.PostFile;
+import com.minibeit.post.domain.PostFile;
 import lombok.*;
 
 public class PostFileDto {

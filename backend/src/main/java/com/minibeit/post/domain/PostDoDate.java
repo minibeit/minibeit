@@ -1,7 +1,6 @@
 package com.minibeit.post.domain;
 
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.postapplicant.domain.PostApplicant;
 import lombok.*;
 
 import javax.persistence.*;

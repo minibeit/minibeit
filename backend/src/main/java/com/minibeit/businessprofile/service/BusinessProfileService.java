@@ -1,6 +1,7 @@
 package com.minibeit.businessprofile.service;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.businessprofile.domain.BusinessValidator;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
@@ -8,7 +9,6 @@ import com.minibeit.businessprofile.service.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.service.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
-import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.file.domain.Avatar;
 import com.minibeit.file.service.AvatarService;
 import com.minibeit.user.domain.User;

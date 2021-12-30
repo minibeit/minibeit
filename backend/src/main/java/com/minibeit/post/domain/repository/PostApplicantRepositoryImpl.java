@@ -1,9 +1,9 @@
-package com.minibeit.postapplicant.domain.repository;
+package com.minibeit.post.domain.repository;
 
-import com.minibeit.postapplicant.domain.ApplyStatus;
-import com.minibeit.postapplicant.domain.PostApplicant;
-import com.minibeit.postapplicant.service.dto.PostApplicantDto;
-import com.minibeit.postapplicant.service.dto.QPostApplicantDto_UserInfo;
+import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.post.domain.PostApplicant;
+import com.minibeit.post.service.dto.PostApplicantDto;
+import com.minibeit.post.service.dto.QPostApplicantDto_UserInfo;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.minibeit.post.domain.QPost.post;
+import static com.minibeit.post.domain.QPostApplicant.postApplicant;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
-import static com.minibeit.postapplicant.domain.QPostApplicant.postApplicant;
 import static com.minibeit.user.domain.QUser.user;
 
 @RequiredArgsConstructor

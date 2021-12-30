@@ -1,4 +1,4 @@
-package com.minibeit.postapplicant.service.exception;
+package com.minibeit.post.service.exception;
 
 import com.minibeit.common.exception.EntityNotFoundException;
 

@@ -1,20 +1,28 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { logoutFunc } from "../../../utils/auth";
 import CreateAuthModal from "../Modal/CreateAuthModal";
+import SideMenu from "./SideMenu";
+import MenuIcon from "@mui/icons-material/Menu";
+
 import * as S from "./style";
 
 export default function NavBar() {
   const user = useRecoilValue(userState);
   const history = useHistory();
   const [modalSwitch, setModalSwitch] = useState(false);
+  const [menuSwitch, setMenuSwitch] = useState(false);
   const isLogin = user.isLogin;
+
   const onClick = () => {
-    setModalSwitch(true);
+    if (isLogin) {
+      logout();
+    } else {
+      setModalSwitch(true);
+    }
   };
 
   const logout = () => {
@@ -28,58 +36,48 @@ export default function NavBar() {
   };
 
   return (
-    <S.NavBarContainer>
-      <S.NavBarLogoContainer>
-        <Link to="/">
-          <p>MINI</p>
-        </Link>
-        <S.NavBarMenu>
-          <Link to="/apply">
-            <p>참여하기</p>
-          </Link>
-        </S.NavBarMenu>
-        <S.NavBarMenu
+    <S.NavBar>
+      <S.Logo onClick={() => history.push("/")}>MINI</S.Logo>
+      <S.NavItems>
+        <S.Items onClick={() => history.push("/apply")}>참여하기</S.Items>
+        <S.Items
           onClick={() =>
             isLogin ? history.push("/recruit") : setModalSwitch(true)
           }
         >
-          <p>모집하기</p>
-        </S.NavBarMenu>
-        <S.NavBarMenu>
-          <Link to="/">
-            <p>이용하기</p>
-          </Link>
-        </S.NavBarMenu>
-      </S.NavBarLogoContainer>
-      <S.NavBarMenuContainer>
-        {user.isLogin === true ? (
-          <>
-            <Link to={"/profile?approve"}>
-              <img
-                src={
-                  user.avatar !== "noImg"
-                    ? user.avatar
-                    : "/images/기본프로필.png"
-                }
-                alt="사진"
-              />
-            </Link>
-            <S.NavBarAuth>
-              <p onClick={logout}>로그아웃</p>
-            </S.NavBarAuth>
-          </>
-        ) : (
-          <S.NavBarAuth>
-            <p onClick={onClick}>시작하기</p>
-            {modalSwitch ? (
-              <CreateAuthModal
-                setModalSwitch={setModalSwitch}
-                modalSwitch={modalSwitch}
-              />
-            ) : null}
-          </S.NavBarAuth>
+          모집하기
+        </S.Items>
+        <S.Items>이용하기</S.Items>
+      </S.NavItems>
+      <S.AuthBox>
+        {isLogin && (
+          <S.ProfileImg
+            img={user.avatar}
+            onClick={() => history.push("/profile?approve")}
+          />
         )}
-      </S.NavBarMenuContainer>
-    </S.NavBarContainer>
+        <S.LoginBtn onClick={onClick}>
+          {isLogin ? "로그아웃" : "로그인"}
+        </S.LoginBtn>
+      </S.AuthBox>
+      <S.MobileListBtn onClick={() => setMenuSwitch(true)}>
+        <MenuIcon />
+      </S.MobileListBtn>
+      {menuSwitch && (
+        <SideMenu
+          user={user}
+          onClick={onClick}
+          isLogin={isLogin}
+          setMenuSwitch={setMenuSwitch}
+          setModalSwitch={setModalSwitch}
+        />
+      )}
+      {modalSwitch && (
+        <CreateAuthModal
+          setModalSwitch={setModalSwitch}
+          modalSwitch={modalSwitch}
+        />
+      )}
+    </S.NavBar>
   );
 }

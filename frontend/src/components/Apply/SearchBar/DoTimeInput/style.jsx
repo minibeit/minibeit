@@ -21,7 +21,6 @@ export const Wrapper = styled.div`
   z-index: 99;
   flex-direction: column;
   gap: 0.5rem;
-  max-height: 10rem;
   max-width: 20rem;
   padding: 2rem;
   background: #ffffff;

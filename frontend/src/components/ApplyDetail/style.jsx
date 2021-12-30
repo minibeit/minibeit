@@ -16,14 +16,6 @@ transform:translateY(0);
 
 }
 `;
-export const FeedContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  & > div {
-    padding: 5rem 10rem;
-  }
-`;
 
 export const UnderTitle = styled.div`
   position: relative;

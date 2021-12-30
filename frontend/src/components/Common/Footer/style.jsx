@@ -10,7 +10,7 @@ export const FooterContainer = styled.div`
 `;
 export const FooterHeader = styled.div`
   display: flex;
-  gap: 2em;
+  gap: 0.5em 2em;
   align-items: center;
   border-bottom: 1px solid #afafaf;
   padding: 1em;

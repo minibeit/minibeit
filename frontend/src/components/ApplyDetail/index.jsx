@@ -89,40 +89,38 @@ export default function ApplyDetailComponent({ feedId, date }) {
   }, [feedId, getFeedDetail, resetApply]);
 
   return (
-    <S.FeedContainer>
-      <div>
-        {feedDetailData && (
-          <TitleContiner
+    <div>
+      {feedDetailData && (
+        <TitleContiner
+          feedDetailData={feedDetailData}
+          clickBookmark={clickBookmark}
+        />
+      )}
+      {feedDetailData && (
+        <S.UnderTitle>
+          <FeedInfoContainer
             feedDetailData={feedDetailData}
-            clickBookmark={clickBookmark}
+            date={date}
+            editDetail={editDetail}
+            sliderSwitch={sliderSwitch}
+            setSliderSwitch={setSliderSwitch}
           />
-        )}
-        {feedDetailData && (
-          <S.UnderTitle>
-            <FeedInfoContainer
-              feedDetailData={feedDetailData}
-              date={date}
-              editDetail={editDetail}
-              sliderSwitch={sliderSwitch}
-              setSliderSwitch={setSliderSwitch}
-            />
-            <ApplyController
+          <ApplyController
+            apply={apply}
+            feedDetailData={feedDetailData}
+            checkLogin={checkLogin}
+          />
+          {applyAlert && (
+            <AskCompleteApplication
               apply={apply}
-              feedDetailData={feedDetailData}
-              checkLogin={checkLogin}
+              setApplyAlert={setApplyAlert}
+              applyAlert={applyAlert}
+              applyApi={applyApi}
             />
-            {applyAlert && (
-              <AskCompleteApplication
-                apply={apply}
-                setApplyAlert={setApplyAlert}
-                applyAlert={applyAlert}
-                applyApi={applyApi}
-              />
-            )}
-            {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
-          </S.UnderTitle>
-        )}
-      </div>
-    </S.FeedContainer>
+          )}
+          {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
+        </S.UnderTitle>
+      )}
+    </div>
   );
 }

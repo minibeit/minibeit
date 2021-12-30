@@ -1,11 +1,5 @@
 import styled from "styled-components";
 
-export const Background = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: #ffffff;
-`;
-
 export const Box = styled.div`
   transform: translate(-50%, -50%);
   position: absolute;

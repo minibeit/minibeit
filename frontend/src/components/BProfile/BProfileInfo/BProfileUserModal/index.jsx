@@ -40,46 +40,42 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
         .catch((err) => toast.error("초대가 불가능한 유저입니다"));
     }
   };
+  const [exceptUser, setExceptUser] = useState(false);
+  const [secondAlert, setSecondAlert] = useState(false);
+  const [user, setUser] = useState("");
 
   const deleteUser = (user) => {
-    let value = window.confirm(
-      `${user.nickname}님을 그룹에서 제외하시겠습니까?`
-    );
-    if (value) {
-      bprofileJoinDel(businessId, user.id)
-        .then(() => {
-          toast.info(user.nickname + "님이 그룹에서 제외되었습니다");
-          getUsergroup();
-        })
-        .catch((err) => {
-          if (
-            err.response.data.error.type ===
-            "BusinessProfileAdminCantCancelException"
-          ) {
-            toast.error("관리자 유저는 제외시킬 수 없습니다");
-          } else {
-            toast.error("제외시킬 수 없는 유저입니다");
-          }
-        });
-    }
+    bprofileJoinDel(businessId, user.id)
+      .then(() => {
+        setSecondAlert(true);
+        getUsergroup();
+      })
+      .catch((err) => {
+        if (
+          err.response.data.error.type ===
+          "BusinessProfileAdminCantCancelException"
+        ) {
+          toast.error("관리자 유저는 제외시킬 수 없습니다");
+        } else {
+          toast.error("제외시킬 수 없는 유저입니다");
+        }
+      });
   };
-
+  const [askChangeAdmin, setchangeAdmin] = useState(false);
   const changeAdmin = (user) => {
-    if (user === "") {
+    if (user !== "") {
+      assignChange(businessId, user.id)
+        .then(() => {
+          toast.info("관리자가 양도되었습니다");
+          setEditCheifMode(!editCheifMode);
+          setModalSwitch(false);
+          setchangeAdmin(false);
+          history.push("/business/" + businessId);
+          history.go(0);
+        })
+        .catch((err) => toast.error("관리자가 될 수 없는 유저입니다"));
     } else {
-      let value = window.confirm("관리자를 양도하시겠습니까?");
-      if (value) {
-        assignChange(businessId, user.id)
-          .then(() => {
-            toast.info("관리자가 양도되었습니다");
-            setModalSwitch(false);
-            history.push("/business/" + businessId);
-            history.go(0);
-          })
-          .catch((err) => toast.error("관리자가 될 수 없는 유저입니다"));
-      } else {
-        setAdminName("");
-      }
+      setAdminName("");
     }
   };
 
@@ -110,6 +106,14 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
             setEditUserMode={setEditUserMode}
             editCheifMode={editCheifMode}
             setEditCheifMode={setEditCheifMode}
+            setExceptUser={setExceptUser}
+            secondAlert={secondAlert}
+            setSecondAlert={setSecondAlert}
+            exceptUser={exceptUser}
+            askChangeAdmin={askChangeAdmin}
+            setchangeAdmin={setchangeAdmin}
+            user={user}
+            setUser={setUser}
           />
         </S.ModalContent>
       </S.ModalBox>

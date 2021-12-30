@@ -11,7 +11,7 @@ export default function Conditions({ setConditionsAlert }) {
         <S.AlertContent>
           <div>
             <p>이용 약관</p>
-            <div onClick={() => setConditionsAlert(0)}>×</div>
+            <div onClick={() => setConditionsAlert(false)}>×</div>
           </div>
           <div>
             <p>

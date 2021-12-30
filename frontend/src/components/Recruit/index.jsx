@@ -18,7 +18,8 @@ export default function RecruitComponent() {
   const userId = useRecoilValue(userState).id;
   const isLogin = useRecoilValue(userState).isLogin;
   const [bpList, setbpList] = useState([]);
-  const [askComplete, setAskComplete] = useState(0);
+  const [askComplete, setAskComplete] = useState(false);
+  const [notEnough, setNotEnough] = useState(false);
 
   const getbpList = useCallback(async () => {
     await bprofileListGet(userId)
@@ -28,9 +29,9 @@ export default function RecruitComponent() {
 
   const clickSubmit = () => {
     if (recruit.title !== "") {
-      setAskComplete(1);
+      setAskComplete(true);
     } else {
-      setAskComplete(2);
+      setNotEnough(true);
     }
   };
 
@@ -43,7 +44,7 @@ export default function RecruitComponent() {
         })
         .catch((err) => {
           toast.error("게시물 작성에 실패했습니다");
-          setAskComplete(0);
+          setAskComplete(false);
         });
     }
   };
@@ -102,6 +103,8 @@ export default function RecruitComponent() {
           setAskComplete={setAskComplete}
           askComplete={askComplete}
           clickSubmit={clickSubmit}
+          notEnough={notEnough}
+          setNotEnough={setNotEnough}
         />
       )}
     </div>

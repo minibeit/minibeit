@@ -7,30 +7,14 @@ import * as S from "../../style";
 import { feedDeleteApi } from "../../../../utils";
 import FeedCloseModal from "../FeedCloseModal";
 import BManageModal from "../BManageModal";
-import EndRecruting from "../../../Common/Alert/EndRecruting";
-import EndSchedule from "../../../Common/Alert/EndSchedule";
 import AskEndSchedule from "../../../Common/Alert/AskEndSchedule";
-import { toast } from "react-toastify";
 
 export default function FeedBox({ status, data, changeFeedData }) {
   const history = useHistory();
   const [manageModal, setManageModal] = useState(false);
-  const [closeModal, setCloseModal] = useState(0);
-  const [endAlert, setEndAlert] = useState(0);
+  const [closeModal, setCloseModal] = useState(false);
+  const [endAlert, setEndAlert] = useState(false);
 
-  const deleteFeed = async (id) => {
-    await feedDeleteApi(id)
-      .then(() => {
-        setEndAlert(2);
-        // changeFeedData("완료된 모집공고");
-      })
-      .catch(() => {
-        toast.error(
-          "삭제할 수 없는 게시물입니다. 확정자가 있는지 확인해주세요."
-        );
-        setEndAlert(0);
-      });
-  };
   return (
     <>
       <S.FeedBox
@@ -81,7 +65,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 <S.WhiteButton
                   onClick={(e) => {
                     e.stopPropagation();
-                    setCloseModal(1);
+                    setCloseModal(true);
                   }}
                 >
                   모집 종료
@@ -92,7 +76,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
               <S.WhiteButton
                 onClick={(e) => {
                   e.stopPropagation();
-                  setEndAlert(1);
+                  setEndAlert(true);
                 }}
               >
                 일정 종료
@@ -104,7 +88,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
       {manageModal && (
         <BManageModal feedData={data} setModalSwitch={setManageModal} />
       )}
-      {closeModal === 1 && (
+      {closeModal && (
         <FeedCloseModal
           postId={data.id}
           closeModal={closeModal}
@@ -112,23 +96,13 @@ export default function FeedBox({ status, data, changeFeedData }) {
           setCloseModal={setCloseModal}
         />
       )}
-      {closeModal === 2 && (
-        <EndRecruting
-          changeFeedData={changeFeedData}
-          setCloseModal={setCloseModal}
-        />
-      )}
-      {endAlert === 1 && (
+
+      {endAlert && (
         <AskEndSchedule
           setEndAlert={setEndAlert}
-          deleteFeed={deleteFeed}
           data={data}
-        />
-      )}
-      {endAlert === 2 && (
-        <EndSchedule
-          setEndAlert={setEndAlert}
           changeFeedData={changeFeedData}
+          feedDeleteApi={feedDeleteApi}
         />
       )}
     </>

@@ -9,15 +9,13 @@ export const ModalBox = styled.div`
   width: 30rem;
   height: 22rem;
   border-radius: 2.2rem;
-  & > div:first-child {
-    display: flex;
-    justify-content: flex-end;
-    margin: 1.5rem;
+  & > svg {
+    position: relative;
     cursor: pointer;
-    & > svg {
-      width: 1rem;
-      height: 1rem;
-    }
+    float: right;
+    margin: 1.5rem;
+    width: 1rem;
+    height: 1rem;
   }
 `;
 
@@ -43,10 +41,14 @@ export const ModalContent = styled.div`
 
   & > p:nth-child(2) {
     font-weight: 700;
+    width: 25rem;
     font-size: 1.6rem;
     text-align: center;
     line-height: 1.875rem;
     margin-bottom: 1rem;
+    & span {
+      color: #0642ff;
+    }
   }
 
   & > div > div:nth-child(2) {

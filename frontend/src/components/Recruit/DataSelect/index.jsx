@@ -21,15 +21,17 @@ import { toast } from "react-toastify";
 
 import * as S from "../style";
 import "./date-picker.css";
+import DateChange from "../../Common/Alert/DateChange";
 
 export default function DataSelect({ recruit, setRecruit, movePage }) {
   const [viewTimeSelect, setViewTimeSelect] = useState(true);
   const [timeSelectModal, setTimeSelectModal] = useState(false);
   const [viewCategory, setViewCategory] = useState(false);
   const [category, setCategory] = useState(null);
-
+  const [resetAlert, setResetAlert] = useState(false);
   const [createdGroup, setCreatedGroup] = useState([]);
 
+  console.log(createdGroup);
   const changeDoTime = (value) => {
     if (value === "minus") {
       const copy = { ...recruit };
@@ -167,16 +169,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                 <button
                   onClick={() => {
                     if (createdGroup.length !== 0) {
-                      var value = window.confirm(
-                        "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
-                      );
-                      if (value) {
-                        setCreatedGroup([]);
-                        setViewTimeSelect(true);
-                        changeDoTime("minus");
-                      } else {
-                        return null;
-                      }
+                      setResetAlert(true);
                     } else {
                       setViewTimeSelect(true);
                       changeDoTime("minus");
@@ -189,16 +182,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                 <button
                   onClick={() => {
                     if (createdGroup.length !== 0) {
-                      var value = window.confirm(
-                        "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
-                      );
-                      if (value) {
-                        setCreatedGroup([]);
-                        setViewTimeSelect(true);
-                        changeDoTime("plus");
-                      } else {
-                        return null;
-                      }
+                      setResetAlert(true);
                     } else {
                       setViewTimeSelect(true);
                       changeDoTime("plus");
@@ -224,17 +208,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                           selected={recruit.startTime}
                           onChange={(time) => {
                             if (createdGroup.length !== 0) {
-                              var value = window.confirm(
-                                "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
-                              );
-                              if (value) {
-                                setCreatedGroup([]);
-                                const copy = { ...recruit };
-                                copy.startTime = time;
-                                setRecruit(copy);
-                              } else {
-                                return null;
-                              }
+                              setResetAlert(true);
                             } else {
                               const copy = { ...recruit };
                               copy.startTime = time;
@@ -257,17 +231,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                           selected={recruit.endTime}
                           onChange={(time) => {
                             if (createdGroup.length !== 0) {
-                              var value = window.confirm(
-                                "시간을 바꾸게 되면 날짜별 시간이 초기화됩니다. 변경하시겠습니까?"
-                              );
-                              if (value) {
-                                setCreatedGroup([]);
-                                const copy = { ...recruit };
-                                copy.endTime = time;
-                                setRecruit(copy);
-                              } else {
-                                return null;
-                              }
+                              setResetAlert(true);
                             } else {
                               const copy = { ...recruit };
                               copy.endTime = time;
@@ -415,6 +379,12 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
           </S.CategoryContainer>
         </CSSTransition>
       </S.DataSelectContainer>
+      {resetAlert && (
+        <DateChange
+          setResetAlert={setResetAlert}
+          setCreatedGroup={setCreatedGroup}
+        />
+      )}
     </S.Page>
   );
 }

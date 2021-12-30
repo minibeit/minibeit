@@ -11,6 +11,8 @@ export default function InfoData({
   movePage,
   setAskComplete,
   askComplete,
+  setNotEnough,
+  notEnough,
 }) {
   const [addressModal, setAddressModal] = useState(false);
   const [confirmModal, setConfirmModal] = useState(false);
@@ -84,6 +86,8 @@ export default function InfoData({
       askComplete={askComplete}
       clickSubmit={clickSubmit}
       movePage={movePage}
+      notEnough={notEnough}
+      setNotEnough={setNotEnough}
     />
   );
 }

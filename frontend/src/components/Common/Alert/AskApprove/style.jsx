@@ -7,8 +7,29 @@ export const AlertBox = styled.div`
   left: 50%;
   background-color: white;
   width: 30rem;
-  height: 20rem;
+  height: 18rem;
   border-radius: 2.25rem;
+`;
+
+const Button = styled.button`
+  position: relative;
+  padding: 0.5rem 1rem;
+  font-size: 0.85rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  min-width: 7rem;
+`;
+
+export const GrayButton = styled(Button)`
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  background: #c4c4c4;
+`;
+
+export const BlueButton = styled(Button)`
+  color: #ffffff;
+  border: 1px solid #0642ff;
+  background: #0642ff;
 `;
 
 export const AlertContent = styled.div`
@@ -23,36 +44,24 @@ export const AlertContent = styled.div`
   align-items: center;
   padding: 1.25rem;
   & > svg {
-    width: 2.5rem;
+    width: 2rem;
     path {
       fill: #0642ff;
     }
   }
+
   & > p:nth-child(2) {
-    width: 20rem;
-    text-align: center;
+    width: 25rem;
     font-weight: 700;
     font-size: 1.25rem;
-    line-height: 2rem;
-    & > p {
-      font-size: 0.8rem;
-      font-weight: 400;
-      color: rgba(0, 0, 0, 0.5);
-      line-height: 1.3rem;
-    }
+    text-align: center;
+    line-height: 1.875rem;
   }
 
-  & > button:nth-child(3) {
-    position: relative;
-    width: 9rem;
-    height: 2.7rem;
-    font-size: 0.9rem;
-    line-height: 2.5rem;
-    border-radius: 2rem;
-    color: #ffffff;
-    border: 1px solid #0642ff;
-    background: #0642ff;
-    margin-top: 1rem;
-    cursor: pointer;
+  & > div:nth-child(3) {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
   }
 `;

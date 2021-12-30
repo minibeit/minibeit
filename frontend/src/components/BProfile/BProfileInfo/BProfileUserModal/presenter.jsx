@@ -4,6 +4,8 @@ import { ReactComponent as PencleIcon } from "../../../../svg/연필.svg";
 import UserSearch from "./UserSearch";
 
 import * as S from "./style";
+import ExceptMember from "../../../Common/Alert/ExceptMember";
+import AskChangeAdmin from "../../../Common/Alert/AskChangeAdmin";
 
 export default function Presenter({
   bisnessUsers,
@@ -18,6 +20,14 @@ export default function Presenter({
   setEditUserMode,
   editCheifMode,
   setEditCheifMode,
+  setExceptUser,
+  secondAlert,
+  setSecondAlert,
+  exceptUser,
+  setchangeAdmin,
+  askChangeAdmin,
+  user,
+  setUser,
 }) {
   return (
     <>
@@ -49,7 +59,6 @@ export default function Presenter({
             <button
               onClick={() => {
                 changeAdmin(adminName);
-                setEditCheifMode(!editCheifMode);
               }}
               disabled={editUserMode}
             >
@@ -70,7 +79,12 @@ export default function Presenter({
               return (
                 <div key={i}>
                   {editUserMode && (
-                    <S.UserDeleteBtn onClick={() => deleteUser(a)}>
+                    <S.UserDeleteBtn
+                      onClick={() => {
+                        setExceptUser(true);
+                        setUser(a);
+                      }}
+                    >
                       <CloseIcon />
                     </S.UserDeleteBtn>
                   )}
@@ -86,6 +100,23 @@ export default function Presenter({
               );
             })}
         </S.UserListBox>
+        {askChangeAdmin && (
+          <AskChangeAdmin
+            setchangeAdmin={setchangeAdmin}
+            changeAdmin={changeAdmin}
+            adminName={adminName}
+          />
+        )}
+        {exceptUser && (
+          <ExceptMember
+            setExceptUser={setExceptUser}
+            secondAlert={secondAlert}
+            setSecondAlert={setSecondAlert}
+            exceptUser={exceptUser}
+            deleteUser={deleteUser}
+            user={user}
+          />
+        )}
       </S.UserListView>
     </>
   );

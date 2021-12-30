@@ -4,14 +4,13 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
-import com.minibeit.businessprofile.dto.BusinessProfileRequest;
-import com.minibeit.businessprofile.dto.BusinessProfileResponse;
+import com.minibeit.businessprofile.service.dto.BusinessProfileRequest;
+import com.minibeit.businessprofile.service.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.file.domain.Avatar;
 import com.minibeit.file.service.AvatarService;
-import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
@@ -29,7 +28,6 @@ public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final UserRepository userRepository;
-    private final PostRepository postRepository;
     private final AvatarService avatarService;
     private final BusinessValidator businessValidator;
 
@@ -52,7 +50,7 @@ public class BusinessProfileService {
             Avatar file = avatarService.upload(request.getAvatar());
             businessProfile.updateAvatar(file);
         }
-        businessProfile.update(request.toEntity(), user);
+        businessProfile.update(request.toEntity());
         return BusinessProfileResponse.IdAndName.build(businessProfile);
     }
 
@@ -106,11 +104,8 @@ public class BusinessProfileService {
     public void delete(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
 
-        businessValidator.adminValidate(businessProfile, user);
+        businessValidator.deleteValidate(businessProfile, user);
 
-        if (postRepository.existsByBusinessProfileId(businessProfileId)) {
-            throw new InvalidOperationException("해당 비즈니스 프로필에 삭제되지 않은 게시물이 있습니다.");
-        }
         avatarService.deleteOne(businessProfile.getAvatar());
         businessProfileRepository.deleteById(businessProfileId);
     }

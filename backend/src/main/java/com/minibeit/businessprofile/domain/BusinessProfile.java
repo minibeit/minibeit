@@ -44,7 +44,7 @@ public class BusinessProfile extends BaseEntity {
         this.admin = changedAdmin;
     }
 
-    public void update(BusinessProfile updatedBusinessProfile, User loginUser) {
+    public void update(BusinessProfile updatedBusinessProfile) {
         this.name = updatedBusinessProfile.getName();
         this.place = updatedBusinessProfile.getPlace();
         this.placeDetail = updatedBusinessProfile.getPlaceDetail();

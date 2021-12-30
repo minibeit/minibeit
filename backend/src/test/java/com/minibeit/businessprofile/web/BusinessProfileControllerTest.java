@@ -4,7 +4,7 @@ package com.minibeit.businessprofile.web;
 import com.minibeit.MvcTest;
 import com.minibeit.file.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.dto.BusinessProfileResponse;
+import com.minibeit.businessprofile.service.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;

@@ -82,7 +82,7 @@ class BusinessProfileTest {
     @Test
     @DisplayName("비즈니스프로필 수정")
     void update() {
-        businessProfile.update(updatedBusinessProfile, admin);
+        businessProfile.update(updatedBusinessProfile);
 
         assertAll(
                 () -> assertThat(businessProfile.getName()).isEqualTo(updatedBusinessProfile.getName()),

@@ -1,4 +1,4 @@
-package com.minibeit.businessprofile.dto;
+package com.minibeit.businessprofile.service.dto;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import lombok.*;

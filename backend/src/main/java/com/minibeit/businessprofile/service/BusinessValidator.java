@@ -2,18 +2,22 @@ package com.minibeit.businessprofile.service;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
+import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.user.domain.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@RequiredArgsConstructor
 public class BusinessValidator {
     private static final int MAX_SHARE_SIZE = 3;
+    private final BusinessProfileRepository businessProfileRepository;
 
     public void createValidate(List<UserBusinessProfile> userBusinessProfileList) {
         businessCountValidate(userBusinessProfileList);
@@ -48,6 +52,14 @@ public class BusinessValidator {
     public void adminValidate(BusinessProfile businessProfile, User user) {
         if (!businessProfile.getAdmin().getId().equals(user.getId())) {
             throw new PermissionException("비즈니스 프로필의 관리자가 아닙니다.");
+        }
+    }
+
+
+    public void deleteValidate(BusinessProfile businessProfile, User user) {
+        adminValidate(businessProfile, user);
+        if (businessProfileRepository.existsPostByBusinessProfileId(businessProfile.getId())) {
+            throw new InvalidOperationException("해당 비즈니스 프로필에 삭제되지 않은 게시물이 있습니다.");
         }
     }
 

@@ -27,6 +27,7 @@ function ProcessLogin({ match }) {
         isLogin: true,
         schoolId: data.schoolId,
         avatar: data.avatar,
+        bprofile: null,
       });
     } else {
       data.accessToken = match.params.accessToken;

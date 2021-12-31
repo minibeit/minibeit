@@ -6,9 +6,13 @@ import BusinessContainer from "./BusinessContainer";
 
 import * as S from "./style";
 import { useHistory } from "react-router";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../recoil/userState";
 
 export default function ProfileComponent({ view }) {
   const history = useHistory();
+  const usersBProfile = useRecoilValue(userState).bprofile;
+
   return (
     <div>
       <S.ModeSelectBtn
@@ -18,7 +22,11 @@ export default function ProfileComponent({ view }) {
         개인 프로필
       </S.ModeSelectBtn>
       <S.ModeSelectBtn
-        onClick={() => history.push("/profile?business")}
+        onClick={() =>
+          usersBProfile === null
+            ? history.push("/profile?business")
+            : history.push(`/business/${usersBProfile}`)
+        }
         disabled={view === "business" ? true : false}
       >
         비즈니스 프로필

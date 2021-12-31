@@ -7,6 +7,7 @@ export const userState = atom({
     isLogin: false,
     schoolId: null,
     avatar: null,
+    bprofile: null,
   },
   effects_UNSTABLE: [persistAtom],
 });

@@ -27,7 +27,7 @@ import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
-import com.minibeit.security.userdetails.CustomUserDetails;
+import com.minibeit.auth.domain.CustomUserDetails;
 import com.minibeit.user.domain.Role;
 import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;

@@ -9,7 +9,7 @@ import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.PostService;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.school.domain.School;
-import com.minibeit.security.userdetails.CustomUserDetails;
+import com.minibeit.auth.domain.CustomUserDetails;
 import com.minibeit.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

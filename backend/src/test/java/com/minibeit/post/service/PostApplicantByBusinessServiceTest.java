@@ -14,7 +14,6 @@ import com.minibeit.post.domain.RejectPost;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.domain.repository.RejectPostRepository;
-import com.minibeit.post.service.PostApplicantByBusinessService;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
 import com.minibeit.post.domain.ApplyStatus;

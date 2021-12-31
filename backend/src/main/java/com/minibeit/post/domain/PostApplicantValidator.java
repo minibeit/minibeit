@@ -4,10 +4,6 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.post.domain.ApplyStatus;
-import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

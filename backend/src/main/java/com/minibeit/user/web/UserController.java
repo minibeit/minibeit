@@ -1,8 +1,8 @@
 package com.minibeit.user.web;
 
 import com.minibeit.common.dto.ApiResult;
-import com.minibeit.security.userdetails.CurrentUser;
-import com.minibeit.security.userdetails.CustomUserDetails;
+import com.minibeit.auth.domain.CurrentUser;
+import com.minibeit.auth.domain.CustomUserDetails;
 import com.minibeit.user.service.dto.UserRequest;
 import com.minibeit.user.service.dto.UserResponse;
 import com.minibeit.user.service.UserService;

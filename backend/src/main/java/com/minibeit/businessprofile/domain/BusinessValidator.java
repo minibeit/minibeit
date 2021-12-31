@@ -1,7 +1,5 @@
 package com.minibeit.businessprofile.domain;
 
-import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.common.exception.InvalidOperationException;

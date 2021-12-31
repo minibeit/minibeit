@@ -15,7 +15,6 @@ import com.minibeit.post.domain.PostLike;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
-import com.minibeit.post.service.PostApplicantService;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
 import com.minibeit.post.service.exception.PostDoDateNotFoundException;

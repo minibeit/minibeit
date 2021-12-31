@@ -287,17 +287,38 @@ export const ReviewItem = styled.div`
   display: flex;
   margin: 1em 0.5em;
   gap: 0.5em;
-  & > div:nth-child(3) {
+  & > p:nth-child(2) {
+    display: flex;
+    align-items: center;
   }
 `;
 export const ReviewTitle = styled.div`
   display: flex;
   gap: 0.5em;
   & > p {
+    display: flex;
+    align-items: center;
     font-weight: bold;
     color: #404040;
   }
 `;
+export const ReviewIcon = styled.div`
+  background: ${({ id }) => {
+      if (id === 1) {
+        return 'url("/images/시간아이콘.png")';
+      } else if (id === 2) {
+        return "url(/images/웃는얼굴아이콘.png)";
+      } else if (id === 3) {
+        return "url(/images/돈다발아이콘.png)";
+      } else if (id === 4) {
+        return "url(/images/하트아이콘.png)";
+      }
+    }}
+    no-repeat center center/contain;
+  width: 2.5em;
+  height: 1.5em;
+`;
+
 export const ReviewCount = styled.div`
   display: flex;
   gap: 0.5em;
@@ -308,6 +329,8 @@ export const ReviewCount = styled.div`
     }
   }
   & > p {
+    display: flex;
+    align-items: center;
     font-weight: bold;
   }
   margin-left: auto;

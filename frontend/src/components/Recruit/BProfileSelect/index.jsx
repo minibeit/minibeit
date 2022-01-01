@@ -8,9 +8,7 @@ export default function BProfileSelect({
   recruit,
   setRecruit,
 }) {
-  const selectBP = (e) => {
-    var id = parseInt(e.target.parentNode.id);
-    var name = e.target.parentNode.nextSibling.textContent;
+  const selectBP = (id, name) => {
     const copy = { ...recruit };
     copy.businessProfile = {
       id: id,

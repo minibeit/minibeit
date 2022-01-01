@@ -21,7 +21,7 @@ const fadeIn = () => {
 
 /* Common */
 export const Page = styled.div`
-  min-height: 70vh;
+  min-height: 100vh;
   max-width: 100%;
   display: flex;
   justify-content: center;
@@ -56,14 +56,10 @@ export const SaveBtn = styled.button`
 /* Bussiness Profile Select*/
 export const BProfileContainer = styled(Container)`
   & > p:first-child {
-    font-size: 2rem;
+    font-size: 1.7rem;
     font-weight: 600;
   }
   & > p:nth-child(2) {
-    font-size: 2rem;
-    font-weight: 600;
-  }
-  & > p:nth-child(3) {
     color: #c4c4c4;
   }
 `;
@@ -85,12 +81,27 @@ export const BProfileImgBox = styled.div`
   width: 10rem;
   height: 10rem;
   cursor: pointer;
-  background-color: rgba(6, 66, 255, 0.5);
+  background: ${({ img }) => `url(${img})`} no-repeat center center/contain;
+  border: 1px solid white;
   &.selected {
-    transform: scale(1.2);
+    border: 1px solid #0642ff;
   }
-  &.selected img {
-    mix-blend-mode: color-burn;
+`;
+export const BProfileCheck = styled.div`
+  display: ${({ display }) => display};
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  transform: translate(8em, 1em);
+  width: 2em;
+  height: 2em;
+  background: #0642ff;
+  border-radius: 50%;
+  & svg {
+    width: 1.3em;
+    & path {
+      fill: white;
+    }
   }
 `;
 
@@ -100,19 +111,14 @@ export const DataSelectContainer = styled(Container)`
   transform: translate(0, -2rem);
 `;
 export const DataSelectHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  & > p {
-    font-size: 2rem;
-  }
   & > p:first-child {
+    font-size: 1.7rem;
     font-weight: bold;
   }
 `;
 export const SelectBox = styled.div`
   display: flex;
-  max-width: 80%;
+  overflow: hidden;
   align-self: center;
   flex-wrap: wrap;
   gap: 0.2rem;
@@ -128,19 +134,21 @@ export const Box = styled.div`
   padding: 0.5rem 1rem;
   & > p:first-child {
     white-space: nowrap;
+    color: #3f3f3f;
+  }
+  & input {
+    text-align: center;
   }
   ${fadeIn}
 `;
 export const PlaceBox = styled(Box)`
-  flex: 1.5;
-  border-radius: 1em 0 0 1em;
   & > div:nth-child(2) {
     padding: 0.5rem;
     margin-top: auto;
+    justify-content: center;
   }
 `;
 export const DateBox = styled(Box)`
-  flex: 0.8;
   & > div:nth-child(2) {
     display: flex;
     margin-top: auto;
@@ -181,9 +189,7 @@ export const CountBox = styled(Box)`
     width: 1rem;
   }
 `;
-export const HeadCountBox = styled(CountBox)`
-  border-radius: 0 1em 1em 0;
-`;
+
 export const TimeSelectBox = styled.div`
   box-shadow: 10px 10px 30px 0px #bdbdbd33;
   position: absolute;
@@ -227,20 +233,20 @@ export const TimeInput = styled.div`
   }
 `;
 export const DetailTimeBtn = styled.button`
-  border: 1px solid #0642ff;
   border-radius: 1rem;
+  border: none;
   padding: 1em;
   color: #0642ff;
-  background: none;
+  background: #d6dfff;
   cursor: pointer;
   &:disabled {
-    border: 1px solid #c4c4c4;
+    background: #d7d7d7;
     color: #c4c4c4;
     cursor: inherit;
   }
 `;
 export const SaveTimeBtn = styled.div`
-  border-top: 1px dotted #c4c4c4;
+  border-top: 2px dotted #c4c4c4;
   padding: 1rem;
   cursor: pointer;
   color: #0642ff;

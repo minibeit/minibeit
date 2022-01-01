@@ -30,8 +30,8 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
   const [category, setCategory] = useState(null);
   const [resetAlert, setResetAlert] = useState(false);
   const [createdGroup, setCreatedGroup] = useState([]);
+  const [step, setStep] = useState(1);
 
-  console.log(createdGroup);
   const changeDoTime = (value) => {
     if (value === "minus") {
       const copy = { ...recruit };
@@ -120,8 +120,10 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
     <S.Page>
       <S.DataSelectContainer>
         <S.DataSelectHeader>
-          <p>{recruit.businessProfile.name} 님!</p>
-          <p>생성할 모집공고에 대한 날짜를 입력해주세요</p>
+          {step === 1 && <p>생성할 모집 공고에 대한 위치를 입력해주세요.</p>}
+          {step === 2 && <p>모집 날짜를 입력해주세요.</p>}
+          {step === 3 && <p>모집 시간을 입력해주세요.</p>}
+          {step === 4 && <p>모집 인원을 입력해주세요.</p>}
         </S.DataSelectHeader>
         <S.SelectBox>
           <S.PlaceBox>
@@ -131,11 +133,12 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                 const copy = { ...recruit };
                 copy.schoolId = e ? e.id : null;
                 setRecruit(copy);
+                setStep(2);
               }}
             />
           </S.PlaceBox>
           <CSSTransition
-            in={recruit.schoolId !== null}
+            in={step >= 2}
             classNames="fadeIn"
             timeout={500}
             unmountOnExit
@@ -152,13 +155,14 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                     copy.startDate = e[0];
                     copy.endDate = e[e.length - 1];
                     setRecruit(copy);
+                    setStep(3);
                   }}
                 />
               </div>
             </S.DateBox>
           </CSSTransition>
           <CSSTransition
-            in={recruit.dateList !== null}
+            in={step >= 3}
             classNames="fadeIn"
             timeout={500}
             unmountOnExit
@@ -290,6 +294,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                           timeList
                         );
                         setRecruit(copy);
+                        setStep(4);
                         setViewTimeSelect(false);
                       } else {
                         toast.info("시작시간과 종료시간을 선택해주세요");
@@ -303,23 +308,23 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
             </S.CountBox>
           </CSSTransition>
           <CSSTransition
-            in={recruit.doDateList !== null}
+            in={step >= 4}
             classNames="fadeIn"
             timeout={500}
             unmountOnExit
           >
-            <S.HeadCountBox>
+            <S.CountBox>
               <p>시간 단위당 모집 인원</p>
               <div>
                 <button onClick={() => changeHeadCount("minus")}>
                   <MinusIcon />
                 </button>
-                <p>{recruit.headCount}명</p>
+                <p style={{ color: "#0642FF" }}>{recruit.headCount}명</p>
                 <button onClick={() => changeHeadCount("plus")}>
                   <PlusIcon />
                 </button>
               </div>
-            </S.HeadCountBox>
+            </S.CountBox>
           </CSSTransition>
         </S.SelectBox>
         <CSSTransition

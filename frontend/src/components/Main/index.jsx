@@ -61,7 +61,7 @@ export default function MainComponent() {
           </S.ImgBox>
         </div>
       </S.MainBox2>
-      <S.MainBox2 id="2" data-aos="fade-in">
+      <S.MainBox2 id="2" data-aos="fade-in" style={{ backgroundColor: "#fff" }}>
         <div>
           <S.TextBox>
             <div>

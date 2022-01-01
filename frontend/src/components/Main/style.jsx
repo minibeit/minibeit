@@ -23,31 +23,31 @@ export const MainBox = styled.div`
   align-items: flex-end;
   & > div {
     z-index: 9;
-    margin-bottom: 2rem;
+    margin-bottom: 4rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
     justify-content: flex-end;
     align-items: center;
-    width: 70%;
-    height: 70%;
-    & > div:first-child {
-      display: flex;
-      gap: 3rem;
-    }
     & > p {
       color: #7c7c7c;
       cursor: pointer;
     }
-    & > a > div {
+    & > a > svg {
       padding-top: 0.5rem;
       cursor: pointer;
-      & > svg {
-        width: 1rem;
-        path {
-          fill: #7c7c7c;
-        }
+      width: 1rem;
+      path {
+        fill: #7c7c7c;
       }
+    }
+  }
+  @media only screen and (max-width: 700px) {
+    max-height: 100vh;
+    & > div {
+      position: relative;
+      gap: 2.5rem;
+      margin-bottom: 1rem;
     }
   }
 `;
@@ -66,42 +66,56 @@ export const MainBox2 = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    & > div:first-child {
-      position: absolute;
-      transform: translate(-10rem, -10rem);
-      display: flex;
-      flex-direction: column;
-      font-size: 1.3rem;
-      font-weight: 700;
-      line-height: 2rem;
-      gap: 1rem;
-      & span {
-        color: #0642ff;
-      }
-    }
-    & > div:nth-child(2) {
-      width: 20rem;
-      height: inherit;
-      & > img {
-        max-width: 20rem;
-        height: auto;
-      }
+  }
+  @media only screen and (max-width: 700px) {
+    max-height: 100vh;
+  }
+`;
+
+export const ImgBox = styled.div`
+  width: 20rem;
+  height: inherit;
+  & > img {
+    max-width: 20rem;
+    height: auto;
+  }
+  @media only screen and (max-width: 700px) {
+    width: 15rem;
+    margin: 7rem 0 0 3rem;
+    & > img {
+      max-width: 15rem;
     }
   }
 `;
 
-export const MainBox3 = styled(MainBox2)`
-  background: #fff;
-  & > div {
-    & > div:first-child {
-      transform: translate(-10rem, -10rem);
+export const ImgBox2 = styled(ImgBox)`
+  width: 35rem;
+  & > img {
+    max-width: 35rem;
+  }
+  @media only screen and (max-width: 700px) {
+    width: 20rem;
+    & > img {
+      max-width: 20rem;
     }
-    & > div:nth-child(2) {
-      width: 35rem;
-      & > img {
-        max-width: 35em;
-      }
-    }
+  }
+`;
+
+export const TextBox = styled.div`
+  position: absolute;
+  transform: translate(-10rem, -10rem);
+  display: flex;
+  flex-direction: column;
+  font-size: 1.3rem;
+  font-weight: 700;
+  line-height: 2rem;
+  gap: 1rem;
+  & span {
+    color: #0642ff;
+  }
+  @media only screen and (max-width: 700px) {
+    transform: translate(-3rem, -13.5rem);
+    gap: 2rem;
   }
 `;
 
@@ -136,6 +150,11 @@ export const BlueButton = styled(Button)`
   }
 `;
 
+export const ButtonContainer = styled.div`
+  display: flex;
+  gap: 3rem;
+`;
+
 export const LastBox = styled.div`
   height: 100vh;
   position: relative;
@@ -147,22 +166,39 @@ export const LastBox = styled.div`
     height: calc(100vh - 4rem);
     box-sizing: border-box;
     justify-content: center;
-    & > div:first-child {
-      font-size: 2.3rem;
-      font-weight: bold;
-      line-height: 3.5rem;
-      text-align: center;
-      & > span {
-        text-emphasis-style: filled #0642ff;
-        -webkit-text-emphasis: filled #0642ff;
-      }
+  }
+  @media only screen and (max-width: 700px) {
+    max-height: 80vh;
+    & > div {
+      padding: 0;
     }
-    & > div:nth-child(2) {
-      & > img {
-        width: 14rem;
-        height: 14rem;
-      }
+  }
+`;
+
+export const ImgBox3 = styled.div`
+  & > img {
+    width: 14rem;
+    height: 14rem;
+  }
+  @media only screen and (max-width: 700px) {
+    & > img {
+      width: 7rem;
+      height: 7rem;
     }
+  }
+`;
+
+export const TextBox2 = styled.div`
+  font-size: 2.3rem;
+  font-weight: bold;
+  line-height: 3.5rem;
+  text-align: center;
+  & > span {
+    text-emphasis-style: filled #0642ff;
+    -webkit-text-emphasis: filled #0642ff;
+  }
+  @media only screen and (max-width: 700px) {
+    font-size: 2rem;
   }
 `;
 

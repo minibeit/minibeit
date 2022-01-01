@@ -2,11 +2,10 @@ package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
 import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.post.service.PostApplicantByBusinessService;
 import com.minibeit.post.service.dto.PostApplicantDto;
 import com.minibeit.post.service.dto.PostApplicantRequest;
 import com.minibeit.post.service.dto.PostApplicantResponse;
-import com.minibeit.post.service.PostApplicantByBusinessService;
-import com.minibeit.post.web.PostApplicantByBusinessController;
 import com.minibeit.user.domain.Gender;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +19,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -156,7 +156,6 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                 .startTime(LocalDateTime.of(2021, 9, 9, 9, 30))
                 .time(120)
                 .isAttend(true)
-                .postDoDateId(1L)
                 .evaluatedBusiness(false)
                 .build();
         PostApplicantDto.UserInfo userInfo2 = PostApplicantDto.UserInfo.builder()
@@ -171,7 +170,6 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                 .startTime(LocalDateTime.of(2021, 9, 9, 9, 30))
                 .time(120)
                 .isAttend(true)
-                .postDoDateId(1L)
                 .evaluatedBusiness(false)
                 .build();
         PostApplicantDto.UserInfo userInfo3 = PostApplicantDto.UserInfo.builder()
@@ -186,16 +184,20 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                 .startTime(LocalDateTime.of(2021, 9, 9, 10, 30))
                 .time(120)
                 .isAttend(true)
-                .postDoDateId(2L)
                 .evaluatedBusiness(true)
                 .build();
         response.add(userInfo1);
         response.add(userInfo2);
         response.add(userInfo3);
 
-        List<PostApplicantResponse.ApplicantInfo> result = PostApplicantResponse.ApplicantInfo.dtoToResponse(response);
+        PostApplicantResponse.ApplicantInfo result = PostApplicantResponse.ApplicantInfo.builder()
+                .postDoDateId(1L)
+                .startTime(LocalDateTime.of(2022, 1, 2, 10, 0))
+                .endTime(LocalDateTime.of(2022, 1, 2, 11, 0))
+                .userInfoList(response)
+                .build();
 
-        given(postApplicantByBusinessService.getApplicantListByDate(any(), any(), any())).willReturn(result);
+        given(postApplicantByBusinessService.getApplicantListByDate(any(), any(), any())).willReturn(Collections.singletonList(result));
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/post/{postId}/applicants", 1)
@@ -217,6 +219,8 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
                                 fieldWithPath("data.[].postDoDateId").type(JsonFieldType.NUMBER).description("게시물 실험 시작 시간 식별자"),
+                                fieldWithPath("data.[].startTime").type(JsonFieldType.STRING).description("게시물 실험 시작 시간"),
+                                fieldWithPath("data.[].endTime").type(JsonFieldType.STRING).description("게시물 실험 끝나는 시간"),
                                 fieldWithPath("data.[].userInfoList[].id").type(JsonFieldType.NUMBER).description("유저 식별자"),
                                 fieldWithPath("data.[].userInfoList[].name").type(JsonFieldType.STRING).description("유저 실명"),
                                 fieldWithPath("data.[].userInfoList[].email").type(JsonFieldType.STRING).description("유저 이메일"),
@@ -226,9 +230,6 @@ class PostApplicantByBusinessControllerTest extends MvcTest {
                                 fieldWithPath("data.[].userInfoList[].job").type(JsonFieldType.STRING).description("직업"),
                                 fieldWithPath("data.[].userInfoList[].status").description("지원현황(APPROVE or WAIT)"),
                                 fieldWithPath("data.[].userInfoList[].isAttend").description("실험 참여했다면 true, 안했다면 false"),
-                                fieldWithPath("data.[].userInfoList[].postDoDateId").description("게시물 실험 시작 시간 식별자"),
-                                fieldWithPath("data.[].userInfoList[].startTime").description("실험 시작 시간"),
-                                fieldWithPath("data.[].userInfoList[].endTime").description("실험 끝나는 시간"),
                                 fieldWithPath("data.[].userInfoList[].isEvaluable").description("해당 지원자를 평가할 수 있다면 true 아니면 false")
                         )
                 ));

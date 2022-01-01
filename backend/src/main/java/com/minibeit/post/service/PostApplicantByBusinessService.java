@@ -3,12 +3,12 @@ package com.minibeit.post.service;
 import com.minibeit.mail.service.MailService;
 import com.minibeit.mail.service.dto.condition.MailCondition;
 import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.RejectPostRepository;
-import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
-import com.minibeit.post.service.dto.PostApplicantDto;
+import com.minibeit.post.domain.repository.PostDoDateRepository;
+import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.service.dto.PostApplicantRequest;
 import com.minibeit.post.service.dto.PostApplicantResponse;
+import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +27,7 @@ public class PostApplicantByBusinessService {
     private final PostApplicantRepository postApplicantRepository;
     private final RejectPostRepository rejectPostRepository;
     private final PostApplicantValidator postApplicantValidator;
+    private final PostDoDateRepository postDoDateRepository;
     private final MailService mailService;
 
     public void applyApprove(Long postDoDateId, Long userId, User user) {
@@ -88,7 +89,6 @@ public class PostApplicantByBusinessService {
 
     @Transactional(readOnly = true)
     public List<PostApplicantResponse.ApplicantInfo> getApplicantListByDate(Long postId, ApplyStatus applyStatus, LocalDate doDate) {
-        List<PostApplicantDto.UserInfo> userInfoList = postApplicantRepository.findAllByPostAndDoDate(postId, applyStatus, doDate);
-        return PostApplicantResponse.ApplicantInfo.dtoToResponse(userInfoList);
+        return postApplicantRepository.findAllByPostAndDoDate(postId, applyStatus, doDate);
     }
 }

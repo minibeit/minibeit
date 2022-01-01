@@ -1,11 +1,11 @@
 package com.minibeit.businessprofile.web;
 
-import com.minibeit.businessprofile.dto.BusinessProfileRequest;
-import com.minibeit.businessprofile.dto.BusinessProfileResponse;
+import com.minibeit.businessprofile.service.dto.BusinessProfileRequest;
+import com.minibeit.businessprofile.service.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
 import com.minibeit.common.dto.ApiResult;
-import com.minibeit.security.userdetails.CurrentUser;
-import com.minibeit.security.userdetails.CustomUserDetails;
+import com.minibeit.auth.domain.CurrentUser;
+import com.minibeit.auth.domain.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

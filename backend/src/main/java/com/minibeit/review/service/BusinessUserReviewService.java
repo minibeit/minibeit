@@ -3,13 +3,10 @@ package com.minibeit.review.service;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
-import com.minibeit.postapplicant.domain.PostApplicant;
-import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
-import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
-import com.minibeit.review.domain.BusinessUserReview;
-import com.minibeit.review.domain.BusinessUserReviewDetail;
-import com.minibeit.review.domain.BusinessUserReviewEvalType;
-import com.minibeit.review.domain.BusinessUserReviewType;
+import com.minibeit.post.domain.PostApplicant;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.post.service.exception.PostApplicantNotFoundException;
+import com.minibeit.review.domain.*;
 import com.minibeit.review.domain.repository.BusinessUserReviewDetailRepository;
 import com.minibeit.review.domain.repository.BusinessUserReviewRepository;
 import com.minibeit.review.service.dto.BusinessUserReviewResponse;
@@ -34,6 +31,7 @@ public class BusinessUserReviewService {
     private final BusinessUserReviewRepository businessUserReviewRepository;
     private final PostApplicantRepository postApplicantRepository;
     private final UserRepository userRepository;
+    private final BusinessUserReviewValidator businessUserReviewValidator;
 
     public BusinessUserReviewResponse.OnlyId createBusinessReview(Long businessProfileId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
@@ -48,10 +46,13 @@ public class BusinessUserReviewService {
     }
 
     public BusinessUserReviewResponse.OnlyId createUserReview(Long businessProfileId, Long userId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
-        User applicantUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(userId).orElseThrow(UserNotFoundException::new);
+        User applicantUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        User loginUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(user.getId()).orElseThrow(UserNotFoundException::new);
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
-        postApplicant.evaluated(now, user, businessProfileId);
+        businessUserReviewValidator.evaluateBusinessValidate(postApplicant, loginUser.getUserBusinessProfileList(), businessProfileId, now);
+
+        postApplicant.evaluated();
 
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);
         BusinessUserReview businessUserReview = BusinessUserReview.createWithUser(applicantUser, businessUserReviewDetail);

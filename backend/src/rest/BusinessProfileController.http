@@ -72,7 +72,7 @@ Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business-profile/2/share/2
+POST {{apiUrl}}/business-profile/1/share/2
 Content-Type: application/json;charset=UTF-8
 Authorization: {{authorizationToken}}
 

@@ -1,9 +1,6 @@
 package com.minibeit.businessprofile.domain;
 
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.common.exception.DuplicateException;
-import com.minibeit.common.exception.InvalidOperationException;
-import com.minibeit.common.exception.PermissionException;
 import com.minibeit.file.domain.Avatar;
 import com.minibeit.user.domain.User;
 import lombok.*;
@@ -43,16 +40,11 @@ public class BusinessProfile extends BaseEntity {
     @JoinColumn(name = "admin_id")
     private User admin;
 
-    public void changeAdmin(User loginUser, User changedAdmin) {
-        adminValidate(loginUser);
-        if (!changedAdmin.userInBusiness(this.id)) {
-            throw new InvalidOperationException("비즈니스 프로필에 속하지 않은 사람에게 관리자를 양도할 수 없습니다.");
-        }
+    public void changeAdmin(User changedAdmin) {
         this.admin = changedAdmin;
     }
 
-    public void update(BusinessProfile updatedBusinessProfile, User loginUser) {
-        this.adminValidate(loginUser);
+    public void update(BusinessProfile updatedBusinessProfile) {
         this.name = updatedBusinessProfile.getName();
         this.place = updatedBusinessProfile.getPlace();
         this.placeDetail = updatedBusinessProfile.getPlaceDetail();
@@ -63,36 +55,11 @@ public class BusinessProfile extends BaseEntity {
         this.avatar = avatar;
     }
 
-    public void adminValidate(User user) {
-        if (!admin.getId().equals(user.getId())) {
-            throw new PermissionException("비즈니스 프로필의 관리자가 아닙니다.");
-        }
-    }
-
-    public UserBusinessProfile invite(User invitedUser, BusinessProfile businessProfile, User loginUser) {
-        adminValidate(loginUser);
-        invitedUser.businessProfileCountValidate();
-        if (invitedUser.userInBusiness(businessProfile.getId())) {
-            throw new DuplicateException("이미 공유된 유저입니다.");
-        }
-        return UserBusinessProfile.createWithBusinessProfile(invitedUser, businessProfile);
-    }
-
-    public void expel(User user, Long expelUserId) {
-        adminValidate(user);
-        if (admin.getId().equals(expelUserId)) {
-            throw new InvalidOperationException("어드민 유저은 추방당할 수 없습니다.");
-        }
-    }
-
-    public void leaveValidate(User user) {
-        if (admin.getId().equals(user.getId())) {
-            throw new InvalidOperationException("어드민 유저은 비즈니스 프로필을 나갈 수 없습니다.");
-        }
+    public boolean isAdminInBusinessProfile(User user) {
+        return this.getAdmin().getId().equals(user.getId());
     }
 
     public static BusinessProfile create(BusinessProfile createdBusinessProfile, Avatar avatar, User admin) {
-        admin.businessProfileCountValidate();
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(admin);
         BusinessProfile businessProfile = BusinessProfile.builder()
                 .name(createdBusinessProfile.getName())

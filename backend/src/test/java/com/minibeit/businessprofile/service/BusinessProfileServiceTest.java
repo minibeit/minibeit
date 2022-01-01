@@ -5,8 +5,8 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
-import com.minibeit.businessprofile.dto.BusinessProfileRequest;
-import com.minibeit.businessprofile.dto.BusinessProfileResponse;
+import com.minibeit.businessprofile.service.dto.BusinessProfileRequest;
+import com.minibeit.businessprofile.service.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
 import com.minibeit.common.exception.DuplicateException;
@@ -19,9 +19,9 @@ import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
-import com.minibeit.postapplicant.domain.ApplyStatus;
-import com.minibeit.postapplicant.domain.PostApplicant;
-import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
+import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.post.domain.PostApplicant;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -132,7 +132,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
         List<PostDoDate> postDoDates = createInfoRequest.toPostDoDates();
         postDoDates.forEach(postDoDate -> postDoDate.assignPost(createdPost));
         createdPost.create(school, businessProfile);
-        Post post = postRepository.save(createdPost);
+        postRepository.save(createdPost);
         postDoDateRepository.saveAll(postDoDates);
 
         PostDoDate postDoDate1 = postDoDates.get(0);
@@ -450,8 +450,6 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
         assertThatThrownBy(
                 () -> businessProfileService.cancelShare(businessProfile.getId(), admin.getId(), admin)
         ).isInstanceOf(InvalidOperationException.class);
-
-        assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
     }
 
     @Test

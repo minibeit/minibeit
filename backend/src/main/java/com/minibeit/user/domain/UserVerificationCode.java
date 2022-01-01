@@ -3,7 +3,6 @@ package com.minibeit.user.domain;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.common.exception.InvalidValueException;
 import lombok.*;
-import org.springframework.mail.SimpleMailMessage;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

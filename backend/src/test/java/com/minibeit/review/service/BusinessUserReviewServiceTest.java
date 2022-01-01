@@ -13,10 +13,10 @@ import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
-import com.minibeit.postapplicant.service.exception.PostApplicantNotFoundException;
-import com.minibeit.postapplicant.domain.ApplyStatus;
-import com.minibeit.postapplicant.domain.PostApplicant;
-import com.minibeit.postapplicant.domain.repository.PostApplicantRepository;
+import com.minibeit.post.service.exception.PostApplicantNotFoundException;
+import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.post.domain.PostApplicant;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.review.domain.BusinessUserReviewDetail;
 import com.minibeit.review.domain.BusinessUserReviewEvalType;
 import com.minibeit.review.domain.BusinessUserReviewType;
@@ -185,7 +185,7 @@ class BusinessUserReviewServiceTest extends ServiceIntegrationTest {
         PostApplicant postApplicant2 = PostApplicant.create(postDoDate, notAttendUser);
         postApplicant2.updateStatus(ApplyStatus.COMPLETE);
         postApplicant2.changeBusinessFinish(false);
-        postApplicant2.evaluated(LocalDateTime.of(2021, 9, 30, 0, 0), userInBusinessProfile, businessProfile.getId());
+        postApplicant2.evaluated();
         postApplicantRepository.save(postApplicant2);
 
         PostApplicant postApplicant3 = PostApplicant.create(postDoDate, notCompleteSelf);

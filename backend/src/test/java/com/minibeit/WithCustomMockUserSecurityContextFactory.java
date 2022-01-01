@@ -1,6 +1,6 @@
 package com.minibeit;
 
-import com.minibeit.security.userdetails.CustomUserDetails;
+import com.minibeit.auth.domain.CustomUserDetails;
 import com.minibeit.user.domain.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;

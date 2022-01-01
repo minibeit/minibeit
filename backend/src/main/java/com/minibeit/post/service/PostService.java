@@ -7,8 +7,8 @@ import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
-import com.minibeit.postapplicant.domain.ApplyStatus;
-import com.minibeit.security.userdetails.CustomUserDetails;
+import com.minibeit.post.domain.ApplyStatus;
+import com.minibeit.auth.domain.CustomUserDetails;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -44,13 +44,12 @@ public class PostService {
     }
 
     public PostResponse.GetOne getOne(Long postId, CustomUserDetails customUserDetails) {
-        Post post = postRepository.findByIdWithBusinessProfile(postId).orElseThrow(PostNotFoundException::new);
+        Post post = postRepository.findGetOneByPostId(postId).orElseThrow(PostNotFoundException::new);
         return PostResponse.GetOne.build(post, customUserDetails);
     }
 
     public List<PostResponse.GetPostStartTime> getPostStartTimeList(Long postId, LocalDate doDate) {
         List<PostDoDate> postDoDateList = postDoDateRepository.findAllByPostIdAndDoDate(postId, doDate);
-
         return postDoDateList.stream().map(postDoDate -> PostResponse.GetPostStartTime.build(postDoDate, postDoDate.getPost())).collect(Collectors.toList());
     }
 

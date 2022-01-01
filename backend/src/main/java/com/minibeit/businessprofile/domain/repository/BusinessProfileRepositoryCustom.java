@@ -9,4 +9,6 @@ public interface BusinessProfileRepositoryCustom {
     List<BusinessProfile> findAllByUserId(Long userId);
 
     Optional<BusinessProfile> findByIdWithAdmin(Long businessProfileId);
+
+    Boolean existsPostByBusinessProfileId(Long businessProfileId);
 }

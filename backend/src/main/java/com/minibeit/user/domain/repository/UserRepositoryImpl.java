@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 import java.util.Optional;
 
+import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
 import static com.minibeit.businessprofile.domain.QUserBusinessProfile.userBusinessProfile;
 import static com.minibeit.user.domain.QUser.user;
 
@@ -58,5 +59,17 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
                         .leftJoin(userBusinessProfile.businessProfile).fetchJoin()
                         .where(user.id.eq(userId))
                         .fetchOne());
+    }
+
+    @Override
+    public Boolean existsBusinessAdminUserById(Long userId) {
+        Integer fetchOne = queryFactory.selectOne()
+                .from(user)
+                .join(user.userBusinessProfileList, userBusinessProfile)
+                .join(userBusinessProfile.businessProfile, businessProfile)
+                .where(user.id.eq(userId).and(businessProfile.admin.id.eq(userId)))
+                .fetchFirst();
+
+        return fetchOne != null;
     }
 }

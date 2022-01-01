@@ -1,6 +1,6 @@
 package com.minibeit.post.domain.repository;
 
-import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostStatus;
@@ -24,4 +24,6 @@ public interface PostRepositoryCustom {
     Page<Post> findAllByLike(User user, Pageable pageable);
 
     Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus status, User user, LocalDateTime now, Pageable of);
+
+    Optional<Post> findGetOneByPostId(Long postId);
 }

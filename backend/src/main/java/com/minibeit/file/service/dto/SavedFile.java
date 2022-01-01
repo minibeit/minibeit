@@ -3,7 +3,7 @@ package com.minibeit.file.service.dto;
 import com.minibeit.file.domain.Avatar;
 import com.minibeit.file.domain.FileServer;
 import com.minibeit.file.domain.FileType;
-import com.minibeit.file.domain.PostFile;
+import com.minibeit.post.domain.PostFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

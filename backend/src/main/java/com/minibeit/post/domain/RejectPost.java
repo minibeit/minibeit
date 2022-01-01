@@ -2,7 +2,6 @@ package com.minibeit.post.domain;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.postapplicant.domain.PostApplicant;
 import com.minibeit.user.domain.User;
 import lombok.*;
 

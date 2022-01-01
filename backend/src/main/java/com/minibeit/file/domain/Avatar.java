@@ -3,7 +3,6 @@ package com.minibeit.file.domain;
 import javax.persistence.Enumerated;
 
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.file.service.dto.SavedFile;
 import lombok.*;
 import javax.persistence.*;
 

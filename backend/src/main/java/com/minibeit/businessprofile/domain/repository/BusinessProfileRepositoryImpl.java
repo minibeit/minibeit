@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
 import static com.minibeit.businessprofile.domain.QUserBusinessProfile.userBusinessProfile;
+import static com.minibeit.post.domain.QPost.post;
 
 @RequiredArgsConstructor
 public class BusinessProfileRepositoryImpl implements BusinessProfileRepositoryCustom {
@@ -32,5 +33,15 @@ public class BusinessProfileRepositoryImpl implements BusinessProfileRepositoryC
                         .where(businessProfile.id.eq(businessProfileId))
                         .fetchOne()
         );
+    }
+
+    @Override
+    public Boolean existsPostByBusinessProfileId(Long businessProfileId) {
+        Integer fetchOne = queryFactory.selectOne()
+                .from(post)
+                .where(post.businessProfile.id.eq(businessProfileId))
+                .fetchFirst();
+
+        return fetchOne != null;
     }
 }

@@ -75,7 +75,7 @@ Content-Disposition: form-data; name="thumbnail"; filename="enjoy2.png"
 < ./../main/resources/mock/images/enjoy.png
 
 ###
-POST {{apiUrl}}/post/3/like
+POST {{apiUrl}}/post/1/like
 Authorization: {{authorizationToken}}
 
 ###
@@ -113,7 +113,7 @@ DELETE {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/2
+GET {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###

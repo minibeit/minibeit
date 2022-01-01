@@ -2,12 +2,12 @@ package com.minibeit.post.web;
 
 import com.minibeit.common.dto.ApiResult;
 import com.minibeit.common.dto.PageDto;
-import com.minibeit.postapplicant.domain.ApplyStatus;
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.PostService;
-import com.minibeit.security.userdetails.CurrentUser;
-import com.minibeit.security.userdetails.CustomUserDetails;
+import com.minibeit.auth.domain.CurrentUser;
+import com.minibeit.auth.domain.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;

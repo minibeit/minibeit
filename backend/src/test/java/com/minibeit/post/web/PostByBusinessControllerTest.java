@@ -6,7 +6,7 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.file.domain.PostFile;
+import com.minibeit.post.domain.PostFile;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
 import com.minibeit.post.service.dto.PostResponse;

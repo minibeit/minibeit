@@ -11,7 +11,7 @@ const fadeIn = keyframes`
 const moveSearchBar = keyframes`
   from{
     opacity:0.3;
-    transform:translate(0, 70%);
+    transform:translate(0, 20%);
   }
   to{
     opacity:1;
@@ -21,7 +21,7 @@ const moveSearchBar = keyframes`
 const moveSearchBarForMobile = keyframes`
   from{
     opacity:0.3;
-    transform:translate(0, 20%);
+    transform:translate(0, 10%);
   }
   to{
     opacity:1;
@@ -125,13 +125,13 @@ export const CategoryBtn = styled.button`
 /*search filter*/
 export const SearchBox = styled.div`
   width: 100%;
-  max-height: calc(100vh - 3.5rem);
+  min-height: calc(100vh - 3.5rem);
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 1;
-  gap: 1rem;
-  transform: translate(0, 70%);
+  gap: 2rem;
+  transform: translate(0, 20%);
   margin: 1rem 0;
   ${({ centerView }) =>
     !centerView &&
@@ -145,6 +145,7 @@ export const SearchBox = styled.div`
     > p:first-child {
     font-size: 1.5em;
     font-weight: bold;
+    white-space: pre-wrap;
   }
   & > div:nth-child(2) {
     display: flex;
@@ -155,7 +156,8 @@ export const SearchBox = styled.div`
   }
 
   @media only screen and (max-width: 700px) {
-    transform: translate(0, 20%);
+    transform: translate(0, 10%);
+    min-height: calc(60vh - 3.5rem);
     ${({ centerView }) =>
       !centerView &&
       css`
@@ -245,6 +247,10 @@ export const FilterBox = styled.div`
   animation-timing-function: ease-out;
   animation-name: ${fadeIn};
   animation-fill-mode: forwards;
+
+  @media only screen and (max-width: 700px) {
+    max-width: 20rem;
+  }
 `;
 export const FilterResetBtn = styled.div`
   margin: 1rem;
@@ -284,6 +290,11 @@ export const DetailBox = styled(Box)`
     display: flex;
     gap: 0.5em;
   }
+  @media only screen and (max-width: 700px) {
+    & > div:nth-child(2) {
+      flex-wrap: wrap;
+    }
+  }
 `;
 export const PaymentBtn = styled.button`
   background: white;
@@ -296,6 +307,9 @@ export const PaymentBtn = styled.button`
   &:disabled {
     border: 1px solid #0642ff;
     background: #b4c6ff;
+  }
+  @media only screen and (max-width: 700px) {
+    padding: 0.5em 2em;
   }
 `;
 export const SelectBtn = styled(PaymentBtn)`

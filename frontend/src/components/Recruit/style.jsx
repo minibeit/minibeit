@@ -25,7 +25,7 @@ export const Page = styled.div`
   max-width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 `;
 export const Container = styled.div`
   position: relative;
@@ -35,6 +35,7 @@ export const Container = styled.div`
   gap: 1rem;
   justify-content: center;
   text-align: center;
+  margin-top: 10em;
 `;
 export const SaveBtn = styled.button`
   padding: 0.5rem 1rem;
@@ -46,12 +47,14 @@ export const SaveBtn = styled.button`
   font-weight: bold;
   border: none;
   margin: auto;
+  margin-top: 3em;
   cursor: pointer;
   z-index: 0;
   &:disabled {
     background: #c4c4c4;
     cursor: default;
   }
+  ${fadeIn}
 `;
 
 /* Bussiness Profile Select*/
@@ -109,7 +112,6 @@ export const BProfileCheck = styled.div`
 /* Data Select */
 export const DataSelectContainer = styled(Container)`
   gap: 2rem;
-  transform: translate(0, -2rem);
 `;
 export const DataSelectHeader = styled.div`
   & > p:first-child {
@@ -148,26 +150,11 @@ export const PlaceBox = styled(Box)`
     margin-top: auto;
     justify-content: center;
   }
-`;
-export const DateBox = styled(Box)`
-  & > div:nth-child(2) {
-    display: flex;
-    margin-top: auto;
-    margin-bottom: 0.5em;
-    gap: 0.3rem;
-    & input {
-      padding: 0.5rem;
-      font-size: 15px;
-      max-width: 9rem;
-      border: none;
-      background: none;
-      outline: none;
-    }
-  }
-  & svg {
-    width: 1.5rem;
+  & input {
+    width: 100%;
   }
 `;
+export const DateBox = styled(PlaceBox)``;
 
 export const CountBox = styled(Box)`
   & > div:nth-child(2) {
@@ -193,6 +180,8 @@ export const CountBox = styled(Box)`
 
 export const TimeSelectBox = styled.div`
   box-shadow: 10px 10px 30px 0px #bdbdbd33;
+  border: 1px solid #c4c4c4;
+  border-radius: 1em;
   position: absolute;
   z-index: 9;
   background: white;
@@ -228,9 +217,9 @@ export const TimeInput = styled.div`
     width: 8rem;
     padding: 0.5rem;
     font-size: 1rem;
-    color: #7c7c7c;
-    font-weight: bold;
+    color: black;
     text-align: center;
+    outline: none;
   }
 `;
 export const DetailTimeBtn = styled.button`
@@ -254,22 +243,6 @@ export const SaveTimeBtn = styled.div`
   font-weight: bold;
   font-size: 1.2em;
 `;
-export const NextBtn = styled.button`
-  width: fit-content;
-  align-self: end;
-  padding: 0.5rem 1rem;
-  white-space: nowrap;
-  font-size: 1.5rem;
-  font-weight: bold;
-  border: none;
-  color: #0642ff;
-  background: none;
-  display: flex;
-  gap: 0.3em;
-  align-items: center;
-  cursor: pointer;
-  ${fadeIn}
-`;
 export const CategoryContainer = styled.div`
   & > div:first-child {
     margin: 1rem auto;
@@ -285,10 +258,12 @@ export const CategoryContainer = styled.div`
   }
 `;
 export const CategoryBtn = styled.button`
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   min-width: 8rem;
+  min-height: 3em;
   border: none;
   background: #f8f8f8;
   padding: 0.5rem 0;
@@ -304,7 +279,6 @@ export const CategoryBtn = styled.button`
 
 /* Info Data */
 export const InputPage = styled(Page)`
-  padding: 10rem 0;
   z-index: 1;
 `;
 export const InputContainer = styled(Container)`
@@ -313,7 +287,6 @@ export const InputContainer = styled(Container)`
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
-    padding: 1rem 0;
     & > button {
       border: none;
       padding: 0;

@@ -14,18 +14,6 @@ export const SearchInput = styled.div`
     font-size: 1rem;
     outline: none;
   }
-  & > button {
-    border: none;
-    background: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-left: auto;
-    cursor: pointer;
-    & svg {
-      width: 1rem;
-    }
-  }
 `;
 export const SchoolListWrapper = styled.div`
   position: absolute;

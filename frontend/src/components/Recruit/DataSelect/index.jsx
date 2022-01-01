@@ -2,8 +2,7 @@ import React, { useState } from "react";
 
 import moment from "moment";
 import "moment/locale/ko";
-import TimePicker from "react-datepicker";
-import ko from "date-fns/locale/ko";
+
 import { CSSTransition } from "react-transition-group";
 
 import DateInput from "./DateInput";
@@ -12,11 +11,14 @@ import TimeSelectModal from "./TimeSelectModal";
 
 import { ReactComponent as MinusIcon } from "../../../svg/마이너스.svg";
 import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
-import { ReactComponent as CalendarIcon } from "../../../svg/달력.svg";
+
 import { toast } from "react-toastify";
 
 import * as S from "../style";
-import "./date-picker.css";
+
+import TimePicker from "rc-time-picker";
+import "./timepicker.css";
+
 import DateChange from "../../Common/Alert/DateChange";
 
 export default function DataSelect({ recruit, setRecruit, movePage }) {
@@ -27,6 +29,10 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
   const [step, setStep] = useState(1);
 
   const changeDoTime = (value) => {
+    const copy = { ...recruit };
+    copy.startTime = null;
+    copy.endTime = null;
+    setRecruit(copy);
     if (value === "minus") {
       const copy = { ...recruit };
       if (copy.doTime > 30) {
@@ -139,20 +145,17 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
           >
             <S.DateBox>
               <p>날짜</p>
-              <div>
-                <CalendarIcon />
-                <DateInput
-                  minDate={new Date()}
-                  onChange={(e) => {
-                    const copy = { ...recruit };
-                    copy.dateList = e;
-                    copy.startDate = e[0];
-                    copy.endDate = e[e.length - 1];
-                    setRecruit(copy);
-                    setStep(3);
-                  }}
-                />
-              </div>
+              <DateInput
+                minDate={new Date()}
+                onChange={(e) => {
+                  const copy = { ...recruit };
+                  copy.dateList = e;
+                  copy.startDate = e[0];
+                  copy.endDate = e[e.length - 1];
+                  setRecruit(copy);
+                  setStep(3);
+                }}
+              />
             </S.DateBox>
           </CSSTransition>
           <CSSTransition
@@ -202,46 +205,50 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                       <S.TimeInput>
                         <p>시작시간</p>
                         <TimePicker
-                          locale={ko}
-                          selected={recruit.startTime}
+                          use12Hours
+                          inputReadOnly
+                          minuteStep={30}
+                          showSecond={false}
+                          format="a   h:mm"
                           onChange={(time) => {
                             if (createdGroup.length !== 0) {
                               setResetAlert(true);
                             } else {
                               const copy = { ...recruit };
-                              copy.startTime = time;
+                              copy.startTime = new Date(time);
                               setRecruit(copy);
                             }
                           }}
-                          timeFormat="aa h:mm"
-                          showTimeSelect
-                          showTimeSelectOnly
-                          timeCaption="시작시간"
-                          timeIntervals={30}
-                          dateFormat="aa h:mm"
+                          addon={(panel) => {
+                            return (
+                              <button
+                                className="rc-time-save-button"
+                                onClick={() => panel.close()}
+                              >
+                                확인
+                              </button>
+                            );
+                          }}
                         />
                       </S.TimeInput>
                       {"~"}
                       <S.TimeInput>
                         <p>종료시간</p>
                         <TimePicker
-                          locale={ko}
-                          selected={recruit.endTime}
+                          use12Hours
+                          inputReadOnly
+                          minuteStep={30}
+                          showSecond={false}
+                          format="a   h:mm"
                           onChange={(time) => {
                             if (createdGroup.length !== 0) {
                               setResetAlert(true);
                             } else {
                               const copy = { ...recruit };
-                              copy.endTime = time;
+                              copy.endTime = new Date(time);
                               setRecruit(copy);
                             }
                           }}
-                          timeFormat="aa h:mm"
-                          showTimeSelect
-                          showTimeSelectOnly
-                          timeCaption="종료시간"
-                          timeIntervals={30}
-                          dateFormat="aa h:mm"
                         />
                       </S.TimeInput>
                     </div>
@@ -274,6 +281,8 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                   </div>
                   <S.SaveTimeBtn
                     onClick={() => {
+                      console.log(recruit.startTime);
+                      console.log(recruit.endTime);
                       if (recruit.startTime && recruit.endTime) {
                         const copy = { ...recruit };
                         let timeList = createTimeArr(

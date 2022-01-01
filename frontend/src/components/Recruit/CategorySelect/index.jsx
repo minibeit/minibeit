@@ -27,6 +27,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                 </S.CategoryBtn>
               );
             })}
+            <S.CategoryBtn style={{ opacity: 0, zIndex: -10 }} />
           </div>
           <S.SaveBtn
             disabled={category === null ? true : false}

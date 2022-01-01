@@ -10,13 +10,9 @@ import DateInput from "./DateInput";
 import SchoolInput from "./SchoolInput";
 import TimeSelectModal from "./TimeSelectModal";
 
-import FeedCategory from "../../../constants/FeedCategory";
-
 import { ReactComponent as MinusIcon } from "../../../svg/마이너스.svg";
 import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
 import { ReactComponent as CalendarIcon } from "../../../svg/달력.svg";
-import { ReactComponent as ArrowIcon } from "../../../svg/체크.svg";
-import NextIcon from "@mui/icons-material/ArrowForwardIos";
 import { toast } from "react-toastify";
 
 import * as S from "../style";
@@ -26,8 +22,6 @@ import DateChange from "../../Common/Alert/DateChange";
 export default function DataSelect({ recruit, setRecruit, movePage }) {
   const [viewTimeSelect, setViewTimeSelect] = useState(true);
   const [timeSelectModal, setTimeSelectModal] = useState(false);
-  const [viewCategory, setViewCategory] = useState(false);
-  const [category, setCategory] = useState(null);
   const [resetAlert, setResetAlert] = useState(false);
   const [createdGroup, setCreatedGroup] = useState([]);
   const [step, setStep] = useState(1);
@@ -333,55 +327,15 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
           timeout={500}
           unmountOnExit
         >
-          <S.NextBtn
+          <S.SaveBtn
             onClick={() => {
-              if (viewTimeSelect) {
-                toast.info("시간 입력을 적용한 후 시도해주세요");
-              } else {
-                setViewCategory(true);
-              }
+              viewTimeSelect
+                ? toast.info("시간 입력을 적용한 후 시도해주세요")
+                : movePage(2);
             }}
           >
             다음
-            <NextIcon />
-          </S.NextBtn>
-        </CSSTransition>
-        <CSSTransition
-          in={viewCategory}
-          classNames="fadeIn"
-          timeout={500}
-          unmountOnExit
-        >
-          <S.CategoryContainer>
-            <p>실험 카테고리</p>
-            <div>
-              {FeedCategory.map((a) => {
-                return (
-                  <S.CategoryBtn
-                    id={a.id}
-                    key={a.id}
-                    onClick={() => setCategory(a.name)}
-                    disabled={category === a.name ? true : false}
-                  >
-                    {a.icon}
-                    {a.name}
-                  </S.CategoryBtn>
-                );
-              })}
-              <S.CategoryConfirm
-                disabled={category === null ? true : false}
-                onClick={() => {
-                  const copy = { ...recruit };
-                  copy["category"] = category;
-                  setRecruit(copy);
-                  movePage(2);
-                }}
-              >
-                <p>확인</p>
-                <ArrowIcon />
-              </S.CategoryConfirm>
-            </div>
-          </S.CategoryContainer>
+          </S.SaveBtn>
         </CSSTransition>
       </S.DataSelectContainer>
       {resetAlert && (

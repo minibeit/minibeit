@@ -39,6 +39,7 @@ export const Container = styled.div`
 export const SaveBtn = styled.button`
   padding: 0.5rem 1rem;
   border-radius: 2rem;
+  min-width: 8rem;
   background: #0642ff;
   color: white;
   font-size: 14px;
@@ -270,10 +271,7 @@ export const NextBtn = styled.button`
   ${fadeIn}
 `;
 export const CategoryContainer = styled.div`
-  & > p:first-child {
-    color: #c4c4c4;
-  }
-  & > div:nth-child(2) {
+  & > div:first-child {
     margin: 1rem auto;
     max-width: 50rem;
     background: white;
@@ -281,11 +279,10 @@ export const CategoryContainer = styled.div`
     border-radius: 1.5rem;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: start;
     gap: 0.5rem;
     padding: 1rem;
   }
-  ${fadeIn}
 `;
 export const CategoryBtn = styled.button`
   display: flex;
@@ -302,34 +299,6 @@ export const CategoryBtn = styled.button`
   &:disabled {
     border: 1px solid #0642ff;
     background: white;
-  }
-`;
-export const CategoryConfirm = styled(CategoryBtn)`
-  gap: 0.5rem;
-  border: none;
-  background: none;
-  & p {
-    font-weight: bold;
-    color: #0642ff;
-  }
-  & svg {
-    width: 1rem;
-    transform: rotate(270deg);
-    & path {
-      fill: #0642ff;
-    }
-  }
-  :disabled {
-    border: none;
-    & p {
-      font-weight: bold;
-      color: #c4c4c4;
-    }
-    & svg {
-      & path {
-        fill: #c4c4c4;
-      }
-    }
   }
 `;
 

@@ -7,6 +7,7 @@ import { bprofileListGet, feedCreateApi } from "../../utils";
 
 import BProfileSelect from "./BProfileSelect";
 import DataSelect from "./DataSelect";
+import CategorySelect from "./CategorySelect";
 import InfoData from "./InfoData";
 import { recruitState } from "../../recoil/recruitState";
 import { toast } from "react-toastify";
@@ -89,6 +90,13 @@ export default function RecruitComponent() {
       />
       {recruit.businessProfile.id !== null && (
         <DataSelect
+          recruit={recruit}
+          setRecruit={setRecruit}
+          movePage={movePage}
+        />
+      )}
+      {recruit.headCount !== 0 && (
+        <CategorySelect
           recruit={recruit}
           setRecruit={setRecruit}
           movePage={movePage}

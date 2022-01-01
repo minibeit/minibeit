@@ -20,7 +20,10 @@ export default function SideMenu({
             <S.ProfileImg
               sideMenu={true}
               img={user.avatar}
-              onClick={() => history.push("/profile?approve")}
+              onClick={() => {
+                history.push("/profile?approve");
+                setMenuSwitch(false);
+              }}
             />
           )}
           <S.LoginBtn

@@ -18,6 +18,16 @@ const moveSearchBar = keyframes`
     transform:translate(0, 0)
   }
 `;
+const moveSearchBarForMobile = keyframes`
+  from{
+    opacity:0.3;
+    transform:translate(0, 20%);
+  }
+  to{
+    opacity:1;
+    transform:translate(0, 0)
+  }
+`;
 
 export const FilterBtn = styled.button`
   display: flex;
@@ -114,6 +124,8 @@ export const CategoryBtn = styled.button`
 
 /*search filter*/
 export const SearchBox = styled.div`
+  width: 100%;
+  max-height: calc(100vh - 3.5rem);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -140,6 +152,16 @@ export const SearchBox = styled.div`
     background: #f8f8f8;
     border-radius: 0.3em;
     overflow: hidden;
+  }
+
+  @media only screen and (max-width: 700px) {
+    transform: translate(0, 20%);
+    ${({ centerView }) =>
+      !centerView &&
+      css`
+        animation-duration: 1s;
+        animation-name: ${moveSearchBarForMobile};
+      `}
   }
 `;
 export const SearchInput = styled.div`

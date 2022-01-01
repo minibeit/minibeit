@@ -31,25 +31,23 @@ export default function MainComponent() {
     <>
       <S.MainBox>
         <div>
-          <div>
+          <S.ButtonContainer>
             <Link to="1" spy={true} smooth={true}>
               <S.WhiteButton>참여하기</S.WhiteButton>
             </Link>
             <Link to="2" spy={true} smooth={true}>
               <S.BlueButton>모집하기</S.BlueButton>
             </Link>
-          </div>
+          </S.ButtonContainer>
           <p onClick={() => history.push("/apply")}>일단 둘러볼래요</p>
           <Link to="3" spy={true} smooth={true}>
-            <div>
-              <ArrowDown />
-            </div>
+            <ArrowDown />
           </Link>
         </div>
       </S.MainBox>
       <S.MainBox2 id="1" data-aos="fade-in">
         <div>
-          <div>
+          <S.TextBox>
             <div>
               <span>가까운 위치</span>에, <span>남는 시간</span>에 <br />{" "}
               간편하게 지원하기
@@ -57,37 +55,37 @@ export default function MainComponent() {
             <S.BlueButton onClick={() => history.push("/apply")}>
               참여하기
             </S.BlueButton>
-          </div>
-          <div>
+          </S.TextBox>
+          <S.ImgBox>
             <img src="/images/main.png" alt="mainImg" />
-          </div>
+          </S.ImgBox>
         </div>
       </S.MainBox2>
-      <S.MainBox3 id="2" data-aos="fade-in">
+      <S.MainBox2 id="2" data-aos="fade-in">
         <div>
-          <div>
+          <S.TextBox>
             <div>
               가장 쉽고 빠르게 <br /> <span>원하는 스케줄</span>로 모집하기
             </div>
             <S.BlueButton onClick={goRecruit}>모집하기</S.BlueButton>
-          </div>
-          <div>
+          </S.TextBox>
+          <S.ImgBox2>
             <img src="/images/main2.png" alt="mainImg" />
-          </div>
+          </S.ImgBox2>
         </div>
-      </S.MainBox3>
+      </S.MainBox2>
       <S.LastBox id="3" data-aos="fade-in">
         <div>
-          <div>
+          <S.TextBox2>
             세상에 없었던
             <br />
             새로운 <span>구인구직</span> 서비스,
             <br />
             미니바이트
-          </div>
-          <div>
+          </S.TextBox2>
+          <S.ImgBox3>
             <img src="/images/mainLogo.png" alt="MainImg" />
-          </div>
+          </S.ImgBox3>
         </div>
       </S.LastBox>
       {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}

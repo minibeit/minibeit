@@ -6,9 +6,9 @@ import * as S from "../style";
 
 function Main() {
   return (
-    <S.BackGround>
+    <S.MainBackGround>
       <MainComponent />
-    </S.BackGround>
+    </S.MainBackGround>
   );
 }
 export default Main;

@@ -9,9 +9,12 @@ import { PVImg } from "../../Common";
 import BProfileCreateModal from "../../Common/Modal/BProfileCreateModal";
 import * as S from "../style";
 import { useCallback } from "react";
+import { useRecoilState } from "recoil";
+import { userState } from "../../../recoil/userState";
 
 export default function BusinessContainer() {
   const history = useHistory();
+  const [user, setUser] = useRecoilState(userState);
   const [modalSwitch, setModalSwitch] = useState(false);
   const [BProfileList, setBProfileList] = useState([]);
   const [editMode, setEditMode] = useState(false);
@@ -57,7 +60,14 @@ export default function BusinessContainer() {
                 <CloseIcon />
               </S.DeleteBtn>
               <div>
-                <S.BImgBox onClick={() => history.push(`/business/${a.id}`)}>
+                <S.BImgBox
+                  onClick={() => {
+                    const copy = { ...user };
+                    copy.bprofile = a.id;
+                    setUser(copy);
+                    history.push(`/business/${a.id}`);
+                  }}
+                >
                   {a.avatar ? (
                     <PVImg img={a.avatar} />
                   ) : (

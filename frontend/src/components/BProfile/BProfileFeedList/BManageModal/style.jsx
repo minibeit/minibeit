@@ -104,21 +104,24 @@ export const UserListView = styled.div`
     text-align: center;
     align-items: center;
     & > div {
+      white-space: nowrap;
+      text-align: center;
+    }
+    & > div:nth-child(1) {
       width: 3rem;
     }
     & > div:nth-child(2) {
       width: 5rem;
     }
     & > div:nth-child(3) {
-      width: 1.7rem;
+      width: 1rem;
     }
     & > div:nth-child(4) {
-      width: 5rem;
+      width: 6rem;
     }
     & > div:nth-child(5) {
       width: 3.5rem;
     }
-
     & > div:nth-child(6) {
       width: 7rem;
     }
@@ -185,6 +188,28 @@ export const UserInfoBox = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  & > div {
+    white-space: nowrap;
+    text-align: center;
+  }
+  & > div:nth-child(1) {
+    width: 3rem;
+  }
+  & > div:nth-child(2) {
+    width: 5rem;
+  }
+  & > div:nth-child(3) {
+    width: 1rem;
+  }
+  & > div:nth-child(4) {
+    width: 6rem;
+  }
+  & > div:nth-child(5) {
+    width: 3.5rem;
+  }
+  & > div:nth-child(6) {
+    width: 7rem;
+  }
 `;
 
 export const ButtonBox = styled.div`

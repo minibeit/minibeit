@@ -23,15 +23,6 @@ export default function FeedInfoContainer({
     setEditAlert(false);
   };
 
-  const [currentImg, setCurrentImg] = useState(0);
-  const imgOnClick = (e) => {
-    setSliderSwitch(true);
-    setCurrentImg(
-      feedDetailData.files.findIndex((i) => i.url === e.target.src) !== -1
-        ? feedDetailData.files.findIndex((i) => i.url === e.target.src)
-        : 4
-    );
-  };
   return (
     <Presenter
       id={feedDetailData.id}
@@ -52,15 +43,12 @@ export default function FeedInfoContainer({
       contact={feedDetailData.contact}
       businessProfileInfo={feedDetailData.businessProfileInfo}
       editSwitch={editSwitch}
-      feedDetailData={feedDetailData}
       date={date}
       setEditSwitch={setEditSwitch}
       setNewContent={setNewContent}
       editSubmit={editSubmit}
-      currentImg={currentImg}
       sliderSwitch={sliderSwitch}
       setSliderSwitch={setSliderSwitch}
-      imgOnClick={imgOnClick}
       editAlert={editAlert}
       setEditAlert={setEditAlert}
     />

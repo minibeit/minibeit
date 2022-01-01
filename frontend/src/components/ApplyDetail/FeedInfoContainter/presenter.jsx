@@ -1,4 +1,5 @@
 import React from "react";
+import Carousel from "react-material-ui-carousel";
 import TimeSelectBox from "./TimeSelectBox";
 import ApplyDetailImgsModal from "../../Common/Modal/ApplyDetailImgsModal";
 import ReveiwBox from "./ReviewBox";
@@ -23,19 +24,15 @@ export default function Presenter({
   content,
   setNewContent,
   editSubmit,
-  feedDetailData,
   files,
   address,
   addressDetail,
   contact,
   businessProfileInfo,
-  currentImg,
   sliderSwitch,
   setSliderSwitch,
-  imgOnClick,
   editAlert,
   setEditAlert,
-  editOn,
 }) {
   return (
     <S.ContentBox>
@@ -136,56 +133,31 @@ export default function Presenter({
               {updatedContent ? <p>{updatedContent}</p> : <p>{content}</p>}
             </S.DetailContent>
           )}
-
-          {files.length !== 0 ? (
-            <S.ApplyImgContainer>
-              <div>
-                <S.BigImg src={files[0] && files[0].url} onClick={imgOnClick} />
+          {files.length !== 0 && (
+            <>
+              <div style={{ padding: "2em 0" }}>
+                <Carousel
+                  autoPlay={false}
+                  animation={"fade"}
+                  navButtonsAlwaysVisible={true}
+                >
+                  {files.map((image, i) => (
+                    <S.SliderImg
+                      key={i}
+                      onClick={() => setSliderSwitch(true)}
+                      img={image.url}
+                    />
+                  ))}
+                </Carousel>
               </div>
-              <div>
-                <div>
-                  {files.length < 2 ? (
-                    <S.NoImg />
-                  ) : (
-                    <S.SmImg
-                      src={files[1] && files[1].url}
-                      onClick={imgOnClick}
-                    />
-                  )}
-                </div>
-                <div>
-                  {files.length < 3 ? (
-                    <S.NoImg />
-                  ) : (
-                    <S.SmImg
-                      src={files[2] && files[2].url}
-                      onClick={imgOnClick}
-                    />
-                  )}
-                </div>
-                <div>
-                  {files.length < 4 ? (
-                    <S.NoImg />
-                  ) : (
-                    <S.SmImg
-                      src={files[3] && files[3].url}
-                      onClick={imgOnClick}
-                    />
-                  )}
-                </div>
-                {feedDetailData.files.length > 4 ? (
-                  <div onClick={imgOnClick}>+{files.length - 4}</div>
-                ) : null}
-              </div>
-              {sliderSwitch ? (
+              {sliderSwitch && (
                 <ApplyDetailImgsModal
                   files={files}
                   setSliderSwitch={setSliderSwitch}
-                  currentImg={currentImg}
                 />
-              ) : null}
-            </S.ApplyImgContainer>
-          ) : null}
+              )}
+            </>
+          )}
         </S.DataContent>
       </div>
       <div>

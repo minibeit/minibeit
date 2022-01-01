@@ -1,42 +1,49 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
+import Carousel from "react-material-ui-carousel";
+
+import { downloadFileApi } from "../../../../utils";
+
 import Portal from "../Portal";
 
-import Presenter from "./presenter";
+import * as S from "./style";
 
-export default function ApplyImgsModal({ setSliderSwitch, currentImg, files }) {
-  const [currentSlide, setCurrentSlide] = useState(currentImg);
-  const slideRef = useRef(null);
-  const nextSlide = (e) => {
-    if (currentSlide + 1 < files.length) {
-      setCurrentSlide(currentSlide + 1);
-    } else {
-      return;
-    }
-  };
-  const prevSlide = (e) => {
-    if (currentSlide === 0) {
-      return;
-    } else {
-      setCurrentSlide(currentSlide - 1);
-    }
-  };
+export default function ApplyImgsModal({ files, setSliderSwitch }) {
+  const [currentImg, setCurrentImg] = useState(0);
 
-  useEffect(() => {
-    slideRef.current.style.transition = "all 0.5s ease-in-out";
-    slideRef.current.style.transform = `translateX(-${currentSlide}00%)`;
-  }, [currentSlide]);
+  const downloadImg = () => {
+    console.log(currentImg);
+    downloadFileApi(files[currentImg].name).then((res) => {
+      const url = window.URL.createObjectURL(new Blob([res.data]));
+      const link = document.createElement("a");
+      link.href = url;
+      link.setAttribute("download", files[currentImg].name);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+  };
 
   return (
     <Portal>
-      <Presenter
-        currentSlide={currentSlide}
-        slideRef={slideRef}
-        setSliderSwitch={setSliderSwitch}
-        currentImg={currentImg}
-        files={files}
-        prevSlide={prevSlide}
-        nextSlide={nextSlide}
-      />
+      <S.Container>
+        <div>
+          <S.Button onClick={() => setSliderSwitch(false)}>닫기</S.Button>
+          <S.Button onClick={downloadImg}>다운로드</S.Button>
+        </div>
+        <Carousel
+          onChange={(now, pre) => {
+            setCurrentImg(now);
+          }}
+          animation={"fade"}
+          autoPlay={false}
+          index={currentImg}
+          navButtonsAlwaysVisible={true}
+        >
+          {files.map((image, i) => (
+            <S.SliderImg key={i} img={image.url} />
+          ))}
+        </Carousel>
+      </S.Container>
     </Portal>
   );
 }

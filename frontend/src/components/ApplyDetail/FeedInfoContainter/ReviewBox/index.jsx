@@ -27,30 +27,13 @@ export default function ReveiwBox({ businessId }) {
           return (
             <S.ReviewItem key={a.id}>
               <S.ReviewTitle>
-                {a.id === 1 && (
-                  <>
-                    <div>아이콘</div>
-                    <p>시간</p>
-                  </>
-                )}
-                {a.id === 2 && (
-                  <>
-                    <div>아이콘</div>
-                    <p>흥미</p>
-                  </>
-                )}
-                {a.id === 3 && (
-                  <>
-                    <div>아이콘</div>
-                    <p>보상</p>
-                  </>
-                )}
-                {a.id === 4 && (
-                  <>
-                    <div>아이콘</div>
-                    <p>친절</p>
-                  </>
-                )}
+                <S.ReviewIcon id={a.id} />
+                <p>
+                  {a.id === 1 && "시간"}
+                  {a.id === 2 && "흥미"}
+                  {a.id === 3 && "보상"}
+                  {a.id === 4 && "친절"}
+                </p>
               </S.ReviewTitle>
               <p>{a.content}</p>
               <S.ReviewCount>

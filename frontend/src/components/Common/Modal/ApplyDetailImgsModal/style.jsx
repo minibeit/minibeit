@@ -1,98 +1,33 @@
 import styled from "styled-components";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-
-export const ModalDiv = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 40rem;
-  justify-content: center;
-  margin-top: 2rem;
-`;
-
-export const ModalBtn = styled.button`
-  width: 4rem;
-  height: 2rem;
-  font-size: 0.8rem;
-  color: #ffffff;
-  border: 1px solid #ffffff;
-  box-sizing: border-box;
-  border-radius: 1rem;
-  background: none;
-  cursor: pointer;
-`;
 
 // slider
 export const Container = styled.div`
   position: relative;
-  top: 40%;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -60%);
-  width: 25rem;
+  transform: translate(-50%, -50%);
+  max-width: 60rem;
   overflow: hidden;
-
-  & > p:first-child {
-    position: relative;
-    font-size: 0.7rem;
-    font-weight: 200;
-    color: #ffffff;
-    text-align: center;
-    margin-top: 2rem;
+  & > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    padding: 2em;
   }
 `;
-
-export const SliderContainer = styled.div`
-  display: flex;
-  margin: auto;
-`;
-
-export const ImgContainer = styled.div`
-  position: relative;
-  width: 25rem;
-  height: 25rem;
-`;
-
-export const Image = styled.img`
-  position: relative;
-  width: 25rem;
-  height: 25rem;
-  object-fit: contain;
-  box-sizing: content-box;
-`;
-
-export const ButtonContainer = styled.div`
-  position: absolute;
-  width: 100vw;
-  top: 50%;
-`;
-
-const ArrowButton = styled.button`
-  position: absolute;
-  top: 50%;
-  padding: 0;
-  width: 2rem;
-  height: 2rem;
-  line-height: 1;
-  border: none;
-  background: none;
-  outline: none;
+export const Button = styled.div`
+  background: white;
+  border: 1px solid #c4c4c4;
+  border-radius: 2em;
+  padding: 0.5em 2em;
+  min-width: 4em;
+  font-weight: bold;
   cursor: pointer;
+  text-align: center;
 `;
 
-export const PrevButton = styled(ArrowButton)`
-  left: 20%;
-`;
-
-export const NextButton = styled(ArrowButton)`
-  right: 20%;
-`;
-
-export const PrevIcon = styled(ArrowBackIosIcon)`
-  font-size: 2rem;
-  color: #ffffff;
-`;
-
-export const NextIcon = styled(ArrowForwardIosIcon)`
-  font-size: 2rem;
-  color: #ffffff;
+export const SliderImg = styled.div`
+  width: 100%;
+  height: 30em;
+  background: ${({ img }) => img && `url(${img})`} no-repeat center
+    center/contain;
 `;

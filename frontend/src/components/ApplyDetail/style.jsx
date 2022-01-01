@@ -287,17 +287,38 @@ export const ReviewItem = styled.div`
   display: flex;
   margin: 1em 0.5em;
   gap: 0.5em;
-  & > div:nth-child(3) {
+  & > p:nth-child(2) {
+    display: flex;
+    align-items: center;
   }
 `;
 export const ReviewTitle = styled.div`
   display: flex;
   gap: 0.5em;
   & > p {
+    display: flex;
+    align-items: center;
     font-weight: bold;
     color: #404040;
   }
 `;
+export const ReviewIcon = styled.div`
+  background: ${({ id }) => {
+      if (id === 1) {
+        return 'url("/images/시간아이콘.png")';
+      } else if (id === 2) {
+        return "url(/images/웃는얼굴아이콘.png)";
+      } else if (id === 3) {
+        return "url(/images/돈다발아이콘.png)";
+      } else if (id === 4) {
+        return "url(/images/하트아이콘.png)";
+      }
+    }}
+    no-repeat center center/contain;
+  width: 2.5em;
+  height: 1.5em;
+`;
+
 export const ReviewCount = styled.div`
   display: flex;
   gap: 0.5em;
@@ -308,6 +329,8 @@ export const ReviewCount = styled.div`
     }
   }
   & > p {
+    display: flex;
+    align-items: center;
     font-weight: bold;
   }
   margin-left: auto;
@@ -387,60 +410,10 @@ export const CopyBtn = styled(ControllerBtn)`
 `;
 
 // apply detail imgs slider
-export const ApplyImgContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  width: 27.5rem;
-  margin: 4rem 0;
-
-  & > div:nth-child(2) {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-`;
-
-export const BigImg = styled.img`
-  width: 20rem;
-  height: 20rem;
-  border-radius: 0.4rem;
-  object-fit: contain;
-  background-color: #000;
-  cursor: pointer;
-`;
-
-export const SmImg = styled.img`
-  width: 6.25rem;
-  height: 6.25rem;
-  border-radius: 0.2rem;
-  object-fit: contain;
-  flex-grow: 1;
-  /* border: 1px solid gray;
-  box-sizing: border-box; */
-  background-color: #c0bfbf;
-  cursor: pointer;
-`;
-export const NoImg = styled.div`
-  width: 6.25rem;
-  height: 6.25rem;
-  border-radius: 0.2rem;
-  object-fit: contain;
-  flex-grow: 1;
-  background-color: #c0bfbf;
-`;
-export const Div = styled.div`
-  position: relative;
-  width: 6.25rem;
-  height: 6.25rem;
-  background-color: rgba(80, 80, 80, 0.6);
-  border-radius: 0.2rem;
-  font-size: 2rem;
-  line-height: 6.25rem;
-  color: #ffffff;
-  text-align: center;
-  z-index: 2;
+export const SliderImg = styled.div`
+  min-height: 20em;
+  background: ${({ img }) => img && `url(${img})`} no-repeat center
+    center/contain;
   cursor: pointer;
 `;
 

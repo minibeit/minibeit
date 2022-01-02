@@ -29,6 +29,19 @@ const moveSearchBarForMobile = keyframes`
   }
 `;
 
+export const ConditionsBox = styled.div`
+  border-bottom: 1px solid rgba(17, 17, 17, 0.16);
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  @media only screen and (max-width: 700px) {
+    display: auto;
+    padding: 0;
+  }
+`;
+
 export const FilterBtn = styled.button`
   display: flex;
   align-items: center;
@@ -60,6 +73,7 @@ export const FilterLabelBox = styled.div`
   flex-wrap: wrap;
   align-items: center;
   min-height: 3rem;
+  margin: 0.5rem 0;
 `;
 export const FilterLabel = styled.div`
   background: rgba(6, 66, 255, 0.1);
@@ -125,7 +139,7 @@ export const CategoryBtn = styled.button`
 /*search filter*/
 export const SearchBox = styled.div`
   width: 100%;
-  min-height: 40vh;
+  min-height: 30vh;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -157,7 +171,7 @@ export const SearchBox = styled.div`
 
   @media only screen and (max-width: 700px) {
     transform: translate(0, 10%);
-    min-height: 60vh;
+    min-height: 50vh;
     ${({ centerView }) =>
       !centerView &&
       css`

@@ -1,6 +1,4 @@
 import styled, { keyframes } from "styled-components";
-import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 const fadeIn = keyframes`
   0% {
@@ -160,16 +158,15 @@ export const LastBox = styled.div`
   position: relative;
   & > div {
     position: relative;
-    min-height: inherit;
-    margin: auto;
+    height: inherit;
+    padding: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    box-sizing: border-box;
     justify-content: center;
   }
   @media only screen and (max-width: 700px) {
-    max-height: 50vh;
+    max-height: 100vh;
     padding: auto;
     & > div {
       padding: 0;
@@ -202,60 +199,4 @@ export const TextBox2 = styled.div`
   @media only screen and (max-width: 700px) {
     font-size: 2rem;
   }
-`;
-
-// slider
-export const Container = styled.div`
-  position: relative;
-  width: 85vw;
-  overflow: hidden;
-`;
-
-export const ImageContainer = styled.div`
-  position: relative;
-  width: 20rem;
-  height: 20rem;
-  margin: 1rem 0 2rem;
-  border-radius: 1.5rem;
-  box-shadow: 0.5rem 0.5rem 1.8rem rgba(189, 189, 189, 0.2);
-`;
-
-export const Image = styled.img`
-  position: absolute;
-  max-width: 5rem;
-  max-height: 5rem;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-`;
-
-const ArrowButton = styled.button`
-  position: absolute;
-  top: 45%;
-  padding: 0;
-  width: 2rem;
-  height: 2rem;
-  line-height: 1;
-  border: none;
-  background: none;
-  outline: none;
-  cursor: pointer;
-`;
-
-export const PrevButton = styled(ArrowButton)`
-  left: 0;
-`;
-
-export const NextButton = styled(ArrowButton)`
-  right: 15rem;
-`;
-
-export const PrevIcon = styled(ArrowBackIosIcon)`
-  font-size: 1.5rem;
-  color: gray;
-`;
-
-export const NextIcon = styled(ArrowForwardIosIcon)`
-  font-size: 1.5rem;
-  color: gray;
 `;

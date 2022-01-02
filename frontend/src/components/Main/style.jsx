@@ -159,16 +159,18 @@ export const LastBox = styled.div`
   height: 100vh;
   position: relative;
   & > div {
-    padding: 9rem 12rem 0;
+    position: relative;
+    min-height: inherit;
+    margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: calc(100vh - 4rem);
     box-sizing: border-box;
     justify-content: center;
   }
   @media only screen and (max-width: 700px) {
-    max-height: 80vh;
+    max-height: 50vh;
+    padding: auto;
     & > div {
       padding: 0;
     }

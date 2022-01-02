@@ -6,21 +6,18 @@ import { ReactComponent as BeitIcon } from "../../../svg/beitIcon.svg";
 import * as S from "./style";
 
 export default function Footer() {
-  const [alert, setConditionsAlert] = useState(0);
+  const [personalInfoAlert, setPersonalInfoAlert] = useState(false);
+  const [conditionsAlert, setConditionsAlert] = useState(false);
   return (
     <S.FooterContainer>
-      {alert === 1 && <Conditions setConditionsAlert={setConditionsAlert} />}
-      {alert === 2 && (
-        <PersonalInformation setConditionsAlert={setConditionsAlert} />
-      )}
       <div>
         <S.FooterHeader>
           <S.FooterIcon>
             <BeitIcon /> Minibeit
           </S.FooterIcon>
           <p>기업소개</p>
-          <p onClick={() => setConditionsAlert(1)}>이용약관</p>
-          <p onClick={() => setConditionsAlert(2)}>개인정보 처리 방침</p>
+          <p onClick={() => setConditionsAlert(true)}>이용약관</p>
+          <p onClick={() => setPersonalInfoAlert(true)}>개인정보 처리 방침</p>
           <p>고객센터</p>
           <a
             target="_blank"
@@ -43,6 +40,12 @@ export default function Footer() {
           <p>ⓒminibeit</p>
         </S.FooterFooter>
       </div>
+      {conditionsAlert && (
+        <Conditions setConditionsAlert={setConditionsAlert} />
+      )}
+      {personalInfoAlert && (
+        <PersonalInformation setPersonalInfoAlert={setPersonalInfoAlert} />
+      )}
     </S.FooterContainer>
   );
 }

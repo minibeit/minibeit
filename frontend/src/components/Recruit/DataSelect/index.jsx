@@ -201,57 +201,70 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
               >
                 <S.TimeSelectBox>
                   <div>
-                    <div>
-                      <S.TimeInput>
+                    <S.TimeInput>
+                      <div>
                         <p>시작시간</p>
-                        <TimePicker
-                          use12Hours
-                          inputReadOnly
-                          minuteStep={30}
-                          showSecond={false}
-                          format="a   h:mm"
-                          onChange={(time) => {
-                            if (createdGroup.length !== 0) {
-                              setResetAlert(true);
-                            } else {
-                              const copy = { ...recruit };
-                              copy.startTime = new Date(time);
-                              setRecruit(copy);
-                            }
-                          }}
-                          addon={(panel) => {
-                            return (
-                              <button
-                                className="rc-time-save-button"
-                                onClick={() => panel.close()}
-                              >
-                                확인
-                              </button>
-                            );
-                          }}
-                        />
-                      </S.TimeInput>
-                      {"~"}
-                      <S.TimeInput>
                         <p>종료시간</p>
-                        <TimePicker
-                          use12Hours
-                          inputReadOnly
-                          minuteStep={30}
-                          showSecond={false}
-                          format="a   h:mm"
-                          onChange={(time) => {
-                            if (createdGroup.length !== 0) {
-                              setResetAlert(true);
-                            } else {
-                              const copy = { ...recruit };
-                              copy.endTime = new Date(time);
-                              setRecruit(copy);
-                            }
-                          }}
-                        />
-                      </S.TimeInput>
-                    </div>
+                      </div>
+                      <div>
+                        <span>
+                          <TimePicker
+                            use12Hours
+                            inputReadOnly
+                            minuteStep={30}
+                            showSecond={false}
+                            format="a   h:mm"
+                            onChange={(time) => {
+                              if (createdGroup.length !== 0) {
+                                setResetAlert(true);
+                              } else {
+                                const copy = { ...recruit };
+                                copy.startTime = new Date(time);
+                                setRecruit(copy);
+                              }
+                            }}
+                            addon={(panel) => {
+                              return (
+                                <button
+                                  className="rc-time-save-button"
+                                  onClick={() => panel.close()}
+                                >
+                                  확인
+                                </button>
+                              );
+                            }}
+                          />
+                        </span>
+                        <span>
+                          <TimePicker
+                            use12Hours
+                            inputReadOnly
+                            minuteStep={30}
+                            showSecond={false}
+                            format="a   h:mm"
+                            onChange={(time) => {
+                              if (createdGroup.length !== 0) {
+                                setResetAlert(true);
+                              } else {
+                                const copy = { ...recruit };
+                                copy.endTime = new Date(time);
+                                setRecruit(copy);
+                              }
+                            }}
+                            addon={(panel) => {
+                              return (
+                                <button
+                                  className="rc-time-save-button"
+                                  onClick={() => panel.close()}
+                                >
+                                  확인
+                                </button>
+                              );
+                            }}
+                          />
+                        </span>
+                      </div>
+                    </S.TimeInput>
                     <S.DetailTimeBtn
                       disabled={
                         recruit.startTime === null || recruit.endTime === null
@@ -281,8 +294,6 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                   </div>
                   <S.SaveTimeBtn
                     onClick={() => {
-                      console.log(recruit.startTime);
-                      console.log(recruit.endTime);
                       if (recruit.startTime && recruit.endTime) {
                         const copy = { ...recruit };
                         let timeList = createTimeArr(

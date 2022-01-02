@@ -185,33 +185,43 @@ export const TimeSelectBox = styled.div`
   position: absolute;
   z-index: 9;
   background: white;
-  transform: translate(0, 4em);
+  transform: translate(-1em, 4.5em);
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
   & > div:first-child {
-    padding: 0.5em;
+    padding: 1em;
     display: flex;
     flex-direction: column;
     gap: 0.8em;
-    & > div:first-child {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.5em;
-    }
   }
   ${fadeIn}
 `;
+
 export const TimeInput = styled.div`
   display: flex;
   flex-direction: column;
-  & p {
-    text-align: start;
-    margin: 0.3em;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+  & > div:first-child {
+    display: flex;
+    width: 100%;
+    & p {
+      flex: 1;
+      text-align: start;
+    }
+  }
+  & > div:nth-child(2) {
+    display: flex;
+    background: #f8f8f8;
+    padding: 0.5em;
+    border-radius: 1em;
+    & > span:first-child {
+      border-right: 0.5px solid #7c7c7c;
+    }
   }
   & input {
-    background: #f8f8f8;
+    background: none;
     border-radius: 1em;
     border: none;
     width: 8rem;

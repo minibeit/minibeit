@@ -319,4 +319,20 @@ public class PostResponse {
                     .build();
         }
     }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetBusinessStatus {
+        private Long complete;
+        private Long review;
+
+        public static GetBusinessStatus build(Long complete, Long review) {
+            return GetBusinessStatus.builder()
+                    .complete(complete)
+                    .review(review)
+                    .build();
+        }
+    }
 }

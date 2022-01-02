@@ -19,7 +19,7 @@ public interface PostRepositoryCustom {
 
     Optional<Post> findByIdWithBusinessProfile(Long postId);
 
-    Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, LocalDateTime now, Pageable pageable);
+    Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, Pageable pageable);
 
     Page<Post> findAllByLike(User user, Pageable pageable);
 
@@ -28,4 +28,6 @@ public interface PostRepositoryCustom {
     Optional<Post> findGetOneByPostId(Long postId);
 
     PostResponse.GetMyCount countMyPostStatusWaitAndReject(LocalDateTime now, User user);
+
+    PostResponse.GetBusinessStatus countByPostStatusCompleteAndReview(Long businessProfileId);
 }

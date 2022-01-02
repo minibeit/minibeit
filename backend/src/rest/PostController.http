@@ -119,8 +119,6 @@ Authorization: {{authorizationToken}}
 ###
 GET {{apiUrl}}/posts/2?doDate=2021-12-13&page=1&size=15&paymentType=&category=&startTime=&endTime=&minPay=&doTime=
 
-
-
 ###
 GET {{apiUrl}}/post/2/start?doDate=2021-09-27
 
@@ -142,6 +140,10 @@ Authorization: {{authorizationToken}}
 
 ###
 GET {{apiUrl}}/post/user/status
+Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/post/business/profile/1/status
 Authorization: {{authorizationToken}}
 
 ###

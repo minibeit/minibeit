@@ -125,7 +125,7 @@ export const CategoryBtn = styled.button`
 /*search filter*/
 export const SearchBox = styled.div`
   width: 100%;
-  min-height: calc(100vh - 3.5rem);
+  min-height: 40vh;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -157,7 +157,7 @@ export const SearchBox = styled.div`
 
   @media only screen and (max-width: 700px) {
     transform: translate(0, 10%);
-    min-height: calc(60vh - 3.5rem);
+    min-height: 60vh;
     ${({ centerView }) =>
       !centerView &&
       css`

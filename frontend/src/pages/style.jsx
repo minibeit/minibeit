@@ -5,11 +5,18 @@ export const BackGround = styled.div`
   max-width: 100%;
   min-height: 70vh;
   padding: 2rem 12rem;
-  @media only screen and (max-width: 1000px) {
-    padding: 2rem 8rem;
-  }
   @media only screen and (max-width: 700px) {
-    padding: 2rem 4rem;
+    padding: 2rem 2rem;
+  }
+`;
+
+export const DetailBackGround = styled.div`
+  background-color: #fff;
+  max-width: 100%;
+  min-height: 70vh;
+  padding: 2rem 12rem;
+  @media only screen and (max-width: 700px) {
+    padding: 0;
   }
 `;
 

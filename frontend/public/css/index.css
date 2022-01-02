@@ -38,10 +38,12 @@ body::-webkit-scrollbar-button {
   width: 0;
   height: 0;
 }
-html,
-body {
-  width: 100%;
-  overflow-x: hidden;
+@media only screen and (max-screen: 700px) {
+  html,
+  body {
+    width: 100%;
+    /* overflow-x: hidden; */
+  }
 }
 
 .pageTransition-enter {

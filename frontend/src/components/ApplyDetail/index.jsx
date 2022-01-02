@@ -13,6 +13,7 @@ import { userState } from "../../recoil/userState";
 
 import FeedInfoContainer from "./FeedInfoContainter";
 import ApplyController from "./ApplyController";
+import ApplyControllerForMobile from "./ApplyControllerForMobile";
 import TitleContiner from "./TitleContiner";
 
 import * as S from "./style";
@@ -90,37 +91,46 @@ export default function ApplyDetailComponent({ feedId, date }) {
 
   return (
     <div>
-      {feedDetailData && (
-        <TitleContiner
+      {feedDetailData && apply.postId !== null && (
+        <ApplyControllerForMobile
+          apply={apply}
           feedDetailData={feedDetailData}
-          clickBookmark={clickBookmark}
+          checkLogin={checkLogin}
         />
       )}
-      {feedDetailData && (
-        <S.UnderTitle>
-          <FeedInfoContainer
+      <S.Container>
+        {feedDetailData && (
+          <TitleContiner
             feedDetailData={feedDetailData}
-            date={date}
-            editDetail={editDetail}
-            sliderSwitch={sliderSwitch}
-            setSliderSwitch={setSliderSwitch}
+            clickBookmark={clickBookmark}
           />
-          <ApplyController
-            apply={apply}
-            feedDetailData={feedDetailData}
-            checkLogin={checkLogin}
-          />
-          {applyAlert && (
-            <AskCompleteApplication
-              apply={apply}
-              setApplyAlert={setApplyAlert}
-              applyAlert={applyAlert}
-              applyApi={applyApi}
+        )}
+        {feedDetailData && (
+          <S.UnderTitle>
+            <FeedInfoContainer
+              feedDetailData={feedDetailData}
+              date={date}
+              editDetail={editDetail}
+              sliderSwitch={sliderSwitch}
+              setSliderSwitch={setSliderSwitch}
             />
-          )}
-          {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
-        </S.UnderTitle>
-      )}
+            <ApplyController
+              apply={apply}
+              feedDetailData={feedDetailData}
+              checkLogin={checkLogin}
+            />
+            {applyAlert && (
+              <AskCompleteApplication
+                apply={apply}
+                setApplyAlert={setApplyAlert}
+                applyAlert={applyAlert}
+                applyApi={applyApi}
+              />
+            )}
+            {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
+          </S.UnderTitle>
+        )}
+      </S.Container>
     </div>
   );
 }

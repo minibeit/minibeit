@@ -42,13 +42,18 @@ export const Formexplain = styled.div`
 `;
 export const FormContainer = styled.div`
   width: 57%;
-  margin: 0 auto;
+  margin: 2rem auto;
 `;
 export const FormTitleBox = styled.div`
   height: 16rem;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  & > img {
+    width: 12rem;
+    height: 12rem;
+  }
   & > p {
     font-size: 28px;
     font-weight: 700;
@@ -58,16 +63,34 @@ export const FormTitleBox = styled.div`
     line-height: 1.3;
   }
 `;
-export const LoginButton = styled.div`
+export const KLoginButton = styled.div`
+  background-color: #ffdb1d;
   cursor: pointer;
-  background: ${(props) => props.color};
   height: 48px;
-  border-radius: 27px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 18px 0;
+  padding: 0 1rem;
+  gap: 3rem;
+  /* justify-content: flex-start; */
+  align-items: center;
+  & > img {
+    flex: 1;
+    width: 1.5rem;
+    height: 1.5rem;
+  }
   & > p {
+    flex: 10;
     color: white;
+  }
+`;
+
+export const GLoginButton = styled(KLoginButton)`
+  background-color: #fff;
+  border: 1px solid #aaaaaa;
+  & > p {
+    color: #000;
   }
 `;

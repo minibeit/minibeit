@@ -1,11 +1,11 @@
 package com.minibeit.post.domain.repository;
 
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.dto.QPostResponse_GetMyApplyList;
-import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.user.domain.User;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -27,6 +27,7 @@ import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostApplicant.postApplicant;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
 import static com.minibeit.post.domain.QPostLike.postLike;
+import static com.minibeit.post.domain.QRejectPost.rejectPost;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -125,6 +126,22 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .leftJoin(businessProfile.avatar).fetchJoin()
                 .where(post.id.eq(postId))
                 .fetchOne());
+    }
+
+    @Override
+    public PostResponse.GetMyCount countMyPostStatusWaitAndReject(LocalDateTime now, User user) {
+        long waitCount = queryFactory.select(postApplicant)
+                .from(postApplicant)
+                .join(postApplicant.postDoDate, postDoDate)
+                .where(postApplicant.user.id.eq(user.getId())
+                        .and(postApplicant.applyStatus.eq(ApplyStatus.WAIT))
+                        .and(postDoDate.doDate.goe(now)))
+                .fetchCount();
+        long reject = queryFactory.select(rejectPost)
+                .from(rejectPost)
+                .where(rejectPost.user.id.eq(user.getId()))
+                .fetchCount();
+        return PostResponse.GetMyCount.build(reject, waitCount);
     }
 
     @Override

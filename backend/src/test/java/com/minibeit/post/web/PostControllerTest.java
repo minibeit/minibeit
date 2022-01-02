@@ -1,15 +1,13 @@
 package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.file.domain.Avatar;
-import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.post.domain.PostFile;
-import com.minibeit.post.domain.*;
-import com.minibeit.post.service.dto.PostResponse;
-import com.minibeit.post.service.PostService;
-import com.minibeit.post.domain.ApplyStatus;
-import com.minibeit.school.domain.School;
 import com.minibeit.auth.domain.CustomUserDetails;
+import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.file.domain.Avatar;
+import com.minibeit.post.domain.*;
+import com.minibeit.post.service.PostService;
+import com.minibeit.post.service.dto.PostResponse;
+import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -437,11 +435,30 @@ class PostControllerTest extends MvcTest {
                 ));
     }
 
+    @Test
+    @DisplayName("개인 프로필 신청 현황 문서화")
+    public void getMyPostStatus() throws Exception {
+        PostResponse.GetMyCount response = PostResponse.GetMyCount.build(1L, 1L);
+
+        given(postService.getMyPostStatus(any(), any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/post/user/status"));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-my-status",
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.reject").type(JsonFieldType.NUMBER).description("반려된 게시물 개수"),
+                                fieldWithPath("data.wait").type(JsonFieldType.NUMBER).description("대기중인 게시물 개수")
+                        )
+                ));
+    }
 
     @Test
     @DisplayName("즐겨찾기 목록에서 모집완료된 게시물 일괄삭제 문서화")
     public void deleteLikes() throws Exception {
-
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .delete("/api/post/likes"));
 

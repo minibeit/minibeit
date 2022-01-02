@@ -26,4 +26,6 @@ public interface PostRepositoryCustom {
     Page<PostResponse.GetMyApplyList> findAllByApplyStatus(ApplyStatus status, User user, LocalDateTime now, Pageable of);
 
     Optional<Post> findGetOneByPostId(Long postId);
+
+    PostResponse.GetMyCount countMyPostStatusWaitAndReject(LocalDateTime now, User user);
 }

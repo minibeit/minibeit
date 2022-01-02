@@ -74,7 +74,6 @@ export const KLoginButton = styled.div`
   margin: 18px 0;
   padding: 0 1rem;
   gap: 3rem;
-  /* justify-content: flex-start; */
   align-items: center;
   & > img {
     flex: 1;
@@ -83,14 +82,11 @@ export const KLoginButton = styled.div`
   }
   & > p {
     flex: 10;
-    color: white;
+    color: #000;
   }
 `;
 
 export const GLoginButton = styled(KLoginButton)`
   background-color: #fff;
   border: 1px solid #aaaaaa;
-  & > p {
-    color: #000;
-  }
 `;

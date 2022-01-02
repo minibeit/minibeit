@@ -38,7 +38,7 @@ export default function BProfileEditCont({
           {BProfileData.avatar ? (
             <PVImg img={BProfileData.avatar} />
           ) : (
-            <S.Img src="/images/기본프로필.png" />
+            <S.Img src="/images/기본비즈니스프로필.png" />
           )}
         </S.ImgBox>
         <S.ImgEditBtn id="reset" onClick={onFileChange}>

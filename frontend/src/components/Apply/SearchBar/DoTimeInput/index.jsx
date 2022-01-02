@@ -43,7 +43,7 @@ export default function DoTimeInput() {
         </S.SearchInput>
         {viewSwitch && (
           <S.Wrapper>
-            <p>원하는 실험 소요시간을 선택해주세요</p>
+            <p>원하시는 소요시간을 선택해주세요</p>
             <S.BtnGroup>
               {doTime.map((a, i) => {
                 return (

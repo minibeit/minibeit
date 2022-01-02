@@ -191,7 +191,7 @@ export default function Presenter({
       </div>
       <div>
         <S.DataHeader>
-          <p>실험 후기</p>
+          <p>참여 후기</p>
         </S.DataHeader>
         <S.DataContent>
           <ReveiwBox businessId={businessProfileInfo.id} />

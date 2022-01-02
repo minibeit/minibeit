@@ -61,7 +61,7 @@ export default function StartTimeInput({ defaultId, onChange }) {
         </S.SearchInput>
         {viewSwitch && (
           <S.Wrapper>
-            <p>실험참여가 가능한 시간대를 설정해주세요</p>
+            <p>참여가 가능한 시간대를 설정해주세요</p>
             <Range
               min={0}
               max={24}

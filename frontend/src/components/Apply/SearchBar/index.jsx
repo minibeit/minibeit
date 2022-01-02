@@ -24,9 +24,14 @@ export default function SearchBar({
 
   return (
     <S.SearchBox centerView={page ? false : true}>
-      <p style={page ? null : { textAlign: "center" }}>
-        {page ? "지원하기" : "일정에 맞는 모집 공고를 검색해보세요"}
-      </p>
+      {page ? (
+        <p style={page ? null : { textAlign: "center" }}>지원하기</p>
+      ) : (
+        <p style={page ? null : { textAlign: "center" }}>
+          일정에 맞는 모집 공고를 <br />
+          검색해보세요
+        </p>
+      )}
       <div>
         <S.SearchInput>
           <S.InputItem>

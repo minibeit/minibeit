@@ -17,7 +17,7 @@ export default function Presenter({
   apply,
 }) {
   const disableTimeBtn = (time, isFull) => {
-    if (moment(time) < moment(new Date())) {
+    if (new Date(time) < new Date()) {
       return true;
     } else if (isFull) {
       return true;

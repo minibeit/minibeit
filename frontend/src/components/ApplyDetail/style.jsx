@@ -17,6 +17,15 @@ transform:translateY(0);
 }
 `;
 
+export const Container = styled.div`
+  @media only screen and (max-width: 700px) {
+    padding: 0rem 1.5rem;
+  }
+`;
+export const ApplyControllerForMobile = styled.div`
+  display: auto;
+`;
+
 export const UnderTitle = styled.div`
   position: relative;
   display: flex;
@@ -262,6 +271,9 @@ export const TimeBtn = styled.div`
     color: #c4c4c4;
     cursor: default;
   }
+  @media only screen and (max-width: 700px) {
+    max-width: 32%;
+  }
 `;
 
 export const DetailContent = styled.div`
@@ -339,6 +351,24 @@ export const ReviewCount = styled.div`
 /* apply remote controller */
 export const RemoteBox = styled.div`
   flex: 1;
+  @media only screen and (max-width: 700px) {
+    display: none;
+  }
+`;
+
+export const RemoteBoxForMobile = styled.div`
+  display: none;
+
+  @media only screen and (max-width: 700px) {
+    display: flex;
+    position: sticky;
+    top: 3.5rem;
+    z-index: 99;
+    background: #d4d4d4;
+    box-shadow: 10px 10px 30px 0px #bdbdbd33;
+    min-height: 3.2rem;
+    padding: 0.5rem;
+  }
 `;
 
 export const Controller = styled.div`
@@ -366,24 +396,57 @@ export const Controller = styled.div`
     }
   }
 `;
+
+export const ControllerFM = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-start;
+  & > p:first-child {
+    flex: 0.8;
+    font-size: 1rem;
+    text-align: center;
+    font-weight: bold;
+  }
+`;
+
 export const ApplyData = styled.table`
-  border: 0.5px solid #C4C4C4
+  border: 0.5px solid #c4c4c4;
   border-radius: 0.5em;
   & tr {
     border: 1px solid #c4c4c4;
-    &>td:first-child{
-      font-weight:bold;
+    & > td:first-child {
+      font-weight: bold;
     }
   }
   & td {
     padding: 0.5em;
   }
+  @media only screen and (max-width: 700px) {
+    border: none;
+    flex: 2;
+    & tr {
+      border: none;
+    }
+    & td {
+      padding: 0.2em 0.5em;
+    }
+  }
 `;
+
 export const ApplyBtnGroup = styled.div`
   margin-top: auto;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+  @media only screen and (max-width: 700px) {
+    flex: 1;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 `;
 export const ControllerBtn = styled.button`
   font-size: 1rem;
@@ -392,6 +455,9 @@ export const ControllerBtn = styled.button`
   border-radius: 1.5em;
   font-weight: 600;
   cursor: pointer;
+  @media only screen and (max-width: 700px) {
+    padding: 0.3rem 1rem;
+  }
 `;
 export const ApplyBtn = styled(ControllerBtn)`
   background: #0642ff;

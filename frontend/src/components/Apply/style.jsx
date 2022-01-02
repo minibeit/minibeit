@@ -11,11 +11,34 @@ const fadeIn = keyframes`
 const moveSearchBar = keyframes`
   from{
     opacity:0.3;
-    transform:translate(0, 70%);
+    transform:translate(0, 20%);
   }
   to{
     opacity:1;
     transform:translate(0, 0)
+  }
+`;
+const moveSearchBarForMobile = keyframes`
+  from{
+    opacity:0.3;
+    transform:translate(0, 10%);
+  }
+  to{
+    opacity:1;
+    transform:translate(0, 0)
+  }
+`;
+
+export const ConditionsBox = styled.div`
+  border-bottom: 1px solid rgba(17, 17, 17, 0.16);
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  @media only screen and (max-width: 700px) {
+    display: auto;
+    padding: 0;
   }
 `;
 
@@ -50,6 +73,7 @@ export const FilterLabelBox = styled.div`
   flex-wrap: wrap;
   align-items: center;
   min-height: 3rem;
+  margin: 0.5rem 0;
 `;
 export const FilterLabel = styled.div`
   background: rgba(6, 66, 255, 0.1);
@@ -114,12 +138,14 @@ export const CategoryBtn = styled.button`
 
 /*search filter*/
 export const SearchBox = styled.div`
+  width: 100%;
+  min-height: 30vh;
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 1;
-  gap: 1rem;
-  transform: translate(0, 70%);
+  gap: 2rem;
+  transform: translate(0, 20%);
   margin: 1rem 0;
   ${({ centerView }) =>
     !centerView &&
@@ -133,6 +159,7 @@ export const SearchBox = styled.div`
     > p:first-child {
     font-size: 1.5em;
     font-weight: bold;
+    white-space: pre-wrap;
   }
   & > div:nth-child(2) {
     display: flex;
@@ -140,6 +167,17 @@ export const SearchBox = styled.div`
     background: #f8f8f8;
     border-radius: 0.3em;
     overflow: hidden;
+  }
+
+  @media only screen and (max-width: 700px) {
+    transform: translate(0, 10%);
+    min-height: 50vh;
+    ${({ centerView }) =>
+      !centerView &&
+      css`
+        animation-duration: 1s;
+        animation-name: ${moveSearchBarForMobile};
+      `}
   }
 `;
 export const SearchInput = styled.div`
@@ -223,6 +261,10 @@ export const FilterBox = styled.div`
   animation-timing-function: ease-out;
   animation-name: ${fadeIn};
   animation-fill-mode: forwards;
+
+  @media only screen and (max-width: 700px) {
+    max-width: 20rem;
+  }
 `;
 export const FilterResetBtn = styled.div`
   margin: 1rem;
@@ -262,6 +304,11 @@ export const DetailBox = styled(Box)`
     display: flex;
     gap: 0.5em;
   }
+  @media only screen and (max-width: 700px) {
+    & > div:nth-child(2) {
+      flex-wrap: wrap;
+    }
+  }
 `;
 export const PaymentBtn = styled.button`
   background: white;
@@ -274,6 +321,9 @@ export const PaymentBtn = styled.button`
   &:disabled {
     border: 1px solid #0642ff;
     background: #b4c6ff;
+  }
+  @media only screen and (max-width: 700px) {
+    padding: 0.5em 2em;
   }
 `;
 export const SelectBtn = styled(PaymentBtn)`

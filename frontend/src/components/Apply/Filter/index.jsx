@@ -3,6 +3,7 @@ import React from "react";
 import DetailFilter from "./DetailFilter";
 import FilterLabel from "./FilterLabel";
 import CategoryLabel from "./CategoryLabel";
+import * as S from "../style";
 
 export default function Filter({
   feedList,
@@ -17,10 +18,9 @@ export default function Filter({
     copy.minPay = "";
     setFilter(copy);
   };
-
   return (
     <>
-      <div>
+      <S.ConditionsBox>
         {feedList && (
           <DetailFilter
             filter={filter}
@@ -29,7 +29,7 @@ export default function Filter({
           />
         )}
         <FilterLabel filter={filter} setFilter={setFilter} />
-      </div>
+      </S.ConditionsBox>
       <CategoryLabel category={category} setCategory={setCategory} />
     </>
   );

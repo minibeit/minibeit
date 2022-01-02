@@ -2,10 +2,10 @@ package com.minibeit.post.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.google.common.collect.Sets;
+import com.minibeit.auth.domain.CustomUserDetails;
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
-import com.minibeit.post.domain.ApplyStatus;
-import com.minibeit.auth.domain.CustomUserDetails;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
 
@@ -300,6 +300,38 @@ public class PostResponse {
                     .doDate(doDate)
                     .startTime(doDate)
                     .endTime(doDate.plusMinutes(doTime))
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetMyCount {
+        private Long reject;
+        private Long wait;
+
+        public static GetMyCount build(Long reject, Long wait) {
+            return GetMyCount.builder()
+                    .reject(reject)
+                    .wait(wait)
+                    .build();
+        }
+    }
+
+    @Getter
+    @Builder
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class GetBusinessStatus {
+        private Long complete;
+        private Long review;
+
+        public static GetBusinessStatus build(Long complete, Long review) {
+            return GetBusinessStatus.builder()
+                    .complete(complete)
+                    .review(review)
                     .build();
         }
     }

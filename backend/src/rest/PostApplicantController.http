@@ -1,4 +1,4 @@
-POST {{apiUrl}}/post/date/3/apply
+POST {{apiUrl}}/post/date/8/apply
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -19,7 +19,7 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/date/5/apply/reject/1
+POST {{apiUrl}}/post/date/8/apply/reject/1
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 

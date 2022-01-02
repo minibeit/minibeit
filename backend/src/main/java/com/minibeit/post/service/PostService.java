@@ -1,5 +1,6 @@
 package com.minibeit.post.service;
 
+import com.minibeit.auth.domain.CustomUserDetails;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
@@ -7,8 +8,6 @@ import com.minibeit.post.domain.repository.PostLikeRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
-import com.minibeit.post.domain.ApplyStatus;
-import com.minibeit.auth.domain.CustomUserDetails;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -66,6 +65,10 @@ public class PostService {
     public Page<PostResponse.GetLikeList> getListByLike(User user, PageDto pageDto) {
         Page<Post> posts = postRepository.findAllByLike(user, pageDto.of());
         return posts.map(PostResponse.GetLikeList::build);
+    }
+
+    public PostResponse.GetMyCount getMyPostStatus(LocalDateTime now, User user) {
+        return postRepository.countMyPostStatusWaitAndReject(now, user);
     }
 
     public Page<PostResponse.GetMyApplyList> getListByApplyStatus(ApplyStatus status, User user, LocalDateTime now, PageDto pageDto) {

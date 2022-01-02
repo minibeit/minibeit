@@ -4,17 +4,13 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.common.dto.PageDto;
-import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.PostFileRepository;
 import com.minibeit.file.service.S3Uploader;
 import com.minibeit.file.service.dto.SavedFile;
-import com.minibeit.post.domain.repository.PostDoDateRepository;
-import com.minibeit.post.domain.repository.PostRepository;
-import com.minibeit.post.domain.repository.RejectPostRepository;
+import com.minibeit.post.domain.*;
+import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.service.dto.PostRequest;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.User;
@@ -91,9 +87,14 @@ public class PostByBusinessService {
     }
 
     @Transactional(readOnly = true)
-    public Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfile(Long businessProfileId, PostStatus postStatus, LocalDateTime now, PageDto pageDto) {
-        Page<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, postStatus, now, pageDto.of());
+    public Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfile(Long businessProfileId, PostStatus postStatus, PageDto pageDto) {
+        Page<Post> posts = postRepository.findAllByBusinessProfileId(businessProfileId, postStatus, pageDto.of());
         return posts.map(PostResponse.GetListByBusinessProfile::build);
+    }
+
+    @Transactional(readOnly = true)
+    public PostResponse.GetBusinessStatus getCountBusinessCompletePostAndReview(Long businessProfileId) {
+        return postRepository.countByPostStatusCompleteAndReview(businessProfileId);
     }
 
     public PostResponse.OnlyId updateContent(Long postId, PostRequest.UpdateContent request, User user) {

@@ -1,11 +1,11 @@
 package com.minibeit.post.domain.repository;
 
+import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.dto.QPostResponse_GetMyApplyList;
-import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.user.domain.User;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -27,6 +27,8 @@ import static com.minibeit.post.domain.QPost.post;
 import static com.minibeit.post.domain.QPostApplicant.postApplicant;
 import static com.minibeit.post.domain.QPostDoDate.postDoDate;
 import static com.minibeit.post.domain.QPostLike.postLike;
+import static com.minibeit.post.domain.QRejectPost.rejectPost;
+import static com.minibeit.review.domain.QBusinessUserReview.businessUserReview;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -128,11 +130,38 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, LocalDateTime now, Pageable pageable) {
+    public PostResponse.GetMyCount countMyPostStatusWaitAndReject(LocalDateTime now, User user) {
+        long waitCount = queryFactory.select(postApplicant)
+                .from(postApplicant)
+                .join(postApplicant.postDoDate, postDoDate)
+                .where(postApplicant.user.id.eq(user.getId())
+                        .and(postApplicant.applyStatus.eq(ApplyStatus.WAIT))
+                        .and(postDoDate.doDate.goe(now)))
+                .fetchCount();
+        long reject = queryFactory.select(rejectPost)
+                .from(rejectPost)
+                .where(rejectPost.user.id.eq(user.getId()))
+                .fetchCount();
+        return PostResponse.GetMyCount.build(reject, waitCount);
+    }
+
+    @Override
+    public PostResponse.GetBusinessStatus countByPostStatusCompleteAndReview(Long businessProfileId) {
+        long complete = queryFactory.selectFrom(post)
+                .where(post.businessProfile.id.eq(businessProfileId).and(post.postStatus.eq(PostStatus.COMPLETE)))
+                .fetchCount();
+        long review = queryFactory.selectFrom(businessUserReview)
+                .where(businessUserReview.businessProfile.id.eq(businessProfileId))
+                .fetchCount();
+        return PostResponse.GetBusinessStatus.build(complete, review);
+    }
+
+    @Override
+    public Page<Post> findAllByBusinessProfileId(Long businessProfileId, PostStatus postStatus, Pageable pageable) {
         JPAQuery<Post> query = queryFactory.selectFrom(post)
                 .join(post.businessProfile).fetchJoin()
                 .where(post.businessProfile.id.eq(businessProfileId)
-                        .and(postStatusEq(postStatus, now)))
+                        .and(postStatusEq(postStatus)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(post.id.desc());
@@ -141,12 +170,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         return new PageImpl<>(results.getResults(), pageable, results.getTotal());
     }
 
-    private BooleanExpression postStatusEq(PostStatus postStatus, LocalDateTime now) {
+    private BooleanExpression postStatusEq(PostStatus postStatus) {
         if (postStatus.equals(PostStatus.RECRUIT)) {
-            return post.postStatus.eq(postStatus).and(post.endDate.after(now));
+            return post.postStatus.eq(postStatus);
         }
         if (postStatus.equals(PostStatus.COMPLETE)) {
-            return post.postStatus.eq(postStatus).or(post.endDate.before(now));
+            return post.postStatus.eq(postStatus);
         }
         return null;
     }

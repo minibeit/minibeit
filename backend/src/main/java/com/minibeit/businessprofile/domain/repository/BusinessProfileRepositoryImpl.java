@@ -1,6 +1,8 @@
 package com.minibeit.businessprofile.domain.repository;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.post.service.dto.PostResponse;
+import com.minibeit.review.domain.QBusinessUserReview;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 
@@ -10,6 +12,7 @@ import java.util.Optional;
 import static com.minibeit.businessprofile.domain.QBusinessProfile.businessProfile;
 import static com.minibeit.businessprofile.domain.QUserBusinessProfile.userBusinessProfile;
 import static com.minibeit.post.domain.QPost.post;
+import static com.minibeit.review.domain.QBusinessUserReview.*;
 
 @RequiredArgsConstructor
 public class BusinessProfileRepositoryImpl implements BusinessProfileRepositoryCustom {

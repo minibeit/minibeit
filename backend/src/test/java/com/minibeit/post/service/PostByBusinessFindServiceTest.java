@@ -160,31 +160,29 @@ public class PostByBusinessFindServiceTest extends ServiceIntegrationTest {
 
     @ParameterizedTest(name = "비즈니스 프로필에서 생성한 게시물 상태에 따라 조회 (모집기간이 지난 게시물은 모집완료 게시물 목록에 나타난다.) - 성공")
     @MethodSource
-    void getListByBusinessProfile(PostStatus postStatus, LocalDateTime now, PageDto pageDto, List<String> contentResult) {
-        Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfiles = postByBusinessService.getListByBusinessProfile(businessProfile.getId(), postStatus, now, pageDto);
+    void getListByBusinessProfile(PostStatus postStatus, PageDto pageDto, List<String> contentResult) {
+        Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfiles = postByBusinessService.getListByBusinessProfile(businessProfile.getId(), postStatus, pageDto);
         assertThat(getListByBusinessProfiles.getContent()).extracting("title").containsExactlyElementsOf(contentResult);
     }
 
     static Stream<Arguments> getListByBusinessProfile() {
         return Stream.of(
-                Arguments.of(PostStatus.RECRUIT, LocalDateTime.of(2021, 9, 30, 0, 0), new PageDto(1, 5), Arrays.asList("모집중3", "모집중2", "모집중1")),
-                Arguments.of(PostStatus.RECRUIT, LocalDateTime.of(2021, 10, 3, 0, 0), new PageDto(1, 5), Collections.emptyList()),
-                Arguments.of(PostStatus.COMPLETE, LocalDateTime.of(2021, 9, 30, 0, 0), new PageDto(1, 5), Arrays.asList("완료3", "완료2", "완료1")),
-                Arguments.of(PostStatus.COMPLETE, LocalDateTime.of(2021, 10, 3, 0, 0), new PageDto(1, 10), Arrays.asList("완료3", "완료2", "완료1", "모집중3", "모집중2", "모집중1"))
+                Arguments.of(PostStatus.RECRUIT, new PageDto(1, 5), Arrays.asList("모집중3", "모집중2", "모집중1")),
+                Arguments.of(PostStatus.COMPLETE, new PageDto(1, 10), Arrays.asList("완료3", "완료2", "완료1"))
         );
     }
 
     @ParameterizedTest(name = "비즈니스 프로필에서 생성한 게시물 상태에 따라 조회 즐겨찾기 수 포함 - 성공")
     @MethodSource
-    void getListByBusinessProfileWithLikes(PostStatus postStatus, LocalDateTime now, PageDto pageDto) {
-        Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfiles = postByBusinessService.getListByBusinessProfile(businessProfile.getId(), postStatus, now, pageDto);
+    void getListByBusinessProfileWithLikes(PostStatus postStatus, PageDto pageDto) {
+        Page<PostResponse.GetListByBusinessProfile> getListByBusinessProfiles = postByBusinessService.getListByBusinessProfile(businessProfile.getId(), postStatus, pageDto);
         PostResponse.GetListByBusinessProfile response = getListByBusinessProfiles.getContent().get(0);
         assertThat(response.getLikes()).isEqualTo(1);
     }
 
     static Stream<Arguments> getListByBusinessProfileWithLikes() {
         return Stream.of(
-                Arguments.of(PostStatus.RECRUIT, LocalDateTime.of(2021, 9, 30, 0, 0), new PageDto(1, 5))
+                Arguments.of(PostStatus.RECRUIT, new PageDto(1, 5))
         );
     }
 }

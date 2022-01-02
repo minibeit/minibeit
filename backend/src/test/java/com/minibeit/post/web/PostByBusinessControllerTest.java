@@ -1,16 +1,16 @@
 package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
-import com.minibeit.file.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.domain.PostFile;
+import com.minibeit.post.service.PostByBusinessService;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
 import com.minibeit.post.service.dto.PostResponse;
-import com.minibeit.post.service.PostByBusinessService;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.User;
 import org.junit.jupiter.api.BeforeEach;
@@ -240,7 +240,7 @@ class PostByBusinessControllerTest extends MvcTest {
         Page<Post> postPage = new PageImpl<>(postList, PageRequest.of(1, 6), postList.size());
         Page<PostResponse.GetListByBusinessProfile> response = postPage.map(PostResponse.GetListByBusinessProfile::build);
 
-        given(postByBusinessService.getListByBusinessProfile(any(), any(), any(), any())).willReturn(response);
+        given(postByBusinessService.getListByBusinessProfile(any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .get("/api/posts/business/profile/{businessProfileId}", 1)
@@ -275,6 +275,32 @@ class PostByBusinessControllerTest extends MvcTest {
                                 fieldWithPath("data.totalElements").description("전체 개수"),
                                 fieldWithPath("data.last").description("마지막 페이지인지 식별"),
                                 fieldWithPath("data.totalPages").description("전체 페이지")
+                        )
+                ));
+    }
+
+
+    @Test
+    @DisplayName("비즈니스 프로필 공고 현황 문서화")
+    public void getBusinessStatus() throws Exception {
+        PostResponse.GetBusinessStatus response = PostResponse.GetBusinessStatus.build(1L, 1L);
+
+        given(postByBusinessService.getCountBusinessCompletePostAndReview(any())).willReturn(response);
+
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders
+                .get("/api/post/business/profile/{businessProfileId}/status", 1));
+
+        results.andExpect(status().isOk())
+                .andDo(print())
+                .andDo(document("post-business-status",
+                        pathParameters(
+                                parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
+                        ),
+                        responseFields(
+                                fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
+                                fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.complete").type(JsonFieldType.NUMBER).description("완료된 게시물 개수"),
+                                fieldWithPath("data.review").type(JsonFieldType.NUMBER).description("후기 개수")
                         )
                 ));
     }

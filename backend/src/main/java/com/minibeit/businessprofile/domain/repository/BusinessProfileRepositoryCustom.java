@@ -1,6 +1,7 @@
 package com.minibeit.businessprofile.domain.repository;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
+import com.minibeit.post.service.dto.PostResponse;
 
 import java.util.List;
 import java.util.Optional;

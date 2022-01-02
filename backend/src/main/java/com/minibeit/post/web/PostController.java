@@ -1,13 +1,13 @@
 package com.minibeit.post.web;
 
+import com.minibeit.auth.domain.CurrentUser;
+import com.minibeit.auth.domain.CustomUserDetails;
 import com.minibeit.common.dto.ApiResult;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.ApplyStatus;
 import com.minibeit.post.domain.Payment;
-import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.PostService;
-import com.minibeit.auth.domain.CurrentUser;
-import com.minibeit.auth.domain.CustomUserDetails;
+import com.minibeit.post.service.dto.PostResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -78,6 +78,12 @@ public class PostController {
                                                                                              PageDto pageDto,
                                                                                              @CurrentUser CustomUserDetails customUserDetails) {
         Page<PostResponse.GetMyApplyList> response = postService.getListByApplyStatus(applyStatus, customUserDetails.getUser(), LocalDateTime.now(), pageDto);
+        return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
+    }
+
+    @GetMapping("/post/user/status")
+    public ResponseEntity<ApiResult<PostResponse.GetMyCount>> getMyPostStatus(@CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.GetMyCount response = postService.getMyPostStatus(LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 

@@ -1,5 +1,6 @@
 package com.minibeit.user.domain;
 
+import com.minibeit.common.utils.CryptoConverter;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.file.domain.Avatar;
@@ -26,6 +27,7 @@ public class User extends BaseEntity {
 
     private String oauthId;
 
+    @Convert(converter = CryptoConverter.class)
     private String email;
 
     private String name;
@@ -37,6 +39,7 @@ public class User extends BaseEntity {
 
     private String job;
 
+    @Convert(converter = CryptoConverter.class)
     private String phoneNum;
 
     private LocalDate birth;

@@ -69,3 +69,6 @@ sms:
   accessKey:
   secretKey:
   from:
+
+crypto:
+  key: 1234567891234567

@@ -13,15 +13,15 @@ import com.minibeit.file.service.AvatarService;
 import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.service.PostApplicantByBusinessService;
+import com.minibeit.post.service.PostByBusinessService;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
-import com.minibeit.post.service.PostByBusinessService;
-import com.minibeit.post.domain.PostApplicant;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
-import com.minibeit.post.service.PostApplicantByBusinessService;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Gender;
@@ -432,10 +432,7 @@ class UserServiceTest extends ServiceIntegrationTest {
 
         UserRequest.Nickname originalNickName = UserRequest.Nickname.builder().nickname("테스터1").build();
 
-        assertDoesNotThrow(
-                () -> userService.nickNameCheck(originalNickName)
-        );
-
+        assertDoesNotThrow(() -> userService.nickNameCheck(originalNickName));
     }
 
     @Test

@@ -10,7 +10,7 @@
             <pattern>${LOG_PATTERN_AWS}</pattern>
         </encoder>
 
-        <logGroupName>minibeit-log-dev</logGroupName>
+        <logGroupName>minibeit-app-prod</logGroupName>
         <logStreamUuidPrefix>info/</logStreamUuidPrefix>
         <logRegion>ap-northeast-2</logRegion>
         <maxBatchLogEvents>50</maxBatchLogEvents>

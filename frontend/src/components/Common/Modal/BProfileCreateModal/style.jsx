@@ -5,17 +5,21 @@ export const ModalBox = styled.div`
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 57%;
-  max-width: 41rem;
+  width: 32rem;
   border-radius: 1.25rem;
   padding: 2rem 2.25rem;
   height: 26rem;
   background-color: white;
+  @media only screen and (max-width: 700px) {
+    width: 23rem;
+    padding: 1rem 1.5rem;
+  }
 `;
 export const ModalHeader = styled.div`
   display: flex;
   align-items: center;
   height: 3.2rem;
+  position: relative;
   border-bottom: 0.5px solid rgba(0, 0, 0, 0.3);
   & > p {
     font-size: 1.125rem;
@@ -32,11 +36,24 @@ export const CloseModalBtn = styled.div`
   }
 `;
 export const ModalContent = styled.div`
-  flex-wrap: wrap;
   display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  @media only screen and (max-width: 700px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+    height: 18rem;
+    width: 23rem;
+    & > div {
+      position: relative;
+    }
+  }
 `;
 export const ImgContainer = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   flex: 1;
   align-items: center;
@@ -46,6 +63,14 @@ export const ImgContainer = styled.div`
     display: flex;
     font-size: 0.7rem;
   }
+  & > div:nth-child(2) {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+  }
+  @media only screen and (max-width: 700px) {
+    flex-direction: row;
+  }
 `;
 export const ImgBox = styled.div`
   overflow: hidden;
@@ -53,12 +78,10 @@ export const ImgBox = styled.div`
   height: 9rem;
   display: inline-block;
   border-radius: 50%;
-`;
-export const Img = styled.img`
-  object-fit: fill;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+  @media only screen and (max-width: 700px) {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
 `;
 export const ImgEditBtn = styled.label`
   padding: 0.5rem;
@@ -91,6 +114,12 @@ export const InfoContainer = styled.div`
     flex-wrap: wrap;
     gap: 1rem;
   }
+  @media only screen and (max-width: 700px) {
+    flex: 1;
+    width: 16rem;
+    height: 15rem;
+    overflow-y: scroll;
+  }
 `;
 export const CreateInput = styled.div`
   display: flex;
@@ -121,6 +150,9 @@ export const CreateInput = styled.div`
     color: #707070;
     background: #f3f3f3;
     text-decoration: none;
+  }
+  @media only screen and (max-width: 700px) {
+    width: 100%;
   }
 `;
 export const SubmitBtnBox = styled.div`

@@ -91,7 +91,7 @@ export default function DateInput({ minDate, maxDate, onChange }) {
                   {dateArr.map((a, i) => {
                     return (
                       <S.Date key={i}>
-                        {moment(a).format("MM월DD일")}
+                        <p>{moment(a).format("MM월DD일")}</p>
                         <CloseIcon onClick={() => removeDate(a)} />
                       </S.Date>
                     );

@@ -29,10 +29,6 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
   const [step, setStep] = useState(1);
 
   const changeDoTime = (value) => {
-    const copy = { ...recruit };
-    copy.startTime = null;
-    copy.endTime = null;
-    setRecruit(copy);
     if (value === "minus") {
       const copy = { ...recruit };
       if (copy.doTime > 30) {
@@ -174,6 +170,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                     } else {
                       setViewTimeSelect(true);
                       changeDoTime("minus");
+                      setStep(3);
                     }
                   }}
                 >
@@ -187,6 +184,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                     } else {
                       setViewTimeSelect(true);
                       changeDoTime("plus");
+                      setStep(3);
                     }
                   }}
                 >
@@ -209,6 +207,9 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                       <div>
                         <span>
                           <TimePicker
+                            defaultValue={
+                              recruit.startTime && moment(recruit.startTime)
+                            }
                             use12Hours
                             inputReadOnly
                             minuteStep={30}
@@ -237,6 +238,9 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                         </span>
                         <span>
                           <TimePicker
+                            defaultValue={
+                              recruit.endTime && moment(recruit.endTime)
+                            }
                             use12Hours
                             inputReadOnly
                             minuteStep={30}
@@ -294,7 +298,12 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                   </div>
                   <S.SaveTimeBtn
                     onClick={() => {
-                      if (recruit.startTime && recruit.endTime) {
+                      if (recruit.startTime >= recruit.endTime) {
+                        toast.info("종료시간은 시작시간 이후로 선택해주세요");
+                      } else if (
+                        recruit.startTime !== null &&
+                        recruit.endTime !== null
+                      ) {
                         const copy = { ...recruit };
                         let timeList = createTimeArr(
                           recruit.startTime,

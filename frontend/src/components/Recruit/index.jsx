@@ -72,13 +72,13 @@ export default function RecruitComponent() {
 
   useEffect(() => {
     return history.block((loca, action) => {
-      if (!loca.pathname.includes("/recruit")) {
+      if (!loca.pathname.includes("/recruit") && recruit.schoolId) {
         let value = window.confirm("변경내용이 저장되지 않을 수 있습니다");
         if (value) resetRecruit();
         return value;
       }
     });
-  }, [history, resetRecruit]);
+  }, [history, resetRecruit, recruit.schoolId]);
 
   return (
     <div ref={page}>

@@ -11,14 +11,17 @@ import * as S from "../style";
 import { useCallback } from "react";
 import { useRecoilState } from "recoil";
 import { userState } from "../../../recoil/userState";
+import { recruitState } from "../../../recoil/recruitState";
 
 export default function BusinessContainer() {
   const history = useHistory();
   const [user, setUser] = useRecoilState(userState);
+  const [recruit, setRecruit] = useRecoilState(recruitState);
   const [modalSwitch, setModalSwitch] = useState(false);
   const [BProfileList, setBProfileList] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
+
   const getBProfile = useCallback(() => {
     bprofileListGet().then((res) => setBProfileList(res.data.data));
   }, []);
@@ -62,9 +65,15 @@ export default function BusinessContainer() {
               <div>
                 <S.BImgBox
                   onClick={() => {
-                    const copy = { ...user };
+                    let copy = { ...user };
                     copy.bprofile = a.id;
                     setUser(copy);
+                    copy = { ...recruit };
+                    copy.businessProfile = {
+                      id: a.id,
+                      name: a.name,
+                    };
+                    setRecruit(copy);
                     history.push(`/business/${a.id}`);
                   }}
                 >

@@ -75,18 +75,22 @@ export const DateList = styled.div`
   }
 `;
 export const Date = styled.div`
-  background-color: #c4c4c4;
+  background-color: #d6dfff;
   width: fit-content;
-  font-size: 0.85em;
+  font-size: 0.8em;
   padding: 0.3em 0.5em;
   border-radius: 1em;
-  color: white;
+  color: #0642ff;
   display: flex;
   justify-content: center;
   text-align: center;
   gap: 0.3em;
+  & p {
+    display: flex;
+    align-items: center;
+  }
   & svg {
-    color: white;
+    color: #0642ff;
     width: 1rem;
     height: fit-content;
     cursor: pointer;

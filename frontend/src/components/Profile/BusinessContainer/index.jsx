@@ -4,7 +4,11 @@ import { ReactComponent as CloseIcon } from "../../../svg/엑스.svg";
 import { ReactComponent as AddIcon } from "../../../svg/플러스.svg";
 import { ReactComponent as PenIcon } from "../../../svg/연필.svg";
 import DeleteBProfile from "../../Common/Alert/DeleteBProfile";
-import { bprofileListGet, deleteBprofile } from "../../../utils";
+import {
+  bprofileListGet,
+  deleteBprofile,
+  getBprofileInfo,
+} from "../../../utils";
 import { PVImg } from "../../Common";
 import BProfileCreateModal from "../../Common/Modal/BProfileCreateModal";
 import * as S from "../style";
@@ -25,6 +29,24 @@ export default function BusinessContainer() {
   const getBProfile = useCallback(() => {
     bprofileListGet().then((res) => setBProfileList(res.data.data));
   }, []);
+
+  const clickBProfile = (BProfile) => {
+    let copy = { ...user };
+    copy.bprofile = BProfile.id;
+    setUser(copy);
+    getBprofileInfo(BProfile.id).then((res) => {
+      copy = { ...recruit };
+      copy.businessProfile = {
+        id: res.data.data.id,
+        name: res.data.data.name,
+      };
+      copy.address = res.data.data.place;
+      copy.detailAddress = res.data.data.placeDetail;
+      copy.contact = res.data.data.contact;
+      setRecruit(copy);
+    });
+    history.push(`/business/${BProfile.id}`);
+  };
 
   useEffect(() => {
     getBProfile();
@@ -63,20 +85,7 @@ export default function BusinessContainer() {
                 <CloseIcon />
               </S.DeleteBtn>
               <div>
-                <S.BImgBox
-                  onClick={() => {
-                    let copy = { ...user };
-                    copy.bprofile = a.id;
-                    setUser(copy);
-                    copy = { ...recruit };
-                    copy.businessProfile = {
-                      id: a.id,
-                      name: a.name,
-                    };
-                    setRecruit(copy);
-                    history.push(`/business/${a.id}`);
-                  }}
-                >
+                <S.BImgBox onClick={() => clickBProfile(a)}>
                   {a.avatar ? (
                     <PVImg img={a.avatar} />
                   ) : (

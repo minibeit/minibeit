@@ -32,9 +32,9 @@ export default function InfoData({
     setRecruit(copy);
   };
 
-  const conditionSwitch = () => {
+  const conditionSwitch = (e) => {
     const copy = { ...recruit };
-    copy.condition = !recruit.condition;
+    copy.condition = e;
     setRecruit(copy);
   };
 

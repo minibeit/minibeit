@@ -4,7 +4,6 @@ import Calendar from "react-calendar";
 import { toast } from "react-toastify";
 
 import { ReactComponent as InfoIcon } from "../../../../svg/인포.svg";
-import { ReactComponent as PlusIcon } from "../../../../svg/플러스.svg";
 import { ReactComponent as ArrowIcon } from "../../../../svg/체크.svg";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 
@@ -114,15 +113,10 @@ export default function TimeSelectModal({
       <S.ModalBox>
         <S.ModalHeader>
           <p>날짜별 시간 설정</p>
-          <S.Info>
+          <div>
             <InfoIcon />
-            <S.InfoBox>
-              <p>⊕를 눌러서 스케줄을 추가해보세요.</p>
-              <p>해당 스케줄을 반영하실 날짜들을 달력에서 클릭하시고,</p>
-              <p>해당스케줄의 참여 시간을 조절해보세요</p>
-            </S.InfoBox>
-          </S.Info>
-          <p>동일한 시간표로 적용할 날짜를 선택해보세요</p>
+            동일한 시간표로 적용할 날짜를 선택해보세요
+          </div>
         </S.ModalHeader>
         <S.ModalContent>
           <S.CalendarView blur={createdGroup.length === 0}>
@@ -146,8 +140,24 @@ export default function TimeSelectModal({
             />
           </S.CalendarView>
           <S.ScheduleView>
-            <S.CreateScheduleBtn>
-              <PlusIcon
+            <S.ScheduleNav>
+              <div>
+                <S.CalendarIcon />
+                <S.ScheduleSelect
+                  onChange={(e) => setSelectGroup(createdGroup[e.target.value])}
+                  value={selectGroup ? selectGroup.id - 1 : ""}
+                >
+                  <option disabled value=""></option>
+                  {createdGroup.map((a, i) => {
+                    return (
+                      <option key={a.id} value={i}>
+                        스케줄{a.id}
+                      </option>
+                    );
+                  })}
+                </S.ScheduleSelect>
+              </div>
+              <S.CreateScheduleBtn
                 onClick={() => {
                   if (createdGroup.length < 7) {
                     const copy = { ...group[createdGroup.length] };
@@ -158,53 +168,16 @@ export default function TimeSelectModal({
                     toast.error(`그룹은 최대 ${group.length}개 입니다.`);
                   }
                 }}
-              />
-              {createdGroup.length === 0 && (
-                <div>
-                  <ArrowIcon />
-                </div>
-              )}
-            </S.CreateScheduleBtn>
-            <S.ScheduleNav>
-              {createdGroup.length !== 0 && (
-                <>
-                  <button
-                    disabled={
-                      selectGroup.id === createdGroup[0].id ? true : false
-                    }
-                    onClick={() => {
-                      setSelectGroup(
-                        createdGroup.find(
-                          (ele) => ele.id === selectGroup.id - 1
-                        )
-                      );
-                    }}
-                  >
+              >
+                <p>스케줄 추가</p>
+                {createdGroup.length === 0 && (
+                  <div>
                     <ArrowIcon />
-                  </button>
-                  <p>스케줄 {selectGroup.id}</p>
-                  <button
-                    name="nextSchedule"
-                    disabled={
-                      selectGroup.id ===
-                      createdGroup[createdGroup.length - 1].id
-                        ? true
-                        : false
-                    }
-                    onClick={() => {
-                      setSelectGroup(
-                        createdGroup.find(
-                          (ele) => ele.id === selectGroup.id + 1
-                        )
-                      );
-                    }}
-                  >
-                    <ArrowIcon />
-                  </button>
-                </>
-              )}
+                  </div>
+                )}
+              </S.CreateScheduleBtn>
             </S.ScheduleNav>
-            <S.DateList>
+            <S.List>
               {selectGroup &&
                 selectGroup.dateList.map((a, i) => {
                   return (
@@ -214,11 +187,16 @@ export default function TimeSelectModal({
                     </S.DateButton>
                   );
                 })}
-            </S.DateList>
+            </S.List>
           </S.ScheduleView>
           <S.TimeView>
-            <p>시간</p>
-            <S.TimeBtnBox>
+            <S.TimeNav>
+              <div>
+                <S.ClockIcon />
+                <p>시간</p>
+              </div>
+            </S.TimeNav>
+            <S.List>
               {selectGroup &&
                 recruit.timeList.map((a, i) => {
                   return (
@@ -240,14 +218,10 @@ export default function TimeSelectModal({
                     </S.TimeBtn>
                   );
                 })}
-            </S.TimeBtnBox>
+            </S.List>
           </S.TimeView>
         </S.ModalContent>
-        <S.ModalFooter>
-          <div onClick={modalOff}>
-            저장 <ArrowIcon />
-          </div>
-        </S.ModalFooter>
+        <S.ModalFooter onClick={modalOff}>확인</S.ModalFooter>
       </S.ModalBox>
     </Portal>
   );

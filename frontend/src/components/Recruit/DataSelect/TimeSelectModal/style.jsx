@@ -15,7 +15,8 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   background-color: white;
-  width: 55rem;
+  width: 27rem;
+  max-height: 100vh;
   border-radius: 2rem;
 `;
 export const ModalHeader = styled.div`
@@ -30,10 +31,20 @@ export const ModalHeader = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
   }
-
-  & > p:nth-child(3) {
-    color: #7c7c7c;
-    font-size: 0.8rem;
+  & > div:nth-child(2) {
+    display: flex;
+    padding: 0.5em 2em;
+    border-radius: 1em;
+    color: #0642ff;
+    font-size: 0.7rem;
+    box-shadow: 10px 10px 30px 0px #bdbdbd33;
+    & > svg {
+      width: 1em;
+      padding-right: 1em;
+      & path {
+        fill: #0642ff;
+      }
+    }
   }
 `;
 export const Info = styled.div`
@@ -47,62 +58,22 @@ export const Info = styled.div`
     display: flex;
   }
 `;
-export const InfoBox = styled.div`
-  display: none;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5em;
-  overflow: hidden;
-  transform: translate(-8rem, 0);
-  background-color: white;
-  position: absolute;
-  border: 1px solid #c4c4c4;
-  width: 19rem;
-  height: 6rem;
-  z-index: 99;
-  border-radius: 1rem;
-
-  & > p {
-    font-size: 0.8em;
-  }
-`;
 
 export const ModalContent = styled.div`
   display: flex;
-  padding: 0 2rem;
-  min-height: 23rem;
+  flex-direction: column;
+  padding: 0 0.5rem;
 `;
 export const ModalFooter = styled.div`
   padding: 1rem 2rem;
   display: flex;
   border-top: 1px dotted #c4c4c4;
-  justify-content: end;
-  & > div {
-    border: none;
-    font-size: 1.2rem;
-    background: none;
-    color: #0642ff;
-    font-weight: bold;
-    display: flex;
-    gap: 0.3rem;
-    align-items: center;
-    cursor: pointer;
-    & > svg {
-      width: 1rem;
-      transform: rotate(270deg);
-      & path {
-        fill: #0642ff;
-      }
-    }
-  }
+  justify-content: center;
+  cursor: pointer;
+  color: #0642ff;
 `;
 
-export const View = styled.div`
-  padding: 0.5rem;
-`;
-export const CalendarView = styled(View)`
-  flex: 2;
+export const CalendarView = styled.div`
   ${({ blur }) =>
     blur &&
     css`
@@ -110,27 +81,21 @@ export const CalendarView = styled(View)`
       z-index: -99;
     `}
   &>div {
-    margin-top: 1em;
+    margin: 0 auto;
+    padding: 0;
   }
 `;
-export const ScheduleView = styled(View)`
+export const View = styled.div`
   display: flex;
   flex-direction: column;
   gap: 0.5em;
-  flex: 1;
-  border-left: 1px solid #c4c4c4;
-  border-right: 1px solid #c4c4c4;
+  background: #f8f8f8;
+  border-radius: 0.5em;
+  padding: 0.2em;
+  margin: 0.2em;
 `;
-export const TimeView = styled(View)`
-  flex: 2;
-  & > p:first-child {
-    margin-top: 0.7em;
-    font-size: 1rem;
-    text-align: center;
-    font-weight: bold;
-    padding: 1rem;
-  }
-`;
+export const ScheduleView = styled(View)``;
+export const TimeView = styled(View)``;
 
 export const CreateScheduleBtn = styled.div`
   display: flex;
@@ -138,58 +103,67 @@ export const CreateScheduleBtn = styled.div`
   background: none;
   cursor: pointer;
   align-self: end;
-  & > svg {
-    width: 1rem;
+  margin-left: auto;
+  background: #d6dfff;
+  padding: 0.5em;
+  border-radius: 0.3em;
+  font-size: 0.7em;
+  margin-right: 0.5em;
+  & > p {
+    color: #0642ff;
   }
   & > div:nth-child(2) {
     position: absolute;
     & > svg {
-      width: 1rem;
+      width: 0.5rem;
       transform: rotate(270deg);
     }
     animation: ${createFirst} 0.5s infinite linear alternate;
   }
 `;
-export const ScheduleNav = styled.div`
+export const Nav = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  margin-bottom: 1.4em;
+  border-bottom: 1px solid #c4c4c4;
+  padding: 0.3em 0;
   gap: 0.5em;
-  & > button {
-    border: none;
-    background: none;
-    cursor: pointer;
-    & > svg {
-      width: 1rem;
-    }
-  }
-  & > button:first-child {
-    & > svg {
-      transform: rotate(90deg);
-    }
-  }
-  & > button:nth-child(3) {
-    & > svg {
-      transform: rotate(270deg);
-    }
-  }
-  & > p:nth-child(2) {
-    white-space: nowrap;
-    font-weight: bold;
+  min-height: 1em;
+`;
+export const ScheduleNav = styled(Nav)`
+  & > div:first-child {
+    display: flex;
   }
 `;
+export const CalendarIcon = styled.div`
+  width: 1.5em;
+  height: 1em;
+  background: url("/images/달력아이콘.png") no-repeat center center/contain;
+`;
+export const ClockIcon = styled.div`
+  width: 1.5em;
+  height: 1em;
+  background: url("/images/시간아이콘.png") no-repeat center center/contain;
+`;
 
-export const DateList = styled.div`
+export const ScheduleSelect = styled.select`
+  background: none;
+  width: 6em;
+  height: 2em;
+  text-align: center;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+`;
+export const List = styled.div`
   display: flex;
   align-items: center;
-  flex-direction: column;
-  gap: 0.5em;
-  height: 17em;
+  gap: 0.2em;
   padding: 0 0.5em;
-  overflow-y: scroll;
+  overflow-x: scroll;
+  min-height: 2.5em;
   ::-webkit-scrollbar {
-    width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
     background-color: transparent;
@@ -203,20 +177,32 @@ export const DateList = styled.div`
     height: 0;
   }
 `;
+export const TimeNav = styled(Nav)`
+  & > div:first-child {
+    display: flex;
+    & > p:nth-child(2) {
+      text-align: center;
+      font-weight: bold;
+      padding: 0 0.7em;
+      font-size: 0.9em;
+    }
+  }
+`;
+
 export const DateButton = styled.div`
-  background-color: #c4c4c4;
+  background-color: #f8f8f8;
   width: fit-content;
-  font-size: 0.85em;
-  padding: 0.3em 0.5em;
+  font-size: 0.8em;
+  padding: 0.5em;
   border-radius: 1em;
-  color: white;
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 0.3em;
   & svg {
+    transform: translate(0, 1px);
     & path {
-      fill: white;
+      fill: black;
     }
     width: 0.8em;
     height: fit-content;
@@ -232,36 +218,16 @@ export const ColorView = styled.div`
   justify-content: center;
   position: absolute;
   background: ${(props) => props.color || "none"};
-  transform: translate(0.2em, -1.9em);
+  transform: translate(0.6em, -1.9em);
   color: white;
 `;
-export const TimeBtnBox = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  max-height: 17em;
-  overflow-y: scroll;
-  padding: 1rem;
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background-color: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 3px;
-    background-color: #c4c4c4;
-  }
-  ::-webkit-scrollbar-button {
-    width: 0;
-    height: 0;
-  }
-`;
+
 export const TimeBtn = styled.div`
   & > input {
     display: none;
   }
   & > label {
+    font-size: 0.7em;
     padding: 10px;
     cursor: pointer;
     display: flex;

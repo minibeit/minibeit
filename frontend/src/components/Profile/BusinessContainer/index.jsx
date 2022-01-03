@@ -19,9 +19,17 @@ export default function BusinessContainer() {
   const [BProfileList, setBProfileList] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
+
   const getBProfile = useCallback(() => {
     bprofileListGet().then((res) => setBProfileList(res.data.data));
   }, []);
+
+  const clickBProfile = (BProfile) => {
+    let copy = { ...user };
+    copy.bprofile = BProfile.id;
+    setUser(copy);
+    history.push(`/business/${BProfile.id}`);
+  };
 
   useEffect(() => {
     getBProfile();
@@ -60,14 +68,7 @@ export default function BusinessContainer() {
                 <CloseIcon />
               </S.DeleteBtn>
               <div>
-                <S.BImgBox
-                  onClick={() => {
-                    const copy = { ...user };
-                    copy.bprofile = a.id;
-                    setUser(copy);
-                    history.push(`/business/${a.id}`);
-                  }}
-                >
+                <S.BImgBox onClick={() => clickBProfile(a)}>
                   {a.avatar ? (
                     <PVImg img={a.avatar} />
                   ) : (

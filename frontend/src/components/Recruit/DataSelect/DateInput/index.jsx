@@ -4,6 +4,7 @@ import Calendar from "react-calendar";
 import moment from "moment";
 
 import CloseIcon from "@mui/icons-material/Close";
+import { ReactComponent as CalendarIcon } from "../../../../svg/달력.svg";
 
 import * as S from "./style";
 
@@ -56,17 +57,20 @@ export default function DateInput({ minDate, maxDate, onChange }) {
       }}
     >
       <div>
-        <S.DateInput
-          readOnly
-          defaultValue={
-            dateArr.length !== 0
-              ? `${moment(dateArr[0]).format("M월D일")}  ~ ${moment(
-                  dateArr[dateArr.length - 1]
-                ).format("M월D일")}`
-              : null
-          }
-          onClick={() => setCalendarView(!calendarView)}
-        />
+        <S.DateInput>
+          <CalendarIcon />
+          <input
+            readOnly
+            defaultValue={
+              dateArr.length !== 0
+                ? `${moment(dateArr[0]).format("M월D일")}  ~ ${moment(
+                    dateArr[dateArr.length - 1]
+                  ).format("M월D일")}`
+                : null
+            }
+            onClick={() => setCalendarView(!calendarView)}
+          />
+        </S.DateInput>
         {calendarView && (
           <S.CalendarWrapper>
             <div>
@@ -87,7 +91,7 @@ export default function DateInput({ minDate, maxDate, onChange }) {
                   {dateArr.map((a, i) => {
                     return (
                       <S.Date key={i}>
-                        {moment(a).format("MM월DD일")}
+                        <p>{moment(a).format("MM월DD일")}</p>
                         <CloseIcon onClick={() => removeDate(a)} />
                       </S.Date>
                     );

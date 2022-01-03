@@ -21,11 +21,11 @@ const fadeIn = () => {
 
 /* Common */
 export const Page = styled.div`
-  min-height: 70vh;
+  min-height: 100vh;
   max-width: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
 `;
 export const Container = styled.div`
   position: relative;
@@ -35,35 +35,35 @@ export const Container = styled.div`
   gap: 1rem;
   justify-content: center;
   text-align: center;
+  margin-top: 10em;
 `;
 export const SaveBtn = styled.button`
   padding: 0.5rem 1rem;
   border-radius: 2rem;
+  min-width: 8rem;
   background: #0642ff;
   color: white;
   font-size: 14px;
   font-weight: bold;
   border: none;
   margin: auto;
+  margin-top: 3em;
   cursor: pointer;
   z-index: 0;
   &:disabled {
     background: #c4c4c4;
     cursor: default;
   }
+  ${fadeIn}
 `;
 
 /* Bussiness Profile Select*/
 export const BProfileContainer = styled(Container)`
   & > p:first-child {
-    font-size: 2rem;
+    font-size: 1.7rem;
     font-weight: 600;
   }
   & > p:nth-child(2) {
-    font-size: 2rem;
-    font-weight: 600;
-  }
-  & > p:nth-child(3) {
     color: #c4c4c4;
   }
 `;
@@ -85,34 +85,43 @@ export const BProfileImgBox = styled.div`
   width: 10rem;
   height: 10rem;
   cursor: pointer;
-  background-color: rgba(6, 66, 255, 0.5);
+  background: ${({ img }) => `url(${img})`} no-repeat center center/contain;
+  border: 1px solid white;
   &.selected {
-    transform: scale(1.2);
+    border: 1px solid #0642ff;
   }
-  &.selected img {
-    mix-blend-mode: color-burn;
+`;
+export const BProfileCheck = styled.div`
+  display: ${({ display }) => display};
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  transform: translate(8em, 1em);
+  width: 2em;
+  height: 2em;
+  background: #0642ff;
+  border-radius: 50%;
+  & svg {
+    width: 1.3em;
+    & path {
+      fill: white;
+    }
   }
 `;
 
 /* Data Select */
 export const DataSelectContainer = styled(Container)`
   gap: 2rem;
-  transform: translate(0, -2rem);
 `;
 export const DataSelectHeader = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  & > p {
-    font-size: 2rem;
-  }
   & > p:first-child {
+    font-size: 1.7rem;
     font-weight: bold;
   }
 `;
 export const SelectBox = styled.div`
   display: flex;
-  max-width: 80%;
+  overflow: hidden;
   align-self: center;
   flex-wrap: wrap;
   gap: 0.2rem;
@@ -128,37 +137,24 @@ export const Box = styled.div`
   padding: 0.5rem 1rem;
   & > p:first-child {
     white-space: nowrap;
+    color: #3f3f3f;
+  }
+  & input {
+    text-align: center;
   }
   ${fadeIn}
 `;
 export const PlaceBox = styled(Box)`
-  flex: 1.5;
-  border-radius: 1em 0 0 1em;
   & > div:nth-child(2) {
     padding: 0.5rem;
     margin-top: auto;
+    justify-content: center;
+  }
+  & input {
+    width: 100%;
   }
 `;
-export const DateBox = styled(Box)`
-  flex: 0.8;
-  & > div:nth-child(2) {
-    display: flex;
-    margin-top: auto;
-    margin-bottom: 0.5em;
-    gap: 0.3rem;
-    & input {
-      padding: 0.5rem;
-      font-size: 15px;
-      max-width: 9rem;
-      border: none;
-      background: none;
-      outline: none;
-    }
-  }
-  & svg {
-    width: 1.5rem;
-  }
-`;
+export const DateBox = styled(PlaceBox)``;
 
 export const CountBox = styled(Box)`
   & > div:nth-child(2) {
@@ -181,93 +177,84 @@ export const CountBox = styled(Box)`
     width: 1rem;
   }
 `;
-export const HeadCountBox = styled(CountBox)`
-  border-radius: 0 1em 1em 0;
-`;
+
 export const TimeSelectBox = styled.div`
   box-shadow: 10px 10px 30px 0px #bdbdbd33;
+  border: 1px solid #c4c4c4;
+  border-radius: 1em;
   position: absolute;
   z-index: 9;
   background: white;
-  transform: translate(0, 4em);
+  transform: translate(-1em, 4.5em);
   display: flex;
   flex-direction: column;
-  gap: 0.5em;
   & > div:first-child {
-    padding: 0.5em;
+    padding: 1em;
     display: flex;
     flex-direction: column;
     gap: 0.8em;
-    & > div:first-child {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 0.5em;
-    }
   }
   ${fadeIn}
 `;
+
 export const TimeInput = styled.div`
   display: flex;
   flex-direction: column;
-  & p {
-    text-align: start;
-    margin: 0.3em;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+  & > div:first-child {
+    display: flex;
+    width: 100%;
+    & p {
+      flex: 1;
+      text-align: start;
+    }
+  }
+  & > div:nth-child(2) {
+    display: flex;
+    background: #f8f8f8;
+    padding: 0.5em;
+    border-radius: 1em;
+    & > span:first-child {
+      border-right: 0.5px solid #7c7c7c;
+    }
   }
   & input {
-    background: #f8f8f8;
+    background: none;
     border-radius: 1em;
     border: none;
     width: 8rem;
     padding: 0.5rem;
     font-size: 1rem;
-    color: #7c7c7c;
-    font-weight: bold;
+    color: black;
     text-align: center;
+    outline: none;
   }
 `;
 export const DetailTimeBtn = styled.button`
-  border: 1px solid #0642ff;
   border-radius: 1rem;
+  border: none;
   padding: 1em;
   color: #0642ff;
-  background: none;
+  background: #d6dfff;
   cursor: pointer;
   &:disabled {
-    border: 1px solid #c4c4c4;
+    background: #d7d7d7;
     color: #c4c4c4;
     cursor: inherit;
   }
 `;
 export const SaveTimeBtn = styled.div`
-  border-top: 1px dotted #c4c4c4;
+  border-top: 2px dotted #c4c4c4;
   padding: 1rem;
   cursor: pointer;
   color: #0642ff;
   font-weight: bold;
   font-size: 1.2em;
 `;
-export const NextBtn = styled.button`
-  width: fit-content;
-  align-self: end;
-  padding: 0.5rem 1rem;
-  white-space: nowrap;
-  font-size: 1.5rem;
-  font-weight: bold;
-  border: none;
-  color: #0642ff;
-  background: none;
-  display: flex;
-  gap: 0.3em;
-  align-items: center;
-  cursor: pointer;
-  ${fadeIn}
-`;
 export const CategoryContainer = styled.div`
-  & > p:first-child {
-    color: #c4c4c4;
-  }
-  & > div:nth-child(2) {
+  & > div:first-child {
     margin: 1rem auto;
     max-width: 50rem;
     background: white;
@@ -275,17 +262,18 @@ export const CategoryContainer = styled.div`
     border-radius: 1.5rem;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: start;
     gap: 0.5rem;
     padding: 1rem;
   }
-  ${fadeIn}
 `;
 export const CategoryBtn = styled.button`
+  flex: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   min-width: 8rem;
+  min-height: 3em;
   border: none;
   background: #f8f8f8;
   padding: 0.5rem 0;
@@ -298,70 +286,59 @@ export const CategoryBtn = styled.button`
     background: white;
   }
 `;
-export const CategoryConfirm = styled(CategoryBtn)`
-  gap: 0.5rem;
-  border: none;
-  background: none;
-  & p {
-    font-weight: bold;
-    color: #0642ff;
-  }
-  & svg {
-    width: 1rem;
-    transform: rotate(270deg);
-    & path {
-      fill: #0642ff;
-    }
-  }
-  :disabled {
-    border: none;
-    & p {
-      font-weight: bold;
-      color: #c4c4c4;
-    }
-    & svg {
-      & path {
-        fill: #c4c4c4;
-      }
-    }
-  }
-`;
 
 /* Info Data */
 export const InputPage = styled(Page)`
-  padding: 10rem 0;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10rem;
 `;
-export const InputContainer = styled(Container)`
-  & > div:first-child {
+export const DataInfoContainer = styled.div`
+  width: 100%;
+  margin: 4em 0;
+  & > p:first-child {
+    margin: 1.5em 0;
+    font-size: 1.7em;
+    font-weight: bold;
+  }
+  & > div:nth-child(3) {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem 0;
-    & > button {
-      border: none;
-      padding: 0;
-      background: none;
-      color: #7c7c7c;
-      font-size: 0.9rem;
-      cursor: pointer;
-      display: flex;
-      align-items: baseline;
-      & > svg {
-        width: 0.9rem;
-        margin-right: 0.3rem;
-        transform: rotate(90deg);
-        path {
-          fill: #7c7c7c;
-        }
-      }
-    }
-    & > p {
-      color: #0642ff;
-    }
+    flex-wrap: wrap;
+    gap: 5rem;
   }
 `;
+export const SelectRadio = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1em;
+  & > input {
+    display: none;
+    font-size: 1em;
+  }
+  & > label {
+    display: block;
+    width: 10em;
+    height: 10em;
+    background: #ffffff4d;
+    box-shadow: 0px 4px 4px 0px #223d8540 inset;
+    border-radius: 1em;
+    border: 1px solid white;
+    cursor: pointer;
+  }
+  & > input:checked + label {
+    border: 1px solid #0642ff;
+  }
+  & > p {
+    color: #c4c4c4;
+  }
+  & > input:checked ~ p {
+    white-space: nowrap;
+    color: #0642ff;
+  }
+`;
+
 export const Input = styled.div`
   width: 100%;
   border-radius: 15px;
@@ -373,7 +350,7 @@ export const Input = styled.div`
     height: 3em;
     border-radius: 15px;
     border: none;
-    font-size: 21px;
+    font-size: 1em;
     background: #f8f8f8;
     padding: 0 15px 0 15px;
   }
@@ -382,18 +359,15 @@ export const Input = styled.div`
   }
 `;
 export const InputBox = styled.div`
+  flex: 1;
   margin-bottom: 3rem;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 1rem;
+  min-width: 20em;
   & > p:first-child {
-    font-size: 2rem;
-    font-weight: bold;
-  }
-  & > p:nth-child(2) {
-    font-size: 1.1rem;
-    margin: 1rem 0 0.5rem;
+    font-size: 1.5rem;
   }
 `;
 export const TitleBox = styled(InputBox)`
@@ -402,8 +376,9 @@ export const TitleBox = styled(InputBox)`
     height: 3em;
     border-radius: 15px;
     border: none;
-    font-size: 21px;
+    font-size: 1em;
     background: #f8f8f8;
+    padding: 0 1em;
   }
 `;
 export const ContentBox = styled(InputBox)`
@@ -412,16 +387,24 @@ export const ContentBox = styled(InputBox)`
     height: 6em;
     border-radius: 15px;
     border: none;
-    font-size: 21px;
+    font-size: 1em;
     background: #f8f8f8;
-    padding: 1rem 0;
+    padding: 1em 0.5rem;
   }
 `;
 export const ConditionBox = styled(InputBox)`
-  & > div:first-child {
+  flex: 1;
+  & > div:nth-child(2) {
     display: flex;
-    font-size: 2rem;
-    font-weight: bold;
+    gap: 1em;
+    width: 100%;
+    justify-content: space-around;
+  }
+  & > div:nth-child(3) {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
   }
 `;
 export const ConditionInput = styled(Input)`
@@ -445,28 +428,36 @@ export const ConditionInput = styled(Input)`
   }
 `;
 export const PaymentBox = styled(InputBox)`
-  & > div:first-child {
+  flex: 1;
+  & > div:nth-child(2) {
     display: flex;
-    font-size: 2rem;
-    font-weight: bold;
     gap: 1rem;
+    width: 100%;
+    justify-content: space-around;
   }
 `;
 export const CacheBox = styled.div`
   width: 100%;
   display: flex;
-  gap: 1rem;
-  & > div {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    & > p {
-      text-align: start;
-      font-size: 1rem;
-    }
+  flex-direction: column;
+  gap: 0.5rem;
+`;
+export const WageBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  gap: 0.2em;
+  min-height: 2.4em;
+  & > div:first-child {
+    color: #ff3737;
+  }
+  & > p:nth-child(2) {
+    color: #0642ff;
+    text-align: end;
+    margin-top: auto;
   }
 `;
+
 export const PayInput = styled(Input)`
   & > span {
     display: flex;
@@ -479,21 +470,46 @@ export const PayInput = styled(Input)`
 `;
 
 /* img and address */
+export const ExtraInfoContainer = styled.div`
+  width: 100%;
+  & > p:first-child {
+    margin: 1.5em 0;
+    font-size: 1.7em;
+    font-weight: bold;
+  }
+  & > div:nth-child(2) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5rem;
+  }
+`;
 export const ImgForm = styled.div`
   display: flex;
   width: 100%;
+  overflow-x: scroll;
   & > div {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 1rem;
+    padding: 1em;
+  }
+  ::-webkit-scrollbar {
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #c4c4c4;
   }
 `;
 
 export const ImgBox = styled.div`
-  background: #ffffff;
+  position: relative;
+  background: #f8f8f8;
   box-shadow: 10px 10px 30px rgba(189, 189, 189, 0.2);
   border: rgba(189, 189, 189, 0.2) 0.5px solid;
-  overflow: hidden;
   width: 13rem;
   height: 13rem;
   display: inline-block;
@@ -546,4 +562,134 @@ export const FileLabel = styled.label`
 `;
 export const FileInput = styled.input`
   display: none;
+`;
+
+/* Thumbnail */
+export const ThumbnailContainer = styled.div`
+  width: 100%;
+  margin-bottom: 10rem;
+  & > p:first-child {
+    margin: 1.5em 0;
+    font-size: 1.7em;
+    font-weight: bold;
+  }
+`;
+export const FeedBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  min-height: 12em;
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid #c4c4c480;
+  box-sizing: content-box;
+  border-radius: 1em;
+  box-shadow: 2px 2px 12px 0px #00000033;
+  &:hover {
+    transform: scale(1.01);
+  }
+`;
+export const FeedImgView = styled.div`
+  background-image: ${({ thumbnail }) =>
+    thumbnail ? `url(${thumbnail})` : 'url("/images/기본프로필.png")'};
+  background-size: cover;
+  background-position: center;
+  flex: 1;
+  min-width: 16em;
+  min-height: 10em;
+  & > div:first-child {
+    display: flex;
+    flex: 1;
+    height: 100%;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 0.3em;
+    padding: 1em;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 9;
+  }
+`;
+export const FeedBookmark = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+  text-align: center;
+  color: white;
+  & svg {
+    width: 1em;
+    & path {
+      fill: white;
+    }
+  }
+`;
+export const FeedContentView = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 2;
+  height: auto;
+  padding: 1.5em;
+  gap: 0.5em;
+`;
+export const FeedHeader = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 0.5em;
+  & > p:first-child {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+  & > div:nth-child(2) {
+    display: flex;
+    gap: 0.4em;
+    color: #8e8e8e;
+    & svg {
+      width: 1em;
+      & path {
+        fill: #8e8e8e;
+      }
+    }
+  }
+`;
+export const FeedInfoData = styled.div`
+  display: flex;
+  gap: 1em;
+  margin-top: auto;
+  flex-wrap: wrap;
+  & > div {
+    white-space: nowrap;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+  }
+  & > div:first-child {
+    color: #8c8c8c;
+  }
+`;
+export const Tag = styled.div`
+  border-radius: 4px;
+  width: fit-content;
+  padding: 0.3em 1em;
+  background: #7c7c7c1a;
+  color: #7c7c7c;
+  white-space: nowrap;
+`;
+export const RecruitTag = styled(Tag)`
+  ${({ recruit }) => {
+    return recruit
+      ? css`
+          background: rgba(123, 104, 255, 0.1);
+          color: #7b68ff;
+        `
+      : css`
+          background: #7c7c7c1a;
+          color: #7c7c7c;
+        `;
+  }}
+`;
+export const PaymentTag = styled.div`
+  color: #505050;
+  & > span {
+    color: ${({ payment }) => (payment === "CACHE" ? "#00BB34" : "#3558C7")};
+  }
 `;

@@ -62,7 +62,7 @@ public class PostApplicantRepositoryImpl implements PostApplicantRepositoryCusto
             return postApplicant.applyStatus.ne(ApplyStatus.REJECT);
         }
         if (applyStatus.equals(ApplyStatus.APPROVE)) {
-            return postApplicant.applyStatus.eq(ApplyStatus.APPROVE);
+            return postApplicant.applyStatus.eq(ApplyStatus.APPROVE).or(postApplicant.applyStatus.eq(ApplyStatus.COMPLETE));
         }
         return null;
     }

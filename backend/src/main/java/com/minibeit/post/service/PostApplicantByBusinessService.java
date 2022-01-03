@@ -4,7 +4,6 @@ import com.minibeit.mail.service.MailService;
 import com.minibeit.mail.service.dto.condition.MailCondition;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
-import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.service.dto.PostApplicantRequest;
 import com.minibeit.post.service.dto.PostApplicantResponse;
@@ -27,7 +26,6 @@ public class PostApplicantByBusinessService {
     private final PostApplicantRepository postApplicantRepository;
     private final RejectPostRepository rejectPostRepository;
     private final PostApplicantValidator postApplicantValidator;
-    private final PostDoDateRepository postDoDateRepository;
     private final MailService mailService;
 
     public void applyApprove(Long postDoDateId, Long userId, User user) {

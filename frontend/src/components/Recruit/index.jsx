@@ -3,10 +3,11 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { useHistory } from "react-router";
 
 import { userState } from "../../recoil/userState";
-import { bprofileListGet, feedCreateApi } from "../../utils";
+import { bprofileListGet, feedCreateApi, getBprofileInfo } from "../../utils";
 
 import BProfileSelect from "./BProfileSelect";
 import DataSelect from "./DataSelect";
+import CategorySelect from "./CategorySelect";
 import InfoData from "./InfoData";
 import { recruitState } from "../../recoil/recruitState";
 import { toast } from "react-toastify";
@@ -15,17 +16,17 @@ export default function RecruitComponent() {
   const [recruit, setRecruit] = useRecoilState(recruitState);
   const resetRecruit = useResetRecoilState(recruitState);
   const history = useHistory();
-  const userId = useRecoilValue(userState).id;
+  const user = useRecoilValue(userState);
   const isLogin = useRecoilValue(userState).isLogin;
   const [bpList, setbpList] = useState([]);
   const [askComplete, setAskComplete] = useState(false);
   const [notEnough, setNotEnough] = useState(false);
 
   const getbpList = useCallback(async () => {
-    await bprofileListGet(userId)
+    await bprofileListGet(user.id)
       .then(async (res) => setbpList(res.data.data))
       .catch();
-  }, [userId]);
+  }, [user.id]);
 
   const clickSubmit = () => {
     if (recruit.title !== "") {
@@ -70,14 +71,31 @@ export default function RecruitComponent() {
   }, [getbpList]);
 
   useEffect(() => {
+    if (user.bprofile) {
+      getBprofileInfo(user.bprofile).then((res) => {
+        let copy = { ...recruit };
+        copy.businessProfile = {
+          id: res.data.data.id,
+          name: res.data.data.name,
+        };
+        copy.address = res.data.data.place;
+        copy.detailAddress = res.data.data.placeDetail;
+        copy.contact = res.data.data.contact;
+        setRecruit(copy);
+      });
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  useEffect(() => {
     return history.block((loca, action) => {
-      if (!loca.pathname.includes("/recruit")) {
+      if (!loca.pathname.includes("/recruit") && recruit.schoolId) {
         let value = window.confirm("변경내용이 저장되지 않을 수 있습니다");
         if (value) resetRecruit();
         return value;
       }
     });
-  }, [history, resetRecruit]);
+  }, [history, resetRecruit, recruit.schoolId]);
 
   return (
     <div ref={page}>
@@ -89,6 +107,13 @@ export default function RecruitComponent() {
       />
       {recruit.businessProfile.id !== null && (
         <DataSelect
+          recruit={recruit}
+          setRecruit={setRecruit}
+          movePage={movePage}
+        />
+      )}
+      {recruit.headCount !== 0 && (
+        <CategorySelect
           recruit={recruit}
           setRecruit={setRecruit}
           movePage={movePage}

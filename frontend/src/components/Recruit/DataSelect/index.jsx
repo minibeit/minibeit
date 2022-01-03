@@ -2,36 +2,32 @@ import React, { useState } from "react";
 
 import moment from "moment";
 import "moment/locale/ko";
-import TimePicker from "react-datepicker";
-import ko from "date-fns/locale/ko";
+
 import { CSSTransition } from "react-transition-group";
 
 import DateInput from "./DateInput";
 import SchoolInput from "./SchoolInput";
 import TimeSelectModal from "./TimeSelectModal";
 
-import FeedCategory from "../../../constants/FeedCategory";
-
 import { ReactComponent as MinusIcon } from "../../../svg/마이너스.svg";
 import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
-import { ReactComponent as CalendarIcon } from "../../../svg/달력.svg";
-import { ReactComponent as ArrowIcon } from "../../../svg/체크.svg";
-import NextIcon from "@mui/icons-material/ArrowForwardIos";
+
 import { toast } from "react-toastify";
 
 import * as S from "../style";
-import "./date-picker.css";
+
+import TimePicker from "rc-time-picker";
+import "./timepicker.css";
+
 import DateChange from "../../Common/Alert/DateChange";
 
 export default function DataSelect({ recruit, setRecruit, movePage }) {
   const [viewTimeSelect, setViewTimeSelect] = useState(true);
   const [timeSelectModal, setTimeSelectModal] = useState(false);
-  const [viewCategory, setViewCategory] = useState(false);
-  const [category, setCategory] = useState(null);
   const [resetAlert, setResetAlert] = useState(false);
   const [createdGroup, setCreatedGroup] = useState([]);
+  const [step, setStep] = useState(1);
 
-  console.log(createdGroup);
   const changeDoTime = (value) => {
     if (value === "minus") {
       const copy = { ...recruit };
@@ -120,8 +116,10 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
     <S.Page>
       <S.DataSelectContainer>
         <S.DataSelectHeader>
-          <p>{recruit.businessProfile.name} 님!</p>
-          <p>생성할 모집공고에 대한 날짜를 입력해주세요</p>
+          {step === 1 && <p>생성할 모집 공고에 대한 위치를 입력해주세요.</p>}
+          {step === 2 && <p>모집 날짜를 입력해주세요.</p>}
+          {step === 3 && <p>모집 시간을 입력해주세요.</p>}
+          {step === 4 && <p>모집 인원을 입력해주세요.</p>}
         </S.DataSelectHeader>
         <S.SelectBox>
           <S.PlaceBox>
@@ -131,34 +129,33 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                 const copy = { ...recruit };
                 copy.schoolId = e ? e.id : null;
                 setRecruit(copy);
+                setStep(2);
               }}
             />
           </S.PlaceBox>
           <CSSTransition
-            in={recruit.schoolId !== null}
+            in={step >= 2}
             classNames="fadeIn"
             timeout={500}
             unmountOnExit
           >
             <S.DateBox>
               <p>날짜</p>
-              <div>
-                <CalendarIcon />
-                <DateInput
-                  minDate={new Date()}
-                  onChange={(e) => {
-                    const copy = { ...recruit };
-                    copy.dateList = e;
-                    copy.startDate = e[0];
-                    copy.endDate = e[e.length - 1];
-                    setRecruit(copy);
-                  }}
-                />
-              </div>
+              <DateInput
+                minDate={new Date()}
+                onChange={(e) => {
+                  const copy = { ...recruit };
+                  copy.dateList = e;
+                  copy.startDate = e[0];
+                  copy.endDate = e[e.length - 1];
+                  setRecruit(copy);
+                  setStep(3);
+                }}
+              />
             </S.DateBox>
           </CSSTransition>
           <CSSTransition
-            in={recruit.dateList !== null}
+            in={step >= 3}
             classNames="fadeIn"
             timeout={500}
             unmountOnExit
@@ -173,6 +170,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                     } else {
                       setViewTimeSelect(true);
                       changeDoTime("minus");
+                      setStep(3);
                     }
                   }}
                 >
@@ -186,6 +184,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                     } else {
                       setViewTimeSelect(true);
                       changeDoTime("plus");
+                      setStep(3);
                     }
                   }}
                 >
@@ -200,53 +199,76 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
               >
                 <S.TimeSelectBox>
                   <div>
-                    <div>
-                      <S.TimeInput>
+                    <S.TimeInput>
+                      <div>
                         <p>시작시간</p>
-                        <TimePicker
-                          locale={ko}
-                          selected={recruit.startTime}
-                          onChange={(time) => {
-                            if (createdGroup.length !== 0) {
-                              setResetAlert(true);
-                            } else {
-                              const copy = { ...recruit };
-                              copy.startTime = time;
-                              setRecruit(copy);
-                            }
-                          }}
-                          timeFormat="aa h:mm"
-                          showTimeSelect
-                          showTimeSelectOnly
-                          timeCaption="시작시간"
-                          timeIntervals={30}
-                          dateFormat="aa h:mm"
-                        />
-                      </S.TimeInput>
-                      {"~"}
-                      <S.TimeInput>
                         <p>종료시간</p>
-                        <TimePicker
-                          locale={ko}
-                          selected={recruit.endTime}
-                          onChange={(time) => {
-                            if (createdGroup.length !== 0) {
-                              setResetAlert(true);
-                            } else {
-                              const copy = { ...recruit };
-                              copy.endTime = time;
-                              setRecruit(copy);
+                      </div>
+                      <div>
+                        <span>
+                          <TimePicker
+                            defaultValue={
+                              recruit.startTime && moment(recruit.startTime)
                             }
-                          }}
-                          timeFormat="aa h:mm"
-                          showTimeSelect
-                          showTimeSelectOnly
-                          timeCaption="종료시간"
-                          timeIntervals={30}
-                          dateFormat="aa h:mm"
-                        />
-                      </S.TimeInput>
-                    </div>
+                            use12Hours
+                            inputReadOnly
+                            minuteStep={30}
+                            showSecond={false}
+                            format="a   h:mm"
+                            onChange={(time) => {
+                              if (createdGroup.length !== 0) {
+                                setResetAlert(true);
+                              } else {
+                                const copy = { ...recruit };
+                                copy.startTime = new Date(time);
+                                setRecruit(copy);
+                              }
+                            }}
+                            addon={(panel) => {
+                              return (
+                                <button
+                                  className="rc-time-save-button"
+                                  onClick={() => panel.close()}
+                                >
+                                  확인
+                                </button>
+                              );
+                            }}
+                          />
+                        </span>
+                        <span>
+                          <TimePicker
+                            defaultValue={
+                              recruit.endTime && moment(recruit.endTime)
+                            }
+                            use12Hours
+                            inputReadOnly
+                            minuteStep={30}
+                            showSecond={false}
+                            format="a   h:mm"
+                            onChange={(time) => {
+                              if (createdGroup.length !== 0) {
+                                setResetAlert(true);
+                              } else {
+                                const copy = { ...recruit };
+                                copy.endTime = new Date(time);
+                                setRecruit(copy);
+                              }
+                            }}
+                            addon={(panel) => {
+                              return (
+                                <button
+                                  className="rc-time-save-button"
+                                  onClick={() => panel.close()}
+                                >
+                                  확인
+                                </button>
+                              );
+                            }}
+                          />
+                        </span>
+                      </div>
+                    </S.TimeInput>
                     <S.DetailTimeBtn
                       disabled={
                         recruit.startTime === null || recruit.endTime === null
@@ -276,7 +298,12 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                   </div>
                   <S.SaveTimeBtn
                     onClick={() => {
-                      if (recruit.startTime && recruit.endTime) {
+                      if (recruit.startTime >= recruit.endTime) {
+                        toast.info("종료시간은 시작시간 이후로 선택해주세요");
+                      } else if (
+                        recruit.startTime !== null &&
+                        recruit.endTime !== null
+                      ) {
                         const copy = { ...recruit };
                         let timeList = createTimeArr(
                           recruit.startTime,
@@ -290,6 +317,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                           timeList
                         );
                         setRecruit(copy);
+                        setStep(4);
                         setViewTimeSelect(false);
                       } else {
                         toast.info("시작시간과 종료시간을 선택해주세요");
@@ -303,23 +331,23 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
             </S.CountBox>
           </CSSTransition>
           <CSSTransition
-            in={recruit.doDateList !== null}
+            in={step >= 4}
             classNames="fadeIn"
             timeout={500}
             unmountOnExit
           >
-            <S.HeadCountBox>
+            <S.CountBox>
               <p>시간 단위당 모집 인원</p>
               <div>
                 <button onClick={() => changeHeadCount("minus")}>
                   <MinusIcon />
                 </button>
-                <p>{recruit.headCount}명</p>
+                <p style={{ color: "#0642FF" }}>{recruit.headCount}명</p>
                 <button onClick={() => changeHeadCount("plus")}>
                   <PlusIcon />
                 </button>
               </div>
-            </S.HeadCountBox>
+            </S.CountBox>
           </CSSTransition>
         </S.SelectBox>
         <CSSTransition
@@ -328,55 +356,15 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
           timeout={500}
           unmountOnExit
         >
-          <S.NextBtn
+          <S.SaveBtn
             onClick={() => {
-              if (viewTimeSelect) {
-                toast.info("시간 입력을 적용한 후 시도해주세요");
-              } else {
-                setViewCategory(true);
-              }
+              viewTimeSelect
+                ? toast.info("시간 입력을 적용한 후 시도해주세요")
+                : movePage(2);
             }}
           >
             다음
-            <NextIcon />
-          </S.NextBtn>
-        </CSSTransition>
-        <CSSTransition
-          in={viewCategory}
-          classNames="fadeIn"
-          timeout={500}
-          unmountOnExit
-        >
-          <S.CategoryContainer>
-            <p>실험 카테고리</p>
-            <div>
-              {FeedCategory.map((a) => {
-                return (
-                  <S.CategoryBtn
-                    id={a.id}
-                    key={a.id}
-                    onClick={() => setCategory(a.name)}
-                    disabled={category === a.name ? true : false}
-                  >
-                    {a.icon}
-                    {a.name}
-                  </S.CategoryBtn>
-                );
-              })}
-              <S.CategoryConfirm
-                disabled={category === null ? true : false}
-                onClick={() => {
-                  const copy = { ...recruit };
-                  copy["category"] = category;
-                  setRecruit(copy);
-                  movePage(2);
-                }}
-              >
-                <p>확인</p>
-                <ArrowIcon />
-              </S.CategoryConfirm>
-            </div>
-          </S.CategoryContainer>
+          </S.SaveBtn>
         </CSSTransition>
       </S.DataSelectContainer>
       {resetAlert && (

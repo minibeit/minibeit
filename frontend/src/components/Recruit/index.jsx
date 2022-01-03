@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { useHistory } from "react-router";
 
 import { userState } from "../../recoil/userState";
-import { bprofileListGet, feedCreateApi } from "../../utils";
+import { bprofileListGet, feedCreateApi, getBprofileInfo } from "../../utils";
 
 import BProfileSelect from "./BProfileSelect";
 import DataSelect from "./DataSelect";
@@ -16,17 +16,17 @@ export default function RecruitComponent() {
   const [recruit, setRecruit] = useRecoilState(recruitState);
   const resetRecruit = useResetRecoilState(recruitState);
   const history = useHistory();
-  const userId = useRecoilValue(userState).id;
+  const user = useRecoilValue(userState);
   const isLogin = useRecoilValue(userState).isLogin;
   const [bpList, setbpList] = useState([]);
   const [askComplete, setAskComplete] = useState(false);
   const [notEnough, setNotEnough] = useState(false);
 
   const getbpList = useCallback(async () => {
-    await bprofileListGet(userId)
+    await bprofileListGet(user.id)
       .then(async (res) => setbpList(res.data.data))
       .catch();
-  }, [userId]);
+  }, [user.id]);
 
   const clickSubmit = () => {
     if (recruit.title !== "") {
@@ -69,6 +69,23 @@ export default function RecruitComponent() {
   useEffect(() => {
     getbpList();
   }, [getbpList]);
+
+  useEffect(() => {
+    if (user.bprofile) {
+      getBprofileInfo(user.bprofile).then((res) => {
+        let copy = { ...recruit };
+        copy.businessProfile = {
+          id: res.data.data.id,
+          name: res.data.data.name,
+        };
+        copy.address = res.data.data.place;
+        copy.detailAddress = res.data.data.placeDetail;
+        copy.contact = res.data.data.contact;
+        setRecruit(copy);
+      });
+    }
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
     return history.block((loca, action) => {

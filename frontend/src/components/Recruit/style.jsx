@@ -304,6 +304,7 @@ export const DataInfoContainer = styled.div`
   }
   & > div:nth-child(3) {
     display: flex;
+    flex-wrap: wrap;
     gap: 5rem;
   }
 `;
@@ -333,6 +334,7 @@ export const SelectRadio = styled.div`
     color: #c4c4c4;
   }
   & > input:checked ~ p {
+    white-space: nowrap;
     color: #0642ff;
   }
 `;
@@ -363,6 +365,7 @@ export const InputBox = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 1rem;
+  min-width: 20em;
   & > p:first-child {
     font-size: 1.5rem;
   }
@@ -451,6 +454,7 @@ export const WageBox = styled.div`
   & > p:nth-child(2) {
     color: #0642ff;
     text-align: end;
+    margin-top: auto;
   }
 `;
 
@@ -475,6 +479,7 @@ export const ExtraInfoContainer = styled.div`
   }
   & > div:nth-child(2) {
     display: flex;
+    flex-wrap: wrap;
     gap: 5rem;
   }
 `;

@@ -4,23 +4,17 @@ import { ReactComponent as CloseIcon } from "../../../svg/엑스.svg";
 import { ReactComponent as AddIcon } from "../../../svg/플러스.svg";
 import { ReactComponent as PenIcon } from "../../../svg/연필.svg";
 import DeleteBProfile from "../../Common/Alert/DeleteBProfile";
-import {
-  bprofileListGet,
-  deleteBprofile,
-  getBprofileInfo,
-} from "../../../utils";
+import { bprofileListGet, deleteBprofile } from "../../../utils";
 import { PVImg } from "../../Common";
 import BProfileCreateModal from "../../Common/Modal/BProfileCreateModal";
 import * as S from "../style";
 import { useCallback } from "react";
 import { useRecoilState } from "recoil";
 import { userState } from "../../../recoil/userState";
-import { recruitState } from "../../../recoil/recruitState";
 
 export default function BusinessContainer() {
   const history = useHistory();
   const [user, setUser] = useRecoilState(userState);
-  const [recruit, setRecruit] = useRecoilState(recruitState);
   const [modalSwitch, setModalSwitch] = useState(false);
   const [BProfileList, setBProfileList] = useState([]);
   const [editMode, setEditMode] = useState(false);
@@ -34,17 +28,6 @@ export default function BusinessContainer() {
     let copy = { ...user };
     copy.bprofile = BProfile.id;
     setUser(copy);
-    getBprofileInfo(BProfile.id).then((res) => {
-      copy = { ...recruit };
-      copy.businessProfile = {
-        id: res.data.data.id,
-        name: res.data.data.name,
-      };
-      copy.address = res.data.data.place;
-      copy.detailAddress = res.data.data.placeDetail;
-      copy.contact = res.data.data.contact;
-      setRecruit(copy);
-    });
     history.push(`/business/${BProfile.id}`);
   };
 

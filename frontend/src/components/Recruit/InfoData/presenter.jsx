@@ -135,6 +135,7 @@ export default function Presenter({
                   }}
                   name="payment"
                   id="cache"
+                  defaultChecked
                 />
                 <label htmlFor="cache" />
                 <p>현금으로 지급</p>
@@ -142,7 +143,6 @@ export default function Presenter({
               <S.SelectRadio>
                 <input
                   type="radio"
-                  defaultChecked
                   onClick={() => {
                     let copy = { ...recruit };
                     copy.payment = "GOODS";
@@ -160,9 +160,10 @@ export default function Presenter({
               {recruit.payment === "CACHE" ? (
                 <>
                   <S.WageBox>
-                    {parseInt(recruit.pay) / (recruit.doTime / 60) < 9160 && (
-                      <div>최저시급이 안됩니다</div>
-                    )}
+                    <div>
+                      {parseInt(recruit.pay) / (recruit.doTime / 60) < 9160 &&
+                        "최저시급이 안됩니다"}
+                    </div>
                     <p>
                       {recruit.pay
                         ? `시급 : ${

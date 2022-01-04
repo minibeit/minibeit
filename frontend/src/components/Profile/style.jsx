@@ -379,6 +379,14 @@ export const BlueButton = styled(FeedButton)`
     border: 1px solid #0642ff;
     color: #0642ff;
   }
+  &:disabled {
+    background: #c4c4c4;
+    cursor: default;
+    &:hover {
+      color: white;
+      border: 1px solid white;
+    }
+  }
 `;
 
 /* business Profile */

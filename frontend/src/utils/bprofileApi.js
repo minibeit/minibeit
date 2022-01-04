@@ -23,7 +23,7 @@ export const getBprofileInfo = async (businessId) => {
   return await withAuthInstance.get(API_BUSINESS + businessId);
 };
 export const deleteBprofile = async (businessId) => {
-  return await withAuthInstance.delete(API_BUSINESS + businessId + "/user");
+  return await withAuthInstance.delete(API_BUSINESS + businessId);
 };
 
 export const editBprofile = (BProfileData) => {

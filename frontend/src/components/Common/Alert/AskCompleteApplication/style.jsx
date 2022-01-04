@@ -9,16 +9,27 @@ export const AlertBox = styled.div`
   width: 30rem;
   height: 20rem;
   border-radius: 2.25rem;
+  padding: 0 1rem;
+  @media only screen and (max-width: 700px) {
+    padding: 1rem;
+    width: 20rem;
+    height: 15rem;
+  }
 `;
 
 const Button = styled.button`
   position: relative;
-  width: 9rem;
-  height: 2.7rem;
   font-size: 0.85rem;
-  line-height: 2.5rem;
+  padding: 1rem;
+  font-size: 0.85rem;
   border-radius: 2rem;
   cursor: pointer;
+  min-width: 10rem;
+
+  @media only screen and (max-width: 700px) {
+    padding: 0.5rem 1rem;
+    min-width: 8rem;
+  }
 `;
 
 export const GrayButton = styled(Button)`
@@ -67,5 +78,14 @@ export const AlertContent = styled.div`
     flex-direction: row;
     gap: 1.5rem;
     margin-top: 2.3rem;
+  }
+
+  @media only screen and (max-width: 700px) {
+    & > p:first-child {
+      font-size: 1.4rem;
+    }
+    & > div:nth-child(3) {
+      margin-top: 1.5rem;
+    }
   }
 `;

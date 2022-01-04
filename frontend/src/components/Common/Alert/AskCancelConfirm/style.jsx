@@ -9,6 +9,12 @@ export const AlertBox = styled.div`
   width: 30rem;
   height: 20rem;
   border-radius: 2.25rem;
+  padding: 0 1rem;
+  @media only screen and (max-width: 700px) {
+    padding: 1rem;
+    width: 20rem;
+    height: 18rem;
+  }
 `;
 
 const Button = styled.button`
@@ -56,7 +62,7 @@ export const AlertContent = styled.div`
     font-weight: 700;
     font-size: 1.25rem;
     text-align: center;
-    line-height: 1.875rem;
+    line-height: 2rem;
   }
 
   & > p:nth-child(3) {
@@ -66,15 +72,23 @@ export const AlertContent = styled.div`
     line-height: 1.25rem;
   }
 
-  & > p > span:nth-child(2) {
+  & > p:nth-child(4) {
     color: #0642ff;
+    font-size: 0.7;
+
     font-weight: 700;
+    text-align: center;
   }
 
-  & > div:nth-child(4) {
+  & > div:nth-child(5) {
     display: flex;
     flex-direction: row;
     gap: 1.5rem;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
+  }
+  @media only screen and (max-width: 700px) {
+    & > p:nth-child(2) {
+      width: 20rem;
+    }
   }
 `;

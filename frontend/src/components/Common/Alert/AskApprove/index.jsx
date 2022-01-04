@@ -17,7 +17,10 @@ export default function AskApprove({
         {!secondAlert ? (
           <S.AlertContent>
             <InfoIcon />
-            <p>해당 실험자의 실험 참여를 허락하시겠습니까?</p>
+            <p>
+              해당 실험자의 실험 참여를
+              <br /> 허락하시겠습니까?
+            </p>
             <div>
               <S.GrayButton onClick={() => setApproveUser(false)}>
                 아니오, 관둘래요

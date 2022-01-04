@@ -9,6 +9,12 @@ export const AlertBox = styled.div`
   width: 30rem;
   height: 20rem;
   border-radius: 2.25rem;
+  padding: 0 1rem;
+  @media only screen and (max-width: 700px) {
+    padding: 1rem;
+    width: 20rem;
+    height: 15rem;
+  }
 `;
 export const AlertContent2 = styled.div`
   transform: translate(-50%, -50%);
@@ -32,13 +38,16 @@ export const AlertContent2 = styled.div`
     text-align: center;
     font-weight: 700;
     font-size: 1.25rem;
-    line-height: 2rem;
+    line-height: 2.5rem;
     & > p {
       font-size: 0.8rem;
       font-weight: 400;
       color: rgba(0, 0, 0, 0.5);
       line-height: 1.3rem;
     }
+  }
+  & > div {
+    margin-top: 1rem;
   }
 `;
 
@@ -94,10 +103,10 @@ export const AlertContent = styled.div`
     }
   }
 
-  & > div:nth-child(3) {
+  & > div {
     display: flex;
     flex-direction: row;
     gap: 1.5rem;
-    margin-top: 1rem;
+    margin-top: 1.5rem;
   }
 `;

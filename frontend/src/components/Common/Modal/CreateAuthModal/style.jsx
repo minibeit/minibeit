@@ -19,7 +19,7 @@ export const ModalHeader = styled.div`
   align-items: center;
   height: 4.5rem;
   @media only screen and (max-width: 700px) {
-    height: 1.5rem;
+    height: 1rem;
   }
 `;
 export const CloseModalBtn = styled.div`

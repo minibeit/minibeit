@@ -16,7 +16,10 @@ export default function ExceptMember({
         {!secondAlert ? (
           <S.AlertContent>
             <InfoIcon />
-            <p>{user.nickname}님을 그룹에서 제외하시겠습니까?</p>
+            <p>
+              {user.nickname}님을 <br />
+              그룹에서 제외하시겠습니까?
+            </p>
             <div>
               <S.GrayButton onClick={() => setExceptUser(false)}>
                 아니오, 관둘래요
@@ -33,7 +36,10 @@ export default function ExceptMember({
         ) : (
           <S.AlertContent>
             <InfoIcon />
-            <p>{user.nickname}님이 그룹에서 제외되었습니다.</p>
+            <p>
+              {user.nickname}님이
+              <br /> 그룹에서 제외되었습니다.
+            </p>
             <div>
               <S.BlueButton
                 onClick={() => {

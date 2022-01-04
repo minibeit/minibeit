@@ -6,9 +6,15 @@ export const AlertBox = styled.div`
   top: 50%;
   left: 50%;
   background-color: white;
-  width: 30rem;
+  width: 27rem;
   height: 18rem;
   border-radius: 2.25rem;
+  padding: 0 1rem;
+  @media only screen and (max-width: 700px) {
+    padding: 1rem;
+    width: 20rem;
+    height: 15rem;
+  }
 `;
 
 const Button = styled.button`
@@ -52,8 +58,9 @@ export const AlertContent = styled.div`
 
   & > p:nth-child(2) {
     width: 25rem;
+    white-space: nowrap;
     font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 1.3rem;
     text-align: center;
     line-height: 1.875rem;
   }
@@ -63,5 +70,16 @@ export const AlertContent = styled.div`
     flex-direction: row;
     gap: 1.5rem;
     margin-top: 1.5rem;
+  }
+
+  @media only screen and (max-width: 700px) {
+    & > p:nth-child(2) {
+      width: 18rem;
+      white-space: wrap;
+      text-align: center;
+    }
+    & > div:nth-child(3) {
+      margin-top: 1rem;
+    }
   }
 `;

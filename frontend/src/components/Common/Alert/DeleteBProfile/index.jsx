@@ -47,21 +47,23 @@ export default function DeliteBProfile({
           <S.AlertContent2>
             <InfoIcon />
             <p>
-              현재 모집중인 실험이 있습니다.
+              삭제할 수 없는 프로필입니다.
               <p>
                 글내리기를 눌러 게시글을 삭제하거나
                 <br />
                 비즈니스 프로필의 관리자를 바꾼 뒤 다시 진행해주세요.
               </p>
             </p>
-            <S.BlueButton
-              onClick={() => {
-                setDeleteAlert(false);
-                setSecondAlert(false);
-              }}
-            >
-              네, 알겠어요.
-            </S.BlueButton>
+            <div>
+              <S.BlueButton
+                onClick={() => {
+                  setDeleteAlert(false);
+                  setSecondAlert(false);
+                }}
+              >
+                네, 알겠어요.
+              </S.BlueButton>
+            </div>
           </S.AlertContent2>
         )}
       </S.AlertBox>

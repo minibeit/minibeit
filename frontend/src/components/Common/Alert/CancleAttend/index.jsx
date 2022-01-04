@@ -3,12 +3,12 @@ import Portal from "../Portal";
 import * as S from "./style";
 import { ReactComponent as InfoIcon } from "../../../..//svg/경고.svg";
 import { toast } from "react-toastify";
+import { doNotJoinApi } from "../../../../utils";
 
 export default function CancleAttend({
   setCancleAttend,
-  id,
+  postDoDateId,
   changeFeedData,
-  doNotJoinApi,
 }) {
   const [secondAlert, setSecondAlert] = useState(false);
 
@@ -30,11 +30,7 @@ export default function CancleAttend({
               <S.GrayButton onClick={() => setCancleAttend(false)}>
                 아니오, 관둘래요
               </S.GrayButton>
-              <S.BlueButton
-                onClick={() => {
-                  doNotJoin(id);
-                }}
-              >
+              <S.BlueButton onClick={() => doNotJoin(postDoDateId)}>
                 네, 취소할래요.
               </S.BlueButton>
             </div>

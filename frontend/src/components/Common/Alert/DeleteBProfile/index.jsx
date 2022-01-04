@@ -2,25 +2,26 @@ import React, { useState } from "react";
 import Portal from "../Portal";
 import * as S from "./style";
 import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
+import { deleteBprofile } from "../../../../utils";
 
 // 비즈니스 프로필 삭제 확인
 
 export default function DeliteBProfile({
-  a,
+  BProfileId,
   setDeleteAlert,
-  deleteBprofile,
   getBProfile,
 }) {
   const [secondAlert, setSecondAlert] = useState(false);
 
-  const deleteBusiness = (data) => {
-    deleteBprofile(data.id)
+  const deleteBusiness = (id) => {
+    deleteBprofile(id)
       .then((res) => {
         setDeleteAlert(false);
         getBProfile();
       })
       .catch((err) => setSecondAlert(true));
   };
+
   return (
     <Portal>
       <S.AlertBox>
@@ -38,7 +39,7 @@ export default function DeliteBProfile({
               <S.GrayButton onClick={() => setDeleteAlert(false)}>
                 아니오, 관둘래요
               </S.GrayButton>
-              <S.BlueButton onClick={() => deleteBusiness(a)}>
+              <S.BlueButton onClick={() => deleteBusiness(BProfileId)}>
                 네, 삭제할래요
               </S.BlueButton>
             </div>

@@ -110,10 +110,10 @@ export const LikeFeedContainer = styled.div`
     border-bottom: 1.5px solid #afafaf;
   }
   & > div:nth-child(3) {
-    padding: 1em 0;
+    padding: 2em;
     display: flex;
     flex-wrap: wrap;
-    gap: 1em;
+    gap: 3em;
   }
 `;
 export const LikeFeedBox = styled.div`
@@ -378,6 +378,14 @@ export const BlueButton = styled(FeedButton)`
     background: white;
     border: 1px solid #0642ff;
     color: #0642ff;
+  }
+  &:disabled {
+    background: #c4c4c4;
+    cursor: default;
+    &:hover {
+      color: white;
+      border: 1px solid white;
+    }
   }
 `;
 

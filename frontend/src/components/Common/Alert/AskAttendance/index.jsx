@@ -19,7 +19,7 @@ export default function AskAttendance({
           <S.AlertContent>
             <InfoIcon />
             <p>
-              해당 실험자를 {!isAttend ? "'불참'" : "'참여'"} 처리 하시겠습니까?
+              해당 실험자를 {isAttend ? "'불참'" : "'참여'"} 처리하시겠습니까?
             </p>
             <div>
               <S.GrayButton onClick={() => setAskAttend(false)}>
@@ -38,8 +38,7 @@ export default function AskAttendance({
           <S.AlertContent>
             <InfoIcon />
             <p>
-              해당 실험자의 실험 참여가 <br />
-              {!isAttend ? "'불참'" : "'참여'"}
+              해당 실험자의 실험 참여가 <br /> {isAttend ? "'참여'" : "'불참'"}
               처리되었습니다
             </p>
             <div>

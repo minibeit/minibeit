@@ -4,7 +4,7 @@ import { ReactComponent as CloseIcon } from "../../../svg/엑스.svg";
 import { ReactComponent as AddIcon } from "../../../svg/플러스.svg";
 import { ReactComponent as PenIcon } from "../../../svg/연필.svg";
 import DeleteBProfile from "../../Common/Alert/DeleteBProfile";
-import { bprofileListGet, deleteBprofile } from "../../../utils";
+import { bprofileListGet } from "../../../utils";
 import { PVImg } from "../../Common";
 import BProfileCreateModal from "../../Common/Modal/BProfileCreateModal";
 import * as S from "../style";
@@ -79,8 +79,7 @@ export default function BusinessContainer() {
               </div>
               {deleteAlert && (
                 <DeleteBProfile
-                  a={a}
-                  deleteBprofile={deleteBprofile}
+                  BProfileId={a.id}
                   setDeleteAlert={setDeleteAlert}
                   getBProfile={getBProfile}
                 />

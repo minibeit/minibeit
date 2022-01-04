@@ -49,8 +49,7 @@ export default function Presenter({
             <S.DataNavBar key={i}>
               <S.DateInfoBox>
                 <div>
-                  {time.userInfoList[0].startTime}-
-                  {time.userInfoList[0].endTime}
+                  {time.startTime}-{time.endTime}
                 </div>
                 <div>
                   {time.userInfoList.map((user, j) => {
@@ -80,7 +79,8 @@ export default function Presenter({
                                   <AskCancelConfirm
                                     cancleApprove={cancleApprove}
                                     setCancleAlert={setCancleAlert}
-                                    cancleUserInfo={cancleUserInfo}
+                                    postDoDateId={time.postDoDateId}
+                                    userId={user.id}
                                   />
                                 )}
                               </S.ButtonBox>
@@ -124,7 +124,7 @@ export default function Presenter({
                               secondAlert={secondAlert}
                               time={time.postDoDateId}
                               id={user.id}
-                              isAttend={user.Attend}
+                              isAttend={user.isAttend}
                               changeAttend={changeAttend}
                             />
                           )}

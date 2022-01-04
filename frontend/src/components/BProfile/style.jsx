@@ -239,7 +239,7 @@ export const FeedContentView = styled.div`
   flex: 1;
   width: -webkit-fill-available;
   height: auto;
-  padding: 0.8em;
+  padding: 1em 2em;
   gap: 0.5em;
   & > div:first-child {
     flex: 1;
@@ -254,7 +254,7 @@ export const FeedContentView = styled.div`
     }
   }
   & > div:nth-child(2) {
-    min-height: 4em;
+    min-height: 3em;
     display: flex;
     gap: 0.5em;
     & > p {
@@ -275,11 +275,11 @@ export const FeedContentView = styled.div`
 
 export const FeedButton = styled.button`
   border-radius: 2rem;
-  font-size: 1.3rem;
+  font-size: 1rem;
   width: 47%;
   max-height: 2.5rem;
   cursor: pointer;
-  padding: 0.2em 0;
+  padding: 0.3em 0;
   white-space: nowrap;
   gap: 1rem;
 `;

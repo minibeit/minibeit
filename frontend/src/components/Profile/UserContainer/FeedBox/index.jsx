@@ -80,8 +80,15 @@ export default function FeedBox({ status, data, changeFeedData }) {
           <div>
             {status === "approve" && (
               <>
-                <S.BlueButton onClick={(e) => doComplete(e, data.postDoDateId)}>
-                  참여 완료
+                <S.BlueButton
+                  disabled={
+                    new Date(`${data.doDate}T${data.startTime}`) > new Date() &&
+                    data.isWritable &&
+                    true
+                  }
+                  onClick={(e) => doComplete(e, data.postDoDateId)}
+                >
+                  후기 작성
                 </S.BlueButton>
                 <S.WhiteButton
                   onClick={(e) => {
@@ -131,7 +138,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
       {cancleAttend && (
         <CancleAttend
           setCancleAttend={setCancleAttend}
-          id={data.postDoDateId}
+          postDoDateId={data.postDoDateId}
           changeFeedData={changeFeedData}
         />
       )}

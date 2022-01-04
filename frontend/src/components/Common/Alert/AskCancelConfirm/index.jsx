@@ -7,7 +7,8 @@ import { ReactComponent as InfoIcon } from "../../../..//svg/경고.svg";
 export default function AskCancelConfirm({
   cancleApprove,
   setCancleAlert,
-  cancleUserInfo,
+  postDoDateId,
+  userId,
 }) {
   return (
     <Portal>
@@ -27,11 +28,7 @@ export default function AskCancelConfirm({
             <S.GrayButton onClick={() => setCancleAlert(false)}>
               아니오, 관둘래요
             </S.GrayButton>
-            <S.BlueButton
-              onClick={() => {
-                cancleApprove(cancleUserInfo.postDoDateId, cancleUserInfo.id);
-              }}
-            >
+            <S.BlueButton onClick={() => cancleApprove(postDoDateId, userId)}>
               네, 취소할래요
             </S.BlueButton>
           </div>

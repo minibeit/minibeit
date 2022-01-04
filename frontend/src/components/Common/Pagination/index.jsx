@@ -11,6 +11,7 @@ const Paging = ({ page, count, setPage, onChange }) => {
       pageRangeDisplayed={10}
       prevPageText={"이전"}
       nextPageText={"다음"}
+      hideDisabled={true}
       hideFirstLastPages={true}
       onChange={(e) => {
         if (setPage) {

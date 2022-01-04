@@ -110,10 +110,10 @@ export const LikeFeedContainer = styled.div`
     border-bottom: 1.5px solid #afafaf;
   }
   & > div:nth-child(3) {
-    padding: 1em 0;
+    padding: 2em;
     display: flex;
     flex-wrap: wrap;
-    gap: 1em;
+    gap: 3em;
   }
 `;
 export const LikeFeedBox = styled.div`

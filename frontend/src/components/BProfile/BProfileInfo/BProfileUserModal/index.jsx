@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useHistory } from "react-router";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 
 import {
@@ -15,7 +14,6 @@ import Presenter from "./presenter";
 import * as S from "./style";
 
 export default function BProfileUserModal({ businessId, setModalSwitch }) {
-  const history = useHistory();
   const [bisnessUsers, setBisnessUsers] = useState([]);
   const [adminName, setAdminName] = useState("");
   const [searchUser, setSearchUser] = useState();
@@ -37,7 +35,16 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
           toast.info("초대되었습니다");
           getUsergroup();
         })
-        .catch((err) => toast.error("초대가 불가능한 유저입니다"));
+        .catch((err) => {
+          if (
+            err.response.data.error.info ===
+            "비즈니스 프로필 개수가 너무 많습니다."
+          ) {
+            toast.error(
+              "상대방이 이미 최대 개수의 비즈니스 프로필을 가지고 있습니다."
+            );
+          }
+        });
     }
   };
   const [exceptUser, setExceptUser] = useState(false);
@@ -63,15 +70,13 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
   };
   const [askChangeAdmin, setchangeAdmin] = useState(false);
   const changeAdmin = (user) => {
+    setEditCheifMode(false);
     if (user !== "") {
       assignChange(businessId, user.id)
         .then(() => {
           toast.info("관리자가 양도되었습니다");
-          setEditCheifMode(!editCheifMode);
           setModalSwitch(false);
           setchangeAdmin(false);
-          history.push("/business/" + businessId);
-          history.go(0);
         })
         .catch((err) => toast.error("관리자가 될 수 없는 유저입니다"));
     } else {

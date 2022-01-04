@@ -117,7 +117,7 @@ CREATE TABLE `user`
     `gender`       VARCHAR(10),
     `birth`        DATE,
     `provider`     VARCHAR(30) NOT NULL,
-    `phone_num`    VARCHAR(30),
+    `phone_num`    VARCHAR(100),
     `signup_check` TINYINT(1)  NOT NULL,
     `role`         VARCHAR(20) NOT NULL,
     `created_at`   DATETIME    NOT NULL,

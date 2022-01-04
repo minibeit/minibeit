@@ -11,8 +11,8 @@ export const ModalBox = styled.div`
   height: 26rem;
   background-color: white;
   @media only screen and (max-width: 700px) {
-    width: 23rem;
-    padding: 1rem 1.5rem;
+    max-width: 21rem;
+    padding: 1rem;
   }
 `;
 export const ModalHeader = styled.div`
@@ -99,6 +99,7 @@ export const ImgEditBtn = styled.label`
     color: #fff;
   }
 `;
+export const Img = styled.img``;
 
 /*info*/
 
@@ -116,14 +117,28 @@ export const InfoContainer = styled.div`
   }
   @media only screen and (max-width: 700px) {
     flex: 1;
-    width: 16rem;
     height: 15rem;
     overflow-y: scroll;
+    overflow-x: hidden;
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: #c4c4c4;
+    }
+    ::-webkit-scrollbar-button {
+      width: 0;
+      height: 0;
+    }
   }
 `;
 export const CreateInput = styled.div`
   display: flex;
-  width: 45%;
+  width: 100%;
   & > div {
     display: flex;
     flex-direction: column;
@@ -152,7 +167,13 @@ export const CreateInput = styled.div`
     text-decoration: none;
   }
   @media only screen and (max-width: 700px) {
-    width: 100%;
+    & > div {
+      width: 90%;
+    }
+    & input,
+    select {
+      width: 90%;
+    }
   }
 `;
 export const SubmitBtnBox = styled.div`

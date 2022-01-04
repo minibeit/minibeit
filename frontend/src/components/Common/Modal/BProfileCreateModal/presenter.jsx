@@ -56,7 +56,7 @@ export default function Presenter({
       </S.ImgContainer>
       <S.InfoContainer>
         <div>
-          <S.CreateInput style={{ width: "100%" }}>
+          <S.CreateInput>
             <div>
               <p>이름</p>
               <input

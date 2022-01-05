@@ -29,32 +29,24 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
   const [step, setStep] = useState(1);
 
   const changeDoTime = (value) => {
+    const copy = { ...recruit };
     if (value === "minus") {
-      const copy = { ...recruit };
-      if (copy.doTime > 30) {
-        copy.doTime -= 30;
-        setRecruit(copy);
-      }
+      if (copy.doTime > 30) copy.doTime -= 30;
     } else {
-      const copy = { ...recruit };
-      copy.doTime += 30;
-      setRecruit(copy);
+      if (copy.doTime < 180) copy.doTime += 30;
     }
+    setRecruit(copy);
   };
 
   /* 모집인원 카운트 로직 */
   const changeHeadCount = (value) => {
+    const copy = { ...recruit };
     if (value === "minus") {
-      const copy = { ...recruit };
-      if (copy.headCount >= 1) {
-        copy.headCount -= 1;
-      }
-      setRecruit(copy);
+      if (copy.headCount >= 1) copy.headCount -= 1;
     } else {
-      const copy = { ...recruit };
-      copy.headCount += 1;
-      setRecruit(copy);
+      if (copy.headCount <= 10) copy.headCount += 1;
     }
+    setRecruit(copy);
   };
 
   /*시간 단위 만드는 로직*/

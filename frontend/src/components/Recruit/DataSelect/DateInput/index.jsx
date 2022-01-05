@@ -53,6 +53,7 @@ export default function DateInput({ minDate, maxDate, onChange }) {
   return (
     <ClickAwayListener
       onClickAway={() => {
+        if (calendarView) onChange(dateArr);
         setCalendarView(false);
       }}
     >

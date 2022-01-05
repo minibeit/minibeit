@@ -1,4 +1,4 @@
-import styled, { css, keyframes } from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 const createFirst = keyframes`
   0% {
@@ -20,31 +20,19 @@ export const ModalBox = styled.div`
   border-radius: 2rem;
 `;
 export const ModalHeader = styled.div`
-  padding: 1rem 0;
+  padding: 0.7rem 0;
   margin: 0 2rem;
   border-bottom: 1px solid #c4c4c4;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  justify-content: space-between;
   gap: 0.5rem;
-  & > p:first-child {
-    font-size: 1.5rem;
+  & > div:first-child {
+    font-size: 1.3rem;
     font-weight: bold;
   }
-  & > div:nth-child(2) {
-    display: flex;
-    padding: 0.5em 2em;
-    border-radius: 1em;
-    color: #0642ff;
-    font-size: 0.7rem;
-    box-shadow: 10px 10px 30px 0px #bdbdbd33;
-    & > svg {
-      width: 1em;
-      padding-right: 1em;
-      & path {
-        fill: #0642ff;
-      }
-    }
+  & > svg {
+    width: 1em;
+    cursor: pointer;
   }
 `;
 export const Info = styled.div`
@@ -65,7 +53,7 @@ export const ModalContent = styled.div`
   padding: 0 0.5rem;
 `;
 export const ModalFooter = styled.div`
-  padding: 1rem 2rem;
+  padding: 0.8rem 2rem;
   display: flex;
   border-top: 1px dotted #c4c4c4;
   justify-content: center;
@@ -74,13 +62,7 @@ export const ModalFooter = styled.div`
 `;
 
 export const CalendarView = styled.div`
-  ${({ blur }) =>
-    blur &&
-    css`
-      filter: blur(4px);
-      z-index: -99;
-    `}
-  &>div {
+  & > div {
     margin: 0 auto;
     padding: 0;
   }
@@ -93,6 +75,7 @@ export const View = styled.div`
   border-radius: 0.5em;
   padding: 0.2em;
   margin: 0.2em;
+  border: 0.5px solid #c4c4c4;
 `;
 export const ScheduleView = styled(View)``;
 export const TimeView = styled(View)``;
@@ -137,13 +120,26 @@ export const ScheduleNav = styled(Nav)`
 `;
 export const CalendarIcon = styled.div`
   width: 1.5em;
-  height: 1em;
-  background: url("/images/달력아이콘.png") no-repeat center center/contain;
+  height: 1.5em;
+  background: #e5ecff;
+  border-radius: 50%;
+  & > div {
+    width: 100%;
+    height: 100%;
+    background: url("/images/달력아이콘.png") no-repeat center center/contain;
+  }
 `;
+
 export const ClockIcon = styled.div`
   width: 1.5em;
-  height: 1em;
-  background: url("/images/시간아이콘.png") no-repeat center center/contain;
+  height: 1.5em;
+  background: #e5ecff;
+  border-radius: 50%;
+  & > div {
+    width: 100%;
+    height: 100%;
+    background: url("/images/시간아이콘.png") no-repeat center center/contain;
+  }
 `;
 
 export const ScheduleSelect = styled.select`
@@ -185,6 +181,8 @@ export const TimeNav = styled(Nav)`
       font-weight: bold;
       padding: 0 0.7em;
       font-size: 0.9em;
+      display: flex;
+      align-items: center;
     }
   }
 `;
@@ -210,16 +208,11 @@ export const DateButton = styled.div`
   }
 `;
 export const ColorView = styled.div`
-  width: 2rem;
-  height: 2rem;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
+  margin: auto;
   background: ${(props) => props.color || "none"};
-  transform: translate(0.6em, -1.9em);
-  color: white;
 `;
 
 export const TimeBtn = styled.div`
@@ -232,11 +225,12 @@ export const TimeBtn = styled.div`
     cursor: pointer;
     display: flex;
     border-radius: 10px;
-    background: #f8f8f8;
-    color: #c4c4c4;
+    background: #c4c4c4;
+    border: 1px solid #c4c4c4;
   }
   & > input:checked + label {
-    color: white;
-    background: ${(props) => props.color || "none"};
+    color: black;
+    background: #e6ecff;
+    border: 1px solid #0642ff;
   }
 `;

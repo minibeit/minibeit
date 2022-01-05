@@ -35,9 +35,10 @@ public class BusinessUserReview extends BaseEntity {
         businessUserReviewDetail.getBusinessUserReviewList().add(this);
     }
 
-    public static BusinessUserReview createWithBusiness(BusinessProfile businessProfile, BusinessUserReviewDetail businessUserReviewDetail) {
+    public static BusinessUserReview createWithBusiness(BusinessProfile businessProfile, BusinessUserReviewDetail businessUserReviewDetail, User user) {
         BusinessUserReview businessReview = BusinessUserReview.builder()
                 .businessProfile(businessProfile)
+                .user(user)
                 .build();
         businessReview.setBusinessUserReviewDetail(businessUserReviewDetail);
         return businessReview;

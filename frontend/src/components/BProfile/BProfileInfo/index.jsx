@@ -9,7 +9,7 @@ import BProfileUserModal from "./BProfileUserModal";
 
 import * as S from "../style";
 
-export default function BProfileInfo({ businessId }) {
+export default function BProfileInfo({ businessId, feedPreview }) {
   const [bProfileInfo, setBProfileInfo] = useState();
   const [infoEditModal, setInfoEditModal] = useState(false);
   const [userListModal, setUserListModal] = useState(false);
@@ -74,6 +74,34 @@ export default function BProfileInfo({ businessId }) {
               setModalSwitch={setUserListModal}
             />
           )}
+          <S.FeedPreviewBox>
+            <p>내공고 현황</p>
+            <div>
+              <S.PreviewTable>
+                <thead>
+                  <tr>
+                    <td>생성</td>
+                    <td>완료</td>
+                    <td>후기</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{feedPreview.created}</td>
+                    <td
+                      style={{
+                        borderRight: "1px solid #c4c4c4",
+                        borderLeft: "1px solid #c4c4c4",
+                      }}
+                    >
+                      {feedPreview.complete}
+                    </td>
+                    <td>{feedPreview.review}</td>
+                  </tr>
+                </tbody>
+              </S.PreviewTable>
+            </div>
+          </S.FeedPreviewBox>
         </div>
       )}
     </S.UserInfoContainer>

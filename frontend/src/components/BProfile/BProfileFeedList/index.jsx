@@ -1,6 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import { useHistory } from "react-router";
-import { getMakelistApi, viewBusinessReviewApi } from "../../../utils";
 
 import FeedBox from "./FeedBox";
 import BProfileReview from "./BProfileReview";
@@ -9,47 +8,17 @@ import { Pagination, PVImg } from "../../Common";
 
 import * as S from "../style";
 
-export default function BProfileInfo({ businessId }) {
-  const [feedData, setFeedData] = useState([]);
-  const [feedSwitch, setFeedSwitch] = useState("생성한 모집공고");
-  const [page, setPage] = useState(1);
-  const [totalEle, setTotalEle] = useState(0);
-  const [reviewCount, setReviewCount] = useState(0);
+export default function BProfileInfo({
+  page,
+  setPage,
+  feedSwitch,
+  setFeedSwitch,
+  feedData,
+  reviewCount,
+  totalEle,
+  changeFeedData,
+}) {
   const history = useHistory();
-
-  const changeFeedData = useCallback(
-    (status, page) => {
-      setFeedData();
-      switch (status) {
-        case "생성한 모집공고":
-          getMakelistApi(businessId, page ? page : 1, "RECRUIT").then((res) => {
-            setTotalEle(res.data.data.totalElements);
-            setFeedData(res.data.data.content);
-          });
-          break;
-        case "완료된 모집공고":
-          getMakelistApi(businessId, page ? page : 1, "COMPLETE").then(
-            (res) => {
-              setTotalEle(res.data.data.totalElements);
-              setFeedData(res.data.data.content);
-            }
-          );
-          break;
-        case "후기 모아보기":
-          viewBusinessReviewApi(businessId, page ? page : 1, 10).then((res) => {
-            setReviewCount(res.data.data.reduce((a, c) => a + c.count, 0));
-            setFeedData(res.data.data);
-          });
-          break;
-        default:
-      }
-    },
-    [businessId]
-  );
-
-  useEffect(() => {
-    changeFeedData(feedSwitch, page);
-  }, [changeFeedData, feedSwitch, page]);
 
   return (
     <>

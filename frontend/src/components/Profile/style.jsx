@@ -18,7 +18,6 @@ export const ModeSelectBtn = styled.button`
   padding: 0.5rem 4rem;
   border-radius: 0.5rem 0.5rem 0 0;
   font-weight: bold;
-
   &:disabled {
     background: white;
     color: black;
@@ -85,6 +84,42 @@ export const LikeBtn = styled(UserInfoBtn)`
   border: none;
   background: #f8f8f8;
 `;
+
+export const FeedPreviewBox = styled.div`
+  width: 100%;
+  border-top: 1px solid #c4c4c4;
+  & > p {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 0.5em 0;
+  }
+  & > div:nth-child(2) {
+    width: 100%;
+    background: #0642ff0d;
+    border-radius: 1em;
+    min-height: 5em;
+    padding: 2em;
+    box-sizing: border-box;
+  }
+`;
+export const PreviewTable = styled.table`
+  width: 100%;
+  & td {
+    text-align: center;
+    font-weight: bold;
+  }
+  & > thead > tr td {
+    font-size: 1.2em;
+  }
+  & > tbody > tr td {
+    font-size: 1.5em;
+    color: #0642ff;
+    height: 2em;
+    vertical-align: middle;
+  }
+`;
+
+/*like container*/
 
 export const LikeFeedContainer = styled.div`
   padding: 2rem;

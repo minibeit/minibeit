@@ -35,6 +35,8 @@ export {
   getMyRejectListApi,
   getMyFeedList,
   deleteRejectedApi,
+  getPreviewProfileApi,
+  getPreviewBProfileApi,
 } from "./profileApi";
 export { createBusinessReviewApi, viewBusinessReviewApi } from "./reviewApi";
 export { downloadFileApi } from "./fileApi";

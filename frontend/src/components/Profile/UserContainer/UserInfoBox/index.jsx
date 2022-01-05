@@ -7,7 +7,7 @@ import UserInfoEditModal from "../UserInfoEditModal";
 import { PVImg } from "../../../Common";
 import * as S from "../../style";
 
-export default function UserInfoBox() {
+export default function UserInfoBox({ feedPreview }) {
   const history = useHistory();
   const [userData, setUserData] = useState();
   const [modalSwitch, setModalSwitch] = useState(false);
@@ -51,6 +51,34 @@ export default function UserInfoBox() {
               setModalSwitch={setModalSwitch}
             />
           )}
+          <S.FeedPreviewBox>
+            <p>내신청 현황</p>
+            <div>
+              <S.PreviewTable>
+                <thead>
+                  <tr>
+                    <td>대기</td>
+                    <td>확정</td>
+                    <td>반려</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{feedPreview.wait}</td>
+                    <td
+                      style={{
+                        borderRight: "1px solid #c4c4c4",
+                        borderLeft: "1px solid #c4c4c4",
+                      }}
+                    >
+                      {feedPreview.approve}
+                    </td>
+                    <td>{feedPreview.reject}</td>
+                  </tr>
+                </tbody>
+              </S.PreviewTable>
+            </div>
+          </S.FeedPreviewBox>
         </div>
       )}
     </S.UserInfoContainer>

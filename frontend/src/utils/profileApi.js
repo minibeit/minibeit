@@ -61,3 +61,12 @@ export const doNotJoinApi = async (postDoDateId) => {
     API_POST + "date/" + postDoDateId + "/apply/cancel"
   );
 };
+
+export const getPreviewProfileApi = () => {
+  return withAuthInstance.get(`/api/post/user/status`);
+};
+export const getPreviewBProfileApi = (businessId) => {
+  return withAuthInstance.get(
+    `/api/post/business/profile/${businessId}/status`
+  );
+};

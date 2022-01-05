@@ -1,12 +1,18 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
-import { getMyRejectListApi, getMyFeedList } from "../../../utils";
+import {
+  getMyRejectListApi,
+  getMyFeedList,
+  getPreviewProfileApi,
+} from "../../../utils";
 
 import UserInfoBox from "./UserInfoBox";
 import FeedBox from "./FeedBox";
 
 import { PVImg, Pagination } from "../../Common";
 import * as S from "../style";
+import { useRecoilState } from "recoil";
+import { profilePreview } from "../../../recoil/preview";
 
 export default function UserContainer({ view }) {
   const history = useHistory();
@@ -14,6 +20,7 @@ export default function UserContainer({ view }) {
   const [page, setPage] = useState(1);
   const [totalEle, setTotalEle] = useState(0);
   const [, setFeedSwitch] = useState("확정된 목록");
+  const [feedPreview, setFeedPreview] = useRecoilState(profilePreview);
 
   const status = [
     { id: "approve", value: "확정된 목록" },
@@ -27,10 +34,17 @@ export default function UserContainer({ view }) {
       setFeedData();
       switch (view) {
         case "approve":
-          getMyFeedList(page ? page : 1, "APPROVE").then((res) => {
-            setTotalEle(res.data.data.totalElements);
-            setFeedData(res.data.data.content);
-          });
+          getMyFeedList(page ? page : 1, "APPROVE")
+            .then((res) => {
+              setTotalEle(res.data.data.totalElements);
+              setFeedData(res.data.data.content);
+              return res.data.data.totalElements;
+            })
+            .then((approveItem) => {
+              getPreviewProfileApi().then((res) => {
+                setFeedPreview({ ...res.data.data, approve: approveItem });
+              });
+            });
           break;
         case "wait":
           getMyFeedList(page ? page : 1, "WAIT").then((res) => {
@@ -53,7 +67,7 @@ export default function UserContainer({ view }) {
         default:
       }
     },
-    [view]
+    [view, setFeedPreview]
   );
 
   useEffect(() => {
@@ -62,7 +76,7 @@ export default function UserContainer({ view }) {
 
   return (
     <>
-      <UserInfoBox />
+      <UserInfoBox feedPreview={feedPreview} />
       <S.FeedContainer>
         <S.CategoryBtnBox>
           {status.map((a, i) => {

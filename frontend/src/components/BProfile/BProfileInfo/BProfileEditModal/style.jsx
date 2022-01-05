@@ -12,7 +12,7 @@ export const ModalBox = styled.div`
   height: 26rem;
   background-color: white;
   @media only screen and (max-width: 700px) {
-    max-width: 20rem;
+    min-width: 19rem;
     padding: 1rem 1.5rem;
   }
 `;

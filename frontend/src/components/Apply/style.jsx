@@ -166,7 +166,6 @@ export const SearchBox = styled.div`
     gap: 10px;
     background: #f8f8f8;
     border-radius: 0.3em;
-    overflow: hidden;
   }
 
   @media only screen and (max-width: 700px) {

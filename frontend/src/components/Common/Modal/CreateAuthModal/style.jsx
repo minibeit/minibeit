@@ -19,7 +19,8 @@ export const ModalHeader = styled.div`
   align-items: center;
   height: 4.5rem;
   @media only screen and (max-width: 700px) {
-    height: 1rem;
+    height: 2rem;
+    position: relative;
   }
 `;
 export const CloseModalBtn = styled.div`
@@ -31,6 +32,14 @@ export const CloseModalBtn = styled.div`
     font-size: 30.5px;
     margin: 17px 0px;
     cursor: pointer;
+  }
+  @media only screen and (max-width: 700px) {
+    margin-right: 1rem;
+    & > svg {
+      height: 1.5rem;
+      font-size: 1.5rem;
+      margin: 1rem 0 0;
+    }
   }
 `;
 export const ModalContent = styled.div``;
@@ -74,9 +83,8 @@ export const FormTitleBox = styled.div`
   }
 
   @media only screen and (max-width: 700px) {
-    height: 10.5rem;
+    height: 10rem;
     justify-content: flex-start;
-    margin-bottom: 0;
     & > img {
       width: 7rem;
       height: 7rem;
@@ -109,13 +117,16 @@ export const KLoginButton = styled.div`
     color: #000;
   }
   @media only screen and (max-width: 700px) {
-    height: 2.7rem;
-    width: inherit;
+    height: 2.3rem;
+    width: 14rem;
     gap: 1.2rem;
     margin: 0.7rem auto;
     & > img {
       width: 1.3rem;
       height: 1.3rem;
+    }
+    & > p {
+      font-size: 0.9rem;
     }
   }
 `;

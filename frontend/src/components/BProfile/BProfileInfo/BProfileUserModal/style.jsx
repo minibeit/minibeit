@@ -11,6 +11,12 @@ export const ModalBox = styled.div`
   padding: 2rem 2.25rem;
   height: 26rem;
   background-color: white;
+  @media only screen and (max-width: 700px) {
+    max-width: 22rem;
+    width: 75%;
+    padding: 1rem 1.5rem;
+    height: 20rem;
+  }
 `;
 export const ModalHeader = styled.div`
   display: flex;
@@ -72,6 +78,9 @@ export const UserListView = styled.div`
   ::-webkit-scrollbar-button {
     width: 0;
     height: 0;
+  }
+  @media only screen and (max-width: 700px) {
+    height: 12rem;
   }
 `;
 export const UserEditBox = styled.div`

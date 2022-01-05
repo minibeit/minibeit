@@ -15,6 +15,7 @@ export default function FeedCloseModal({
 }) {
   const [mode, setMode] = useState(null);
   const [reviewData, setReviewData] = useState(null);
+  const [isActive, setIsActive] = useState(false);
   const [goodItem] = useState([
     "예상보다 소요 시간이 적었어요",
     "참여 경험이 흥미로웠어요",
@@ -90,17 +91,29 @@ export default function FeedCloseModal({
                 <p>만족 사유를 알려주세요</p>
               </S.TitleBox>
               <S.SelectBox>
-                <select
+                <S.Select
                   defaultValue="default"
-                  onClick={(e) => setReviewData(e.target.value)}
+                  onClick={() => setIsActive(!isActive)}
+                  isActive={isActive}
                 >
-                  <option value="default" disabled></option>
-                  {goodItem.map((a, i) => (
-                    <option value={i + 1} key={i}>
-                      {a}
-                    </option>
-                  ))}
-                </select>
+                  {reviewData}
+                  <span onClick={() => setIsActive(!isActive)}>▲</span>
+                </S.Select>
+                <div>
+                  {isActive &&
+                    goodItem.map((a, i) => (
+                      <S.Option
+                        onClick={(e) => {
+                          setReviewData(`${e.target.value}`);
+                          setIsActive(!isActive);
+                        }}
+                        value={a}
+                        key={i}
+                      >
+                        {a}
+                      </S.Option>
+                    ))}
+                </div>
               </S.SelectBox>
               <S.ButtonBox>
                 <button onClick={submit}>확인</button>
@@ -114,17 +127,29 @@ export default function FeedCloseModal({
                 <p>불만족 사유를 알려주세요</p>
               </S.TitleBox>
               <S.SelectBox>
-                <select
+                <S.Select
                   defaultValue="default"
-                  onClick={(e) => setReviewData(e.target.value)}
+                  onClick={() => setIsActive(!isActive)}
+                  isActive={isActive}
                 >
-                  <option value="default" disabled></option>
-                  {badItem.map((a, i) => (
-                    <option value={i + 1} key={i}>
-                      {a}
-                    </option>
-                  ))}
-                </select>
+                  {reviewData}
+                  <span onClick={() => setIsActive(!isActive)}>▲</span>
+                </S.Select>
+                <div>
+                  {isActive &&
+                    badItem.map((a, i) => (
+                      <S.Option
+                        onClick={(e) => {
+                          setReviewData(`${e.target.value}`);
+                          setIsActive(!isActive);
+                        }}
+                        value={a}
+                        key={i}
+                      >
+                        {a}
+                      </S.Option>
+                    ))}
+                </div>
               </S.SelectBox>
               <S.ButtonBox>
                 <button onClick={submit}>확인</button>

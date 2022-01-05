@@ -11,8 +11,8 @@ export const ModalBox = styled.div`
   height: 26rem;
   background-color: white;
   @media only screen and (max-width: 700px) {
-    max-width: 21rem;
-    padding: 1rem;
+    max-width: 20rem;
+    padding: 1rem 1.5rem;
   }
 `;
 export const ModalHeader = styled.div`
@@ -44,8 +44,8 @@ export const ModalContent = styled.div`
     justify-content: center;
     align-items: center;
     margin: 1rem 0;
-    height: 18rem;
-    width: 23rem;
+    height: 18.5rem;
+    width: 18rem;
     & > div {
       position: relative;
     }
@@ -70,6 +70,11 @@ export const ImgContainer = styled.div`
   }
   @media only screen and (max-width: 700px) {
     flex-direction: row;
+    & > div:first-child {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
   }
 `;
 export const ImgBox = styled.div`
@@ -81,6 +86,9 @@ export const ImgBox = styled.div`
   @media only screen and (max-width: 700px) {
     width: 6.5rem;
     height: 6.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;
 export const ImgEditBtn = styled.label`
@@ -99,7 +107,12 @@ export const ImgEditBtn = styled.label`
     color: #fff;
   }
 `;
-export const Img = styled.img``;
+export const Img = styled.img`
+  @media only screen and (max-width: 700px) {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
+`;
 
 /*info*/
 
@@ -168,11 +181,11 @@ export const CreateInput = styled.div`
   }
   @media only screen and (max-width: 700px) {
     & > div {
-      width: 90%;
+      width: 95%;
     }
     & input,
     select {
-      width: 90%;
+      width: 95%;
     }
   }
 `;

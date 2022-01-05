@@ -11,6 +11,10 @@ export const ModalBox = styled.div`
   padding: 2rem 2.25rem;
   height: 26rem;
   background-color: white;
+  @media only screen and (max-width: 700px) {
+    max-width: 20rem;
+    padding: 1rem 1.5rem;
+  }
 `;
 export const ModalHeader = styled.div`
   display: flex;
@@ -34,6 +38,18 @@ export const CloseModalBtn = styled.div`
 export const ModalContent = styled.div`
   flex-wrap: wrap;
   display: flex;
+  position: relative;
+  @media only screen and (max-width: 700px) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+    height: 18.5rem;
+    width: 18rem;
+    & > div {
+      position: relative;
+    }
+  }
 `;
 export const ImgEditContainer = styled.div`
   display: flex;
@@ -46,6 +62,19 @@ export const ImgEditContainer = styled.div`
     display: flex;
     font-size: 0.7rem;
   }
+  & > div:nth-child(2) {
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+  }
+  @media only screen and (max-width: 700px) {
+    flex-direction: row;
+    & > div:first-child {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
 `;
 export const ImgBox = styled.div`
   overflow: hidden;
@@ -53,6 +82,13 @@ export const ImgBox = styled.div`
   height: 9rem;
   display: inline-block;
   border-radius: 50%;
+  @media only screen and (max-width: 700px) {
+    width: 6.5rem;
+    height: 6.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 export const Img = styled.img`
   object-fit: fill;
@@ -91,6 +127,26 @@ export const InfoEditContainer = styled.div`
     flex-wrap: wrap;
     gap: 1rem;
   }
+  @media only screen and (max-width: 700px) {
+    flex: 1;
+    height: 15rem;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background-color: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      border-radius: 3px;
+      background-color: #c4c4c4;
+    }
+    ::-webkit-scrollbar-button {
+      width: 0;
+      height: 0;
+    }
+  }
 `;
 export const EditInput = styled.div`
   display: flex;
@@ -121,6 +177,20 @@ export const EditInput = styled.div`
     color: #707070;
     background: #f3f3f3;
     text-decoration: none;
+  }
+
+  @media only screen and (max-width: 700px) {
+    & input,
+    select {
+      font-size: 0.9rem;
+    }
+    & > div {
+      width: 95%;
+    }
+    & input,
+    select {
+      width: 95%;
+    }
   }
 `;
 export const SubmitBtnBox = styled.div`

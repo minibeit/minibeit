@@ -56,11 +56,13 @@ export default function Presenter({
                     return (
                       <div key={j}>
                         <S.UserInfoBox>
-                          <div>{user.name}</div>
-                          <div>{user.birth}</div>
-                          <div>{user.gender === "MALE" ? "남" : "여"}</div>
-                          <div>{user.phoneNum}</div>
-                          <div>{user.job}</div>
+                          <div>
+                            <div>{user.name}</div>
+                            <div>{user.birth}</div>
+                            <div>{user.gender === "MALE" ? "남" : "여"}</div>
+                            <div>{user.phoneNum}</div>
+                            <div>{user.job}</div>
+                          </div>
                           {tab === "대기자" ? (
                             user.status === "WAIT" ? (
                               <S.ButtonBox>

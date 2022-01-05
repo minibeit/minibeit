@@ -82,7 +82,7 @@ export const FormTitleBox = styled.div`
       height: 7rem;
     }
     & > p {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
     }
   }
 `;

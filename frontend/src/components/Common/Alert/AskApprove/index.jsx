@@ -37,7 +37,10 @@ export default function AskApprove({
         ) : (
           <S.AlertContent>
             <InfoIcon />
-            <p>해당 실험자의 실험 참여를 허락했습니다.</p>
+            <p>
+              해당 실험자의 실험 참여를
+              <br /> 허락했습니다.
+            </p>
             <div>
               <S.BlueButton
                 onClick={() => {

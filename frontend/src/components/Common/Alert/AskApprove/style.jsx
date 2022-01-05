@@ -11,9 +11,8 @@ export const AlertBox = styled.div`
   border-radius: 2.25rem;
   padding: 0 1rem;
   @media only screen and (max-width: 700px) {
-    padding: 1rem;
-    width: 20rem;
-    height: 15rem;
+    width: 19rem;
+    height: 14rem;
   }
 `;
 
@@ -74,8 +73,8 @@ export const AlertContent = styled.div`
 
   @media only screen and (max-width: 700px) {
     & > p:nth-child(2) {
-      width: 18rem;
-      white-space: wrap;
+      width: 20rem;
+      white-space: nowrap;
       text-align: center;
     }
     & > div:nth-child(3) {

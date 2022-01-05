@@ -210,15 +210,19 @@ export const DateInfoBox = styled.div`
     display: flex;
     flex-direction: column;
     font-size: 0.9rem;
-    gap: 1rem;
+    gap: 0.5rem;
     width: inherit;
     min-height: 9rem;
     & > div:first-child {
-      width: 8rem;
-      height: 2.5rem;
+      width: 7rem;
+      line-height: 1.2rem;
     }
     & > div:nth-child(2) {
       flex: 1;
+      & > div {
+        border-bottom: 1px solid #d4d4d4;
+        padding: 0.7rem 0;
+      }
     }
   }
 `;
@@ -253,6 +257,7 @@ export const UserInfoBox = styled.div`
   }
   @media only screen and (max-width: 700px) {
     align-items: flex-start;
+
     & > div:first-child {
       flex-direction: column;
       gap: 0.3rem;

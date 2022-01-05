@@ -136,16 +136,19 @@ export const LikeFeedInfo = styled.div`
   & > div:first-child {
     font-size: 1.2rem;
     font-weight: bold;
+    color: #454545;
     margin: 0 0 1em 0;
   }
   & > div:nth-child(2) {
     font-weight: bold;
     margin: 0 0 0.8em 0;
+    color: #454545;
   }
   & > div:nth-child(3) {
     display: flex;
     gap: 1em;
     margin: 0 0 0.5em 0;
+    color: #454545;
   }
 `;
 export const LikePayment = styled.div`
@@ -265,12 +268,22 @@ export const FeedImgView = styled.div`
     flex: 1;
     height: 100%;
     flex-direction: column;
+    align-items: end;
     flex-wrap: nowrap;
     gap: 0.3em;
-    padding: 2em;
+    padding: 1.5em;
     box-sizing: border-box;
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 9;
+  }
+`;
+
+export const BookMark = styled.div`
+  & > svg {
+    width: 1.5em;
+    & path {
+      fill: white;
+    }
   }
 `;
 
@@ -348,16 +361,15 @@ export const InfoTable = styled.table`
   }
 `;
 export const FeedButton = styled.button`
+  display: flex;
+  align-items: center;
   border-radius: 2rem;
-    font-size: 1.3rem;
-    width: 47%;
-    max-height: 2.5rem;
-    cursor: pointer;
-    padding: 0.2em 0;
-    white-space:nowrap;
-    gap: 1rem;
-    
-}
+  font-size: 1.3rem;
+  max-height: 2.5rem;
+  cursor: pointer;
+  white-space: nowrap;
+  min-width: fit-content;
+  padding: 0.5em 1em;
 `;
 export const WhiteButton = styled(FeedButton)`
   background: #ffffff;
@@ -367,6 +379,15 @@ export const WhiteButton = styled(FeedButton)`
     background: #0642ff;
     border: 1px solid #ffffff;
     color: #ffffff;
+  }
+  &:disabled {
+    color: #7c7c7c;
+    cursor: default;
+    border: 1px solid #7c7c7c;
+    &:hover {
+      border: 1px solid #7c7c7c;
+      background: white;
+    }
   }
 `;
 

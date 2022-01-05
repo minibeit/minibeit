@@ -30,26 +30,28 @@ export default function FeedCloseModal({
 
   const submit = () => {
     if (reviewData) {
-      if (mode === "bad") {
-        toast.info("후기 작성을 완료했습니다");
-        setModalSwitch(false);
-      } else if (mode === "good") {
-        createBusinessReviewApi(
-          data.businessProfileId,
-          data.postDoDateId,
-          reviewData
-        )
-          .then((res) => {
-            toast.info("평가가 완료되었습니다");
-            changeFeedData();
-            setModalSwitch(false);
-          })
-          .catch((err) => {
-            toast.error("평가에 실패했습니다");
-            changeFeedData();
-            setModalSwitch(false);
-          });
+      switch (mode) {
+        case "good": {
+          createBusinessReviewApi(
+            data.businessProfile.id,
+            data.postDoDateId,
+            reviewData
+          )
+            .then((res) => toast.info("평가가 완료되었습니다"))
+            .catch((err) => {
+              console.log(err.response);
+              toast.error("평가에 실패했습니다");
+            });
+          break;
+        }
+        case "bad": {
+          toast.info("후기 작성을 완료했습니다");
+          break;
+        }
+        default:
       }
+      changeFeedData();
+      setModalSwitch(false);
     } else {
       toast.info("이유를 선택해주세요");
     }

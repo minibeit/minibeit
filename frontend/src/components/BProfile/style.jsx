@@ -274,14 +274,15 @@ export const FeedContentView = styled.div`
 `;
 
 export const FeedButton = styled.button`
+  display: flex;
+  align-items: center;
   border-radius: 2rem;
-  font-size: 1rem;
-  width: 47%;
+  font-size: 1.3rem;
   max-height: 2.5rem;
   cursor: pointer;
-  padding: 0.3em 0;
   white-space: nowrap;
-  gap: 1rem;
+  min-width: fit-content;
+  padding: 0.5em 1em;
 `;
 
 export const WhiteButton = styled(FeedButton)`

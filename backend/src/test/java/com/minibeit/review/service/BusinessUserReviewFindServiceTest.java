@@ -96,8 +96,8 @@ public class BusinessUserReviewFindServiceTest extends ServiceIntegrationTest {
         userBusinessProfileRepository.save(UserBusinessProfile.createWithBusinessProfile(savedUser, businessProfile));
 
 
-        BusinessUserReview review1 = BusinessUserReview.createWithBusiness(businessProfile, businessGoodReview1);
-        BusinessUserReview review2 = BusinessUserReview.createWithBusiness(businessProfile, businessGoodReview2);
+        BusinessUserReview review1 = BusinessUserReview.createWithBusiness(businessProfile, businessGoodReview1, savedUser);
+        BusinessUserReview review2 = BusinessUserReview.createWithBusiness(businessProfile, businessGoodReview2, savedUser);
         businessUserReviewRepository.save(review1);
         businessUserReviewRepository.save(review2);
     }

@@ -39,7 +39,7 @@ public class BusinessUserReviewService {
 
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);
-        BusinessUserReview businessUserReview = BusinessUserReview.createWithBusiness(businessProfile, businessUserReviewDetail);
+        BusinessUserReview businessUserReview = BusinessUserReview.createWithBusiness(businessProfile, businessUserReviewDetail, user);
         BusinessUserReview savedReview = businessUserReviewRepository.save(businessUserReview);
 
         return BusinessUserReviewResponse.OnlyId.build(savedReview);

@@ -50,6 +50,40 @@ export default function BProfileReview({ feedData, reviewCount }) {
           );
         })}
       </div>
+      {/* <S.박스>
+        <S.박스박스>
+          <S.이미지박스>
+            <img
+              src="/images/돈다발아이콘.png"
+              alt="img"
+              width={(1 / 9) * 100 * 3 + "%"}
+            />
+          </S.이미지박스>
+          <S.박스박스박스>
+            <div>
+              <img
+                src="/images/시간아이콘.png"
+                alt="img"
+                width={(2 / 9) * 100 * 3 + "%"}
+              />
+            </div>
+            <div>
+              <img
+                src="/images/웃는얼굴아이콘.png"
+                alt="img"
+                width={(2 / 9) * 100 * 3 + "%"}
+              />
+            </div>
+          </S.박스박스박스>
+          <S.이미지박스>
+            <img
+              src="/images/하트아이콘.png"
+              alt="img"
+              width={(4 / 9) * 100 * 3 + "%"}
+            />
+          </S.이미지박스>
+        </S.박스박스>
+      </S.박스> */}
     </>
   );
 }

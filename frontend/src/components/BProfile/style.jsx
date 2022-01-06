@@ -7,8 +7,20 @@ const fadeIn = keyframes`
     opacity:0
   }
   to{
-    opacity:1
+    opacity:1;
   }
+`;
+
+const pushUp = keyframes`
+ from {
+   opacity: 0.3;
+   width:1rem;
+ }
+
+ to{
+   opacity: 1;
+   width: ${({ width }) => width};
+ }
 `;
 
 export const ModeSelectBtn = styled.button`
@@ -459,3 +471,52 @@ export const ReviewCount = styled.div`
   }
   margin-left: auto;
 `;
+
+// export const 박스 = styled.div`
+//   width: 100%;
+//   border: 1px solid #000;
+//   height: 15rem;
+//   position: relative;
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+// `;
+// export const 박스박스 = styled.div`
+//   width: 60%;
+//   height: 90%;
+//   position: relative;
+//   display: flex;
+//   align-items: center;
+// `;
+// export const 박스박스박스 = styled.div`
+//   display: flex;
+//   flex-direction: column;
+//   position: relative;
+//   gap: 1rem;
+//   & > div {
+//     flex: 1;
+//     height: 6rem;
+//     position: relative;
+//     display: flex;
+//     justify-content: center;
+//     align-items: center;
+//     border: 1px solid #000;
+
+//     & > img {
+//       animation: ${pushUp} 1s ease-in;
+//       width: ${({ width }) => width};
+//     }
+//   }
+// `;
+// export const 이미지박스 = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   height: 6rem;
+
+//   border: 1px solid #000;
+//   & > img {
+//     animation: ${pushUp} 1s ease-in;
+//     width: ${({ width }) => width};
+//   }
+// `;

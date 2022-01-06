@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 
 import { deleteRejectedApi, doJoinApi, doNotJoinApi } from "../../../../utils";
-import { toast } from "react-toastify";
 import CreateReviewModal from "../CreateReviewModal";
 
 import * as S from "../../style";
@@ -16,13 +15,6 @@ export default function FeedBox({ status, data, changeFeedData }) {
   const [cancleAttend, setCancleAttend] = useState(false);
   const [deleteRejectList, setDeleteRejectList] = useState(false);
 
-  const doComplete = (e, postDoDateId) => {
-    e.stopPropagation();
-    doJoinApi(postDoDateId)
-      .then(() => setReviewModal(true))
-      .then(() => changeFeedData())
-      .catch((err) => toast.error("완료할 수 없는 실험입니다."));
-  };
   return (
     <>
       <S.FeedBox
@@ -83,10 +75,14 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 <S.BlueButton
                   disabled={
                     new Date(`${data.doDate}T${data.startTime}`) > new Date() &&
-                    data.isWritable &&
-                    true
+                    !data.finish
                   }
-                  onClick={(e) => doComplete(e, data.postDoDateId)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    doJoinApi(data.postDoDateId)
+                      .then(setReviewModal(true))
+                      .catch((err) => console.log(err.response));
+                  }}
                 >
                   후기 작성
                 </S.BlueButton>
@@ -111,8 +107,14 @@ export default function FeedBox({ status, data, changeFeedData }) {
               </S.WhiteButton>
             )}
             {status === "complete" && (
-              <S.WhiteButton onClick={(e) => doComplete(e, data.postDoDateId)}>
-                후기 작성
+              <S.WhiteButton
+                disabled={data.writeReview}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setReviewModal(true);
+                }}
+              >
+                {data.writeReview ? "후기 작성 완료" : "후기 작성"}
               </S.WhiteButton>
             )}
             {status === "reject" && (

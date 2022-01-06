@@ -18,7 +18,6 @@ export const ModeSelectBtn = styled.button`
   padding: 0.5rem 4rem;
   border-radius: 0.5rem 0.5rem 0 0;
   font-weight: bold;
-
   &:disabled {
     background: white;
     color: black;
@@ -86,6 +85,42 @@ export const LikeBtn = styled(UserInfoBtn)`
   background: #f8f8f8;
 `;
 
+export const FeedPreviewBox = styled.div`
+  width: 100%;
+  border-top: 1px solid #c4c4c4;
+  & > p {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 0.5em 0;
+  }
+  & > div:nth-child(2) {
+    width: 100%;
+    background: #0642ff0d;
+    border-radius: 1em;
+    min-height: 5em;
+    padding: 2em;
+    box-sizing: border-box;
+  }
+`;
+export const PreviewTable = styled.table`
+  width: 100%;
+  & td {
+    text-align: center;
+    font-weight: bold;
+  }
+  & > thead > tr td {
+    font-size: 1.2em;
+  }
+  & > tbody > tr td {
+    font-size: 1.5em;
+    color: #0642ff;
+    height: 2em;
+    vertical-align: middle;
+  }
+`;
+
+/*like container*/
+
 export const LikeFeedContainer = styled.div`
   padding: 2rem;
   width: 100%;
@@ -136,16 +171,19 @@ export const LikeFeedInfo = styled.div`
   & > div:first-child {
     font-size: 1.2rem;
     font-weight: bold;
+    color: #454545;
     margin: 0 0 1em 0;
   }
   & > div:nth-child(2) {
     font-weight: bold;
     margin: 0 0 0.8em 0;
+    color: #454545;
   }
   & > div:nth-child(3) {
     display: flex;
     gap: 1em;
     margin: 0 0 0.5em 0;
+    color: #454545;
   }
 `;
 export const LikePayment = styled.div`
@@ -265,12 +303,22 @@ export const FeedImgView = styled.div`
     flex: 1;
     height: 100%;
     flex-direction: column;
+    align-items: end;
     flex-wrap: nowrap;
     gap: 0.3em;
-    padding: 2em;
+    padding: 1.5em;
     box-sizing: border-box;
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 9;
+  }
+`;
+
+export const BookMark = styled.div`
+  & > svg {
+    width: 1.5em;
+    & path {
+      fill: white;
+    }
   }
 `;
 
@@ -348,16 +396,15 @@ export const InfoTable = styled.table`
   }
 `;
 export const FeedButton = styled.button`
+  display: flex;
+  align-items: center;
   border-radius: 2rem;
-    font-size: 1.3rem;
-    width: 47%;
-    max-height: 2.5rem;
-    cursor: pointer;
-    padding: 0.2em 0;
-    white-space:nowrap;
-    gap: 1rem;
-    
-}
+  font-size: 1.3rem;
+  max-height: 2.5rem;
+  cursor: pointer;
+  white-space: nowrap;
+  min-width: fit-content;
+  padding: 0.5em 1em;
 `;
 export const WhiteButton = styled(FeedButton)`
   background: #ffffff;
@@ -367,6 +414,15 @@ export const WhiteButton = styled(FeedButton)`
     background: #0642ff;
     border: 1px solid #ffffff;
     color: #ffffff;
+  }
+  &:disabled {
+    color: #7c7c7c;
+    cursor: default;
+    border: 1px solid #7c7c7c;
+    &:hover {
+      border: 1px solid #7c7c7c;
+      background: white;
+    }
   }
 `;
 

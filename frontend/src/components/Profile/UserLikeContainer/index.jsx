@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
 import { ReactComponent as ArrowIcon } from "../../../svg/체크.svg";
+import { ReactComponent as StarIcon } from "../../../svg/별.svg";
 import { getMyLikeListApi } from "../../../utils";
 import { Pagination } from "../../Common";
 import * as S from "../style";
@@ -38,7 +39,11 @@ export default function UserLikeContainer() {
               onClick={() => history.push(`/apply/${a.id}`)}
             >
               <S.FeedImgView thumbnail={a.thumbnail}>
-                <div />
+                <div>
+                  <S.BookMark>
+                    <StarIcon />
+                  </S.BookMark>
+                </div>
               </S.FeedImgView>
               <S.LikeFeedInfo>
                 <div>{a.title}</div>

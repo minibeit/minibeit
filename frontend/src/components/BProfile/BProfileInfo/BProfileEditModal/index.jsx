@@ -12,6 +12,7 @@ export default function BProfileEditCont({
   infoData,
   getBusiness,
   setInfoEditModal,
+  isAdmin,
 }) {
   const [BProfileData, setBProfileData] = useState(infoData);
   const [admodalSwitch, setadModalSwitch] = useState(false);
@@ -58,7 +59,9 @@ export default function BProfileEditCont({
       <Portal>
         <S.ModalBox>
           <S.ModalHeader>
-            <p>비즈니스 프로필 수정하기</p>
+            <p>
+              {isAdmin ? "비즈니스 프로필 수정하기" : "비즈니스 프로필 보기"}
+            </p>
             <S.CloseModalBtn onClick={() => setInfoEditModal(false)}>
               <CloseIcon />
             </S.CloseModalBtn>
@@ -73,13 +76,16 @@ export default function BProfileEditCont({
                 setadModalSwitch={setadModalSwitch}
                 admodalSwitch={admodalSwitch}
                 submitEditBusiness={submitEditBusiness}
+                isAdmin={isAdmin}
               />
             )}
           </S.ModalContent>
           <S.SubmitBtnBox>
-            <button onClick={() => submitEditBusiness(BProfileData)}>
-              수정완료
-            </button>
+            {isAdmin && (
+              <button onClick={() => submitEditBusiness(BProfileData)}>
+                수정완료
+              </button>
+            )}
           </S.SubmitBtnBox>
         </S.ModalBox>
       </Portal>

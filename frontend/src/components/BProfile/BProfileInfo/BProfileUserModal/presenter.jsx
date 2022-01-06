@@ -8,6 +8,7 @@ import ExceptMember from "../../../Common/Alert/ExceptMember";
 import AskChangeAdmin from "../../../Common/Alert/AskChangeAdmin";
 
 export default function Presenter({
+  isAdmin,
   bisnessUsers,
   addUser,
   deleteUser,
@@ -31,46 +32,57 @@ export default function Presenter({
 }) {
   return (
     <>
-      <S.SearchInput>
-        <UserSearch onChange={(e) => setSearchUser(e)} />
-        <button onClick={() => addUser(searchUser)}>초대</button>
-      </S.SearchInput>
+      {isAdmin ? (
+        <S.SearchInput>
+          <UserSearch onChange={(e) => setSearchUser(e)} />
+          <button onClick={() => addUser(searchUser)}>초대</button>
+        </S.SearchInput>
+      ) : (
+        <S.SearchInput />
+      )}
 
       <S.UserListView>
         <S.UserEditBox>
           <p>소속인원 / {bisnessUsers.length} 명</p>
-
-          {editUserMode ? (
-            <button
-              onClick={() => setEditUserMode(false)}
-              disabled={editCheifMode && true}
-            >
-              완료
-            </button>
-          ) : (
-            <button
-              onClick={() => setEditUserMode(true)}
-              disabled={editCheifMode && true}
-            >
-              <PencleIcon />
-            </button>
+          {isAdmin && (
+            <>
+              {editUserMode ? (
+                <button
+                  onClick={() => setEditUserMode(false)}
+                  disabled={editCheifMode && true}
+                >
+                  완료
+                </button>
+              ) : (
+                <button
+                  onClick={() => setEditUserMode(true)}
+                  disabled={editCheifMode && true}
+                >
+                  <PencleIcon />
+                </button>
+              )}
+            </>
           )}
-          {editCheifMode ? (
-            <button
-              onClick={() => {
-                setchangeAdmin(true);
-              }}
-              disabled={editUserMode}
-            >
-              확인
-            </button>
-          ) : (
-            <button
-              onClick={() => setEditCheifMode(!editCheifMode)}
-              disabled={editUserMode}
-            >
-              담당자 양도하기
-            </button>
+          {isAdmin && (
+            <>
+              {editCheifMode ? (
+                <button
+                  onClick={() => {
+                    setchangeAdmin(true);
+                  }}
+                  disabled={editUserMode}
+                >
+                  확인
+                </button>
+              ) : (
+                <button
+                  onClick={() => setEditCheifMode(!editCheifMode)}
+                  disabled={editUserMode}
+                >
+                  담당자 양도하기
+                </button>
+              )}
+            </>
           )}
         </S.UserEditBox>
         <S.UserListBox>

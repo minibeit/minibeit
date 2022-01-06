@@ -3,7 +3,6 @@ import Portal from "../../../Common/Modal/Portal";
 import Calendar from "react-calendar";
 import { toast } from "react-toastify";
 
-import { ReactComponent as InfoIcon } from "../../../../svg/인포.svg";
 import { ReactComponent as ArrowIcon } from "../../../../svg/체크.svg";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 
@@ -77,9 +76,7 @@ export default function TimeSelectModal({
         const color = createdGroup.filter((ele) =>
           ele.dateList.includes(dateString)
         )[0].color;
-        return (
-          <S.ColorView color={color}>{moment(date).format("D")}</S.ColorView>
-        );
+        return <S.ColorView color={color} />;
       } else {
         return <S.ColorView />;
       }
@@ -112,11 +109,11 @@ export default function TimeSelectModal({
     <Portal>
       <S.ModalBox>
         <S.ModalHeader>
-          <p>날짜별 시간 설정</p>
           <div>
-            <InfoIcon />
-            동일한 시간표로 적용할 날짜를 선택해보세요
+            <p>동일한 시간으로 </p>
+            <p>적용할 날짜를 선택해보세요</p>
           </div>
+          <CloseIcon onClick={() => setModalSwitch(false)} />
         </S.ModalHeader>
         <S.ModalContent>
           <S.CalendarView blur={createdGroup.length === 0}>
@@ -127,6 +124,12 @@ export default function TimeSelectModal({
               onClickDay={(day, e) => {
                 if (selectGroup) {
                   setGroupDateList(e, day);
+                } else {
+                  const copy = { ...group[createdGroup.length] };
+                  copy.timeList = [...recruit.timeList];
+                  copy.dateList.push(moment(day).format("YYYY-MM-DD"));
+                  setCreatedGroup([...createdGroup, copy]);
+                  setSelectGroup(copy);
                 }
               }}
               defaultValue={new Date(recruit["startDate"])}
@@ -139,87 +142,103 @@ export default function TimeSelectModal({
               formatDay={(locale, date) => moment(date).format("D")}
             />
           </S.CalendarView>
-          <S.ScheduleView>
-            <S.ScheduleNav>
-              <div>
-                <S.CalendarIcon />
-                <S.ScheduleSelect
-                  onChange={(e) => setSelectGroup(createdGroup[e.target.value])}
-                  value={selectGroup ? selectGroup.id - 1 : ""}
-                >
-                  <option disabled value=""></option>
-                  {createdGroup.map((a, i) => {
-                    return (
-                      <option key={a.id} value={i}>
-                        스케줄{a.id}
-                      </option>
-                    );
-                  })}
-                </S.ScheduleSelect>
-              </div>
-              <S.CreateScheduleBtn
-                onClick={() => {
-                  if (createdGroup.length < 7) {
-                    const copy = { ...group[createdGroup.length] };
-                    copy.timeList = [...recruit.timeList];
-                    setCreatedGroup([...createdGroup, copy]);
-                    setSelectGroup(copy);
-                  } else {
-                    toast.error(`그룹은 최대 ${group.length}개 입니다.`);
-                  }
-                }}
-              >
-                <p>스케줄 추가</p>
-                {createdGroup.length === 0 && (
+
+          {createdGroup.length !== 0 && (
+            <>
+              <S.ScheduleView>
+                <S.ScheduleNav>
                   <div>
-                    <ArrowIcon />
-                  </div>
-                )}
-              </S.CreateScheduleBtn>
-            </S.ScheduleNav>
-            <S.List>
-              {selectGroup &&
-                selectGroup.dateList.map((a, i) => {
-                  return (
-                    <S.DateButton key={i}>
-                      {moment(a).format("MM월 DD일")}{" "}
-                      <CloseIcon onClick={() => setGroupDateList(null, a)} />
-                    </S.DateButton>
-                  );
-                })}
-            </S.List>
-          </S.ScheduleView>
-          <S.TimeView>
-            <S.TimeNav>
-              <div>
-                <S.ClockIcon />
-                <p>시간</p>
-              </div>
-            </S.TimeNav>
-            <S.List>
-              {selectGroup &&
-                recruit.timeList.map((a, i) => {
-                  return (
-                    <S.TimeBtn
-                      color={selectGroup.color}
-                      key={`${selectGroup.id}_${i}`}
+                    <S.CalendarIcon>
+                      <div />
+                    </S.CalendarIcon>
+                    <S.ScheduleSelect
+                      onChange={(e) =>
+                        setSelectGroup(createdGroup[e.target.value])
+                      }
+                      value={selectGroup ? selectGroup.id - 1 : ""}
                     >
-                      <input
-                        type="checkbox"
-                        id={`check_${a}`}
-                        onClick={changeTime}
-                        defaultChecked={
-                          createdGroup[selectGroup.id - 1].timeList.includes(a)
-                            ? true
-                            : false
-                        }
-                      />
-                      <label htmlFor={`check_${a}`}>{a}</label>
-                    </S.TimeBtn>
-                  );
-                })}
-            </S.List>
-          </S.TimeView>
+                      <option disabled value=""></option>
+                      {createdGroup.map((a, i) => {
+                        return (
+                          <option key={a.id} value={i}>
+                            스케줄{a.id}
+                          </option>
+                        );
+                      })}
+                    </S.ScheduleSelect>
+                  </div>
+                  <S.CreateScheduleBtn
+                    onClick={() => {
+                      if (createdGroup.length < 7) {
+                        const copy = { ...group[createdGroup.length] };
+                        copy.timeList = [...recruit.timeList];
+                        setCreatedGroup([...createdGroup, copy]);
+                        setSelectGroup(copy);
+                      } else {
+                        toast.error(`그룹은 최대 ${group.length}개 입니다.`);
+                      }
+                    }}
+                  >
+                    <p>스케줄 추가</p>
+                    {createdGroup.length === 0 && (
+                      <div>
+                        <ArrowIcon />
+                      </div>
+                    )}
+                  </S.CreateScheduleBtn>
+                </S.ScheduleNav>
+                <S.List>
+                  {selectGroup &&
+                    selectGroup.dateList.map((a, i) => {
+                      return (
+                        <S.DateButton key={i}>
+                          {moment(a).format("MM월 DD일")}{" "}
+                          <CloseIcon
+                            onClick={() => setGroupDateList(null, a)}
+                          />
+                        </S.DateButton>
+                      );
+                    })}
+                </S.List>
+              </S.ScheduleView>
+              <S.TimeView>
+                <S.TimeNav>
+                  <div>
+                    <S.ClockIcon>
+                      <div />
+                    </S.ClockIcon>
+                    <p>시간</p>
+                    <S.ColorView color={selectGroup.color} />
+                  </div>
+                </S.TimeNav>
+                <S.List>
+                  {selectGroup &&
+                    recruit.timeList.map((a, i) => {
+                      return (
+                        <S.TimeBtn
+                          color={selectGroup.color}
+                          key={`${selectGroup.id}_${i}`}
+                        >
+                          <input
+                            type="checkbox"
+                            id={`check_${a}`}
+                            onClick={changeTime}
+                            defaultChecked={
+                              createdGroup[
+                                selectGroup.id - 1
+                              ].timeList.includes(a)
+                                ? true
+                                : false
+                            }
+                          />
+                          <label htmlFor={`check_${a}`}>{a}</label>
+                        </S.TimeBtn>
+                      );
+                    })}
+                </S.List>
+              </S.TimeView>
+            </>
+          )}
         </S.ModalContent>
         <S.ModalFooter onClick={modalOff}>확인</S.ModalFooter>
       </S.ModalBox>

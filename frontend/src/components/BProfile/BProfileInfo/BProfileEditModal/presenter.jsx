@@ -13,6 +13,7 @@ export default function BProfileEditCont({
   onAddressChange,
   setadModalSwitch,
   admodalSwitch,
+  isAdmin,
 }) {
   const exceptName = (value) => {
     var regName = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
@@ -41,26 +42,30 @@ export default function BProfileEditCont({
             <S.Img src="/images/기본비즈니스프로필.png" />
           )}
         </S.ImgBox>
-        <div>
-          <S.ImgEditBtn id="reset" onClick={onFileChange}>
-            기본이미지로 변경
-          </S.ImgEditBtn>
-          <S.ImgEditBtn htmlFor="upload">사진 업로드 하기</S.ImgEditBtn>
-          <input
-            style={{ display: "none" }}
-            name="img"
-            id="upload"
-            type="file"
-            onChange={onFileChange}
-          />
-        </div>
+        {isAdmin && (
+          <div>
+            <S.ImgEditBtn id="reset" onClick={onFileChange}>
+              기본이미지로 변경
+            </S.ImgEditBtn>
+            <S.ImgEditBtn htmlFor="upload">사진 업로드 하기</S.ImgEditBtn>
+            <input
+              style={{ display: "none" }}
+              name="img"
+              id="upload"
+              type="file"
+              onChange={onFileChange}
+            />
+          </div>
+        )}
       </S.ImgEditContainer>
+
       <S.InfoEditContainer>
         <div>
           <S.EditInput>
             <div>
               <p>이름</p>
               <input
+                readOnly={!isAdmin}
                 defaultValue={BProfileData.name}
                 name="name"
                 type="text"
@@ -97,15 +102,15 @@ export default function BProfileEditCont({
                 name="place"
                 type="text"
                 placeholder="주소"
-                onClick={() => setadModalSwitch(true)}
+                onClick={() => isAdmin && setadModalSwitch(true)}
                 readOnly
               />
-              {admodalSwitch ? (
+              {admodalSwitch && (
                 <Address
                   setModalSwitch={setadModalSwitch}
                   handleAddress={onAddressChange}
                 />
-              ) : null}
+              )}
             </div>
           </S.EditInput>
         </div>
@@ -114,6 +119,7 @@ export default function BProfileEditCont({
             <div>
               <p>상세주소</p>
               <input
+                readOnly={!isAdmin}
                 defaultValue={BProfileData.placeDetail}
                 name="placeDetail"
                 type="text"
@@ -128,6 +134,7 @@ export default function BProfileEditCont({
             <div>
               <p>연락처</p>
               <input
+                readOnly={!isAdmin}
                 defaultValue={BProfileData.contact}
                 name="contact"
                 type="text"

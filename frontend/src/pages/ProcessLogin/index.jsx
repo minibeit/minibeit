@@ -13,7 +13,7 @@ function ProcessLogin({ match }) {
     name: match.params.nickname,
     email: match.params.email === "null" ? null : match.params.email,
     didSignup: JSON.parse(match.params.signupCheck),
-    schoolId: parseInt(match.params.schoolId),
+    schoolId: 0 /*parseInt(match.params.schoolId)*/,
     avatar:
       match.params.imgUrl1 !== "0"
         ? `https://${match.params.imgUrl1}/${match.params.imgUrl2}/${match.params.imgUrl3}`

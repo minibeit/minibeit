@@ -13,7 +13,11 @@ import { toast } from "react-toastify";
 import Presenter from "./presenter";
 import * as S from "./style";
 
-export default function BProfileUserModal({ businessId, setModalSwitch }) {
+export default function BProfileUserModal({
+  businessId,
+  setModalSwitch,
+  isAdmin,
+}) {
   const [bisnessUsers, setBisnessUsers] = useState([]);
   const [adminName, setAdminName] = useState("");
   const [searchUser, setSearchUser] = useState();
@@ -99,6 +103,7 @@ export default function BProfileUserModal({ businessId, setModalSwitch }) {
         </S.ModalHeader>
         <S.ModalContent>
           <Presenter
+            isAdmin={isAdmin}
             bisnessUsers={bisnessUsers}
             addUser={addUser}
             deleteUser={deleteUser}

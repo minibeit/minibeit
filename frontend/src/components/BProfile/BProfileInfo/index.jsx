@@ -47,31 +47,30 @@ export default function BProfileInfo({ businessId, feedPreview }) {
           <S.UserInfoData>
             <p>{bProfileInfo.name}</p> <p>님</p>
           </S.UserInfoData>
-          {bProfileInfo.admin && (
-            <S.InfoEditBtn
-              onClick={() => {
-                setInfoEditModal(true);
-              }}
-            >
-              비즈니스 프로필 보기
-            </S.InfoEditBtn>
-          )}
+          <S.InfoEditBtn
+            onClick={() => {
+              setInfoEditModal(true);
+            }}
+          >
+            비즈니스 프로필 보기
+          </S.InfoEditBtn>
           {infoEditModal && (
             <BProfileEditModal
               infoData={bProfileInfo}
               getBusiness={getBusiness}
               setInfoEditModal={setInfoEditModal}
+              isAdmin={bProfileInfo.admin}
             />
           )}
-          {bProfileInfo.admin && (
-            <S.UserListBtn onClick={() => setUserListModal(true)}>
-              소속인원 보기
-            </S.UserListBtn>
-          )}
+
+          <S.UserListBtn onClick={() => setUserListModal(true)}>
+            소속인원 보기
+          </S.UserListBtn>
           {userListModal && (
             <BProfileUserModal
               businessId={businessId}
               setModalSwitch={setUserListModal}
+              isAdmin={bProfileInfo.admin}
             />
           )}
           <S.FeedPreviewBox>

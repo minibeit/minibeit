@@ -30,7 +30,7 @@ export default function Presenter({ bpList, selectBP, recruit }) {
                         recruit.businessProfile.id === a.id && "selected"
                       }
                       img={
-                        a.avatar ? a.avatar : "/images/기본비즈니스프로필.jpeg"
+                        a.avatar ? a.avatar : "/images/기본비즈니스프로필.png"
                       }
                     ></S.BProfileImgBox>
                     <p>{a.name}</p>

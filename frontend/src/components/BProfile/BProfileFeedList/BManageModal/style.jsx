@@ -16,6 +16,10 @@ export const ModalBox = styled.div`
   &::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
   }
+  @media only screen and (max-width: 700px) {
+    width: 80%;
+    padding: 1rem;
+  }
 `;
 export const ModalHeader = styled.div`
   display: flex;
@@ -37,6 +41,16 @@ export const ModalHeader = styled.div`
   }
   & > div:nth-child(3) {
     margin-left: auto;
+  }
+
+  @media only screen and (max-width: 700px) {
+    gap: 0;
+    & > div:nth-child(2) {
+      margin: 0.3rem 0 1rem;
+      & > div > div {
+        transform: translate(-77%, 2%);
+      }
+    }
   }
 `;
 export const CalendarBtn = styled.button`
@@ -151,6 +165,14 @@ export const UserListView = styled.div`
       font-size: 0.8rem;
     }
   }
+  @media only screen and (max-width: 700px) {
+    & > div:first-child {
+      display: none;
+    }
+    & > div:nth-child(2) {
+      max-height: 20rem;
+    }
+  }
 `;
 export const DataNavBar = styled.div`
   z-index: 99;
@@ -183,32 +205,101 @@ export const DateInfoBox = styled.div`
       gap: 0.5rem;
     }
   }
+
+  @media only screen and (max-width: 700px) {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.9rem;
+    gap: 0.5rem;
+    width: inherit;
+    min-height: 9rem;
+    & > div:first-child {
+      width: 7rem;
+      line-height: 1.2rem;
+    }
+    & > div:nth-child(2) {
+      flex: 1;
+      & > div {
+        border-bottom: 1px solid #d4d4d4;
+        padding: 0.7rem 0;
+      }
+    }
+  }
 `;
 export const UserInfoBox = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  & > div {
-    white-space: nowrap;
-    text-align: center;
+  align-items: baseline;
+  & > div:first-child {
+    display: flex;
+    & > div {
+      white-space: nowrap;
+      text-align: center;
+    }
+    & > div:nth-child(1) {
+      width: 3rem;
+    }
+    & > div:nth-child(2) {
+      width: 5rem;
+    }
+    & > div:nth-child(3) {
+      width: 1rem;
+    }
+    & > div:nth-child(4) {
+      width: 6rem;
+    }
+    & > div:nth-child(5) {
+      width: 3.5rem;
+    }
+    & > div:nth-child(6) {
+      width: 7rem;
+    }
   }
-  & > div:nth-child(1) {
-    width: 3rem;
-  }
-  & > div:nth-child(2) {
-    width: 5rem;
-  }
-  & > div:nth-child(3) {
-    width: 1rem;
-  }
-  & > div:nth-child(4) {
-    width: 6rem;
-  }
-  & > div:nth-child(5) {
-    width: 3.5rem;
-  }
-  & > div:nth-child(6) {
-    width: 7rem;
+  @media only screen and (max-width: 700px) {
+    align-items: flex-start;
+
+    & > div:first-child {
+      flex-direction: column;
+      gap: 0.3rem;
+      & > div {
+        text-align: left;
+      }
+      & > div:nth-child(1) {
+        ::before {
+          content: "이름";
+          margin-right: 0.5rem;
+          color: #b3b3b3;
+        }
+      }
+      & > div:nth-child(2) {
+        ::before {
+          content: "생일";
+          margin-right: 0.5rem;
+          color: #b3b3b3;
+        }
+      }
+      & > div:nth-child(3) {
+        ::before {
+          content: "성별";
+          margin-right: 0.5rem;
+          color: #b3b3b3;
+        }
+      }
+      & > div:nth-child(4) {
+        ::before {
+          content: "연락처";
+          margin-right: 0.5rem;
+          color: #b3b3b3;
+        }
+      }
+      & > div:nth-child(5) {
+        ::before {
+          content: "직업";
+          margin-right: 0.5rem;
+          color: #b3b3b3;
+        }
+      }
+    }
   }
 `;
 
@@ -217,6 +308,14 @@ export const ButtonBox = styled.div`
   justify-content: center;
   align-items: center;
   gap: 0.3rem;
+  @media only screen and (max-width: 700px) {
+    flex-direction: column;
+    border-left: 1px solid #d4d4d4;
+    padding-left: 2rem;
+    height: 6rem;
+    align-items: space-around;
+    justify-content: space-around;
+  }
 `;
 
 export const Btn = styled.button`

@@ -9,6 +9,12 @@ export const AlertBox = styled.div`
   width: 30rem;
   height: 20rem;
   border-radius: 35px;
+  padding: 0 1rem;
+  @media only screen and (max-width: 700px) {
+    padding: 1rem;
+    width: 20rem;
+    height: 14rem;
+  }
 `;
 
 export const AlertContent = styled.div`

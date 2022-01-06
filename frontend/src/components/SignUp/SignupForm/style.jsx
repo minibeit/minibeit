@@ -16,6 +16,12 @@ export const ModalBox = styled.div`
   &::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
   }
+
+  @media only screen and (max-width: 700px) {
+    padding: 1rem 1.5rem;
+    width: 80%;
+    height: 75%;
+  }
 `;
 export const ModalHeader = styled.div`
   display: flex;
@@ -69,6 +75,28 @@ export const ModalContent = styled.div`
     flex-wrap: wrap;
     min-height: 16rem;
   }
+
+  @media only screen and (max-width: 700px) {
+    & > div:nth-child(2) {
+      max-height: 20rem;
+      min-height: 19rem;
+      overflow-y: scroll;
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background-color: gray;
+      }
+      ::-webkit-scrollbar-button {
+        width: 0;
+        height: 0;
+      }
+    }
+  }
 `;
 
 /* common */
@@ -101,6 +129,11 @@ export const GreetingMsg = styled.div`
     font-size: 1.5rem;
     font-weight: bold;
   }
+  @media only screen and (max-width: 700px) {
+    & > p {
+      font-size: 1.3rem;
+    }
+  }
 `;
 export const NextBtn = styled.button`
   display: flex;
@@ -115,6 +148,10 @@ export const NextBtn = styled.button`
   border: none;
   margin-left: auto;
   white-space: nowrap;
+
+  @media only screen and (max-width: 700px) {
+    padding: 0.4rem 1rem;
+  }
 `;
 
 /* img */
@@ -130,6 +167,27 @@ export const ImgContainer = styled(Container)`
       color: blue;
     }
   }
+  & > div:nth-child(2) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    & > div {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+  }
+  @media only screen and (max-width: 700px) {
+    & > div:nth-child(2) {
+      display: flex;
+      margin: 0 0 2rem;
+      flex-direction: row;
+    }
+  }
 `;
 export const ImgBox = styled.div`
   overflow: hidden;
@@ -137,6 +195,10 @@ export const ImgBox = styled.div`
   height: 10rem;
   display: inline-block;
   border-radius: 50%;
+  @media only screen and (max-width: 700px) {
+    width: 7rem;
+    height: 7rem;
+  }
 `;
 export const Img = styled.img`
   object-fit: fill;
@@ -169,6 +231,21 @@ export const InfoContainer = styled(Container)`
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
+  }
+  @media only screen and (max-width: 700px) {
+    flex: 2;
+    width: 100%;
+    gap: 1rem;
+    & > div:first-child {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    & > div:nth-child(2) {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
   }
 `;
 export const CheckInput = styled.div`
@@ -285,6 +362,11 @@ export const JobContainer = styled.div`
     margin: 0.5rem;
     font-size: 0.5rem;
   }
+  @media only screen and (max-width: 700px) {
+    & > p {
+      display: none;
+    }
+  }
 `;
 export const JobButton = styled.button`
   border: none;
@@ -298,5 +380,9 @@ export const JobButton = styled.button`
     border: 1px solid #0642ff;
     background: white;
     color: black;
+  }
+
+  @media only screen and (max-width: 700px) {
+    width: 5rem;
   }
 `;

@@ -17,6 +17,10 @@ export const ModalBox = styled.div`
     width: 1rem;
     height: 1rem;
   }
+  @media only screen and (max-width: 700px) {
+    width: 21rem;
+    height: 18rem;
+  }
 `;
 
 export const ModalContent = styled.div`
@@ -44,7 +48,7 @@ export const ModalContent = styled.div`
     width: 25rem;
     font-size: 1.6rem;
     text-align: center;
-    line-height: 1.875rem;
+    line-height: 2.5rem;
     margin-bottom: 1rem;
     & span {
       color: #0642ff;
@@ -56,6 +60,12 @@ export const ModalContent = styled.div`
     z-index: 2;
     background: #fff;
     border-radius: 0.625rem;
+  }
+
+  @media only screen and (max-width: 700px) {
+    & > p:nth-child(2) {
+      margin-bottom: 0rem;
+    }
   }
 `;
 
@@ -82,6 +92,10 @@ export const Select = styled.div`
     ${({ isActive }) => {
       return isActive ? "transform: rotate(180deg)" : null;
     }}
+  }
+
+  @media only screen and (max-width: 700px) {
+    width: 18rem;
   }
 `;
 
@@ -120,6 +134,10 @@ export const Option = styled.option`
     text-align: center;
     padding-bottom: 0.375rem;
   }
+
+  @media only screen and (max-width: 700px) {
+    width: 18rem;
+  }
 `;
 
 export const Input = styled.input`
@@ -137,6 +155,9 @@ export const Input = styled.input`
     border: 1px solid gray;
     color: gray;
   }
+  @media only screen and (max-width: 700px) {
+    width: 18rem;
+  }
 `;
 
 export const BlueButton = styled.button`
@@ -149,6 +170,5 @@ export const BlueButton = styled.button`
   color: #ffffff;
   border: 1px solid #0642ff;
   background: #0642ff;
-  margin-top: 1rem;
   cursor: pointer;
 `;

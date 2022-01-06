@@ -37,24 +37,26 @@ export default function Presenter({
           {infoData.avatar ? (
             <PVImg img={infoData.avatar} />
           ) : (
-            <S.Img src="/images/기본프로필.png" />
+            <S.Img src="/images/기본비즈니스프로필.png" />
           )}
         </S.ImgBox>
-        <S.ImgEditBtn id="reset" onClick={onFileChange}>
-          기본이미지로 변경
-        </S.ImgEditBtn>
-        <S.ImgEditBtn htmlFor="upload">사진 업로드 하기</S.ImgEditBtn>
-        <input
-          style={{ display: "none" }}
-          name="img"
-          id="upload"
-          type="file"
-          onChange={onFileChange}
-        />
+        <div>
+          <S.ImgEditBtn id="reset" onClick={onFileChange}>
+            기본이미지로 변경
+          </S.ImgEditBtn>
+          <S.ImgEditBtn htmlFor="upload">사진 업로드 하기</S.ImgEditBtn>
+          <input
+            style={{ display: "none" }}
+            name="img"
+            id="upload"
+            type="file"
+            onChange={onFileChange}
+          />
+        </div>
       </S.ImgContainer>
       <S.InfoContainer>
         <div>
-          <S.CreateInput style={{ width: "100%" }}>
+          <S.CreateInput>
             <div>
               <p>이름</p>
               <input

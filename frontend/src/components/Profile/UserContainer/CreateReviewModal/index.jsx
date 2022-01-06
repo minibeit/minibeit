@@ -36,13 +36,10 @@ export default function FeedCloseModal({
           createBusinessReviewApi(
             data.businessProfile.id,
             data.postDoDateId,
-            reviewData
+            goodItem.indexOf(reviewData) + 1
           )
             .then((res) => toast.info("평가가 완료되었습니다"))
-            .catch((err) => {
-              console.log(err.response);
-              toast.error("평가에 실패했습니다");
-            });
+            .catch((err) => toast.error("평가에 실패했습니다"));
           break;
         }
         case "bad": {

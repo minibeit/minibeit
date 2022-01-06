@@ -6,7 +6,7 @@ const Paging = ({ page, count, setPage, onChange }) => {
   return (
     <Pagination
       activePage={page}
-      itemsCountPerPage={10}
+      itemsCountPerPage={window.location.pathname === "/apply" ? 10 : 5}
       totalItemsCount={count}
       pageRangeDisplayed={10}
       prevPageText={"이전"}

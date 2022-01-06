@@ -6,14 +6,20 @@ export const AlertBox = styled.div`
   top: 50%;
   left: 50%;
   background-color: white;
-  width: 30rem;
+  width: 26rem;
   height: 18rem;
   border-radius: 2.25rem;
+  padding: 0 1rem;
+  @media only screen and (max-width: 700px) {
+    padding: 1rem;
+    width: 20rem;
+    height: 15rem;
+  }
 `;
 
 const Button = styled.button`
   position: relative;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
   font-size: 0.85rem;
   border-radius: 2rem;
   cursor: pointer;
@@ -43,6 +49,7 @@ export const AlertContent = styled.div`
   justify-content: center;
   align-items: center;
   padding: 1.25rem;
+  margin-top: 0.5rem;
   & > svg {
     width: 2rem;
     path {
@@ -51,9 +58,9 @@ export const AlertContent = styled.div`
   }
 
   & > p:nth-child(2) {
-    width: 25rem;
+    width: 20rem;
     font-weight: 700;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     text-align: center;
     line-height: 1.875rem;
   }

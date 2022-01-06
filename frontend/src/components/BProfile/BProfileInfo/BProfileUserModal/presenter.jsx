@@ -58,7 +58,7 @@ export default function Presenter({
           {editCheifMode ? (
             <button
               onClick={() => {
-                changeAdmin(adminName);
+                setchangeAdmin(true);
               }}
               disabled={editUserMode}
             >

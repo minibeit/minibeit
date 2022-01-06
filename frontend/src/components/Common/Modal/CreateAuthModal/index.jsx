@@ -39,18 +39,21 @@ export default function CreateAuthModal({ setModalSwitch, modalSwitch }) {
         </S.ModalHeader>
         <S.ModalContent>
           <S.FormTitleBox>
+            <img src="/images/mainLogo2.png" alt="logo" />
             <p>
               더 빠르고 더 간편한
               <br />내 손안의 구인구직, 미니바이트
             </p>
           </S.FormTitleBox>
           <S.FormContainer>
-            <S.LoginButton color="#FFDB1D" onClick={kakaoLogin}>
+            <S.KLoginButton onClick={kakaoLogin}>
+              <img src="/images/kakao.png" alt="Klogo" />
               <p>카카오로 간편하게 시작하기</p>
-            </S.LoginButton>
-            <S.LoginButton color="#23252C" onClick={googleLogin}>
+            </S.KLoginButton>
+            <S.GLoginButton onClick={googleLogin}>
+              <img src="/images/google.png" alt="Glogo" />
               <p>구글로 간편하게 시작하기</p>
-            </S.LoginButton>
+            </S.GLoginButton>
           </S.FormContainer>
           <S.Formexplain>
             <p>

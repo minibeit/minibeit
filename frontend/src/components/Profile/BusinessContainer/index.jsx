@@ -72,7 +72,7 @@ export default function BusinessContainer() {
                   {a.avatar ? (
                     <PVImg img={a.avatar} />
                   ) : (
-                    <PVImg img="/images/기본프로필.png" />
+                    <PVImg img="/images/기본비즈니스프로필.png" />
                   )}
                 </S.BImgBox>
                 <p>{a.name}</p>

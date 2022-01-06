@@ -71,24 +71,28 @@ export default function InfoData({
         <div>
           <p>프로필 사진</p> <p>(필수아님*)</p>
         </div>
-        <S.ImgBox>
-          {inputData.avatar ? (
-            <PVImg img={inputData.avatar} />
-          ) : (
-            <S.Img src="/images/기본프로필.png" />
-          )}
-        </S.ImgBox>
-        <S.ImgEditBtn id="reset" onClick={onFileChange}>
-          기본이미지로 변경
-        </S.ImgEditBtn>
-        <S.ImgEditBtn htmlFor="upload">사진 업로드 하기</S.ImgEditBtn>
-        <input
-          style={{ display: "none" }}
-          name="img"
-          id="upload"
-          type="file"
-          onChange={onFileChange}
-        />
+        <div>
+          <S.ImgBox>
+            {inputData.avatar ? (
+              <PVImg img={inputData.avatar} />
+            ) : (
+              <S.Img src="/images/기본프로필.png" />
+            )}
+          </S.ImgBox>
+          <div>
+            <S.ImgEditBtn id="reset" onClick={onFileChange}>
+              기본이미지로 변경
+            </S.ImgEditBtn>
+            <S.ImgEditBtn htmlFor="upload">사진 업로드 하기</S.ImgEditBtn>
+            <input
+              style={{ display: "none" }}
+              name="img"
+              id="upload"
+              type="file"
+              onChange={onFileChange}
+            />
+          </div>
+        </div>
       </S.ImgContainer>
       <S.InfoContainer>
         <div>

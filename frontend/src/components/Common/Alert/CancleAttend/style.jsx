@@ -9,6 +9,12 @@ export const AlertBox = styled.div`
   width: 30rem;
   height: 18rem;
   border-radius: 2.25rem;
+  padding: 0 1rem;
+  @media only screen and (max-width: 700px) {
+    padding: 1rem;
+    width: 20rem;
+    height: 15rem;
+  }
 `;
 
 const Button = styled.button`
@@ -58,7 +64,7 @@ export const AlertContent = styled.div`
     line-height: 1.875rem;
   }
 
-  & > div:nth-child(3) {
+  & > div {
     display: flex;
     flex-direction: row;
     gap: 1.5rem;

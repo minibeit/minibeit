@@ -8,10 +8,15 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   background-color: white;
-  width: 100%;
-  max-width: 35rem;
+  width: 35rem;
   border-radius: 1.25rem;
   height: 35rem;
+
+  @media only screen and (max-width: 700px) {
+    padding: 1rem;
+    width: 20rem;
+    height: 21rem;
+  }
 `;
 export const ModalHeader = styled.div`
   display: flex;
@@ -25,56 +30,93 @@ export const CloseModalBtn = styled.div`
     margin: 1rem 1rem 0 0;
     cursor: pointer;
   }
+
+  @media only screen and (max-width: 700px) {
+    margin: 0 0 0 auto;
+    & > svg {
+      margin: 0.7rem 0.7rem 0 0;
+    }
+  }
 `;
 export const ModalContent = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  margin: 2rem 0;
+  gap: 2rem;
+  & > button:nth-child(2) {
+    border: none;
+    background-color: rgba(6, 66, 255, 0.1);
+    padding: 0.8rem 2rem;
+    border-radius: 2rem;
+    color: #0642ff;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
   & > p:nth-child(3) {
-    margin-top: 1rem;
+    color: #d4d4d4;
+  }
+  @media only screen and (max-width: 700px) {
+    gap: 1rem;
+    margin: 0;
+    & > button:nth-child(2) {
+      padding: 0.4rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    & > p:nth-child(3) {
+      font-size: 0.8rem;
+    }
   }
 `;
-export const Box = styled.div`
+const Box = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
 `;
 export const MessageBox = styled(Box)`
-  & > div:first-child {
-    margin: 0.5rem;
-    & > img {
-      width: 4rem;
-      height: 4rem;
-    }
-  }
   & > p {
     font-size: 1.6rem;
     font-weight: bold;
   }
+  & > p:nth-child(2) {
+    color: #0642ff;
+  }
+  @media only screen and (max-width: 700px) {
+    & > p {
+      text-align: center;
+      font-size: 1.1rem;
+    }
+  }
 `;
 
-export const DataBox = styled(Box)`
-  width: 100%;
-  position: relative;
-  background: #f9f9f9;
-  gap: 0.7rem;
-  font-size: 0.9rem;
-  padding: 1rem 0;
-`;
 export const ImgBox = styled.div`
-  background-color: gray;
   overflow: hidden;
-  height: 7rem;
+  position: relative;
+  height: 11rem;
+  width: 11rem;
   border-radius: 50%;
   display: inline-block;
-`;
-export const Img = styled.img`
-  object-fit: fill;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+  margin: 1rem 0;
+  & > img {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 11rem;
+    height: 11rem;
+    transform: translate(-50%, -50%);
+  }
+
+  @media only screen and (max-width: 700px) {
+    height: 8rem;
+    width: 8rem;
+    margin: 0.5rem 0;
+    & > img {
+      width: 8rem;
+      height: 8rem;
+    }
+  }
 `;

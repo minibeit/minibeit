@@ -58,14 +58,16 @@ export default function AskEndSchedule({
               <br />
               <span>일정이 종료</span>되었어요.
             </p>
-            <S.BlueButton
-              onClick={() => {
-                setEndAlert(false);
-                changeFeedData("완료된 모집공고");
-              }}
-            >
-              닫기
-            </S.BlueButton>
+            <div>
+              <S.BlueButton
+                onClick={() => {
+                  setEndAlert(false);
+                  changeFeedData("완료된 모집공고");
+                }}
+              >
+                닫기
+              </S.BlueButton>
+            </div>
           </S.AlertContent>
         </S.AlertBox>
       )}

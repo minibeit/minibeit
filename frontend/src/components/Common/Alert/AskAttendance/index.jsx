@@ -38,7 +38,7 @@ export default function AskAttendance({
           <S.AlertContent>
             <InfoIcon />
             <p>
-              해당 실험자의 실험 참여가 {isAttend ? "'참여'" : "'불참'"}
+              해당 실험자의 실험 참여가 <br /> {isAttend ? "'참여'" : "'불참'"}
               처리되었습니다
             </p>
             <div>

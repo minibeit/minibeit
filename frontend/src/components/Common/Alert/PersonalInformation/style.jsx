@@ -9,6 +9,11 @@ export const AlertBox = styled.div`
   width: 30rem;
   height: 30rem;
   border-radius: 20px;
+  @media only screen and (max-width: 700px) {
+    padding: 1rem;
+    width: 19rem;
+    height: 21rem;
+  }
 `;
 
 export const AlertContent = styled.div`
@@ -51,8 +56,6 @@ export const AlertContent = styled.div`
 
   & > div:nth-child(3) {
     position: relative;
-    left: 50%;
-    transform: translate(-50%);
     background-color: #f9f9f9;
     border-radius: 17px;
     font-size: 15px;
@@ -83,6 +86,30 @@ export const AlertContent = styled.div`
     ::-webkit-scrollbar-button {
       width: 0;
       height: 0;
+    }
+  }
+
+  @media only screen and (max-width: 700px) {
+    align-items: center;
+    width: 19rem;
+    height: 20rem;
+    padding: 0 1rem;
+    & > div:first-child {
+      margin: 1rem 1rem 0 1rem;
+      width: 19rem;
+    }
+    & > p:nth-child(2) {
+      width: 18rem;
+    }
+
+    & > div:nth-child(3) {
+      position: relative;
+      width: 18rem;
+      height: 10rem;
+    }
+    & > div:nth-child(3) > p:first-child {
+      width: 17rem;
+      height: 9.5rem;
     }
   }
 `;

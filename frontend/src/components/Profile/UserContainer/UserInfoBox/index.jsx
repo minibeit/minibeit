@@ -28,22 +28,29 @@ export default function UserInfoBox({ feedPreview }) {
     <S.UserInfoContainer>
       {userData && (
         <div>
-          <S.ImgBox>
-            {userData.avatar !== null ? (
-              <PVImg img={userData.avatar} />
-            ) : (
-              <PVImg img="/images/기본프로필.png" />
-            )}
-          </S.ImgBox>
-          <S.UserNameBox>
-            <p>{userData.name}</p> <p>님</p>
-          </S.UserNameBox>
-          <S.ProfileBtn onClick={() => setModalSwitch(true)}>
-            내 프로필 보기
-          </S.ProfileBtn>
-          <S.LikeBtn onClick={() => history.push(`/profile?like`)}>
-            관심공고 확인하기
-          </S.LikeBtn>
+          <div>
+            <div>
+              <S.ImgBox>
+                {userData.avatar !== null ? (
+                  <PVImg img={userData.avatar} />
+                ) : (
+                  <PVImg img="/images/기본프로필.png" />
+                )}
+              </S.ImgBox>
+              <S.UserNameBox>
+                <p>{userData.name}</p> <p>님</p>
+              </S.UserNameBox>
+            </div>
+
+            <div>
+              <S.ProfileBtn onClick={() => setModalSwitch(true)}>
+                내 프로필 보기
+              </S.ProfileBtn>
+              <S.LikeBtn onClick={() => history.push(`/profile?like`)}>
+                관심공고 확인하기
+              </S.LikeBtn>
+            </div>
+          </div>
           {modalSwitch && (
             <UserInfoEditModal
               infoData={userData}

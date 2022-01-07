@@ -38,6 +38,10 @@ export const ImgBox = styled.div`
   border-radius: 50%;
   cursor: pointer;
   position: relative;
+  @media only screen and (max-width: 700px) {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
 `;
 
 /* user */
@@ -55,6 +59,47 @@ export const UserInfoContainer = styled.div`
     gap: 1rem;
     align-items: center;
     animation: ${fadeIn} 0.7s ease-in;
+    & > div:first-child {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+
+      & > div:first-child {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+      }
+      & > div:nth-child(2) {
+        display: flex;
+        flex: 1;
+        width: 14rem;
+        gap: 1rem;
+        flex-direction: column;
+      }
+    }
+  }
+  @media only screen and (max-width: 700px) {
+    margin: 1rem auto;
+    /* min-width: 14rem; */
+    max-width: 80%;
+    & > div:first-child {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      & > div:first-child {
+        display: flex;
+        padding: 0;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+        & > div:nth-child(2) {
+          width: 100%;
+        }
+      }
+    }
   }
 `;
 export const UserNameBox = styled.div`
@@ -75,6 +120,10 @@ export const UserInfoBtn = styled.button`
   color: black;
   font-size: 1em;
   cursor: pointer;
+  @media only screen and (max-width: 700px) {
+    padding: 0.5rem;
+    font-size: 0.9em;
+  }
 `;
 export const ProfileBtn = styled(UserInfoBtn)`
   border: 1px solid #c4c4c4;
@@ -193,6 +242,9 @@ export const LikePayment = styled.div`
 export const FeedContainer = styled.div`
   flex: 3.5;
   padding: 1rem 1rem 1rem 0;
+  @media only screen and (max-width: 700px) {
+    padding: 1rem 0;
+  }
 `;
 export const CategoryBtnBox = styled.div`
   padding: 1rem;
@@ -365,6 +417,14 @@ export const FeedContentView = styled.div`
     justify-content: flex-end;
     gap: 1em;
   }
+  @media only screen and (max-width: 700px) {
+    & > div:first-child {
+      flex-direction: row;
+    }
+    & > div:nth-child(3) {
+      justify-content: center;
+    }
+  }
 `;
 
 export const Tag = styled.div`
@@ -394,6 +454,23 @@ export const InfoTable = styled.table`
     padding: 0.3em;
     white-space: nowrap;
   }
+  @media only screen and (max-width: 700px) {
+    display: none;
+  }
+`;
+
+export const InfoTabelForMobile = styled.div`
+  display: none;
+  @media only screen and (max-width: 700px) {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 0;
+    gap: 0.5rem;
+    & > div {
+      display: flex;
+      gap: 0.5rem;
+    }
+  }
 `;
 export const FeedButton = styled.button`
   display: flex;
@@ -405,6 +482,10 @@ export const FeedButton = styled.button`
   white-space: nowrap;
   min-width: fit-content;
   padding: 0.5em 1em;
+  @media only screen and (max-width: 700px) {
+    padding: 1rem;
+    font-size: 1.1rem;
+  }
 `;
 export const WhiteButton = styled(FeedButton)`
   background: #ffffff;

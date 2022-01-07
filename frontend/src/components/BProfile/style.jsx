@@ -48,6 +48,10 @@ export const ImgBox = styled.div`
   height: 8.5rem;
   display: inline-block;
   border-radius: 50%;
+  @media only screen and (max-width: 700px) {
+    width: 6.5rem;
+    height: 6.5rem;
+  }
 `;
 export const SImgBox = styled(ImgBox)`
   width: 6.5rem;
@@ -69,6 +73,56 @@ export const UserInfoContainer = styled.div`
     gap: 1rem;
     align-items: center;
     animation: ${fadeIn} 0.7s ease-in;
+    & > div:first-child {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+
+      & > div:first-child {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+      }
+      & > div:nth-child(2) {
+        display: flex;
+        flex: 1;
+        width: 14rem;
+        gap: 1rem;
+        flex-direction: column;
+        & > button:nth-child(2) {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @media only screen and (max-width: 700px) {
+    margin: 1rem auto;
+    max-width: 80%;
+    & > div:first-child {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      align-items: center;
+      & > div:first-child {
+        display: flex;
+        padding: 0;
+        flex-direction: row;
+        gap: 1rem;
+        align-items: center;
+        & > div:nth-child(2) {
+          width: 100%;
+          & > button:first-child {
+            display: none;
+          }
+          & > button:nth-child(2) {
+            display: inline;
+          }
+        }
+      }
+    }
   }
 `;
 export const ChangeBProfile = styled.div`
@@ -104,8 +158,16 @@ export const UserInfoBtn = styled.button`
   color: black;
   font-size: 1em;
   cursor: pointer;
+  @media only screen and (max-width: 700px) {
+    padding: 0.5rem 1rem;
+    font-size: 0.9em;
+  }
 `;
 export const InfoEditBtn = styled(UserInfoBtn)`
+  border: 1px solid #c4c4c4;
+  background: white;
+`;
+export const InfoEditBtnFM = styled(UserInfoBtn)`
   border: 1px solid #c4c4c4;
   background: white;
 `;
@@ -130,6 +192,12 @@ export const FeedPreviewBox = styled.div`
     padding: 2em;
     box-sizing: border-box;
   }
+  @media only screen and (max-width: 700px) {
+    & > p {
+      font-size: 1.2em;
+      line-height: 2rem;
+    }
+  }
 `;
 export const PreviewTable = styled.table`
   width: 100%;
@@ -151,6 +219,10 @@ export const PreviewTable = styled.table`
 export const FeedContainer = styled.div`
   flex: 3.5;
   padding: 1rem 1rem 1rem 0;
+  @media only screen and (max-width: 700px) {
+    padding: 1rem 0;
+    width: 100%;
+  }
 `;
 export const CategoryBtnBox = styled.div`
   padding: 1rem;
@@ -184,6 +256,10 @@ export const FeedGroup = styled.div`
   gap: 1.5rem;
   padding: 1rem;
   animation: ${fadeIn} 0.7s ease-out;
+  @media only screen and (max-width: 700px) {
+    padding: 0rem;
+    align-items: flex-start;
+  }
 `;
 export const FeedBox = styled.div`
   display: flex;
@@ -204,6 +280,10 @@ export const FeedBox = styled.div`
     & > div:first-child {
       display: none;
     }
+  }
+  @media only screen and (max-width: 700px) {
+    margin: 0 auto;
+    max-width: 90%;
   }
 `;
 
@@ -277,6 +357,10 @@ export const FeedTitle = styled.div`
     font-size: 0.8rem;
     font-weight: 100;
   }
+  @media only screen and (max-width: 700px) {
+    gap: 0.5em;
+    padding: 2em 1em;
+  }
 `;
 
 export const FeedContentView = styled.div`
@@ -287,6 +371,7 @@ export const FeedContentView = styled.div`
   height: auto;
   padding: 1em 2em;
   gap: 0.5em;
+  width: 100%;
   & > div:first-child {
     flex: 1;
     display: flex;
@@ -316,6 +401,20 @@ export const FeedContentView = styled.div`
     display: flex;
     justify-content: flex-end;
     gap: 1em;
+  }
+
+  @media only screen and (max-width: 700px) {
+    padding: 1em;
+    gap: 0.5em;
+    & > div:nth-child(3) {
+      justify-content: center;
+      & button {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        font-size: 1rem;
+      }
+    }
   }
 `;
 

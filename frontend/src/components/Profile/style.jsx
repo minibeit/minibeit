@@ -82,7 +82,6 @@ export const UserInfoContainer = styled.div`
   }
   @media only screen and (max-width: 700px) {
     margin: 1rem auto;
-    /* min-width: 14rem; */
     max-width: 80%;
     & > div:first-child {
       display: flex;
@@ -149,6 +148,12 @@ export const FeedPreviewBox = styled.div`
     min-height: 5em;
     padding: 2em;
     box-sizing: border-box;
+  }
+  @media only screen and (max-width: 700px) {
+    & > p {
+      font-size: 1.2em;
+      line-height: 2rem;
+    }
   }
 `;
 export const PreviewTable = styled.table`
@@ -536,16 +541,27 @@ export const BusinessListBox = styled.div`
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+  width: 100%;
 
   & > div:nth-child(2) {
     display: flex;
     gap: 1.5rem;
     justify-content: center;
   }
+
+  @media only screen and (max-width: 700px) {
+    margin: 2rem auto;
+    & > div:nth-child(2) {
+      flex-direction: column;
+      gap: 0;
+    }
+  }
 `;
 export const BusinessHeader = styled.div`
   transform: translate(2rem, 0);
   display: flex;
+  justify-content: center;
+  width: 100%;
   & > div:first-child {
     display: flex;
     flex-direction: column;
@@ -558,6 +574,26 @@ export const BusinessHeader = styled.div`
       font-size: 0.8rem;
       color: #7c7c7c;
       line-height: 1.3rem;
+    }
+  }
+  @media only screen and (max-width: 700px) {
+    transform: translate(0.5rem, 0);
+    flex-direction: column;
+    gap: 1rem;
+    & > div:first-child {
+      width: 90%;
+      line-height: 1.5rem;
+      text-align: left;
+      gap: 0.5rem;
+      & > p:nth-child(1) {
+        font-size: 1rem;
+        font-weight: 600;
+      }
+      & > p:nth-child(2) {
+        font-size: 0.8rem;
+        color: #7c7c7c;
+        line-height: 1.3rem;
+      }
     }
   }
 `;
@@ -583,7 +619,7 @@ export const BusinessEditBtn = styled.div`
 `;
 
 export const BusinessProfile = styled.div`
-  width: 10rem;
+  width: 90%;
   & > div:nth-child(2) {
     display: flex;
     flex-direction: column;

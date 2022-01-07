@@ -505,14 +505,20 @@ export const AddBProfileBtn = styled.div`
 `;
 
 /* review page */
-export const ReviewImgBox = styled.div`
-  width: 100%;
-  min-height: 18em;
-  background: gray;
+
+export const RevievContainer = styled.div`
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  @media only screen and (max-width: 700px) {
+    padding: 0 1rem;
+    width: 90%;
+  }
 `;
+
 export const ReviewBar = styled.div`
   width: 100%;
-  min-width: 20em;
   display: flex;
 `;
 export const ReviewItem = styled.div`
@@ -571,51 +577,65 @@ export const ReviewCount = styled.div`
   margin-left: auto;
 `;
 
-// export const 박스 = styled.div`
-//   width: 100%;
-//   border: 1px solid #000;
-//   height: 15rem;
-//   position: relative;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-// `;
-// export const 박스박스 = styled.div`
-//   width: 60%;
-//   height: 90%;
-//   position: relative;
-//   display: flex;
-//   align-items: center;
-// `;
-// export const 박스박스박스 = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   position: relative;
-//   gap: 1rem;
-//   & > div {
-//     flex: 1;
-//     height: 6rem;
-//     position: relative;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     border: 1px solid #000;
-
-//     & > img {
-//       animation: ${pushUp} 1s ease-in;
-//       width: ${({ width }) => width};
-//     }
-//   }
-// `;
-// export const 이미지박스 = styled.div`
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   height: 6rem;
-
-//   border: 1px solid #000;
-//   & > img {
-//     animation: ${pushUp} 1s ease-in;
-//     width: ${({ width }) => width};
-//   }
-// `;
+export const ReviewIconContainer = styled.div`
+  width: 100%;
+  height: 13rem;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 1.5rem;
+  background-color: rgba(6, 66, 255, 0.05);
+  & > div {
+    width: 70%;
+    height: 90%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    & > div:first-child {
+      display: flex;
+      justify-content: flex-end;
+      align-items: end;
+    }
+    & > div:last-child {
+      & > img {
+        margin-bottom: 2rem;
+      }
+    }
+  }
+`;
+export const ReviewIcomMiddleBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  gap: 1rem;
+  & > div {
+    flex: 1;
+    height: 6rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    & > img {
+      animation: ${pushUp} 1s ease-in;
+      width: ${({ width }) => width};
+      min-width: 1rem;
+    }
+  }
+  & > div:first-child {
+    display: flex;
+    justify-content: start;
+    margin-left: 1rem;
+  }
+`;
+export const ReviewIconBox = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 6rem;
+  & > img {
+    min-width: 1rem;
+    animation: ${pushUp} 1s ease-in;
+    width: ${({ width }) => width};
+  }
+`;

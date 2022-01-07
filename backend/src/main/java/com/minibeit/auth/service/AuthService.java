@@ -1,7 +1,6 @@
 package com.minibeit.auth.service;
 
 import com.minibeit.auth.domain.token.Token;
-import com.minibeit.auth.service.TokenProvider;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.dto.AuthRequest;
@@ -20,7 +19,7 @@ public class AuthService {
 
     //테스트용
     public UserResponse.Login login(AuthRequest.Login request) {
-        User user = userRepository.findByOauthIdWithAvatar(request.getId()).orElseThrow(UserNotFoundException::new);
+        User user = userRepository.findByTestId(request.getId()).orElseThrow(UserNotFoundException::new);
         Token refreshToken = tokenProvider.generateRefreshToken(user);
 
         return UserResponse.Login.build(user.getId(), user.getName(), tokenProvider.generateAccessToken(user), refreshToken);

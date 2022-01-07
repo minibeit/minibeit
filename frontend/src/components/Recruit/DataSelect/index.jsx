@@ -107,7 +107,8 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
   return (
     <S.Page>
       <S.DataSelectContainer>
-        <S.DataSelectHeader>
+        <S.DataSelectHeader step={step}>
+          <div />
           {step === 1 && <p>생성할 모집 공고에 대한 위치를 입력해주세요.</p>}
           {step === 2 && <p>모집 날짜를 입력해주세요.</p>}
           {step === 3 && <p>모집 시간을 입력해주세요.</p>}

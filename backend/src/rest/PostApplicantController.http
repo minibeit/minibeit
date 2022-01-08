@@ -3,7 +3,7 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/date/2/finish
+POST {{apiUrl}}/post/date/1/finish
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -19,7 +19,7 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/date/8/apply/reject/1
+POST {{apiUrl}}/post/date/242/apply/reject/3
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 

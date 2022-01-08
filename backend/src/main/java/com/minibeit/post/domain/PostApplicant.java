@@ -91,5 +91,4 @@ public class PostApplicant extends BaseEntity {
         postApplicant.setPostDoDate(postDoDate);
         return postApplicant;
     }
-
 }

@@ -22,7 +22,7 @@ Content-Type: application/json;charset=UTF-8
   "condition": true,
   "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
   "doTime": 60,
-  "schoolId": 2,
+  "schoolId": 62,
   "businessProfileId": 1,
   "startDate": "2022-01-03T09:30",
   "endDate": "2022-01-10T09:30",
@@ -117,7 +117,7 @@ GET {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/posts/2?doDate=2021-12-13&page=1&size=15&paymentType=&category=&startTime=&endTime=&minPay=&doTime=
+GET {{apiUrl}}/posts/0?doDate=2022-01-03&page=1&size=15&paymentType=&category=&startTime=&endTime=&minPay=&doTime=
 
 ###
 GET {{apiUrl}}/post/2/start?doDate=2021-09-27

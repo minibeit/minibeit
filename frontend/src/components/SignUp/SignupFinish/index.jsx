@@ -27,7 +27,7 @@ export default function SignupFinish() {
               {!inputData.avatar === null ? (
                 <PVImg img={inputData.avatar} />
               ) : (
-                <img src="/images/배경팡파레아이콘.png" alt="파티" />
+                <img src="/images/팡파레아이콘.png" alt="파티" />
               )}
             </S.ImgBox>
             <p>{inputData.name}님,</p>

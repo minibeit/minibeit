@@ -567,6 +567,44 @@ export const BusinessListBox = styled.div`
     }
   }
 `;
+
+export const NoneContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  & > div:first-child {
+    width: 20%;
+    border-radius: 50%;
+    background-color: rgba(6, 66, 255, 0.05);
+    & > img {
+      width: 110%;
+    }
+  }
+  & > p:nth-child(2) {
+    font-size: 0.9rem;
+  }
+  & > p:nth-child(3) {
+    font-weight: 700;
+    color: #0642ff;
+  }
+  & > div:last-child {
+    width: 2rem;
+    background-color: rgba(6, 66, 255, 0.2);
+    border-radius: 50%;
+    margin: 2rem;
+    cursor: pointer;
+    & > svg {
+      width: 2rem;
+      path {
+        fill: #0642ff;
+      }
+    }
+  }
+`;
 export const BusinessHeader = styled.div`
   transform: translate(2rem, 0);
   display: flex;

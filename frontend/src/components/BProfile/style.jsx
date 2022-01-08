@@ -266,6 +266,7 @@ export const FeedBox = styled.div`
   flex-wrap: wrap;
   width: 100%;
   overflow: hidden;
+  max-width: 35rem;
   cursor: pointer;
   border: 1px solid #c4c4c480;
   box-sizing: content-box;
@@ -283,7 +284,7 @@ export const FeedBox = styled.div`
   }
   @media only screen and (max-width: 700px) {
     margin: 0 auto;
-    max-width: 90%;
+    max-width: 18rem;
   }
 `;
 
@@ -312,7 +313,6 @@ export const FeedLabel = styled.div`
 `;
 
 export const FeedImgView = styled.div`
-  min-width: 50%;
   background-image: ${({ thumbnail }) =>
     thumbnail ? `url(${thumbnail})` : 'url("/images/기본프로필.png")'};
   background-size: cover;
@@ -511,8 +511,9 @@ export const RevievContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-width: 18rem;
   @media only screen and (max-width: 700px) {
-    padding: 0 1rem;
+    margin: 0 auto;
     width: 90%;
   }
 `;

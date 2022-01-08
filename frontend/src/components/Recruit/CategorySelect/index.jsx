@@ -10,6 +10,11 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
     <S.Page>
       <S.DataSelectContainer>
         <S.DataSelectHeader>
+          <div
+            style={{
+              backgroundImage: "url(/images/모집하기카테고리이미지.png)",
+            }}
+          />
           <p>카테고리를 선택해주세요</p>
         </S.DataSelectHeader>
         <S.CategoryContainer>

@@ -68,6 +68,7 @@ export default function BProfileInfo({
                   count={totalEle}
                   setPage={setPage}
                   onChange={(e) => changeFeedData(feedSwitch, e)}
+                  itemsCountPerPage={5}
                 />
               )}
             </>

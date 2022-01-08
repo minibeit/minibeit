@@ -127,6 +127,7 @@ export default function UserContainer({ view }) {
                 count={totalEle}
                 setPage={setPage}
                 onChange={(e) => changeFeedData(e)}
+                itemsCountPerPage={5}
               />
             )}
           </S.FeedGroup>

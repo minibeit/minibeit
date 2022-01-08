@@ -12,6 +12,7 @@ export const CalendarWrapper = styled.div`
     display: flex;
     & > div:first-child {
       flex: 2;
+      padding: 0;
     }
   }
   & > div:nth-child(2) {
@@ -49,7 +50,6 @@ export const DateList = styled.div`
   min-width: 6rem;
   border-left: 1px solid #c4c4c4;
   flex: 1;
-  margin: 1rem 0;
   padding: 2rem 0 0 0;
   & > div:first-child {
     height: 15em;

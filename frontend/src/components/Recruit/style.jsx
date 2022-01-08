@@ -35,7 +35,7 @@ export const Container = styled.div`
   gap: 1rem;
   justify-content: center;
   text-align: center;
-  margin-top: 10em;
+  margin-top: 5rem;
 `;
 export const SaveBtn = styled.button`
   padding: 0.5rem 1rem;
@@ -114,7 +114,24 @@ export const DataSelectContainer = styled(Container)`
   gap: 2rem;
 `;
 export const DataSelectHeader = styled.div`
-  & > p:first-child {
+  & > div:first-child {
+    width: 10em;
+    height: 10em;
+    background-size: cover;
+    margin: auto;
+    background-image: ${({ step }) => {
+      if (step === 1) {
+        return "url(/images/모집하기위치이미지.png)";
+      } else if (step === 2) {
+        return "url(/images/모집하기달력이미지.png)";
+      } else if (step === 3) {
+        return "url(/images/모집하기시간이미지.png)";
+      } else if (step === 4) {
+        return "url(/images/모집하기유저이미지.png)";
+      }
+    }};
+  }
+  & > p:nth-child(2) {
     font-size: 1.7rem;
     font-weight: bold;
   }
@@ -135,6 +152,7 @@ export const Box = styled.div`
   gap: 0.5rem;
   background: #f8f8f8;
   padding: 0.5rem 1rem;
+  min-width: 10em;
   & > p:first-child {
     white-space: nowrap;
     color: #3f3f3f;
@@ -321,7 +339,9 @@ export const SelectRadio = styled.div`
     display: block;
     width: 10em;
     height: 10em;
-    background: #ffffff4d;
+    background: ${({ background }) => background} no-repeat center
+      center/contain;
+    background-size: cover;
     box-shadow: 0px 4px 4px 0px #223d8540 inset;
     border-radius: 1em;
     border: 1px solid white;
@@ -384,7 +404,7 @@ export const TitleBox = styled(InputBox)`
 export const ContentBox = styled(InputBox)`
   & > textarea:nth-child(2) {
     width: 100%;
-    height: 6em;
+    height: 9em;
     border-radius: 15px;
     border: none;
     font-size: 1em;
@@ -405,26 +425,6 @@ export const ConditionBox = styled(InputBox)`
     display: flex;
     flex-direction: column;
     gap: 0.5em;
-  }
-`;
-export const ConditionInput = styled(Input)`
-  & > button {
-    background: none;
-    display: flex;
-    border: none;
-    align-items: center;
-    color: #0642ff;
-    cursor: pointer;
-  }
-  & > button:disabled {
-    color: #c4c4c4;
-  }
-
-  & svg {
-    width: 1rem;
-    & path {
-      fill: ${({ disabled }) => (disabled ? "#c4c4c4" : "#0642ff")};
-    }
   }
 `;
 export const PaymentBox = styled(InputBox)`
@@ -455,6 +455,25 @@ export const WageBox = styled.div`
     color: #0642ff;
     text-align: end;
     margin-top: auto;
+  }
+`;
+
+export const AddConditionBtn = styled.button`
+  margin-left: auto;
+  width: min-content;
+  white-space: nowrap;
+  border: none;
+  background: none;
+  color: #0642ff;
+  cursor: pointer;
+  & > svg {
+    width: 0.7em;
+    & path {
+      fill: #0642ff;
+    }
+  }
+  &:disabled {
+    display: none;
   }
 `;
 

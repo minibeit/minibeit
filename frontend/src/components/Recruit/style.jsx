@@ -404,7 +404,7 @@ export const TitleBox = styled(InputBox)`
 export const ContentBox = styled(InputBox)`
   & > textarea:nth-child(2) {
     width: 100%;
-    height: 6em;
+    height: 9em;
     border-radius: 15px;
     border: none;
     font-size: 1em;

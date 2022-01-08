@@ -10,11 +10,11 @@ Content-Disposition: form-data; name="name";
 --boundary
 Content-Disposition: form-data; name="nickname";
 
-231
+231222
 --boundary
 Content-Disposition: form-data; name="email";
 
-test@test.com
+t@t.com
 --boundary
 Content-Disposition: form-data; name="gender";
 

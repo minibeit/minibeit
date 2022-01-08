@@ -1,4 +1,4 @@
-POST {{apiUrl}}/user/login
+POST {{apiUrl}}/user/login/test
 Content-Type: application/json;charset=UTF-8
 
 {

@@ -1,11 +1,11 @@
 package com.minibeit.auth.web;
 
+import com.minibeit.auth.service.AuthService;
+import com.minibeit.auth.service.RefreshTokenService;
 import com.minibeit.common.dto.ApiResult;
 import com.minibeit.common.utils.CookieUtils;
-import com.minibeit.auth.service.RefreshTokenService;
 import com.minibeit.user.service.dto.AuthRequest;
 import com.minibeit.user.service.dto.UserResponse;
-import com.minibeit.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +22,10 @@ public class AuthController {
     private static final String REFRESH_TOKEN = "refresh_token";
 
     //테스트용
-    @PostMapping("/login")
+    @PostMapping("/login/test")
     public ResponseEntity<UserResponse.Login> login(@RequestBody AuthRequest.Login request, HttpServletResponse response) {
         UserResponse.Login loginResponse = authService.login(request);
         CookieUtils.addCookie(response, REFRESH_TOKEN, loginResponse.getRefreshToken(), 14 * 24 * 60 * 60);
-
         return ResponseEntity.ok().body(loginResponse);
     }
 

@@ -33,7 +33,7 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/1/date/1/attend/change/2
+POST {{apiUrl}}/post/date/7/attend/change/1
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 

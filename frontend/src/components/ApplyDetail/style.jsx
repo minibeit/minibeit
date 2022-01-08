@@ -18,7 +18,7 @@ transform:translateY(0);
 `;
 
 export const Container = styled.div`
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 1000px) {
     padding: 0rem 1.5rem;
   }
 `;
@@ -351,15 +351,16 @@ export const ReviewCount = styled.div`
 /* apply remote controller */
 export const RemoteBox = styled.div`
   flex: 1;
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 1000px) {
     display: none;
   }
 `;
 
 export const RemoteBoxForMobile = styled.div`
   display: none;
+  width: 100%;
 
-  @media only screen and (max-width: 700px) {
+  @media only screen and (max-width: 1000px) {
     display: flex;
     position: sticky;
     top: 3.5rem;

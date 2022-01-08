@@ -22,6 +22,9 @@ export const ModeSelectBtn = styled.button`
     background: white;
     color: black;
   }
+  @media only screen and (max-width: 700px) {
+    padding: 0.5rem 2rem;
+  }
 `;
 export const Container = styled.div`
   background-color: white;
@@ -154,6 +157,9 @@ export const FeedPreviewBox = styled.div`
       font-size: 1.2em;
       line-height: 2rem;
     }
+    & > div:nth-child(2) {
+      padding: 1em;
+    }
   }
 `;
 export const PreviewTable = styled.table`
@@ -264,6 +270,7 @@ export const FeedContainer = styled.div`
 export const CategoryBtnBox = styled.div`
   padding: 1rem;
   margin-bottom: 1rem;
+  white-space: nowrap;
   & button {
     cursor: pointer;
     background: white;
@@ -278,6 +285,13 @@ export const CategoryBtnBox = styled.div`
     color: black;
     border-bottom: 2px solid #0642ff;
   }
+  @media only screen and (max-width: 700px) {
+    padding: 1rem 0.2rem;
+    & button {
+      font-size: 0.9rem;
+      padding: 0.3em 0.2em;
+    }
+  }
 `;
 
 export const FeedGroup = styled.div`
@@ -285,8 +299,14 @@ export const FeedGroup = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
   padding: 1rem;
   animation: ${fadeIn} 0.7s ease-out;
+  @media only screen and (max-width: 700px) {
+    padding: 0rem;
+    align-items: flex-start;
+  }
 `;
 
 export const NoneDiv = styled.div`
@@ -316,6 +336,10 @@ export const FeedBox = styled.div`
     & > div:first-child {
       display: none;
     }
+  }
+  @media only screen and (max-width: 700px) {
+    margin: 0 auto;
+    width: 90%;
   }
 `;
 
@@ -359,7 +383,6 @@ export const FeedLabel = styled.div`
 `;
 
 export const FeedImgView = styled.div`
-  min-width: 50%;
   background-image: ${({ thumbnail }) =>
     thumbnail ? `url(${thumbnail})` : 'url("/images/기본프로필.png")'};
   background-size: cover;
@@ -659,6 +682,7 @@ export const BusinessProfile = styled.div`
 export const BImgBox = styled(ImgBox)`
   width: 8rem;
   height: 8rem;
+  cursor: pointer;
 `;
 export const AddBProfileBtn = styled.div`
   width: 5rem;

@@ -14,7 +14,7 @@ const fadeIn = keyframes`
 const pushUp = keyframes`
  from {
    opacity: 0.3;
-   width:1rem;
+   width:0;
  }
 
  to{
@@ -33,6 +33,9 @@ export const ModeSelectBtn = styled.button`
   &:disabled {
     background: white;
     color: black;
+  }
+  @media only screen and (max-width: 700px) {
+    padding: 0.5rem 2rem;
   }
 `;
 export const Container = styled.div`
@@ -197,6 +200,9 @@ export const FeedPreviewBox = styled.div`
       font-size: 1.2em;
       line-height: 2rem;
     }
+    & > div:nth-child(2) {
+      padding: 1em;
+    }
   }
 `;
 export const PreviewTable = styled.table`
@@ -221,12 +227,12 @@ export const FeedContainer = styled.div`
   padding: 1rem 1rem 1rem 0;
   @media only screen and (max-width: 700px) {
     padding: 1rem 0;
-    width: 100%;
   }
 `;
 export const CategoryBtnBox = styled.div`
   padding: 1rem;
   margin-bottom: 1rem;
+  white-space: nowrap;
   & button {
     cursor: pointer;
     background: white;
@@ -240,6 +246,14 @@ export const CategoryBtnBox = styled.div`
   & button:disabled {
     color: black;
     border-bottom: 2px solid #0642ff;
+  }
+
+  @media only screen and (max-width: 700px) {
+    padding: 1rem 0.2rem;
+    & button {
+      font-size: 0.9rem;
+      padding: 0.3em 0.2em;
+    }
   }
 `;
 export const NoneDiv = styled.div`
@@ -266,7 +280,6 @@ export const FeedBox = styled.div`
   flex-wrap: wrap;
   width: 100%;
   overflow: hidden;
-  max-width: 35rem;
   cursor: pointer;
   border: 1px solid #c4c4c480;
   box-sizing: content-box;
@@ -284,7 +297,7 @@ export const FeedBox = styled.div`
   }
   @media only screen and (max-width: 700px) {
     margin: 0 auto;
-    max-width: 18rem;
+    width: 90%;
   }
 `;
 
@@ -620,13 +633,13 @@ export const ReviewIcomMiddleBox = styled.div`
     & > img {
       animation: ${pushUp} 1s ease-in;
       width: ${({ width }) => width};
-      min-width: 1rem;
+      /* min-width: 1rem; */
     }
   }
   & > div:first-child {
     display: flex;
-    justify-content: start;
-    margin-left: 1rem;
+    justify-content: center;
+    /* margin-left: 1rem; */
   }
 `;
 export const ReviewIconBox = styled.div`
@@ -635,7 +648,7 @@ export const ReviewIconBox = styled.div`
   align-items: center;
   height: 6rem;
   & > img {
-    min-width: 1rem;
+    /* min-width: 1rem; */
     animation: ${pushUp} 1s ease-in;
     width: ${({ width }) => width};
   }

@@ -1,2 +1,2 @@
-GET {{apiUrl}}/school/search?name=서
+GET {{apiUrl}}/school/search?name=
 Authorization: {{authorizationToken}}

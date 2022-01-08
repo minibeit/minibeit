@@ -60,7 +60,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
 
     private BooleanExpression schoolIdEq(Long schoolId) {
         if (Objects.nonNull(schoolId) && !schoolId.equals(0L)) {
-            return post.school.id.eq(schoolId);
+            //62번 -> 위치무관
+            return post.school.id.eq(schoolId).or(post.school.id.eq(62L));
         }
         return null;
     }
@@ -204,6 +205,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(post.postDoDateList, postDoDate)
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
+                        .and(postApplicant.businessFinish.isTrue())
                         .and(applyStatusEq(status, now)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());

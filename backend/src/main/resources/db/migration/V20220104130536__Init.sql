@@ -15,8 +15,8 @@ DROP TABLE IF EXISTS `business_user_review_detail`;
 
 CREATE TABLE `school`
 (
-    `id`   BIGINT NOT NULL AUTO_INCREMENT,
-    `name` VARCHAR(100),
+    `id`   BIGINT       NOT NULL AUTO_INCREMENT,
+    `name` VARCHAR(100) NOT NULL,
     PRIMARY KEY (`id`)
 );
 
@@ -118,7 +118,7 @@ CREATE TABLE `user`
     `birth`        DATE,
     `provider`     VARCHAR(30) NOT NULL,
     `phone_num`    VARCHAR(100),
-    `signup_check` TINYINT(1)  NOT NULL,
+    `signup_check` TINYINT(1) NOT NULL,
     `role`         VARCHAR(20) NOT NULL,
     `created_at`   DATETIME    NOT NULL,
     `updated_at`   DATETIME    DEFAULT NULL,
@@ -183,7 +183,7 @@ CREATE TABLE `post`
     `payment_cache`            INTEGER,
     `payment_goods`            VARCHAR(255),
     `payment_detail`           VARCHAR(255),
-    `recruit_condition`        TINYINT(1)   NOT NULL,
+    `recruit_condition`        TINYINT(1) NOT NULL,
     `recruit_condition_detail` VARCHAR(200),
     `do_time`                  INTEGER      NOT NULL,
     `post_status`              VARCHAR(50)  NOT NULL,
@@ -222,11 +222,11 @@ CREATE TABLE `post_file`
 
 CREATE TABLE `post_do_date`
 (
-    `id`         BIGINT     NOT NULL AUTO_INCREMENT,
-    `post_id`    BIGINT     NOT NULL,
-    `do_date`    DATETIME   NOT NULL,
+    `id`         BIGINT   NOT NULL AUTO_INCREMENT,
+    `post_id`    BIGINT   NOT NULL,
+    `do_date`    DATETIME NOT NULL,
     `is_full`    TINYINT(1) NOT NULL,
-    `created_at` DATETIME   NOT NULL,
+    `created_at` DATETIME NOT NULL,
     `updated_at` DATETIME DEFAULT NULL,
     `deleted_at` DATETIME DEFAULT NULL,
     `created_by` BIGINT   DEFAULT NULL,
@@ -243,9 +243,9 @@ CREATE TABLE `post_applicant`
     `user_id`            BIGINT      NOT NULL,
     `post_do_date_id`    BIGINT      NOT NULL,
     `apply_status`       VARCHAR(50) NOT NULL,
-    `business_finish`    TINYINT(1)  NOT NULL,
-    `write_review`       TINYINT(1)  NOT NULL,
-    `evaluated_business` TINYINT(1)  NOT NULL,
+    `business_finish`    TINYINT(1) NOT NULL,
+    `write_review`       TINYINT(1) NOT NULL,
+    `evaluated_business` TINYINT(1) NOT NULL,
     `created_at`         DATETIME    NOT NULL,
     `updated_at`         DATETIME DEFAULT NULL,
     `deleted_at`         DATETIME DEFAULT NULL,
@@ -282,7 +282,7 @@ CREATE TABLE `reject_post`
     `place_detail`          VARCHAR(50)  NOT NULL,
     `category`              VARCHAR(100) NOT NULL,
     `contact`               VARCHAR(50)  NOT NULL,
-    `recruit_condition`     TINYINT(1)   NOT NULL,
+    `recruit_condition`     TINYINT(1) NOT NULL,
     `do_time`               INTEGER      NOT NULL,
     `do_date`               DATETIME     NOT NULL,
     `reject_comment`        VARCHAR(255) NOT NULL,

@@ -89,18 +89,13 @@ export default function FeedBox({ status, data, changeFeedData }) {
             {status === "approve" && (
               <>
                 <S.BlueButton
-                  disabled={
-                    new Date(`${data.doDate}T${data.startTime}`) > new Date() &&
-                    !data.finish
-                  }
+                  disabled={!data.finish && !data.isWritable}
                   onClick={(e) => {
                     e.stopPropagation();
-                    doJoinApi(data.postDoDateId)
-                      .then(setReviewModal(true))
-                      .catch((err) => console.log(err.response));
+                    doJoinApi(data.postDoDateId).then(setReviewModal(true));
                   }}
                 >
-                  후기 작성
+                  참여 완료
                 </S.BlueButton>
                 <S.WhiteButton
                   onClick={(e) => {

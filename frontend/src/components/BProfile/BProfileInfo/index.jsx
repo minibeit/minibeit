@@ -84,6 +84,7 @@ export default function BProfileInfo({ businessId, feedPreview }) {
               businessId={businessId}
               setModalSwitch={setUserListModal}
               isAdmin={bProfileInfo.admin}
+              getBusiness={getBusiness}
             />
           )}
           <S.FeedPreviewBox>

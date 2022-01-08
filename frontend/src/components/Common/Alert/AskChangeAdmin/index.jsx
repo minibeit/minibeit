@@ -18,11 +18,7 @@ export default function AskChangeAdmin({
             <S.GrayButton onClick={() => setchangeAdmin(false)}>
               아니오, 관둘래요
             </S.GrayButton>
-            <S.BlueButton
-              onClick={() => {
-                changeAdmin(adminName);
-              }}
-            >
+            <S.BlueButton onClick={() => changeAdmin(adminName)}>
               네, 허락할래요
             </S.BlueButton>
           </div>

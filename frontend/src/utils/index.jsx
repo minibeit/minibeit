@@ -13,6 +13,7 @@ export {
   bprofileListGet,
   getBprofileInfo,
   deleteBprofile,
+  leaveBprofileApi,
   editBprofile,
   bprofileJoin,
   bprofileJoinDel,

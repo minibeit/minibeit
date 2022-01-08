@@ -1,23 +1,30 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
+import { useHistory } from "react-router";
 import Portal from "../Portal";
-import * as S from "./style";
 import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 import { deleteBprofile } from "../../../../utils";
 
+import * as S from "./style";
+import { useRecoilState } from "recoil";
+import { userState } from "../../../../recoil/userState";
+
 // 비즈니스 프로필 삭제 확인
 
-export default function DeliteBProfile({
-  BProfileId,
-  setDeleteAlert,
-  getBProfile,
-}) {
+export default function DeliteBProfile({ BProfileId, setDeleteAlert }) {
   const [secondAlert, setSecondAlert] = useState(false);
+  const [user, setUser] = useRecoilState(userState);
+  const history = useHistory();
 
   const deleteBusiness = (id) => {
     deleteBprofile(id)
       .then((res) => {
         setDeleteAlert(false);
-        getBProfile();
+        history.push("/profile?business");
+        let copy = { ...user };
+        copy.bprofile = null;
+        setUser(copy);
+        toast.info("삭제가 완료되었습니다.");
       })
       .catch((err) => setSecondAlert(true));
   };

@@ -4,6 +4,7 @@ import BProfileCreateModal from "../../Common/Modal/BProfileCreateModal";
 import { ReactComponent as AddIcon } from "../../../svg/플러스.svg";
 
 import * as S from "../style";
+import { PVImg } from "../../Common";
 
 export default function Presenter({
   bpList,
@@ -22,8 +23,9 @@ export default function Presenter({
             <S.BProfileListBox>
               {bpList.map((a) => {
                 return (
-                  <div key={a.id}>
+                  <div>
                     <S.BProfileCheck
+                      key={a.id}
                       display={
                         recruit.businessProfile.id === a.id ? "flex" : "none"
                       }
@@ -36,10 +38,13 @@ export default function Presenter({
                       className={
                         recruit.businessProfile.id === a.id && "selected"
                       }
-                      img={
-                        a.avatar ? a.avatar : "/images/기본비즈니스프로필.png"
-                      }
-                    ></S.BProfileImgBox>
+                    >
+                      {a.avatar ? (
+                        <PVImg img={a.avatar} />
+                      ) : (
+                        <PVImg img="/images/기본비즈니스프로필.png" />
+                      )}
+                    </S.BProfileImgBox>
                     <p>{a.name}</p>
                   </div>
                 );

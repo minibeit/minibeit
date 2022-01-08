@@ -23,7 +23,7 @@ export default function ProfileComponent({ view }) {
       </S.ModeSelectBtn>
       <S.ModeSelectBtn
         onClick={() =>
-          usersBProfile === undefined
+          usersBProfile === null
             ? history.push("/profile?business")
             : history.push(`/business/${usersBProfile}`)
         }

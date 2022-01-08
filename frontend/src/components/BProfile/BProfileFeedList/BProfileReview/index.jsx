@@ -24,7 +24,7 @@ export default function BProfileReview({ feedData, reviewCount }) {
                 <img
                   src="/images/돈다발아이콘.png"
                   alt="img"
-                  width={(feedData[2].count / reviewCount) * 100 * 4 + "%"}
+                  width={(feedData[2].count / reviewCount) * 100 * 1.5 + "%"}
                 />
               </S.ReviewIconBox>
               <S.ReviewIcomMiddleBox>
@@ -32,14 +32,14 @@ export default function BProfileReview({ feedData, reviewCount }) {
                   <img
                     src="/images/시간아이콘.png"
                     alt="img"
-                    width={(feedData[0].count / reviewCount) * 100 * 4 + "%"}
+                    width={(feedData[0].count / reviewCount) * 100 * 1.5 + "%"}
                   />
                 </div>
                 <div>
                   <img
                     src="/images/웃는얼굴아이콘.png"
                     alt="img"
-                    width={(feedData[1].count / reviewCount) * 100 * 4 + "%"}
+                    width={(feedData[1].count / reviewCount) * 100 * 1.5 + "%"}
                   />
                 </div>
               </S.ReviewIcomMiddleBox>
@@ -47,7 +47,7 @@ export default function BProfileReview({ feedData, reviewCount }) {
                 <img
                   src="/images/하트아이콘.png"
                   alt="img"
-                  width={(feedData[3].count / reviewCount) * 100 * 4 + "%"}
+                  width={(feedData[3].count / reviewCount) * 100 * 1.5 + "%"}
                 />
               </S.ReviewIconBox>
             </div>

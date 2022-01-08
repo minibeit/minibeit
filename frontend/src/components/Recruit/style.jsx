@@ -123,8 +123,7 @@ export const BProfileImgBox = styled.div`
   width: 10rem;
   height: 10rem;
   cursor: pointer;
-  background: ${({ img }) => `url(${img})`} no-repeat center center/contain;
-  border: 1px solid white;
+  box-sizing: border-box;
   &.selected {
     border: 1px solid #0642ff;
   }

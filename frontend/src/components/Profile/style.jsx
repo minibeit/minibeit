@@ -193,16 +193,16 @@ export const LikeFeedContainer = styled.div`
     }
   }
   & > div:nth-child(2) {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     font-weight: bold;
-    padding: 0.5em 0;
+    padding: 1em 0 0.5em;
     border-bottom: 1.5px solid #afafaf;
   }
   & > div:nth-child(3) {
-    padding: 2em;
+    padding: 2em 0;
     display: flex;
     flex-wrap: wrap;
-    gap: 3em;
+    gap: 2em;
   }
 `;
 export const LikeFeedBox = styled.div`
@@ -218,15 +218,25 @@ export const LikeFeedBox = styled.div`
   :hover {
     transform: scale(1.01);
   }
+
+  @media only screen and (max-width: 700px) {
+    min-width: 15em;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #d4d4d4;
+    & > div:first-child {
+      height: 15em;
+    }
+  }
 `;
 
 export const LikeFeedInfo = styled.div`
-  padding: 0.5em 0;
+  padding: 0.5em;
   & > div:first-child {
     font-size: 1.2rem;
     font-weight: bold;
     color: #454545;
     margin: 0 0 1em 0;
+    line-height: 2rem;
   }
   & > div:nth-child(2) {
     font-weight: bold;
@@ -363,7 +373,7 @@ export const FeedImgView = styled.div`
     align-items: end;
     flex-wrap: nowrap;
     gap: 0.3em;
-    padding: 1.5em;
+    padding: 0.7em;
     box-sizing: border-box;
     background-color: rgba(0, 0, 0, 0.4);
     z-index: 9;

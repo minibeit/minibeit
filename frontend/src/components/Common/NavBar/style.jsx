@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 
 export const NavBar = styled.div`
-  display: flex;
   position: sticky;
   top: 0;
   z-index: 99;
@@ -9,6 +8,17 @@ export const NavBar = styled.div`
   box-shadow: 10px 10px 30px 0px #bdbdbd33;
   min-height: 3.5rem;
   width: 100%;
+  & > div {
+    display: flex;
+    gap: 1rem;
+    min-height: 3.5rem;
+    padding: 0 12rem;
+  }
+  @media only screen and (max-width: 700px) {
+    & > div {
+      padding: 0;
+    }
+  }
 `;
 export const Logo = styled.div`
   font-size: 1.7em;
@@ -18,13 +28,21 @@ export const Logo = styled.div`
   display: flex;
   align-items: center;
   padding: 0 0.5em;
+  & > img {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
 `;
 export const NavItems = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 10px;
-  gap: 1em;
+  margin: 0 auto;
+  gap: 2em;
+  & > a {
+    text-decoration: none;
+  }
   @media only screen and (max-width: 700px) {
     display: none;
   }

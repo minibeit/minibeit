@@ -1,32 +1,24 @@
 package com.minibeit.common.utils;
 
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
-import java.security.Key;
-import java.util.Base64;
 
 @Converter
+@RequiredArgsConstructor
 public class CryptoConverter implements AttributeConverter<String, String> {
-    private static final String ALGORITHM = "AES/ECB/PKCS5Padding";
-    @Value("${crypto.key}")
-    private String key;
+    private final AES256 aes256;
 
     @Override
     public String convertToDatabaseColumn(String attribute) {
         if (attribute == null) {
             return null;
         }
-        byte[] KEY = key.getBytes();
-        Key key = new SecretKeySpec(KEY, "AES");
         try {
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            return new String(Base64.getEncoder().encode(cipher.doFinal(attribute.getBytes())));
+            return aes256.encrypt(attribute);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }
@@ -36,13 +28,10 @@ public class CryptoConverter implements AttributeConverter<String, String> {
         if (dbData == null) {
             return null;
         }
-        byte[] KEY = key.getBytes();
-        Key key = new SecretKeySpec(KEY, "AES");
         try {
-            Cipher cipher = Cipher.getInstance(ALGORITHM);
-            cipher.init(Cipher.DECRYPT_MODE, key);
-            return new String(cipher.doFinal(Base64.getDecoder().decode(dbData)));
+            return aes256.decrypt(dbData);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new RuntimeException(e);
         }
     }

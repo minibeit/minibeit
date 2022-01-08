@@ -85,6 +85,7 @@ export default function ApplyComponent({ page }) {
               page={page}
               count={totalElements}
               onChange={(e) => history.push(`/apply?${e}`)}
+              itemsCountPerPage={10}
             />
           )}
         </>

@@ -2,11 +2,11 @@ import React from "react";
 import "./Paging.css";
 import Pagination from "react-js-pagination";
 
-const Paging = ({ page, count, setPage, onChange }) => {
+const Paging = ({ page, count, setPage, onChange, itemsCountPerPage }) => {
   return (
     <Pagination
       activePage={page}
-      itemsCountPerPage={10}
+      itemsCountPerPage={itemsCountPerPage}
       totalItemsCount={count}
       pageRangeDisplayed={10}
       prevPageText={"이전"}

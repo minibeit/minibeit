@@ -44,7 +44,7 @@ export default function Presenter({
   return (
     <S.InputPage>
       <S.DataInfoContainer>
-        <p>실험 정보</p>
+        <p>1. 실험 정보</p>
         <S.TitleBox>
           <p>제목</p>
           <input
@@ -67,7 +67,9 @@ export default function Presenter({
           <S.ConditionBox>
             <p>참여 조건</p>
             <div>
-              <S.SelectRadio>
+              <S.SelectRadio
+                background={'url("/images/모집하기조건O이미지.png")'}
+              >
                 <input
                   type="radio"
                   onClick={() => conditionSwitch(true)}
@@ -77,7 +79,9 @@ export default function Presenter({
                 <label htmlFor="conditionTrue" />
                 <p>색맹, 성별등 참여조건</p>
               </S.SelectRadio>
-              <S.SelectRadio>
+              <S.SelectRadio
+                background={'url("/images/모집하기조건X이미지.png")'}
+              >
                 <input
                   type="radio"
                   onClick={() => conditionSwitch(false)}
@@ -93,7 +97,7 @@ export default function Presenter({
               <S.WageBox />
               {recruit.conditionDetail.map((a, i) => {
                 return (
-                  <S.ConditionInput disabled={!recruit.condition} key={i}>
+                  <S.Input disabled={!recruit.condition} key={i}>
                     <input
                       id={i}
                       defaultValue={recruit.conditionDetail[i]}
@@ -110,21 +114,21 @@ export default function Presenter({
                       }}
                       maxLength={20}
                     />
-                    <button
-                      onClick={addConditionDetail}
-                      disabled={recruit.condition ? false : true}
-                    >
-                      <PlusIcon />
-                    </button>
-                  </S.ConditionInput>
+                  </S.Input>
                 );
               })}
+              <S.AddConditionBtn
+                onClick={addConditionDetail}
+                disabled={recruit.condition ? false : true}
+              >
+                <PlusIcon /> 추가
+              </S.AddConditionBtn>
             </div>
           </S.ConditionBox>
           <S.PaymentBox>
             <p>지급 방식</p>
             <div>
-              <S.SelectRadio>
+              <S.SelectRadio background={'url("/images/돈다발아이콘.png")'}>
                 <input
                   type="radio"
                   onClick={() => {
@@ -140,7 +144,7 @@ export default function Presenter({
                 <label htmlFor="cache" />
                 <p>현금으로 지급</p>
               </S.SelectRadio>
-              <S.SelectRadio>
+              <S.SelectRadio background={'url("/images/선물상자아이콘.png")'}>
                 <input
                   type="radio"
                   onClick={() => {
@@ -249,7 +253,7 @@ export default function Presenter({
         </S.ContentBox>
       </S.DataInfoContainer>
       <S.ExtraInfoContainer>
-        <p>자동 입력</p>
+        <p>2. 자동 입력</p>
         <div>
           <S.InputBox>
             <p>참여 장소</p>

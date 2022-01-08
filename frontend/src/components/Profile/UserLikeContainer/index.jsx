@@ -68,6 +68,7 @@ export default function UserLikeContainer() {
           count={totalEle}
           setPage={setPage}
           onChange={(e) => changeFeedData(e)}
+          itemsCountPerPage={6}
         />
       )}
     </S.LikeFeedContainer>

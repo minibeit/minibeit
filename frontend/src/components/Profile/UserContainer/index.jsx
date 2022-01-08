@@ -50,6 +50,9 @@ export default function UserContainer({ view }) {
           getMyFeedList(page ? page : 1, "WAIT").then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
+            let copy = { ...feedPreview };
+            copy.wait = res.data.data.totalElements;
+            setFeedPreview(copy);
           });
           break;
         case "complete":
@@ -62,11 +65,15 @@ export default function UserContainer({ view }) {
           getMyRejectListApi(page ? page : 1).then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
+            let copy = { ...feedPreview };
+            copy.reject = res.data.data.totalElements;
+            setFeedPreview(copy);
           });
           break;
         default:
       }
     },
+    // eslint-disable-next-line
     [view, setFeedPreview]
   );
 
@@ -120,6 +127,7 @@ export default function UserContainer({ view }) {
                 count={totalEle}
                 setPage={setPage}
                 onChange={(e) => changeFeedData(e)}
+                itemsCountPerPage={5}
               />
             )}
           </S.FeedGroup>

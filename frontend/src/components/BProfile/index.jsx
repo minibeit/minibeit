@@ -45,6 +45,9 @@ export default function BProfileComponent({ businessId }) {
             (res) => {
               setTotalEle(res.data.data.totalElements);
               setFeedData(res.data.data.content);
+              let copy = { ...feedPreview };
+              copy.complete = res.data.data.totalElements;
+              setFeedPreview(copy);
             }
           );
           break;
@@ -57,6 +60,7 @@ export default function BProfileComponent({ businessId }) {
         default:
       }
     },
+    // eslint-disable-next-line
     [businessId, setFeedPreview]
   );
 

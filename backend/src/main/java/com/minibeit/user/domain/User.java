@@ -65,6 +65,8 @@ public class User extends BaseEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<UserBusinessProfile> userBusinessProfileList = new ArrayList<>();
 
+    private String testId;
+
     public User signup(User user, School school, Avatar avatar) {
         this.name = user.getName();
         this.nickname = user.getNickname();

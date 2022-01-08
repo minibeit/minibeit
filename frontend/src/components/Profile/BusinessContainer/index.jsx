@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import { ReactComponent as CloseIcon } from "../../../svg/엑스.svg";
 import { ReactComponent as AddIcon } from "../../../svg/플러스.svg";
-import { ReactComponent as PenIcon } from "../../../svg/연필.svg";
-import DeleteBProfile from "../../Common/Alert/DeleteBProfile";
 import { bprofileListGet } from "../../../utils";
 import { PVImg } from "../../Common";
 import BProfileCreateModal from "../../Common/Modal/BProfileCreateModal";
@@ -17,8 +14,6 @@ export default function BusinessContainer() {
   const [user, setUser] = useRecoilState(userState);
   const [modalSwitch, setModalSwitch] = useState(false);
   const [BProfileList, setBProfileList] = useState([]);
-  const [editMode, setEditMode] = useState(false);
-  const [deleteAlert, setDeleteAlert] = useState(false);
 
   const getBProfile = useCallback(() => {
     bprofileListGet().then((res) => setBProfileList(res.data.data));
@@ -46,27 +41,11 @@ export default function BusinessContainer() {
             최대 3개까지 생성할 수 있어요.
           </p>
         </div>
-        <S.BusinessEditBtn>
-          {editMode ? (
-            <button onClick={() => setEditMode(false)}>확인</button>
-          ) : (
-            <PenIcon onClick={() => setEditMode(true)} />
-          )}
-        </S.BusinessEditBtn>
       </S.BusinessHeader>
       <div>
         {BProfileList.map((a) => {
           return (
             <S.BusinessProfile key={a.id}>
-              <S.DeleteBtn
-                style={{
-                  opacity: editMode && a.admin ? 1 : 0,
-                  zIndex: editMode && a.admin ? 1 : -9999,
-                }}
-                onClick={() => setDeleteAlert(true)}
-              >
-                <CloseIcon />
-              </S.DeleteBtn>
               <div>
                 <S.BImgBox onClick={() => clickBProfile(a)}>
                   {a.avatar ? (
@@ -77,26 +56,11 @@ export default function BusinessContainer() {
                 </S.BImgBox>
                 <p>{a.name}</p>
               </div>
-              {deleteAlert && (
-                <DeleteBProfile
-                  BProfileId={a.id}
-                  setDeleteAlert={setDeleteAlert}
-                  getBProfile={getBProfile}
-                />
-              )}
             </S.BusinessProfile>
           );
         })}
         {BProfileList.length < 3 && (
           <S.BusinessProfile>
-            <S.DeleteBtn
-              style={{
-                opacity: 0,
-                zIndex: -9999,
-              }}
-            >
-              <CloseIcon />
-            </S.DeleteBtn>
             <S.ImgBox>
               <S.AddBProfileBtn onClick={() => setModalSwitch(true)}>
                 <AddIcon />

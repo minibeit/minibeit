@@ -194,18 +194,27 @@ export const EditInput = styled.div`
   }
 `;
 export const SubmitBtnBox = styled.div`
-  & > button {
-    display: flex;
-    background: #0642ff;
-    color: #fff;
-    border-radius: 1.5rem;
-    font-size: 0.9rem;
-    cursor: pointer;
-    align-items: center;
-    width: 7rem;
-    height: 2rem;
-    justify-content: center;
-    border: none;
-    margin-left: auto;
-  }
+  display: flex;
+  justify-content: end;
+  gap: 1em;
+`;
+
+export const Btn = styled.button`
+  display: flex;
+  color: #fff;
+  border-radius: 1.5rem;
+  font-size: 0.9rem;
+  padding: 0.5em 1em;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  white-space: nowrap;
+`;
+
+export const BlueBtn = styled(Btn)`
+  background: #0642ff;
+`;
+export const RedBtn = styled(Btn)`
+  background: #ff3737;
 `;

@@ -463,7 +463,6 @@ export const BusinessListBox = styled.div`
   }
 `;
 export const BusinessHeader = styled.div`
-  transform: translate(2rem, 0);
   display: flex;
   & > div:first-child {
     display: flex;
@@ -503,7 +502,7 @@ export const BusinessEditBtn = styled.div`
 
 export const BusinessProfile = styled.div`
   width: 10rem;
-  & > div:nth-child(2) {
+  & > div:first-child {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -515,23 +514,6 @@ export const BusinessProfile = styled.div`
 export const BImgBox = styled(ImgBox)`
   width: 8rem;
   height: 8rem;
-`;
-export const DeleteBtn = styled.button`
-  position: relative;
-  transform: translate(360%, 100%);
-  border: none;
-  border-radius: 100%;
-  cursor: pointer;
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-  & > svg {
-    width: 0.8rem;
-    height: 0.8rem;
-  }
 `;
 export const AddBProfileBtn = styled.div`
   width: 5rem;

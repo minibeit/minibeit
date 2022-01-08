@@ -1,10 +1,17 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { ReactComponent as CheckIcon } from "../../../svg/체크.svg";
+import BProfileCreateModal from "../../Common/Modal/BProfileCreateModal";
+import { ReactComponent as AddIcon } from "../../../svg/플러스.svg";
 
 import * as S from "../style";
 
-export default function Presenter({ bpList, selectBP, recruit }) {
+export default function Presenter({
+  bpList,
+  selectBP,
+  recruit,
+  modalSwitch,
+  setModalSwitch,
+}) {
   return (
     <S.Page>
       <S.BProfileContainer>
@@ -40,14 +47,19 @@ export default function Presenter({ bpList, selectBP, recruit }) {
             </S.BProfileListBox>
           </>
         ) : (
-          <>
-            <p>비즈니즈 프로필이 존재하지 않습니다</p>
-            <Link to={"/profile?business"}>
-              <p>비즈니스 프로필 만들기</p>
-            </Link>
-          </>
+          <S.NoneContainer>
+            <div>
+              <img src="images/달력아이콘.png" alt="달력" />
+            </div>
+            <p>모집 공고를 올리기 위해서는 비즈니스 프로필이 필요해요</p>
+            <p>비즈니스 프로필을 생성할까요?</p>
+            <div onClick={() => setModalSwitch(true)}>
+              <AddIcon />
+            </div>
+          </S.NoneContainer>
         )}
       </S.BProfileContainer>
+      {modalSwitch && <BProfileCreateModal setModalSwitch={setModalSwitch} />}
     </S.Page>
   );
 }

@@ -29,43 +29,56 @@ export default function BProfileInfo({ businessId, feedPreview }) {
     <S.UserInfoContainer>
       {bProfileInfo && (
         <div>
-          <S.ImgBox>
-            {bProfileInfo.avatar !== null ? (
-              <PVImg img={bProfileInfo.avatar} />
-            ) : (
-              <PVImg img="/images/기본비즈니스프로필.png" />
-            )}
-          </S.ImgBox>
-          <S.ChangeBProfile
-            onClick={() => {
-              history.push("/profile?business");
-            }}
-          >
-            프로필 전환하기
-            <ArrowIcon />
-          </S.ChangeBProfile>
-          <S.UserInfoData>
-            <p>{bProfileInfo.name}</p> <p>님</p>
-          </S.UserInfoData>
-          <S.InfoEditBtn
-            onClick={() => {
-              setInfoEditModal(true);
-            }}
-          >
-            비즈니스 프로필 보기
-          </S.InfoEditBtn>
-          {infoEditModal && (
-            <BProfileEditModal
-              infoData={bProfileInfo}
-              getBusiness={getBusiness}
-              setInfoEditModal={setInfoEditModal}
-              isAdmin={bProfileInfo.admin}
-            />
-          )}
+          <div>
+            <div>
+              <S.ImgBox>
+                {bProfileInfo.avatar !== null ? (
+                  <PVImg img={bProfileInfo.avatar} />
+                ) : (
+                  <PVImg img="/images/기본비즈니스프로필.png" />
+                )}
+              </S.ImgBox>
+              <S.ChangeBProfile
+                onClick={() => {
+                  history.push("/profile?business");
+                }}
+              >
+                프로필 전환하기
+                <ArrowIcon />
+              </S.ChangeBProfile>
+              <S.UserInfoData>
+                <p>{bProfileInfo.name}</p> <p>님</p>
+              </S.UserInfoData>
+            </div>
+            <div>
+              <S.InfoEditBtn
+                onClick={() => {
+                  setInfoEditModal(true);
+                }}
+              >
+                비즈니스 프로필 보기
+              </S.InfoEditBtn>
+              <S.InfoEditBtnFM
+                onClick={() => {
+                  setInfoEditModal(true);
+                }}
+              >
+                프로필 보기
+              </S.InfoEditBtnFM>
+              {infoEditModal && (
+                <BProfileEditModal
+                  infoData={bProfileInfo}
+                  getBusiness={getBusiness}
+                  setInfoEditModal={setInfoEditModal}
+                  isAdmin={bProfileInfo.admin}
+                />
+              )}
 
-          <S.UserListBtn onClick={() => setUserListModal(true)}>
-            소속인원 보기
-          </S.UserListBtn>
+              <S.UserListBtn onClick={() => setUserListModal(true)}>
+                소속인원 보기
+              </S.UserListBtn>
+            </div>
+          </div>
           {userListModal && (
             <BProfileUserModal
               businessId={businessId}

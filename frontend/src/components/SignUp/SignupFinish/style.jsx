@@ -57,6 +57,9 @@ export const ModalContent = styled.div`
   & > p:nth-child(3) {
     color: #d4d4d4;
   }
+  & button {
+    cursor: pointer;
+  }
   @media only screen and (max-width: 700px) {
     gap: 1rem;
     margin: 0;
@@ -94,19 +97,20 @@ export const MessageBox = styled(Box)`
 `;
 
 export const ImgBox = styled.div`
-  overflow: hidden;
   position: relative;
   height: 11rem;
   width: 11rem;
   border-radius: 50%;
   display: inline-block;
   margin: 1rem 0;
+  background-color: rgba(6, 66, 256, 0.05);
   & > img {
     position: relative;
     left: 50%;
     top: 50%;
-    width: 11rem;
-    height: 11rem;
+    width: 16rem;
+    height: 16rem;
+    z-index: 9;
     transform: translate(-50%, -50%);
   }
 
@@ -115,8 +119,8 @@ export const ImgBox = styled.div`
     width: 8rem;
     margin: 0.5rem 0;
     & > img {
-      width: 8rem;
-      height: 8rem;
+      width: 12rem;
+      height: 12rem;
     }
   }
 `;

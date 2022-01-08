@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Presenter from "./presenter";
 
@@ -17,6 +17,15 @@ export default function BProfileSelect({
     setRecruit(copy);
     movePage(1);
   };
+  const [modalSwitch, setModalSwitch] = useState(false);
 
-  return <Presenter bpList={bpList} selectBP={selectBP} recruit={recruit} />;
+  return (
+    <Presenter
+      bpList={bpList}
+      selectBP={selectBP}
+      recruit={recruit}
+      setModalSwitch={setModalSwitch}
+      modalSwitch={modalSwitch}
+    />
+  );
 }

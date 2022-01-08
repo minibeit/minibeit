@@ -95,7 +95,7 @@ export default function FeedCloseModal({
                   onClick={() => setIsActive(!isActive)}
                   isActive={isActive}
                 >
-                  {reviewData}
+                  {goodItem[reviewData]}
                   <span onClick={() => setIsActive(!isActive)}>▲</span>
                 </S.Select>
                 <div>
@@ -103,7 +103,7 @@ export default function FeedCloseModal({
                     goodItem.map((a, i) => (
                       <S.Option
                         onClick={(e) => {
-                          setReviewData(`${e.target.value}`);
+                          setReviewData(goodItem.indexOf(e.target.value));
                           setIsActive(!isActive);
                         }}
                         value={a}
@@ -131,7 +131,7 @@ export default function FeedCloseModal({
                   onClick={() => setIsActive(!isActive)}
                   isActive={isActive}
                 >
-                  {reviewData}
+                  {badItem[reviewData]}
                   <span onClick={() => setIsActive(!isActive)}>▲</span>
                 </S.Select>
                 <div>
@@ -139,7 +139,7 @@ export default function FeedCloseModal({
                     badItem.map((a, i) => (
                       <S.Option
                         onClick={(e) => {
-                          setReviewData(`${e.target.value}`);
+                          setReviewData(badItem.indexOf(e.target.value));
                           setIsActive(!isActive);
                         }}
                         value={a}

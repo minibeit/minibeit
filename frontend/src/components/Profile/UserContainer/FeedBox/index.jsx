@@ -68,6 +68,22 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 </tr>
               </tbody>
             </S.InfoTable>
+            <S.InfoTabelForMobile>
+              <div>
+                <p>날짜</p>
+                <p>{moment(data.doDate).format("YYYY.MM.DD (dd)")}</p>
+              </div>
+              <div>
+                <p>번호</p>
+                <p>{data.contact}</p>
+              </div>
+              <div>
+                <p>시간</p>
+                <p>
+                  {data.startTime}-{data.endTime}
+                </p>
+              </div>
+            </S.InfoTabelForMobile>
           </div>
           <div>
             {status === "approve" && (

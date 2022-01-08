@@ -22,11 +22,13 @@ export default function ProfileComponent({ view }) {
         개인 프로필
       </S.ModeSelectBtn>
       <S.ModeSelectBtn
-        onClick={() =>
-          usersBProfile === undefined
-            ? history.push("/profile?business")
-            : history.push(`/business/${usersBProfile}`)
-        }
+        onClick={() => {
+          if (usersBProfile) {
+            history.push(`/business/${usersBProfile}`);
+          } else {
+            history.push("/profile?business");
+          }
+        }}
         disabled={view === "business" ? true : false}
       >
         비즈니스 프로필

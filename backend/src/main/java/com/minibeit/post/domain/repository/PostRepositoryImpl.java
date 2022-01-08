@@ -204,6 +204,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .join(post.postDoDateList, postDoDate)
                 .join(postDoDate.postApplicantList, postApplicant)
                 .where(postApplicant.user.eq(user)
+                        .and(postApplicant.businessFinish.isTrue())
                         .and(applyStatusEq(status, now)))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize());

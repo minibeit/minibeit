@@ -127,7 +127,7 @@ GET {{apiUrl}}/posts/like?page=1&size=6
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/posts/apply?page=1&size=4&status=WAIT
+GET {{apiUrl}}/posts/apply?page=1&size=4&status=APPROVE
 Authorization: {{authorizationToken}}
 
 ###

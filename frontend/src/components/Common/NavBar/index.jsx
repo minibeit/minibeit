@@ -39,7 +39,6 @@ export default function NavBar() {
     <S.NavBar>
       <div>
         <S.Logo onClick={() => history.push("/")}>
-          {" "}
           <img src="/images/mainLogo2.png" alt="logo" />
           미니바이트
         </S.Logo>
@@ -58,13 +57,6 @@ export default function NavBar() {
             href="https://minibeit.oopy.io/550d11c3-378c-468c-829a-0ebb111cac15"
           >
             <S.Items>이용하기</S.Items>
-          </a>
-          <a
-            target="_blank"
-            rel="noreferrer"
-            href="https://minibeit.oopy.io/9dda51f5-c4a2-439c-b5d2-bc477921ec95"
-          >
-            <S.Items>서비스 소개</S.Items>
           </a>
           <a
             target="_blank"

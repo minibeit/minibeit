@@ -56,7 +56,27 @@ export default function SideMenu({
           >
             모집하기
           </S.Items>
-          <S.Items>이용하기</S.Items>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://minibeit.oopy.io/550d11c3-378c-468c-829a-0ebb111cac15"
+          >
+            <S.Items>이용하기</S.Items>
+          </a>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://minibeit.oopy.io/2b3aa7b3-d43d-4c64-8f6a-071b99e17a1a"
+          >
+            <S.Items>이벤트</S.Items>
+          </a>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://minibeit.oopy.io/a3356202-d590-42e8-adfb-3277e7add842"
+          >
+            <S.Items>공지사항</S.Items>
+          </a>
         </div>
       </S.SideMenu>
     </Drawer>

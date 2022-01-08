@@ -56,7 +56,7 @@ Content-Type: application/json;charset=UTF-8
 
 {
   "code": "123456",
-  "verificationKinds": "EMAIL"
+  "verificationKinds": "PHONE"
 }
 ###
 GET {{apiUrl}}/user/me

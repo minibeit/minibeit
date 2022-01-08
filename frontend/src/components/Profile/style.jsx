@@ -629,7 +629,6 @@ export const NoneContainer = styled.div`
   }
 `;
 export const BusinessHeader = styled.div`
-  transform: translate(2rem, 0);
   display: flex;
   justify-content: center;
   width: 100%;
@@ -668,30 +667,10 @@ export const BusinessHeader = styled.div`
     }
   }
 `;
-export const BusinessEditBtn = styled.div`
-  width: 3rem;
-  & > svg {
-    width: 1rem;
-    cursor: pointer;
-    :hover {
-      path {
-        fill: #0642ff;
-      }
-    }
-  }
-  & > button {
-    font-size: 0.8rem;
-    border: none;
-    background-color: inherit;
-    :hover {
-      color: #0642ff;
-    }
-  }
-`;
 
 export const BusinessProfile = styled.div`
   width: 90%;
-  & > div:nth-child(2) {
+  & > div:first-child {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -704,23 +683,6 @@ export const BImgBox = styled(ImgBox)`
   width: 8rem;
   height: 8rem;
   cursor: pointer;
-`;
-export const DeleteBtn = styled.button`
-  position: relative;
-  transform: translate(360%, 100%);
-  border: none;
-  border-radius: 100%;
-  cursor: pointer;
-  width: 2rem;
-  height: 2rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-  & > svg {
-    width: 0.8rem;
-    height: 0.8rem;
-  }
 `;
 export const AddBProfileBtn = styled.div`
   width: 5rem;

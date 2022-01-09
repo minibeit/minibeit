@@ -64,7 +64,7 @@ export const NavItems = styled.div`
     display: none;
   }
 `;
-export const Items = styled.div`
+export const Items = styled.a`
   color: #595959;
   cursor: pointer;
 `;

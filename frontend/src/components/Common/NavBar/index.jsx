@@ -37,47 +37,72 @@ export default function NavBar() {
 
   return (
     <S.NavBar>
-      <S.Logo onClick={() => history.push("/")}>MINI</S.Logo>
-      <S.NavItems>
-        <S.Items onClick={() => history.push("/apply")}>참여하기</S.Items>
-        <S.Items
-          onClick={() =>
-            isLogin ? history.push("/recruit") : setModalSwitch(true)
-          }
-        >
-          모집하기
-        </S.Items>
-        <S.Items>이용하기</S.Items>
-      </S.NavItems>
-      <S.AuthBox>
-        {isLogin && (
-          <S.ProfileImg
-            img={user.avatar}
-            onClick={() => history.push("/profile?approve")}
+      <div>
+        <S.Logo onClick={() => history.push("/")}>
+          <img src="/images/mainLogo2.png" alt="logo" />
+          미니바이트
+        </S.Logo>
+        <S.NavItems>
+          <S.Items onClick={() => history.push("/apply")}>참여하기</S.Items>
+          <S.Items
+            onClick={() =>
+              isLogin ? history.push("/recruit") : setModalSwitch(true)
+            }
+          >
+            모집하기
+          </S.Items>
+          <S.Items
+            target="_blank"
+            rel="noreferrer"
+            href="https://minibeit.oopy.io/550d11c3-378c-468c-829a-0ebb111cac15"
+          >
+            이용하기
+          </S.Items>
+          <S.Items
+            target="_blank"
+            rel="noreferrer"
+            href="https://minibeit.oopy.io/2b3aa7b3-d43d-4c64-8f6a-071b99e17a1a"
+          >
+            이벤트
+          </S.Items>
+          <S.Items
+            target="_blank"
+            rel="noreferrer"
+            href="https://minibeit.oopy.io/a3356202-d590-42e8-adfb-3277e7add842"
+          >
+            공지사항
+          </S.Items>
+        </S.NavItems>
+        <S.AuthBox>
+          {isLogin && (
+            <S.ProfileImg
+              img={user.avatar}
+              onClick={() => history.push("/profile?approve")}
+            />
+          )}
+          <S.LoginBtn onClick={onClick}>
+            {isLogin ? "로그아웃" : "로그인"}
+          </S.LoginBtn>
+        </S.AuthBox>
+        <S.MobileListBtn onClick={() => setMenuSwitch(true)}>
+          <MenuIcon />
+        </S.MobileListBtn>
+        {menuSwitch && (
+          <SideMenu
+            user={user}
+            onClick={onClick}
+            isLogin={isLogin}
+            setMenuSwitch={setMenuSwitch}
+            setModalSwitch={setModalSwitch}
           />
         )}
-        <S.LoginBtn onClick={onClick}>
-          {isLogin ? "로그아웃" : "로그인"}
-        </S.LoginBtn>
-      </S.AuthBox>
-      <S.MobileListBtn onClick={() => setMenuSwitch(true)}>
-        <MenuIcon />
-      </S.MobileListBtn>
-      {menuSwitch && (
-        <SideMenu
-          user={user}
-          onClick={onClick}
-          isLogin={isLogin}
-          setMenuSwitch={setMenuSwitch}
-          setModalSwitch={setModalSwitch}
-        />
-      )}
-      {modalSwitch && (
-        <CreateAuthModal
-          setModalSwitch={setModalSwitch}
-          modalSwitch={modalSwitch}
-        />
-      )}
+        {modalSwitch && (
+          <CreateAuthModal
+            setModalSwitch={setModalSwitch}
+            modalSwitch={modalSwitch}
+          />
+        )}
+      </div>
     </S.NavBar>
   );
 }

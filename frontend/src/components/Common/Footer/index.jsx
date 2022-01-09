@@ -1,13 +1,9 @@
-import React, { useState } from "react";
-import Conditions from "../Alert/Conditions";
-import PersonalInformation from "../Alert/PersonalInformation";
+import React from "react";
 import { ReactComponent as BeitIcon } from "../../../svg/beitIcon.svg";
 
 import * as S from "./style";
 
 export default function Footer() {
-  const [personalInfoAlert, setPersonalInfoAlert] = useState(false);
-  const [conditionsAlert, setConditionsAlert] = useState(false);
   return (
     <S.FooterContainer>
       <div>
@@ -15,10 +11,48 @@ export default function Footer() {
           <S.FooterIcon>
             <BeitIcon /> Minibeit
           </S.FooterIcon>
-          <p>기업소개</p>
-          <p onClick={() => setConditionsAlert(true)}>이용약관</p>
-          <p onClick={() => setPersonalInfoAlert(true)}>개인정보 처리 방침</p>
-          <p>고객센터</p>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://minibeit.oopy.io/9dda51f5-c4a2-439c-b5d2-bc477921ec95"
+          >
+            서비스 소개
+          </a>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://minibeit.oopy.io/cb915f58-18aa-4e32-a99c-dbf720acd3d5"
+          >
+            이용약관
+          </a>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://minibeit.oopy.io/d437485d-6f56-40f1-a1ea-46168ce8a958"
+          >
+            개인정보 처리 방침
+          </a>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://minibeit.oopy.io/inconvenience"
+          >
+            서비스개선
+          </a>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://minibeit.oopy.io/8aa99516-2ab6-4698-b574-65276dc217b3"
+          >
+            인재채용
+          </a>
+          <a
+            target="_blank"
+            rel="noreferrer"
+            href="https://minibeit.oopy.io/4fe83919-60e4-4886-90c8-c41d2b0403dd"
+          >
+            Q&amp;A
+          </a>
           <a
             target="_blank"
             rel="noreferrer"
@@ -40,12 +74,6 @@ export default function Footer() {
           <p>ⓒminibeit</p>
         </S.FooterFooter>
       </div>
-      {conditionsAlert && (
-        <Conditions setConditionsAlert={setConditionsAlert} />
-      )}
-      {personalInfoAlert && (
-        <PersonalInformation setPersonalInfoAlert={setPersonalInfoAlert} />
-      )}
     </S.FooterContainer>
   );
 }

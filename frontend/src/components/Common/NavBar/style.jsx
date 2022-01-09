@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 
 export const NavBar = styled.div`
-  display: flex;
   position: sticky;
   top: 0;
   z-index: 99;
@@ -9,27 +8,63 @@ export const NavBar = styled.div`
   box-shadow: 10px 10px 30px 0px #bdbdbd33;
   min-height: 3.5rem;
   width: 100%;
+  display: flex;
+
+  & > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 3.5rem;
+    flex: 0.78;
+    margin: 0 auto;
+  }
+  @media only screen and (max-width: 1000px) {
+    & > div {
+      flex: 0.89;
+      gap: 0.5rem;
+    }
+  }
+  @media only screen and (max-width: 700px) {
+    & > div {
+      flex: 0.95;
+      gap: 0.5rem;
+    }
+  }
 `;
 export const Logo = styled.div`
-  font-size: 1.7em;
+  font-size: 1.3em;
   color: black;
   font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   padding: 0 0.5em;
+  white-space: nowrap;
+
+  & > img {
+    width: 3.5rem;
+    height: 3.5rem;
+  }
 `;
 export const NavItems = styled.div`
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 10px;
-  gap: 1em;
+  margin: 0 auto;
+  gap: 2em;
+  white-space: nowrap;
+  & > a {
+    text-decoration: none;
+  }
+  @media only screen and (max-width: 1000px) {
+    gap: 0.7em;
+  }
   @media only screen and (max-width: 700px) {
     display: none;
   }
 `;
-export const Items = styled.div`
+export const Items = styled.a`
   color: #595959;
   cursor: pointer;
 `;
@@ -39,6 +74,7 @@ export const AuthBox = styled.div`
   margin-left: auto;
   margin-right: 1em;
   gap: 1em;
+  white-space: nowrap;
   @media only screen and (max-width: 700px) {
     display: none;
   }
@@ -60,6 +96,11 @@ export const ProfileImg = styled.div`
   border-radius: 50%;
   background-size: cover;
   cursor: pointer;
+
+  @media only screen and (max-width: 1000px) {
+    width: 3em;
+    height: 3em;
+  }
 `;
 
 export const LoginBtn = styled.button`
@@ -102,5 +143,8 @@ export const SideMenu = styled.div`
     align-items: center;
     gap: 1em;
     padding: 1.5em;
+    & > a {
+      text-decoration: none;
+    }
   }
 `;

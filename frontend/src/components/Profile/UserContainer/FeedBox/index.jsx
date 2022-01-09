@@ -29,18 +29,20 @@ export default function FeedBox({ status, data, changeFeedData }) {
           {status === "reject" && "참여 반려"}
         </S.FeedLabel>
         <S.FeedImgView thumbnail={data.thumbnail}>
-          <S.FeedTitle>
-            <p>{data.title}</p>
-            <p>
-              {status !== "reject"
-                ? data.businessProfile && data.businessProfile.name
-                : data.businessName}
-            </p>
-            <p>
-              {data.address &&
-                data.address.split(" ")[0] + " " + data.address.split(" ")[1]}
-            </p>
-          </S.FeedTitle>
+          <div>
+            <S.FeedTitle>
+              <p>{data.title}</p>
+              <p>
+                {status !== "reject"
+                  ? data.businessProfile && data.businessProfile.name
+                  : data.businessName}
+              </p>
+              <p>
+                {data.address &&
+                  data.address.split(" ")[0] + " " + data.address.split(" ")[1]}
+              </p>
+            </S.FeedTitle>
+          </div>
         </S.FeedImgView>
         <S.FeedContentView>
           <div>

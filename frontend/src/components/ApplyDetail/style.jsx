@@ -84,6 +84,22 @@ export const TitleContent = styled.div`
     }
   }
 `;
+
+export const HoverBtnText = styled.div`
+  width: 25rem;
+  transform: translate(-10rem, -4.5rem);
+  line-height: 1.5rem;
+  border-radius: 0.7rem;
+  padding: 0.5rem;
+  font-weight: 400;
+  text-align: center;
+  position: absolute;
+  background-color: #fff;
+  color: #0642ff;
+  border: 1px solid #ddd;
+  display: none;
+`;
+
 export const CopyTemplateBtn = styled.button`
   color: #0642ff;
   background-color: #fff;
@@ -92,6 +108,12 @@ export const CopyTemplateBtn = styled.button`
   padding: 0.5rem 1rem;
   font-weight: bold;
   cursor: pointer;
+  position: relative;
+  :hover {
+    & + div {
+      display: inline;
+    }
+  }
 `;
 
 export const TitleBookMark = styled.div`
@@ -182,6 +204,27 @@ export const AddressText = styled.div`
   cursor: pointer;
   color: blue;
   text-decoration: underline;
+  position: relative;
+  :hover {
+    & + div {
+      display: inline;
+    }
+  }
+`;
+
+export const HoverAddressText = styled.div`
+  width: 20rem;
+  transform: translate(8rem, 2rem);
+  line-height: 1.5rem;
+  border-radius: 0.7rem;
+  padding: 0.5rem;
+  font-weight: 400;
+  text-align: center;
+  position: absolute;
+  background-color: #fff;
+  color: #0642ff;
+  border: 1px solid #ddd;
+  display: none;
 `;
 
 export const EditBtn = styled.button`

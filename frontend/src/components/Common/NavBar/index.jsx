@@ -35,6 +35,7 @@ export default function NavBar() {
     });
   };
 
+  console.log(user);
   return (
     <S.NavBar>
       <div>
@@ -76,10 +77,11 @@ export default function NavBar() {
         <S.AuthBox>
           {isLogin && (
             <S.ProfileImgBox onClick={() => history.push("/profile?approve")}>
-              <img
-                src={user.avatar ? user.avatar : "/images/기본프로필.png"}
-                alt="profileImg"
-              />
+              {user.avatar !== "noImg" ? (
+                <img src={user.avatar} alt="profileImg" />
+              ) : (
+                <img src="/images/기본프로필.png" alt="profileImg" />
+              )}
             </S.ProfileImgBox>
           )}
           <S.LoginBtn onClick={onClick}>

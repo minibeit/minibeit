@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { useHistory } from "react-router";
 import Portal from "../Portal";
 import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
-import { deleteBprofile } from "../../../../utils";
+import { deleteBprofile, leaveBprofileApi } from "../../../../utils";
 
 import * as S from "./style";
 import { useRecoilState } from "recoil";
@@ -11,7 +11,11 @@ import { userState } from "../../../../recoil/userState";
 
 // 비즈니스 프로필 삭제 확인
 
-export default function DeliteBProfile({ BProfileId, setDeleteAlert }) {
+export default function DeliteBProfile({
+  isAdmin,
+  BProfileId,
+  setDeleteAlert,
+}) {
   const [secondAlert, setSecondAlert] = useState(false);
   const [user, setUser] = useRecoilState(userState);
   const history = useHistory();
@@ -29,6 +33,17 @@ export default function DeliteBProfile({ BProfileId, setDeleteAlert }) {
       .catch((err) => setSecondAlert(true));
   };
 
+  const leaveBusiness = (id) => {
+    leaveBprofileApi(id).then((res) => {
+      setDeleteAlert(false);
+      history.push("/profile?business");
+      let copy = { ...user };
+      copy.bprofile = null;
+      setUser(copy);
+      toast.info("탈퇴가 완료되었습니다.");
+    });
+  };
+
   return (
     <Portal>
       <S.AlertBox>
@@ -36,7 +51,7 @@ export default function DeliteBProfile({ BProfileId, setDeleteAlert }) {
           <S.AlertContent>
             <InfoIcon />
             <p>
-              <span>정말로 삭제하시겠어요?</span>
+              <span>정말로 {isAdmin ? "삭제" : "탈퇴"}하시겠어요?</span>
               <br />
               비즈니스 프로필이 없으면,
               <br />
@@ -46,8 +61,14 @@ export default function DeliteBProfile({ BProfileId, setDeleteAlert }) {
               <S.GrayButton onClick={() => setDeleteAlert(false)}>
                 아니오, 관둘래요
               </S.GrayButton>
-              <S.BlueButton onClick={() => deleteBusiness(BProfileId)}>
-                네, 삭제할래요
+              <S.BlueButton
+                onClick={() =>
+                  isAdmin
+                    ? deleteBusiness(BProfileId)
+                    : leaveBusiness(BProfileId)
+                }
+              >
+                네, {isAdmin ? "삭제" : "탈퇴"}할래요
               </S.BlueButton>
             </div>
           </S.AlertContent>
@@ -57,9 +78,7 @@ export default function DeliteBProfile({ BProfileId, setDeleteAlert }) {
             <p>
               삭제할 수 없는 프로필입니다.
               <p>
-                글내리기를 눌러 게시글을 삭제하거나
-                <br />
-                비즈니스 프로필의 관리자를 바꾼 뒤 다시 진행해주세요.
+                생성한 모집공고에서 '모집 종료'를 눌러 일정을 종료하신 후에 다시 진행해주세요.
               </p>
             </p>
             <div>

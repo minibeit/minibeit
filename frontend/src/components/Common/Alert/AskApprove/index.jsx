@@ -25,11 +25,7 @@ export default function AskApprove({
               <S.GrayButton onClick={() => setApproveUser(false)}>
                 아니오, 관둘래요
               </S.GrayButton>
-              <S.BlueButton
-                onClick={() => {
-                  applyApprove(time, id);
-                }}
-              >
+              <S.BlueButton onClick={() => applyApprove(time, id)}>
                 네, 허락할래요
               </S.BlueButton>
             </div>

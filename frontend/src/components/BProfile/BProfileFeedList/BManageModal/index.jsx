@@ -22,6 +22,15 @@ export default function BManageModal({ feedData, setModalSwitch }) {
   const [date, setDate] = useState(moment(new Date()).format("YYYY-MM-DD"));
   const [approveUser, setApproveUser] = useState(false);
   const [secondAlert, setSecondAlert] = useState(false);
+  const [selectUser, setSelectUser] = useState({
+    postDoDateId: null,
+    userName: null,
+    userId: null,
+    isAttend: null,
+  });
+  const [rejectAlert, setRejectAlert] = useState(false);
+  const [reason, setReason] = useState("");
+  const [cancleAlert, setCancleAlert] = useState(false);
 
   const getList = useCallback(() => {
     if (tab === "대기자") {
@@ -49,17 +58,11 @@ export default function BManageModal({ feedData, setModalSwitch }) {
   const viewRejectInput = (e) => {
     var RejectInput = e.target.parentNode.parentNode.nextSibling;
     if (RejectInput.style.display === "none") {
-      RejectInput.style.display = "flex";
+      RejectInput.style.display = "table-row";
     } else {
       RejectInput.style.display = "none";
     }
   };
-
-  const [rejectAlert, setRejectAlert] = useState(false);
-  const [rejectUserInfo, setRejectUserInfo] = useState();
-  const [cancleUserInfo, setCancleUserInfo] = useState();
-  const [reason, setReason] = useState([""]);
-  const [cancleAlert, setCancleAlert] = useState(false);
 
   const cancleApprove = (postDoDateId, userId) => {
     if (cancleAlert) {
@@ -81,6 +84,7 @@ export default function BManageModal({ feedData, setModalSwitch }) {
           setRejectAlert(false);
           setReason(null);
           getList();
+          toast.info("반려 처리되었습니다");
         })
         .catch((err) =>
           toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
@@ -97,17 +101,6 @@ export default function BManageModal({ feedData, setModalSwitch }) {
       .catch((err) =>
         toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
       );
-  };
-
-  const rejectOn = (user, e) => {
-    setRejectUserInfo(user);
-    e.currentTarget.previousSibling.value = null;
-    setRejectAlert(true);
-  };
-
-  const cancleOn = (user) => {
-    setCancleUserInfo(user);
-    setCancleAlert(true);
   };
 
   useEffect(() => {
@@ -158,26 +151,22 @@ export default function BManageModal({ feedData, setModalSwitch }) {
             applyApprove={applyApprove}
             cancleApprove={cancleApprove}
             viewRejectInput={viewRejectInput}
-            rejectAlert={rejectAlert}
             setRejectAlert={setRejectAlert}
-            setRejectUserInfo={setRejectUserInfo}
-            rejectUserInfo={rejectUserInfo}
+            rejectAlert={rejectAlert}
             reason={reason}
             setReason={setReason}
             cancleAlert={cancleAlert}
             setCancleAlert={setCancleAlert}
-            setCancleUserInfo={setCancleUserInfo}
-            cancleUserInfo={cancleUserInfo}
             rejectApply={rejectApply}
             changeAttend={changeAttend}
-            rejectOn={rejectOn}
-            cancleOn={cancleOn}
-            approveUser={approveUser}
             setApproveUser={setApproveUser}
-            secondAlert={secondAlert}
+            approveUser={approveUser}
             setSecondAlert={setSecondAlert}
-            setAskAttend={setAskAttend}
+            secondAlert={secondAlert}
             askAttend={askAttend}
+            setAskAttend={setAskAttend}
+            selectUser={selectUser}
+            setSelectUser={setSelectUser}
           />
         </S.ModalContent>
       </S.ModalBox>

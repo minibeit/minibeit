@@ -17,6 +17,7 @@ export default function BProfileUserModal({
   businessId,
   setModalSwitch,
   isAdmin,
+  getBusiness,
 }) {
   const [bisnessUsers, setBisnessUsers] = useState([]);
   const [adminName, setAdminName] = useState("");
@@ -79,6 +80,7 @@ export default function BProfileUserModal({
       assignChange(businessId, user.id)
         .then(() => {
           toast.info("관리자가 양도되었습니다");
+          getBusiness();
           setModalSwitch(false);
           setchangeAdmin(false);
         })

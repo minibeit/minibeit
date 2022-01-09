@@ -80,13 +80,9 @@ export default function BProfileEditCont({
           )}
         </S.ModalContent>
         <S.SubmitBtnBox>
-          {isAdmin ? (
-            <S.RedBtn onClick={() => setDeleteAlert(true)}>
-              비즈니스 프로필 삭제
-            </S.RedBtn>
-          ) : (
-            <S.RedBtn>비즈니스 프로필 탈퇴</S.RedBtn>
-          )}
+          <S.RedBtn onClick={() => setDeleteAlert(true)}>
+            비즈니스 프로필 {isAdmin ? "삭제" : "탈퇴"}
+          </S.RedBtn>
 
           {isAdmin && (
             <S.BlueBtn onClick={() => submitEditBusiness(BProfileData)}>
@@ -96,6 +92,7 @@ export default function BProfileEditCont({
         </S.SubmitBtnBox>
         {deleteAlert && (
           <DeleteBProfile
+            isAdmin={isAdmin}
             BProfileId={BProfileData.id}
             setDeleteAlert={setDeleteAlert}
           />

@@ -86,7 +86,26 @@ export const CloseModalBtn = styled.div`
   }
 `;
 
-export const ModalContent = styled.div``;
+export const ModalContent = styled.div`
+  background: #f8f8f8;
+  height: 19em;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: gray;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+  }
+`;
 export const ButtonTab = styled.div`
   position: absolute;
   top: -7%;
@@ -104,223 +123,102 @@ export const ButtonTab = styled.div`
     }
   }
 `;
-export const UserListView = styled.div`
+
+export const UserListView = styled.div``;
+export const ManageTable = styled.table`
   width: 100%;
-  & > div:first-child {
-    font-size: 0.7rem;
-    padding-bottom: 0.5rem;
-    color: #5e5e5e;
-    width: 78%;
-    position: relative;
-    left: 22.5%;
-    display: flex;
-    gap: 1rem;
-    text-align: center;
-    align-items: center;
-    & > div {
-      white-space: nowrap;
-      text-align: center;
-    }
-    & > div:nth-child(1) {
-      width: 3rem;
-    }
-    & > div:nth-child(2) {
-      width: 5rem;
-    }
-    & > div:nth-child(3) {
-      width: 1rem;
-    }
-    & > div:nth-child(4) {
-      width: 6rem;
-    }
-    & > div:nth-child(5) {
-      width: 3.5rem;
-    }
-    & > div:nth-child(6) {
-      width: 7rem;
-    }
-  }
-  & > div:nth-child(2) {
-    background-color: #f8f8f8;
-    overflow-y: scroll;
-    border-radius: 1rem;
-    max-height: 17rem;
-    padding: 0 0 0 1rem;
-    ::-webkit-scrollbar {
-      width: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background-color: transparent;
-    }
-    ::-webkit-scrollbar-thumb {
-      border-radius: 3px;
-      background-color: gray;
-    }
-    ::-webkit-scrollbar-button {
-      width: 0;
-      height: 0;
-    }
-    & > div:first-child {
-      margin: 0.7rem 0.5rem 0.3rem;
-      font-size: 0.8rem;
-    }
+  & td {
+    font-size: 0.9em;
   }
   @media only screen and (max-width: 700px) {
-    & > div:first-child {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+export const TableHeader = styled.thead`
+  position: sticky;
+  top: 0;
+  background: white;
+  & > tr:first-child {
+    transform: translate(0px, -2px);
+    & td {
+      text-align: center;
+      border: none;
+    }
+    @media only screen and (max-width: 700px) {
       display: none;
     }
-    & > div:nth-child(2) {
-      max-height: 20rem;
+  }
+  & > tr:nth-child(2) td {
+    padding: 0.5em;
+    transform: translate(0px, -1px);
+    background: #f8f8f8;
+    @media only screen and (max-width: 700px) {
+      background: none;
     }
   }
 `;
-export const DataNavBar = styled.div`
-  z-index: 99;
-  padding: 0.5rem;
+export const DateView = styled.td`
+  text-align: start;
 `;
-
-export const DateInfoBox = styled.div`
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #c4c4c4;
-  display: flex;
-  font-size: 0.9rem;
-  gap: 1rem;
-  & > div:first-child {
-    flex: 1;
-    background-color: #c4c4c4;
-    border-radius: 1rem;
-    height: 1.7rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+export const TimeView = styled.td`
+  background: ${({ display }) => (display === 0 ? "white" : "none")};
+  color: #0642ff;
+  border-radius: 1em;
+  @media only screen and (max-width: 700px) {
+    padding: 0.5em;
+    margin: 0.5em;
+    position: sticky;
+    top: 0;
   }
-  & > div:nth-child(2) {
-    flex: 5;
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    & > div {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-  }
-
+`;
+export const TableRow = styled.tr`
   @media only screen and (max-width: 700px) {
     display: flex;
     flex-direction: column;
-    font-size: 0.9rem;
-    gap: 0.5rem;
-    width: inherit;
-    min-height: 9rem;
-    & > div:first-child {
-      width: 7rem;
-      line-height: 1.2rem;
-    }
-    & > div:nth-child(2) {
-      flex: 1;
-      & > div {
-        border-bottom: 1px solid #d4d4d4;
-        padding: 0.7rem 0;
-      }
-    }
   }
-`;
-export const UserInfoBox = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  & > div:first-child {
-    display: flex;
-    & > div {
-      white-space: nowrap;
-      text-align: center;
-    }
-    & > div:nth-child(1) {
-      width: 3rem;
-    }
-    & > div:nth-child(2) {
-      width: 5rem;
-    }
-    & > div:nth-child(3) {
-      width: 1rem;
-    }
-    & > div:nth-child(4) {
-      width: 6rem;
-    }
-    & > div:nth-child(5) {
-      width: 3.5rem;
-    }
-    & > div:nth-child(6) {
-      width: 7rem;
-    }
-  }
-  @media only screen and (max-width: 700px) {
-    align-items: flex-start;
-
-    & > div:first-child {
-      flex-direction: column;
-      gap: 0.3rem;
-      & > div {
-        text-align: left;
-      }
-      & > div:nth-child(1) {
-        ::before {
-          content: "이름";
-          margin-right: 0.5rem;
-          color: #b3b3b3;
-        }
-      }
-      & > div:nth-child(2) {
-        ::before {
-          content: "생일";
-          margin-right: 0.5rem;
-          color: #b3b3b3;
-        }
-      }
-      & > div:nth-child(3) {
-        ::before {
-          content: "성별";
-          margin-right: 0.5rem;
-          color: #b3b3b3;
-        }
-      }
-      & > div:nth-child(4) {
-        ::before {
-          content: "연락처";
-          margin-right: 0.5rem;
-          color: #b3b3b3;
-        }
-      }
-      & > div:nth-child(5) {
-        ::before {
-          content: "직업";
-          margin-right: 0.5rem;
-          color: #b3b3b3;
-        }
-      }
+  & > td {
+    @media only screen and (max-width: 700px) {
+      padding: 0.2em 0;
     }
   }
 `;
 
-export const ButtonBox = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.3rem;
+export const TableBody = styled.tbody`
+  & td {
+    text-align: center;
+  }
+  &::after {
+    content: "";
+    display: block;
+    height: 1em;
+  }
+`;
+export const RejectInput = styled.td`
+  & > input {
+    width: 50%;
+    border: white;
+    padding: 0.2em;
+    @media only screen and (max-width: 700px) {
+      width: auto;
+    }
+  }
+  & > button {
+    padding: 0.2em 0.7em;
+    border: none;
+    background: white;
+    color: #c4c4c4;
+    cursor: pointer;
+  }
   @media only screen and (max-width: 700px) {
-    flex-direction: column;
-    border-left: 1px solid #d4d4d4;
-    padding-left: 2rem;
-    height: 6rem;
-    align-items: space-around;
-    justify-content: space-around;
+    transform: translate(8em, 0.5em);
   }
 `;
 
 export const Btn = styled.button`
   padding: 0.2rem 1rem;
   border-radius: 1rem;
+  margin: 0 0.2em;
   border: ${({ attend }) =>
     attend === false ? "1px solid #0642ff" : "1px solid white"};
   color: ${({ attend }) => (attend === false ? "#0642ff" : "white")};
@@ -330,28 +228,5 @@ export const Btn = styled.button`
     background: none;
     color: #b0b0b0;
     cursor: inherit;
-  }
-`;
-
-export const RejectInput = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background-color: #fff;
-  border-radius: 0.5rem;
-  padding: 0.3rem 1rem;
-
-  & > input {
-    flex: 1;
-    border: none;
-  }
-  & > button {
-    border: none;
-    background-color: inherit;
-    cursor: pointer;
-    font-weight: 600;
-    :hover {
-      color: #0642ff;
-    }
   }
 `;

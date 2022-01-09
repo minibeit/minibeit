@@ -8,7 +8,7 @@ export default function RecruitComplete({ postId }) {
     <S.Box>
       <div>
         <p>작성완료!</p>
-        <img src="/images/file.png" alt="이미지" />
+        <img src="/images/팡파레아이콘.png" alt="이미지" />
         <p>
           수고하셨습니다!
           <br />

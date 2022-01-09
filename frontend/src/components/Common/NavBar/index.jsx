@@ -55,9 +55,9 @@ export default function NavBar() {
           <S.Items
             target="_blank"
             rel="noreferrer"
-            href="https://minibeit.oopy.io/550d11c3-378c-468c-829a-0ebb111cac15"
+            href="https://minibeit.oopy.io/intro"
           >
-            이용하기
+            이용방법
           </S.Items>
           <S.Items
             target="_blank"
@@ -69,7 +69,7 @@ export default function NavBar() {
           <S.Items
             target="_blank"
             rel="noreferrer"
-            href="https://minibeit.oopy.io/a3356202-d590-42e8-adfb-3277e7add842"
+            href="https://minibeit.oopy.io/notice"
           >
             공지사항
           </S.Items>

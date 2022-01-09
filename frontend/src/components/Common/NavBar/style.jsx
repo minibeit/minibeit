@@ -79,9 +79,7 @@ export const AuthBox = styled.div`
     display: none;
   }
 `;
-export const ProfileImg = styled.div`
-  background-image: ${({ img }) =>
-    img !== "noImg" ? `url(${img})` : 'url("/images/기본프로필.png")'};
+export const ProfileImgBox = styled.div`
   ${({ sideMenu }) =>
     sideMenu
       ? css`
@@ -92,10 +90,13 @@ export const ProfileImg = styled.div`
           width: 3em;
           height: 3em;
         `}
-
-  border-radius: 50%;
-  background-size: cover;
   cursor: pointer;
+  & > img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
 
   @media only screen and (max-width: 1000px) {
     width: 3em;

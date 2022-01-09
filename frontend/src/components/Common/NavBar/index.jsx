@@ -75,10 +75,12 @@ export default function NavBar() {
         </S.NavItems>
         <S.AuthBox>
           {isLogin && (
-            <S.ProfileImg
-              img={user.avatar}
-              onClick={() => history.push("/profile?approve")}
-            />
+            <S.ProfileImgBox onClick={() => history.push("/profile?approve")}>
+              <img
+                src={user.avatar ? user.avatar : "/images/기본프로필.png"}
+                alt="profileImg"
+              />
+            </S.ProfileImgBox>
           )}
           <S.LoginBtn onClick={onClick}>
             {isLogin ? "로그아웃" : "로그인"}

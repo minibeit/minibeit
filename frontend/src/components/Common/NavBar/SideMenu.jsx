@@ -17,14 +17,18 @@ export default function SideMenu({
       <S.SideMenu>
         <div>
           {isLogin && (
-            <S.ProfileImg
-              sideMenu={true}
-              img={user.avatar}
+            <S.ProfileImgBox
               onClick={() => {
                 history.push("/profile?approve");
                 setMenuSwitch(false);
               }}
-            />
+              sideMenu={true}
+            >
+              <img
+                src={user.avatar ? user.avatar : "/images/기본프로필.png"}
+                alt="profileImg"
+              />
+            </S.ProfileImgBox>
           )}
           <S.LoginBtn
             onClick={() => {

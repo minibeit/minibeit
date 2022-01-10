@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router";
 
 import BProfileInfo from "./BProfileInfo";
@@ -10,7 +10,6 @@ import {
   getPreviewBProfileApi,
   viewBusinessReviewApi,
 } from "../../utils";
-import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { BprofilePreview } from "../../recoil/preview";
 
@@ -23,50 +22,50 @@ export default function BProfileComponent({ businessId }) {
   const [reviewCount, setReviewCount] = useState(0);
   const [feedPreview, setFeedPreview] = useRecoilState(BprofilePreview);
 
-  const changeFeedData = useCallback(
-    (status, page) => {
-      setFeedData();
-      switch (status) {
-        case "생성한 모집공고":
-          getMakelistApi(businessId, page ? page : 1, "RECRUIT")
-            .then((res) => {
-              setTotalEle(res.data.data.totalElements);
-              setFeedData(res.data.data.content);
-              return res.data.data.totalElements;
-            })
-            .then((createdItems) =>
-              getPreviewBProfileApi(businessId).then((res) =>
-                setFeedPreview({ ...res.data.data, created: createdItems })
-              )
-            );
-          break;
-        case "완료된 모집공고":
-          getMakelistApi(businessId, page ? page : 1, "COMPLETE").then(
-            (res) => {
-              setTotalEle(res.data.data.totalElements);
-              setFeedData(res.data.data.content);
-              let copy = { ...feedPreview };
-              copy.complete = res.data.data.totalElements;
-              setFeedPreview(copy);
-            }
-          );
-          break;
-        case "후기 모아보기":
-          viewBusinessReviewApi(businessId, page ? page : 1, 10).then((res) => {
-            setReviewCount(res.data.data.reduce((a, c) => a + c.count, 0));
-            setFeedData(res.data.data);
-          });
-          break;
-        default:
+  const getPreview = (createdItems) => {
+    getPreviewBProfileApi(businessId).then((res) => {
+      let copy = { ...feedPreview };
+      copy.review = res.data.data.review;
+      copy.complete = res.data.data.complete;
+      if (createdItems) {
+        copy.created = createdItems;
       }
-    },
-    // eslint-disable-next-line
-    [businessId, setFeedPreview]
-  );
+      setFeedPreview(copy);
+    });
+  };
+
+  const changeFeedData = (status, page) => {
+    setFeedData();
+    switch (status) {
+      case "생성한 모집공고":
+        getMakelistApi(businessId, page ? page : 1, "RECRUIT").then((res) => {
+          setTotalEle(res.data.data.totalElements);
+          setFeedData(res.data.data.content);
+          getPreview(res.data.data.totalElements);
+        });
+        break;
+      case "완료된 모집공고":
+        getMakelistApi(businessId, page ? page : 1, "COMPLETE").then((res) => {
+          setTotalEle(res.data.data.totalElements);
+          setFeedData(res.data.data.content);
+          getPreview();
+        });
+        break;
+      case "후기 모아보기":
+        viewBusinessReviewApi(businessId, page ? page : 1, 10).then((res) => {
+          setReviewCount(res.data.data.reduce((a, c) => a + c.count, 0));
+          setFeedData(res.data.data);
+          getPreview();
+        });
+        break;
+      default:
+    }
+  };
 
   useEffect(() => {
     changeFeedData(feedSwitch, page);
-  }, [changeFeedData, feedSwitch, page]);
+    // eslint-disable-next-line
+  }, [feedSwitch, page]);
 
   return (
     <div>

@@ -282,6 +282,7 @@ export const FeedBox = styled.div`
   overflow: hidden;
   cursor: pointer;
   border: 1px solid #c4c4c480;
+  transition: all 0.3s ease;
   box-sizing: content-box;
   border-radius: 1em;
   box-shadow: 2px 2px 12px 0px #00000033;
@@ -565,8 +566,6 @@ export const ReviewList = styled.div`
   display: flex;
   margin: 1em 0.5em;
   gap: 0.5em;
-  & > div:nth-child(3) {
-  }
 `;
 export const ReviewTitle = styled.div`
   display: flex;
@@ -574,6 +573,7 @@ export const ReviewTitle = styled.div`
   & > p {
     font-weight: bold;
     color: #404040;
+    white-space: nowrap;
   }
 `;
 export const ReviewCount = styled.div`
@@ -587,6 +587,8 @@ export const ReviewCount = styled.div`
   }
   & > p {
     font-weight: bold;
+    display: flex;
+    align-items: center;
   }
   margin-left: auto;
 `;
@@ -600,7 +602,23 @@ export const ReviewIconContainer = styled.div`
   align-items: center;
   border-radius: 1.5rem;
   background-color: rgba(6, 66, 255, 0.05);
-  & > div {
+  & > div:first-child {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 1em;
+    display: flex;
+    gap: 0.3em;
+    color: #0642ff;
+    font-weight: bold;
+    & svg {
+      width: 1em;
+      & path {
+        fill: #0642ff;
+      }
+    }
+  }
+  & > div:nth-child(2) {
     width: 70%;
     height: 90%;
     position: relative;

@@ -14,7 +14,7 @@ export default function FeedCloseModal({
   setModalSwitch,
 }) {
   const [mode, setMode] = useState(null);
-  const [reviewData, setReviewData] = useState(null);
+  const [reviewData, setReviewData] = useState();
   const [isActive, setIsActive] = useState(false);
   const [goodItem] = useState([
     "예상보다 소요 시간이 적었어요",
@@ -29,6 +29,11 @@ export default function FeedCloseModal({
     "구성원들이 다소 불편했어요",
   ]);
 
+  const onClose = () => {
+    changeFeedData();
+    setModalSwitch(false);
+  };
+
   const submit = () => {
     if (reviewData) {
       switch (mode) {
@@ -36,7 +41,7 @@ export default function FeedCloseModal({
           createBusinessReviewApi(
             data.businessProfile.id,
             data.postDoDateId,
-            goodItem.indexOf(reviewData) + 1
+            reviewData + 1
           )
             .then((res) => toast.info("평가가 완료되었습니다"))
             .catch((err) => toast.error("평가에 실패했습니다"));
@@ -48,7 +53,7 @@ export default function FeedCloseModal({
         }
         default:
       }
-      changeFeedData();
+      data.writeReview = true;
       setModalSwitch(false);
     } else {
       toast.info("이유를 선택해주세요");
@@ -59,11 +64,7 @@ export default function FeedCloseModal({
     <Portal>
       <S.ModalBox>
         <div>
-          <CloseIcon
-            onClick={() => {
-              setModalSwitch(false);
-            }}
-          />
+          <CloseIcon onClick={onClose} />
         </div>
         <S.ModalContent>
           {!mode && (

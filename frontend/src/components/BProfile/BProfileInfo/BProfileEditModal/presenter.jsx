@@ -14,6 +14,8 @@ export default function BProfileEditCont({
   setadModalSwitch,
   admodalSwitch,
   isAdmin,
+  setDeleteAlert,
+  editmode,
 }) {
   const exceptName = (value) => {
     var regName = /^[\w\Wㄱ-ㅎㅏ-ㅣ가-힣]{2,10}$/;
@@ -42,7 +44,7 @@ export default function BProfileEditCont({
             <S.Img src="/images/기본비즈니스프로필.png" />
           )}
         </S.ImgBox>
-        {isAdmin && (
+        {editmode && (
           <div>
             <S.ImgEditBtn id="reset" onClick={onFileChange}>
               기본이미지로 변경
@@ -57,6 +59,9 @@ export default function BProfileEditCont({
             />
           </div>
         )}
+        <S.removeBtn onClick={() => setDeleteAlert(true)}>
+          비즈니스 프로필 {isAdmin ? "삭제" : "탈퇴"}
+        </S.removeBtn>
       </S.ImgEditContainer>
 
       <S.InfoEditContainer>
@@ -65,7 +70,7 @@ export default function BProfileEditCont({
             <div>
               <p>이름</p>
               <input
-                readOnly={!isAdmin}
+                readOnly={!editmode}
                 defaultValue={BProfileData.name}
                 name="name"
                 type="text"
@@ -102,7 +107,7 @@ export default function BProfileEditCont({
                 name="place"
                 type="text"
                 placeholder="주소"
-                onClick={() => isAdmin && setadModalSwitch(true)}
+                onClick={() => editmode && setadModalSwitch(true)}
                 readOnly
               />
               {admodalSwitch && (
@@ -119,7 +124,7 @@ export default function BProfileEditCont({
             <div>
               <p>상세주소</p>
               <input
-                readOnly={!isAdmin}
+                readOnly={!editmode}
                 defaultValue={BProfileData.placeDetail}
                 name="placeDetail"
                 type="text"
@@ -134,7 +139,7 @@ export default function BProfileEditCont({
             <div>
               <p>연락처</p>
               <input
-                readOnly={!isAdmin}
+                readOnly={!editmode}
                 defaultValue={BProfileData.contact}
                 name="contact"
                 type="text"

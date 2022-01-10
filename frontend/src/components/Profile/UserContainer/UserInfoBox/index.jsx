@@ -64,21 +64,21 @@ export default function UserInfoBox({ feedPreview }) {
               <S.PreviewTable>
                 <thead>
                   <tr>
-                    <td>대기</td>
                     <td>확정</td>
+                    <td>대기</td>
                     <td>반려</td>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{feedPreview.wait}</td>
+                    <td>{feedPreview.approve}</td>
                     <td
                       style={{
                         borderRight: "1px solid #c4c4c4",
                         borderLeft: "1px solid #c4c4c4",
                       }}
                     >
-                      {feedPreview.approve}
+                      {feedPreview.wait}
                     </td>
                     <td>{feedPreview.reject}</td>
                   </tr>

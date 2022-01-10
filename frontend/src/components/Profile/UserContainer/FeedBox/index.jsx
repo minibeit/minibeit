@@ -8,6 +8,7 @@ import * as S from "../../style";
 import moment from "moment";
 import CancleAttend from "../../../Common/Alert/CancleAttend";
 import DeleteRejectList from "../../../Common/Alert/DeleteRejectList";
+import { toast } from "react-toastify";
 
 export default function FeedBox({ status, data, changeFeedData }) {
   const history = useHistory();
@@ -91,10 +92,13 @@ export default function FeedBox({ status, data, changeFeedData }) {
             {status === "approve" && (
               <>
                 <S.BlueButton
-                  disabled={!data.finish && !data.isWritable}
+                  disabled={!(data.finish && data.isWritable)}
                   onClick={(e) => {
                     e.stopPropagation();
-                    doJoinApi(data.postDoDateId).then(setReviewModal(true));
+                    doJoinApi(data.postDoDateId).then(() => {
+                      toast.info("참여완료 처리되었습니다");
+                      setReviewModal(true);
+                    });
                   }}
                 >
                   참여 완료

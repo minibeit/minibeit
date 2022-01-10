@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import Portal from "../Portal";
-import PropTypes from "prop-types";
 import CloseIcon from "@mui/icons-material/Close";
 import * as S from "./style";
 
 import Conditions from "../../Alert/Conditions";
 import PersonalInformation from "../../Alert/PersonalInformation";
-
-CreateAuthModal.propTypes = {
-  setModalSwitch: PropTypes.func.isRequired,
-};
 
 export default function CreateAuthModal({ setModalSwitch, modalSwitch }) {
   const [personalInfoAlert, setPersonalInfoAlert] = useState(false);
@@ -25,16 +20,13 @@ export default function CreateAuthModal({ setModalSwitch, modalSwitch }) {
       `${process.env.REACT_APP_API_URL}/oauth2/authorization/google`
     );
   };
-  const closeModal = () => {
-    setModalSwitch(!modalSwitch);
-  };
 
   return (
     <Portal>
       <S.ModalBox>
         <S.ModalHeader>
           <S.CloseModalBtn>
-            <CloseIcon onClick={closeModal} />
+            <CloseIcon onClick={() => setModalSwitch(false)} />
           </S.CloseModalBtn>
         </S.ModalHeader>
         <S.ModalContent>

@@ -40,7 +40,6 @@ export const ModalContent = styled.div`
   gap: 1rem;
   justify-content: space-around;
   align-items: center;
-  padding: 2rem;
   max-height: 22rem;
   min-height: 18rem;
 

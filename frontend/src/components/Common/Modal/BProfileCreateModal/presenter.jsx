@@ -119,7 +119,7 @@ export default function Presenter({
                 defaultValue={infoData.contact}
                 name="contact"
                 type="text"
-                placeholder="연락처"
+                placeholder="'-' 빼고 입력"
                 onChange={onChange}
                 onBlur={(e) => {
                   if (!exceptPhone(e.target.value)) {

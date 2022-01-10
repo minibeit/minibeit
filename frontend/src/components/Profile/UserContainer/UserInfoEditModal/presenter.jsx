@@ -20,6 +20,7 @@ export default function Presenter({
   changeEmail,
   setChangeEmail,
   checkingCode,
+  editmode,
 }) {
   const exceptName = (value) => {
     var regName = /^[가-힣]{2,5}$/;
@@ -64,19 +65,21 @@ export default function Presenter({
             <S.Img src="/images/기본프로필.png" />
           )}
         </S.ImgBox>
-        <div>
-          <S.ImgEditBtn id="reset" onClick={onFileChange}>
-            기본이미지로 변경
-          </S.ImgEditBtn>
-          <S.ImgEditBtn htmlFor="upload">사진 업로드 하기</S.ImgEditBtn>
-          <input
-            style={{ display: "none" }}
-            name="img"
-            id="upload"
-            type="file"
-            onChange={onFileChange}
-          />
-        </div>
+        {editmode && (
+          <div>
+            <S.ImgEditBtn id="reset" onClick={onFileChange}>
+              기본이미지로 변경
+            </S.ImgEditBtn>
+            <S.ImgEditBtn htmlFor="upload">사진 업로드 하기</S.ImgEditBtn>
+            <input
+              style={{ display: "none" }}
+              name="img"
+              id="upload"
+              type="file"
+              onChange={onFileChange}
+            />
+          </div>
+        )}
       </S.ImgEditContainer>
       <S.InfoEditContainer>
         <div>
@@ -84,6 +87,7 @@ export default function Presenter({
             <div>
               <p>이름</p>
               <input
+                readOnly={!editmode}
                 defaultValue={userData.name}
                 name="name"
                 type="text"
@@ -103,27 +107,30 @@ export default function Presenter({
             <p>닉네임</p>
             <div>
               <input
+                readOnly={!editmode}
                 defaultValue={userData.nickname}
                 name="nickname"
                 type="text"
                 placeholder="닉네임"
                 onChange={(e) => setChangeNickname(false)}
               />
-              <button
-                disabled={changeNickname}
-                onClick={(e) => {
-                  let value = e.target.previousSibling.value;
-                  if (exceptNickname(value)) {
-                    checkingNickname(e.target.previousSibling.value);
-                  } else {
-                    toast.info(
-                      "닉네임은 2글자 이상 10글자 이내로 입력해주세요"
-                    );
-                  }
-                }}
-              >
-                중복확인
-              </button>
+              {editmode && (
+                <button
+                  disabled={changeNickname}
+                  onClick={(e) => {
+                    let value = e.target.previousSibling.value;
+                    if (exceptNickname(value)) {
+                      checkingNickname(e.target.previousSibling.value);
+                    } else {
+                      toast.info(
+                        "닉네임은 2글자 이상 10글자 이내로 입력해주세요"
+                      );
+                    }
+                  }}
+                >
+                  중복확인
+                </button>
+              )}
             </div>
           </S.EmailPhoneInput>
         </div>
@@ -132,6 +139,7 @@ export default function Presenter({
             <div>
               <p>생년월일</p>
               <input
+                readOnly={!editmode}
                 defaultValue={userData.birth}
                 name="birth"
                 type="date"
@@ -153,6 +161,7 @@ export default function Presenter({
             <div>
               <p>직업</p>
               <input
+                readOnly={!editmode}
                 defaultValue={userData.job}
                 name="job"
                 type="text"
@@ -165,6 +174,7 @@ export default function Presenter({
             <div>
               <p>성별</p>
               <select
+                disabled={!editmode}
                 onChange={onChange}
                 defaultValue={"DEFAULT"}
                 name="gender"
@@ -187,29 +197,32 @@ export default function Presenter({
             <p>연락처</p>
             <div>
               <input
+                readOnly={!editmode}
                 defaultValue={userData.phoneNum}
                 name="phoneNum"
                 type="text"
                 placeholder="'-' 빼고 입력"
                 onChange={() => setChangePhone(false)}
               />
-              <button
-                disabled={changePhone}
-                onClick={(e) => {
-                  let value = e.target.previousSibling.value;
-                  if (exceptPhone(value)) {
-                    checkingPhone(value);
-                    e.target.parentNode.nextSibling.setAttribute(
-                      "style",
-                      "display:flex"
-                    );
-                  } else {
-                    toast.info("휴대폰 번호를 다시 확인해주세요");
-                  }
-                }}
-              >
-                인증
-              </button>
+              {editmode && (
+                <button
+                  disabled={changePhone}
+                  onClick={(e) => {
+                    let value = e.target.previousSibling.value;
+                    if (exceptPhone(value)) {
+                      checkingPhone(value);
+                      e.target.parentNode.nextSibling.setAttribute(
+                        "style",
+                        "display:flex"
+                      );
+                    } else {
+                      toast.info("휴대폰 번호를 다시 확인해주세요");
+                    }
+                  }}
+                >
+                  인증
+                </button>
+              )}
             </div>
 
             <div style={{ display: "none" }}>
@@ -228,29 +241,32 @@ export default function Presenter({
             <p>이메일</p>
             <div>
               <input
+                readOnly={!editmode}
                 defaultValue={userData.email}
                 name="email"
                 type="text"
                 placeholder="이메일"
                 onChange={() => setChangeEmail(false)}
               />
-              <button
-                disabled={changeEmail}
-                onClick={(e) => {
-                  let value = e.target.previousSibling.value;
-                  if (exceptEmail(value)) {
-                    checkingEmail(value);
-                    e.target.parentNode.nextSibling.setAttribute(
-                      "style",
-                      "display:flex"
-                    );
-                  } else {
-                    toast.info("이메일 형식을 확인해주세요");
-                  }
-                }}
-              >
-                인증
-              </button>
+              {editmode && (
+                <button
+                  disabled={changeEmail}
+                  onClick={(e) => {
+                    let value = e.target.previousSibling.value;
+                    if (exceptEmail(value)) {
+                      checkingEmail(value);
+                      e.target.parentNode.nextSibling.setAttribute(
+                        "style",
+                        "display:flex"
+                      );
+                    } else {
+                      toast.info("이메일 형식을 확인해주세요");
+                    }
+                  }}
+                >
+                  인증
+                </button>
+              )}
             </div>
             <div style={{ display: "none" }}>
               <input />

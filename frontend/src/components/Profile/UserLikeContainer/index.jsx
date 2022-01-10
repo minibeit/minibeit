@@ -6,6 +6,7 @@ import { ReactComponent as StarIcon } from "../../../svg/별.svg";
 import { getMyLikeListApi } from "../../../utils";
 import { Pagination } from "../../Common";
 import * as S from "../style";
+import { bookmarkApi } from "../../../utils/feedApi";
 
 export default function UserLikeContainer() {
   const [feedData, setFeedData] = useState([]);
@@ -19,6 +20,14 @@ export default function UserLikeContainer() {
       setFeedData(res.data.data.content);
     });
   }, []);
+
+  const removeBookmark = (postData) => {
+    bookmarkApi(postData.id).then((res) => {
+      let copy = [...feedData];
+      copy.splice(copy.indexOf(postData), 1);
+      setFeedData(copy);
+    });
+  };
 
   useEffect(() => {
     changeFeedData(page);
@@ -40,7 +49,12 @@ export default function UserLikeContainer() {
             >
               <S.FeedImgView thumbnail={a.thumbnail}>
                 <div>
-                  <S.BookMark>
+                  <S.BookMark
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeBookmark(a);
+                    }}
+                  >
                     <StarIcon />
                   </S.BookMark>
                 </div>

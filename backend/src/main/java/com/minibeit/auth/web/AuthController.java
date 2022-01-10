@@ -25,7 +25,7 @@ public class AuthController {
     @PostMapping("/login/test")
     public ResponseEntity<UserResponse.Login> login(@RequestBody AuthRequest.Login request, HttpServletResponse response) {
         UserResponse.Login loginResponse = authService.login(request);
-        CookieUtils.addCookie(response, REFRESH_TOKEN, loginResponse.getRefreshToken(), 14 * 24 * 60 * 60);
+        CookieUtils.addCookie(response, REFRESH_TOKEN, loginResponse.getRefreshToken(), 7 * 24 * 60 * 60);
         return ResponseEntity.ok().body(loginResponse);
     }
 
@@ -33,7 +33,7 @@ public class AuthController {
     public ResponseEntity<ApiResult<UserResponse.Login>> refreshToken(@CookieValue(REFRESH_TOKEN) String refreshToken, HttpServletResponse response) {
         UserResponse.Login loginResponse = refreshTokenService.createAccessTokenAndRefreshToken(refreshToken);
 
-        CookieUtils.addCookie(response, REFRESH_TOKEN, loginResponse.getRefreshToken(), 14 * 24 * 60 * 60);
+        CookieUtils.addCookie(response, REFRESH_TOKEN, loginResponse.getRefreshToken(), 7 * 24 * 60 * 60);
 
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), loginResponse));
     }

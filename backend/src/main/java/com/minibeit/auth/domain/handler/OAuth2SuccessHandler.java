@@ -60,7 +60,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         Token token = tokenProvider.generateAccessToken(user);
         Token refreshToken = tokenProvider.generateRefreshToken(user);
 
-        CookieUtils.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), 14 * 24 * 60 * 60);
+        CookieUtils.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), 7 * 24 * 60 * 60);
 
         if (user.getAvatar() != null) {
             response.sendRedirect(url + user.getId() + "/" + nickname + "/" + user.getEmail() + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/" + avatar);

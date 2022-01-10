@@ -18,6 +18,7 @@ export default function BProfileEditCont({
   const [BProfileData, setBProfileData] = useState(infoData);
   const [admodalSwitch, setadModalSwitch] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
+  const [editmode, setEditmode] = useState(false);
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -76,15 +77,16 @@ export default function BProfileEditCont({
               admodalSwitch={admodalSwitch}
               submitEditBusiness={submitEditBusiness}
               isAdmin={isAdmin}
+              setDeleteAlert={setDeleteAlert}
+              editmode={editmode}
             />
           )}
         </S.ModalContent>
         <S.SubmitBtnBox>
-          <S.RedBtn onClick={() => setDeleteAlert(true)}>
-            비즈니스 프로필 {isAdmin ? "삭제" : "탈퇴"}
-          </S.RedBtn>
-
-          {isAdmin && (
+          {isAdmin && !editmode && (
+            <S.BlueBtn onClick={() => setEditmode(true)}>수정하기</S.BlueBtn>
+          )}
+          {editmode && (
             <S.BlueBtn onClick={() => submitEditBusiness(BProfileData)}>
               수정완료
             </S.BlueBtn>

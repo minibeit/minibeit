@@ -29,6 +29,7 @@ export default function UserInfoEditModal({
   const [changeEmail, setChangeEmail] = useState(true);
   const [user, setUser] = useRecoilState(userState);
   const [schoolId, setSchoolId] = useState(user.schoolId);
+  const [editmode, setEditmode] = useState(false);
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -140,7 +141,7 @@ export default function UserInfoEditModal({
         <Portal>
           <S.ModalBox>
             <S.ModalHeader>
-              <p>내 프로필 수정하기</p>
+              <p>내 프로필 보기</p>
               <S.CloseModalBtn onClick={() => closeModal()}>
                 <CloseIcon />
               </S.CloseModalBtn>
@@ -163,12 +164,17 @@ export default function UserInfoEditModal({
                 setChangeEmail={setChangeEmail}
                 checkingCode={checkingCode}
                 submitEditUser={submitEditUser}
+                editmode={editmode}
               />
             </S.ModalContent>
             <S.SubmitBtnBox>
-              <button onClick={() => submitEditUser(userData, schoolId)}>
-                수정 완료
-              </button>
+              {editmode ? (
+                <button onClick={() => submitEditUser(userData, schoolId)}>
+                  수정 완료
+                </button>
+              ) : (
+                <button onClick={() => setEditmode(true)}>수정 하기</button>
+              )}
             </S.SubmitBtnBox>
           </S.ModalBox>
         </Portal>

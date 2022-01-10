@@ -215,6 +215,9 @@ export const Btn = styled.button`
 export const BlueBtn = styled(Btn)`
   background: #0642ff;
 `;
-export const RedBtn = styled(Btn)`
-  background: #ff3737;
+export const removeBtn = styled.div`
+  color: #c4c4c4;
+  text-decoration: underline;
+  font-size: 0.8em;
+  cursor: pointer;
 `;

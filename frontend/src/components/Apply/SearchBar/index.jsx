@@ -37,7 +37,7 @@ export default function SearchBar({
           <S.InputItem>
             <p>위치</p>
             <SchoolInput
-              defaultId={userSchoolId}
+              defaultId={/*userSchoolId*/ 0}
               onChange={(e) => {
                 const copy = { ...school };
                 copy.schoolId = e.id;

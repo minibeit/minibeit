@@ -17,7 +17,7 @@ export default function NotEnoughWrite({ setNotEnough, movePage }) {
           <S.BlueButton
             onClick={() => {
               setNotEnough(false);
-              movePage(2);
+              movePage(3);
             }}
           >
             네, 알겠어요.

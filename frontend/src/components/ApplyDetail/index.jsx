@@ -127,7 +127,12 @@ export default function ApplyDetailComponent({ feedId, date }) {
                 applyApi={applyApi}
               />
             )}
-            {modalSwitch && <CreateAuthModal setModalSwitch={setModalSwitch} />}
+            {modalSwitch && (
+              <CreateAuthModal
+                setModalSwitch={setModalSwitch}
+                modalSwitch={modalSwitch}
+              />
+            )}
           </S.UnderTitle>
         )}
       </S.Container>

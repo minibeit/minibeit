@@ -384,22 +384,14 @@ export const FeedLabel = styled.div`
 
 export const FeedImgView = styled.div`
   background-image: ${({ thumbnail }) =>
-    thumbnail ? `url(${thumbnail})` : 'url("/images/기본프로필.png")'};
+    thumbnail ? `url(${thumbnail})` : 'url("/images/썸네일기본.png")'};
   background-size: cover;
   background-position: center;
   flex: 1;
-  & > div:first-child {
-    display: flex;
-    flex: 1;
+  & > div {
+    width: 100%;
     height: 100%;
-    flex-direction: column;
-    align-items: end;
-    flex-wrap: nowrap;
-    gap: 0.3em;
-    padding: 0.7em;
-    box-sizing: border-box;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 9;
+    background-color: rgba(0, 0, 0, 0.5);
   }
 `;
 
@@ -413,6 +405,12 @@ export const BookMark = styled.div`
 `;
 
 export const FeedTitle = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+  gap: 0.7rem;
   & > p:first-child {
     white-space: nowrap;
     color: white;

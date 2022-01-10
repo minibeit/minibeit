@@ -371,35 +371,30 @@ export const FeedBox = styled.div`
 
 export const FeedImgView = styled.div`
   background-image: ${({ thumbnail }) =>
-    thumbnail ? `url(${thumbnail})` : 'url("/images/기본프로필.png")'};
+    thumbnail ? `url(${thumbnail})` : 'url("/images/썸네일기본.png")'};
   background-size: cover;
   background-position: center;
-  flex: 1;
+  flex: 1.5;
   min-width: 16em;
   min-height: 10em;
-  & > div:first-child {
-    display: flex;
-    flex: 1;
-    height: 100%;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    gap: 0.3em;
-    padding: 1em;
-    box-sizing: border-box;
-    background-color: rgba(0, 0, 0, 0.4);
-    z-index: 9;
-  }
+  position: relative;
 `;
 export const FeedBookmark = styled.div`
   display: flex;
-  flex-direction: column;
+  gap: 0.3rem;
+  position: absolute;
   width: fit-content;
   text-align: center;
   color: white;
+  margin: 1rem;
+  border-radius: 0.6rem;
+  padding: 0.5rem 1rem;
+  background-color: ${({ thumbnail }) =>
+    !thumbnail ? "#BACAFF" : "rgba(0,0,0,0.4)"};
   & svg {
     width: 1em;
     & path {
-      fill: white;
+      fill: #fff;
     }
   }
 `;

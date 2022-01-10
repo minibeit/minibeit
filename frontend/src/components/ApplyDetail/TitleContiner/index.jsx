@@ -43,9 +43,16 @@ export default function TitleContainer({ feedDetailData, clickBookmark }) {
           <p>{feedDetailData.title}</p>
           <div>
             {feedDetailData.isMine && (
-              <S.CopyTemplateBtn onClick={() => copyTemplate()}>
-                템플릿 복사하기
-              </S.CopyTemplateBtn>
+              <>
+                <S.CopyTemplateBtn onClick={() => copyTemplate()}>
+                  템플릿 복사하기
+                </S.CopyTemplateBtn>
+                <S.HoverBtnText>
+                  템플릿 복사하기를 클릭하시면, 참여 상세 정보가 복사돼요!
+                  <br />
+                  (아쉽게도 위치, 날짜 등은 복사되지 않아요😂)
+                </S.HoverBtnText>
+              </>
             )}
             <S.TitleBookMark isLike={feedDetailData.isLike}>
               <Star onClick={() => clickBookmark(feedDetailData.id)} />

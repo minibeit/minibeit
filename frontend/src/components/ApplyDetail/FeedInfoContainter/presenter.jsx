@@ -167,7 +167,7 @@ export default function Presenter({
         <S.DataContent>
           <S.ListBox>
             <li>
-              <div>주소</div>{" "}
+              <div>주소</div>
               <S.AddressText
                 onClick={() => {
                   window.open(`https://map.naver.com/v5/search/${address}`);
@@ -175,6 +175,9 @@ export default function Presenter({
               >
                 {addressDetail ? `${address} ${addressDetail}` : `${address}`}
               </S.AddressText>
+              <S.HoverAddressText>
+                주소를 클릭하면 위치를 확인 할 수 있어요.
+              </S.HoverAddressText>
             </li>
           </S.ListBox>
           <S.ListBox>

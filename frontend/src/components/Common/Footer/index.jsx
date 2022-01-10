@@ -14,13 +14,6 @@ export default function Footer() {
           <a
             target="_blank"
             rel="noreferrer"
-            href="https://minibeit.oopy.io/9dda51f5-c4a2-439c-b5d2-bc477921ec95"
-          >
-            서비스 소개
-          </a>
-          <a
-            target="_blank"
-            rel="noreferrer"
             href="https://minibeit.oopy.io/cb915f58-18aa-4e32-a99c-dbf720acd3d5"
           >
             이용약관

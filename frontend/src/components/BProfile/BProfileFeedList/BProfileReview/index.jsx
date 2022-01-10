@@ -7,6 +7,7 @@ import * as S from "../../style";
 
 export default function BProfileReview({ feedData, reviewCount }) {
   const history = useHistory();
+
   return (
     <>
       {reviewCount === 0 ? (
@@ -19,6 +20,10 @@ export default function BProfileReview({ feedData, reviewCount }) {
       ) : (
         <S.RevievContainer>
           <S.ReviewIconContainer>
+            <div>
+              <UserIcon />
+              <p>{reviewCount}</p>
+            </div>
             <div>
               <S.ReviewIconBox>
                 <img

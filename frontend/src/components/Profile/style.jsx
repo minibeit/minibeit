@@ -215,6 +215,7 @@ export const LikeFeedBox = styled.div`
   min-width: 17em;
   cursor: pointer;
   height: fit-content;
+  transition: all 0.2s linear;
   & > div:first-child {
     width: 100%;
     height: 17em;
@@ -224,7 +225,6 @@ export const LikeFeedBox = styled.div`
   :hover {
     transform: scale(1.01);
   }
-
   @media only screen and (max-width: 700px) {
     min-width: 15em;
     padding-bottom: 1rem;
@@ -327,11 +327,12 @@ export const FeedBox = styled.div`
   box-sizing: content-box;
   border-radius: 1em;
   box-shadow: 2px 2px 12px 0px #00000033;
+  transition: all 0.3s ease;
   background: ${({ postStatus, status }) => {
     if (status === "like" && postStatus === "COMPLETE") return "#b4b4b4";
     else return "#fff";
   }};
-  &:hover {
+  :hover {
     transform: scale(1.01);
     & > div:first-child {
       display: none;
@@ -396,6 +397,8 @@ export const FeedImgView = styled.div`
 `;
 
 export const BookMark = styled.div`
+  position: absolute;
+  margin: 1em;
   & > svg {
     width: 1.5em;
     & path {
@@ -637,11 +640,13 @@ export const BusinessHeader = styled.div`
     & > p:nth-child(1) {
       font-size: 1rem;
       font-weight: 600;
+      text-align: center;
     }
     & > p:nth-child(2) {
       font-size: 0.8rem;
       color: #7c7c7c;
       line-height: 1.3rem;
+      text-align: center;
     }
   }
   @media only screen and (max-width: 700px) {

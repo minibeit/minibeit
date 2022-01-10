@@ -363,6 +363,7 @@ export const FeedBox = styled.div`
   border: 1px solid #c4c4c480;
   box-sizing: content-box;
   border-radius: 1em;
+  transition: all 0.3s ease;
   box-shadow: 2px 2px 12px 0px #00000033;
   &:hover {
     transform: scale(1.01);

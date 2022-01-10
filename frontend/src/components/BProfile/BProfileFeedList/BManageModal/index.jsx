@@ -50,9 +50,16 @@ export default function BManageModal({ feedData, setModalSwitch }) {
         setSecondAlert(true);
         getList();
       })
-      .catch((err) =>
-        toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요")
-      );
+      .catch((err) => {
+        if (
+          err.response.data.error.info ===
+          "지원자의 확정된 모집중 시간이 겹치는 모집이 있습니다."
+        ) {
+          toast.error("err.response.data.error.info");
+        } else {
+          toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요");
+        }
+      });
   };
 
   const viewRejectInput = (e) => {

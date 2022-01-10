@@ -1,6 +1,7 @@
 import React from "react";
 import Portal from "../Portal";
-import * as S from "./style";
+import * as S from "../style";
+import { ReactComponent as XIcon } from "../../../..//svg/엑스.svg";
 
 // 개인정보법 동의 알림창...
 
@@ -8,21 +9,24 @@ export default function PersonalInformation({ setPersonalInfoAlert }) {
   return (
     <Portal>
       <S.AlertBox>
-        <S.AlertContent>
+        <S.AlertHeader>
+          <XIcon onClick={() => setPersonalInfoAlert(false)} />
+        </S.AlertHeader>
+        <S.Conditions>
           <div>
             <p>개인정보 보호법 및 시행령</p>
-            <div onClick={() => setPersonalInfoAlert(false)}>×</div>
+            <p>
+              &lt; CLMOI &gt;
+              <br />
+              ('[www.minibeit.com](http://www.minibeit.com/)'이하
+              'minibeit')은(는)「개인정보 보호법」 제30조에 따라 정보주체의
+              개인정보를 보호하고
+              <br />
+              이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여
+              <br />
+              다음과 같이 개인정보 처리방침을 수립·공개합니다.
+            </p>
           </div>
-          <p>
-            &lt; CLMOI &gt; ('[www.minibeit.com](http://www.minibeit.com/)'이하
-            'minibeit')은(는)
-            <br />
-            「개인정보 보호법」 제30조에 따라 정보주체의 개인정보를 보호하고
-            <br />
-            이와 관련한 고충을 신속하고 원활하게 처리할 수 있도록 하기 위하여
-            <br />
-            다음과 같이 개인정보 처리방침을 수립·공개합니다.
-          </p>
 
           <div>
             <p>
@@ -304,7 +308,7 @@ export default function PersonalInformation({ setPersonalInfoAlert }) {
               <br />② 이전의 개인정보 처리방침은 아래에서 확인하실 수 있습니다.
             </p>
           </div>
-        </S.AlertContent>
+        </S.Conditions>
       </S.AlertBox>
     </Portal>
   );

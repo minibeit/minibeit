@@ -18,10 +18,11 @@ export const ModalBox = styled.div`
   width: 27rem;
   max-height: 100vh;
   border-radius: 2rem;
+  padding: 0 1rem;
 `;
 export const ModalHeader = styled.div`
   padding: 0.7rem 0;
-  margin: 0 2rem;
+  margin: 1rem 2rem;
   border-bottom: 1px solid #c4c4c4;
   display: flex;
   justify-content: space-between;
@@ -50,10 +51,26 @@ export const Info = styled.div`
 export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0 0.5rem;
+  height: 28rem;
+  overflow-y: scroll;
+  padding: 1rem 0.5rem;
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    background-color: #c4c4c4;
+  }
+  ::-webkit-scrollbar-button {
+    width: 0;
+    height: 0;
+  }
 `;
 export const ModalFooter = styled.div`
-  padding: 0.8rem 2rem;
+  padding: 1.2rem 2rem;
   display: flex;
   border-top: 1px dotted #c4c4c4;
   justify-content: center;
@@ -155,7 +172,7 @@ export const List = styled.div`
   display: flex;
   align-items: center;
   gap: 0.2em;
-  padding: 0 0.5em;
+  padding: 0.5em;
   overflow-x: scroll;
   min-height: 2.5em;
   ::-webkit-scrollbar {

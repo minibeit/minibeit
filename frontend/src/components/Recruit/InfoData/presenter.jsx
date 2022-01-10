@@ -23,8 +23,6 @@ export default function Presenter({
   deleteImg,
   setAddressModal,
   addressModal,
-  setConfirmModal,
-  confirmModal,
   submit,
   setAskComplete,
   askComplete,
@@ -346,12 +344,15 @@ export default function Presenter({
               URL.createObjectURL(recruit.images[0])
             }
           >
-            <div>
-              <S.FeedBookmark>
-                <Star />
-                <p>0</p>
-              </S.FeedBookmark>
-            </div>
+            <S.FeedBookmark
+              thumbnail={
+                recruit.images.length !== 0 &&
+                URL.createObjectURL(recruit.images[0])
+              }
+            >
+              <Star />
+              <p>0</p>
+            </S.FeedBookmark>
           </S.FeedImgView>
           <S.FeedContentView>
             <S.FeedHeader>

@@ -97,11 +97,6 @@ export const ProfileImgBox = styled.div`
     height: 100%;
     object-fit: cover;
   }
-
-  @media only screen and (max-width: 1000px) {
-    width: 3em;
-    height: 3em;
-  }
 `;
 
 export const LoginBtn = styled.button`

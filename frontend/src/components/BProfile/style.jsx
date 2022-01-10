@@ -327,22 +327,22 @@ export const FeedLabel = styled.div`
 
 export const FeedImgView = styled.div`
   background-image: ${({ thumbnail }) =>
-    thumbnail ? `url(${thumbnail})` : 'url("/images/기본프로필.png")'};
+    thumbnail ? `url(${thumbnail})` : 'url("/images/썸네일기본.png")'};
   background-size: cover;
   background-position: center;
-  flex: 1;
+  flex: 1.5;
 `;
 
 export const FeedTitle = styled.div`
   display: flex;
-  flex: 1;
+  flex: 1.5;
   height: 100%;
   flex-direction: column;
   flex-wrap: nowrap;
   gap: 0.3em;
-  padding: 2em;
+  padding: 2em 1em;
   box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
   z-index: 9;
   & > div:first-child {
     display: flex;

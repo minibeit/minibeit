@@ -15,7 +15,6 @@ export default function InfoData({
   notEnough,
 }) {
   const [addressModal, setAddressModal] = useState(false);
-  const [confirmModal, setConfirmModal] = useState(false);
 
   const addConditionDetail = () => {
     const copy = { ...recruit };
@@ -79,8 +78,6 @@ export default function InfoData({
       deleteImg={deleteImg}
       setAddressModal={setAddressModal}
       addressModal={addressModal}
-      setConfirmModal={setConfirmModal}
-      confirmModal={confirmModal}
       submit={submit}
       setAskComplete={setAskComplete}
       askComplete={askComplete}

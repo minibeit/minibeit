@@ -91,7 +91,7 @@ export const AlertText = styled.div`
   width: 30rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.5rem;
   & > p:first-child {
     font-size: 1.5rem;
     line-height: 2rem;
@@ -126,7 +126,6 @@ export const AlertText = styled.div`
   }
   @media only screen and (max-width: 700px) {
     width: 21rem;
-    gap: 0.7rem;
     & > p:first-child {
       font-size: 1.3rem;
     }

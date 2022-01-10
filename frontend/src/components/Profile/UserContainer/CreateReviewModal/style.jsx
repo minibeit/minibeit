@@ -144,7 +144,7 @@ export const Select = styled.div`
     position: absolute;
     right: 0.625rem;
     ${({ isActive }) => {
-      return isActive ? "transform: rotate(180deg)" : null;
+      return !isActive ? "transform: rotate(180deg)" : null;
     }}
   }
 

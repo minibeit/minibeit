@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Portal from "../Portal";
-import * as S from "./style";
+import * as S from "../style";
 import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
+import { ReactComponent as XIcon } from "../../../..//svg/엑스.svg";
+
 import { toast } from "react-toastify";
 
 // 일정종료 알림창이 뜨기전 진짜로 일정을 종료할것인지 묻는 알림창
@@ -27,38 +29,42 @@ export default function AskEndSchedule({
   };
   return (
     <Portal>
-      {!secondAlert ? (
-        <S.AlertBox>
+      <S.AlertBox>
+        <S.AlertHeader>
+          <XIcon onClick={() => setEndAlert(false)} />
+        </S.AlertHeader>
+        {!secondAlert ? (
           <S.AlertContent>
             <InfoIcon />
-            <p>
-              모든 일정이 <span>종료</span>되었나요?
-            </p>
-            <p>
-              일정이 끝나지 않은 상태에서 일정을 종료하시면
-              <br />
-              해당 일정의 참여자 명단이 사라져요.
-            </p>
-            <div>
-              <S.GrayButton onClick={() => setEndAlert(0)}>
+            <S.AlertText>
+              <p>
+                모든 일정이 <span>종료</span>되었나요?
+              </p>
+              <p>
+                일정이 끝나지 않은 상태에서 일정을 종료하시면
+                <br />
+                해당 일정의 참여자 명단이 사라져요.
+              </p>
+            </S.AlertText>
+            <S.BtnGroup>
+              <S.GrayButton onClick={() => setEndAlert(false)}>
                 아니오, 관둘래요
               </S.GrayButton>
               <S.BlueButton onClick={() => deleteFeed(data.id)}>
                 네, 종료됐어요
               </S.BlueButton>
-            </div>
+            </S.BtnGroup>
           </S.AlertContent>
-        </S.AlertBox>
-      ) : (
-        <S.AlertBox>
+        ) : (
           <S.AlertContent>
             <InfoIcon />
-            <p>
-              해당 모집 공고의
-              <br />
-              <span>일정이 종료</span>되었어요.
-            </p>
-            <div>
+            <S.AlertText>
+              <span>해당 모집 공고의</span>
+              <span>
+                <span> 일정이 종료</span>되었어요.
+              </span>
+            </S.AlertText>
+            <S.BtnGroup>
               <S.BlueButton
                 onClick={() => {
                   setEndAlert(false);
@@ -67,10 +73,10 @@ export default function AskEndSchedule({
               >
                 닫기
               </S.BlueButton>
-            </div>
+            </S.BtnGroup>
           </S.AlertContent>
-        </S.AlertBox>
-      )}
+        )}
+      </S.AlertBox>
     </Portal>
   );
 }

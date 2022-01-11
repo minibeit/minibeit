@@ -1,6 +1,7 @@
 import React from "react";
 import Portal from "../Portal";
-import * as S from "./style";
+import * as S from "../style";
+import { ReactComponent as XIcon } from "../../../..//svg/엑스.svg";
 
 // 이용약관 알림창...
 
@@ -8,10 +9,12 @@ export default function Conditions({ setConditionsAlert }) {
   return (
     <Portal>
       <S.AlertBox>
-        <S.AlertContent>
+        <S.AlertHeader>
+          <XIcon onClick={() => setConditionsAlert(false)} />
+        </S.AlertHeader>
+        <S.Conditions>
           <div>
             <p>이용 약관</p>
-            <div onClick={() => setConditionsAlert(false)}>×</div>
           </div>
           <div>
             <p>
@@ -740,7 +743,7 @@ export default function Conditions({ setConditionsAlert }) {
               <br />
             </p>
           </div>
-        </S.AlertContent>
+        </S.Conditions>
       </S.AlertBox>
     </Portal>
   );

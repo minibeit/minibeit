@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import Portal from "../Portal";
-import * as S from "./style";
+import * as S from "../style";
 import { useHistory } from "react-router";
 import { toast } from "react-toastify";
+import { ReactComponent as XIcon } from "../../../..//svg/엑스.svg";
 
 //신청을 완료할것인지 묻는 알림창
 
@@ -31,34 +32,41 @@ export default function AskleteApplication({ setApplyAlert, apply, applyApi }) {
   return (
     <Portal>
       <S.AlertBox>
+        <S.AlertHeader>
+          <XIcon onClick={() => setApplyAlert(false)} />
+        </S.AlertHeader>
         {!secondAlert ? (
           <S.AlertContent>
-            <p>
-              {doMonth}월 {doDay}일, {time > 12 ? "오후" : "오전"}
-              {time > 12 ? time - 12 : time}시{" "}
-              {min !== "00" ? `${min}분` : null}
-              <br />
-              참여를 신청하시겠습니까?
-            </p>
-            <p>날짜, 시간, 장소를 꼭 확인해주세요.</p>
-            <div>
+            <S.AlertText>
+              <p>
+                {doMonth}월 {doDay}일, {time > 12 ? "오후" : "오전"}
+                {time > 12 ? time - 12 : time}시{" "}
+                {min !== "00" ? `${min}분` : null}
+                <br />
+                참여를 신청하시겠습니까?
+              </p>
+              <p>날짜, 시간, 장소를 꼭 확인해주세요.</p>
+            </S.AlertText>
+            <S.BtnGroup>
               <S.GrayButton onClick={() => setApplyAlert(false)}>
                 아니오
               </S.GrayButton>
               <S.BlueButton onClick={() => submit(apply.postDoDateId)}>
                 신청
               </S.BlueButton>
-            </div>
+            </S.BtnGroup>
           </S.AlertContent>
         ) : (
           <S.AlertContent>
-            <p>신청이 완료되었습니다.</p>
-            <p>
-              추후 개인 프로필의 확정된 목록을 통해
-              <br />
-              참여 확정을 확인해주세요.
-            </p>
-            <div>
+            <S.AlertText>
+              <p>신청이 완료되었습니다.</p>
+              <p>
+                추후 개인 프로필의 확정된 목록을 통해
+                <br />
+                참여 확정을 확인해주세요.
+              </p>
+            </S.AlertText>
+            <S.BtnGroup>
               <S.GrayButton
                 onClick={() => {
                   history.push("/");
@@ -73,7 +81,7 @@ export default function AskleteApplication({ setApplyAlert, apply, applyApi }) {
               >
                 신청내역 확인하기
               </S.BlueButton>
-            </div>
+            </S.BtnGroup>
           </S.AlertContent>
         )}
       </S.AlertBox>

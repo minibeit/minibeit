@@ -96,7 +96,7 @@ export default function FeedCloseModal({
                   onClick={() => setIsActive(!isActive)}
                   isActive={isActive}
                 >
-                  {goodItem[reviewData]}
+                  {reviewData ? goodItem[reviewData] : goodItem[0]}
                   <span onClick={() => setIsActive(!isActive)}>▲</span>
                 </S.Select>
                 <div>
@@ -132,7 +132,7 @@ export default function FeedCloseModal({
                   onClick={() => setIsActive(!isActive)}
                   isActive={isActive}
                 >
-                  {badItem[reviewData]}
+                  {reviewData ? badItem[reviewData] : badItem[0]}
                   <span onClick={() => setIsActive(!isActive)}>▲</span>
                 </S.Select>
                 <div>

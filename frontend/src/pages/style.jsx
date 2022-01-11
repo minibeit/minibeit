@@ -35,3 +35,19 @@ export const ProfileBackGround = styled.div`
     padding: 2rem 2rem;
   }
 `;
+
+export const NotFound = styled.div`
+  width: 100%;
+  height: 80vh;
+  border-radius: 1.5rem;
+  background-color: #f2f2f2;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+
+  @media only screen and (max-width: 700px) {
+    height: 50vh;
+  }
+`;

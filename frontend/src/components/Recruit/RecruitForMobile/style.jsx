@@ -5,7 +5,7 @@ const moveIcon1 = keyframes`
   transform: scale( 1.0 );
 }
 50% {
-  transform: scale( 1.2 );
+  transform: scale( 1.17 );
 }
 100% {
   transform: scale( 1.0 );
@@ -25,7 +25,7 @@ const moveIcon2 = keyframes`
 
 export const Container = styled.div`
   width: 100%;
-  height: 80vh;
+  height: 70vh;
   position: relative;
 
   & > div:first-child {
@@ -33,16 +33,19 @@ export const Container = styled.div`
     width: 100%;
     position: relative;
     display: flex;
+    background-color: #f2f2f2;
+    border-radius: 2rem;
+
     justify-content: center;
     & > div:first-child {
-      top: 15rem;
-      left: -1rem;
+      top: 16.5rem;
+      left: 1rem;
       animation: ${moveIcon2} 4s ease-in infinite;
     }
     & > div:last-child {
-      top: 8rem;
+      top: 5rem;
       left: 3rem;
-      animation: ${moveIcon1} 8s ease-in infinite;
+      animation: ${moveIcon1} 4s ease-in infinite;
     }
   }
 `;
@@ -78,13 +81,13 @@ export const BoxForImgBox = styled.div`
 
   & > div:first-child {
     top: 7rem;
-    left: 4rem;
-    animation: ${moveIcon1} 4s ease-in infinite;
+    left: 3rem;
+    animation: ${moveIcon2} 4s ease-in infinite;
   }
   & > div:last-child {
-    top: 17rem;
-    left: 7rem;
-    animation: ${moveIcon2} 4s ease-in infinite;
+    top: 16.5rem;
+    left: 4rem;
+    animation: ${moveIcon1} 4s ease-in infinite;
   }
 `;
 

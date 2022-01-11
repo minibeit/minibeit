@@ -16,6 +16,7 @@ import ApplyDetail from "./pages/ApplyDetail";
 import Recruit from "./pages/Recruit";
 import RecruitComplete from "./pages/RecruitComplete";
 import SignUp from "./pages/SignUp";
+import NotFound from "./pages/NotFound";
 
 import { NavBar, Footer } from "./components/Common";
 
@@ -59,6 +60,8 @@ function App() {
                 exact
                 component={RecruitComplete}
               />
+
+              <Route component={NotFound} />
             </Switch>
           </CSSTransition>
         </TransitionGroup>

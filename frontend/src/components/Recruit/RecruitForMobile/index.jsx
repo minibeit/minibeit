@@ -16,7 +16,7 @@ export default function RecruitForMobile() {
             <img src="/images/하트아이콘.png" alt="img" />
           </S.ImgBox>
         </S.BoxForImgBox>
-        <S.BoxForImgBox style={{ gap: "5rem", marginTop: "10rem" }}>
+        <S.BoxForImgBox style={{ gap: "4rem", marginTop: "9rem" }}>
           <S.SImgBox>
             <img src="/images/웃는얼굴아이콘.png" alt="img" />
           </S.SImgBox>

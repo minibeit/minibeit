@@ -474,6 +474,15 @@ export const Tag = styled.div`
   color: #7c7c7c;
   white-space: nowrap;
 `;
+export const RejectTag = styled(Tag)`
+  display: flex;
+  gap: 0.5em;
+  background: rgba(123, 104, 255, 0.1);
+  color: #7b68ff;
+  & > p:first-child {
+    font-weight: bold;
+  }
+`;
 export const RecruitTag = styled(Tag)`
   ${({ recruit }) => {
     return recruit

@@ -1,8 +1,7 @@
 import React from "react";
-import { PVImg } from "../../../Common";
-import SchoolSelect from "./SearchInput";
-import * as S from "./style";
+import { PVImg, SchoolInput } from "../../../Common";
 import { toast } from "react-toastify";
+import * as S from "./style";
 
 export default function Presenter({
   userData,
@@ -150,9 +149,10 @@ export default function Presenter({
 
           <S.SelectForm>
             <p>관심학교</p>
-            <SchoolSelect
-              defaultValue={schoolId}
-              onChange={(e) => (e ? setSchoolId(e.value) : setSchoolId(null))}
+            <SchoolInput
+              defaultId={schoolId}
+              onChange={(target) => setSchoolId(target.id)}
+              readOnly={!editmode}
             />
           </S.SelectForm>
         </div>

@@ -162,6 +162,13 @@ export const SelectForm = styled.div`
   & > div {
     margin-top: 7px;
     background-color: #f9f9f9;
+    border-radius: 8px;
+  }
+  & input {
+    font-size: 1em;
+    font-weight: normal;
+    color: #707070;
+    padding: 4px 0 8px 5px;
   }
 `;
 export const EmailPhoneInput = styled.div`

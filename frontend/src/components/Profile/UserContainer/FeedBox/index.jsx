@@ -47,10 +47,19 @@ export default function FeedBox({ status, data, changeFeedData }) {
         </S.FeedImgView>
         <S.FeedContentView>
           <div>
-            <S.RecruitTag recruit={data.recruitCondition}>
-              참여조건 {data.recruitCondition ? "있음" : "없음"}
-            </S.RecruitTag>
-            <S.Tag>{data.category}</S.Tag>
+            {status === "reject" ? (
+              <S.RejectTag>
+                <p>반려사유</p>
+                <p>{data.rejectComment}</p>
+              </S.RejectTag>
+            ) : (
+              <>
+                <S.RecruitTag recruit={data.recruitCondition}>
+                  참여조건 {data.recruitCondition ? "있음" : "없음"}
+                </S.RecruitTag>
+                <S.Tag>{data.category}</S.Tag>
+              </>
+            )}
           </div>
           <div>
             <S.InfoTable>

@@ -744,3 +744,48 @@ export const PaymentTag = styled.div`
     color: ${({ payment }) => (payment === "CACHE" ? "#00BB34" : "#3558C7")};
   }
 `;
+
+//recruit for mobile
+
+export const MobileContainer = styled.div`
+  width: 100%;
+  height: 45vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  & > svg {
+    width: 2.2rem;
+    path {
+      fill: #0642ff;
+    }
+  }
+
+  & > button {
+    border: none;
+    background-color: #0642ff;
+    padding: 0.7rem 2rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #fff;
+    border-radius: 1.2rem;
+  }
+`;
+
+export const Txt = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: center;
+  & > p:first-child {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+  & > p:nth-child(2) {
+    font-size: 0.9rem;
+    color: #7c7c7c;
+    line-height: 1.2rem;
+  }
+`;

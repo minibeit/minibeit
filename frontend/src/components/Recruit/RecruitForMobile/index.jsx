@@ -1,37 +1,22 @@
 import React from "react";
-import * as S from "./style";
+import * as S from "../style";
+import { useHistory } from "react-router-dom";
+import { ReactComponent as InfoIcon } from "../../../svg/경고.svg";
 
 export default function RecruitForMobile() {
+  const history = useHistory();
   return (
-    <S.Container>
-      <div>
-        <S.ImgBox>
-          <img src="/images/달력아이콘.png" alt="img" />
-        </S.ImgBox>
-        <S.BoxForImgBox>
-          <S.ImgBox>
-            <img src="/images/돈다발아이콘.png" alt="img" />
-          </S.ImgBox>
-          <S.ImgBox>
-            <img src="/images/하트아이콘.png" alt="img" />
-          </S.ImgBox>
-        </S.BoxForImgBox>
-        <S.BoxForImgBox style={{ gap: "4rem", marginTop: "9rem" }}>
-          <S.SImgBox>
-            <img src="/images/웃는얼굴아이콘.png" alt="img" />
-          </S.SImgBox>
-          <S.SImgBox>
-            <img src="/images/시간아이콘.png" alt="img" />
-          </S.SImgBox>
-        </S.BoxForImgBox>
-        <S.ImgBox>
-          <img src="/images/mainLogo2.png" alt="img" />
-        </S.ImgBox>
-      </div>
+    <S.MobileContainer>
+      <InfoIcon />
       <S.Txt>
-        모집하기는 모바일 환경에서
-        <br /> 진행해주세요!
+        <p>PC로 이용 해주세요</p>
+        <p>
+          모집하기는 PC에서만 가능합니다
+          <br />
+          PC에서 이용해주세요!
+        </p>
       </S.Txt>
-    </S.Container>
+      <button onClick={() => history.push("/")}>홈으로 갈래요</button>
+    </S.MobileContainer>
   );
 }

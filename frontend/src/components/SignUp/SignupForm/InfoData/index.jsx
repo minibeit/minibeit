@@ -193,8 +193,8 @@ export default function InfoData({
         </div>
         <div>
           <S.PhoneNumBox>
+            <p>연락처</p>
             <S.PhoneInput>
-              <p>연락처</p>
               <div>
                 <input
                   name="phoneNum"
@@ -217,7 +217,7 @@ export default function InfoData({
                     }
                   }}
                 >
-                  인증
+                  {changePhone ? "인증완료" : "인증"}
                 </button>
               </div>
               <div style={{ display: "none" }}>
@@ -228,14 +228,14 @@ export default function InfoData({
                     e.target.parentNode.setAttribute("style", "display:none");
                   }}
                 >
-                  인증
+                  확인
                 </button>
               </div>
             </S.PhoneInput>
           </S.PhoneNumBox>
           <S.EmailBox>
+            <p>이메일</p>
             <S.EmailInput>
-              <p>이메일</p>
               <div>
                 <input
                   defaultValue={defaultEmail}
@@ -260,7 +260,7 @@ export default function InfoData({
                     }
                   }}
                 >
-                  인증
+                  {changeEmail ? "인증완료" : "인증"}
                 </button>
               </div>
               <div style={{ display: "none" }}>
@@ -271,7 +271,7 @@ export default function InfoData({
                     e.target.parentNode.setAttribute("style", "display:none");
                   }}
                 >
-                  인증
+                  확인
                 </button>
               </div>
             </S.EmailInput>

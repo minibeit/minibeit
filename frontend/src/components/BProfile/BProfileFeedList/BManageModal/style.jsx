@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { ReactComponent as CheckIcon } from "../../../../svg/동그라미체크.svg";
 
 export const ModalBox = styled.div`
   transform: translate(-50%, -50%);
@@ -38,9 +39,6 @@ export const ModalHeader = styled.div`
       border-bottom: 3px solid #0642ff;
       margin-left: 1rem;
     }
-  }
-  & > div:nth-child(3) {
-    margin-left: auto;
   }
 
   @media only screen and (max-width: 700px) {
@@ -88,6 +86,7 @@ export const CloseModalBtn = styled.div`
 
 export const ModalContent = styled.div`
   background: #f8f8f8;
+  border-radius: 1rem;
   height: 19em;
   overflow-y: scroll;
   overflow-x: hidden;
@@ -95,7 +94,7 @@ export const ModalContent = styled.div`
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background-color: transparent;
+    background-color: none;
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 3px;
@@ -129,6 +128,8 @@ export const ManageTable = styled.table`
   width: 100%;
   & td {
     font-size: 0.9em;
+    padding: 0.2em 0;
+    vertical-align: middle;
   }
   @media only screen and (max-width: 700px) {
     display: flex;
@@ -138,7 +139,7 @@ export const ManageTable = styled.table`
 export const TableHeader = styled.thead`
   position: sticky;
   top: 0;
-  background: white;
+  background: #f8f8f8;
   & > tr:first-child {
     transform: translate(0px, -2px);
     & td {
@@ -209,6 +210,9 @@ export const RejectInput = styled.td`
     background: white;
     color: #c4c4c4;
     cursor: pointer;
+    :hover {
+      color: #0642ff;
+    }
   }
   @media only screen and (max-width: 700px) {
     transform: translate(8em, 0.5em);
@@ -219,14 +223,24 @@ export const Btn = styled.button`
   padding: 0.2rem 1rem;
   border-radius: 1rem;
   margin: 0 0.2em;
-  border: ${({ attend }) =>
-    attend === false ? "1px solid #0642ff" : "1px solid white"};
-  color: ${({ attend }) => (attend === false ? "#0642ff" : "white")};
-  background: ${({ attend }) => (attend === false ? "white" : "#0642ff")};
+  border: 1px white solid;
+  background: white;
   cursor: pointer;
-  &:disabled {
+  color: #7c7c7c;
+  :disabled {
+    color: #0642ff;
+    border: none;
     background: none;
-    color: #b0b0b0;
     cursor: inherit;
+  }
+  :hover {
+    color: #0642ff;
+  }
+`;
+
+export const AttendCheck = styled(CheckIcon)`
+  width: 1.5em;
+  & path {
+    fill: ${({ attend }) => (attend ? "#0642FF" : "#C4C4C4")};
   }
 `;

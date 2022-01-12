@@ -16,7 +16,7 @@ export const CalendarWrapper = styled.div`
     transform: translate(-16rem, 0.5rem);
   }
   & > div {
-    width: 13em;
+    width: 20rem;
     padding: 0;
   }
   & > button:nth-child(2) {

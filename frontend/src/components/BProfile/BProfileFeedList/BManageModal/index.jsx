@@ -119,17 +119,13 @@ export default function BManageModal({ feedData, setModalSwitch }) {
       <S.ModalBox>
         <S.ButtonTab>
           <button
-            onClick={() => {
-              setTab("대기자");
-            }}
+            onClick={() => setTab("대기자")}
             disabled={tab === "대기자" && true}
           >
             대기자 명단
           </button>
           <button
-            onClick={() => {
-              setTab("확정자");
-            }}
+            onClick={() => setTab("확정자")}
             disabled={tab === "확정자" && true}
           >
             확정자 명단

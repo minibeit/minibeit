@@ -139,14 +139,13 @@ export const CategoryBtn = styled.button`
 /*search filter*/
 export const SearchBox = styled.div`
   width: 100%;
-  height: 10rem;
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 1;
   gap: 2rem;
   transform: translate(0, 20%);
-  margin: 1rem 0;
+  margin-top: 1rem;
   ${({ centerView }) =>
     !centerView &&
     css`

@@ -41,11 +41,7 @@ export default function StartTimeInput({ defaultId, onChange }) {
   };
 
   return (
-    <ClickAwayListener
-      onClickAway={() => {
-        setViewSwitch(false);
-      }}
-    >
+    <ClickAwayListener onClickAway={() => setViewSwitch(false)}>
       <div>
         <S.SearchInput>
           <input
@@ -62,6 +58,7 @@ export default function StartTimeInput({ defaultId, onChange }) {
         {viewSwitch && (
           <S.Wrapper>
             <p>참여가 가능한 시간대를 설정해주세요</p>
+            <p>{`${startTimeRange[0]}시~${startTimeRange[1]}시`}</p>
             <Range
               min={0}
               max={24}

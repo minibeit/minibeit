@@ -36,5 +36,5 @@ export const ColorView = styled.div`
   border-radius: 50%;
   background: #0642ff;
   position: absolute;
-  transform: translate(1.3em, -1.9em);
+  transform: translate(0.5em, -1.9em);
 `;

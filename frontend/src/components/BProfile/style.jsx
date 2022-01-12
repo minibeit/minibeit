@@ -279,7 +279,6 @@ export const FeedBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  overflow: hidden;
   cursor: pointer;
   border: 1px solid #c4c4c480;
   transition: all 0.3s ease;
@@ -292,9 +291,6 @@ export const FeedBox = styled.div`
   }};
   &:hover {
     transform: scale(1.01);
-    & > div:first-child {
-      display: none;
-    }
   }
   @media only screen and (max-width: 700px) {
     margin: 0 auto;
@@ -342,6 +338,7 @@ export const FeedTitle = styled.div`
   flex-wrap: nowrap;
   gap: 0.3em;
   padding: 2em 1em;
+  border-radius: 1rem 0 0 1rem;
   box-sizing: border-box;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9;

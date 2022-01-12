@@ -20,7 +20,7 @@ export const Wrapper = styled.div`
   display: flex;
   z-index: 99;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
   max-height: 10rem;
   padding: 2rem;
   background: #ffffff;
@@ -29,9 +29,14 @@ export const Wrapper = styled.div`
   & > p:first-child {
     font-size: 1.2em;
     font-weight: bold;
+    text-align: center;
     white-space: nowrap;
   }
-  & > button:nth-child(3) {
+  & > p:nth-child(2) {
+    text-align: center;
+    font-weight: bold;
+  }
+  & > button:nth-child(4) {
     background: #0642ff;
     border: none;
     padding: 0.7em;

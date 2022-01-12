@@ -47,10 +47,19 @@ export default function FeedBox({ status, data, changeFeedData }) {
         </S.FeedImgView>
         <S.FeedContentView>
           <div>
-            <S.RecruitTag recruit={data.recruitCondition}>
-              참여조건 {data.recruitCondition ? "있음" : "없음"}
-            </S.RecruitTag>
-            <S.Tag>{data.category}</S.Tag>
+            {status === "reject" ? (
+              <S.RejectTag>
+                <p>반려사유</p>
+                <p>{data.rejectComment}</p>
+              </S.RejectTag>
+            ) : (
+              <>
+                <S.RecruitTag recruit={data.recruitCondition}>
+                  참여조건 {data.recruitCondition ? "있음" : "없음"}
+                </S.RecruitTag>
+                <S.Tag>{data.category}</S.Tag>
+              </>
+            )}
           </div>
           <div>
             <S.InfoTable>
@@ -92,25 +101,29 @@ export default function FeedBox({ status, data, changeFeedData }) {
             {status === "approve" && (
               <>
                 <S.BlueButton
-                  disabled={!(data.finish && data.isWritable)}
+                  disabled={!data.finish}
                   onClick={(e) => {
                     e.stopPropagation();
                     doJoinApi(data.postDoDateId).then(() => {
                       toast.info("참여완료 처리되었습니다");
-                      setReviewModal(true);
+                      if (data.isWritable) {
+                        setReviewModal(true);
+                      }
                     });
                   }}
                 >
                   참여 완료
                 </S.BlueButton>
-                <S.WhiteButton
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setCancleAttend(true);
-                  }}
-                >
-                  참여 취소
-                </S.WhiteButton>
+                {!data.finish && (
+                  <S.WhiteButton
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCancleAttend(true);
+                    }}
+                  >
+                    참여 취소
+                  </S.WhiteButton>
+                )}
               </>
             )}
             {status === "wait" && (
@@ -125,13 +138,17 @@ export default function FeedBox({ status, data, changeFeedData }) {
             )}
             {status === "complete" && (
               <S.WhiteButton
-                disabled={data.writeReview}
+                disabled={!(data.writeReview && data.isWritable)}
                 onClick={(e) => {
                   e.stopPropagation();
                   setReviewModal(true);
                 }}
               >
-                {data.writeReview ? "후기 작성 완료" : "후기 작성"}
+                {data.writeReview
+                  ? "후기 작성 완료"
+                  : data.isWritable
+                  ? "후기 작성"
+                  : "후기 작성 불가"}
               </S.WhiteButton>
             )}
             {status === "reject" && (

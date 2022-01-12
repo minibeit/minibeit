@@ -41,10 +41,17 @@ export default function Presenter({
             <td>성별</td>
             <td>연락처</td>
             <td>직업</td>
-            <td>처리상태</td>
+            {tab === "대기자" ? (
+              <td>처리상태</td>
+            ) : (
+              <>
+                <td>참여여부</td>
+                <td>평가하기</td>
+              </>
+            )}
           </tr>
           <tr>
-            <S.DateView colSpan={7}>
+            <S.DateView colSpan={tab === "대기자" ? 7 : 8}>
               {moment(date).format("YYYY.MM.DD")}
             </S.DateView>
           </tr>
@@ -64,50 +71,50 @@ export default function Presenter({
                       <td>{user.gender === "MALE" ? "남" : "여"}</td>
                       <td>{user.phoneNum}</td>
                       <td>{user.job}</td>
-                      <td>
-                        {tab === "대기자" ? (
-                          <>
-                            <S.Btn
-                              disabled={user.status === "APPROVE"}
-                              onClick={() => {
+
+                      {tab === "대기자" ? (
+                        <td>
+                          <S.Btn
+                            disabled={user.status === "APPROVE"}
+                            onClick={() => {
+                              setSelectUser({
+                                postDoDateId: time.postDoDateId,
+                                userId: user.id,
+                              });
+                              setApproveUser(true);
+                            }}
+                          >
+                            확정
+                          </S.Btn>
+                          <S.Btn
+                            onClick={(e) => {
+                              if (user.status === "APPROVE") {
                                 setSelectUser({
                                   postDoDateId: time.postDoDateId,
                                   userId: user.id,
                                 });
-                                setApproveUser(true);
-                              }}
-                            >
-                              확정
-                            </S.Btn>
+                                setCancleAlert(true);
+                              } else {
+                                setSelectUser({
+                                  postDoDateId: time.postDoDateId,
+                                  userName: user.name,
+                                  userId: user.id,
+                                  isAttend: user.isAttend,
+                                });
+                                viewRejectInput(e);
+                              }
+                            }}
+                          >
+                            {user.status === "APPROVE" ? "취소" : "반려"}
+                          </S.Btn>
+                        </td>
+                      ) : (
+                        <>
+                          <td>
+                            <S.AttendCheck attend={user.isAttend} />
+                          </td>
+                          <td>
                             <S.Btn
-                              onClick={(e) => {
-                                if (user.status === "APPROVE") {
-                                  setSelectUser({
-                                    postDoDateId: time.postDoDateId,
-                                    userId: user.id,
-                                  });
-                                  setCancleAlert(true);
-                                } else {
-                                  setSelectUser({
-                                    postDoDateId: time.postDoDateId,
-                                    userName: user.name,
-                                    userId: user.id,
-                                    isAttend: user.isAttend,
-                                  });
-                                  viewRejectInput(e);
-                                }
-                              }}
-                            >
-                              {user.status === "APPROVE" ? "취소" : "반려"}
-                            </S.Btn>
-                          </>
-                        ) : (
-                          <>
-                            <S.Btn disabled={true}>
-                              {user.isAttend ? "참여" : "불참"}
-                            </S.Btn>
-                            <S.Btn
-                              attend={user.isAttend}
                               onClick={() => {
                                 setSelectUser({
                                   postDoDateId: time.postDoDateId,
@@ -119,9 +126,9 @@ export default function Presenter({
                             >
                               {user.isAttend ? "불참" : "참여"}
                             </S.Btn>
-                          </>
-                        )}
-                      </td>
+                          </td>
+                        </>
+                      )}
                     </S.TableRow>
                     <tr style={{ display: "none" }}>
                       <S.RejectInput colSpan={7}>

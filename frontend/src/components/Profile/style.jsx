@@ -321,7 +321,6 @@ export const FeedBox = styled.div`
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  overflow: hidden;
   cursor: pointer;
   border: 1px solid #c4c4c480;
   box-sizing: content-box;
@@ -334,9 +333,6 @@ export const FeedBox = styled.div`
   }};
   :hover {
     transform: scale(1.01);
-    & > div:first-child {
-      display: none;
-    }
   }
   @media only screen and (max-width: 700px) {
     margin: 0 auto;
@@ -393,6 +389,7 @@ export const FeedImgView = styled.div`
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 1rem 0 0 1rem;
   }
 `;
 
@@ -473,6 +470,15 @@ export const Tag = styled.div`
   background: #7c7c7c1a;
   color: #7c7c7c;
   white-space: nowrap;
+`;
+export const RejectTag = styled(Tag)`
+  display: flex;
+  gap: 0.5em;
+  background: rgba(123, 104, 255, 0.1);
+  color: #7b68ff;
+  & > p:first-child {
+    font-weight: bold;
+  }
 `;
 export const RecruitTag = styled(Tag)`
   ${({ recruit }) => {

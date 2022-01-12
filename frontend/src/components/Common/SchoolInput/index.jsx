@@ -6,7 +6,7 @@ import { ReactComponent as PlaceIcon } from "../../../svg/위치.svg";
 
 import * as S from "./style";
 
-export default function SchoolInput({ defaultId, onChange }) {
+export default function SchoolInput({ defaultId, onChange, readOnly }) {
   const [text, setText] = useState("");
   const [schoolList, setSchoolList] = useState([]);
   const [listView, setListView] = useState(false);
@@ -28,14 +28,11 @@ export default function SchoolInput({ defaultId, onChange }) {
   }, [text]);
 
   return (
-    <ClickAwayListener
-      onClickAway={() => {
-        setListView(false);
-      }}
-    >
+    <ClickAwayListener onClickAway={() => setListView(false)}>
       <div>
         <S.SearchInput>
           <input
+            readOnly={readOnly}
             type="text"
             className="schoolInput"
             placeholder="위치"
@@ -46,7 +43,7 @@ export default function SchoolInput({ defaultId, onChange }) {
                   : null
                 : null
             }
-            onClick={() => setListView(!listView)}
+            onClick={() => !readOnly && setListView(!listView)}
             onChange={(e) => {
               setListView(true);
               setText(e.target.value);

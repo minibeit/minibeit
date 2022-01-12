@@ -12,6 +12,13 @@ export const CalendarWrapper = styled.div`
   background: white;
   border-radius: 0.8rem;
   overflow: hidden;
+  @media only screen and (max-width: 700px) {
+    transform: translate(-16rem, 0.5rem);
+  }
+  & > div {
+    width: 20rem;
+    padding: 0;
+  }
   & > button:nth-child(2) {
     background-color: #0642ff;
     width: 100%;
@@ -42,5 +49,5 @@ export const ColorView = styled.div`
   border-radius: 50%;
   background: #0642ff;
   position: absolute;
-  transform: translate(0.3em, -1.9em);
+  transform: translate(0.5em, -1.9em);
 `;

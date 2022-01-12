@@ -6,7 +6,7 @@ export const ModalBox = styled.div`
   top: 50%;
   left: 50%;
   width: 57%;
-  background: #f9f9f9;
+  background: white;
   max-width: 41rem;
   border-radius: 20px;
   padding: 32px 36px;
@@ -29,7 +29,8 @@ export const ModalHeader = styled.div`
   gap: 0.5rem;
   height: 3.2rem;
   & > div:first-child {
-    background: white;
+    background: #0642ff1a;
+    color: white;
     width: 2rem;
     height: 2rem;
     border-radius: 50%;
@@ -52,7 +53,7 @@ export const CloseModalBtn = styled.div`
 `;
 export const ProgressBar = styled.div`
   width: 100%;
-  background: #e7e5e5;
+  background: #0642ff1a;
   height: 0.3rem;
   border-radius: 1rem;
 `;
@@ -63,7 +64,7 @@ export const StepBar = styled.div`
     else return "100%";
   }};
   height: 100%;
-  background: #b9b9b9;
+  background: #0642ff;
 `;
 
 export const ModalContent = styled.div`
@@ -116,8 +117,10 @@ export const InputBox = styled.div`
     border-radius: 8px;
     width: 100%;
     border: none;
-    background: white;
-    padding: 8px 0 8px 5px;
+    background: #f8f8f8;
+    flex: 1;
+    padding: 0.4em;
+    outline: 0;
   }
 `;
 export const GreetingMsg = styled.div`
@@ -139,6 +142,7 @@ export const NextBtn = styled.button`
   display: flex;
   background: #0642ff;
   color: white;
+  min-width: 7em;
   border-radius: 25px;
   font-size: 15px;
   cursor: pointer;
@@ -208,8 +212,8 @@ export const Img = styled.img`
 export const ImgEditBtn = styled.label`
   padding: 0.5rem;
   cursor: pointer;
-  background: #c4c4c4;
-  color: white;
+  background: #f8f8f8;
+  color: #7c7c7c;
   border-radius: 14px;
   width: 100px;
   font-size: 12px;
@@ -229,6 +233,7 @@ export const InfoContainer = styled(Container)`
   }
   & > div:nth-child(2) {
     display: flex;
+    flex-direction: column;
     flex-wrap: wrap;
     gap: 1rem;
   }
@@ -250,7 +255,7 @@ export const InfoContainer = styled(Container)`
 `;
 export const CheckInput = styled.div`
   display: flex;
-  flex-direction: column;
+  gap: 0.4em;
   & > p:first-child {
     font-size: 0.5rem;
   }
@@ -266,16 +271,15 @@ export const CheckInput = styled.div`
     line-height: normal;
     letter-spacing: 0.14px;
     text-align: left;
-    margin-top: 7px;
     outline: none;
-    background: white;
+    background: #f8f8f8;
     color: #707070;
     text-decoration: none;
   }
   & input {
     width: 90%;
     height: 100%;
-    padding: 0;
+    padding: 0 0.4em;
     margin: 0;
     background: none;
     border: none;
@@ -323,7 +327,6 @@ export const BirthBox = styled(InputBox)`
   }
 `;
 export const PhoneNumBox = styled(InputBox)`
-  width: 12rem;
   & > input[type="number"]::-webkit-outer-spin-button,
   input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -333,8 +336,11 @@ export const PhoneNumBox = styled(InputBox)`
 export const EmailBox = styled(InputBox)``;
 export const NicknameInput = styled(CheckInput)`
   width: 8rem;
+  flex-direction: column;
   & > p:nth-child(3) {
     font-size: 0.5rem;
+    position: absolute;
+    transform: translate(0, 7em);
   }
 `;
 export const PhoneInput = styled(CheckInput)`
@@ -370,7 +376,7 @@ export const JobContainer = styled.div`
 `;
 export const JobButton = styled.button`
   border: none;
-  background: white;
+  background: #f9f9f9;
   width: 6rem;
   height: 2rem;
   border-radius: 1rem;

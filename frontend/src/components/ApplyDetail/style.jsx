@@ -298,6 +298,9 @@ export const TimeBtn = styled.div`
     display: flex;
     background: #e5ecff;
     color: black;
+    @media only screen and (max-width: 700px) {
+      font-size: 0.8em;
+    }
   }
   & > input:checked + label {
     background: #0642ff;
@@ -345,16 +348,21 @@ export const ReviewItem = styled.div`
   & > p:nth-child(2) {
     display: flex;
     align-items: center;
+    @media only screen and (max-width: 700px) {
+      font-size: 0.8em;
+    }
   }
 `;
 export const ReviewTitle = styled.div`
   display: flex;
   gap: 0.5em;
+  align-items: center;
   & > p {
     display: flex;
     align-items: center;
     font-weight: bold;
     color: #404040;
+    white-space: nowrap;
   }
 `;
 export const ReviewIcon = styled.div`

@@ -10,7 +10,6 @@ export const SearchInput = styled.div`
   & > input {
     border: none;
     background: none;
-    font-weight: bold;
     font-size: 1rem;
     outline: none;
   }
@@ -29,7 +28,7 @@ export const SearchInput = styled.div`
 `;
 export const SchoolListWrapper = styled.div`
   position: absolute;
-  transform: translate(-1.2rem, 1rem);
+  transform: translate(-1.2rem, 0);
   display: flex;
   z-index: 99;
   flex-direction: column;
@@ -39,7 +38,7 @@ export const SchoolListWrapper = styled.div`
   overflow-y: scroll;
   background: #ffffff;
   box-shadow: 10px 10px 30px rgb(189 189 189 / 20%);
-  border-radius: 1.5rem;
+
   ::-webkit-scrollbar {
     width: 6px;
   }

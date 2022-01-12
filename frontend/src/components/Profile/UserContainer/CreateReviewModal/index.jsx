@@ -16,22 +16,27 @@ export default function FeedCloseModal({
   const [mode, setMode] = useState(null);
   const [reviewData, setReviewData] = useState();
   const [isActive, setIsActive] = useState(false);
-  const [goodItem] = useState([
-    "예상보다 소요 시간이 적었어요",
-    "참여 경험이 흥미로웠어요",
-    "참여에 대한 보상이 충분해요",
-    "구성원들이 친절하고 편안했어요",
-  ]);
-  const [badItem] = useState([
-    "예상 소요 시간을 초과하였어요",
-    "참여에 대한 보상이 아쉬워요",
-    "참여 경험이 다소 지루했어요",
-    "구성원들이 다소 불편했어요",
-  ]);
+  const [itemArr, setItemArr] = useState([]);
 
   const onClose = () => {
     changeFeedData();
     setModalSwitch(false);
+  };
+
+  const modeSelect = (mode) => {
+    const goodItem = [
+      { id: 1, context: "예상보다 소요 시간이 적었어요" },
+      { id: 2, context: "참여 경험이 흥미로웠어요" },
+      { id: 3, context: "참여에 대한 보상이 충분해요" },
+      { id: 4, context: "구성원들이 친절하고 편안했어요" },
+    ];
+    const badItem = [
+      { id: 1, context: "예상 소요 시간을 초과하였어요" },
+      { id: 2, context: "참여에 대한 보상이 아쉬워요" },
+      { id: 3, context: "참여 경험이 다소 지루했어요" },
+      { id: 4, context: "구성원들이 다소 불편했어요" },
+    ];
+    setItemArr(mode === "good" ? goodItem : badItem);
   };
 
   const submit = () => {
@@ -41,7 +46,7 @@ export default function FeedCloseModal({
           createBusinessReviewApi(
             data.businessProfile.id,
             data.postDoDateId,
-            reviewData + 1
+            reviewData.id
           )
             .then((res) => toast.info("평가가 완료되었습니다"))
             .catch((err) => toast.error("평가에 실패했습니다"));
@@ -54,7 +59,7 @@ export default function FeedCloseModal({
         default:
       }
       data.writeReview = true;
-      setModalSwitch(false);
+      onClose();
     } else {
       toast.info("이유를 선택해주세요");
     }
@@ -67,7 +72,7 @@ export default function FeedCloseModal({
           <CloseIcon onClick={onClose} />
         </div>
         <S.ModalContent>
-          {!mode && (
+          {!mode ? (
             <>
               <S.TitleBox>
                 <InfoIcon />
@@ -79,74 +84,47 @@ export default function FeedCloseModal({
                 </p>
               </S.TitleBox>
               <S.ButtonBox>
-                <button onClick={() => setMode("good")}>만족했어요</button>
-                <button onClick={() => setMode("bad")}>불만족했어요</button>
+                <button
+                  onClick={() => {
+                    setMode("good");
+                    modeSelect("good");
+                  }}
+                >
+                  만족했어요
+                </button>
+                <button
+                  onClick={() => {
+                    setMode("bad");
+                    modeSelect("bad");
+                  }}
+                >
+                  불만족했어요
+                </button>
               </S.ButtonBox>
             </>
-          )}
-          {mode === "good" && (
+          ) : (
             <>
               <S.TitleBox>
                 <InfoIcon />
-                <p>만족 사유를 알려주세요</p>
+                <p>{mode === "good" ? "만족" : "불만족"} 사유를 알려주세요</p>
               </S.TitleBox>
               <S.SelectBox>
-                <S.Select
-                  defaultValue="default"
-                  onClick={() => setIsActive(!isActive)}
-                  isActive={isActive}
-                >
-                  {reviewData ? goodItem[reviewData] : goodItem[0]}
+                <S.Select onClick={() => setIsActive(!isActive)}>
+                  {reviewData && reviewData.context}
                   <span onClick={() => setIsActive(!isActive)}>▲</span>
                 </S.Select>
                 <div>
                   {isActive &&
-                    goodItem.map((a, i) => (
+                    itemArr.map((a) => (
                       <S.Option
-                        onClick={(e) => {
-                          setReviewData(goodItem.indexOf(e.target.value));
+                        onClick={() => {
+                          setReviewData(a);
                           setIsActive(!isActive);
                         }}
                         value={a}
-                        key={i}
+                        key={a.id}
                       >
-                        {a}
-                      </S.Option>
-                    ))}
-                </div>
-              </S.SelectBox>
-              <S.ButtonBox>
-                <button onClick={submit}>확인</button>
-              </S.ButtonBox>
-            </>
-          )}
-          {mode === "bad" && (
-            <>
-              <S.TitleBox>
-                <InfoIcon />
-                <p>불만족 사유를 알려주세요</p>
-              </S.TitleBox>
-              <S.SelectBox>
-                <S.Select
-                  defaultValue="default"
-                  onClick={() => setIsActive(!isActive)}
-                  isActive={isActive}
-                >
-                  {reviewData ? badItem[reviewData] : badItem[0]}
-                  <span onClick={() => setIsActive(!isActive)}>▲</span>
-                </S.Select>
-                <div>
-                  {isActive &&
-                    badItem.map((a, i) => (
-                      <S.Option
-                        onClick={(e) => {
-                          setReviewData(badItem.indexOf(e.target.value));
-                          setIsActive(!isActive);
-                        }}
-                        value={a}
-                        key={i}
-                      >
-                        {a}
+                        {a.context}
                       </S.Option>
                     ))}
                 </div>

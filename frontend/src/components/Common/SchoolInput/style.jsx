@@ -28,7 +28,7 @@ export const SearchInput = styled.div`
 `;
 export const SchoolListWrapper = styled.div`
   position: absolute;
-  transform: translate(-1.2rem, 1rem);
+  transform: translate(-1.2rem, 0);
   display: flex;
   z-index: 99;
   flex-direction: column;

@@ -35,7 +35,7 @@ export default function UserLikeContainer() {
 
   return (
     <S.LikeFeedContainer>
-      <div onClick={() => history.push("/profile?approve")}>
+      <div onClick={() => history.push("/profile?approve&1")}>
         <ArrowIcon />
         뒤로가기
       </div>

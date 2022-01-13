@@ -9,14 +9,14 @@ import { useHistory } from "react-router";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/userState";
 
-export default function ProfileComponent({ view }) {
+export default function ProfileComponent({ view, page }) {
   const history = useHistory();
   const usersBProfile = useRecoilValue(userState).bprofile;
 
   return (
     <div>
       <S.ModeSelectBtn
-        onClick={() => history.push("/profile?approve")}
+        onClick={() => history.push("/profile?approve&1")}
         disabled={view !== "business" ? true : false}
       >
         개인 프로필
@@ -24,7 +24,7 @@ export default function ProfileComponent({ view }) {
       <S.ModeSelectBtn
         onClick={() => {
           if (usersBProfile) {
-            history.push(`/business/${usersBProfile}`);
+            history.push(`/business/${usersBProfile}?created&1`);
           } else {
             history.push("/profile?business");
           }
@@ -41,7 +41,7 @@ export default function ProfileComponent({ view }) {
             {view === "like" ? (
               <UserLikeContainer />
             ) : (
-              <UserContainer view={view} />
+              <UserContainer view={view} page={page} />
             )}
           </>
         )}

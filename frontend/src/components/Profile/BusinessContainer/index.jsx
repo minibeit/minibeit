@@ -23,7 +23,7 @@ export default function BusinessContainer() {
     let copy = { ...user };
     copy.bprofile = BProfile.id;
     setUser(copy);
-    history.push(`/business/${BProfile.id}`);
+    history.push(`/business/${BProfile.id}?created&1`);
   };
 
   useEffect(() => {

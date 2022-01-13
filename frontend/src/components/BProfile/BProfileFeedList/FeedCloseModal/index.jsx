@@ -113,7 +113,7 @@ export default function FeedCloseModal({
             <S.BlueButton
               onClick={() => {
                 setCloseModal(false);
-                changeFeedData("생성한 모집공고");
+                changeFeedData();
               }}
             >
               닫기

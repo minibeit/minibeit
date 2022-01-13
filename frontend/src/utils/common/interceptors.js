@@ -14,7 +14,7 @@ export function setInterceptors(instance) {
     (err) => {
       const { config, response } = err;
       let originalRequest = config;
-      if (response.data.error === "Unauthorized") {
+      if (response.data.error.type === "InsufficientAuthenticationException") {
         return axios
           .post(process.env.REACT_APP_API_URL + "/api/user/refreshtoken")
           .then((res) => {

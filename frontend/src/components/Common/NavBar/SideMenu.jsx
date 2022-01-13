@@ -19,7 +19,7 @@ export default function SideMenu({
           {isLogin && (
             <S.ProfileImgBox
               onClick={() => {
-                history.push("/profile?approve");
+                history.push("/profile?approve&1");
                 setMenuSwitch(false);
               }}
               sideMenu={true}

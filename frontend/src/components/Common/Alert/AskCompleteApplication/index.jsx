@@ -76,7 +76,7 @@ export default function AskleteApplication({ setApplyAlert, apply, applyApi }) {
               </S.GrayButton>
               <S.BlueButton
                 onClick={() => {
-                  history.push("/profile?wait");
+                  history.push("/profile?wait&1");
                 }}
               >
                 신청내역 확인하기

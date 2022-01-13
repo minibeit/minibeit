@@ -14,12 +14,10 @@ import * as S from "../style";
 import { useRecoilState } from "recoil";
 import { profilePreview } from "../../../recoil/preview";
 
-export default function UserContainer({ view }) {
+export default function UserContainer({ view, page }) {
   const history = useHistory();
   const [feedData, setFeedData] = useState([]);
-  const [page, setPage] = useState(1);
   const [totalEle, setTotalEle] = useState(0);
-  const [, setFeedSwitch] = useState("확정된 목록");
   const [feedPreview, setFeedPreview] = useRecoilState(profilePreview);
 
   const status = [
@@ -30,11 +28,11 @@ export default function UserContainer({ view }) {
   ];
 
   const changeFeedData = useCallback(
-    (page) => {
+    () => {
       setFeedData();
       switch (view) {
         case "approve":
-          getMyFeedList(page ? page : 1, "APPROVE")
+          getMyFeedList(page, "APPROVE")
             .then((res) => {
               setTotalEle(res.data.data.totalElements);
               setFeedData(res.data.data.content);
@@ -47,7 +45,7 @@ export default function UserContainer({ view }) {
             });
           break;
         case "wait":
-          getMyFeedList(page ? page : 1, "WAIT").then((res) => {
+          getMyFeedList(page, "WAIT").then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
             let copy = { ...feedPreview };
@@ -56,13 +54,13 @@ export default function UserContainer({ view }) {
           });
           break;
         case "complete":
-          getMyFeedList(page ? page : 1, "COMPLETE").then((res) => {
+          getMyFeedList(page, "COMPLETE").then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
           });
           break;
         case "reject":
-          getMyRejectListApi(page ? page : 1).then((res) => {
+          getMyRejectListApi(page).then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
             let copy = { ...feedPreview };
@@ -74,7 +72,7 @@ export default function UserContainer({ view }) {
       }
     },
     // eslint-disable-next-line
-    [view, setFeedPreview]
+    [view, page]
   );
 
   useEffect(() => {
@@ -90,11 +88,7 @@ export default function UserContainer({ view }) {
             return (
               <button
                 key={i}
-                onClick={() => {
-                  setPage(1);
-                  setFeedSwitch(a.value);
-                  history.push(`/profile?${a.id}`);
-                }}
+                onClick={() => history.push(`/profile?${a.id}&1`)}
                 disabled={a.id === view ? true : false}
               >
                 {a.value}
@@ -125,8 +119,9 @@ export default function UserContainer({ view }) {
               <Pagination
                 page={page}
                 count={totalEle}
-                setPage={setPage}
-                onChange={(e) => changeFeedData(e)}
+                onChange={(clickPage) =>
+                  history.push(`/profile?${view}&${clickPage}`)
+                }
                 itemsCountPerPage={5}
               />
             )}

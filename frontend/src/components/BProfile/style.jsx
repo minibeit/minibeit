@@ -282,6 +282,7 @@ export const FeedBox = styled.div`
   cursor: pointer;
   border: 1px solid #c4c4c480;
   transition: all 0.3s ease;
+  overflow: hidden;
   box-sizing: content-box;
   border-radius: 1em;
   box-shadow: 2px 2px 12px 0px #00000033;
@@ -291,6 +292,9 @@ export const FeedBox = styled.div`
   }};
   &:hover {
     transform: scale(1.01);
+    & > div:first-child {
+      display: none;
+    }
   }
   @media only screen and (max-width: 700px) {
     margin: 0 auto;
@@ -306,12 +310,12 @@ export const FeedLabel = styled.div`
   text-align: center;
   border-radius: 2rem;
   ${({ status }) => {
-    if (status === "생성한 모집공고")
+    if (status === "created")
       return css`
         color: #7b68ff;
         border: 1px solid #7b68ff;
       `;
-    else if (status === "완료된 모집공고")
+    else if (status === "completed")
       return css`
         color: #16b4ab;
         border: 1px solid #16b4ab;
@@ -338,7 +342,6 @@ export const FeedTitle = styled.div`
   flex-wrap: nowrap;
   gap: 0.3em;
   padding: 2em 1em;
-  border-radius: 1rem 0 0 1rem;
   box-sizing: border-box;
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 9;

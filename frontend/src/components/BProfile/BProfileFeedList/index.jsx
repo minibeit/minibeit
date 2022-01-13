@@ -10,10 +10,10 @@ import * as S from "../style";
 
 export default function BProfileInfo({
   page,
-  setPage,
-  feedSwitch,
-  setFeedSwitch,
+  status,
+  businessId,
   feedData,
+  view,
   reviewCount,
   totalEle,
   changeFeedData,
@@ -23,25 +23,21 @@ export default function BProfileInfo({
   return (
     <>
       <S.CategoryBtnBox>
-        {["생성한 모집공고", "완료된 모집공고", "후기 모아보기"].map((a, i) => {
+        {status.map((a, i) => {
           return (
             <button
               key={i}
-              onClick={() => {
-                setPage(1);
-                setFeedSwitch(a);
-                changeFeedData(a);
-              }}
-              disabled={a === feedSwitch ? true : false}
+              onClick={() => history.push(`/business/${businessId}?${a.id}&1`)}
+              disabled={a.id === view ? true : false}
             >
-              {a}
+              {a.value}
             </button>
           );
         })}
       </S.CategoryBtnBox>
       {feedData && (
         <S.FeedGroup>
-          {feedSwitch === "후기 모아보기" ? (
+          {view === "review" ? (
             <BProfileReview feedData={feedData} reviewCount={reviewCount} />
           ) : (
             <>
@@ -56,7 +52,7 @@ export default function BProfileInfo({
                 feedData.map((a, i) => (
                   <FeedBox
                     key={i}
-                    status={feedSwitch}
+                    status={view}
                     data={a}
                     changeFeedData={changeFeedData}
                   />
@@ -66,8 +62,9 @@ export default function BProfileInfo({
                 <Pagination
                   page={page}
                   count={totalEle}
-                  setPage={setPage}
-                  onChange={(e) => changeFeedData(feedSwitch, e)}
+                  onChange={(clickPage) =>
+                    history.push(`/business/${businessId}?${view}&${clickPage}`)
+                  }
                   itemsCountPerPage={5}
                 />
               )}

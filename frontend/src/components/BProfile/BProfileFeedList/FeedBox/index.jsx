@@ -23,8 +23,8 @@ export default function FeedBox({ status, data, changeFeedData }) {
         postStatus={data.postStatus}
       >
         <S.FeedLabel status={status}>
-          {status === "생성한 모집공고" && "모집중"}
-          {status === "완료된 모집공고" && "모집완료"}
+          {status === "created" && "모집중"}
+          {status === "completed" && "모집완료"}
         </S.FeedLabel>
         <S.FeedImgView thumbnail={data.thumbnail}>
           <S.FeedTitle>
@@ -52,7 +52,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
             <p>{data.headcount} 명</p>
           </div>
           <div>
-            {status === "생성한 모집공고" && (
+            {status === "created" && (
               <>
                 <S.BlueButton
                   onClick={(e) => {
@@ -72,7 +72,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
                 </S.WhiteButton>
               </>
             )}
-            {status === "완료된 모집공고" && (
+            {status === "completed" && (
               <S.WhiteButton
                 onClick={(e) => {
                   e.stopPropagation();

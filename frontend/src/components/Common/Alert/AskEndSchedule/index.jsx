@@ -18,7 +18,7 @@ export default function AskEndSchedule({
   const deleteFeed = async (id) => {
     await feedDeleteApi(id)
       .then(() => {
-        setSecondAlert(true); // changeFeedData("완료된 모집공고");
+        setSecondAlert(true);
       })
       .catch(() => {
         toast.error(

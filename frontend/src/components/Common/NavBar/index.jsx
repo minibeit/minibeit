@@ -76,7 +76,7 @@ export default function NavBar() {
         </S.NavItems>
         <S.AuthBox>
           {isLogin && (
-            <S.ProfileImgBox onClick={() => history.push("/profile?approve")}>
+            <S.ProfileImgBox onClick={() => history.push("/profile?approve&1")}>
               {user.avatar !== "noImg" ? (
                 <img src={user.avatar} alt="profileImg" />
               ) : (

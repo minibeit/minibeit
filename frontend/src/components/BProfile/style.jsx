@@ -310,12 +310,12 @@ export const FeedLabel = styled.div`
   text-align: center;
   border-radius: 2rem;
   ${({ status }) => {
-    if (status === "생성한 모집공고")
+    if (status === "created")
       return css`
         color: #7b68ff;
         border: 1px solid #7b68ff;
       `;
-    else if (status === "완료된 모집공고")
+    else if (status === "completed")
       return css`
         color: #16b4ab;
         border: 1px solid #16b4ab;

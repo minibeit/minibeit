@@ -389,7 +389,6 @@ export const FeedImgView = styled.div`
   background-position: center;
   flex: 1;
   & > div {
-    width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
   }
@@ -414,7 +413,7 @@ export const FeedTitle = styled.div`
   padding: 2rem 1rem;
   gap: 0.7rem;
   & > p:first-child {
-    white-space: nowrap;
+    white-space: wrap;
     color: white;
     font-size: 1.5rem;
   }

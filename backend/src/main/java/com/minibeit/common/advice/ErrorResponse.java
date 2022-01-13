@@ -7,11 +7,11 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorResponse {
-    private String status;
+    private int status;
     private Boolean success;
     private CustomError error;
 
-    public static ErrorResponse build(String status, Exception ex) {
+    public static ErrorResponse build(int status, Exception ex) {
         return ErrorResponse.builder()
                 .status(status)
                 .success(false)

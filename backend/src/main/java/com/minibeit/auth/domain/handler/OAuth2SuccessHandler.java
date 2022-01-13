@@ -1,9 +1,9 @@
 package com.minibeit.auth.domain.handler;
 
-import com.minibeit.common.utils.CookieUtils;
-import com.minibeit.school.domain.School;
 import com.minibeit.auth.domain.token.Token;
 import com.minibeit.auth.service.TokenProvider;
+import com.minibeit.common.utils.CookieUtils;
+import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
@@ -27,7 +27,7 @@ import java.nio.charset.StandardCharsets;
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final TokenProvider tokenProvider;
     private final UserRepository userRepository;
-
+    private final static Integer MAX_COOKIE_TIME_S = 7 * 24 * 60 * 60;
     private static final String REFRESH_TOKEN = "refresh_token";
     @Value("${oauth2.success.redirect.url}")
     private String url;
@@ -60,7 +60,7 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         Token token = tokenProvider.generateAccessToken(user);
         Token refreshToken = tokenProvider.generateRefreshToken(user);
 
-        CookieUtils.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), 14 * 24 * 60 * 60);
+        CookieUtils.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), MAX_COOKIE_TIME_S);
 
         if (user.getAvatar() != null) {
             response.sendRedirect(url + user.getId() + "/" + nickname + "/" + user.getEmail() + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/" + avatar);

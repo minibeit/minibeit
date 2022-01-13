@@ -23,8 +23,7 @@ public class BusinessUserReviewDetailRepositoryImpl implements BusinessUserRevie
                 .from(businessUserReviewDetail)
                 .leftJoin(businessUserReviewDetail.businessUserReviewList, businessUserReview).on(businessUserReview.businessProfile.id.eq(businessProfileId))
                 .where(businessUserReviewDetail.type.eq(BusinessUserReviewType.B)
-                        .and(businessUserReviewDetail.evalType.eq(BusinessUserReviewEvalType.GOOD))
-                        .and(businessUserReviewDetail.id.ne(5L)))
+                        .and(businessUserReviewDetail.evalType.eq(BusinessUserReviewEvalType.GOOD)))
                 .groupBy(businessUserReviewDetail.id)
                 .fetch();
     }

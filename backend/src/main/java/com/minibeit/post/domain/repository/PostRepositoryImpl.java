@@ -214,7 +214,7 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             query.orderBy(postDoDate.doDate.asc());
         }
 
-        if (status.equals(ApplyStatus.WAIT)) {
+        if (status.equals(ApplyStatus.WAIT) || status.equals(ApplyStatus.COMPLETE)) {
             query.orderBy(postApplicant.id.desc());
         }
 

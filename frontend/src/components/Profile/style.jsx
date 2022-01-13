@@ -324,6 +324,7 @@ export const FeedBox = styled.div`
   cursor: pointer;
   border: 1px solid #c4c4c480;
   box-sizing: content-box;
+  overflow: hidden;
   border-radius: 1em;
   box-shadow: 2px 2px 12px 0px #00000033;
   transition: all 0.3s ease;
@@ -333,6 +334,9 @@ export const FeedBox = styled.div`
   }};
   :hover {
     transform: scale(1.01);
+    & > div:first-child {
+      display: none;
+    }
   }
   @media only screen and (max-width: 700px) {
     margin: 0 auto;
@@ -343,7 +347,6 @@ export const FeedBox = styled.div`
 export const FeedLabel = styled.div`
   position: absolute;
   transform: translate(0.3rem, -0.7rem);
-  z-index: 99;
   padding: 0.3rem;
   text-align: center;
   border-radius: 2rem;
@@ -389,7 +392,6 @@ export const FeedImgView = styled.div`
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 1rem 0 0 1rem;
   }
 `;
 

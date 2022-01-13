@@ -31,35 +31,26 @@ export default function FeedCloseModal({
       { id: 4, context: "구성원들이 친절하고 편안했어요" },
     ];
     const badItem = [
-      { id: 1, context: "예상 소요 시간을 초과하였어요" },
-      { id: 2, context: "참여에 대한 보상이 아쉬워요" },
-      { id: 3, context: "참여 경험이 다소 지루했어요" },
-      { id: 4, context: "구성원들이 다소 불편했어요" },
+      { id: 6, context: "예상 소요 시간을 초과하였어요" },
+      { id: 7, context: "참여에 대한 보상이 아쉬워요" },
+      { id: 8, context: "참여 경험이 다소 지루했어요" },
+      { id: 9, context: "구성원들이 다소 불편했어요" },
     ];
     setItemArr(mode === "good" ? goodItem : badItem);
   };
 
   const submit = () => {
     if (reviewData) {
-      switch (mode) {
-        case "good": {
-          createBusinessReviewApi(
-            data.businessProfile.id,
-            data.postDoDateId,
-            reviewData.id
-          )
-            .then((res) => toast.info("평가가 완료되었습니다"))
-            .catch((err) => toast.error("평가에 실패했습니다"));
-          break;
-        }
-        case "bad": {
-          toast.info("후기 작성을 완료했습니다");
-          break;
-        }
-        default:
-      }
-      data.writeReview = true;
-      onClose();
+      createBusinessReviewApi(
+        data.businessProfile.id,
+        data.postDoDateId,
+        reviewData.id
+      )
+        .then((res) => {
+          toast.info("평가가 완료되었습니다");
+          onClose();
+        })
+        .catch((err) => toast.error("평가에 실패했습니다"));
     } else {
       toast.info("이유를 선택해주세요");
     }
@@ -110,7 +101,7 @@ export default function FeedCloseModal({
               </S.TitleBox>
               <S.SelectBox>
                 <S.Select onClick={() => setIsActive(!isActive)}>
-                  {reviewData && reviewData.context}
+                  {reviewData ? reviewData.context : "이유를 선택해주세요"}
                   <span onClick={() => setIsActive(!isActive)}>▲</span>
                 </S.Select>
                 <div>

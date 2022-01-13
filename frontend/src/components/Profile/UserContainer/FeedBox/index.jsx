@@ -108,6 +108,8 @@ export default function FeedBox({ status, data, changeFeedData }) {
                       toast.info("참여완료 처리되었습니다");
                       if (data.isWritable) {
                         setReviewModal(true);
+                      } else {
+                        changeFeedData();
                       }
                     });
                   }}
@@ -138,7 +140,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
             )}
             {status === "complete" && (
               <S.WhiteButton
-                disabled={!(data.writeReview && data.isWritable)}
+                disabled={!data.isWritable}
                 onClick={(e) => {
                   e.stopPropagation();
                   setReviewModal(true);

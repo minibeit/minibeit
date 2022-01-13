@@ -11,6 +11,7 @@ import java.util.Base64;
 
 @Component
 public class AES256 {
+    private static final String AES = "AES";
     public static final String ALGORITHM = "AES/CBC/PKCS5Padding";
     @Value("${crypto.key}")
     private String key;
@@ -18,7 +19,7 @@ public class AES256 {
     public String encrypt(String text) throws Exception {
         String iv = RandomStringBuilder.generateAlphaNumeric(16);
         Cipher cipher = Cipher.getInstance(ALGORITHM);
-        SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
+        SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), AES);
         IvParameterSpec ivParamSpec = new IvParameterSpec(iv.getBytes());
         cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParamSpec);
 
@@ -30,7 +31,7 @@ public class AES256 {
         String iv = text.substring(0, 16);
         String cipherText = text.substring(16);
         Cipher cipher = Cipher.getInstance(ALGORITHM);
-        SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), "AES");
+        SecretKeySpec keySpec = new SecretKeySpec(key.getBytes(), AES);
         IvParameterSpec ivParamSpec = new IvParameterSpec(iv.getBytes());
         cipher.init(Cipher.DECRYPT_MODE, keySpec, ivParamSpec);
 

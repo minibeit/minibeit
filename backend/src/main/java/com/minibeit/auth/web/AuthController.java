@@ -20,12 +20,13 @@ public class AuthController {
     private final AuthService authService;
     private final RefreshTokenService refreshTokenService;
     private static final String REFRESH_TOKEN = "refresh_token";
+    private final static Integer MAX_COOKIE_TIME_S = 7 * 24 * 60 * 60;
 
     //테스트용
     @PostMapping("/login/test")
     public ResponseEntity<UserResponse.Login> login(@RequestBody AuthRequest.Login request, HttpServletResponse response) {
         UserResponse.Login loginResponse = authService.login(request);
-        CookieUtils.addCookie(response, REFRESH_TOKEN, loginResponse.getRefreshToken(), 7 * 24 * 60 * 60);
+        CookieUtils.addCookie(response, REFRESH_TOKEN, loginResponse.getRefreshToken(), MAX_COOKIE_TIME_S);
         return ResponseEntity.ok().body(loginResponse);
     }
 
@@ -33,7 +34,7 @@ public class AuthController {
     public ResponseEntity<ApiResult<UserResponse.Login>> refreshToken(@CookieValue(REFRESH_TOKEN) String refreshToken, HttpServletResponse response) {
         UserResponse.Login loginResponse = refreshTokenService.createAccessTokenAndRefreshToken(refreshToken);
 
-        CookieUtils.addCookie(response, REFRESH_TOKEN, loginResponse.getRefreshToken(), 7 * 24 * 60 * 60);
+        CookieUtils.addCookie(response, REFRESH_TOKEN, loginResponse.getRefreshToken(), MAX_COOKIE_TIME_S);
 
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), loginResponse));
     }

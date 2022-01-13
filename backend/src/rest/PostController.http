@@ -8,7 +8,7 @@ Content-Disposition: form-data; name="postInfo";
 Content-Type: application/json;charset=UTF-8
 
 {
-  "title": "테스트40",
+  "title": "리뷰테스트",
   "content": "실험 내용",
   "place": "고려대학교 연구실",
   "placeDetail": "고려대학교 연구실 123호",
@@ -23,27 +23,27 @@ Content-Type: application/json;charset=UTF-8
   "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
   "doTime": 60,
   "schoolId": 62,
-  "businessProfileId": 1,
-  "startDate": "2022-01-03T09:30",
-  "endDate": "2022-01-10T09:30",
+  "businessProfileId": 3,
+  "startDate": "2022-01-07T09:30",
+  "endDate": "2022-01-19T11:00",
   "doDateList": [
     {
-      "doDate": "2022-01-03T10:00"
+      "doDate": "2022-01-07T10:00"
     },
     {
-      "doDate": "2022-01-03T11:00"
+      "doDate": "2022-01-07T11:00"
     },
     {
-      "doDate": "2022-01-04T10:00"
+      "doDate": "2022-01-08T10:00"
     },
     {
-      "doDate": "2022-01-04T11:00"
+      "doDate": "2022-01-08T11:00"
     },
     {
-      "doDate": "2022-01-05T10:00"
+      "doDate": "2022-01-09T10:00"
     },
     {
-      "doDate": "2022-01-05T11:00"
+      "doDate": "2022-01-09T11:00"
     }
   ]
 }

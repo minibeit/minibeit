@@ -1,4 +1,19 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
+
+const fadeOut = keyframes`
+0% {
+  opacity:1;
+  transform:translateY(0);
+  }
+50% {
+  opacity:0.6;
+  transform:translateY(0.5rem);
+}
+100%{
+ opacity:1;
+ transform:translateY(0);
+}
+`;
 
 export const ModalBox = styled.div`
   transform: translate(-50%, -50%);
@@ -85,41 +100,50 @@ export const UserListView = styled.div`
 `;
 export const UserEditBox = styled.div`
   display: flex;
-  gap: 0.5rem;
-  align-items: center;
   margin: 1rem;
-  & > p:first-child {
+  justify-content: space-between;
+  & > div:first-child {
+    align-items: center;
+    display: flex;
+    gap: 0.5rem;
     font-size: 0.8rem;
   }
-  & > button:nth-child(2) {
-    margin-right: auto;
-    border: none;
-    background-color: inherit;
-    cursor: pointer;
-
-    :hover {
-      color: #0642ff;
-    }
-    & > svg {
-      width: 0.8rem;
-      height: 0.8rem;
-      :hover {
-        path {
-          fill: #0642ff;
-        }
-      }
-    }
-  }
-  & > button:nth-child(3) {
-    margin-left: auto;
-    border: none;
-    background-color: inherit;
-    cursor: pointer;
-    :hover {
-      color: #0642ff;
+  & > p:nth-child(2) {
+    font-size: 0.8rem;
+    color: #7c7c7c;
+    animation: ${fadeOut} 3s infinite;
+    @media only screen and (max-width: 700px) {
+      display: none;
     }
   }
 `;
+export const UserEditBtn = styled.button`
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  :hover {
+    color: #0642ff;
+  }
+  & > svg {
+    width: 0.8rem;
+    height: 0.8rem;
+    :hover {
+      path {
+        fill: #0642ff;
+      }
+    }
+  }
+`;
+export const CheifEditBtn = styled.button`
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  :hover {
+    color: #0642ff;
+  }
+  white-space: nowrap;
+`;
+
 export const UserListBox = styled.div`
   display: flex;
   margin: 1rem;

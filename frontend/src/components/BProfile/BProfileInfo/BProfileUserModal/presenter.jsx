@@ -43,44 +43,55 @@ export default function Presenter({
 
       <S.UserListView>
         <S.UserEditBox>
-          <p>소속인원 / {bisnessUsers.length} 명</p>
-          {isAdmin && (
-            <>
-              {editUserMode ? (
-                <button
-                  onClick={() => setEditUserMode(false)}
-                  disabled={editCheifMode && true}
-                >
-                  완료
-                </button>
-              ) : (
-                <button
-                  onClick={() => setEditUserMode(true)}
-                  disabled={editCheifMode && true}
-                >
-                  <PencleIcon />
-                </button>
-              )}
-            </>
-          )}
+          <div>
+            <p>소속인원 / {bisnessUsers.length} 명</p>
+            {isAdmin && (
+              <>
+                {editUserMode ? (
+                  <S.UserEditBtn
+                    onClick={() => setEditUserMode(false)}
+                    disabled={editCheifMode && true}
+                  >
+                    완료
+                  </S.UserEditBtn>
+                ) : (
+                  <S.UserEditBtn
+                    onClick={() => setEditUserMode(true)}
+                    disabled={editCheifMode && true}
+                  >
+                    <PencleIcon />
+                  </S.UserEditBtn>
+                )}
+              </>
+            )}
+          </div>
+          <p>
+            {editUserMode && "추방할 유저의 x버튼을 클릭해주세요"}
+            {editCheifMode &&
+              "유저를 선택하고 확인버튼을 눌러 담당자를 변경하세요"}
+          </p>
           {isAdmin && (
             <>
               {editCheifMode ? (
-                <button
+                <S.CheifEditBtn
                   onClick={() => {
-                    setchangeAdmin(true);
+                    if (adminName) {
+                      setchangeAdmin(true);
+                    } else {
+                      setEditCheifMode(false);
+                    }
                   }}
                   disabled={editUserMode}
                 >
                   확인
-                </button>
+                </S.CheifEditBtn>
               ) : (
-                <button
+                <S.CheifEditBtn
                   onClick={() => setEditCheifMode(!editCheifMode)}
                   disabled={editUserMode}
                 >
                   담당자 양도하기
-                </button>
+                </S.CheifEditBtn>
               )}
             </>
           )}

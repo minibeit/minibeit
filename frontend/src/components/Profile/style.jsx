@@ -552,6 +552,11 @@ export const WhiteButton = styled(FeedButton)`
       background: white;
     }
   }
+  ${({ noneDisplay }) =>
+    noneDisplay &&
+    css`
+      display: none;
+    `}
 `;
 
 export const BlueButton = styled(FeedButton)`

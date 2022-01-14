@@ -80,9 +80,9 @@ export default function BProfileUserModal({
       assignChange(businessId, user.id)
         .then(() => {
           toast.info("관리자가 양도되었습니다");
-          getBusiness();
           setModalSwitch(false);
           setchangeAdmin(false);
+          getBusiness();
         })
         .catch((err) => toast.error("관리자가 될 수 없는 유저입니다"));
     } else {

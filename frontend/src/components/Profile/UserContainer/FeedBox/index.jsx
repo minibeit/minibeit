@@ -145,12 +145,9 @@ export default function FeedBox({ status, data, changeFeedData }) {
                   e.stopPropagation();
                   setReviewModal(true);
                 }}
+                noneDisplay={!data.writeReview && !data.isWritable}
               >
-                {data.writeReview
-                  ? "후기 작성 완료"
-                  : data.isWritable
-                  ? "후기 작성"
-                  : "후기 작성 불가"}
+                {data.writeReview ? "후기 작성 완료" : "후기 작성"}
               </S.WhiteButton>
             )}
             {status === "reject" && (

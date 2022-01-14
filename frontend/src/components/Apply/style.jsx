@@ -393,6 +393,7 @@ export const FeedBookmark = styled.div`
     !thumbnail ? "#BACAFF" : "rgba(0,0,0,0.4)"};
   & svg {
     width: 1em;
+    height: 1em;
     & path {
       fill: #fff;
     }

@@ -31,6 +31,7 @@ export default function ApplyComponent({ page }) {
 
   const search = useCallback(
     (schoolId, page) => {
+      setFeedList();
       feedlistApi(page, schoolId, date, filter, category, user.isLogin)
         .then((res) => {
           setFeedList(res.data.data.content);
@@ -60,7 +61,7 @@ export default function ApplyComponent({ page }) {
         setDate={setDate}
         search={search}
       />
-      {feedList && page && (
+      {page && (
         <>
           <Filter
             feedList={feedList}

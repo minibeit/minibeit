@@ -22,13 +22,11 @@ export default function Filter({
   return (
     <>
       <S.ConditionsBox>
-        {feedList && (
-          <DetailFilter
-            filter={filter}
-            setFilter={setFilter}
-            filterReset={filterReset}
-          />
-        )}
+        <DetailFilter
+          filter={filter}
+          setFilter={setFilter}
+          filterReset={filterReset}
+        />
         <FilterLabel filter={filter} setFilter={setFilter} />
       </S.ConditionsBox>
       <CategoryLabel category={category} setCategory={setCategory} />

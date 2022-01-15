@@ -539,6 +539,7 @@ export const ViewNum = styled.div`
   animation: ${fadeOut} 5s infinite;
   font-size: 0.8rem;
   padding: 0.5rem;
+  text-align: center;
   background-color: #e0e8ff;
   border-radius: 0.6rem;
   white-space: nowrap;

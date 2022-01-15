@@ -25,7 +25,7 @@ export default function SearchBar({
   return (
     <S.SearchBox centerView={page ? false : true}>
       {page ? (
-        <p style={page ? null : { textAlign: "center" }}>지원하기</p>
+        <p style={page ? null : { textAlign: "center" }}>참여하기</p>
       ) : (
         <p style={page ? null : { textAlign: "center" }}>
           일정에 맞는 모집 공고를 <br />

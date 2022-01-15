@@ -61,7 +61,9 @@ export default function AskleteApplication({ setApplyAlert, apply, applyApi }) {
             <S.AlertText>
               <p>신청이 완료되었습니다.</p>
               <p>
-                추후 개인 프로필의 확정된 목록을 통해
+                신청과 관련된 알림은 등록된 메일로 발송돼요.
+                <br />
+                추후 이메일이나 개인 프로필의 확정된 목록을 통해
                 <br />
                 참여 확정을 확인해주세요.
               </p>

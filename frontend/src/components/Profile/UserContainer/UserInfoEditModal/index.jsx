@@ -126,6 +126,7 @@ export default function UserInfoEditModal({
           const copy = { ...user };
           copy.name = res.data.data.nickname;
           copy.schoolId = res.data.data.schoolId;
+          copy.avatar = res.data.data.avatar;
           setUser(copy);
           toast.info("수정이 완료되었습니다!");
           setModalSwitch(false);

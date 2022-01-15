@@ -110,7 +110,7 @@ export const UserEditBox = styled.div`
   }
   & > p:nth-child(2) {
     font-size: 0.8rem;
-    color: #7c7c7c;
+    color: #0642ff;
     animation: ${fadeOut} 3s infinite;
     @media only screen and (max-width: 700px) {
       display: none;

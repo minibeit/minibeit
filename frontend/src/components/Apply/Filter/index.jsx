@@ -11,6 +11,7 @@ export default function Filter({
   setFilter,
   category,
   setCategory,
+  totalElements,
 }) {
   const filterReset = () => {
     const copy = { ...filter };

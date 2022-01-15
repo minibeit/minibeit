@@ -1,6 +1,7 @@
 import React from "react";
 import { ReactComponent as Star } from "../../../svg/별.svg";
 import { ReactComponent as Home } from "../../../svg/홈.svg";
+import { ReactComponent as FillStar } from "../../../svg/fillStar.svg";
 import CreateAuthModal from "../../Common/Modal/CreateAuthModal";
 
 import * as S from "../style";
@@ -19,11 +20,8 @@ export default function Presenter({
           return (
             <S.FeedBox key={a.id} onClick={() => goToDetailPage(a)}>
               <S.FeedImgView thumbnail={a.file && a.file.url}>
-                <S.FeedBookmark
-                  thumbnail={a.file && a.file.url}
-                  onClick={(e) => clickBookmark(a, e)}
-                >
-                  <Star />
+                <S.FeedBookmark>
+                  {a.isLike ? <FillStar /> : <Star />}
                   <p>{a.likes}</p>
                 </S.FeedBookmark>
               </S.FeedImgView>

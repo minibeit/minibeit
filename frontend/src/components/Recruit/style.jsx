@@ -665,8 +665,7 @@ export const FeedBookmark = styled.div`
   margin: 1rem;
   border-radius: 0.6rem;
   padding: 0.5rem 1rem;
-  background-color: ${({ thumbnail }) =>
-    !thumbnail ? "#BACAFF" : "rgba(0,0,0,0.4)"};
+  background-color: rgba(0, 0, 0, 0.3);
   & svg {
     width: 1em;
     & path {

@@ -579,6 +579,7 @@ export const ReviewTitle = styled.div`
 export const ReviewCount = styled.div`
   display: flex;
   gap: 0.5em;
+  min-width: 3rem;
   & svg {
     width: 1rem;
     & path {
@@ -651,13 +652,11 @@ export const ReviewIcomMiddleBox = styled.div`
     & > img {
       animation: ${pushUp} 1s ease-in;
       width: ${({ width }) => width};
-      /* min-width: 1rem; */
     }
   }
   & > div:first-child {
     display: flex;
     justify-content: center;
-    /* margin-left: 1rem; */
   }
 `;
 export const ReviewIconBox = styled.div`
@@ -666,7 +665,6 @@ export const ReviewIconBox = styled.div`
   align-items: center;
   height: 6rem;
   & > img {
-    /* min-width: 1rem; */
     animation: ${pushUp} 1s ease-in;
     width: ${({ width }) => width};
   }

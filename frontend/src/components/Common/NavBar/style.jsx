@@ -48,17 +48,23 @@ export const Logo = styled.div`
 `;
 export const NavItems = styled.div`
   display: flex;
+  flex: 1;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   padding: 10px;
+<<<<<<< HEAD
   margin: 0 auto;
   gap: 4em;
+=======
+  margin: 0 2rem;
+>>>>>>> develop
   white-space: nowrap;
   & > a {
     text-decoration: none;
   }
   @media only screen and (max-width: 1000px) {
-    gap: 0.7em;
+    margin: 0;
+    gap: 0.7rem;
   }
   @media only screen and (max-width: 700px) {
     display: none;

@@ -11,9 +11,15 @@ export default function CategoryLabel({ category, setCategory }) {
   };
   return (
     <>
-      <p style={{ color: "#989898", padding: "0.3em" }}>
-        분야 : {category.category === "ALL" ? "전체" : category.category}
-      </p>
+      <S.CategoryHeader>
+        <p>분야</p>
+        <p>{category.category === "ALL" ? "전체" : category.category}</p>
+        <S.CategoryResetBtn onClick={() => onClick("ALL")}>
+          {" "}
+          초기화하기
+        </S.CategoryResetBtn>
+      </S.CategoryHeader>
+
       <S.CategoryBox>
         <div>
           <S.CategoryBtn

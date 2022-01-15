@@ -32,6 +32,10 @@ export const Container = styled.div`
   flex-wrap: wrap;
   width: 100%;
   min-height: 100vh;
+  padding: 0 1rem;
+  @media only screen and (max-width: 700px) {
+    padding: 0;
+  }
 `;
 export const ImgBox = styled.div`
   overflow: hidden;
@@ -262,10 +266,6 @@ export const LikePayment = styled.div`
 
 export const FeedContainer = styled.div`
   flex: 3.5;
-  padding: 1rem 1rem 1rem 0;
-  @media only screen and (max-width: 700px) {
-    padding: 1rem 0;
-  }
 `;
 export const CategoryBtnBox = styled.div`
   padding: 1rem;
@@ -305,7 +305,7 @@ export const FeedGroup = styled.div`
   animation: ${fadeIn} 0.7s ease-out;
   @media only screen and (max-width: 700px) {
     padding: 0rem;
-    align-items: flex-start;
+    margin: 0 auto;
   }
 `;
 
@@ -388,8 +388,9 @@ export const FeedImgView = styled.div`
   background-size: cover;
   background-position: center;
   flex: 1;
+  min-width: 17rem;
+
   & > div {
-    width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
   }
@@ -414,7 +415,7 @@ export const FeedTitle = styled.div`
   padding: 2rem 1rem;
   gap: 0.7rem;
   & > p:first-child {
-    white-space: nowrap;
+    white-space: wrap;
     color: white;
     font-size: 1.5rem;
   }

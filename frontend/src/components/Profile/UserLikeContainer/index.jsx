@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router";
 
 import { ReactComponent as ArrowIcon } from "../../../svg/체크.svg";
-import { ReactComponent as StarIcon } from "../../../svg/별.svg";
+import { ReactComponent as FillStar } from "../../../svg/fillStar.svg";
 import { getMyLikeListApi } from "../../../utils";
 import { Pagination } from "../../Common";
 import * as S from "../style";
@@ -55,7 +55,7 @@ export default function UserLikeContainer() {
                       removeBookmark(a);
                     }}
                   >
-                    <StarIcon />
+                    <FillStar />
                   </S.BookMark>
                 </div>
               </S.FeedImgView>

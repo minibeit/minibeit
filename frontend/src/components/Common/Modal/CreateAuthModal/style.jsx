@@ -70,8 +70,9 @@ export const FormTitleBox = styled.div`
   position: relative;
   margin-bottom: 1rem;
   & > img {
-    width: 12em;
-    height: 12em;
+    width: 8em;
+    height: 8em;
+    padding: 2em;
   }
   & > p {
     font-size: 1.7rem;
@@ -86,8 +87,9 @@ export const FormTitleBox = styled.div`
     height: 10rem;
     justify-content: flex-start;
     & > img {
-      width: 7rem;
-      height: 7rem;
+      width: 4rem;
+      height: 4rem;
+      padding: 1em;
     }
     & > p {
       font-size: 1.2rem;

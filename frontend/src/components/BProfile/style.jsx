@@ -520,7 +520,7 @@ export const AddBProfileBtn = styled.div`
 
 /* review page */
 
-export const RevievContainer = styled.div`
+export const ReviewContainer = styled.div`
   width: 80%;
   display: flex;
   flex-direction: column;

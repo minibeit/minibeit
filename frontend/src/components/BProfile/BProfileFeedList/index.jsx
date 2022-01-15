@@ -35,43 +35,41 @@ export default function BProfileInfo({
           );
         })}
       </S.CategoryBtnBox>
-      {feedData && (
-        <S.FeedGroup>
-          {view === "review" ? (
-            <BProfileReview feedData={feedData} reviewCount={reviewCount} />
-          ) : (
-            <>
-              {feedData.length === 0 ? (
-                <S.NoneDiv>
-                  <PVImg img="/images/검색결과없음.png" />
-                  <S.WhiteButton onClick={() => history.push("/recruit")}>
-                    실험자 모집하러 가기
-                  </S.WhiteButton>
-                </S.NoneDiv>
-              ) : (
-                feedData.map((a, i) => (
-                  <FeedBox
-                    key={i}
-                    status={view}
-                    data={a}
-                    changeFeedData={changeFeedData}
-                  />
-                ))
-              )}
-              {feedData.length !== 0 && (
-                <Pagination
-                  page={page}
-                  count={totalEle}
-                  onChange={(clickPage) =>
-                    history.push(`/business/${businessId}?${view}&${clickPage}`)
-                  }
-                  itemsCountPerPage={5}
+      <S.FeedGroup>
+        {view === "review" ? (
+          <BProfileReview feedData={feedData} reviewCount={reviewCount} />
+        ) : (
+          <>
+            {feedData.length === 0 ? (
+              <S.NoneDiv>
+                <PVImg img="/images/검색결과없음.png" />
+                <S.WhiteButton onClick={() => history.push("/recruit")}>
+                  실험자 모집하러 가기
+                </S.WhiteButton>
+              </S.NoneDiv>
+            ) : (
+              feedData.map((a, i) => (
+                <FeedBox
+                  key={i}
+                  status={view}
+                  data={a}
+                  changeFeedData={changeFeedData}
                 />
-              )}
-            </>
-          )}
-        </S.FeedGroup>
-      )}
+              ))
+            )}
+            {feedData.length !== 0 && (
+              <Pagination
+                page={page}
+                count={totalEle}
+                onChange={(clickPage) =>
+                  history.push(`/business/${businessId}?${view}&${clickPage}`)
+                }
+                itemsCountPerPage={5}
+              />
+            )}
+          </>
+        )}
+      </S.FeedGroup>
     </>
   );
 }

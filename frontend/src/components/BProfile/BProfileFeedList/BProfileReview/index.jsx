@@ -7,7 +7,6 @@ import * as S from "../../style";
 
 export default function BProfileReview({ feedData, reviewCount }) {
   const history = useHistory();
-
   return (
     <>
       {reviewCount === 0 ? (
@@ -18,7 +17,7 @@ export default function BProfileReview({ feedData, reviewCount }) {
           </S.WhiteButton>
         </S.NoneDiv>
       ) : (
-        <S.RevievContainer>
+        <S.ReviewContainer>
           <S.ReviewIconContainer>
             <div>
               <UserIcon />
@@ -26,40 +25,53 @@ export default function BProfileReview({ feedData, reviewCount }) {
             </div>
             <div>
               <S.ReviewIconBox>
-                <img
-                  src="/images/돈다발아이콘.png"
-                  alt="img"
-                  width={(feedData[2].count / reviewCount) * 100 * 1.5 + "%"}
-                />
+                {feedData[2] && (
+                  <img
+                    src="/images/돈다발아이콘.png"
+                    alt="img"
+                    width={(feedData[2].count / reviewCount) * 100 * 1.5 + "%"}
+                  />
+                )}
               </S.ReviewIconBox>
               <S.ReviewIcomMiddleBox>
                 <div>
-                  <img
-                    src="/images/시간아이콘.png"
-                    alt="img"
-                    width={(feedData[0].count / reviewCount) * 100 * 1.5 + "%"}
-                  />
+                  {feedData[0] && (
+                    <img
+                      src="/images/시간아이콘.png"
+                      alt="img"
+                      width={
+                        (feedData[0].count / reviewCount) * 100 * 1.5 + "%"
+                      }
+                    />
+                  )}
                 </div>
                 <div>
-                  <img
-                    src="/images/웃는얼굴아이콘.png"
-                    alt="img"
-                    width={(feedData[1].count / reviewCount) * 100 * 1.5 + "%"}
-                  />
+                  {feedData[1] && (
+                    <img
+                      src="/images/웃는얼굴아이콘.png"
+                      alt="img"
+                      width={
+                        (feedData[1].count / reviewCount) * 100 * 1.5 + "%"
+                      }
+                    />
+                  )}
                 </div>
               </S.ReviewIcomMiddleBox>
               <S.ReviewIconBox>
-                <img
-                  src="/images/하트아이콘.png"
-                  alt="img"
-                  width={(feedData[3].count / reviewCount) * 100 * 1.5 + "%"}
-                />
+                {feedData[3] && (
+                  <img
+                    src="/images/하트아이콘.png"
+                    alt="img"
+                    width={(feedData[3].count / reviewCount) * 100 * 1.5 + "%"}
+                  />
+                )}
               </S.ReviewIconBox>
             </div>
           </S.ReviewIconContainer>
           <S.ReviewBar>
             {feedData.map((a) => (
               <S.ReviewItem
+                key={a.id}
                 width={`${parseInt((a.count / reviewCount) * 100)}%`}
               >
                 <div />
@@ -94,7 +106,7 @@ export default function BProfileReview({ feedData, reviewCount }) {
               );
             })}
           </div>
-        </S.RevievContainer>
+        </S.ReviewContainer>
       )}
     </>
   );

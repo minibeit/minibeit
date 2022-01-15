@@ -84,7 +84,7 @@ export default function MainComponent() {
             미니바이트
           </S.TextBox2>
           <S.ImgBox3>
-            <img src="/images/mainLogo.png" alt="MainImg" />
+            <img src="/images/appLogo.png" alt="MainImg" />
           </S.ImgBox3>
         </div>
       </S.LastBox>

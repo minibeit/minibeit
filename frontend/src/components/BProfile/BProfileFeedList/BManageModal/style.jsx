@@ -8,12 +8,14 @@ export const ModalBox = styled.div`
   left: 50%;
   width: 57%;
   max-width: 41rem;
-  border-radius: 1.25rem;
-  padding: 1.5rem 2rem;
-  height: 26rem;
-  background-color: white;
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  scrollbar-width: none;
+  & > div:nth-child(3) {
+    border-radius: 0 1.25rem 1.25rem 1.25rem;
+    padding: 1.5rem 2rem;
+    height: 26rem;
+    background-color: white;
+    -ms-overflow-style: none; /* for Internet Explorer, Edge */
+    scrollbar-width: none;
+  }
   &::-webkit-scrollbar {
     display: none; /* for Chrome, Safari, and Opera */
   }
@@ -32,12 +34,10 @@ export const ModalHeader = styled.div`
     align-items: baseline;
     margin: 1rem 0;
     & > p {
-      padding: 0.5rem 0.5rem 0 0;
       font-weight: bold;
       font-size: 1.5rem;
-      height: 2rem;
+      padding: 0.2em 0;
       border-bottom: 3px solid #0642ff;
-      margin-left: 1rem;
     }
   }
 
@@ -105,21 +105,17 @@ export const ModalContent = styled.div`
     height: 0;
   }
 `;
-export const ButtonTab = styled.div`
-  position: absolute;
-  top: -7%;
-  left: 3%;
-  & > button {
-    background: #e5e5e5;
-    border: none;
-    cursor: pointer;
-    padding: 0.5rem 1rem 0.5rem 1rem;
-    border-radius: 0.5rem 0.5rem 0 0;
-    font-weight: bold;
-    &:disabled {
-      background: white;
-      color: black;
-    }
+
+export const TabBtn = styled.button`
+  background: #e5e5e5;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem 0.5rem 1rem;
+  border-radius: 0.5rem 0.5rem 0 0;
+  font-weight: bold;
+  &:disabled {
+    background: white;
+    color: black;
   }
 `;
 

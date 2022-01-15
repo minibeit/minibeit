@@ -39,7 +39,7 @@ export default function BProfileComponent({ businessId, view, page }) {
   };
 
   const changeFeedData = useCallback(() => {
-    setFeedData();
+    setFeedData([]);
     switch (view) {
       case "created":
         getMakelistApi(businessId, page, "RECRUIT").then((res) => {

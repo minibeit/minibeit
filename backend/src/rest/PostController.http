@@ -23,7 +23,7 @@ Content-Type: application/json;charset=UTF-8
   "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
   "doTime": 60,
   "schoolId": 62,
-  "businessProfileId": 3,
+  "businessProfileId": 1,
   "startDate": "2022-01-07T09:30",
   "endDate": "2022-01-19T11:00",
   "doDateList": [
@@ -109,7 +109,7 @@ Authorization: {{authorizationToken}}
 }
 
 ###
-DELETE {{apiUrl}}/post/1
+DELETE {{apiUrl}}/post/2
 Authorization: {{authorizationToken}}
 
 ###
@@ -117,10 +117,10 @@ GET {{apiUrl}}/post/1
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/posts/0?doDate=2022-01-03&page=1&size=15&paymentType=&category=&startTime=&endTime=&minPay=&doTime=
+GET {{apiUrl}}/posts/0?doDate=2022-01-07&page=1&size=15&paymentType=&category=&startTime=&endTime=&minPay=&doTime=
 
 ###
-GET {{apiUrl}}/post/2/start?doDate=2021-09-27
+GET {{apiUrl}}/post/1/start?doDate=2022-01-07
 
 ###
 GET {{apiUrl}}/posts/like?page=1&size=6
@@ -135,7 +135,7 @@ GET {{apiUrl}}/post/4/dates?yearMonth=2021-09
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/posts/business/profile/1?page=1&size=1&status=RECRUIT
+GET {{apiUrl}}/posts/business/profile/1?page=1&size=10&status=RECRUIT
 Authorization: {{authorizationToken}}
 
 ###

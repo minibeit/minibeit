@@ -38,6 +38,7 @@ public class PostByBusinessService {
     private final PostValidator postValidator;
     private final S3Uploader s3Uploader;
     private final PostFileRepository postFileRepository;
+    private final PostLikeRepository postLikeRepository;
 
     public PostResponse.OnlyId create(PostRequest.CreateInfo request, List<MultipartFile> files, MultipartFile thumbnail, User user) {
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
@@ -108,11 +109,7 @@ public class PostByBusinessService {
     public void deleteOne(Long postId, LocalDateTime now, User user) {
         Post post = postRepository.findById(postId).orElseThrow(PostNotFoundException::new);
         postValidator.deleteValidate(post.getBusinessProfile().getId(), postId, now, user);
-        if (post.getPostFileList() != null) {
-            for (PostFile postFile : post.getPostFileList()) {
-                s3Uploader.delete(postFile.getName());
-            }
-        }
-        postRepository.deleteById(postId);
+        postLikeRepository.deleteAllByPostId(postId);
+        post.delete();
     }
 }

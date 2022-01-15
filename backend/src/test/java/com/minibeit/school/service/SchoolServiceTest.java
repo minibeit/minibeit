@@ -43,8 +43,8 @@ class SchoolServiceTest extends ServiceIntegrationTest {
 
         //'고'로 시작하는 학교
         List<SchoolResponse.GetList> kSchoolList = schoolService.getList("고");
-        assertThat(kSchoolList.get(0).getName()).isEqualTo(kSchool2.getName());
-        assertThat(kSchoolList.get(1).getName()).isEqualTo(kSchool.getName());
+        assertThat(kSchoolList.get(0).getName()).isEqualTo(kSchool.getName());
+        assertThat(kSchoolList.get(1).getName()).isEqualTo(kSchool2.getName());
 
         //고려대 조회
         List<SchoolResponse.GetList> kSchoolOne = schoolService.getList("고려대");
@@ -54,5 +54,4 @@ class SchoolServiceTest extends ServiceIntegrationTest {
         List<SchoolResponse.GetList> emptyList = schoolService.getList("홍익대");
         assertThat(emptyList.size()).isEqualTo(0);
     }
-
 }

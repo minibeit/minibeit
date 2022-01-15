@@ -27,9 +27,6 @@ public class BaseEntity {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @Column(name = "deleted_at")
-    private LocalDateTime deletedAt;
-
     @CreatedBy
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", updatable = false)

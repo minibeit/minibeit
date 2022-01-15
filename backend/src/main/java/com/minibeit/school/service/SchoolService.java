@@ -18,6 +18,6 @@ public class SchoolService {
 
     @Transactional(readOnly = true)
     public List<SchoolResponse.GetList> getList(String name) {
-        return schoolRepository.findByNameStartsWithOrderByIdDesc(name).stream().map(SchoolResponse.GetList::build).collect(Collectors.toList());
+        return schoolRepository.findByNameStartsWith(name).stream().map(SchoolResponse.GetList::build).collect(Collectors.toList());
     }
 }

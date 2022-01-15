@@ -59,6 +59,7 @@ export const AlertHeader = styled.div`
   display: flex;
   justify-content: flex-end;
   height: fit-content;
+  align-items: center;
   & > svg {
     cursor: pointer;
     margin: 1rem;

@@ -50,14 +50,9 @@ export const NavItems = styled.div`
   display: flex;
   flex: 1;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   padding: 10px;
-<<<<<<< HEAD
   margin: 0 auto;
-  gap: 4em;
-=======
-  margin: 0 2rem;
->>>>>>> develop
   white-space: nowrap;
   & > a {
     text-decoration: none;

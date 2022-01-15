@@ -438,20 +438,26 @@ class PostControllerTest extends MvcTest {
     @Test
     @DisplayName("개인 프로필 신청 현황 문서화")
     public void getMyPostStatus() throws Exception {
-        PostResponse.GetMyCount response = PostResponse.GetMyCount.build(1L, 1L);
+        PostResponse.GetMyCount response = PostResponse.GetMyCount.build(1L, 1L, null);
 
-        given(postService.getMyPostStatus(any(), any())).willReturn(response);
+        given(postService.getMyPostStatus(any(), any(), any())).willReturn(response);
 
-        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.get("/api/post/user/status"));
+        ResultActions results = mvc.perform(RestDocumentationRequestBuilders.
+                get("/api/post/user/status")
+                .param("status", "WAIT"));
 
         results.andExpect(status().isOk())
                 .andDo(print())
                 .andDo(document("post-my-status",
+                        requestParameters(
+                                parameterWithName("status").description("WAIT(대기중), APPROVE(확정), REJECT(반려)")
+                        ),
                         responseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.approve").type(JsonFieldType.NUMBER).description("확정된 게시물 개수"),
                                 fieldWithPath("data.reject").type(JsonFieldType.NUMBER).description("반려된 게시물 개수"),
-                                fieldWithPath("data.wait").type(JsonFieldType.NUMBER).description("대기중인 게시물 개수")
+                                fieldWithPath("data.wait").description("대기중인 게시물 개수")
                         )
                 ));
     }

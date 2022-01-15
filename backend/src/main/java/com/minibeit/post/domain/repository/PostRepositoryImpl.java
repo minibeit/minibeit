@@ -133,19 +133,47 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public PostResponse.GetMyCount countMyPostStatusWaitAndReject(LocalDateTime now, User user) {
-        long waitCount = queryFactory.select(postApplicant)
-                .from(postApplicant)
-                .join(postApplicant.postDoDate, postDoDate)
-                .where(postApplicant.user.id.eq(user.getId())
-                        .and(postApplicant.applyStatus.eq(ApplyStatus.WAIT))
-                        .and(postDoDate.doDate.goe(now)))
-                .fetchCount();
-        long reject = queryFactory.select(rejectPost)
-                .from(rejectPost)
-                .where(rejectPost.user.id.eq(user.getId()))
-                .fetchCount();
-        return PostResponse.GetMyCount.build(reject, waitCount);
+    public PostResponse.GetMyCount countMyPostStatusByApplyStatus(ApplyStatus status, LocalDateTime now, User user) {
+        if (status.equals(ApplyStatus.WAIT)) {
+            Long approveCount = getCountByApplyStatus(now, ApplyStatus.APPROVE, user);
+            Long rejectCount = getCountByApplyStatus(now, ApplyStatus.REJECT, user);
+            return PostResponse.GetMyCount.build(approveCount, rejectCount, null);
+        }
+        if (status.equals(ApplyStatus.APPROVE)) {
+            Long waitCount = getCountByApplyStatus(now, ApplyStatus.WAIT, user);
+            Long rejectCount = getCountByApplyStatus(now, ApplyStatus.REJECT, user);
+            return PostResponse.GetMyCount.build(null, rejectCount, waitCount);
+        }
+        if (status.equals(ApplyStatus.REJECT)) {
+            Long waitCount = getCountByApplyStatus(now, ApplyStatus.WAIT, user);
+            Long approveCount = getCountByApplyStatus(now, ApplyStatus.APPROVE, user);
+            return PostResponse.GetMyCount.build(approveCount, null, waitCount);
+        }
+        return null;
+    }
+
+    private Long getCountByApplyStatus(LocalDateTime now, ApplyStatus applyStatus, User user) {
+        if (applyStatus.equals(ApplyStatus.WAIT)) {
+            return queryFactory.selectFrom(postApplicant)
+                    .join(postApplicant.postDoDate, postDoDate)
+                    .where(postApplicant.user.id.eq(user.getId())
+                            .and(postApplicant.applyStatus.eq(applyStatus))
+                            .and(postDoDate.doDate.goe(now)))
+                    .fetchCount();
+        }
+        if (applyStatus.equals(ApplyStatus.APPROVE)) {
+            return queryFactory.selectFrom(postApplicant)
+                    .join(postApplicant.postDoDate, postDoDate)
+                    .where(postApplicant.user.id.eq(user.getId())
+                            .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE)))
+                    .fetchCount();
+        }
+        if (applyStatus.equals(ApplyStatus.REJECT)) {
+            return queryFactory.selectFrom(rejectPost)
+                    .where(rejectPost.user.id.eq(user.getId()))
+                    .fetchCount();
+        }
+        return null;
     }
 
     @Override

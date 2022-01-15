@@ -311,11 +311,13 @@ public class PostResponse {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetMyCount {
+        private Long approve;
         private Long reject;
         private Long wait;
 
-        public static GetMyCount build(Long reject, Long wait) {
+        public static GetMyCount build(Long approve,Long reject, Long wait) {
             return GetMyCount.builder()
+                    .approve(approve)
                     .reject(reject)
                     .wait(wait)
                     .build();

@@ -293,13 +293,15 @@ public class PostResponse {
         private LocalDateTime startTime;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime endTime;
+        private String contact;
 
-        public static ApproveAndApproveCancelTemplate build(String title, LocalDateTime doDate, Integer doTime) {
+        public static ApproveAndApproveCancelTemplate build(String title, LocalDateTime doDate, Integer doTime, String contact) {
             return ApproveAndApproveCancelTemplate.builder()
                     .title(title)
                     .doDate(doDate)
                     .startTime(doDate)
                     .endTime(doDate.plusMinutes(doTime))
+                    .contact(contact)
                     .build();
         }
     }

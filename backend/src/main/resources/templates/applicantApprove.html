@@ -120,7 +120,10 @@
                                     <p style="Margin-top: 20px;Margin-bottom: 0;"><span style="color:#0a010a" th:text="|실험날짜 : ${#temporals.format(result.doDate,'yyyy-MM-dd')}|"></span>
                                     </p>
                                     <p style="Margin-top: 20px;Margin-bottom: 20px;"><span style="color:#0a010a" th:text="|실험시간 : ${#temporals.format(result.startTime,'HH:mm')} ~ ${#temporals.format(result.endTime,'HH:mm')} |"></span>
-                                    </p></blockquote>
+                                    </p>
+                                    <p style="Margin-top: 20px;Margin-bottom: 0;"><span style="color:#0a010a" th:text="|담당자 연락처 : ${result.contact}|"></span>
+                                    </p>
+                                </blockquote>
                             </div>
                         </div>
 

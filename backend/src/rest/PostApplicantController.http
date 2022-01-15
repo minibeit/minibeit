@@ -9,7 +9,7 @@ Content-Type: application/json;charset=UTF-8
 
 ###
 
-POST {{apiUrl}}/post/date/5/apply/approve/2
+POST {{apiUrl}}/post/date/5/apply/approve/1
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 

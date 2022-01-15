@@ -84,8 +84,8 @@ export default function DeliteBProfile({
             <S.AlertText>
               <p>삭제할 수 없는 프로필입니다.</p>
               <p>
-                생성한 모집공고에서 '모집 종료'를 눌러 일정을 종료하신 후에 다시
-                진행해주세요.
+                생성한 모집공고와 완료된 모집공고에서 "종료"를 눌러 일정을
+                종료하신 후에 다시 진행해주세요.
               </p>
             </S.AlertText>
             <S.BtnGroup>

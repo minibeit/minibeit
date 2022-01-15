@@ -137,9 +137,6 @@ export default function InfoData({
                 확인
               </button>
             </div>
-            {inputData.nickname && (
-              <p style={{ color: "blue" }}>사용가능한 닉네임 입니다</p>
-            )}
           </S.NicknameInput>
           <S.GenderBox>
             <p>성별</p>
@@ -208,9 +205,14 @@ export default function InfoData({
                     let value = e.target.previousSibling.value;
                     if (exceptPhone(value)) {
                       checkingPhone(value);
+                      e.target.textContent = "재전송";
                       e.target.parentNode.nextSibling.setAttribute(
                         "style",
                         "display:flex"
+                      );
+                      e.target.parentNode.parentNode.nextSibling.setAttribute(
+                        "style",
+                        "display:inline"
                       );
                     } else {
                       toast.info("휴대폰 번호를 다시 확인해주세요");
@@ -232,6 +234,7 @@ export default function InfoData({
                 </button>
               </div>
             </S.PhoneInput>
+            <S.SendMessage>인증번호를 발송했습니다</S.SendMessage>
           </S.PhoneNumBox>
           <S.EmailBox>
             <p>이메일</p>
@@ -251,9 +254,14 @@ export default function InfoData({
                     let value = e.target.previousSibling.value;
                     if (exceptEmail(value)) {
                       checkingEmail(value);
+                      e.target.textContent = "재전송";
                       e.target.parentNode.nextSibling.setAttribute(
                         "style",
                         "display:flex"
+                      );
+                      e.target.parentNode.parentNode.nextSibling.setAttribute(
+                        "style",
+                        "display:inline"
                       );
                     } else {
                       toast.info("이메일 형식을 확인해주세요");
@@ -275,6 +283,7 @@ export default function InfoData({
                 </button>
               </div>
             </S.EmailInput>
+            <S.SendMessage>인증번호를 발송했습니다</S.SendMessage>
           </S.EmailBox>
         </div>
       </S.InfoContainer>

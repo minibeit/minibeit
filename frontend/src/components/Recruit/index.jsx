@@ -37,16 +37,27 @@ export default function RecruitComponent() {
   };
 
   const submit = (recruit) => {
-    if (askComplete) {
-      feedCreateApi(recruit)
-        .then((res) => {
-          resetRecruit();
-          history.push(`/recruit/complete/${res.data.data.id}`);
-        })
-        .catch((err) => {
-          toast.error("게시물 작성에 실패했습니다");
-          setAskComplete(false);
-        });
+    if (recruit.address === "") {
+      toast.info("주소를 입력해주세요");
+      setAskComplete(false);
+    } else if (recruit.pay === null) {
+      toast.info("보상을 입력해주세요");
+      setAskComplete(false);
+    } else if (recruit.contact === "") {
+      toast.info("연락처를 입력해주세요");
+      setAskComplete(false);
+    } else {
+      if (askComplete) {
+        feedCreateApi(recruit)
+          .then((res) => {
+            resetRecruit();
+            history.push(`/recruit/complete/${res.data.data.id}`);
+          })
+          .catch((err) => {
+            toast.error("게시물 작성에 실패했습니다");
+            setAskComplete(false);
+          });
+      }
     }
   };
 

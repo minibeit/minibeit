@@ -57,8 +57,9 @@ export default function BProfileComponent({ businessId, view, page }) {
         break;
       case "review":
         viewBusinessReviewApi(businessId, page, 10).then((res) => {
-          setReviewCount(res.data.data.reduce((a, c) => a + c.count, 0));
-          setFeedData(res.data.data);
+          let reviewData = res.data.data.sort((a, b) => b.count - a.count);
+          setReviewCount(reviewData.reduce((a, c) => a + c.count, 0));
+          setFeedData(reviewData);
           getPreview();
         });
         break;

@@ -72,24 +72,14 @@ export default function SignUpComponent({ setFinish }) {
     }
   };
   const checkingPhone = (phoneNum) => {
-    guestCheckPhoneApi(guest.accessToken, guest.id, phoneNum).then((res) => {
-      if (res.status !== 200)
-        toast.error("오류가 발생했습니다. 다시 시도해주세요");
-      else {
-        toast.info("인증번호를 발송했습니다");
-        setNewPhone(phoneNum);
-      }
-    });
+    guestCheckPhoneApi(guest.accessToken, guest.id, phoneNum).then((res) =>
+      setNewPhone(phoneNum)
+    );
   };
   const checkingEmail = (email) => {
-    guestCheckEmailApi(guest.accessToken, guest.id, email).then((res) => {
-      if (res.status !== 200)
-        toast.error("오류가 발생했습니다. 다시 시도해주세요");
-      else {
-        toast.info("인증번호를 발송했습니다");
-        setNewEmail(email);
-      }
-    });
+    guestCheckEmailApi(guest.accessToken, guest.id, email).then((res) =>
+      setNewEmail(email)
+    );
   };
   const checkingCode = (code, type) => {
     guestCheckCodeApi(guest.accessToken, code, guest.id, type).then((res) => {

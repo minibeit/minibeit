@@ -73,14 +73,24 @@ export default function FeedBox({ status, data, changeFeedData }) {
               </>
             )}
             {status === "completed" && (
-              <S.WhiteButton
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setEndAlert(true);
-                }}
-              >
-                일정 종료
-              </S.WhiteButton>
+              <>
+                <S.BlueButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setManageModal(true);
+                  }}
+                >
+                  참여자 관리
+                </S.BlueButton>
+                <S.WhiteButton
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setEndAlert(true);
+                  }}
+                >
+                  일정 종료
+                </S.WhiteButton>
+              </>
             )}
           </div>
         </S.FeedContentView>
@@ -96,7 +106,6 @@ export default function FeedBox({ status, data, changeFeedData }) {
           setCloseModal={setCloseModal}
         />
       )}
-
       {endAlert && (
         <AskEndSchedule
           setEndAlert={setEndAlert}

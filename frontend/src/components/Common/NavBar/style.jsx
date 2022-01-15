@@ -9,7 +9,6 @@ export const NavBar = styled.div`
   min-height: 3.5rem;
   width: 100%;
   display: flex;
-
   & > div {
     display: flex;
     justify-content: space-between;
@@ -42,17 +41,18 @@ export const Logo = styled.div`
   white-space: nowrap;
 
   & > img {
-    width: 3.5rem;
-    height: 3.5rem;
+    width: 2.3rem;
+    height: 2.3rem;
+    padding: 0.5em;
   }
 `;
 export const NavItems = styled.div`
   display: flex;
   flex: 1;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
   padding: 10px;
-  margin: 0 2rem;
+  margin: 0 auto;
   white-space: nowrap;
   & > a {
     text-decoration: none;
@@ -72,8 +72,6 @@ export const Items = styled.a`
 export const AuthBox = styled.div`
   display: flex;
   align-items: center;
-  margin-left: auto;
-  margin-right: 1em;
   gap: 1em;
   white-space: nowrap;
   @media only screen and (max-width: 700px) {

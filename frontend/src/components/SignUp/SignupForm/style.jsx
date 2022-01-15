@@ -115,7 +115,6 @@ export const InputBox = styled.div`
   & input,
   select {
     border-radius: 8px;
-    width: 100%;
     border: none;
     background: #f8f8f8;
     flex: 1;
@@ -285,6 +284,7 @@ export const CheckInput = styled.div`
     border: none;
     color: #707070;
     outline: none;
+    border-radius: 8px;
   }
   & button {
     border: none;
@@ -292,14 +292,20 @@ export const CheckInput = styled.div`
     cursor: pointer;
     color: blue;
     white-space: nowrap;
-    &:disabled {
+    :disabled {
       color: #c4c4c4;
       cursor: inherit;
+      :hover {
+        font-weight: normal;
+      }
+    }
+    :hover {
+      font-weight: bold;
     }
   }
 `;
 export const NameBox = styled(InputBox)`
-  width: 4rem;
+  width: 5rem;
 `;
 export const GenderBox = styled(InputBox)`
   width: 3rem;
@@ -337,11 +343,6 @@ export const EmailBox = styled(InputBox)``;
 export const NicknameInput = styled(CheckInput)`
   width: 8rem;
   flex-direction: column;
-  & > p:nth-child(3) {
-    font-size: 0.5rem;
-    position: absolute;
-    transform: translate(0, 7em);
-  }
 `;
 export const PhoneInput = styled(CheckInput)`
   & > div:nth-child(2) {
@@ -349,6 +350,11 @@ export const PhoneInput = styled(CheckInput)`
   }
 `;
 export const EmailInput = styled(CheckInput)``;
+
+export const SendMessage = styled.p`
+  display: none;
+  color: #0642ff;
+`;
 
 /*school*/
 export const SchoolBox = styled(InputBox)`

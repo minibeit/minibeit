@@ -1,5 +1,5 @@
 import React from "react";
-import { SchoolInput } from "../../../Common";
+import SchoolInput from "./SchoolInput";
 
 import * as S from "../style";
 

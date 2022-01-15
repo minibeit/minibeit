@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
-import { toast } from "react-toastify";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../../recoil/userState";
 import { logoutFunc } from "../../../utils/auth";
@@ -27,20 +26,16 @@ export default function NavBar() {
 
   const logout = () => {
     logoutFunc().then(() => {
-      toast.info("로그아웃이 되었습니다!");
-      setTimeout(() => {
-        window.location.replace("/");
-        localStorage.clear();
-      }, 500);
+      window.location.replace("/");
+      localStorage.clear();
     });
   };
 
-  console.log(user);
   return (
     <S.NavBar>
       <div>
         <S.Logo onClick={() => history.push("/")}>
-          <img src="/images/mainLogo2.png" alt="logo" />
+          <img src="/images/mainLogo.png" alt="logo" />
           미니바이트
         </S.Logo>
         <S.NavItems>

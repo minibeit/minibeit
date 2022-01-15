@@ -31,7 +31,7 @@ export default function CreateAuthModal({ setModalSwitch, modalSwitch }) {
         </S.ModalHeader>
         <S.ModalContent>
           <S.FormTitleBox>
-            <img src="/images/mainLogo2.png" alt="logo" />
+            <img src="/images/mainLogo.png" alt="logo" />
             <p>
               더 빠르고 더 간편한
               <br />내 손안의 구인구직, 미니바이트

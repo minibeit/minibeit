@@ -32,7 +32,7 @@ const moveSearchBarForMobile = keyframes`
 export const ConditionsBox = styled.div`
   border-bottom: 1px solid rgba(17, 17, 17, 0.16);
   padding: 1rem 0;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -127,6 +127,37 @@ export const CategoryBox = styled.div`
     gap: 0.5em;
   }
 `;
+
+export const CategoryHeader = styled.div`
+  height: 4rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 1.1rem;
+  & > p:first-child {
+    color: #989898;
+  }
+  & > p:nth-child(2) {
+    :before {
+      content: "•";
+      margin-right: 0.5rem;
+    }
+  }
+`;
+export const CategoryResetBtn = styled.button`
+  cursor: pointer;
+  padding: 0.2rem 0.7rem;
+  border-radius: 0.5rem;
+  border: 1px solid #8c8c8c;
+  background-color: #fff;
+  color: #8c8c8c;
+  max-height: 2rem;
+  font-size: 0.8rem;
+  :hover {
+    color: #0642ff;
+    border: 1px solid #0642ff;
+  }
+`;
 export const CategoryBtn = styled.button`
   white-space: nowrap;
   min-width: 7em;
@@ -134,6 +165,11 @@ export const CategoryBtn = styled.button`
   border-radius: 1em;
   border: 1px solid #c4c4c4;
   cursor: pointer;
+  &:disabled {
+    border: 1px solid #0642ff;
+    background: #0642ff;
+    color: #fff;
+  }
 `;
 
 /*search filter*/
@@ -388,9 +424,8 @@ export const FeedBookmark = styled.div`
   color: white;
   margin: 1rem;
   border-radius: 0.6rem;
-  padding: 0.5rem 1rem;
-  background-color: ${({ thumbnail }) =>
-    !thumbnail ? "#BACAFF" : "rgba(0,0,0,0.4)"};
+  padding: 0.5rem 0.7rem;
+  background-color: rgba(0, 0, 0, 0.3);
   & svg {
     width: 1em;
     height: 1em;

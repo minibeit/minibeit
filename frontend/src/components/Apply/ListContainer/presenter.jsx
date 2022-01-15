@@ -20,10 +20,7 @@ export default function Presenter({
           return (
             <S.FeedBox key={a.id} onClick={() => goToDetailPage(a)}>
               <S.FeedImgView thumbnail={a.file && a.file.url}>
-                <S.FeedBookmark
-                  thumbnail={a.file && a.file.url}
-                  onClick={(e) => clickBookmark(a, e)}
-                >
+                <S.FeedBookmark>
                   {a.isLike ? <FillStar /> : <Star />}
                   <p>{a.likes}</p>
                 </S.FeedBookmark>

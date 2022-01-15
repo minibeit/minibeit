@@ -344,12 +344,7 @@ export default function Presenter({
               URL.createObjectURL(recruit.images[0])
             }
           >
-            <S.FeedBookmark
-              thumbnail={
-                recruit.images.length !== 0 &&
-                URL.createObjectURL(recruit.images[0])
-              }
-            >
+            <S.FeedBookmark>
               <Star />
               <p>0</p>
             </S.FeedBookmark>

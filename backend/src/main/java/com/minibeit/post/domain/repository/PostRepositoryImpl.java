@@ -6,6 +6,7 @@ import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.dto.QPostResponse_GetMyApplyList;
+import com.minibeit.review.domain.BusinessUserReviewEvalType;
 import com.minibeit.user.domain.User;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -29,6 +30,7 @@ import static com.minibeit.post.domain.QPostDoDate.postDoDate;
 import static com.minibeit.post.domain.QPostLike.postLike;
 import static com.minibeit.post.domain.QRejectPost.rejectPost;
 import static com.minibeit.review.domain.QBusinessUserReview.businessUserReview;
+import static com.minibeit.review.domain.QBusinessUserReviewDetail.businessUserReviewDetail;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -152,7 +154,9 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
                 .where(post.businessProfile.id.eq(businessProfileId).and(post.postStatus.eq(PostStatus.COMPLETE)))
                 .fetchCount();
         long review = queryFactory.selectFrom(businessUserReview)
-                .where(businessUserReview.businessProfile.id.eq(businessProfileId))
+                .join(businessUserReview.businessUserReviewDetail, businessUserReviewDetail)
+                .where(businessUserReview.businessProfile.id.eq(businessProfileId)
+                        .and(businessUserReviewDetail.evalType.eq(BusinessUserReviewEvalType.GOOD)))
                 .fetchCount();
         return PostResponse.GetBusinessStatus.build(complete, review);
     }

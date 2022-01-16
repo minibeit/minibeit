@@ -310,7 +310,7 @@ export const FeedLabel = styled.div`
   text-align: center;
   border-radius: 2rem;
   ${({ status }) => {
-    if (status === "created")
+    if (status === "recruit")
       return css`
         color: #7b68ff;
         border: 1px solid #7b68ff;

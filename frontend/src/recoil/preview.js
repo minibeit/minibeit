@@ -13,6 +13,6 @@ export const BprofilePreview = atom({
   default: {
     complete: 0,
     review: 0,
-    created: 0,
+    recruit: 0,
   },
 });

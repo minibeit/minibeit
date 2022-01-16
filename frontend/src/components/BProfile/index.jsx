@@ -21,19 +21,16 @@ export default function BProfileComponent({ businessId, view, page }) {
   const [feedPreview, setFeedPreview] = useRecoilState(BprofilePreview);
 
   const status = [
-    { id: "created", value: "생성한 모집공고" },
+    { id: "recruit", value: "생성한 모집공고" },
     { id: "completed", value: "완료된 모집공고" },
     { id: "review", value: "후기 모아보기" },
   ];
 
-  const getPreview = (createdItems) => {
-    getPreviewBProfileApi(businessId).then((res) => {
+  const getPreview = (status, statusData) => {
+    getPreviewBProfileApi(businessId, status).then((res) => {
       let copy = { ...feedPreview };
-      copy.review = res.data.data.review;
-      copy.complete = res.data.data.complete;
-      if (createdItems) {
-        copy.created = createdItems;
-      }
+      copy = { ...res.data.data };
+      copy[status.toLowerCase()] = statusData;
       setFeedPreview(copy);
     });
   };
@@ -41,26 +38,27 @@ export default function BProfileComponent({ businessId, view, page }) {
   const changeFeedData = useCallback(() => {
     setFeedData([]);
     switch (view) {
-      case "created":
+      case "recruit":
         getMakelistApi(businessId, page, "RECRUIT").then((res) => {
           setTotalEle(res.data.data.totalElements);
           setFeedData(res.data.data.content);
-          getPreview(res.data.data.totalElements);
+          getPreview("RECRUIT", res.data.data.totalElements);
         });
         break;
       case "completed":
         getMakelistApi(businessId, page, "COMPLETE").then((res) => {
           setTotalEle(res.data.data.totalElements);
           setFeedData(res.data.data.content);
-          getPreview();
+          getPreview("COMPLETE", res.data.data.totalElements);
         });
         break;
       case "review":
         viewBusinessReviewApi(businessId, page, 10).then((res) => {
           let reviewData = res.data.data.sort((a, b) => b.count - a.count);
-          setReviewCount(reviewData.reduce((a, c) => a + c.count, 0));
+          let totalReviewCount = reviewData.reduce((a, c) => a + c.count, 0);
+          setReviewCount(totalReviewCount);
           setFeedData(reviewData);
-          getPreview();
+          getPreview("COMPLETE", totalReviewCount);
         });
         break;
       default:

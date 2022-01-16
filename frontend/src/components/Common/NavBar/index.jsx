@@ -25,10 +25,9 @@ export default function NavBar() {
   };
 
   const logout = () => {
-    logoutFunc().then(() => {
-      window.location.replace("/");
-      localStorage.clear();
-    });
+    window.location.replace("/");
+    localStorage.clear();
+    logoutFunc();
   };
 
   return (

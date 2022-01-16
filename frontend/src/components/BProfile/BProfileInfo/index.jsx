@@ -100,7 +100,7 @@ export default function BProfileInfo({ businessId, feedPreview }) {
                 </thead>
                 <tbody>
                   <tr>
-                    <td>{feedPreview.created}</td>
+                    <td>{feedPreview.recruit}</td>
                     <td
                       style={{
                         borderRight: "1px solid #c4c4c4",

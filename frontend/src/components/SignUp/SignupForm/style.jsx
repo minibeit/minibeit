@@ -292,6 +292,7 @@ export const CheckInput = styled.div`
     cursor: pointer;
     color: blue;
     white-space: nowrap;
+    border-radius: 8px;
     :disabled {
       color: #c4c4c4;
       cursor: inherit;
@@ -301,6 +302,9 @@ export const CheckInput = styled.div`
     }
     :hover {
       font-weight: bold;
+    }
+    :active {
+      background: #c4c4c4;
     }
   }
 `;

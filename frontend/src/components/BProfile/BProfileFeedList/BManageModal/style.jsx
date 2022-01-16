@@ -1,5 +1,20 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { ReactComponent as CheckIcon } from "../../../../svg/동그라미체크.svg";
+
+const moveUpDown = keyframes`
+0% {
+  opacity:1;
+  transform:translateY(0);
+}
+50% {
+  opacity:0.7;
+  transform:translateY(-0.3rem);
+}
+100%{
+  opacity:1;
+  transform:translateY(0);
+  }
+`;
 
 export const ModalBox = styled.div`
   transform: translate(-50%, -50%);
@@ -73,12 +88,23 @@ export const CalendarWrapper = styled.div`
 `;
 export const CloseModalBtn = styled.div`
   margin-right: 0.5rem;
-  align-items: end;
   display: flex;
-  flex-direction: column;
+  justify-content: end;
   height: -webkit-fill-available;
-  cursor: pointer;
+  & > p {
+    font-size: 0.7em;
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    padding: 0.2em 0.5em;
+    border: 1px solid #bdbdbd66;
+    border-radius: 1em;
+    color: #0642ff;
+    box-shadow: 10px 10px 30px 0px #bdbdbd66;
+    animation: ${moveUpDown} 3s infinite;
+  }
   & > svg {
+    cursor: pointer;
     width: 1rem;
     height: 1rem;
   }

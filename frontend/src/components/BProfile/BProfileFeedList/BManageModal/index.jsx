@@ -131,8 +131,9 @@ export default function BManageModal({ feedData, setModalSwitch }) {
         </S.TabBtn>
         <div>
           <S.ModalHeader>
-            <S.CloseModalBtn onClick={() => setModalSwitch(false)}>
-              <CloseIcon />
+            <S.CloseModalBtn>
+              <p>참여 일정이 있는 날짜를 달력에서 선택해주세요.</p>
+              <CloseIcon onClick={() => setModalSwitch(false)} />
             </S.CloseModalBtn>
             <div>
               <p>{feedData.title}</p>

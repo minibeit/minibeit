@@ -62,11 +62,11 @@ export const doNotJoinApi = async (postDoDateId) => {
   );
 };
 
-export const getPreviewProfileApi = () => {
-  return withAuthInstance.get(`/api/post/user/status`);
+export const getPreviewProfileApi = (status) => {
+  return withAuthInstance.get(`/api/post/user/status?status=${status}`);
 };
-export const getPreviewBProfileApi = (businessId) => {
+export const getPreviewBProfileApi = (businessId, status) => {
   return withAuthInstance.get(
-    `/api/post/business/profile/${businessId}/status`
+    `/api/post/business/profile/${businessId}/status?status=${status}`
   );
 };

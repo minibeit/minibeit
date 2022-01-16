@@ -9,7 +9,7 @@ export const SearchInput = styled.div`
   }
   & > input {
     border: none;
-    background: none;
+    background: #f8f8f8;
     font-size: 1rem;
     outline: none;
   }

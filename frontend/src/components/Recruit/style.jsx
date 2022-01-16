@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 
 const fadeIn = () => {
   return css`
@@ -18,6 +18,20 @@ const fadeIn = () => {
     }
   `;
 };
+const moveUpDown = keyframes`
+0% {
+  opacity:1;
+  transform:translateY(0);
+}
+50% {
+  opacity:0.7;
+  transform:translateY(0.5rem);
+}
+100%{
+  opacity:1;
+  transform:translateY(0);
+  }
+`;
 
 /* Common */
 export const Page = styled.div`
@@ -528,10 +542,22 @@ export const PayInput = styled(Input)`
 /* img and address */
 export const ExtraInfoContainer = styled.div`
   width: 100%;
-  & > p:first-child {
-    margin: 1.5em 0;
-    font-size: 1.7em;
-    font-weight: bold;
+  & > div:first-child {
+    display: flex;
+    & > p:first-child {
+      margin: 1.5em 0;
+      font-size: 1.7em;
+      font-weight: bold;
+    }
+    & > p:nth-child(2) {
+      margin: auto 2em;
+      padding: 0.2em 0.5em;
+      border: 1px solid #bdbdbd66;
+      border-radius: 1em;
+      color: #0642ff;
+      box-shadow: 10px 10px 30px 0px #bdbdbd66;
+      animation: ${moveUpDown} 3s infinite;
+    }
   }
   & > div:nth-child(2) {
     display: flex;

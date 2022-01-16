@@ -42,7 +42,7 @@ export default function Presenter({
   return (
     <S.InputPage>
       <S.DataInfoContainer>
-        <p>1. 실험 정보</p>
+        <p>1. 모집글 정보</p>
         <S.TitleBox>
           <p>제목</p>
           <input
@@ -251,7 +251,10 @@ export default function Presenter({
         </S.ContentBox>
       </S.DataInfoContainer>
       <S.ExtraInfoContainer>
-        <p>2. 자동 입력</p>
+        <div>
+          <p>2. 자동 입력</p>
+          <p>수정이 필요하신 경우 수정해주세요</p>
+        </div>
         <div>
           <S.InputBox>
             <p>참여 장소</p>

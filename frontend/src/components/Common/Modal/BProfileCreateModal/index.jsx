@@ -49,7 +49,7 @@ export default function BProfileCreateModal({ setModalSwitch }) {
     bprofileNew(infoData)
       .then((res) => {
         setModalSwitch(false);
-        history.push(`/business/${res.data.data.id}?created&1`);
+        history.push(`/business/${res.data.data.id}?recruit&1`);
       })
       .catch((err) => toast.info("수정 내용을 다시 한번 확인해주세요"));
   };

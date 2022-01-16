@@ -26,46 +26,47 @@ export default function UserContainer({ view, page }) {
     { id: "complete", value: "완료한 목록" },
     { id: "reject", value: "반려된 목록" },
   ];
+  const getPreview = (status, statusData) => {
+    getPreviewProfileApi(status).then((res) => {
+      let copy = { ...feedPreview };
+      copy = { ...res.data.data };
+      if (statusData) {
+        copy[status.toLowerCase()] = statusData;
+      }
+      setFeedPreview(copy);
+    });
+  };
 
   const changeFeedData = useCallback(
     () => {
       setFeedData();
       switch (view) {
         case "approve":
-          getMyFeedList(page, "APPROVE")
-            .then((res) => {
-              setTotalEle(res.data.data.totalElements);
-              setFeedData(res.data.data.content);
-              return res.data.data.totalElements;
-            })
-            .then((approveItem) => {
-              getPreviewProfileApi().then((res) => {
-                setFeedPreview({ ...res.data.data, approve: approveItem });
-              });
-            });
+          getMyFeedList(page, "APPROVE").then((res) => {
+            setTotalEle(res.data.data.totalElements);
+            setFeedData(res.data.data.content);
+            getPreview("APPROVE", res.data.data.totalElements);
+          });
           break;
         case "wait":
           getMyFeedList(page, "WAIT").then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
-            let copy = { ...feedPreview };
-            copy.wait = res.data.data.totalElements;
-            setFeedPreview(copy);
+            getPreview("WAIT", res.data.data.totalElements);
           });
           break;
         case "complete":
           getMyFeedList(page, "COMPLETE").then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
+            getPreview("COMPLETE");
           });
           break;
         case "reject":
           getMyRejectListApi(page).then((res) => {
             setTotalEle(res.data.data.totalElements);
             setFeedData(res.data.data.content);
-            let copy = { ...feedPreview };
-            copy.reject = res.data.data.totalElements;
-            setFeedPreview(copy);
+            getPreview("REJECT", res.data.data.totalElements);
           });
           break;
         default:

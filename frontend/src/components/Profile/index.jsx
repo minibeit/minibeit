@@ -24,7 +24,7 @@ export default function ProfileComponent({ view, page }) {
       <S.ModeSelectBtn
         onClick={() => {
           if (usersBProfile) {
-            history.push(`/business/${usersBProfile}?created&1`);
+            history.push(`/business/${usersBProfile}?recruit&1`);
           } else {
             history.push("/profile?business");
           }

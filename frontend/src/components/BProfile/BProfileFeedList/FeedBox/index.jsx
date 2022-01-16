@@ -23,7 +23,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
         postStatus={data.postStatus}
       >
         <S.FeedLabel status={status}>
-          {status === "created" && "모집중"}
+          {status === "recruit" && "모집중"}
           {status === "completed" && "모집완료"}
         </S.FeedLabel>
         <S.FeedImgView thumbnail={data.thumbnail}>
@@ -52,7 +52,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
             <p>{data.headcount} 명</p>
           </div>
           <div>
-            {status === "created" && (
+            {status === "recruit" && (
               <>
                 <S.BlueButton
                   onClick={(e) => {

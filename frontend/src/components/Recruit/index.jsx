@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { useHistory } from "react-router";
 
 import { userState } from "../../recoil/userState";
-import { bprofileListGet, feedCreateApi, getBprofileInfo } from "../../utils";
+import { bprofileListGet, feedCreateApi } from "../../utils";
 
 import BProfileSelect from "./BProfileSelect";
 import DataSelect from "./DataSelect";
@@ -82,23 +82,6 @@ export default function RecruitComponent() {
   }, [getbpList]);
 
   useEffect(() => {
-    if (user.bprofile) {
-      getBprofileInfo(user.bprofile).then((res) => {
-        let copy = { ...recruit };
-        copy.businessProfile = {
-          id: res.data.data.id,
-          name: res.data.data.name,
-        };
-        copy.address = res.data.data.place;
-        copy.detailAddress = res.data.data.placeDetail;
-        copy.contact = res.data.data.contact;
-        setRecruit(copy);
-      });
-    }
-    // eslint-disable-next-line
-  }, []);
-
-  useEffect(() => {
     return history.block((loca, action) => {
       if (!loca.pathname.includes("/recruit") && recruit.schoolId) {
         let value = window.confirm("변경내용이 저장되지 않을 수 있습니다");
@@ -112,6 +95,7 @@ export default function RecruitComponent() {
     <div ref={page}>
       <BProfileSelect
         movePage={movePage}
+        userBProfile={user.bprofile}
         bpList={bpList}
         recruit={recruit}
         setRecruit={setRecruit}

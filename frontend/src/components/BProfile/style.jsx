@@ -65,7 +65,7 @@ export const SImgBox = styled(ImgBox)`
 
 export const UserInfoContainer = styled.div`
   flex: 1;
-  margin: 2rem 1.5rem;
+  margin: 2rem 1rem;
   min-width: 18rem;
   & > div:first-child {
     border: 1px solid #c4c4c4;
@@ -224,7 +224,6 @@ export const PreviewTable = styled.table`
 
 export const FeedContainer = styled.div`
   flex: 3.5;
-  padding: 1rem 1rem 1rem 0;
   @media only screen and (max-width: 700px) {
     padding: 1rem 0;
   }
@@ -331,12 +330,12 @@ export const FeedImgView = styled.div`
     thumbnail ? `url(${thumbnail})` : 'url("/images/썸네일기본.png")'};
   background-size: cover;
   background-position: center;
-  flex: 1.5;
+  min-width: 7rem;
+  flex: 1;
 `;
 
 export const FeedTitle = styled.div`
   display: flex;
-  flex: 1.5;
   height: 100%;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -383,7 +382,7 @@ export const FeedContentView = styled.div`
   flex: 1;
   width: -webkit-fill-available;
   height: auto;
-  padding: 1em 2em;
+  padding: 1em;
   gap: 0.5em;
   width: 100%;
   & > div:first-child {
@@ -433,15 +432,12 @@ export const FeedContentView = styled.div`
 `;
 
 export const FeedButton = styled.button`
-  display: flex;
-  align-items: center;
   border-radius: 2rem;
-  font-size: 1.3rem;
-  max-height: 2.5rem;
+  font-size: 1rem;
+  min-width: 7rem;
   cursor: pointer;
   white-space: nowrap;
-  min-width: fit-content;
-  padding: 0.5em 1em;
+  padding: 0.3em 1em;
 `;
 
 export const WhiteButton = styled(FeedButton)`

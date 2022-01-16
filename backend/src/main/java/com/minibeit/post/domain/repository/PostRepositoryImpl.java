@@ -177,16 +177,46 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public PostResponse.GetBusinessStatus countByPostStatusCompleteAndReview(Long businessProfileId) {
-        long complete = queryFactory.selectFrom(post)
-                .where(post.businessProfile.id.eq(businessProfileId).and(post.postStatus.eq(PostStatus.COMPLETE)))
-                .fetchCount();
-        long review = queryFactory.selectFrom(businessUserReview)
-                .join(businessUserReview.businessUserReviewDetail, businessUserReviewDetail)
-                .where(businessUserReview.businessProfile.id.eq(businessProfileId)
-                        .and(businessUserReviewDetail.evalType.eq(BusinessUserReviewEvalType.GOOD)))
-                .fetchCount();
-        return PostResponse.GetBusinessStatus.build(complete, review);
+    public PostResponse.GetBusinessStatus countByBusinessPostStatus(String status, Long businessProfileId) {
+        if (status.equals(PostStatus.RECRUIT.name())) {
+            Long completeCount = getCountByBusinessStatus(PostStatus.COMPLETE.name(), businessProfileId);
+            Long reviewCount = getCountByBusinessStatus("REVIEW", businessProfileId);
+            return PostResponse.GetBusinessStatus.build(null, completeCount, reviewCount);
+        }
+        if (status.equals(PostStatus.COMPLETE.name())) {
+            Long recruitCount = getCountByBusinessStatus(PostStatus.RECRUIT.name(), businessProfileId);
+            Long reviewCount = getCountByBusinessStatus("REVIEW", businessProfileId);
+            return PostResponse.GetBusinessStatus.build(recruitCount, null, reviewCount);
+        }
+        if (status.equals("REVIEW")) {
+            Long recruitCount = getCountByBusinessStatus(PostStatus.RECRUIT.name(), businessProfileId);
+            Long completeCount = getCountByBusinessStatus(PostStatus.COMPLETE.name(), businessProfileId);
+            return PostResponse.GetBusinessStatus.build(recruitCount, completeCount, null);
+        }
+        return null;
+    }
+
+    private Long getCountByBusinessStatus(String status, Long businessProfileId) {
+        if (status.equals(PostStatus.RECRUIT.name())) {
+            return queryFactory.selectFrom(post)
+                    .where(post.businessProfile.id.eq(businessProfileId)
+                            .and(post.postStatus.eq(PostStatus.RECRUIT)))
+                    .fetchCount();
+        }
+        if (status.equals(ApplyStatus.COMPLETE.name())) {
+            return queryFactory.selectFrom(post)
+                    .where(post.businessProfile.id.eq(businessProfileId)
+                            .and(post.postStatus.eq(PostStatus.COMPLETE)))
+                    .fetchCount();
+        }
+        if (status.equals("REVIEW")) {
+            return queryFactory.selectFrom(businessUserReview)
+                    .join(businessUserReview.businessUserReviewDetail, businessUserReviewDetail)
+                    .where(businessUserReview.businessProfile.id.eq(businessProfileId)
+                            .and(businessUserReviewDetail.evalType.eq(BusinessUserReviewEvalType.GOOD)))
+                    .fetchCount();
+        }
+        return null;
     }
 
     @Override

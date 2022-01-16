@@ -22,28 +22,28 @@ Content-Type: application/json;charset=UTF-8
   "condition": true,
   "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
   "doTime": 60,
-  "schoolId": 62,
+  "schoolId": 1,
   "businessProfileId": 1,
-  "startDate": "2022-01-07T09:30",
+  "startDate": "2022-01-13T09:30",
   "endDate": "2022-01-19T11:00",
   "doDateList": [
     {
-      "doDate": "2022-01-07T10:00"
+      "doDate": "2022-01-13T10:00"
     },
     {
-      "doDate": "2022-01-07T11:00"
+      "doDate": "2022-01-13T11:00"
     },
     {
-      "doDate": "2022-01-08T10:00"
+      "doDate": "2022-01-14T10:00"
     },
     {
-      "doDate": "2022-01-08T11:00"
+      "doDate": "2022-01-14T11:00"
     },
     {
-      "doDate": "2022-01-09T10:00"
+      "doDate": "2022-01-15T10:00"
     },
     {
-      "doDate": "2022-01-09T11:00"
+      "doDate": "2022-01-15T11:00"
     }
   ]
 }
@@ -143,7 +143,7 @@ GET {{apiUrl}}/post/user/status?status=REJECT
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/business/profile/1/status
+GET {{apiUrl}}/post/business/profile/1/status?status=REVIEW
 Authorization: {{authorizationToken}}
 
 ###

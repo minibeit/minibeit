@@ -315,7 +315,7 @@ public class PostResponse {
         private Long reject;
         private Long wait;
 
-        public static GetMyCount build(Long approve,Long reject, Long wait) {
+        public static GetMyCount build(Long approve, Long reject, Long wait) {
             return GetMyCount.builder()
                     .approve(approve)
                     .reject(reject)
@@ -329,11 +329,13 @@ public class PostResponse {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetBusinessStatus {
+        private Long recruit;
         private Long complete;
         private Long review;
 
-        public static GetBusinessStatus build(Long complete, Long review) {
+        public static GetBusinessStatus build(Long recruit, Long complete, Long review) {
             return GetBusinessStatus.builder()
+                    .recruit(recruit)
                     .complete(complete)
                     .review(review)
                     .build();

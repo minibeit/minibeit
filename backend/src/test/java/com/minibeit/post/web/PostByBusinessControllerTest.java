@@ -283,12 +283,14 @@ class PostByBusinessControllerTest extends MvcTest {
     @Test
     @DisplayName("비즈니스 프로필 공고 현황 문서화")
     public void getBusinessStatus() throws Exception {
-        PostResponse.GetBusinessStatus response = PostResponse.GetBusinessStatus.build(1L, 1L);
+        PostResponse.GetBusinessStatus response = PostResponse.GetBusinessStatus.build(null, 1L, 23L);
 
-        given(postByBusinessService.getCountBusinessCompletePostAndReview(any())).willReturn(response);
+        given(postByBusinessService.getCountBusinessCompletePostAndReview(any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
-                .get("/api/post/business/profile/{businessProfileId}/status", 1));
+                .get("/api/post/business/profile/{businessProfileId}/status", 1)
+                .param("status", "RECRUIT")
+        );
 
         results.andExpect(status().isOk())
                 .andDo(print())
@@ -296,9 +298,13 @@ class PostByBusinessControllerTest extends MvcTest {
                         pathParameters(
                                 parameterWithName("businessProfileId").description("비즈니스 프로필 식별자")
                         ),
+                        requestParameters(
+                                parameterWithName("status").description("RECRUIT(모집중), COMPLETE(완료), REVIEW(후기)")
+                        ),
                         responseFields(
                                 fieldWithPath("status").type(JsonFieldType.NUMBER).description("상태 코드"),
                                 fieldWithPath("success").type(JsonFieldType.BOOLEAN).description("api 응답이 성공했다면 true"),
+                                fieldWithPath("data.recruit").description("모집중 게시물 개수"),
                                 fieldWithPath("data.complete").type(JsonFieldType.NUMBER).description("완료된 게시물 개수"),
                                 fieldWithPath("data.review").type(JsonFieldType.NUMBER).description("후기 개수")
                         )

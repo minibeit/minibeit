@@ -1,13 +1,13 @@
 package com.minibeit.post.web;
 
+import com.minibeit.auth.domain.CurrentUser;
+import com.minibeit.auth.domain.CustomUserDetails;
 import com.minibeit.common.dto.ApiResult;
 import com.minibeit.common.dto.PageDto;
 import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.service.PostByBusinessService;
 import com.minibeit.post.service.dto.PostRequest;
 import com.minibeit.post.service.dto.PostResponse;
-import com.minibeit.post.service.PostByBusinessService;
-import com.minibeit.auth.domain.CurrentUser;
-import com.minibeit.auth.domain.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -51,8 +51,8 @@ public class PostByBusinessController {
     }
 
     @GetMapping("/post/business/profile/{businessProfileId}/status")
-    public ResponseEntity<ApiResult<PostResponse.GetBusinessStatus>> getBusinessStatus(@PathVariable Long businessProfileId) {
-        PostResponse.GetBusinessStatus response = postByBusinessService.getCountBusinessCompletePostAndReview(businessProfileId);
+    public ResponseEntity<ApiResult<PostResponse.GetBusinessStatus>> getBusinessStatus(@RequestParam(name = "status") String status, @PathVariable Long businessProfileId) {
+        PostResponse.GetBusinessStatus response = postByBusinessService.getCountBusinessCompletePostAndReview(status, businessProfileId);
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 

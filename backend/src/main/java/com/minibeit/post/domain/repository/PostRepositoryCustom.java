@@ -29,5 +29,5 @@ public interface PostRepositoryCustom {
 
     PostResponse.GetMyCount countMyPostStatusByApplyStatus(ApplyStatus status, LocalDateTime now, User user);
 
-    PostResponse.GetBusinessStatus countByPostStatusCompleteAndReview(Long businessProfileId);
+    PostResponse.GetBusinessStatus countByBusinessPostStatus(String status, Long businessProfileId);
 }

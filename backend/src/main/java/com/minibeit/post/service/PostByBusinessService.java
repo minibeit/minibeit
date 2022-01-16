@@ -94,8 +94,8 @@ public class PostByBusinessService {
     }
 
     @Transactional(readOnly = true)
-    public PostResponse.GetBusinessStatus getCountBusinessCompletePostAndReview(Long businessProfileId) {
-        return postRepository.countByPostStatusCompleteAndReview(businessProfileId);
+    public PostResponse.GetBusinessStatus getCountBusinessCompletePostAndReview(String status, Long businessProfileId) {
+        return postRepository.countByBusinessPostStatus(status, businessProfileId);
     }
 
     public PostResponse.OnlyId updateContent(Long postId, PostRequest.UpdateContent request, User user) {

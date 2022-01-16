@@ -330,7 +330,7 @@ export const FeedImgView = styled.div`
     thumbnail ? `url(${thumbnail})` : 'url("/images/썸네일기본.png")'};
   background-size: cover;
   background-position: center;
-  min-width: 7rem;
+  min-width: 16rem;
   flex: 1;
 `;
 

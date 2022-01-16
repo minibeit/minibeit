@@ -386,7 +386,7 @@ export const FeedImgView = styled.div`
     thumbnail ? `url(${thumbnail})` : 'url("/images/썸네일기본.png")'};
   background-size: cover;
   background-position: center;
-  min-width: 7rem;
+  min-width: 16rem;
   flex: 1;
 
   & > div {
@@ -484,7 +484,6 @@ export const RejectTag = styled(Tag)`
     font-weight: bold;
   }
   & > p:nth-child(2) {
-    max-width: 16rem;
     white-space: normal;
   }
 `;
@@ -532,7 +531,7 @@ export const FeedButton = styled.button`
   min-width: 7rem;
   cursor: pointer;
   white-space: nowrap;
-  padding: 0.3em 1em;
+  padding: 0em 1em;
 
   @media only screen and (max-width: 700px) {
     padding: 1rem;

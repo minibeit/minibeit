@@ -88,8 +88,8 @@ export default function BManageModal({ feedData, setModalSwitch }) {
     if (rejectAlert) {
       rejectOneApi(postDoDateId, userId, comment)
         .then((res) => {
+          setReason("");
           setRejectAlert(false);
-          setReason(null);
           getList();
           toast.info("반려 처리되었습니다");
         })

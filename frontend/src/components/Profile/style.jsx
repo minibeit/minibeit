@@ -479,8 +479,14 @@ export const RejectTag = styled(Tag)`
   gap: 0.5em;
   background: rgba(123, 104, 255, 0.1);
   color: #7b68ff;
+  max-width: 19rem;
+
   & > p:first-child {
     font-weight: bold;
+  }
+  & > p:nth-child(2) {
+    max-width: 16rem;
+    white-space: normal;
   }
 `;
 export const RecruitTag = styled(Tag)`

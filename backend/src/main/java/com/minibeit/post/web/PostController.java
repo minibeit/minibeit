@@ -82,8 +82,8 @@ public class PostController {
     }
 
     @GetMapping("/post/user/status")
-    public ResponseEntity<ApiResult<PostResponse.GetMyCount>> getMyPostStatus(@CurrentUser CustomUserDetails customUserDetails) {
-        PostResponse.GetMyCount response = postService.getMyPostStatus(LocalDateTime.now(), customUserDetails.getUser());
+    public ResponseEntity<ApiResult<PostResponse.GetMyCount>> getMyPostStatus(@RequestParam(name = "status") ApplyStatus status, @CurrentUser CustomUserDetails customUserDetails) {
+        PostResponse.GetMyCount response = postService.getMyPostStatus(status, LocalDateTime.now(), customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 

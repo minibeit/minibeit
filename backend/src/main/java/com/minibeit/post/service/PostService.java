@@ -67,8 +67,8 @@ public class PostService {
         return posts.map(PostResponse.GetLikeList::build);
     }
 
-    public PostResponse.GetMyCount getMyPostStatus(LocalDateTime now, User user) {
-        return postRepository.countMyPostStatusWaitAndReject(now, user);
+    public PostResponse.GetMyCount getMyPostStatus(ApplyStatus status, LocalDateTime now, User user) {
+        return postRepository.countMyPostStatusByApplyStatus(status, now, user);
     }
 
     public Page<PostResponse.GetMyApplyList> getListByApplyStatus(ApplyStatus status, User user, LocalDateTime now, PageDto pageDto) {

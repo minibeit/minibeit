@@ -6,6 +6,7 @@ import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.dto.QPostResponse_GetMyApplyList;
+import com.minibeit.review.domain.BusinessUserReviewEvalType;
 import com.minibeit.user.domain.User;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -29,6 +30,7 @@ import static com.minibeit.post.domain.QPostDoDate.postDoDate;
 import static com.minibeit.post.domain.QPostLike.postLike;
 import static com.minibeit.post.domain.QRejectPost.rejectPost;
 import static com.minibeit.review.domain.QBusinessUserReview.businessUserReview;
+import static com.minibeit.review.domain.QBusinessUserReviewDetail.businessUserReviewDetail;
 
 @RequiredArgsConstructor
 public class PostRepositoryImpl implements PostRepositoryCustom {
@@ -131,30 +133,90 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     }
 
     @Override
-    public PostResponse.GetMyCount countMyPostStatusWaitAndReject(LocalDateTime now, User user) {
-        long waitCount = queryFactory.select(postApplicant)
-                .from(postApplicant)
-                .join(postApplicant.postDoDate, postDoDate)
-                .where(postApplicant.user.id.eq(user.getId())
-                        .and(postApplicant.applyStatus.eq(ApplyStatus.WAIT))
-                        .and(postDoDate.doDate.goe(now)))
-                .fetchCount();
-        long reject = queryFactory.select(rejectPost)
-                .from(rejectPost)
-                .where(rejectPost.user.id.eq(user.getId()))
-                .fetchCount();
-        return PostResponse.GetMyCount.build(reject, waitCount);
+    public PostResponse.GetMyCount countMyPostStatusByApplyStatus(ApplyStatus status, LocalDateTime now, User user) {
+        if (status.equals(ApplyStatus.WAIT)) {
+            Long approveCount = getCountByApplyStatus(now, ApplyStatus.APPROVE, user);
+            Long rejectCount = getCountByApplyStatus(now, ApplyStatus.REJECT, user);
+            return PostResponse.GetMyCount.build(approveCount, rejectCount, null);
+        }
+        if (status.equals(ApplyStatus.APPROVE)) {
+            Long waitCount = getCountByApplyStatus(now, ApplyStatus.WAIT, user);
+            Long rejectCount = getCountByApplyStatus(now, ApplyStatus.REJECT, user);
+            return PostResponse.GetMyCount.build(null, rejectCount, waitCount);
+        }
+        if (status.equals(ApplyStatus.REJECT)) {
+            Long waitCount = getCountByApplyStatus(now, ApplyStatus.WAIT, user);
+            Long approveCount = getCountByApplyStatus(now, ApplyStatus.APPROVE, user);
+            return PostResponse.GetMyCount.build(approveCount, null, waitCount);
+        }
+        return null;
+    }
+
+    private Long getCountByApplyStatus(LocalDateTime now, ApplyStatus applyStatus, User user) {
+        if (applyStatus.equals(ApplyStatus.WAIT)) {
+            return queryFactory.selectFrom(postApplicant)
+                    .join(postApplicant.postDoDate, postDoDate)
+                    .where(postApplicant.user.id.eq(user.getId())
+                            .and(postApplicant.applyStatus.eq(applyStatus))
+                            .and(postDoDate.doDate.goe(now)))
+                    .fetchCount();
+        }
+        if (applyStatus.equals(ApplyStatus.APPROVE)) {
+            return queryFactory.selectFrom(postApplicant)
+                    .join(postApplicant.postDoDate, postDoDate)
+                    .where(postApplicant.user.id.eq(user.getId())
+                            .and(postApplicant.applyStatus.eq(ApplyStatus.APPROVE)))
+                    .fetchCount();
+        }
+        if (applyStatus.equals(ApplyStatus.REJECT)) {
+            return queryFactory.selectFrom(rejectPost)
+                    .where(rejectPost.user.id.eq(user.getId()))
+                    .fetchCount();
+        }
+        return null;
     }
 
     @Override
-    public PostResponse.GetBusinessStatus countByPostStatusCompleteAndReview(Long businessProfileId) {
-        long complete = queryFactory.selectFrom(post)
-                .where(post.businessProfile.id.eq(businessProfileId).and(post.postStatus.eq(PostStatus.COMPLETE)))
-                .fetchCount();
-        long review = queryFactory.selectFrom(businessUserReview)
-                .where(businessUserReview.businessProfile.id.eq(businessProfileId))
-                .fetchCount();
-        return PostResponse.GetBusinessStatus.build(complete, review);
+    public PostResponse.GetBusinessStatus countByBusinessPostStatus(String status, Long businessProfileId) {
+        if (status.equals(PostStatus.RECRUIT.name())) {
+            Long completeCount = getCountByBusinessStatus(PostStatus.COMPLETE.name(), businessProfileId);
+            Long reviewCount = getCountByBusinessStatus("REVIEW", businessProfileId);
+            return PostResponse.GetBusinessStatus.build(null, completeCount, reviewCount);
+        }
+        if (status.equals(PostStatus.COMPLETE.name())) {
+            Long recruitCount = getCountByBusinessStatus(PostStatus.RECRUIT.name(), businessProfileId);
+            Long reviewCount = getCountByBusinessStatus("REVIEW", businessProfileId);
+            return PostResponse.GetBusinessStatus.build(recruitCount, null, reviewCount);
+        }
+        if (status.equals("REVIEW")) {
+            Long recruitCount = getCountByBusinessStatus(PostStatus.RECRUIT.name(), businessProfileId);
+            Long completeCount = getCountByBusinessStatus(PostStatus.COMPLETE.name(), businessProfileId);
+            return PostResponse.GetBusinessStatus.build(recruitCount, completeCount, null);
+        }
+        return null;
+    }
+
+    private Long getCountByBusinessStatus(String status, Long businessProfileId) {
+        if (status.equals(PostStatus.RECRUIT.name())) {
+            return queryFactory.selectFrom(post)
+                    .where(post.businessProfile.id.eq(businessProfileId)
+                            .and(post.postStatus.eq(PostStatus.RECRUIT)))
+                    .fetchCount();
+        }
+        if (status.equals(ApplyStatus.COMPLETE.name())) {
+            return queryFactory.selectFrom(post)
+                    .where(post.businessProfile.id.eq(businessProfileId)
+                            .and(post.postStatus.eq(PostStatus.COMPLETE)))
+                    .fetchCount();
+        }
+        if (status.equals("REVIEW")) {
+            return queryFactory.selectFrom(businessUserReview)
+                    .join(businessUserReview.businessUserReviewDetail, businessUserReviewDetail)
+                    .where(businessUserReview.businessProfile.id.eq(businessProfileId)
+                            .and(businessUserReviewDetail.evalType.eq(BusinessUserReviewEvalType.GOOD)))
+                    .fetchCount();
+        }
+        return null;
     }
 
     @Override

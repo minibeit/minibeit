@@ -2,6 +2,7 @@ package com.minibeit.post.domain;
 
 import com.minibeit.common.domain.BaseEntity;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "post_do_date")
+@Where(clause = "del=0")
 public class PostDoDate extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +33,23 @@ public class PostDoDate extends BaseEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "del")
+    private Boolean del;
+
     public PostDoDate assignPost(Post post) {
         this.post = post;
+        this.del = false;
         post.getPostDoDateList().add(this);
         return this;
+    }
+
+    public void delete() {
+        this.del = true;
+        this.deletedAt = LocalDateTime.now();
+        this.getPostApplicantList().forEach(PostApplicant::delete);
     }
 
     public void updateFull(List<PostApplicant> approvedPostApplicant) {

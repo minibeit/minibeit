@@ -4,8 +4,10 @@ import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.file.domain.FileServer;
 import com.minibeit.file.domain.FileType;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -13,6 +15,7 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "post_file")
+@Where(clause = "del=0")
 public class PostFile extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,9 +39,20 @@ public class PostFile extends BaseEntity {
     @JoinColumn(name = "post_id")
     private Post post;
 
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "del")
+    private Boolean del;
+
     private void setPost(Post post) {
         this.post = post;
         post.getPostFileList().add(this);
+    }
+
+    public void delete() {
+        this.del = true;
+        this.deletedAt = LocalDateTime.now();
     }
 
     public static PostFile create(Post post, PostFile file) {
@@ -51,6 +65,7 @@ public class PostFile extends BaseEntity {
                 .width(file.getWidth())
                 .size(file.getSize())
                 .url(file.getUrl())
+                .del(false)
                 .build();
         postFile.setPost(post);
         return postFile;

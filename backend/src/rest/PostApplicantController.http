@@ -1,4 +1,4 @@
-POST {{apiUrl}}/post/date/1/apply
+POST {{apiUrl}}/post/date/6/apply
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -9,7 +9,7 @@ Content-Type: application/json;charset=UTF-8
 
 ###
 
-POST {{apiUrl}}/post/date/5/apply/approve/2
+POST {{apiUrl}}/post/date/5/apply/approve/1
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -19,7 +19,7 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 ###
-POST {{apiUrl}}/post/date/242/apply/reject/3
+POST {{apiUrl}}/post/date/6/apply/reject/1
 Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
@@ -42,9 +42,5 @@ Content-Type: application/json;charset=UTF-8
 }
 
 ###
-GET {{apiUrl}}/post/2/applicant/list?doDate=2021-09-30
-Authorization: {{authorizationToken}}
-
-###
-GET {{apiUrl}}/post/1/applicants?status=WAIT&doDate=2022-01-02
+GET {{apiUrl}}/post/1/applicants?status=APPROVE&doDate=2022-01-07
 Authorization: {{authorizationToken}}

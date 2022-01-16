@@ -5,6 +5,7 @@ import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.User;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import java.util.List;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "post")
+@Where(clause = "del=0")
 public class Post extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,6 +83,12 @@ public class Post extends BaseEntity {
     @JoinColumn(name = "school_id")
     private School school;
 
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "del")
+    private Boolean del;
+
     public boolean isLike(User user) {
         return user != null && this.postLikeList.stream().anyMatch(postLike -> postLike.getUser().getId().equals(user.getId()));
     }
@@ -102,8 +110,16 @@ public class Post extends BaseEntity {
         this.thumbnail = thumbnail;
     }
 
+    public void delete() {
+        this.del = true;
+        this.deletedAt = LocalDateTime.now();
+        this.getPostDoDateList().forEach(PostDoDate::delete);
+        this.getPostFileList().forEach(PostFile::delete);
+    }
+
     public void create(School school, BusinessProfile businessProfile) {
         this.school = school;
         this.businessProfile = businessProfile;
+        this.del = false;
     }
 }

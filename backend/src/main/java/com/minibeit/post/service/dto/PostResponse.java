@@ -293,13 +293,15 @@ public class PostResponse {
         private LocalDateTime startTime;
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "HH:mm", timezone = "Asia/Seoul")
         private LocalDateTime endTime;
+        private String contact;
 
-        public static ApproveAndApproveCancelTemplate build(String title, LocalDateTime doDate, Integer doTime) {
+        public static ApproveAndApproveCancelTemplate build(String title, LocalDateTime doDate, Integer doTime, String contact) {
             return ApproveAndApproveCancelTemplate.builder()
                     .title(title)
                     .doDate(doDate)
                     .startTime(doDate)
                     .endTime(doDate.plusMinutes(doTime))
+                    .contact(contact)
                     .build();
         }
     }
@@ -309,11 +311,13 @@ public class PostResponse {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetMyCount {
+        private Long approve;
         private Long reject;
         private Long wait;
 
-        public static GetMyCount build(Long reject, Long wait) {
+        public static GetMyCount build(Long approve, Long reject, Long wait) {
             return GetMyCount.builder()
+                    .approve(approve)
                     .reject(reject)
                     .wait(wait)
                     .build();
@@ -325,11 +329,13 @@ public class PostResponse {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GetBusinessStatus {
+        private Long recruit;
         private Long complete;
         private Long review;
 
-        public static GetBusinessStatus build(Long complete, Long review) {
+        public static GetBusinessStatus build(Long recruit, Long complete, Long review) {
             return GetBusinessStatus.builder()
+                    .recruit(recruit)
                     .complete(complete)
                     .review(review)
                     .build();

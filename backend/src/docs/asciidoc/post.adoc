@@ -305,6 +305,7 @@ include::{snippets}/post-getList-business-profile/response-fields.adoc[]
 
 요청 HTTP
 include::{snippets}/post-my-status/http-request.adoc[]
+include::{snippets}/post-my-status/request-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/post-my-status/http-response.adoc[]
@@ -317,6 +318,7 @@ include::{snippets}/post-my-status/response-fields.adoc[]
 요청 HTTP
 include::{snippets}/post-business-status/http-request.adoc[]
 include::{snippets}/post-business-status/path-parameters.adoc[]
+include::{snippets}/post-business-status/request-parameters.adoc[]
 
 성공 응답 HTTP
 include::{snippets}/post-business-status/http-response.adoc[]

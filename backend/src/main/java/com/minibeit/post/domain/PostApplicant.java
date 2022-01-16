@@ -4,6 +4,7 @@ import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.user.domain.User;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -15,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "post_applicant")
+@Where(clause = "del=0")
 public class PostApplicant extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,6 +38,12 @@ public class PostApplicant extends BaseEntity {
     private boolean writeReview;
 
     private boolean evaluatedBusiness;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
+
+    @Column(name = "del")
+    private Boolean del;
 
     private void setPostDoDate(PostDoDate postDoDate) {
         postDoDate.getPostApplicantList().add(this);
@@ -66,6 +74,11 @@ public class PostApplicant extends BaseEntity {
         this.businessFinish = isAttend;
     }
 
+    public void delete() {
+        this.del = true;
+        this.deletedAt = LocalDateTime.now();
+    }
+
     public boolean duplicatedApply(List<PostDoDate> approvedDateByUser, LocalDateTime fromApplyDate, Integer doTime) {
         LocalDateTime toApplyDate = fromApplyDate.plusMinutes(doTime);
         for (PostDoDate fromApprovedDate : approvedDateByUser) {
@@ -87,6 +100,7 @@ public class PostApplicant extends BaseEntity {
                 .businessFinish(true)
                 .writeReview(false)
                 .applyStatus(ApplyStatus.WAIT)
+                .del(false)
                 .build();
         postApplicant.setPostDoDate(postDoDate);
         return postApplicant;

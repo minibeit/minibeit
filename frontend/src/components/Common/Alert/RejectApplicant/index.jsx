@@ -12,6 +12,7 @@ export default function RejectApplicant({
   postDoDateId,
   userId,
   reason,
+  setReason,
 }) {
   return (
     <Portal>
@@ -23,7 +24,12 @@ export default function RejectApplicant({
             정말로 <span>반려</span>하시겠습니까?
           </p>
           <div>
-            <S.GrayButton onClick={() => setRejectAlert(false)}>
+            <S.GrayButton
+              onClick={() => {
+                setRejectAlert(false);
+                setReason("");
+              }}
+            >
               아니오, 관둘래요
             </S.GrayButton>
             <S.BlueButton

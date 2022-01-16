@@ -133,7 +133,9 @@ export default function Presenter({
                     <tr style={{ display: "none" }}>
                       <S.RejectInput colSpan={7}>
                         <input
+                          maxLength={40}
                           placeholder="반려사유를 작성해주세요."
+                          value={reason}
                           onChange={(e) => setReason(e.target.value)}
                         />
                         <button
@@ -191,6 +193,7 @@ export default function Presenter({
           postDoDateId={selectUser.postDoDateId}
           userId={selectUser.userId}
           reason={reason}
+          setReason={setReason}
         />
       )}
     </S.UserListView>

@@ -1,0 +1,133 @@
+= Minibeit API 문서 (Business Profile)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:snippets: ../../../build/generated-snippets
+
+= Business Profile
+---
+== 기본 API
+
+=== 비즈니스 프로필 생성
+
+`POST /api/business-profile`
+
+요청 HTTP
+include::{snippets}/business-profile-create/request-parameters.adoc[]
+include::{snippets}/business-profile-create/request-parts.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-create/http-response.adoc[]
+include::{snippets}/business-profile-create/response-fields.adoc[]
+
+=== 비즈니스 프로필 단건 조회
+
+`GET /api/business-profile/{businessProfileId}`
+
+요청 HTTP
+include::{snippets}/business-profile-getOne/http-request.adoc[]
+include::{snippets}/business-profile-getOne/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-getOne/http-response.adoc[]
+include::{snippets}/business-profile-getOne/response-fields.adoc[]
+
+=== 자신의 비즈니스 프로필 전체 조회
+
+`GET /api/business-profiles/mine`
+
+요청 HTTP
+include::{snippets}/business-profile-list-mine/http-request.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-list-mine/http-response.adoc[]
+include::{snippets}/business-profile-list-mine/response-fields.adoc[]
+
+=== 비즈니스 프로필 수정
+
+`POST /api/business-profile/{businessProfileId}`
+
+요청 HTTP
+include::{snippets}/business-profile-update/path-parameters.adoc[]
+include::{snippets}/business-profile-update/request-parameters.adoc[]
+include::{snippets}/business-profile-update/request-parts.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-update/http-response.adoc[]
+include::{snippets}/business-profile-update/response-fields.adoc[]
+
+=== 비즈니스 프로필 삭제
+
+`DELETE /api/business-profile/{businessProfileId}`
+
+요청 HTTP
+include::{snippets}/business-profile-delete/http-request.adoc[]
+include::{snippets}/business-profile-delete/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-delete/http-response.adoc[]
+include::{snippets}/business-profile-delete/response-fields.adoc[]
+
+== User 관련 API
+
+=== 해당 비즈니스 프로필의 소속인원 조회(관리자 제외)
+
+`GET /api/users/business-profile/{businessProfileId}`
+
+요청 HTTP
+include::{snippets}/user-list-in-businessprofile/http-request.adoc[]
+include::{snippets}/user-list-in-businessprofile/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/user-list-in-businessprofile/http-response.adoc[]
+
+=== 비즈니스 프로필 권한 변경
+
+`POST /api/business-profile/{businessProfileId}/change/{userId}`
+
+요청 HTTP
+include::{snippets}/business-profile-change-admin/http-request.adoc[]
+include::{snippets}/business-profile-change-admin/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-change-admin/http-response.adoc[]
+include::{snippets}/business-profile-change-admin/response-fields.adoc[]
+
+=== 비즈니스 프로필 공유하기(초대)
+
+`POST /api/business-profile/{businessProfileId}/share/{userId}`
+
+요청 HTTP
+include::{snippets}/business-profile-share/http-request.adoc[]
+include::{snippets}/business-profile-share/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-share/http-response.adoc[]
+include::{snippets}/business-profile-share/response-fields.adoc[]
+
+=== 비즈니스 프로필 공유 취소
+
+`DELETE /api/business-profile/{businessProfileId}/user/{userId}`
+
+요청 HTTP
+include::{snippets}/business-profile-share-cancel/http-request.adoc[]
+include::{snippets}/business-profile-share-cancel/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-share-cancel/http-response.adoc[]
+include::{snippets}/business-profile-share-cancel/response-fields.adoc[]
+
+=== 비즈니스 프로필 탈퇴
+
+`DELETE /api/business-profile/{businessProfileId}/user`
+
+요청 HTTP
+include::{snippets}/business-profile-go-out/http-request.adoc[]
+include::{snippets}/business-profile-go-out/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-profile-go-out/http-response.adoc[]
+include::{snippets}/business-profile-go-out/response-fields.adoc[]

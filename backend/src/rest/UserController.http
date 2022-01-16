@@ -1,0 +1,122 @@
+###
+POST {{apiUrl}}/user/signup
+Authorization: {{authorizationToken}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="name";
+
+테스트9
+--boundary
+Content-Disposition: form-data; name="nickname";
+
+231222
+--boundary
+Content-Disposition: form-data; name="email";
+
+t@t.com
+--boundary
+Content-Disposition: form-data; name="gender";
+
+MALE
+--boundary
+Content-Disposition: form-data; name="phoneNum";
+
+010-1234-5678
+--boundary
+Content-Disposition: form-data; name="job";
+
+대학생
+--boundary
+Content-Disposition: form-data; name="birth";
+
+1997-01-01
+--boundary
+Content-Disposition: form-data; name="schoolId";
+
+1
+###--boundary
+#Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
+#
+#< ./../main/resources/mock/images/enjoy.png
+
+###
+POST {{apiUrl}}/user/nickname/check
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+{
+  "nickname": "테스터1"
+}
+
+###
+POST {{apiUrl}}/user/1/verification
+Authorization: {{authorizationToken}}
+Content-Type: application/json;charset=UTF-8
+
+{
+  "code": "123456",
+  "verificationKinds": "PHONE"
+}
+###
+GET {{apiUrl}}/user/me
+Authorization: {{authorizationToken}}
+
+###
+POST {{apiUrl}}/user/update
+Authorization: {{authorizationToken}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="name";
+
+네모
+--boundary
+Content-Disposition: form-data; name="nickname";
+
+5
+--boundary
+Content-Disposition: form-data; name="email";
+
+test2@test.com
+--boundary
+Content-Disposition: form-data; name="nicknameChanged";
+
+true
+--boundary
+Content-Disposition: form-data; name="gender";
+
+FEMALE
+--boundary
+Content-Disposition: form-data; name="phoneNum";
+
+010-1111-2222
+--boundary
+Content-Disposition: form-data; name="job";
+
+개발자
+--boundary
+Content-Disposition: form-data; name="birth";
+
+2000-11-11
+--boundary
+Content-Disposition: form-data; name="schoolId";
+
+2
+
+--boundary
+Content-Disposition: form-data; name="avatarChanged";
+
+false
+###
+GET {{apiUrl}}/user/list/business/profile/1
+Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/user/search?nickname=테스터1
+Authorization: {{authorizationToken}}
+
+###
+
+DELETE {{apiUrl}}/user
+Authorization: {{authorizationToken}}

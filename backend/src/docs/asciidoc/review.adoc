@@ -1,0 +1,58 @@
+= Minibeit API 문서 (Review)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:snippets: ../../../build/generated-snippets
+
+== 후기 API
+
+=== 비즈니스, 지원자 만족, 불만족 후기 목록 조회
+
+`GET /api/business/user/reviews`
+
+요청 HTTP
+include::{snippets}/business-review-list/http-request.adoc[]
+include::{snippets}/business-review-list/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-review-list/http-response.adoc[]
+include::{snippets}/business-review-list/response-fields.adoc[]
+
+=== 지원자측에서 비즈니스 프로필 후기 생성
+
+`POST /api/business/{businessProfileId}/date/{postDoDateId}/review/{reviewDetailId}`
+
+요청 HTTP
+include::{snippets}/business-review-create/http-request.adoc[]
+include::{snippets}/business-review-create/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-review-create/http-response.adoc[]
+include::{snippets}/business-review-create/response-fields.adoc[]
+
+=== 비즈니스 프로필 후기 목록과 해당 후기의 개수 조회
+
+`GET /api/business/{businessProfileId}/good-reviews`
+
+요청 HTTP
+include::{snippets}/business-good-reviews-count/http-request.adoc[]
+include::{snippets}/business-good-reviews-count/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/business-good-reviews-count/http-response.adoc[]
+include::{snippets}/business-good-reviews-count/response-fields.adoc[]
+
+=== 비즈니스 측에서 지원자 후기 생성
+
+`POST /api/business/{businessProfileId}/user/{userId}/date/{postDoDateId}/businessUserReview/{reviewDetailId}`
+
+요청 HTTP
+include::{snippets}/user-review-create/http-request.adoc[]
+include::{snippets}/user-review-create/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/user-review-create/http-response.adoc[]
+include::{snippets}/user-review-create/response-fields.adoc[]

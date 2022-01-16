@@ -1,0 +1,2 @@
+GET {{apiUrl}}/school/search?name=
+Authorization: {{authorizationToken}}

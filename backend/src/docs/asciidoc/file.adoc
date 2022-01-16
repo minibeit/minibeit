@@ -1,0 +1,20 @@
+= Minibeit API 문서 (File)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:snippets: ../../../build/generated-snippets
+
+= FILE
+---
+== 파일 API
+
+=== 파일 다운로드
+
+`GET /api/file/download`
+
+요청 HTTP
+include::{snippets}/file-download/http-request.adoc[]
+include::{snippets}/file-download/request-parameters.adoc[]

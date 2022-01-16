@@ -4,7 +4,11 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-
+db_volume
+/src/main/resources/static/docs/**
+/src/main/resources/application-aws.yml
+/src/main/generated
+spy.log
 ### STS ###
 .apt_generated
 .classpath

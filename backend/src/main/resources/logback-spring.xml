@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <timestamp key="BY_DATE" datePattern="yyyy-MM-dd"/>
+    <property name="LOG_PATTERN"
+              value="%-5level %d{yy-MM-dd HH:mm:ss}[%thread] [%logger{0}:%line] - %msg%n"/>
+    <property name="LOG_CONSOLE_PATTERN"
+              value="[%d{yyyy-MM-dd HH:mm:ss}:%-4relative] %green([%thread]) %highlight(%-5level) %boldWhite([%C.%M:%yellow(%L)]) - %msg%n"/>
+    <property name="LOG_PATTERN_AWS"
+              value="날짜: %d{yy-MM-dd HH:mm:ss} 스레드: [%thread] 레벨:[%level] 클래스: [%C{0}.%M:#%L] 메세지: [%msg] %n"/>
+    <property name="LOG_LOCATION" value="/home/ec2-user/app/logs"/>
+    <property name="BACKUP_LOCATION" value="/home/ec2-user/app/logs"/>
+    <property name="DEBUG_LOCATION" value="debug"/>
+    <property name="INFO_LOCATION" value="info"/>
+    <property name="WARN_LOCATION" value="warn"/>
+    <property name="ERROR_LOCATION" value="error"/>
+    <property name="MAX_FILE_SIZE" value="100MB"/>
+    <property name="MAX_HISTORY" value="30"/>
+
+    <springProfile name="local|test">
+        <include resource="console-appender.xml"/>
+        <logger name="com.minibeit" level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="dev">
+        <include resource="console-appender.xml"/>
+        <include resource="file-debug-appender.xml"/>
+        <include resource="file-info-appender.xml"/>
+        <include resource="file-warn-appender.xml"/>
+        <include resource="file-error-appender.xml"/>
+        <include resource="dev-file-info-aws-appender.xml"/>
+        <include resource="dev-file-error-aws-appender.xml"/>
+        <include resource="dev-file-warn-aws-appender.xml"/>
+        <include resource="dev-file-debug-aws-appender.xml"/>
+
+        <logger name="com.minibeit" level="DEBUG">
+            <appender-ref ref="CONSOLE"/>
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE-DEBUG"/>
+            <appender-ref ref="FILE-INFO"/>
+            <appender-ref ref="FILE-WARN"/>
+            <appender-ref ref="FILE-ERROR"/>
+            <appender-ref ref="DEV-FILE-INFO-AWS"/>
+            <appender-ref ref="DEV-FILE-ERROR-AWS"/>
+            <appender-ref ref="DEV-FILE-WARN-AWS"/>
+            <appender-ref ref="DEV-FILE-DEBUG-AWS"/>
+        </root>
+    </springProfile>
+
+    <springProfile name="prod">
+        <include resource="console-appender.xml"/>
+        <include resource="file-info-appender.xml"/>
+        <include resource="file-warn-appender.xml"/>
+        <include resource="file-error-appender.xml"/>
+        <include resource="file-info-aws-appender.xml"/>
+        <include resource="file-error-aws-appender.xml"/>
+        <include resource="file-warn-aws-appender.xml"/>
+        <include resource="file-debug-aws-appender.xml"/>
+
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+            <appender-ref ref="FILE-INFO"/>
+            <appender-ref ref="FILE-WARN"/>
+            <appender-ref ref="FILE-ERROR"/>
+            <appender-ref ref="FILE-INFO-AWS"/>
+            <appender-ref ref="FILE-ERROR-AWS"/>
+            <appender-ref ref="FILE-WARN-AWS"/>
+            <appender-ref ref="FILE-DEBUG-AWS"/>
+        </root>
+    </springProfile>
+</configuration>

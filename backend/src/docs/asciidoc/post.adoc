@@ -1,0 +1,424 @@
+= Minibeit API 문서 (Post)
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+:snippets: ../../../build/generated-snippets
+
+= Post
+---
+== 생성,수정,삭제 API
+
+=== 게시물 기본 정보 입력(생성)
+
+`POST /api/post`
+
+요청 HTTP
+include::{snippets}/post-create-info/request-parts.adoc[]
+
+postInfo JSON data
+
+[source]
+----
+{
+  "title": "테스트40",
+  "content": "실험 내용",
+  "place": "고려대학교 연구실",
+  "placeDetail": "고려대학교 연구실 123호",
+  "contact": "010-1234-1234",
+  "category": "미디어",
+  "headcount": 5,
+  "payment": "CACHE",
+  "cache": 5000,
+  "goods": null,
+  "paymentDetail": "계좌로 지급해드립니다.",
+  "condition": true,
+  "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
+  "doTime": 60,
+  "schoolId": 2,
+  "businessProfileId": 1,
+  "startDate": "2021-12-14T09:30",
+  "endDate": "2021-12-19T09:30",
+  "doDateList": [
+    {
+      "doDate": "2021-12-14T10:00"
+    },
+    {
+      "doDate": "2021-12-15T10:00"
+    },
+    {
+      "doDate": "2021-12-16T10:00"
+    },
+    {
+      "doDate": "2021-12-17T20:30"
+    },
+    {
+      "doDate": "2021-12-18T11:30"
+    },
+    {
+      "doDate": "2021-12-19T12:30"
+    }
+  ]
+}
+----
+
+[cols=3*]
+|===
+|Path
+|Type
+|Description
+|title
+|STRING
+|제목
+|content
+|STRING
+|내용
+|place
+|STRING
+|장소
+|placeDetail
+|STRING
+|장소 세부 사항
+|contact
+|STRING
+|연락처
+|category
+|STRING
+|분야
+|headcount
+|NUMBER
+|인원수
+|payment
+|STRING
+|CACHE or GOODS
+|cache
+|NUMBER
+|현금 payment가 GOODS라면 null
+|goods
+|STRING
+|물품 payment가 CACHE라면 null
+|paymentDetail
+|STRING
+|지급 방법 및 세부사항
+|condition
+|BOOLEAN
+|모집조건이 있다면 true
+|conditionDetail
+|STRING
+|모집 조건 세부사항 조건 1개당 \| 로 구분지어주세요!
+|doTime
+|NUMBER
+|실험 소요시간
+|schoolId
+|NUMBER
+|학교 식별자
+|businessProfileId
+|NUMBER
+|비즈니스 프로필 식별자
+|startDate
+|STRING
+|모집 시작 날짜 및 시간 ex)2021-09-27T09:30
+|endDate
+|STRING
+|모집 마감 날짜 및 시간 ex)2021-09-27T09:30
+|doDateList[].doDate
+|STRING
+|참여 가능 날짜(시간포함) ex)2021-09-27T09:30
+|===
+
+성공 응답 HTTP
+include::{snippets}/post-create-info/http-response.adoc[]
+include::{snippets}/post-create-info/response-fields.adoc[]
+
+=== 게시물 세부 사항 수정하기
+
+`PUT /api/post/{postId}`
+
+요청 HTTP
+include::{snippets}/post-update-content/request-body.adoc[]
+include::{snippets}/post-update-content/path-parameters.adoc[]
+include::{snippets}/post-update-content/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-update-content/http-response.adoc[]
+include::{snippets}/post-update-content/response-fields.adoc[]
+
+=== 게시물 즐겨찾기에 추가 or 삭제하기
+
+`POST /api/post/{postId}/like`
+
+요청 HTTP
+include::{snippets}/post-like/http-request.adoc[]
+include::{snippets}/post-like/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-like/http-response.adoc[]
+include::{snippets}/post-like/response-fields.adoc[]
+
+=== 즐겨찾기 목록에서 모집완료된 게시물 일괄 삭제
+
+요청 HTTP
+include::{snippets}/post-like-delete/http-request.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-like-delete/http-response.adoc[]
+include::{snippets}/post-like-delete/response-fields.adoc[]
+
+=== 게시물 삭제
+
+`DELETE /api/post/{postId}`
+
+요청 HTTP
+include::{snippets}/post-deleteOne/http-request.adoc[]
+include::{snippets}/post-deleteOne/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-deleteOne/http-response.adoc[]
+include::{snippets}/post-deleteOne/response-fields.adoc[]
+
+=== 반려 게시물 삭제
+
+`DELETE /api/rejected-post/{rejectPostId}`
+
+요청 HTTP
+include::{snippets}/reject-post-deleteOne/http-request.adoc[]
+include::{snippets}/reject-post-deleteOne/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/reject-post-deleteOne/http-response.adoc[]
+include::{snippets}/reject-post-deleteOne/response-fields.adoc[]
+
+=== 게시물 모집완료
+
+요청 HTTP
+include::{snippets}/post-recruitment-Completed/http-request.adoc[]
+include::{snippets}/post-recruitment-Completed/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-recruitment-Completed/http-response.adoc[]
+include::{snippets}/post-recruitment-Completed/response-fields.adoc[]
+
+== 게시물 조회 관련 API
+=== 게시물 단건 조회
+
+`GET /api/post/{postId}`
+
+요청 HTTP
+include::{snippets}/post-getOne/http-request.adoc[]
+include::{snippets}/post-getOne/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-getOne/http-response.adoc[]
+include::{snippets}/post-getOne/response-fields.adoc[]
+
+=== 게시물 날짜에 해당하는 실험 시작 시간 조회
+
+`GET /api/post/{postId}/start`
+
+요청 HTTP
+include::{snippets}/post-getStartTime-list/http-request.adoc[]
+include::{snippets}/post-getStartTime-list/path-parameters.adoc[]
+include::{snippets}/post-getStartTime-list/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-getStartTime-list/http-response.adoc[]
+include::{snippets}/post-getStartTime-list/response-fields.adoc[]
+
+=== 해당 게시물에 실험이 있는 날짜 조회
+
+`GET /api/post/{postId}/dates`
+
+요청 HTTP
+include::{snippets}/post-doDate-list/http-request.adoc[]
+include::{snippets}/post-doDate-list/path-parameters.adoc[]
+include::{snippets}/post-doDate-list/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-doDate-list/http-response.adoc[]
+include::{snippets}/post-doDate-list/response-fields.adoc[]
+
+=== 게시물 목록 조회
+
+`GET /api/posts/{schoolId}`
+
+요청 HTTP
+include::{snippets}/post-getList/http-request.adoc[]
+include::{snippets}/post-getList/path-parameters.adoc[]
+include::{snippets}/post-getList/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-getList/http-response.adoc[]
+
+=== 자신이 즐겨찾기한 게시물 목록 조회
+
+`GET /api/posts/like`
+
+요청 HTTP
+include::{snippets}/post-getList-like/http-request.adoc[]
+include::{snippets}/post-getList-like/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-getList-like/http-response.adoc[]
+include::{snippets}/post-getList-like/response-fields.adoc[]
+
+=== 자신이 지원한 게시물 목록 조회(APPROVE,WAIT,COMPLETE)
+
+`GET /api/posts/apply`
+
+요청 HTTP
+include::{snippets}/post-apply-list/http-request.adoc[]
+include::{snippets}/post-apply-list/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-apply-list/http-response.adoc[]
+include::{snippets}/post-apply-list/response-fields.adoc[]
+
+=== 자신이 반려된 게시물 목록 조회
+
+`GET /api/rejected-posts`
+
+요청 HTTP
+include::{snippets}/rejectPost-getList/http-request.adoc[]
+include::{snippets}/rejectPost-getList/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/rejectPost-getList/http-response.adoc[]
+include::{snippets}/rejectPost-getList/response-fields.adoc[]
+
+=== 비즈니스 프로필에서 생성한 게시물 목록 조회
+
+`GET /api/posts/business/profile/{businessProfileId}`
+
+요청 HTTP
+include::{snippets}/post-getList-business-profile/http-request.adoc[]
+include::{snippets}/post-getList-business-profile/path-parameters.adoc[]
+include::{snippets}/post-getList-business-profile/request-parameters.adoc[]
+성공 응답 HTTP
+include::{snippets}/post-getList-business-profile/http-response.adoc[]
+include::{snippets}/post-getList-business-profile/response-fields.adoc[]
+
+=== 개인 프로필 신청 현황 조회
+
+`GET /api/post/user/status`
+
+요청 HTTP
+include::{snippets}/post-my-status/http-request.adoc[]
+include::{snippets}/post-my-status/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-my-status/http-response.adoc[]
+include::{snippets}/post-my-status/response-fields.adoc[]
+
+=== 비즈니스 프로필 공고 현황 조회
+
+`GET /api/post/business/profile/{businessProfileId}/status`
+
+요청 HTTP
+include::{snippets}/post-business-status/http-request.adoc[]
+include::{snippets}/post-business-status/path-parameters.adoc[]
+include::{snippets}/post-business-status/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-business-status/http-response.adoc[]
+include::{snippets}/post-business-status/response-fields.adoc[]
+
+== 게시물 지원 관련 API
+=== 게시물 참여 신청하기
+
+`POST /api/post/date/{postDoDateId}/apply`
+
+요청 HTTP
+include::{snippets}/post-apply/http-request.adoc[]
+include::{snippets}/post-apply/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-apply/http-response.adoc[]
+include::{snippets}/post-apply/response-fields.adoc[]
+
+=== 게시물 참여 완료하기(피실험자)
+
+`POST /api/post/date/{postDoDateId}/finish`
+
+요청 HTTP
+include::{snippets}/post-apply-my-finish/http-request.adoc[]
+include::{snippets}/post-apply-my-finish/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-apply-my-finish/http-response.adoc[]
+include::{snippets}/post-apply-my-finish/response-fields.adoc[]
+
+=== 게시물 참여 취소하기(피실험자)
+
+`POST /api/post/date/{postDoDateId}/apply/cancel`
+
+요청 HTTP
+include::{snippets}/post-apply-cancel/http-request.adoc[]
+include::{snippets}/post-apply-cancel/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-apply-cancel/http-response.adoc[]
+include::{snippets}/post-apply-cancel/response-fields.adoc[]
+
+=== 지원자 참여 허락하기(실험모집하는 연구실)
+
+`POST /api/post/date/{postDoDateId}/apply/approve/{userId}`
+
+요청 HTTP
+include::{snippets}/post-apply-approve/http-request.adoc[]
+include::{snippets}/post-apply-approve/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-apply-approve/http-response.adoc[]
+include::{snippets}/post-apply-approve/response-fields.adoc[]
+
+=== 지원자 참여 허락 취소하기(실험모집하는 연구실)
+
+`POST /api/post/date/{postDoDateId}/apply/approve/cancel/{userId}`
+
+요청 HTTP
+include::{snippets}/post-apply-approve-cancel/http-request.adoc[]
+include::{snippets}/post-apply-approve-cancel/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-apply-approve-cancel/http-response.adoc[]
+include::{snippets}/post-apply-approve-cancel/response-fields.adoc[]
+
+=== 지원자 참여 거절하기(실험모집하는 연구실)
+
+`POST /api/post/date/{postDoDateId}/apply/reject/{userId}`
+
+요청 HTTP
+include::{snippets}/post-apply-reject/http-request.adoc[]
+include::{snippets}/post-apply-reject/path-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-apply-reject/http-response.adoc[]
+include::{snippets}/post-apply-reject/response-fields.adoc[]
+
+=== 지원자 참여 여부 결정하기(실험모집하는 연구실)
+
+`POST /api/post/date/{postDoDateId}/attend/change/{userId}`
+
+요청 HTTP
+include::{snippets}/post-attend-change/http-request.adoc[]
+include::{snippets}/post-attend-change/path-parameters.adoc[]
+include::{snippets}/post-attend-change/request-fields.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-attend-change/http-response.adoc[]
+include::{snippets}/post-attend-change/response-fields.adoc[]
+
+=== 게시물에 해당하는 지원자 목록 날짜 기준으로 조회하기(실험모집하는 연구실)
+
+`GET /api/post/{postId}/applicants`
+
+요청 HTTP
+include::{snippets}/post-applicant-list/http-request.adoc[]
+include::{snippets}/post-applicant-list/path-parameters.adoc[]
+include::{snippets}/post-applicant-list/request-parameters.adoc[]
+
+성공 응답 HTTP
+include::{snippets}/post-applicant-list/http-response.adoc[]
+include::{snippets}/post-applicant-list/response-fields.adoc[]

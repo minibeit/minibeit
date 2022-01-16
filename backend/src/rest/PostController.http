@@ -1,0 +1,152 @@
+POST {{apiUrl}}/post
+Authorization: {{authorizationToken}}
+Content-Type: multipart/form-data; boundary=boundary
+Accept: application/json, image/*
+
+--boundary
+Content-Disposition: form-data; name="postInfo";
+Content-Type: application/json;charset=UTF-8
+
+{
+  "title": "리뷰테스트",
+  "content": "실험 내용",
+  "place": "고려대학교 연구실",
+  "placeDetail": "고려대학교 연구실 123호",
+  "contact": "010-1234-1234",
+  "category": "미디어",
+  "headcount": 5,
+  "payment": "CACHE",
+  "cache": 5000,
+  "goods": null,
+  "paymentDetail": "계좌로 지급해드립니다.",
+  "condition": true,
+  "conditionDetail": "커피많이드시는사람|커피좋아하는사람|커피종류많이아는사람",
+  "doTime": 60,
+  "schoolId": 1,
+  "businessProfileId": 1,
+  "startDate": "2022-01-13T09:30",
+  "endDate": "2022-01-19T11:00",
+  "doDateList": [
+    {
+      "doDate": "2022-01-13T10:00"
+    },
+    {
+      "doDate": "2022-01-13T11:00"
+    },
+    {
+      "doDate": "2022-01-14T10:00"
+    },
+    {
+      "doDate": "2022-01-14T11:00"
+    },
+    {
+      "doDate": "2022-01-15T10:00"
+    },
+    {
+      "doDate": "2022-01-15T11:00"
+    }
+  ]
+}
+
+--boundary
+Content-Disposition: form-data; name="files"; filename="enjoy.png"
+
+< ./../main/resources/mock/images/enjoy.png
+
+--boundary
+Content-Disposition: form-data; name="thumbnail"; filename="enjoy2.png"
+
+< ./../main/resources/mock/images/enjoy.png
+
+###
+POST {{apiUrl}}/post/5/files
+Authorization: {{authorizationToken}}
+Content-Type: multipart/form-data; boundary=boundary
+
+
+--boundary
+Content-Disposition: form-data; name="files"; filename="enjoy.png"
+
+< ./../main/resources/mock/images/enjoy.png
+
+--boundary
+Content-Disposition: form-data; name="thumbnail"; filename="enjoy2.png"
+
+< ./../main/resources/mock/images/enjoy.png
+
+###
+POST {{apiUrl}}/post/1/like
+Authorization: {{authorizationToken}}
+
+###
+POST {{apiUrl}}/post/3/businessUserReview/13
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "postTitle": "게시물 제목",
+  "content": "후기작성",
+  "doDate": "2021-09-09T09:30"
+}
+
+###
+POST {{apiUrl}}/post/1/completed
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "rejectComment": "모집완료되었습니다."
+}
+
+
+###
+PUT {{apiUrl}}/post/1
+Content-Type: application/json;charset=UTF-8
+Authorization: {{authorizationToken}}
+
+{
+  "updatedContent": "수정된 내용"
+}
+
+###
+DELETE {{apiUrl}}/post/2
+Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/post/1
+Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/posts/0?doDate=2022-01-07&page=1&size=15&paymentType=&category=&startTime=&endTime=&minPay=&doTime=
+
+###
+GET {{apiUrl}}/post/1/start?doDate=2022-01-07
+
+###
+GET {{apiUrl}}/posts/like?page=1&size=6
+Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/posts/apply?page=1&size=4&status=APPROVE
+Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/post/4/dates?yearMonth=2021-09
+Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/posts/business/profile/1?page=1&size=10&status=RECRUIT
+Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/post/user/status?status=COMPLETE
+Authorization: {{authorizationToken}}
+
+###
+GET {{apiUrl}}/post/business/profile/1/status?status=REVIEW
+Authorization: {{authorizationToken}}
+
+###
+DELETE {{apiUrl}}/post/likes
+Authorization: {{authorizationToken}}
+

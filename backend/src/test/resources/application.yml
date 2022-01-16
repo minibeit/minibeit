@@ -1,0 +1,74 @@
+spring:
+  profiles:
+    active: test
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+    generate-ddl: true
+
+  flyway:
+    enabled: false
+
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 클라이언트 아이디
+            client-secret: 비밀키
+            scope: profile, email
+
+cloud:
+  aws:
+    credentials:
+      accessKey: test
+      secretKey: test
+    s3:
+      bucket: test
+      public: test
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false
+
+kakao:
+  client:
+    id: 클라이언트아이디
+    secret: 비밀키
+
+oauth2:
+  success:
+    redirect:
+      url: http://localhost:3000/callback/
+
+dev:
+  server:
+    url: test.com
+
+s3:
+  file:
+    prefix:
+
+sms:
+  serviceId:
+  accessKey:
+  secretKey:
+  from:
+
+crypto:
+  key: 1234567891234567

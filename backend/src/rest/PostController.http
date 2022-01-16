@@ -139,7 +139,7 @@ GET {{apiUrl}}/posts/business/profile/1?page=1&size=10&status=RECRUIT
 Authorization: {{authorizationToken}}
 
 ###
-GET {{apiUrl}}/post/user/status?status=REJECT
+GET {{apiUrl}}/post/user/status?status=COMPLETE
 Authorization: {{authorizationToken}}
 
 ###

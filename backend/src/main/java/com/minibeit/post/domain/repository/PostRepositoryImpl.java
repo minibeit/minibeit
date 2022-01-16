@@ -144,6 +144,12 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
             Long rejectCount = getCountByApplyStatus(now, ApplyStatus.REJECT, user);
             return PostResponse.GetMyCount.build(null, rejectCount, waitCount);
         }
+        if (status.equals(ApplyStatus.COMPLETE)) {
+            Long waitCount = getCountByApplyStatus(now, ApplyStatus.WAIT, user);
+            Long approveCount = getCountByApplyStatus(now, ApplyStatus.APPROVE, user);
+            Long rejectCount = getCountByApplyStatus(now, ApplyStatus.REJECT, user);
+            return PostResponse.GetMyCount.build(approveCount, rejectCount, waitCount);
+        }
         if (status.equals(ApplyStatus.REJECT)) {
             Long waitCount = getCountByApplyStatus(now, ApplyStatus.WAIT, user);
             Long approveCount = getCountByApplyStatus(now, ApplyStatus.APPROVE, user);

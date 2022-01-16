@@ -11,7 +11,6 @@ export default function ApplyImgsModal({ files, setSliderSwitch }) {
   const [currentImg, setCurrentImg] = useState(0);
 
   const downloadImg = () => {
-    console.log(currentImg);
     downloadFileApi(files[currentImg].name).then((res) => {
       const url = window.URL.createObjectURL(new Blob([res.data]));
       const link = document.createElement("a");

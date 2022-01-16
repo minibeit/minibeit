@@ -30,7 +30,7 @@ export default function UserContainer({ view, page }) {
     getPreviewProfileApi(status).then((res) => {
       let copy = { ...feedPreview };
       copy = { ...res.data.data };
-      if (statusData) {
+      if (statusData !== undefined) {
         copy[status.toLowerCase()] = statusData;
       }
       setFeedPreview(copy);

@@ -12,7 +12,6 @@ export default function SignupFinish() {
   const history = useHistory();
   const [inputData] = useRecoilState(signupState);
 
-  console.log(inputData);
   return (
     <Portal>
       <S.ModalBox>

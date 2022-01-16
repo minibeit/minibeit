@@ -23,9 +23,8 @@ export default function Presenter({
             <S.BProfileListBox>
               {bpList.map((a) => {
                 return (
-                  <div>
+                  <div key={a.id}>
                     <S.BProfileCheck
-                      key={a.id}
                       display={
                         recruit.businessProfile.id === a.id ? "flex" : "none"
                       }

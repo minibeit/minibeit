@@ -5,7 +5,7 @@ import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
 import * as S from "./style";
 import Portal from "../../../Common/Modal/Portal";
 import { stateCompleteApi } from "../../../../utils";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function FeedCloseModal({
   postId,
@@ -58,7 +58,7 @@ export default function FeedCloseModal({
       }
     } else {
       if (selected === "사유를 골라주세요.") {
-        toast.info("종료사유를 골라주세요.");
+        toast.error("종료사유를 골라주세요.");
       } else {
         stateComplete(postId, selected);
       }

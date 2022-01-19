@@ -12,7 +12,7 @@ import TimeSelectModal from "./TimeSelectModal";
 import { ReactComponent as MinusIcon } from "../../../svg/마이너스.svg";
 import { ReactComponent as PlusIcon } from "../../../svg/플러스.svg";
 
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 import * as S from "../style";
 
@@ -292,7 +292,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                   <S.SaveTimeBtn
                     onClick={() => {
                       if (recruit.startTime >= recruit.endTime) {
-                        toast.info("종료시간은 시작시간 이후로 선택해주세요");
+                        toast.error("종료시간은 시작시간 이후로 선택해주세요");
                       } else if (
                         recruit.startTime !== null &&
                         recruit.endTime !== null
@@ -313,7 +313,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
                         setStep(4);
                         setViewTimeSelect(false);
                       } else {
-                        toast.info("시작시간과 종료시간을 선택해주세요");
+                        toast.error("시작시간과 종료시간을 선택해주세요");
                       }
                     }}
                   >
@@ -352,7 +352,7 @@ export default function DataSelect({ recruit, setRecruit, movePage }) {
           <S.SaveBtn
             onClick={() => {
               viewTimeSelect
-                ? toast.info("시간 입력을 적용한 후 시도해주세요")
+                ? toast.error("시간 입력을 적용한 후 시도해주세요")
                 : movePage(2);
             }}
           >

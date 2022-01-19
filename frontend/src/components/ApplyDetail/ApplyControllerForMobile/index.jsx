@@ -1,6 +1,6 @@
 import moment from "moment";
 import React from "react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 import * as S from "../style";
 
@@ -16,7 +16,7 @@ export default function ApplyControllerForMobile({
 
   const handleCopyClipBoard = () => {
     navigator.clipboard.writeText(window.location.href);
-    toast.info("복사되었습니다. 원하는곳에서 붙여넣기 해주세요!");
+    toast.success("복사되었습니다. 원하는곳에서 붙여넣기 해주세요!");
   };
 
   return (

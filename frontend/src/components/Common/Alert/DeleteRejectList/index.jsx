@@ -4,7 +4,7 @@ import * as S from "../style";
 import { ReactComponent as InfoIcon } from "../../../..//svg/경고.svg";
 import { ReactComponent as XIcon } from "../../../..//svg/엑스.svg";
 
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function DeleteRejectList({
   setDeleteRejectList,

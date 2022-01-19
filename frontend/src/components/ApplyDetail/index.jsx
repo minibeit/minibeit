@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import {
   applyApi,
   bookmarkApi,
@@ -35,7 +35,7 @@ export default function ApplyDetailComponent({ feedId, date }) {
         .then((res) => setFeedDetailData(res.data.data))
         .catch((err) => {
           if (err.response.status === 400) {
-            toast.info("삭제된 게시물 입니다.");
+            toast.error("삭제된 게시물 입니다.");
             history.goBack();
           }
         });

@@ -3,8 +3,7 @@ import { useLocation } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { ToastContainer, Slide } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Toaster } from "react-hot-toast";
 
 import Main from "./pages/Main";
 import ProcessLogin from "./pages/ProcessLogin";
@@ -28,13 +27,7 @@ function App() {
     <>
       <RecoilRoot>
         <NavBar />
-        <ToastContainer
-          position="top-center"
-          hideProgressBar
-          transition={Slide}
-          theme="colored"
-          autoClose={3000}
-        />
+        <Toaster />
         <TransitionGroup className="transition-group">
           <CSSTransition
             key={pathname.pathname}

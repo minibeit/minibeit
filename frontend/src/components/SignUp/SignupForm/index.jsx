@@ -8,7 +8,7 @@ import Portal from "../../Common/Modal/Portal";
 import { nickCheckApi, signupInfoApi } from "../../../utils/auth";
 import { signupState } from "../../../recoil/signupState";
 import { guestState, userState } from "../../../recoil/userState";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 import InfoData from "./InfoData";
 import SchoolSelect from "./SchoolSelect";
@@ -60,14 +60,14 @@ export default function SignUpComponent({ setFinish }) {
     if (nickname) {
       nickCheckApi(nickname)
         .then((res) => {
-          toast.info("사용가능한 아이디 입니다");
+          toast.success("사용가능한 아이디 입니다");
           let copy = { ...inputData };
           copy.nickname = nickname;
           setInputData(copy);
           setChangeNickname(true);
         })
         .catch((err) => {
-          toast.info("중복된 아이디 입니다");
+          toast.error("중복된 아이디 입니다");
         });
     }
   };
@@ -84,7 +84,7 @@ export default function SignUpComponent({ setFinish }) {
   const checkingCode = (code, type) => {
     guestCheckCodeApi(guest.accessToken, code, guest.id, type).then((res) => {
       if (res.status === 200) {
-        toast.info("인증 성공!");
+        toast.success("인증 성공!");
         let copy = { ...inputData };
         if (type === "EMAIL") {
           setChangeEmail(true);
@@ -109,16 +109,16 @@ export default function SignUpComponent({ setFinish }) {
       !inputData.month ||
       !inputData.date
     ) {
-      toast.info("정보를 확인해주세요");
+      toast.error("정보를 확인해주세요");
       return false;
     } else if (!changeNickname) {
-      toast.info("닉네임 중복을 확인해주세요");
+      toast.error("닉네임 중복을 확인해주세요");
       return false;
     } else if (!changePhone) {
-      toast.info("연락처를 확인해 주세요");
+      toast.error("연락처를 확인해 주세요");
       return false;
     } else if (!changeEmail) {
-      toast.info("이메일을 확인해 주세요");
+      toast.error("이메일을 확인해 주세요");
       return false;
     } else return true;
   };
@@ -137,7 +137,7 @@ export default function SignUpComponent({ setFinish }) {
       if (inputData.schoolId) {
         setStep(3);
       } else {
-        toast.info("학교를 선택해주세요");
+        toast.error("학교를 선택해주세요");
       }
     } else if (step === 3) setStep(4);
   };

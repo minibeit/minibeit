@@ -403,9 +403,10 @@ export const SelectRadio = styled.div`
   }
   & > p {
     color: #c4c4c4;
+    white-space: nowrap;
+    text-align: center;
   }
   & > input:checked ~ p {
-    white-space: nowrap;
     color: #0642ff;
   }
 `;

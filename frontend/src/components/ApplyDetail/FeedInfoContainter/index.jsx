@@ -17,6 +17,26 @@ export default function FeedInfoContainer({
       : feedDetailData.content
   );
 
+  const urlFilter = (text) => {
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const replace = (content) => {
+      const convertContent = content.replace(urlRegex, function (url) {
+        return '<a href="' + url + '" target="_blank">' + url + "</a>";
+      });
+      const htmlArr = [];
+      convertContent.split("\n").forEach(function (text) {
+        const textHtml = "<p>" + text + "</p>";
+        htmlArr.push(textHtml);
+      });
+      return { __html: htmlArr.join("") };
+    };
+    return (
+      <div>
+        <div dangerouslySetInnerHTML={replace(text)}></div>
+      </div>
+    );
+  };
+
   const editSubmit = () => {
     editDetail(feedDetailData.id, newContent);
     setEditSwitch(false);
@@ -51,6 +71,7 @@ export default function FeedInfoContainer({
       setSliderSwitch={setSliderSwitch}
       editAlert={editAlert}
       setEditAlert={setEditAlert}
+      urlFilter={urlFilter}
     />
   );
 }

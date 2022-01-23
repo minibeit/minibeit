@@ -50,15 +50,15 @@ export default function Presenter({
             defaultValue={recruit.title}
             placeholder="참여자에게 보여주실 제목을 작성해주세요."
             onChange={(e) => {
-              if (e.target.value.length > 20) {
-                toast.error("게시물의 제목은 20자 이내로 입력해주세요");
-                e.target.value = e.target.value.slice(0, 20);
+              if (e.target.value.length > 40) {
+                toast.error("게시물의 제목은 40자 이내로 입력해주세요");
+                e.target.value = e.target.value.slice(0, 40);
                 onChange(e);
               } else {
                 onChange(e);
               }
             }}
-            maxLength={20}
+            maxLength={40}
           />
         </S.TitleBox>
         <div>
@@ -75,7 +75,11 @@ export default function Presenter({
                   id="conditionTrue"
                 />
                 <label htmlFor="conditionTrue" />
-                <p>색맹, 성별등 참여조건</p>
+                <p>
+                  참여조건이 있어
+                  <br />
+                  일부만 참여가능
+                </p>
               </S.SelectRadio>
               <S.SelectRadio
                 background={'url("/images/모집하기조건X이미지.png")'}
@@ -88,7 +92,11 @@ export default function Presenter({
                   defaultChecked
                 />
                 <label htmlFor="conditionFalse" />
-                <p>조건없이 모두가 참여가능</p>
+                <p>
+                  조건없이
+                  <br />
+                  모두 참여가능
+                </p>
               </S.SelectRadio>
             </div>
             <div>

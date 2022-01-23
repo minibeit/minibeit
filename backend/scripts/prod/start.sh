@@ -7,9 +7,9 @@ source ${ABSDIR}/profile.sh
 REPOSITORY=/home/ec2-user/app
 
 echo "> Build 파일 복사"
-echo "> cp $REPOSITORY/zip/*.jar $REPOSITORY/prod"
+echo "> cp $REPOSITORY/backend-zip/*.jar $REPOSITORY/prod/"
 
-cp $REPOSITORY/zip/*.jar $REPOSITORY/prod
+cp $REPOSITORY/backend-zip/*.jar $REPOSITORY/prod/
 
 echo "> 새 어플리케이션 배포"
 JAR_NAME=$(ls -tr $REPOSITORY/prod/*.jar | tail -n 1)

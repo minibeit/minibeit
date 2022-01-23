@@ -12,7 +12,7 @@ import Portal from "../../../Common/Modal/Portal";
 import { CalendarButton } from "../../../Common";
 import Presenter from "./presenter";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 import * as S from "./style";
 
@@ -91,7 +91,7 @@ export default function BManageModal({ feedData, setModalSwitch }) {
           setReason("");
           setRejectAlert(false);
           getList();
-          toast.info("반려 처리되었습니다");
+          toast.success("반려 처리되었습니다");
         })
         .catch((err) =>
           toast.error("정상적으로 실행되지 않았습니다. 다시 시도해주세요")

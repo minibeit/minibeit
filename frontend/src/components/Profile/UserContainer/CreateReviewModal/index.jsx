@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import moment from "moment";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
 import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 import * as S from "./style";
 import Portal from "../../../Common/Modal/Portal";
@@ -47,12 +47,12 @@ export default function FeedCloseModal({
         reviewData.id
       )
         .then((res) => {
-          toast.info("평가가 완료되었습니다");
+          toast.success("평가가 완료되었습니다");
           onClose();
         })
         .catch((err) => toast.error("평가에 실패했습니다"));
     } else {
-      toast.info("이유를 선택해주세요");
+      toast.error("이유를 선택해주세요");
     }
   };
 

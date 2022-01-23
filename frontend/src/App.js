@@ -1,23 +1,20 @@
-import React, { useEffect } from "react";
+import React, { lazy, useEffect, Suspense } from "react";
 import { useLocation } from "react-router-dom";
 import { Route, Switch } from "react-router-dom";
-import { RecoilRoot } from "recoil";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
-import { ToastContainer, Slide } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-
-import Main from "./pages/Main";
-import ProcessLogin from "./pages/ProcessLogin";
-import Profile from "./pages/Profile";
-import BProfile from "./pages/BProfile";
-import Apply from "./pages/Apply";
-import ApplyDetail from "./pages/ApplyDetail";
-import Recruit from "./pages/Recruit";
-import RecruitComplete from "./pages/RecruitComplete";
-import SignUp from "./pages/SignUp";
-import NotFound from "./pages/NotFound";
-
+import { Toaster } from "react-hot-toast";
 import { NavBar, Footer } from "./components/Common";
+
+const Main = lazy(() => import("./pages/Main"));
+const ProcessLogin = lazy(() => import("./pages/ProcessLogin"));
+const Profile = lazy(() => import("./pages/Profile"));
+const BProfile = lazy(() => import("./pages/BProfile"));
+const Apply = lazy(() => import("./pages/Apply"));
+const ApplyDetail = lazy(() => import("./pages/ApplyDetail"));
+const Recruit = lazy(() => import("./pages/Recruit"));
+const RecruitComplete = lazy(() => import("./pages/RecruitComplete"));
+const SignUp = lazy(() => import("./pages/SignUp"));
+const NotFound = lazy(() => import("./pages/NotFound"));
 
 function App() {
   const pathname = useLocation();
@@ -26,21 +23,15 @@ function App() {
   }, [pathname.pathname]);
   return (
     <>
-      <RecoilRoot>
-        <NavBar />
-        <ToastContainer
-          position="top-center"
-          hideProgressBar
-          transition={Slide}
-          theme="colored"
-          autoClose={3000}
-        />
-        <TransitionGroup className="transition-group">
-          <CSSTransition
-            key={pathname.pathname}
-            timeout={300}
-            classNames="pageTransition"
-          >
+      <NavBar />
+      <Toaster />
+      <TransitionGroup className="transition-group">
+        <CSSTransition
+          key={pathname.pathname}
+          timeout={300}
+          classNames="pageTransition"
+        >
+          <Suspense fallback={<div />}>
             <Switch location={pathname}>
               <Route path="/" exact component={Main} />
               <Route
@@ -61,10 +52,10 @@ function App() {
 
               <Route component={NotFound} />
             </Switch>
-          </CSSTransition>
-        </TransitionGroup>
-        <Footer />
-      </RecoilRoot>
+          </Suspense>
+        </CSSTransition>
+      </TransitionGroup>
+      <Footer />
     </>
   );
 }

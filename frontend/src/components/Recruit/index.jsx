@@ -10,7 +10,7 @@ import DataSelect from "./DataSelect";
 import CategorySelect from "./CategorySelect";
 import InfoData from "./InfoData";
 import { recruitState } from "../../recoil/recruitState";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function RecruitComponent() {
   const [recruit, setRecruit] = useRecoilState(recruitState);
@@ -38,13 +38,13 @@ export default function RecruitComponent() {
 
   const submit = (recruit) => {
     if (recruit.address === "") {
-      toast.info("주소를 입력해주세요");
+      toast.error("주소를 입력해주세요");
       setAskComplete(false);
     } else if (recruit.pay === null) {
-      toast.info("보상을 입력해주세요");
+      toast.error("보상을 입력해주세요");
       setAskComplete(false);
     } else if (recruit.contact === "") {
-      toast.info("연락처를 입력해주세요");
+      toast.error("연락처를 입력해주세요");
       setAskComplete(false);
     } else {
       if (askComplete) {

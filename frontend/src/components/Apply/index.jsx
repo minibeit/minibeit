@@ -17,7 +17,7 @@ import ListContainer from "./ListContainer";
 
 import * as S from "./style";
 import { useHistory } from "react-router";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function ApplyComponent({ page }) {
   const history = useHistory();
@@ -38,7 +38,7 @@ export default function ApplyComponent({ page }) {
           setTotalElements(res.data.data.totalElements);
           history.push(`/apply?${page}`);
         })
-        .catch((err) => toast.info("검색어를 다시 한번 확인해주세요"));
+        .catch((err) => toast.error("검색어를 다시 한번 확인해주세요"));
     },
     [user.isLogin, category, date, filter, history]
   );

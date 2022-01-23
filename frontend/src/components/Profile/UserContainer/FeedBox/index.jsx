@@ -8,7 +8,7 @@ import * as S from "../../style";
 import moment from "moment";
 import CancleAttend from "../../../Common/Alert/CancleAttend";
 import DeleteRejectList from "../../../Common/Alert/DeleteRejectList";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function FeedBox({ status, data, changeFeedData }) {
   const history = useHistory();
@@ -105,7 +105,7 @@ export default function FeedBox({ status, data, changeFeedData }) {
                   onClick={(e) => {
                     e.stopPropagation();
                     doJoinApi(data.postDoDateId).then(() => {
-                      toast.info("참여완료 처리되었습니다");
+                      toast.success("참여완료 처리되었습니다");
                       if (data.isWritable) {
                         setReviewModal(true);
                       } else {

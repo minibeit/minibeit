@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Portal from "../Portal";
 import * as S from "../style";
 import { useHistory } from "react-router";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { ReactComponent as XIcon } from "../../../..//svg/엑스.svg";
 
 //신청을 완료할것인지 묻는 알림창

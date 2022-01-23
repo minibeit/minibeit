@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useHistory } from "react-router";
 import Portal from "../Portal";
 import { ReactComponent as InfoIcon } from "../../../../svg/경고.svg";
@@ -29,7 +29,7 @@ export default function DeliteBProfile({
         let copy = { ...user };
         copy.bprofile = null;
         setUser(copy);
-        toast.info("삭제가 완료되었습니다.");
+        toast.success("삭제가 완료되었습니다.");
       })
       .catch((err) => setSecondAlert(true));
   };
@@ -41,7 +41,7 @@ export default function DeliteBProfile({
       let copy = { ...user };
       copy.bprofile = null;
       setUser(copy);
-      toast.info("탈퇴가 완료되었습니다.");
+      toast.success("탈퇴가 완료되었습니다.");
     });
   };
 

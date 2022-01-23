@@ -10,7 +10,7 @@ import RegisterFeed from "../../Common/Alert/RegisterFeed";
 
 import * as S from "../style";
 import NotEnoughWrite from "../../Common/Alert/NotEnoughWrite";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function Presenter({
   onChange,
@@ -51,7 +51,7 @@ export default function Presenter({
             placeholder="참여자에게 보여주실 제목을 작성해주세요."
             onChange={(e) => {
               if (e.target.value.length > 20) {
-                toast.info("게시물의 제목은 20자 이내로 입력해주세요");
+                toast.error("게시물의 제목은 20자 이내로 입력해주세요");
                 e.target.value = e.target.value.slice(0, 20);
                 onChange(e);
               } else {
@@ -103,7 +103,7 @@ export default function Presenter({
                       placeholder="원하시는 참여자의 조건을 작성해주세요."
                       onChange={(e) => {
                         if (e.target.value.length > 20) {
-                          toast.info("참여 조건은 20자 이내로 입력해주세요");
+                          toast.error("참여 조건은 20자 이내로 입력해주세요");
                           e.target.value = e.target.value.slice(0, 20);
                           writeCondition(e);
                         } else {
@@ -201,7 +201,7 @@ export default function Presenter({
                       defaultValue={recruit.pay}
                       onChange={(e) => {
                         if (e.target.value.length > 100) {
-                          toast.info("100자 이내로 입력해주세요");
+                          toast.error("100자 이내로 입력해주세요");
                           e.target.value = e.target.value.slice(0, 100);
                           onChange(e);
                         } else {
@@ -219,7 +219,7 @@ export default function Presenter({
                   placeholder="추가 사항이 있다면 작성해주세요."
                   onChange={(e) => {
                     if (e.target.value.length > 100) {
-                      toast.info("100자 이내로 입력해주세요");
+                      toast.error("100자 이내로 입력해주세요");
                       e.target.value = e.target.value.slice(0, 100);
                       onChange(e);
                     } else {
@@ -239,7 +239,7 @@ export default function Presenter({
             placeholder="자세하게 서술하수록 참여자를 빠르게 모집할 수 있어요."
             onChange={(e) => {
               if (e.target.value.length > 500) {
-                toast.info("게시물의 상세내용은 500자 이내로 입력해주세요");
+                toast.error("게시물의 상세내용은 500자 이내로 입력해주세요");
                 e.target.value = e.target.value.slice(0, 500);
                 onChange(e);
               } else {
@@ -301,7 +301,7 @@ export default function Presenter({
                   if (!exceptPhone(e.target.value)) {
                     e.target.value = "";
                     onChange(e);
-                    toast.info("휴대폰 번호를 다시 확인해주세요");
+                    toast.error("휴대폰 번호를 다시 확인해주세요");
                   }
                 }}
               />

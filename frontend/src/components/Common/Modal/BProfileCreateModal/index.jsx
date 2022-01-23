@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Portal from "../../../Common/Modal/Portal";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 import Presenter from "./presenter";
 import * as S from "./style";
@@ -51,7 +51,7 @@ export default function BProfileCreateModal({ setModalSwitch }) {
         setModalSwitch(false);
         history.push(`/business/${res.data.data.id}?recruit&1`);
       })
-      .catch((err) => toast.info("수정 내용을 다시 한번 확인해주세요"));
+      .catch((err) => toast.error("수정 내용을 다시 한번 확인해주세요"));
   };
 
   return (
@@ -82,7 +82,7 @@ export default function BProfileCreateModal({ setModalSwitch }) {
                 infoData.name.length === 0 &&
                 infoData.contact.length === 0
               ) {
-                toast.info("정보를 확인해주세요");
+                toast.error("정보를 확인해주세요");
               } else {
                 createBusiness(infoData);
               }

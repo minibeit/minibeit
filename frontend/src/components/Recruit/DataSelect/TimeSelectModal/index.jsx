@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Portal from "../../../Common/Modal/Portal";
 import Calendar from "react-calendar";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 import { ReactComponent as ArrowIcon } from "../../../../svg/체크.svg";
 import { ReactComponent as CloseIcon } from "../../../../svg/엑스.svg";

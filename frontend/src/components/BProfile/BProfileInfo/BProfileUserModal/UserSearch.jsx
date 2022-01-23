@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Select from "react-select";
 import { getSearchUser } from "../../../../utils";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 export default function UserSearch({ onChange, defaultValue }) {
   const [users, setUsers] = useState([]);

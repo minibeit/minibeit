@@ -8,7 +8,7 @@ import {
 } from "../../../../utils";
 import { assignChange } from "../../../../utils/bprofileApi";
 import Portal from "../../../Common/Modal/Portal";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 import Presenter from "./presenter";
 import * as S from "./style";
@@ -33,11 +33,11 @@ export default function BProfileUserModal({
 
   const addUser = (user) => {
     if (!user) {
-      toast.info("닉네임을 입력한 후 초대해 주세요");
+      toast.error("닉네임을 입력한 후 초대해 주세요");
     } else {
       bprofileJoin(businessId, user.value)
         .then(() => {
-          toast.info("초대되었습니다");
+          toast.success("초대되었습니다");
           getUsergroup();
         })
         .catch((err) => {
@@ -79,7 +79,7 @@ export default function BProfileUserModal({
     if (user !== "") {
       assignChange(businessId, user.id)
         .then(() => {
-          toast.info("관리자가 양도되었습니다");
+          toast.success("관리자가 양도되었습니다");
           setModalSwitch(false);
           setchangeAdmin(false);
           getBusiness();

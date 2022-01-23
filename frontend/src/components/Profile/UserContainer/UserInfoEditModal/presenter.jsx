@@ -1,6 +1,6 @@
 import React from "react";
 import { PVImg, SchoolInput } from "../../../Common";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import * as S from "./style";
 
 export default function Presenter({
@@ -96,7 +96,7 @@ export default function Presenter({
                   if (!exceptName(e.target.value)) {
                     e.target.value = "";
                     onChange(e);
-                    toast.info("이름은 2~5글자 한글로 입력해주세요");
+                    toast.error("이름은 2~5글자 한글로 입력해주세요");
                   }
                 }}
               />
@@ -121,7 +121,7 @@ export default function Presenter({
                     if (exceptNickname(value)) {
                       checkingNickname(e.target.previousSibling.value);
                     } else {
-                      toast.info(
+                      toast.error(
                         "닉네임은 2글자 이상 10글자 이내로 입력해주세요"
                       );
                     }
@@ -216,7 +216,7 @@ export default function Presenter({
                         "display:flex"
                       );
                     } else {
-                      toast.info("휴대폰 번호를 다시 확인해주세요");
+                      toast.error("휴대폰 번호를 다시 확인해주세요");
                     }
                   }}
                 >
@@ -260,7 +260,7 @@ export default function Presenter({
                         "display:flex"
                       );
                     } else {
-                      toast.info("이메일 형식을 확인해주세요");
+                      toast.error("이메일 형식을 확인해주세요");
                     }
                   }}
                 >

@@ -13,12 +13,8 @@ export default function SchoolInput({ defaultId, onChange, readOnly }) {
 
   const getSchool = (text) => {
     schoolGetApi(text).then((res) => {
-      let schoolArr = res.data.data;
-      schoolArr.splice(
-        schoolArr.indexOf(
-          schoolArr.find((school) => school.name === "위치무관")
-        ),
-        1
+      let schoolArr = res.data.data.filter(
+        (school) => school.name !== "위치무관"
       );
       setSchoolList(schoolArr);
     });

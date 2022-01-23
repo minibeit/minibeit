@@ -33,6 +33,7 @@ export default function Presenter({
   setSliderSwitch,
   editAlert,
   setEditAlert,
+  urlFilter,
 }) {
   return (
     <S.ContentBox>
@@ -130,7 +131,11 @@ export default function Presenter({
             />
           ) : (
             <S.DetailContent>
-              {updatedContent ? <p>{updatedContent}</p> : <p>{content}</p>}
+              {updatedContent ? (
+                <p>{updatedContent}</p>
+              ) : (
+                <p>{urlFilter(content)}</p>
+              )}
             </S.DetailContent>
           )}
           {files.length !== 0 && (

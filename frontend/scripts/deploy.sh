@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPOSITORY=/home/ec2-user/app/dev
+REPOSITORY=/home/ec2-user/app
 
 echo "> zip 파일 복사 "
 

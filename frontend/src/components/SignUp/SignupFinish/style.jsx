@@ -103,15 +103,14 @@ export const ImgBox = styled.div`
   border-radius: 50%;
   display: inline-block;
   margin: 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: rgba(6, 66, 256, 0.05);
   & > img {
-    position: relative;
-    left: 50%;
-    top: 50%;
     width: 16rem;
     height: 16rem;
     z-index: 9;
-    transform: translate(-50%, -50%);
   }
 
   @media only screen and (max-width: 700px) {

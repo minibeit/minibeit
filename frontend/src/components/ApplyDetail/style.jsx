@@ -197,6 +197,7 @@ export const RecruitLabel = styled.p`
 export const PaymentLabel = styled.p`
   margin-right: 0.5em;
   font-weight: bold;
+  white-space: nowrap;
   color: ${({ payment }) => (payment === "CACHE" ? "#00BB34" : "#3558C7")};
 `;
 

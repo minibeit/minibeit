@@ -21,36 +21,39 @@ export const ModalBox = styled.div`
 export const ModalHeader = styled.div`
   display: flex;
   align-items: center;
-  max-height: 3rem;
+  height: 3.5rem;
   @media only screen and (max-width: 700px) {
-    max-height: 2rem;
+    height: 2rem;
   }
 `;
 export const CloseModalBtn = styled.div`
   margin: 1rem 1.5rem 0 auto;
-  height: 3rem;
+  height: 3.5rem;
   & > svg {
     width: 1.2rem;
+    height: 1.2rem;
     margin: 1rem 1rem 0 0;
     cursor: pointer;
   }
 
   @media only screen and (max-width: 700px) {
     margin: 0 0 0 auto;
+    height: 2rem;
+
     & > svg {
       margin: 0.7rem 0.7rem 0 0;
     }
   }
 `;
 export const ModalContent = styled.div`
-  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 2rem 0;
-  gap: 2rem;
-  max-height: 32rem;
-  & > button:nth-child(2) {
+  justify-content: flex-start;
+  margin: 1.5rem 0;
+  gap: 1.5rem;
+  max-height: 31rem;
+  & > button {
     border: none;
     background-color: rgba(6, 66, 255, 0.1);
     padding: 0.8rem 2rem;
@@ -58,36 +61,13 @@ export const ModalContent = styled.div`
     color: #0642ff;
     font-size: 1.2rem;
     font-weight: 700;
-  }
-  & > p:nth-child(3) {
-    color: #d4d4d4;
-  }
-  & button {
     cursor: pointer;
   }
-  @media only screen and (max-width: 700px) {
-    gap: 1rem;
-    margin: 0;
-    max-height: 19rem;
-
-    & > button:nth-child(2) {
-      padding: 0.4rem 1rem;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-    & > p:nth-child(3) {
-      font-size: 0.8rem;
-    }
+  & > p:last-child {
+    color: #d4d4d4;
+    font-size: 1rem;
   }
-`;
-const Box = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-`;
-export const MessageBox = styled(Box)`
+
   & > p {
     font-size: 1.6rem;
     font-weight: bold;
@@ -95,10 +75,23 @@ export const MessageBox = styled(Box)`
   & > p:nth-child(2) {
     color: #0642ff;
   }
+
   @media only screen and (max-width: 700px) {
+    gap: 1rem;
+    margin: 0;
+    max-height: 18rem;
+
     & > p {
       text-align: center;
       font-size: 1.1rem;
+    }
+    & > button {
+      padding: 0.4rem 1rem;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    & > p:last-child {
+      font-size: 0.8rem;
     }
   }
 `;
@@ -109,9 +102,6 @@ export const ImgBox = styled.div`
   width: 11rem;
   border-radius: 50%;
   margin: 1rem 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color: rgba(6, 66, 256, 0.05);
   & > img {
     position: absolute;

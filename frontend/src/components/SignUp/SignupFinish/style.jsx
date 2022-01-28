@@ -21,10 +21,11 @@ export const ModalBox = styled.div`
 export const ModalHeader = styled.div`
   display: flex;
   align-items: center;
+  max-height: 5rem;
 `;
 export const CloseModalBtn = styled.div`
   margin: 1rem 1.5rem 0 auto;
-  height: -webkit-fill-available;
+  height: 3rem;
   & > svg {
     width: 1.2rem;
     margin: 1rem 1rem 0 0;
@@ -108,8 +109,8 @@ export const ImgBox = styled.div`
   align-items: center;
   background-color: rgba(6, 66, 256, 0.05);
   & > img {
-    width: 16rem;
-    height: 16rem;
+    width: 11rem;
+    height: 11rem;
     z-index: 9;
   }
 
@@ -118,8 +119,8 @@ export const ImgBox = styled.div`
     width: 8rem;
     margin: 0.5rem 0;
     & > img {
-      width: 12rem;
-      height: 12rem;
+      width: 8rem;
+      height: 8rem;
     }
   }
 `;

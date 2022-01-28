@@ -21,7 +21,10 @@ export const ModalBox = styled.div`
 export const ModalHeader = styled.div`
   display: flex;
   align-items: center;
-  max-height: 5rem;
+  max-height: 3rem;
+  @media only screen and (max-width: 700px) {
+    max-height: 2rem;
+  }
 `;
 export const CloseModalBtn = styled.div`
   margin: 1rem 1.5rem 0 auto;
@@ -46,6 +49,7 @@ export const ModalContent = styled.div`
   align-items: center;
   margin: 2rem 0;
   gap: 2rem;
+  max-height: 32rem;
   & > button:nth-child(2) {
     border: none;
     background-color: rgba(6, 66, 255, 0.1);
@@ -64,6 +68,8 @@ export const ModalContent = styled.div`
   @media only screen and (max-width: 700px) {
     gap: 1rem;
     margin: 0;
+    max-height: 19rem;
+
     & > button:nth-child(2) {
       padding: 0.4rem 1rem;
       font-size: 1rem;
@@ -102,13 +108,13 @@ export const ImgBox = styled.div`
   height: 11rem;
   width: 11rem;
   border-radius: 50%;
-  display: inline-block;
   margin: 1rem 0;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgba(6, 66, 256, 0.05);
   & > img {
+    position: absolute;
     width: 11rem;
     height: 11rem;
     z-index: 9;

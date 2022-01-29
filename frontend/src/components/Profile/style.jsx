@@ -531,11 +531,7 @@ export const FeedButton = styled.button`
   min-width: 7rem;
   cursor: pointer;
   white-space: nowrap;
-  padding: 0em 1em;
-
-  @media only screen and (max-width: 700px) {
-    padding: 1rem;
-  }
+  padding: 0.3em 1em;
 `;
 export const WhiteButton = styled(FeedButton)`
   background: #ffffff;

@@ -133,6 +133,8 @@ export const ChangeBProfile = styled.div`
   cursor: pointer;
   color: #7c7c7c;
   display: flex;
+  align-items: center;
+  max-height: 1.5rem;
   gap: 0.5em;
   & svg {
     width: 0.8rem;
@@ -346,9 +348,12 @@ export const FeedTitle = styled.div`
   z-index: 9;
   & > div:first-child {
     display: flex;
+    align-items: center;
     gap: 0.3em;
     font-size: 0.9em;
     color: white;
+    width: 4rem;
+    max-height: 2rem;
     & svg {
       width: 0.9em;
       & path {

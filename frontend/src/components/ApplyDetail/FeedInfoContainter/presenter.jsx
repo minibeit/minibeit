@@ -201,9 +201,9 @@ export default function Presenter({
         <S.DataHeader>
           <p>참여 후기</p>
         </S.DataHeader>
-        <S.DataContent>
+        <S.ReviewContent>
           <ReveiwBox businessId={businessProfileInfo.id} />
-        </S.DataContent>
+        </S.ReviewContent>
       </div>
     </S.ContentBox>
   );

@@ -163,6 +163,10 @@ export const DataHeader = styled.div`
 export const DataContent = styled.div`
   padding: 1rem 0;
 `;
+export const ReviewContent = styled.div`
+  padding: 1rem 0;
+  max-height: 12rem;
+`;
 export const ListBox = styled.ul`
   display: flex;
   margin: 0.5em 0;
@@ -345,6 +349,7 @@ export const Img = styled.img`
 export const ReviewItem = styled.div`
   display: flex;
   margin: 1em 0.5em;
+  height: 1.5rem;
   gap: 0.5em;
   & > p:nth-child(2) {
     display: flex;

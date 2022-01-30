@@ -6,6 +6,7 @@ import { logoutFunc } from "../../../utils/auth";
 import CreateAuthModal from "../Modal/CreateAuthModal";
 import SideMenu from "./SideMenu";
 import MenuIcon from "@mui/icons-material/Menu";
+import { Button } from "../../atoms";
 
 import * as S from "./style";
 
@@ -78,9 +79,12 @@ export default function NavBar() {
               )}
             </S.ProfileImgBox>
           )}
-          <S.LoginBtn onClick={onClick}>
-            {isLogin ? "로그아웃" : "로그인"}
-          </S.LoginBtn>
+          <Button
+            innerText={isLogin ? "로그아웃" : "로그인"}
+            onClick={onClick}
+            buttonColor="#f8f8f8"
+            textColor="#7c7c7c"
+          />
         </S.AuthBox>
         <S.MobileListBtn onClick={() => setMenuSwitch(true)}>
           <MenuIcon />

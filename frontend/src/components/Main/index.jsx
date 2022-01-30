@@ -5,6 +5,7 @@ import { useHistory } from "react-router";
 import { useRecoilValue } from "recoil";
 import { userState } from "../../recoil/userState";
 import CreateAuthModal from "../Common/Modal/CreateAuthModal";
+import { Button } from "../atoms";
 
 import { ReactComponent as ArrowDown } from "../../svg/체크.svg";
 import AOS from "aos";
@@ -33,10 +34,20 @@ export default function MainComponent() {
         <div>
           <S.ButtonContainer>
             <Link to="1" spy={true} smooth={true}>
-              <S.WhiteButton>참여하기</S.WhiteButton>
+              <Button
+                innerText="참여하기"
+                fontSize="1.25rem"
+                buttonColor="#0642ff"
+                textColor="#ffffff"
+              />
             </Link>
             <Link to="2" spy={true} smooth={true}>
-              <S.BlueButton>모집하기</S.BlueButton>
+              <Button
+                innerText="모집하기"
+                fontSize="1.25rem"
+                buttonColor="#ffffff"
+                textColor="#0642ff"
+              />
             </Link>
           </S.ButtonContainer>
           <p onClick={() => history.push("/apply")}>일단 둘러볼래요</p>
@@ -52,9 +63,13 @@ export default function MainComponent() {
               <span>가까운 위치</span>에, <span>남는 시간</span>에 <br />{" "}
               간편하게 지원하기
             </div>
-            <S.BlueButton onClick={() => history.push("/apply")}>
-              참여하기
-            </S.BlueButton>
+            <Button
+              innerText="참여하기"
+              fontSize="1.25rem"
+              buttonColor="#0642ff"
+              textColor="#ffffff"
+              onClick={() => history.push("/apply")}
+            />
           </S.TextBox>
           <S.ImgBox>
             <img src="/images/main.png" alt="mainImg" />
@@ -67,7 +82,13 @@ export default function MainComponent() {
             <div>
               가장 쉽고 빠르게 <br /> <span>원하는 스케줄</span>로 모집하기
             </div>
-            <S.BlueButton onClick={goRecruit}>모집하기</S.BlueButton>
+            <Button
+              innerText="모집하기"
+              fontSize="1.25rem"
+              buttonColor="#0642ff"
+              textColor="#ffffff"
+              onClick={goRecruit}
+            />
           </S.TextBox>
           <S.ImgBox2>
             <img src="/images/main2.png" alt="mainImg" />

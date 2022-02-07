@@ -9,6 +9,6 @@ POST {{apiUrl}}/business/1/date/5/review/3
 Authorization: {{authorizationToken}}
 
 ###
-POST {{apiUrl}}/business/1/user/2/date/4/review/20
+POST {{apiUrl}}/business/1/user/1/date/1/review/18
 Authorization: {{authorizationToken}}
 

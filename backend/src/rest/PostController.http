@@ -24,26 +24,26 @@ Content-Type: application/json;charset=UTF-8
   "doTime": 60,
   "schoolId": 1,
   "businessProfileId": 1,
-  "startDate": "2022-01-13T09:30",
-  "endDate": "2022-01-19T11:00",
+  "startDate": "2022-02-03T09:30",
+  "endDate": "2022-02-08T11:00",
   "doDateList": [
     {
-      "doDate": "2022-01-13T10:00"
+      "doDate": "2022-02-03T10:00"
     },
     {
-      "doDate": "2022-01-13T11:00"
+      "doDate": "2022-02-04T11:00"
     },
     {
-      "doDate": "2022-01-14T10:00"
+      "doDate": "2022-02-05T10:00"
     },
     {
-      "doDate": "2022-01-14T11:00"
+      "doDate": "2022-02-06T11:00"
     },
     {
-      "doDate": "2022-01-15T10:00"
+      "doDate": "2022-02-07T10:00"
     },
     {
-      "doDate": "2022-01-15T11:00"
+      "doDate": "2022-02-08T11:00"
     }
   ]
 }

@@ -47,6 +47,7 @@ public class BusinessUserReviewService {
 
     public BusinessUserReviewResponse.OnlyId createUserReview(Long businessProfileId, Long userId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
         User applicantUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         User loginUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(user.getId()).orElseThrow(UserNotFoundException::new);
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
@@ -55,7 +56,7 @@ public class BusinessUserReviewService {
         postApplicant.evaluated();
 
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);
-        BusinessUserReview businessUserReview = BusinessUserReview.createWithUser(applicantUser, businessUserReviewDetail);
+        BusinessUserReview businessUserReview = BusinessUserReview.createWithUser(applicantUser, businessProfile, businessUserReviewDetail);
         BusinessUserReview review = businessUserReviewRepository.save(businessUserReview);
         return BusinessUserReviewResponse.OnlyId.build(review);
     }

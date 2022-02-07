@@ -19,7 +19,7 @@ public class PostRequest {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     public static class CreateInfo {
         @NotBlank(message = "반려 사유가 공백일 수 없습니다.")
-        @Length(max = 20, message = "게시물 제목 길이는 1자부터 20자까지 입니다.")
+        @Length(max = 40, message = "게시물 제목 길이는 1자부터 40자까지 입니다.")
         private String title;
         private String content;
         @NotBlank(message = "실험 장소가 공백일 수 없습니다.")

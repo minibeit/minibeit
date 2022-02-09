@@ -1,7 +1,7 @@
 package com.minibeit.school.web;
 
 import com.minibeit.common.dto.ApiResult;
-import com.minibeit.school.dto.SchoolResponse;
+import com.minibeit.school.service.dto.SchoolResponse;
 import com.minibeit.school.service.SchoolService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

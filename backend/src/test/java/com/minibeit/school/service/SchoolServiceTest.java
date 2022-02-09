@@ -3,7 +3,7 @@ package com.minibeit.school.service;
 import com.minibeit.ServiceIntegrationTest;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
-import com.minibeit.school.dto.SchoolResponse;
+import com.minibeit.school.service.dto.SchoolResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

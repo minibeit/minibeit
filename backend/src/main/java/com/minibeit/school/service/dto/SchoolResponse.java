@@ -1,4 +1,4 @@
-package com.minibeit.school.dto;
+package com.minibeit.school.service.dto;
 
 import com.minibeit.school.domain.School;
 import lombok.*;

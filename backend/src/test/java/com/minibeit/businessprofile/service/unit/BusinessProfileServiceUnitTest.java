@@ -7,7 +7,7 @@ import com.minibeit.businessprofile.service.BusinessProfileService;
 import com.minibeit.businessprofile.service.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
-import com.minibeit.file.avatar.service.MockAvatar;
+import com.minibeit.file.avatar.service.unit.MockAvatar;
 import com.minibeit.file.domain.Avatar;
 import com.minibeit.file.service.AvatarService;
 import com.minibeit.user.domain.repository.UserRepository;

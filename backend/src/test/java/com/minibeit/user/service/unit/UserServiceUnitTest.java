@@ -2,7 +2,7 @@ package com.minibeit.user.service.unit;
 
 import com.minibeit.businessprofile.service.unit.MockBusinessProfile;
 import com.minibeit.common.exception.DuplicateException;
-import com.minibeit.file.avatar.service.MockAvatar;
+import com.minibeit.file.avatar.service.unit.MockAvatar;
 import com.minibeit.file.service.AvatarService;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.school.service.unit.MockSchool;

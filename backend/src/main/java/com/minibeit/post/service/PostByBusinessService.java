@@ -4,7 +4,7 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.common.dto.PageDto;
-import com.minibeit.file.service.S3Uploader;
+import com.minibeit.file.domain.S3Uploader;
 import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.*;

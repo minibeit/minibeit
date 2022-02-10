@@ -11,7 +11,7 @@ import com.minibeit.file.domain.FileServer;
 import com.minibeit.file.domain.FileType;
 import com.minibeit.post.domain.PostFile;
 import com.minibeit.post.domain.repository.PostFileRepository;
-import com.minibeit.file.service.S3Uploader;
+import com.minibeit.file.domain.S3Uploader;
 import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostDoDateRepository;

@@ -6,9 +6,9 @@ import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.VerificationKinds;
+import com.minibeit.user.service.UserService;
 import com.minibeit.user.service.dto.UserRequest;
 import com.minibeit.user.service.dto.UserResponse;
-import com.minibeit.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -160,7 +160,7 @@ class UserControllerTest extends MvcTest {
 
         UserResponse.Verification response = UserResponse.Verification.build(user1);
 
-        given(userService.codeVerification(any(), any())).willReturn(response);
+        given(userService.codeVerification(any(), any(), any())).willReturn(response);
 
         ResultActions results = mvc.perform(RestDocumentationRequestBuilders
                 .post("/api/user/{userId}/verification", 1L)

@@ -7,7 +7,8 @@ public class MockAvatar {
         public static final Long ID = 1L;
         public static final String NAME = "file name";
         public static final String FILE_URL = "file url";
-        public static final Avatar AVATAR_1 = Avatar.builder()
+
+        public static final Avatar AVATAR = Avatar.builder()
                 .id(ID)
                 .name(NAME)
                 .url(FILE_URL)

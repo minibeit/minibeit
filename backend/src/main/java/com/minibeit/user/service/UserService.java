@@ -1,12 +1,12 @@
 package com.minibeit.user.service;
 
 import com.minibeit.common.exception.DuplicateException;
-import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.file.domain.Avatar;
 import com.minibeit.file.service.AvatarService;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.User;
+import com.minibeit.user.domain.UserValidator;
 import com.minibeit.user.domain.UserVerificationCode;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.domain.repository.UserVerificationCodeRepository;
@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,7 @@ public class UserService {
     private final SchoolRepository schoolRepository;
     private final UserVerificationCodeRepository userVerificationCodeRepository;
     private final AvatarService avatarService;
+    private final UserValidator userValidator;
 
     public UserResponse.CreateOrUpdate signup(UserRequest.Signup request, User user) {
         nickCheck(request.getNickname());
@@ -60,10 +62,10 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserResponse.Verification codeVerification(Long userId, UserRequest.Verification request) {
+    public UserResponse.Verification codeVerification(Long userId, UserRequest.Verification request, LocalDateTime now) {
         UserVerificationCode userVerificationCode = userVerificationCodeRepository.findByUserIdAndVerificationKinds(userId, request.getVerificationKinds())
                 .orElseThrow(UserVerificationCodeNotFoundException::new);
-        userVerificationCode.validate(request.getCode());
+        userValidator.verificationCodeValidate(userVerificationCode, request.getCode(), now);
 
         return UserResponse.Verification.build(userVerificationCode.getUser());
     }
@@ -92,9 +94,7 @@ public class UserService {
     }
 
     public void deleteOne(User user) {
-        if (userRepository.existsBusinessAdminUserById(user.getId())) {
-            throw new InvalidOperationException("관리자로 있는 비즈니스 프로필이 존재합니다.");
-        }
+        userValidator.deleteValidate(user.getId());
         avatarService.deleteOne(user.getAvatar());
         userRepository.delete(user);
     }

@@ -39,6 +39,7 @@ public class SmsService {
     private final SmsProps smsProps;
     private final UserRepository userRepository;
     private final UserVerificationCodeRepository userVerificationCodeRepository;
+    private final RestTemplate restTemplate;
 
     public SmsResponse sendSmsVerificationCode(String receiverPhoneNumber, Long userId) throws JsonProcessingException, URISyntaxException, NoSuchAlgorithmException, InvalidKeyException {
         Long time = System.currentTimeMillis();
@@ -69,7 +70,6 @@ public class SmsService {
 
         HttpEntity<String> body = new HttpEntity<>(jsonBody, headers);
 
-        RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 
         return restTemplate.postForObject(new URI("https://sens.apigw.ntruss.com/sms/v2/services/" + smsProps.getServiceId() + "/messages"), body, SmsResponse.class);

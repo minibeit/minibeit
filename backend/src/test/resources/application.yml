@@ -33,6 +33,18 @@ spring:
             client-secret: 비밀키
             scope: profile, email
 
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: { YOUR_GMAIL_ADDRESS }
+    password: { YOUR_GMAIL_PASSWORD }
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 cloud:
   aws:
     credentials:

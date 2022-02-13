@@ -2,10 +2,7 @@ package com.minibeit.post.service.unit.mock;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.service.unit.MockBusinessProfile;
-import com.minibeit.post.domain.Payment;
-import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostLike;
-import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.domain.*;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
 import com.minibeit.post.service.dto.PostResponse;
@@ -113,7 +110,7 @@ public class MockPost {
                 .thumbnail(THUMBNAIL)
                 .doDate(MockPostDoDate.MockPostDoDate1.DO_DATE)
                 .recruitCondition(RECRUITMENT_CONDITION)
-                .status(MockPostApplicant1.APPLY_STATUS.name())
+                .status(ApplyStatus.APPROVE.name())
                 .writeReview(MockPostApplicant1.WRITE_REVIEW)
                 .businessProfileId(BUSINESS_PROFILE.getId())
                 .businessProfileName(BUSINESS_PROFILE.getName())

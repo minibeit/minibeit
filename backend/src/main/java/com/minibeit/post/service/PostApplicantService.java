@@ -53,8 +53,7 @@ public class PostApplicantService {
 
     public void applyCancel(Long postDoDateId, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
-
-        postApplicantRepository.delete(postApplicant);
+        postApplicant.delete();
 
         if (postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
             PostDoDate postDoDate = postDoDateRepository.findByIdWithPostAndBusinessProfile(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);

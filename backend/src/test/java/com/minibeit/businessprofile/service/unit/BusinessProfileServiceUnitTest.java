@@ -52,7 +52,7 @@ public class BusinessProfileServiceUnitTest {
     public void create() {
         given(userRepository.findByIdWithUserBusinessProfileAndBusiness(MockUser1.ID)).willReturn(Optional.of(MockUser1.USER));
         given(avatarService.upload(any())).willReturn(Avatar.builder().id(MockAvatar.MockAvatar1.ID).build());
-        given(businessProfileRepository.save(any())).willReturn(BUSINESS_PROFILE_1);
+        given(businessProfileRepository.save(any())).willReturn(BUSINESS_PROFILE);
 
         BusinessProfileResponse.IdAndName response = businessProfileService.create(CREATE_REQUEST, MockUser1.USER);
 
@@ -71,7 +71,7 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 수정 성공")
     public void update() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE_1));
+        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
 
         BusinessProfileResponse.IdAndName response = businessProfileService.update(ID, UPDATE_REQUEST, MockUser1.USER);
 
@@ -92,7 +92,7 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 초대 성공")
     public void invite() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE_1));
+        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
         given(userRepository.findByIdWithUserBusinessProfileAndBusiness(any())).willReturn(Optional.of(MockUser1.USER));
 
         businessProfileService.invite(ID, MockUser.MockUser2.ID, MockUser1.USER);
@@ -104,7 +104,7 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 초대 실패 (해당 유저가 없는 경우)")
     public void inviteFail_UserNotFound() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE_1));
+        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
         given(userRepository.findByIdWithUserBusinessProfileAndBusiness(any())).willReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> businessProfileService.invite(ID, MockUser.MockUser2.ID, MockUser1.USER));
@@ -121,7 +121,7 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 추방 성공")
     public void expel() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE_1));
+        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
         given(userBusinessProfileRepository.findByUserIdAndBusinessProfileId(any(), any())).willReturn(Optional.of(USER_BUSINESS_PROFILE));
 
         businessProfileService.expel(ID, MockUser.MockUser2.ID, MockUser1.USER);
@@ -141,7 +141,7 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 추방 실패 (해당 유저가 없는 경우)")
     public void expelFailUserNotFound() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE_1));
+        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
         given(userBusinessProfileRepository.findByUserIdAndBusinessProfileId(any(), any())).willReturn(Optional.empty());
 
         assertThrows(UserBusinessProfileNotFoundException.class, () -> businessProfileService.expel(ID, MockUser.MockUser2.ID, MockUser1.USER));
@@ -150,7 +150,7 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 관리자 변경 성공")
     public void changeAdmin() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE_1));
+        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
         given(userRepository.findByIdWithUserBusinessProfileAndBusiness(any())).willReturn(Optional.of(MockUser1.USER));
 
         businessProfileService.changeAdmin(ID, MockUser.MockUser2.ID, MockUser1.USER);
@@ -161,7 +161,7 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 관리자 변경 실패 (해당 유저가 없는 경우)")
     public void changeAdminFail_UserNotFound() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE_1));
+        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
         given(userRepository.findByIdWithUserBusinessProfileAndBusiness(any())).willReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> businessProfileService.changeAdmin(ID, MockUser.MockUser2.ID, MockUser1.USER));
@@ -178,7 +178,7 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 탈퇴 성공")
     public void leave() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE_1));
+        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
         given(userBusinessProfileRepository.findByUserIdAndBusinessProfileId(any(), any())).willReturn(Optional.of(USER_BUSINESS_PROFILE));
 
         businessProfileService.leave(ID, MockUser1.USER);
@@ -197,7 +197,7 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 탈퇴 실패 (해당 유저가 없는 경우)")
     public void leaveFailUserNotFound() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE_1));
+        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
         given(userBusinessProfileRepository.findByUserIdAndBusinessProfileId(any(), any())).willReturn(Optional.empty());
 
         assertThrows(UserBusinessProfileNotFoundException.class, () -> businessProfileService.leave(ID, MockUser1.USER));
@@ -216,7 +216,7 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 단건 조회 성공")
     public void getOne() {
-        given(businessProfileRepository.findByIdWithAdmin(ID)).willReturn(Optional.of(BUSINESS_PROFILE_1));
+        given(businessProfileRepository.findByIdWithAdmin(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
 
         businessProfileService.getOne(ID, MockUser1.USER);
 
@@ -234,7 +234,7 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 삭제 성공")
     public void delete() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE_1));
+        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
 
         businessProfileService.delete(ID, MockUser1.USER);
 

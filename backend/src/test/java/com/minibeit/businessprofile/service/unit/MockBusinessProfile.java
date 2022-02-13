@@ -23,7 +23,7 @@ public class MockBusinessProfile {
         public static final String UPDATED_PLACE_DETAIL = "수정된 신공학관";
         public static final String UPDATED_CONTACT = "010-5678-5678";
 
-        public static final BusinessProfile BUSINESS_PROFILE_1 = BusinessProfile.builder()
+        public static final BusinessProfile BUSINESS_PROFILE = BusinessProfile.builder()
                 .id(ID)
                 .name(NAME)
                 .place(PLACE)

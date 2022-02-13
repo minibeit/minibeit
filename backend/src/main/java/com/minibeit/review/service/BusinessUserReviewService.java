@@ -35,7 +35,8 @@ public class BusinessUserReviewService {
 
     public BusinessUserReviewResponse.OnlyId createBusinessReview(Long businessProfileId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
-        postApplicant.updateWriteReview(now);
+        businessUserReviewValidator.createBusinessReviewValidate(postApplicant, now);
+        postApplicant.updateWriteReview();
 
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);
@@ -51,7 +52,7 @@ public class BusinessUserReviewService {
         User loginUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(user.getId()).orElseThrow(UserNotFoundException::new);
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
 
-        businessUserReviewValidator.evaluateBusinessValidate(postApplicant, loginUser.getUserBusinessProfileList(), businessProfileId, now);
+        businessUserReviewValidator.createUserReiviewValidate(postApplicant, loginUser.getUserBusinessProfileList(), businessProfileId, now);
 
         postApplicant.evaluated();
 

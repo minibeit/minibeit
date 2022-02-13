@@ -87,7 +87,7 @@ public class Post extends BaseEntity {
     private LocalDateTime deletedAt;
 
     @Column(name = "del")
-    private Boolean del;
+    private boolean del;
 
     public boolean isLike(User user) {
         return user != null && this.postLikeList.stream().anyMatch(postLike -> postLike.getUser().getId().equals(user.getId()));

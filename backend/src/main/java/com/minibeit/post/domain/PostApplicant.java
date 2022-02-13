@@ -43,7 +43,7 @@ public class PostApplicant extends BaseEntity {
     private LocalDateTime deletedAt;
 
     @Column(name = "del")
-    private Boolean del;
+    private boolean del;
 
     private void setPostDoDate(PostDoDate postDoDate) {
         postDoDate.getPostApplicantList().add(this);
@@ -58,15 +58,7 @@ public class PostApplicant extends BaseEntity {
         return !this.evaluatedBusiness && this.postDoDate.getDoDate().plusDays(7).isAfter(now);
     }
 
-    private boolean writeBusinessReviewIsPossible(LocalDateTime now) {
-        return this.applyStatus.equals(ApplyStatus.COMPLETE) && !this.writeReview &&
-                this.businessFinish && this.postDoDate.getDoDate().plusDays(7).isAfter(now);
-    }
-
-    public void updateWriteReview(LocalDateTime now) {
-        if (!writeBusinessReviewIsPossible(now)) {
-            throw new PermissionException("리뷰를 작성할 수 없습니다.");
-        }
+    public void updateWriteReview() {
         this.writeReview = true;
     }
 

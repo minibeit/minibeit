@@ -7,7 +7,7 @@ import com.minibeit.businessprofile.service.BusinessProfileService;
 import com.minibeit.businessprofile.service.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
-import com.minibeit.file.avatar.service.unit.MockAvatar;
+import com.minibeit.file.avatar.service.unit.MockFile;
 import com.minibeit.file.domain.Avatar;
 import com.minibeit.file.service.AvatarService;
 import com.minibeit.user.domain.repository.UserRepository;
@@ -51,7 +51,7 @@ public class BusinessProfileServiceUnitTest {
     @DisplayName("비즈니스 프로필 생성 성공")
     public void create() {
         given(userRepository.findByIdWithUserBusinessProfileAndBusiness(MockUser1.ID)).willReturn(Optional.of(MockUser1.USER));
-        given(avatarService.upload(any())).willReturn(Avatar.builder().id(MockAvatar.MockAvatar1.ID).build());
+        given(avatarService.upload(any())).willReturn(Avatar.builder().id(MockFile.MockFile1.ID).build());
         given(businessProfileRepository.save(any())).willReturn(BUSINESS_PROFILE);
 
         BusinessProfileResponse.IdAndName response = businessProfileService.create(CREATE_REQUEST, MockUser1.USER);

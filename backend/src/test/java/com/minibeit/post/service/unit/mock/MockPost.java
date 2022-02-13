@@ -6,13 +6,18 @@ import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostLike;
 import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.service.dto.PostDto;
+import com.minibeit.post.service.dto.PostRequest;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.service.unit.MockSchool;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.service.unit.MockUser;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 
 import static com.minibeit.post.service.unit.mock.MockPostApplicant.MockPostApplicant1;
 
@@ -42,6 +47,8 @@ public class MockPost {
 
         public static final Long POST_LIKE_ID = 1L;
         public static final User POST_LIST_USER = MockUser.MockUser1.USER;
+
+        public static final MultipartFile MOCK_FILE = new MockMultipartFile("filename", "test".getBytes());
 
         public static final Post POST = Post.builder()
                 .id(ID)
@@ -73,6 +80,27 @@ public class MockPost {
                 .user(POST_LIST_USER)
                 .build();
 
+        public static final PostRequest.CreateInfo CREATE_INFO_REQUEST = PostRequest.CreateInfo.builder()
+                .title(TITLE)
+                .content(CONTENT)
+                .place(PLACE)
+                .contact(CONTACT)
+                .category(CATEGORY)
+                .headcount(RECRUIT_PEOPLE)
+                .payment(PAYMENT)
+                .cache(PAYMENT_CACHE)
+                .goods(null)
+                .paymentDetail(PAYMENT_DETAIL)
+                .condition(RECRUITMENT_CONDITION)
+                .conditionDetail(RECRUITMENT_CONDITION_DETAIL)
+                .doTime(DO_TIME)
+                .schoolId(SCHOOL.getId())
+                .businessProfileId(BUSINESS_PROFILE.getId())
+                .startDate(START_DATE)
+                .endDate(END_DATE)
+                .doDateList(Collections.singletonList(PostDto.PostDoDate.builder().doDate(MockPostDoDate.MockPostDoDate1.DO_DATE).build()))
+                .build();
+
         public static final PostResponse.GetMyApplyList GET_MY_APPLY_LIST = PostResponse.GetMyApplyList.builder()
                 .id(ID)
                 .contact(CONTACT)
@@ -89,6 +117,14 @@ public class MockPost {
                 .writeReview(MockPostApplicant1.WRITE_REVIEW)
                 .businessProfileId(BUSINESS_PROFILE.getId())
                 .businessProfileName(BUSINESS_PROFILE.getName())
+                .build();
+
+        public static final PostRequest.RejectComment REJECT_COMMENT_REQUEST= PostRequest.RejectComment.builder()
+                .rejectComment("모집이 종료되었습니다.")
+                .build();
+
+        public static final PostRequest.UpdateContent UPDATE_CONTENT_REQUEST=PostRequest.UpdateContent.builder()
+                .updatedContent("수정된 내용")
                 .build();
     }
 }

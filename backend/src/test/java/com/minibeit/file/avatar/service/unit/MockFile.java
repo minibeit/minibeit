@@ -5,8 +5,8 @@ import com.minibeit.file.service.dto.SavedFile;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
-public class MockAvatar {
-    public static class MockAvatar1 {
+public class MockFile {
+    public static class MockFile1 {
         public static final Long ID = 1L;
         public static final String NAME = "file name";
         public static final String FILE_URL = "file url";

@@ -10,7 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.minibeit.file.avatar.service.unit.MockAvatar.MockAvatar1.*;
+import static com.minibeit.file.avatar.service.unit.MockFile.MockFile1.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;

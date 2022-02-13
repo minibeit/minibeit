@@ -2,7 +2,7 @@ package com.minibeit.user.service.unit;
 
 import com.minibeit.businessprofile.service.unit.MockBusinessProfile;
 import com.minibeit.common.exception.DuplicateException;
-import com.minibeit.file.avatar.service.unit.MockAvatar;
+import com.minibeit.file.avatar.service.unit.MockFile;
 import com.minibeit.file.service.AvatarService;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.school.service.unit.MockSchool;
@@ -54,7 +54,7 @@ public class UserServiceUnitTest {
         given(userRepository.existsByNickname(any())).willReturn(Boolean.FALSE);
         given(userRepository.findById(ID)).willReturn(Optional.of(USER));
         given(schoolRepository.findById(MockSchool.School1.ID)).willReturn(Optional.of(MockSchool.School1.SCHOOL));
-        given(avatarService.upload(any())).willReturn(MockAvatar.MockAvatar1.AVATAR);
+        given(avatarService.upload(any())).willReturn(MockFile.MockFile1.AVATAR);
 
         UserResponse.CreateOrUpdate response = userService.signup(SIGNUP_REQUEST, USER);
 
@@ -94,7 +94,7 @@ public class UserServiceUnitTest {
         given(userRepository.findByIdWithAvatar(any())).willReturn(Optional.of(USER));
         given(schoolRepository.findById(SCHOOL_ID)).willReturn(Optional.of(MockSchool.School1.SCHOOL));
         given(userRepository.existsByNickname(any())).willReturn(Boolean.FALSE);
-        given(avatarService.upload(any())).willReturn(MockAvatar.MockAvatar1.AVATAR);
+        given(avatarService.upload(any())).willReturn(MockFile.MockFile1.AVATAR);
 
         UserResponse.CreateOrUpdate response = userService.update(UPDATE_REQUEST, USER);
 

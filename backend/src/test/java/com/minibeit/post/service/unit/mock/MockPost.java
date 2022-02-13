@@ -1,14 +1,20 @@
-package com.minibeit.post.service.unit;
+package com.minibeit.post.service.unit.mock;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.service.unit.MockBusinessProfile;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
+import com.minibeit.post.domain.PostLike;
 import com.minibeit.post.domain.PostStatus;
+import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.service.unit.MockSchool;
+import com.minibeit.user.domain.User;
+import com.minibeit.user.service.unit.MockUser;
 
 import java.time.LocalDateTime;
+
+import static com.minibeit.post.service.unit.mock.MockPostApplicant.MockPostApplicant1;
 
 public class MockPost {
     public static class MockPost1 {
@@ -34,6 +40,8 @@ public class MockPost {
         public static final BusinessProfile BUSINESS_PROFILE = MockBusinessProfile.BusinessProfile1.BUSINESS_PROFILE;
         public static final boolean DEL = false;
 
+        public static final Long POST_LIKE_ID = 1L;
+        public static final User POST_LIST_USER = MockUser.MockUser1.USER;
 
         public static final Post POST = Post.builder()
                 .id(ID)
@@ -57,6 +65,30 @@ public class MockPost {
                 .businessProfile(BUSINESS_PROFILE)
                 .school(SCHOOL)
                 .del(DEL)
+                .build();
+
+        public static final PostLike POST_LIKE = PostLike.builder()
+                .id(POST_LIKE_ID)
+                .post(POST)
+                .user(POST_LIST_USER)
+                .build();
+
+        public static final PostResponse.GetMyApplyList GET_MY_APPLY_LIST = PostResponse.GetMyApplyList.builder()
+                .id(ID)
+                .contact(CONTACT)
+                .postDoDateId(MockPostDoDate.MockPostDoDate1.ID)
+                .title(TITLE)
+                .time(DO_TIME)
+                .category(CATEGORY)
+                .address(PLACE)
+                .addressDetail(PLACE_DETAIL)
+                .thumbnail(THUMBNAIL)
+                .doDate(MockPostDoDate.MockPostDoDate1.DO_DATE)
+                .recruitCondition(RECRUITMENT_CONDITION)
+                .status(MockPostApplicant1.APPLY_STATUS.name())
+                .writeReview(MockPostApplicant1.WRITE_REVIEW)
+                .businessProfileId(BUSINESS_PROFILE.getId())
+                .businessProfileName(BUSINESS_PROFILE.getName())
                 .build();
     }
 }

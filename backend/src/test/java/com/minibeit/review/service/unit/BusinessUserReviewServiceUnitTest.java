@@ -5,8 +5,8 @@ import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundExc
 import com.minibeit.businessprofile.service.unit.MockBusinessProfile;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
-import com.minibeit.post.service.unit.MockPostApplicant;
-import com.minibeit.post.service.unit.MockPostDoDate;
+import com.minibeit.post.service.unit.mock.MockPostApplicant;
+import com.minibeit.post.service.unit.mock.MockPostDoDate;
 import com.minibeit.review.domain.BusinessUserReviewValidator;
 import com.minibeit.review.domain.repository.BusinessUserReviewDetailRepository;
 import com.minibeit.review.domain.repository.BusinessUserReviewRepository;

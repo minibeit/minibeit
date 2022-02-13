@@ -2,6 +2,7 @@ package com.minibeit.post.service.unit;
 
 import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.service.RejectPostService;
+import com.minibeit.post.service.unit.mock.MockPageDto;
 import com.minibeit.user.service.unit.MockUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,8 +14,8 @@ import org.springframework.data.domain.PageImpl;
 
 import java.util.Collections;
 
-import static com.minibeit.post.service.unit.MockRejectPost.MockRejectPost1.ID;
-import static com.minibeit.post.service.unit.MockRejectPost.MockRejectPost1.REJECT_POST;
+import static com.minibeit.post.service.unit.mock.MockRejectPost.MockRejectPost1.ID;
+import static com.minibeit.post.service.unit.mock.MockRejectPost.MockRejectPost1.REJECT_POST;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;

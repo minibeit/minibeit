@@ -1,12 +1,8 @@
-package com.minibeit.post.service.unit;
+package com.minibeit.post.service.unit.mock;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.service.unit.MockBusinessProfile;
-import com.minibeit.post.domain.Payment;
-import com.minibeit.post.domain.PostStatus;
 import com.minibeit.post.domain.RejectPost;
-import com.minibeit.school.domain.School;
-import com.minibeit.school.service.unit.MockSchool;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.service.unit.MockUser;
 

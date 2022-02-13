@@ -1,4 +1,4 @@
-package com.minibeit.post.service.unit;
+package com.minibeit.post.service.unit.mock;
 
 import com.minibeit.common.dto.PageDto;
 

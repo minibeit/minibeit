@@ -33,9 +33,9 @@ public class BusinessProfileService {
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
         User findUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(user.getId()).orElseThrow(UserNotFoundException::new);
-        Avatar avatar = avatarService.upload(request.getAvatar());
         businessValidator.createValidate(findUser.getUserBusinessProfileList());
 
+        Avatar avatar = avatarService.upload(request.getAvatar());
         BusinessProfile businessProfile = BusinessProfile.create(request.toEntity(), avatar, findUser);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
 

@@ -1,4 +1,4 @@
-package com.minibeit.mail.service.dto.condition;
+package com.minibeit.mail.domain;
 
 public enum MailCondition {
     APPROVE, REJECT, APPROVECANCEL, APPLICANTCANCEL, VERIFICATION

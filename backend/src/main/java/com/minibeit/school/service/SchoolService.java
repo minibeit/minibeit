@@ -2,7 +2,7 @@ package com.minibeit.school.service;
 
 
 import com.minibeit.school.domain.SchoolRepository;
-import com.minibeit.school.dto.SchoolResponse;
+import com.minibeit.school.service.dto.SchoolResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,14 +1,14 @@
 package com.minibeit.post.service;
 
-import com.minibeit.mail.service.MailService;
-import com.minibeit.mail.service.dto.condition.MailCondition;
+import com.minibeit.mail.domain.MailCondition;
+import com.minibeit.mail.service.CustomMailSender;
 import com.minibeit.post.domain.*;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostLikeRepository;
-import com.minibeit.post.service.exception.PostDoDateNotFoundException;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.service.dto.PostApplicantResponse;
 import com.minibeit.post.service.exception.PostApplicantNotFoundException;
+import com.minibeit.post.service.exception.PostDoDateNotFoundException;
 import com.minibeit.user.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,7 +27,7 @@ public class PostApplicantService {
     private final PostApplicantRepository postApplicantRepository;
     private final PostLikeRepository postLikeRepository;
     private final PostApplicantValidator postApplicantValidator;
-    private final MailService mailService;
+    private final CustomMailSender mailSender;
 
     public void apply(Long postDoDateId, User user) {
         PostDoDate postDoDate = postDoDateRepository.findByIdWithPostAndApplicant(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
@@ -53,8 +53,7 @@ public class PostApplicantService {
 
     public void applyCancel(Long postDoDateId, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
-
-        postApplicantRepository.delete(postApplicant);
+        postApplicant.delete();
 
         if (postApplicant.getApplyStatus().equals(ApplyStatus.APPROVE)) {
             PostDoDate postDoDate = postDoDateRepository.findByIdWithPostAndBusinessProfile(postDoDateId).orElseThrow(PostDoDateNotFoundException::new);
@@ -62,7 +61,7 @@ public class PostApplicantService {
             List<PostApplicant> approvedPostApplicant = postApplicantRepository.findAllByPostDoDateIdAndStatusIsApprove(postDoDateId);
             postDoDate.updateFull(approvedPostApplicant);
             PostApplicantResponse.ApplicantCancelMail result = PostApplicantResponse.ApplicantCancelMail.build(user.getName(), user.getPhoneNum(), postDoDate.getDoDate(), post.getDoTime(), post.getTitle(), post.getBusinessProfile().getId());
-            mailService.mailSend(MailCondition.APPLICANTCANCEL, Collections.singletonList(post.getBusinessProfile().getAdmin().getEmail()), result);
+            mailSender.mailSend(MailCondition.APPLICANTCANCEL, Collections.singletonList(post.getBusinessProfile().getAdmin().getEmail()), result);
         }
     }
 }

@@ -38,10 +38,10 @@ public class BusinessProfileController {
     }
 
     @PostMapping("/business-profile/{businessProfileId}/share/{userId}")
-    public ResponseEntity<ApiResult<Void>> shareBusinessProfile(@PathVariable Long businessProfileId,
-                                                                @PathVariable Long userId,
-                                                                @CurrentUser CustomUserDetails customUserDetails) {
-        businessProfileService.shareBusinessProfile(businessProfileId, userId, customUserDetails.getUser());
+    public ResponseEntity<ApiResult<Void>> invite(@PathVariable Long businessProfileId,
+                                                  @PathVariable Long userId,
+                                                  @CurrentUser CustomUserDetails customUserDetails) {
+        businessProfileService.invite(businessProfileId, userId, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 
@@ -69,14 +69,14 @@ public class BusinessProfileController {
     public ResponseEntity<ApiResult<Void>> expelUser(@PathVariable Long businessProfileId,
                                                      @PathVariable Long userId,
                                                      @CurrentUser CustomUserDetails customUserDetails) {
-        businessProfileService.cancelShare(businessProfileId, userId, customUserDetails.getUser());
+        businessProfileService.expel(businessProfileId, userId, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 
     @DeleteMapping("/business-profile/{businessProfileId}/user")
-    public ResponseEntity<ApiResult<Void>> goOutBusinessProfile(@PathVariable Long businessProfileId,
-                                                                @CurrentUser CustomUserDetails customUserDetails) {
-        businessProfileService.leaveBusinessProfile(businessProfileId, customUserDetails.getUser());
+    public ResponseEntity<ApiResult<Void>> leave(@PathVariable Long businessProfileId,
+                                                 @CurrentUser CustomUserDetails customUserDetails) {
+        businessProfileService.leave(businessProfileId, customUserDetails.getUser());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value()));
     }
 

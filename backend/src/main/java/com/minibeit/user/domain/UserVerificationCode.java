@@ -35,12 +35,6 @@ public class UserVerificationCode extends BaseEntity {
         this.expirationDate = userVerificationCode.getExpirationDate();
     }
 
-    public void validate(String code) {
-        if (!code.equals(this.code) || this.expirationDate.isBefore(LocalDateTime.now())) {
-            throw new InvalidValueException("잘못된 코드입니다.");
-        }
-    }
-
     public static UserVerificationCode create(User user, VerificationKinds verificationKinds) {
         String code = createCode();
 

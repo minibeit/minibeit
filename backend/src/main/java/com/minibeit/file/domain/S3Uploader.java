@@ -1,4 +1,4 @@
-package com.minibeit.file.service;
+package com.minibeit.file.domain;
 
 import com.amazonaws.AmazonClientException;
 import com.amazonaws.AmazonServiceException;

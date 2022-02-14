@@ -1,7 +1,7 @@
 package com.minibeit.post.service;
 
-import com.minibeit.mail.service.MailService;
-import com.minibeit.mail.service.dto.condition.MailCondition;
+import com.minibeit.mail.domain.MailCondition;
+import com.minibeit.mail.service.CustomMailSender;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.RejectPostRepository;
@@ -26,7 +26,7 @@ public class PostApplicantByBusinessService {
     private final PostApplicantRepository postApplicantRepository;
     private final RejectPostRepository rejectPostRepository;
     private final PostApplicantValidator postApplicantValidator;
-    private final MailService mailService;
+    private final CustomMailSender mailSender;
 
     public void applyApprove(Long postDoDateId, Long userId, User user) {
         PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserIdWithPostDoDateAndPost(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
@@ -44,7 +44,7 @@ public class PostApplicantByBusinessService {
         postDoDate.updateFull(approvedPostApplicant);
 
         PostResponse.ApproveAndApproveCancelTemplate templateResponse = PostResponse.ApproveAndApproveCancelTemplate.build(post.getTitle(), postDoDate.getDoDate(), post.getDoTime(), post.getBusinessProfile().getAdmin().getPhoneNum());
-        mailService.mailSend(MailCondition.APPROVE, Collections.singletonList(applicant.getEmail()), templateResponse);
+        mailSender.mailSend(MailCondition.APPROVE, Collections.singletonList(applicant.getEmail()), templateResponse);
     }
 
     public void applyApproveCancel(Long postDoDateId, Long userId, User user) {
@@ -60,7 +60,7 @@ public class PostApplicantByBusinessService {
         postDoDate.updateFull(approvedPostApplicant);
 
         PostResponse.ApproveAndApproveCancelTemplate templateResponse = PostResponse.ApproveAndApproveCancelTemplate.build(post.getTitle(), postDoDate.getDoDate(), post.getDoTime(), post.getContact());
-        mailService.mailSend(MailCondition.APPROVECANCEL, Collections.singletonList(applicant.getEmail()), templateResponse);
+        mailSender.mailSend(MailCondition.APPROVECANCEL, Collections.singletonList(applicant.getEmail()), templateResponse);
     }
 
     public void applyReject(Long postDoDateId, Long userId, PostApplicantRequest.ApplyReject request, User user) {
@@ -74,7 +74,7 @@ public class PostApplicantByBusinessService {
         RejectPost rejectPost = RejectPost.create(post, postApplicant.getPostDoDate(), post.getBusinessProfile(), postApplicant.getUser(), request.getComment());
         rejectPostRepository.save(rejectPost);
 
-        mailService.mailSend(MailCondition.REJECT, Collections.singletonList(applicant.getEmail()), rejectPost);
+        mailSender.mailSend(MailCondition.REJECT, Collections.singletonList(applicant.getEmail()), rejectPost);
     }
 
     public void attendChange(Long postDoDateId, Long userId, PostApplicantRequest.AttendChange request, User user) {

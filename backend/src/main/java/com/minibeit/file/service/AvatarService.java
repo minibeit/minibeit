@@ -1,6 +1,7 @@
 package com.minibeit.file.service;
 
 import com.minibeit.file.domain.Avatar;
+import com.minibeit.file.domain.S3Uploader;
 import com.minibeit.file.domain.repository.AvatarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

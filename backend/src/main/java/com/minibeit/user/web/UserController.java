@@ -1,17 +1,18 @@
 package com.minibeit.user.web;
 
-import com.minibeit.common.dto.ApiResult;
 import com.minibeit.auth.domain.CurrentUser;
 import com.minibeit.auth.domain.CustomUserDetails;
+import com.minibeit.common.dto.ApiResult;
+import com.minibeit.user.service.UserService;
 import com.minibeit.user.service.dto.UserRequest;
 import com.minibeit.user.service.dto.UserResponse;
-import com.minibeit.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -39,7 +40,7 @@ public class UserController {
 
     @PostMapping("/user/{userId}/verification")
     public ResponseEntity<ApiResult<UserResponse.Verification>> codeVerification(@PathVariable Long userId, @Valid @RequestBody UserRequest.Verification request) {
-        UserResponse.Verification response = userService.codeVerification(userId, request);
+        UserResponse.Verification response = userService.codeVerification(userId, request, LocalDateTime.now());
         return ResponseEntity.ok().body(ApiResult.build(HttpStatus.OK.value(), response));
     }
 

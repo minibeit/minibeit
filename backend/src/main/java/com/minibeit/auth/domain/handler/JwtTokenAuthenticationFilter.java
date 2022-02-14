@@ -1,7 +1,7 @@
 package com.minibeit.auth.domain.handler;
 
 import com.minibeit.auth.service.CustomUserDetailsService;
-import com.minibeit.auth.service.TokenProvider;
+import com.minibeit.auth.domain.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;

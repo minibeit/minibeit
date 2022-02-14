@@ -33,9 +33,9 @@ public class BusinessProfileService {
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
         User findUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(user.getId()).orElseThrow(UserNotFoundException::new);
-        Avatar avatar = avatarService.upload(request.getAvatar());
         businessValidator.createValidate(findUser.getUserBusinessProfileList());
 
+        Avatar avatar = avatarService.upload(request.getAvatar());
         BusinessProfile businessProfile = BusinessProfile.create(request.toEntity(), avatar, findUser);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
 
@@ -54,7 +54,7 @@ public class BusinessProfileService {
         return BusinessProfileResponse.IdAndName.build(businessProfile);
     }
 
-    public void shareBusinessProfile(Long businessProfileId, Long invitedUserId, User user) {
+    public void invite(Long businessProfileId, Long invitedUserId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         User invitedUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(invitedUserId).orElseThrow(UserNotFoundException::new);
         businessValidator.inviteValidate(businessProfile, invitedUser.getUserBusinessProfileList(), user);
@@ -64,7 +64,7 @@ public class BusinessProfileService {
         userBusinessProfileRepository.save(userBusinessProfile);
     }
 
-    public void cancelShare(Long businessProfileId, Long userId, User loginUser) {
+    public void expel(Long businessProfileId, Long userId, User loginUser) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         businessValidator.expelValidate(businessProfile, userId, loginUser);
         UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userId, businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
@@ -79,7 +79,7 @@ public class BusinessProfileService {
         businessProfile.changeAdmin(changeUser);
     }
 
-    public void leaveBusinessProfile(Long businessProfileId, User user) {
+    public void leave(Long businessProfileId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         businessValidator.isAdmin(businessProfile, user.getId());
 

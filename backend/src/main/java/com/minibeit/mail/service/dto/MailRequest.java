@@ -1,6 +1,6 @@
 package com.minibeit.mail.service.dto;
 
-import com.minibeit.mail.service.dto.condition.MailCondition;
+import com.minibeit.mail.domain.MailCondition;
 import lombok.*;
 
 import java.util.List;

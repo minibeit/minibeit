@@ -1,7 +1,7 @@
 package com.minibeit.auth.domain.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.minibeit.auth.service.TokenProvider;
+import com.minibeit.auth.domain.TokenProvider;
 import com.minibeit.common.advice.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

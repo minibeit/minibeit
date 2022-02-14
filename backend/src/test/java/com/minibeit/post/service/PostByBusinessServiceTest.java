@@ -11,7 +11,7 @@ import com.minibeit.file.domain.FileServer;
 import com.minibeit.file.domain.FileType;
 import com.minibeit.post.domain.PostFile;
 import com.minibeit.post.domain.repository.PostFileRepository;
-import com.minibeit.file.service.S3Uploader;
+import com.minibeit.file.domain.S3Uploader;
 import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
@@ -362,17 +362,17 @@ class PostByBusinessServiceTest extends ServiceIntegrationTest {
     @DisplayName("게시물 삭제 시 관련 도메인 모두 삭제(postLike,PostDoDate,PostFile,PostApplicant) - 성공")
     void deleteOne() {
         postByBusinessService.deleteOne(post.getId(), LocalDateTime.of(2021, 10, 4, 0, 0), userInBusinessProfile);
-        assertThat(postRepository.findById(post.getId()).get().getDel()).isTrue();
+        assertThat(postRepository.findById(post.getId()).get().isDel()).isTrue();
         assertThat(postFileRepository.findById(postFile.getId()).get().getDel()).isTrue();
         assertThat(postLikeRepository.findById(postLike.getId())).isEqualTo(Optional.empty());
-        assertThat(postDoDateRepository.findById(postDoDate1.getId()).get().getDel()).isTrue();
-        assertThat(postDoDateRepository.findById(postDoDate2.getId()).get().getDel()).isTrue();
-        assertThat(postDoDateRepository.findById(postDoDate3.getId()).get().getDel()).isTrue();
-        assertThat(postApplicantRepository.findById(waitPostApplicant1.getId()).get().getDel()).isTrue();
-        assertThat(postApplicantRepository.findById(waitPostApplicant2.getId()).get().getDel()).isTrue();
-        assertThat(postApplicantRepository.findById(waitPostApplicant3.getId()).get().getDel()).isTrue();
-        assertThat(postApplicantRepository.findById(approvePostApplicant1.getId()).get().getDel()).isTrue();
-        assertThat(postApplicantRepository.findById(approvePostApplicant2.getId()).get().getDel()).isTrue();
+        assertThat(postDoDateRepository.findById(postDoDate1.getId()).get().isDel()).isTrue();
+        assertThat(postDoDateRepository.findById(postDoDate2.getId()).get().isDel()).isTrue();
+        assertThat(postDoDateRepository.findById(postDoDate3.getId()).get().isDel()).isTrue();
+        assertThat(postApplicantRepository.findById(waitPostApplicant1.getId()).get().isDel()).isTrue();
+        assertThat(postApplicantRepository.findById(waitPostApplicant2.getId()).get().isDel()).isTrue();
+        assertThat(postApplicantRepository.findById(waitPostApplicant3.getId()).get().isDel()).isTrue();
+        assertThat(postApplicantRepository.findById(approvePostApplicant1.getId()).get().isDel()).isTrue();
+        assertThat(postApplicantRepository.findById(approvePostApplicant2.getId()).get().isDel()).isTrue();
     }
 
     private void resetEntityManager() {

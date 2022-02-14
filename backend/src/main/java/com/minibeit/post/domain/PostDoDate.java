@@ -37,7 +37,7 @@ public class PostDoDate extends BaseEntity {
     private LocalDateTime deletedAt;
 
     @Column(name = "del")
-    private Boolean del;
+    private boolean del;
 
     public PostDoDate assignPost(Post post) {
         this.post = post;

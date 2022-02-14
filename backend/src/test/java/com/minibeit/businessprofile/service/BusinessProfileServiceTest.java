@@ -12,16 +12,12 @@ import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoun
 import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.PermissionException;
-import com.minibeit.post.domain.Payment;
-import com.minibeit.post.domain.Post;
-import com.minibeit.post.domain.PostDoDate;
+import com.minibeit.post.domain.*;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.post.domain.repository.PostDoDateRepository;
 import com.minibeit.post.domain.repository.PostRepository;
 import com.minibeit.post.service.dto.PostDto;
 import com.minibeit.post.service.dto.PostRequest;
-import com.minibeit.post.domain.ApplyStatus;
-import com.minibeit.post.domain.PostApplicant;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.domain.Role;
@@ -377,10 +373,10 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @DisplayName("비즈니스 프로필 공유 - 실패(어드민이 아닐때)")
     void sharingBusinessProfileFailureWhenNotAdmin() {
         assertThatThrownBy(
-                () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), userInBusinessProfile)
+                () -> businessProfileService.invite(businessProfile.getId(), anotherUser.getId(), userInBusinessProfile)
         ).isInstanceOf(PermissionException.class);
         assertThatThrownBy(
-                () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), anotherUser.getId(), anotherUser)
+                () -> businessProfileService.invite(businessProfile.getId(), anotherUser.getId(), anotherUser)
         ).isInstanceOf(PermissionException.class);
 
         assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
@@ -392,7 +388,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
         Long notUserId = 100L;
 
         assertThatThrownBy(
-                () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), notUserId, admin)
+                () -> businessProfileService.invite(businessProfile.getId(), notUserId, admin)
         ).isInstanceOf(UserNotFoundException.class);
 
         assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
@@ -402,7 +398,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @DisplayName("비즈니스 프로필 공유 - 실패(이미 공유된 유저 초대할 때)")
     void sharingBusinessProfileFailureWhenInviteSharedUser() {
         assertThatThrownBy(
-                () -> businessProfileService.shareBusinessProfile(businessProfile.getId(), userInBusinessProfile.getId(), admin)
+                () -> businessProfileService.invite(businessProfile.getId(), userInBusinessProfile.getId(), admin)
         ).isInstanceOf(DuplicateException.class);
 
         assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
@@ -413,7 +409,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     void sharingCancel() {
         UserBusinessProfile response = userBusinessProfileRepository.findById(cancelUserBusinessProfile.getId()).orElseThrow(UserBusinessProfileNotFoundException::new);
         assertThat(response.getBusinessProfile().getId()).isEqualTo(businessProfile.getId());
-        businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), admin);
+        businessProfileService.expel(businessProfile.getId(), userInBusinessProfile.getId(), admin);
 
         Optional<UserBusinessProfile> response2 = userBusinessProfileRepository.findById(cancelUserBusinessProfile.getId());
 
@@ -424,11 +420,11 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @DisplayName("비즈니스 프로필 공유 취소 - 실패(어드민이 아닐때)")
     void sharingCancelFailureWhenNotAdmin() {
         assertThatThrownBy(
-                () -> businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), userInBusinessProfile)
+                () -> businessProfileService.expel(businessProfile.getId(), userInBusinessProfile.getId(), userInBusinessProfile)
         ).isInstanceOf(PermissionException.class);
 
         assertThatThrownBy(
-                () -> businessProfileService.cancelShare(businessProfile.getId(), userInBusinessProfile.getId(), anotherUser)
+                () -> businessProfileService.expel(businessProfile.getId(), userInBusinessProfile.getId(), anotherUser)
         ).isInstanceOf(PermissionException.class);
 
         assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
@@ -438,7 +434,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @DisplayName("비즈니스 프로필 공유 취소 - 실패(공유된 유저가 아닐때)")
     void sharingCancelFailureWhenNotSharedUser() {
         assertThatThrownBy(
-                () -> businessProfileService.cancelShare(businessProfile.getId(), anotherUser.getId(), admin)
+                () -> businessProfileService.expel(businessProfile.getId(), anotherUser.getId(), admin)
         ).isInstanceOf(UserBusinessProfileNotFoundException.class);
 
         assertThat(businessProfile.getUserBusinessProfileList().size()).isEqualTo(originalSharedBusinessProfileUsers);
@@ -448,7 +444,7 @@ class BusinessProfileServiceTest extends ServiceIntegrationTest {
     @DisplayName("비즈니스 프로필 공유 취소 - 실패(자신의 id가 들어갈 때)")
     void sharingCancelFailureWhenAdminId() {
         assertThatThrownBy(
-                () -> businessProfileService.cancelShare(businessProfile.getId(), admin.getId(), admin)
+                () -> businessProfileService.expel(businessProfile.getId(), admin.getId(), admin)
         ).isInstanceOf(InvalidOperationException.class);
     }
 

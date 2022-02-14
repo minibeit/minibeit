@@ -1,5 +1,6 @@
 package com.minibeit.auth.service;
 
+import com.minibeit.auth.domain.TokenProvider;
 import com.minibeit.auth.domain.token.Token;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;

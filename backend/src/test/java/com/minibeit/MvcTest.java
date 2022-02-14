@@ -6,7 +6,7 @@ import com.minibeit.auth.service.CustomOAuth2UserService;
 import com.minibeit.auth.domain.handler.OAuth2SuccessHandler;
 import com.minibeit.auth.domain.handler.JwtAuthEntryPoint;
 import com.minibeit.auth.domain.token.JwtProps;
-import com.minibeit.auth.service.TokenProvider;
+import com.minibeit.auth.domain.TokenProvider;
 import com.minibeit.auth.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;

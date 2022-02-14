@@ -1,4 +1,4 @@
-package com.minibeit.auth.service;
+package com.minibeit.auth.domain;
 
 
 import com.minibeit.auth.domain.token.JwtProps;

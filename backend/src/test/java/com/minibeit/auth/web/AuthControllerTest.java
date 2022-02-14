@@ -3,7 +3,7 @@ package com.minibeit.auth.web;
 import com.minibeit.MvcTest;
 import com.minibeit.auth.service.RefreshTokenService;
 import com.minibeit.auth.domain.token.Token;
-import com.minibeit.auth.service.TokenProvider;
+import com.minibeit.auth.domain.TokenProvider;
 import com.minibeit.user.service.dto.UserResponse;
 import com.minibeit.auth.service.AuthService;
 import org.junit.jupiter.api.DisplayName;

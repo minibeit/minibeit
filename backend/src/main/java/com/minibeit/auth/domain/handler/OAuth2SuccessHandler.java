@@ -1,7 +1,7 @@
 package com.minibeit.auth.domain.handler;
 
 import com.minibeit.auth.domain.token.Token;
-import com.minibeit.auth.service.TokenProvider;
+import com.minibeit.auth.domain.TokenProvider;
 import com.minibeit.common.utils.CookieUtils;
 import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.User;

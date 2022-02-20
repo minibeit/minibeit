@@ -4,10 +4,11 @@ import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.common.dto.PageDto;
-import com.minibeit.file.domain.S3Uploader;
-import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.post.domain.*;
-import com.minibeit.post.domain.repository.*;
+import com.minibeit.post.domain.repository.PostApplicantRepository;
+import com.minibeit.post.domain.repository.PostLikeRepository;
+import com.minibeit.post.domain.repository.PostRepository;
+import com.minibeit.post.domain.repository.RejectPostRepository;
 import com.minibeit.post.service.dto.PostRequest;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
@@ -32,39 +33,22 @@ public class PostByBusinessService {
     private final PostRepository postRepository;
     private final SchoolRepository schoolRepository;
     private final BusinessProfileRepository businessProfileRepository;
-    private final PostDoDateRepository postDoDateRepository;
     private final PostApplicantRepository postApplicantRepository;
     private final RejectPostRepository rejectPostRepository;
     private final PostValidator postValidator;
-    private final S3Uploader s3Uploader;
-    private final PostFileRepository postFileRepository;
     private final PostLikeRepository postLikeRepository;
+    private final PostFileService postFileService;
 
     public PostResponse.OnlyId create(PostRequest.CreateInfo request, List<MultipartFile> files, MultipartFile thumbnail, User user) {
         School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
         BusinessProfile businessProfile = businessProfileRepository.findById(request.getBusinessProfileId()).orElseThrow(BusinessProfileNotFoundException::new);
 
-        postValidator.userInBusinessProfileValidate(businessProfile.getId(), user);
-
         Post post = request.toEntity();
-        post.create(school, businessProfile);
+        post.create(school, businessProfile, request.toPostDoDates(), postValidator, user);
         Post savedPost = postRepository.save(post);
 
-        List<PostDoDate> postDoDates = request.toPostDoDates().stream().map(postDoDate -> postDoDate.assignPost(post)).collect(Collectors.toList());
-        postDoDateRepository.saveAll(postDoDates);
-
-        if (thumbnail != null) {
-            SavedFile uploadedThumbnail = s3Uploader.upload(thumbnail);
-            PostFile createdThumbnail = PostFile.create(post, uploadedThumbnail.toPostFile());
-            post.updateThumbnail(createdThumbnail.getUrl());
-            postFileRepository.save(createdThumbnail);
-        }
-
-        if (files != null) {
-            List<SavedFile> savedFiles = s3Uploader.uploadFileList(files);
-            List<PostFile> postFiles = savedFiles.stream().map(savedFile -> PostFile.create(post, savedFile.toPostFile())).collect(Collectors.toList());
-            postFileRepository.saveAll(postFiles);
-        }
+        postFileService.uploadThumbnail(post, thumbnail);
+        postFileService.uploadFiles(post, files);
 
         return PostResponse.OnlyId.build(savedPost);
     }

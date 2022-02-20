@@ -2,8 +2,7 @@ package com.minibeit.post.service.unit;
 
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
-import com.minibeit.file.avatar.service.unit.MockFile;
-import com.minibeit.file.domain.S3Uploader;
+import com.minibeit.post.domain.PostFileService;
 import com.minibeit.post.domain.PostValidator;
 import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.service.PostByBusinessService;
@@ -45,19 +44,15 @@ public class PostByBusinessServiceUnitTest {
     @Mock
     BusinessProfileRepository businessProfileRepository;
     @Mock
-    PostDoDateRepository postDoDateRepository;
-    @Mock
     PostApplicantRepository postApplicantRepository;
     @Mock
     RejectPostRepository rejectPostRepository;
     @Mock
     PostValidator postValidator;
     @Mock
-    S3Uploader s3Uploader;
-    @Mock
-    PostFileRepository postFileRepository;
-    @Mock
     PostLikeRepository postLikeRepository;
+    @Mock
+    PostFileService postFileService;
     @InjectMocks
     PostByBusinessService postByBusinessService;
 
@@ -67,16 +62,13 @@ public class PostByBusinessServiceUnitTest {
         given(schoolRepository.findById(any())).willReturn(Optional.of(SCHOOL));
         given(businessProfileRepository.findById(any())).willReturn(Optional.of(BUSINESS_PROFILE));
         given(postRepository.save(any())).willReturn(POST);
-        given(s3Uploader.upload(any())).willReturn(MockFile.MockFile1.SAVED_FILE);
-        given(s3Uploader.uploadFileList(any())).willReturn(Collections.singletonList(MockFile.MockFile1.SAVED_FILE));
 
         postByBusinessService.create(CREATE_INFO_REQUEST, Collections.singletonList(MOCK_FILE), MOCK_FILE, MockUser.MockUser1.USER);
 
         verify(postValidator).userInBusinessProfileValidate(any(), any());
         verify(postRepository).save(any());
-        verify(postDoDateRepository).saveAll(any());
-        verify(postFileRepository).save(any());
-        verify(postFileRepository).saveAll(any());
+        verify(postFileService).uploadThumbnail(any(), any());
+        verify(postFileService).uploadFiles(any(), any());
     }
 
     @Test
@@ -85,15 +77,13 @@ public class PostByBusinessServiceUnitTest {
         given(schoolRepository.findById(any())).willReturn(Optional.of(SCHOOL));
         given(businessProfileRepository.findById(any())).willReturn(Optional.of(BUSINESS_PROFILE));
         given(postRepository.save(any())).willReturn(POST);
-        given(s3Uploader.upload(any())).willReturn(MockFile.MockFile1.SAVED_FILE);
 
         postByBusinessService.create(CREATE_INFO_REQUEST, null, MOCK_FILE, MockUser.MockUser1.USER);
 
         verify(postValidator).userInBusinessProfileValidate(any(), any());
         verify(postRepository).save(any());
-        verify(postDoDateRepository).saveAll(any());
-        verify(postFileRepository).save(any());
-        verify(postFileRepository, times(0)).saveAll(any());
+        verify(postFileService).uploadThumbnail(any(), any());
+        verify(postFileService).uploadFiles(any(), any());
     }
 
     @Test
@@ -107,9 +97,8 @@ public class PostByBusinessServiceUnitTest {
 
         verify(postValidator).userInBusinessProfileValidate(any(), any());
         verify(postRepository).save(any());
-        verify(postDoDateRepository).saveAll(any());
-        verify(postFileRepository, times(0)).save(any());
-        verify(postFileRepository, times(0)).saveAll(any());
+        verify(postFileService).uploadThumbnail(any(), any());
+        verify(postFileService).uploadFiles(any(), any());
     }
 
 
@@ -208,6 +197,6 @@ public class PostByBusinessServiceUnitTest {
     public void deleteOneFail() {
         given(postRepository.findById(any())).willReturn(Optional.empty());
 
-        assertThrows(PostNotFoundException.class, () ->  postByBusinessService.deleteOne(ID, LocalDateTime.of(2022, 2, 13, 0, 0), MockUser.MockUser1.USER));
+        assertThrows(PostNotFoundException.class, () -> postByBusinessService.deleteOne(ID, LocalDateTime.of(2022, 2, 13, 0, 0), MockUser.MockUser1.USER));
     }
 }

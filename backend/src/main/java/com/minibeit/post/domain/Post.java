@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -68,7 +69,7 @@ public class Post extends BaseEntity {
     private List<PostFile> postFileList = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostDoDate> postDoDateList = new ArrayList<>();
 
     @Builder.Default
@@ -117,7 +118,9 @@ public class Post extends BaseEntity {
         this.getPostFileList().forEach(PostFile::delete);
     }
 
-    public void create(School school, BusinessProfile businessProfile) {
+    public void create(School school, BusinessProfile businessProfile, List<PostDoDate> postDoDates, PostValidator postValidator, User user) {
+        postValidator.userInBusinessProfileValidate(businessProfile.getId(), user);
+        this.postDoDateList = postDoDates.stream().map(postDoDate -> postDoDate.assignPost(this)).collect(Collectors.toList());
         this.school = school;
         this.businessProfile = businessProfile;
         this.del = false;

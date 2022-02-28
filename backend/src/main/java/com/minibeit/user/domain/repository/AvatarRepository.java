@@ -1,6 +1,6 @@
-package com.minibeit.file.domain.repository;
+package com.minibeit.user.domain.repository;
 
-import com.minibeit.file.domain.Avatar;
+import com.minibeit.user.domain.Avatar;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AvatarRepository extends JpaRepository<Avatar, Long> {

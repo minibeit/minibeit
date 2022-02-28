@@ -2,7 +2,7 @@ package com.minibeit.businessprofile.web;
 
 
 import com.minibeit.MvcTest;
-import com.minibeit.file.domain.Avatar;
+import com.minibeit.user.domain.Avatar;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.service.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.BusinessProfileService;
@@ -68,7 +68,7 @@ class BusinessProfileControllerTest extends MvcTest {
                 .phoneNum("010-1234-4567")
                 .provider(SignupProvider.MINIBEIT)
                 .role(Role.USER)
-                .school(School.builder().id(1L).name("고려대").build())
+                .schoolId(1L)
                 .build();
 
         businessProfile = BusinessProfile.builder()

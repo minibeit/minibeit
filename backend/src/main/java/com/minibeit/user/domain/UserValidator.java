@@ -1,5 +1,6 @@
 package com.minibeit.user.domain;
 
+import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.InvalidValueException;
 import com.minibeit.user.domain.repository.UserRepository;
@@ -12,6 +13,12 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class UserValidator {
     private final UserRepository userRepository;
+
+    public void nicknameValidate(String nickname) {
+        if (userRepository.existsByNickname(nickname)) {
+            throw new DuplicateException("증복된 닉네임입니다.");
+        }
+    }
 
     public void verificationCodeValidate(UserVerificationCode myCode, String verificationCode, LocalDateTime now) {
         if (!verificationCode.equals(myCode.getCode()) || myCode.getExpirationDate().isBefore(now)) {

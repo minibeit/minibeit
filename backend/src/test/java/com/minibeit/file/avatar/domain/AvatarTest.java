@@ -3,7 +3,7 @@ package com.minibeit.file.avatar.domain;
 import com.minibeit.file.domain.FileServer;
 import com.minibeit.file.domain.FileType;
 import com.minibeit.file.service.dto.SavedFile;
-import com.minibeit.file.domain.Avatar;
+import com.minibeit.user.domain.Avatar;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

@@ -2,7 +2,7 @@ package com.minibeit.post.web;
 
 import com.minibeit.MvcTest;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.file.domain.Avatar;
+import com.minibeit.user.domain.Avatar;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
 import com.minibeit.post.domain.PostDoDate;

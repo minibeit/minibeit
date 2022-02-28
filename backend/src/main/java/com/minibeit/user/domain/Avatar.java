@@ -1,8 +1,10 @@
-package com.minibeit.file.domain;
+package com.minibeit.user.domain;
 
 import javax.persistence.Enumerated;
 
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.file.domain.FileServer;
+import com.minibeit.file.domain.FileType;
 import lombok.*;
 import javax.persistence.*;
 

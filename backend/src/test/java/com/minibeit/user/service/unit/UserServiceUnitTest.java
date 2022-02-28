@@ -1,17 +1,15 @@
 package com.minibeit.user.service.unit;
 
 import com.minibeit.businessprofile.service.unit.MockBusinessProfile;
-import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.file.avatar.service.unit.MockFile;
-import com.minibeit.file.service.AvatarService;
-import com.minibeit.school.domain.SchoolRepository;
+import com.minibeit.user.service.AvatarService;
+import com.minibeit.school.service.integrate.Schools;
 import com.minibeit.school.service.unit.MockSchool;
 import com.minibeit.user.domain.UserValidator;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.domain.repository.UserVerificationCodeRepository;
 import com.minibeit.user.service.UserService;
 import com.minibeit.user.service.dto.UserResponse;
-import com.minibeit.user.service.exception.SchoolNotFoundException;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import com.minibeit.user.service.exception.UserVerificationCodeNotFoundException;
 import org.junit.jupiter.api.DisplayName;
@@ -38,7 +36,7 @@ public class UserServiceUnitTest {
     @Mock
     UserRepository userRepository;
     @Mock
-    SchoolRepository schoolRepository;
+    Schools schools;
     @Mock
     AvatarService avatarService;
     @Mock
@@ -51,24 +49,15 @@ public class UserServiceUnitTest {
     @Test
     @DisplayName("회원가입 성공")
     public void signup() {
-        given(userRepository.existsByNickname(any())).willReturn(Boolean.FALSE);
         given(userRepository.findById(ID)).willReturn(Optional.of(USER));
-        given(schoolRepository.findById(MockSchool.School1.ID)).willReturn(Optional.of(MockSchool.School1.SCHOOL));
-        given(avatarService.upload(any())).willReturn(MockFile.MockFile1.AVATAR);
+        given(schools.getOne(MockSchool.School1.ID)).willReturn(MockSchool.School1.SCHOOL);
 
         UserResponse.CreateOrUpdate response = userService.signup(SIGNUP_REQUEST, USER);
 
         assertThat(response.getId()).isEqualTo(ID);
         assertThat(response.getNickname()).isEqualTo(SIGNUP_REQUEST.getNickname());
         assertThat(response.getSchoolId()).isEqualTo(SIGNUP_REQUEST.getSchoolId());
-    }
-
-    @Test
-    @DisplayName("회원가입 실패 (중복된 닉네임)")
-    public void signupFailDuplicateNickname() {
-        given(userRepository.existsByNickname(any())).willReturn(Boolean.TRUE);
-
-        assertThrows(DuplicateException.class, () -> userService.signup(SIGNUP_REQUEST, USER));
+        verify(userValidator).nicknameValidate(any());
     }
 
     @Test
@@ -80,20 +69,10 @@ public class UserServiceUnitTest {
     }
 
     @Test
-    @DisplayName("회원가입 실패 (해당 학교가 없는 경우)")
-    public void signupFailSchoolNotFound() {
-        given(userRepository.findById(any())).willReturn(Optional.of(USER));
-        given(schoolRepository.findById(any())).willReturn(Optional.empty());
-
-        assertThrows(SchoolNotFoundException.class, () -> userService.signup(SIGNUP_REQUEST, USER));
-    }
-
-    @Test
     @DisplayName("개인정보 수정 성공")
     public void update() {
         given(userRepository.findByIdWithAvatar(any())).willReturn(Optional.of(USER));
-        given(schoolRepository.findById(SCHOOL_ID)).willReturn(Optional.of(MockSchool.School1.SCHOOL));
-        given(userRepository.existsByNickname(any())).willReturn(Boolean.FALSE);
+        given(schools.getOne(SCHOOL_ID)).willReturn(MockSchool.School1.SCHOOL);
         given(avatarService.upload(any())).willReturn(MockFile.MockFile1.AVATAR);
 
         UserResponse.CreateOrUpdate response = userService.update(UPDATE_REQUEST, USER);
@@ -101,16 +80,7 @@ public class UserServiceUnitTest {
         assertThat(response.getNickname()).isEqualTo(UPDATED_NICKNAME);
         verify(avatarService).deleteOne(any());
         verify(avatarService).upload(any());
-    }
-
-    @Test
-    @DisplayName("개인정보 수정 실패 (중복된 닉네임)")
-    public void updateFailDuplicateNickname() {
-        given(userRepository.findByIdWithAvatar(any())).willReturn(Optional.of(USER));
-        given(schoolRepository.findById(SCHOOL_ID)).willReturn(Optional.of(MockSchool.School1.SCHOOL));
-        given(userRepository.existsByNickname(any())).willReturn(Boolean.TRUE);
-
-        assertThrows(DuplicateException.class, () -> userService.update(UPDATE_REQUEST, USER));
+        verify(userValidator).nicknameValidate(any());
     }
 
     @Test
@@ -119,15 +89,6 @@ public class UserServiceUnitTest {
         given(userRepository.findByIdWithAvatar(any())).willReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> userService.update(UPDATE_REQUEST, USER));
-    }
-
-    @Test
-    @DisplayName("개인정보 수정 실패 (해당 학교가 없는 경우)")
-    public void updateFailSchoolNotFound() {
-        given(userRepository.findByIdWithAvatar(any())).willReturn(Optional.of(USER));
-        given(schoolRepository.findById(any())).willReturn(Optional.empty());
-
-        assertThrows(SchoolNotFoundException.class, () -> userService.update(UPDATE_REQUEST, USER));
     }
 
     @Test
@@ -150,39 +111,22 @@ public class UserServiceUnitTest {
         assertThrows(UserVerificationCodeNotFoundException.class, () -> userService.codeVerification(ID, VERIFICATION_REQUEST, VERIFICATION_EXPIRY_DATE));
     }
 
-
-    @Test
-    @DisplayName("중복 닉네임 체크 성공")
-    public void nickNameCheck() {
-        given(userRepository.existsByNickname(any())).willReturn(Boolean.TRUE);
-
-        assertThrows(DuplicateException.class, () -> userService.nickNameCheck(NICKNAME_REQUEST));
-    }
-
-    @Test
-    @DisplayName("중복 닉네임 체크 성공")
-    public void nickNameCheckNotFound() {
-        given(userRepository.existsByNickname(any())).willReturn(Boolean.FALSE);
-
-        userService.nickNameCheck(NICKNAME_REQUEST);
-        verify(userRepository).existsByNickname(any());
-    }
-
     @Test
     @DisplayName("내 정보 조회 성공")
     public void getMe() {
-        given(userRepository.findByIdWithSchool(any())).willReturn(Optional.of(USER));
+        given(userRepository.findById(any())).willReturn(Optional.of(USER));
+        given(schools.getOne(SCHOOL_ID)).willReturn(MockSchool.School1.SCHOOL);
 
         UserResponse.GetOne response = userService.getMe(USER);
 
         assertThat(response.getId()).isEqualTo(ID);
-        verify(userRepository).findByIdWithSchool(any());
+        verify(userRepository).findById(any());
     }
 
     @Test
     @DisplayName("내 정보 조회 실패 (해당 유저가 없는 경우)")
     public void getMeFail() {
-        given(userRepository.findByIdWithSchool(any())).willReturn(Optional.empty());
+        given(userRepository.findById(any())).willReturn(Optional.empty());
 
         assertThrows(UserNotFoundException.class, () -> userService.getMe(USER));
     }

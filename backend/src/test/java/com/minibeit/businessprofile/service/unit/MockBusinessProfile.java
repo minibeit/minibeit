@@ -3,7 +3,7 @@ package com.minibeit.businessprofile.service.unit;
 import com.minibeit.businessprofile.domain.BusinessProfile;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.service.dto.BusinessProfileRequest;
-import com.minibeit.file.domain.Avatar;
+import com.minibeit.user.domain.Avatar;
 import com.minibeit.user.domain.User;
 import org.springframework.mock.web.MockMultipartFile;
 

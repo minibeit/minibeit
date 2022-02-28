@@ -1,8 +1,8 @@
 package com.minibeit.file.avatar.service.unit;
 
 import com.minibeit.file.domain.S3Uploader;
-import com.minibeit.file.domain.repository.AvatarRepository;
-import com.minibeit.file.service.AvatarService;
+import com.minibeit.user.domain.repository.AvatarRepository;
+import com.minibeit.user.service.AvatarService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

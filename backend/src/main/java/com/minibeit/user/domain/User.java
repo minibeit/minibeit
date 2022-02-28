@@ -1,9 +1,8 @@
 package com.minibeit.user.domain;
 
-import com.minibeit.common.utils.CryptoConverter;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.file.domain.Avatar;
+import com.minibeit.common.utils.CryptoConverter;
 import com.minibeit.school.domain.School;
 import lombok.*;
 
@@ -53,11 +52,9 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private Role role;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "school_id")
-    private School school;
+    private Long schoolId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "avatar_id")
     private Avatar avatar;
 
@@ -76,7 +73,7 @@ public class User extends BaseEntity {
         this.phoneNum = user.getPhoneNum();
         this.birth = user.getBirth();
         this.signupCheck = true;
-        this.school = school;
+        this.schoolId = school.getId();
         this.avatar = avatar;
         return this;
     }
@@ -88,7 +85,7 @@ public class User extends BaseEntity {
         this.gender = user.getGender();
         this.job = user.getJob();
         this.phoneNum = user.getPhoneNum();
-        this.school = school;
+        this.schoolId = school.getId();
         this.birth = user.getBirth();
         return this;
     }

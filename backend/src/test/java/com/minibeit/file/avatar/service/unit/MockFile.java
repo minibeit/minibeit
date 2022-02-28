@@ -1,6 +1,6 @@
 package com.minibeit.file.avatar.service.unit;
 
-import com.minibeit.file.domain.Avatar;
+import com.minibeit.user.domain.Avatar;
 import com.minibeit.file.service.dto.SavedFile;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;

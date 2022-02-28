@@ -44,7 +44,7 @@ public class MockUser {
                 .role(ROLE)
                 .signupCheck(SIGNUP_CHECK)
                 .oauthId(OAUTH_ID)
-                .school(MockSchool.School1.SCHOOL)
+                .schoolId(SCHOOL_ID)
                 .phoneNum(PHONE_NUM).build();
 
         public static final UserVerificationCode USER_VERIFICATION_CODE = UserVerificationCode.builder()
@@ -100,6 +100,7 @@ public class MockUser {
         public static final boolean SIGNUP_CHECK = true;
         public static final String OAUTH_ID = "2";
         public static final String PHONE_NUM = "010-1234-5678";
+        public static final Long SCHOOL_ID = 1L;
 
         public static final User USER = User.builder()
                 .id(ID)
@@ -112,7 +113,7 @@ public class MockUser {
                 .role(ROLE)
                 .signupCheck(SIGNUP_CHECK)
                 .oauthId(OAUTH_ID)
-                .school(MockSchool.School1.SCHOOL)
+                .schoolId(SCHOOL_ID)
                 .phoneNum(PHONE_NUM).build();
     }
 
@@ -128,6 +129,7 @@ public class MockUser {
         public static final boolean SIGNUP_CHECK = true;
         public static final String OAUTH_ID = "3";
         public static final String PHONE_NUM = "010-1234-5678";
+        public static final Long SCHOOL_ID = 1L;
 
         public static final User USER = User.builder()
                 .id(ID)
@@ -140,7 +142,7 @@ public class MockUser {
                 .role(ROLE)
                 .signupCheck(SIGNUP_CHECK)
                 .oauthId(OAUTH_ID)
-                .school(MockSchool.School1.SCHOOL)
+                .schoolId(SCHOOL_ID)
                 .phoneNum(PHONE_NUM).build();
     }
 }

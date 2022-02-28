@@ -6,10 +6,9 @@ import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.common.exception.DuplicateException;
-import com.minibeit.file.domain.Avatar;
+import com.minibeit.user.domain.Avatar;
 import com.minibeit.file.domain.FileServer;
 import com.minibeit.file.domain.FileType;
-import com.minibeit.file.service.AvatarService;
 import com.minibeit.file.service.dto.SavedFile;
 import com.minibeit.post.domain.Payment;
 import com.minibeit.post.domain.Post;
@@ -126,7 +125,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .gender(Gender.FEMALE)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
-                .school(school)
+                .schoolId(school.getId())
                 .build();
         applyUser1 = userRepository.save(apUser);
 
@@ -136,7 +135,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
-                .school(school)
+                .schoolId(school.getId())
                 .build();
         applyUser2 = userRepository.save(apUser2);
 
@@ -146,7 +145,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
-                .school(school)
+                .schoolId(school.getId())
                 .build();
         userInBusinessProfile = userRepository.save(businessUser);
 
@@ -156,7 +155,7 @@ class UserServiceTest extends ServiceIntegrationTest {
                 .role(Role.USER)
                 .signupCheck(true)
                 .provider(SignupProvider.KAKAO)
-                .school(school)
+                .schoolId(school.getId())
                 .build();
         rejectUser = userRepository.save(dupUser);
 

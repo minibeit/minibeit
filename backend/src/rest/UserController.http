@@ -35,10 +35,10 @@ Content-Disposition: form-data; name="birth";
 Content-Disposition: form-data; name="schoolId";
 
 1
---boundary
-Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
-
-< ./../main/resources/mock/images/enjoy.png
+###--boundary
+#Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
+#
+#< ./../main/resources/mock/images/enjoy.png
 
 ###
 POST {{apiUrl}}/user/nickname/check
@@ -46,7 +46,7 @@ Authorization: {{authorizationToken}}
 Content-Type: application/json;charset=UTF-8
 
 {
-  "nickname": "테스터1"
+  "nickname": "123"
 }
 
 ###
@@ -107,7 +107,12 @@ Content-Disposition: form-data; name="schoolId";
 --boundary
 Content-Disposition: form-data; name="avatarChanged";
 
-false
+true
+--boundary
+Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
+
+< ./../main/resources/mock/images/enjoy.png
+
 ###
 GET {{apiUrl}}/user/list/business/profile/1
 Authorization: {{authorizationToken}}

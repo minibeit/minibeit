@@ -9,7 +9,7 @@ import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.service.unit.MockSchool;
 import com.minibeit.user.domain.User;
-import com.minibeit.user.service.unit.MockUser;
+import com.minibeit.user.service.mock.MockUser;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 

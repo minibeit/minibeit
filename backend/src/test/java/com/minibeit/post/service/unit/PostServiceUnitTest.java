@@ -10,7 +10,7 @@ import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
 import com.minibeit.post.service.unit.mock.MockPageDto;
 import com.minibeit.post.service.unit.mock.MockPostDoDate;
-import com.minibeit.user.service.unit.MockUser;
+import com.minibeit.user.service.mock.MockUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

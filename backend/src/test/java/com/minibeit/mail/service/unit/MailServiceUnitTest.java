@@ -5,7 +5,7 @@ import com.minibeit.mail.service.MailService;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.domain.repository.UserVerificationCodeRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
-import com.minibeit.user.service.unit.MockUser;
+import com.minibeit.user.service.mock.MockUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

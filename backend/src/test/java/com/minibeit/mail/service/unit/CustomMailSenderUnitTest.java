@@ -1,7 +1,7 @@
 package com.minibeit.mail.service.unit;
 
 import com.minibeit.mail.service.CustomMailSender;
-import com.minibeit.user.service.unit.MockUser;
+import com.minibeit.user.service.mock.MockUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

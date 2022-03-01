@@ -5,7 +5,7 @@ import com.minibeit.businessprofile.service.unit.MockBusinessProfile;
 import com.minibeit.review.domain.BusinessUserReview;
 import com.minibeit.review.domain.BusinessUserReviewDetail;
 import com.minibeit.user.domain.User;
-import com.minibeit.user.service.unit.MockUser;
+import com.minibeit.user.service.mock.MockUser;
 
 public class MockBusinessUserReview {
     public static class MockBusinessUserReview1 {

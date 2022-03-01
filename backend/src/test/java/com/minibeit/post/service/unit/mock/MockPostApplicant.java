@@ -5,7 +5,7 @@ import com.minibeit.post.domain.PostApplicant;
 import com.minibeit.post.domain.PostDoDate;
 import com.minibeit.post.service.dto.PostApplicantRequest;
 import com.minibeit.user.domain.User;
-import com.minibeit.user.service.unit.MockUser;
+import com.minibeit.user.service.mock.MockUser;
 
 public class MockPostApplicant {
     public static class MockPostApplicant1 {

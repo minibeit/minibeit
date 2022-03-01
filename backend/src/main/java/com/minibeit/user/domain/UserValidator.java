@@ -20,6 +20,14 @@ public class UserValidator {
         }
     }
 
+    public void updateValidate(String nickname, Boolean nicknameChanged) {
+        if (nicknameChanged) {
+            if (userRepository.existsByNickname(nickname)) {
+                throw new DuplicateException("증복된 닉네임입니다.");
+            }
+        }
+    }
+
     public void verificationCodeValidate(UserVerificationCode myCode, String verificationCode, LocalDateTime now) {
         if (!verificationCode.equals(myCode.getCode()) || myCode.getExpirationDate().isBefore(now)) {
             throw new InvalidValueException("잘못된 코드입니다.");

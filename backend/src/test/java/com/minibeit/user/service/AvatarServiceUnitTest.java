@@ -1,8 +1,6 @@
-package com.minibeit.file.avatar.service.unit;
+package com.minibeit.user.service;
 
 import com.minibeit.file.domain.S3Uploader;
-import com.minibeit.user.domain.repository.AvatarRepository;
-import com.minibeit.user.service.AvatarService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static com.minibeit.file.avatar.service.unit.MockFile.MockFile1.*;
+import static com.minibeit.file.mock.MockFile.MockFile1.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
@@ -18,8 +16,6 @@ import static org.mockito.Mockito.verify;
 @DisplayName("AvatarService 단위 테스트")
 @ExtendWith(MockitoExtension.class)
 public class AvatarServiceUnitTest {
-    @Mock
-    AvatarRepository avatarRepository;
     @Mock
     S3Uploader s3Uploader;
     @InjectMocks
@@ -32,7 +28,6 @@ public class AvatarServiceUnitTest {
 
         avatarService.upload(MULTIPART_FILE_AVATAR);
 
-        verify(avatarRepository).save(any());
         verify(s3Uploader).upload(any());
     }
 
@@ -41,7 +36,6 @@ public class AvatarServiceUnitTest {
     public void deleteOne() {
         avatarService.deleteOne(AVATAR);
 
-        verify(avatarRepository).delete(any());
         verify(s3Uploader).delete(any());
     }
 }

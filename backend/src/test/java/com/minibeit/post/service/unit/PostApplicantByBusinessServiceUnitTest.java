@@ -11,7 +11,7 @@ import com.minibeit.post.service.exception.PostApplicantNotFoundException;
 import com.minibeit.post.service.unit.mock.MockPost;
 import com.minibeit.post.service.unit.mock.MockPostApplicant;
 import com.minibeit.post.service.unit.mock.MockPostDoDate;
-import com.minibeit.user.service.unit.MockUser;
+import com.minibeit.user.service.mock.MockUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

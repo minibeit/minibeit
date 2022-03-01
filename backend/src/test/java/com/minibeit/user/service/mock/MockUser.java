@@ -1,4 +1,4 @@
-package com.minibeit.user.service.unit;
+package com.minibeit.user.service.mock;
 
 import com.minibeit.school.service.unit.MockSchool;
 import com.minibeit.user.domain.*;
@@ -79,8 +79,6 @@ public class MockUser {
                 .avatar(MOCK_FILE)
                 .avatarChanged(true)
                 .build();
-
-        public static final UserRequest.Nickname NICKNAME_REQUEST = UserRequest.Nickname.builder().nickname(NICKNAME).build();
 
         public static final UserRequest.Verification VERIFICATION_REQUEST = UserRequest.Verification.builder()
                 .code(VERIFICATION_CODE)

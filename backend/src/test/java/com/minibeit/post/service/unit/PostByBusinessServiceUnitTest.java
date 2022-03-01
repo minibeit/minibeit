@@ -2,7 +2,7 @@ package com.minibeit.post.service.unit;
 
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
-import com.minibeit.file.avatar.service.unit.MockFile;
+import com.minibeit.file.mock.MockFile;
 import com.minibeit.file.domain.S3Uploader;
 import com.minibeit.post.domain.PostValidator;
 import com.minibeit.post.domain.repository.*;
@@ -13,7 +13,7 @@ import com.minibeit.post.service.unit.mock.MockPageDto;
 import com.minibeit.post.service.unit.mock.MockPostApplicant;
 import com.minibeit.school.domain.SchoolRepository;
 import com.minibeit.user.service.exception.SchoolNotFoundException;
-import com.minibeit.user.service.unit.MockUser;
+import com.minibeit.user.service.mock.MockUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

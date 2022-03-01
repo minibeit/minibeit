@@ -1,9 +1,8 @@
 package com.minibeit.user.service;
 
-import com.minibeit.common.exception.DuplicateException;
-import com.minibeit.user.domain.Avatar;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.service.integrate.Schools;
+import com.minibeit.user.domain.Avatar;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.UserValidator;
 import com.minibeit.user.domain.UserVerificationCode;
@@ -26,8 +25,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final Schools schools;
     private final UserVerificationCodeRepository userVerificationCodeRepository;
+    private final Schools schools;
     private final AvatarService avatarService;
     private final UserValidator userValidator;
 
@@ -44,17 +43,13 @@ public class UserService {
     }
 
     public UserResponse.CreateOrUpdate update(UserRequest.Update request, User user) {
+        userValidator.updateValidate(request.getNickname(), request.isNicknameChanged());
+
         User findUser = userRepository.findByIdWithAvatar(user.getId()).orElseThrow(UserNotFoundException::new);
         School school = schools.getOne(request.getSchoolId());
 
-        if (request.isNicknameChanged()) {
-            userValidator.nicknameValidate(request.getNickname());
-        }
         User updatedUser = findUser.update(request.toEntity(), school);
-
-        if (request.isAvatarChanged()) {
-            updateAvatar(request, findUser);
-        }
+        avatarService.update(request.isAvatarChanged(), request.getAvatar(), findUser);
 
         return UserResponse.CreateOrUpdate.build(updatedUser, school.getId());
     }
@@ -97,11 +92,5 @@ public class UserService {
         userValidator.deleteValidate(findUser.getId());
         avatarService.deleteOne(findUser.getAvatar());
         userRepository.delete(findUser);
-    }
-
-    private void updateAvatar(UserRequest.Update request, User findUser) {
-        avatarService.deleteOne(findUser.getAvatar());
-        Avatar avatar = avatarService.upload(request.getAvatar());
-        findUser.updateAvatar(avatar);
     }
 }

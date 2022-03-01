@@ -1,4 +1,4 @@
-package com.minibeit.file.avatar.service.unit;
+package com.minibeit.file.mock;
 
 import com.minibeit.user.domain.Avatar;
 import com.minibeit.file.service.dto.SavedFile;

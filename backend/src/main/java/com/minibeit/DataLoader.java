@@ -1,6 +1,6 @@
 package com.minibeit;
 
-import com.minibeit.school.domain.SchoolRepository;
+import com.minibeit.school.domain.repository.SchoolRepository;
 import com.minibeit.user.domain.Gender;
 import com.minibeit.user.domain.Role;
 import com.minibeit.user.domain.SignupProvider;

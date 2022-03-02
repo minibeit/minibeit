@@ -1,8 +1,9 @@
 package com.minibeit.user.service;
 
-import com.minibeit.businessprofile.service.unit.MockBusinessProfile;
+import com.minibeit.businessprofile.service.mock.MockBusinessProfile;
+import com.minibeit.file.service.integrate.Avatars;
 import com.minibeit.school.service.integrate.Schools;
-import com.minibeit.school.service.unit.MockSchool;
+import com.minibeit.school.service.mock.MockSchool;
 import com.minibeit.user.domain.UserValidator;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.domain.repository.UserVerificationCodeRepository;
@@ -18,7 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
-import static com.minibeit.businessprofile.service.unit.MockBusinessProfile.BusinessProfile1.ID;
+import static com.minibeit.businessprofile.service.mock.MockBusinessProfile.BusinessProfile1.ID;
 import static com.minibeit.user.service.mock.MockUser.MockUser1.*;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -37,7 +38,7 @@ public class UserServiceUnitTest {
     @Mock
     Schools schools;
     @Mock
-    AvatarService avatarService;
+    Avatars avatars;
     @Mock
     UserValidator userValidator;
     @InjectMocks
@@ -55,7 +56,7 @@ public class UserServiceUnitTest {
         assertThat(response.getNickname()).isEqualTo(SIGNUP_REQUEST.getNickname());
         assertThat(response.getSchoolId()).isEqualTo(SIGNUP_REQUEST.getSchoolId());
         verify(userValidator).nicknameValidate(any());
-        verify(avatarService).upload(any());
+        verify(avatars).upload(any());
     }
 
     @Test
@@ -75,7 +76,7 @@ public class UserServiceUnitTest {
         userService.update(UPDATE_REQUEST, USER);
 
         verify(userValidator).updateValidate(any(), any());
-        verify(avatarService).update(any(), any(),any());
+        verify(avatars).updateUserAvatar(any(), any(),any());
     }
 
     @Test
@@ -155,7 +156,7 @@ public class UserServiceUnitTest {
         userService.deleteOne(USER);
 
         verify(userValidator).deleteValidate(any());
-        verify(avatarService).deleteOne(any());
+        verify(avatars).deleteOne(any());
         verify(userRepository).delete(any());
     }
 }

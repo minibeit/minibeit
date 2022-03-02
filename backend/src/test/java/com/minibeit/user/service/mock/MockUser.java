@@ -1,6 +1,5 @@
 package com.minibeit.user.service.mock;
 
-import com.minibeit.school.service.unit.MockSchool;
 import com.minibeit.user.domain.*;
 import com.minibeit.user.service.dto.UserRequest;
 import org.springframework.mock.web.MockMultipartFile;

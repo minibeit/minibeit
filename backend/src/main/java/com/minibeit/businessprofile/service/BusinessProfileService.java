@@ -9,8 +9,8 @@ import com.minibeit.businessprofile.service.dto.BusinessProfileRequest;
 import com.minibeit.businessprofile.service.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
-import com.minibeit.user.domain.Avatar;
-import com.minibeit.user.service.AvatarService;
+import com.minibeit.file.domain.Avatar;
+import com.minibeit.file.service.integrate.Avatars;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
@@ -28,14 +28,14 @@ public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
     private final UserRepository userRepository;
-    private final AvatarService avatarService;
+    private final Avatars avatars;
     private final BusinessValidator businessValidator;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
         User findUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(user.getId()).orElseThrow(UserNotFoundException::new);
         businessValidator.createValidate(findUser.getUserBusinessProfileList());
 
-        Avatar avatar = avatarService.upload(request.getAvatar());
+        Avatar avatar = avatars.upload(request.getAvatar());
         BusinessProfile businessProfile = BusinessProfile.create(request.toEntity(), avatar, findUser);
         BusinessProfile savedBusinessProfile = businessProfileRepository.save(businessProfile);
 
@@ -46,8 +46,8 @@ public class BusinessProfileService {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         businessValidator.adminValidate(businessProfile, user);
         if (request.isAvatarChanged()) {
-            avatarService.deleteOne(businessProfile.getAvatar());
-            Avatar file = avatarService.upload(request.getAvatar());
+            avatars.deleteOne(businessProfile.getAvatar());
+            Avatar file = avatars.upload(request.getAvatar());
             businessProfile.updateAvatar(file);
         }
         businessProfile.update(request.toEntity());
@@ -106,7 +106,7 @@ public class BusinessProfileService {
 
         businessValidator.deleteValidate(businessProfile, user);
 
-        avatarService.deleteOne(businessProfile.getAvatar());
+        avatars.deleteOne(businessProfile.getAvatar());
         businessProfileRepository.deleteById(businessProfileId);
     }
 }

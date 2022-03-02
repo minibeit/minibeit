@@ -1,7 +1,7 @@
 package com.minibeit.businessprofile.domain;
 
 import com.minibeit.common.domain.BaseEntity;
-import com.minibeit.user.domain.Avatar;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.user.domain.User;
 import lombok.*;
 

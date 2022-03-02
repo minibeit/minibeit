@@ -3,7 +3,7 @@ package com.minibeit.post.web;
 import com.minibeit.MvcTest;
 import com.minibeit.auth.domain.CustomUserDetails;
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.user.domain.Avatar;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.post.domain.*;
 import com.minibeit.post.service.PostService;
 import com.minibeit.post.service.dto.PostResponse;

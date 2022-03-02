@@ -3,6 +3,7 @@ package com.minibeit.user.domain;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
 import com.minibeit.common.utils.CryptoConverter;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.school.domain.School;
 import lombok.*;
 

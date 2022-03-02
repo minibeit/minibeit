@@ -1,7 +1,7 @@
 package com.minibeit.school.service;
 
 
-import com.minibeit.school.domain.SchoolRepository;
+import com.minibeit.school.domain.repository.SchoolRepository;
 import com.minibeit.school.service.dto.SchoolResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class SchoolService {
     private final SchoolRepository schoolRepository;
 

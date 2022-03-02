@@ -1,8 +1,9 @@
 package com.minibeit.user.service;
 
+import com.minibeit.file.service.integrate.Avatars;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.service.integrate.Schools;
-import com.minibeit.user.domain.Avatar;
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.UserValidator;
 import com.minibeit.user.domain.UserVerificationCode;
@@ -27,7 +28,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserVerificationCodeRepository userVerificationCodeRepository;
     private final Schools schools;
-    private final AvatarService avatarService;
+    private final Avatars avatars;
     private final UserValidator userValidator;
 
     public UserResponse.CreateOrUpdate signup(UserRequest.Signup request, User user) {
@@ -36,7 +37,7 @@ public class UserService {
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
         School school = schools.getOne(request.getSchoolId());
 
-        Avatar avatar = avatarService.upload(request.getAvatar());
+        Avatar avatar = avatars.upload(request.getAvatar());
         User updatedUser = findUser.signup(request.toEntity(), school, avatar);
 
         return UserResponse.CreateOrUpdate.build(updatedUser, request.getSchoolId());
@@ -49,7 +50,7 @@ public class UserService {
         School school = schools.getOne(request.getSchoolId());
 
         User updatedUser = findUser.update(request.toEntity(), school);
-        avatarService.update(request.isAvatarChanged(), request.getAvatar(), findUser);
+        avatars.updateUserAvatar(request.isAvatarChanged(), request.getAvatar(), findUser);
 
         return UserResponse.CreateOrUpdate.build(updatedUser, school.getId());
     }
@@ -90,7 +91,7 @@ public class UserService {
     public void deleteOne(User user) {
         User findUser = userRepository.findByIdWithAvatar(user.getId()).orElseThrow(UserNotFoundException::new);
         userValidator.deleteValidate(findUser.getId());
-        avatarService.deleteOne(findUser.getAvatar());
+        avatars.deleteOne(findUser.getAvatar());
         userRepository.delete(findUser);
     }
 }

@@ -6,11 +6,10 @@ import com.minibeit.businessprofile.domain.repository.UserBusinessProfileReposit
 import com.minibeit.businessprofile.service.dto.BusinessProfileResponse;
 import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
 import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoundException;
-import com.minibeit.file.mock.MockFile;
 import com.minibeit.file.domain.Avatar;
+import com.minibeit.file.mock.MockFile;
 import com.minibeit.file.service.integrate.Avatars;
-import com.minibeit.user.domain.repository.UserRepository;
-import com.minibeit.user.service.exception.UserNotFoundException;
+import com.minibeit.user.service.integrate.Users;
 import com.minibeit.user.service.mock.MockUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -38,7 +37,7 @@ public class BusinessProfileServiceUnitTest {
     @Mock
     UserBusinessProfileRepository userBusinessProfileRepository;
     @Mock
-    UserRepository userRepository;
+    Users users;
     @Mock
     Avatars avatars;
     @Mock
@@ -49,7 +48,7 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 생성 성공")
     public void create() {
-        given(userRepository.findByIdWithUserBusinessProfileAndBusiness(MockUser1.ID)).willReturn(Optional.of(MockUser1.USER));
+        given(users.getOneWithWithUserBusinessProfileAndBusiness(MockUser1.ID)).willReturn(MockUser1.USER);
         given(avatars.upload(any())).willReturn(Avatar.builder().id(MockFile.MockFile1.ID).build());
         given(businessProfileRepository.save(any())).willReturn(BUSINESS_PROFILE);
 
@@ -58,13 +57,6 @@ public class BusinessProfileServiceUnitTest {
         assertThat(response.getId()).isEqualTo(ID);
         verify(businessValidator).createValidate(any());
         verify(businessProfileRepository).save(any());
-    }
-
-    @Test
-    @DisplayName("비즈니스 프로필 생성 실패 (해당 유저가 없는 경우)")
-    public void createFail() {
-        given(userRepository.findByIdWithUserBusinessProfileAndBusiness(MockUser1.ID)).willReturn(Optional.empty());
-        assertThrows(UserNotFoundException.class, () -> businessProfileService.create(CREATE_REQUEST, MockUser1.USER));
     }
 
     @Test
@@ -92,21 +84,12 @@ public class BusinessProfileServiceUnitTest {
     @DisplayName("비즈니스 프로필 초대 성공")
     public void invite() {
         given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
-        given(userRepository.findByIdWithUserBusinessProfileAndBusiness(any())).willReturn(Optional.of(MockUser1.USER));
+        given(users.getOneWithWithUserBusinessProfileAndBusiness(any())).willReturn(MockUser1.USER);
 
         businessProfileService.invite(ID, MockUser.MockUser2.ID, MockUser1.USER);
 
         verify(businessValidator).inviteValidate(any(), any(), any());
         verify(userBusinessProfileRepository).save(any());
-    }
-
-    @Test
-    @DisplayName("비즈니스 프로필 초대 실패 (해당 유저가 없는 경우)")
-    public void inviteFail_UserNotFound() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
-        given(userRepository.findByIdWithUserBusinessProfileAndBusiness(any())).willReturn(Optional.empty());
-
-        assertThrows(UserNotFoundException.class, () -> businessProfileService.invite(ID, MockUser.MockUser2.ID, MockUser1.USER));
     }
 
     @Test
@@ -150,20 +133,11 @@ public class BusinessProfileServiceUnitTest {
     @DisplayName("비즈니스 프로필 관리자 변경 성공")
     public void changeAdmin() {
         given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
-        given(userRepository.findByIdWithUserBusinessProfileAndBusiness(any())).willReturn(Optional.of(MockUser1.USER));
+        given(users.getOneWithWithUserBusinessProfileAndBusiness(any())).willReturn(MockUser1.USER);
 
         businessProfileService.changeAdmin(ID, MockUser.MockUser2.ID, MockUser1.USER);
 
         verify(businessValidator).changeAdminValidate(any(), any(), any());
-    }
-
-    @Test
-    @DisplayName("비즈니스 프로필 관리자 변경 실패 (해당 유저가 없는 경우)")
-    public void changeAdminFail_UserNotFound() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
-        given(userRepository.findByIdWithUserBusinessProfileAndBusiness(any())).willReturn(Optional.empty());
-
-        assertThrows(UserNotFoundException.class, () -> businessProfileService.changeAdmin(ID, MockUser.MockUser2.ID, MockUser1.USER));
     }
 
     @Test

@@ -14,6 +14,7 @@ import com.minibeit.file.service.integrate.Avatars;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
+import com.minibeit.user.service.integrate.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,12 +28,12 @@ import java.util.stream.Collectors;
 public class BusinessProfileService {
     private final BusinessProfileRepository businessProfileRepository;
     private final UserBusinessProfileRepository userBusinessProfileRepository;
-    private final UserRepository userRepository;
-    private final Avatars avatars;
     private final BusinessValidator businessValidator;
+    private final Users users;
+    private final Avatars avatars;
 
     public BusinessProfileResponse.IdAndName create(BusinessProfileRequest.Create request, User user) {
-        User findUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(user.getId()).orElseThrow(UserNotFoundException::new);
+        User findUser = users.getOneWithWithUserBusinessProfileAndBusiness(user.getId());
         businessValidator.createValidate(findUser.getUserBusinessProfileList());
 
         Avatar avatar = avatars.upload(request.getAvatar());
@@ -56,7 +57,7 @@ public class BusinessProfileService {
 
     public void invite(Long businessProfileId, Long invitedUserId, User user) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-        User invitedUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(invitedUserId).orElseThrow(UserNotFoundException::new);
+        User invitedUser = users.getOneWithWithUserBusinessProfileAndBusiness(invitedUserId);
         businessValidator.inviteValidate(businessProfile, invitedUser.getUserBusinessProfileList(), user);
 
         UserBusinessProfile userBusinessProfile = UserBusinessProfile.createWithBusinessProfile(invitedUser, businessProfile);
@@ -73,7 +74,7 @@ public class BusinessProfileService {
 
     public void changeAdmin(Long businessProfileId, Long userId, User loginUser) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-        User changeUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(userId).orElseThrow(UserNotFoundException::new);
+        User changeUser = users.getOneWithWithUserBusinessProfileAndBusiness(userId);
         businessValidator.changeAdminValidate(businessProfile, loginUser, changeUser.getUserBusinessProfileList());
 
         businessProfile.changeAdmin(changeUser);

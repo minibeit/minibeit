@@ -14,9 +14,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@DisplayName("AvatarService 단위 테스트")
+@DisplayName("AvatarManager 단위 테스트")
 @ExtendWith(MockitoExtension.class)
-public class AvatarServiceUnitTest {
+public class AvatarManagerUnitTest {
     @Mock
     S3Uploader s3Uploader;
     @InjectMocks

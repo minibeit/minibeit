@@ -42,4 +42,22 @@ class UserFinderTest {
 
         assertThrows(UserNotFoundException.class, () -> userFinder.getOneWithWithUserBusinessProfileAndBusiness(MockUser1.ID));
     }
+
+    @Test
+    @DisplayName("유저 식별자로 조회 성공")
+    public void getOne() {
+        given(userRepository.findById(any())).willReturn(Optional.of(MockUser1.USER));
+
+        userFinder.getOne(MockUser1.ID);
+
+        verify(userRepository).findById(any());
+    }
+
+    @Test
+    @DisplayName("유저 식별자로 조회 실패 - 해당 유저가 없는 경우")
+    public void getOneNotFoundUser() {
+        given(userRepository.findById(any())).willReturn(Optional.empty());
+
+        assertThrows(UserNotFoundException.class, () -> userFinder.getOne(MockUser1.ID));
+    }
 }

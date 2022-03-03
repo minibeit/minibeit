@@ -1,19 +1,16 @@
 package com.minibeit.review.service;
 
 import com.minibeit.businessprofile.domain.BusinessProfile;
-import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
-import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
+import com.minibeit.businessprofile.service.integrate.BusinessProfiles;
 import com.minibeit.post.domain.PostApplicant;
-import com.minibeit.post.domain.repository.PostApplicantRepository;
-import com.minibeit.post.service.exception.PostApplicantNotFoundException;
+import com.minibeit.post.service.integrate.PostApplicants;
 import com.minibeit.review.domain.*;
 import com.minibeit.review.domain.repository.BusinessUserReviewDetailRepository;
 import com.minibeit.review.domain.repository.BusinessUserReviewRepository;
 import com.minibeit.review.service.dto.BusinessUserReviewResponse;
 import com.minibeit.review.service.exception.BusinessReviewDetailNotFoundException;
 import com.minibeit.user.domain.User;
-import com.minibeit.user.domain.repository.UserRepository;
-import com.minibeit.user.service.exception.UserNotFoundException;
+import com.minibeit.user.service.integrate.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,18 +24,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class BusinessUserReviewService {
     private final BusinessUserReviewDetailRepository businessBusinessUserReviewDetailRepository;
-    private final BusinessProfileRepository businessProfileRepository;
     private final BusinessUserReviewRepository businessUserReviewRepository;
-    private final PostApplicantRepository postApplicantRepository;
-    private final UserRepository userRepository;
     private final BusinessUserReviewValidator businessUserReviewValidator;
+    private final BusinessProfiles businessProfiles;
+    private final Users users;
+    private final PostApplicants postApplicants;
 
     public BusinessUserReviewResponse.OnlyId createBusinessReview(Long businessProfileId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
-        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, user.getId()).orElseThrow(PostApplicantNotFoundException::new);
+        PostApplicant postApplicant = postApplicants.writeBusinessReview(postDoDateId, user.getId());
         businessUserReviewValidator.createBusinessReviewValidate(postApplicant, now);
-        postApplicant.updateWriteReview();
 
-        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+        BusinessProfile businessProfile = businessProfiles.getOne(businessProfileId);
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);
         BusinessUserReview businessUserReview = BusinessUserReview.createWithBusiness(businessProfile, businessUserReviewDetail, user);
         BusinessUserReview savedReview = businessUserReviewRepository.save(businessUserReview);
@@ -47,18 +43,17 @@ public class BusinessUserReviewService {
     }
 
     public BusinessUserReviewResponse.OnlyId createUserReview(Long businessProfileId, Long userId, Long postDoDateId, Long reviewDetailId, LocalDateTime now, User user) {
-        User applicantUser = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
-        User loginUser = userRepository.findByIdWithUserBusinessProfileAndBusiness(user.getId()).orElseThrow(UserNotFoundException::new);
-        PostApplicant postApplicant = postApplicantRepository.findByPostDoDateIdAndUserId(postDoDateId, userId).orElseThrow(PostApplicantNotFoundException::new);
+        User applicantUser = users.getOne(userId);
+        BusinessProfile businessProfile = businessProfiles.getOne(businessProfileId);
+        User loginUser = users.getOneWithWithUserBusinessProfileAndBusiness(user.getId());
+        PostApplicant postApplicant = postApplicants.writeUserReview(postDoDateId, userId);
 
-        businessUserReviewValidator.createUserReiviewValidate(postApplicant, loginUser.getUserBusinessProfileList(), businessProfileId, now);
-
-        postApplicant.evaluated();
+        businessUserReviewValidator.createUserReviewValidate(postApplicant, loginUser.getUserBusinessProfileList(), businessProfileId, now);
 
         BusinessUserReviewDetail businessUserReviewDetail = businessBusinessUserReviewDetailRepository.findById(reviewDetailId).orElseThrow(BusinessReviewDetailNotFoundException::new);
         BusinessUserReview businessUserReview = BusinessUserReview.createWithUser(applicantUser, businessProfile, businessUserReviewDetail);
         BusinessUserReview review = businessUserReviewRepository.save(businessUserReview);
+
         return BusinessUserReviewResponse.OnlyId.build(review);
     }
 

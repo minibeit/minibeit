@@ -15,4 +15,11 @@ class UserFinder implements Users{
     public User getOneWithWithUserBusinessProfileAndBusiness(Long userId) {
         return userRepository.findByIdWithUserBusinessProfileAndBusiness(userId).orElseThrow(UserNotFoundException::new);
     }
+
+    @Override
+    public User getOne(Long userId) {
+        return userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+    }
+
+
 }

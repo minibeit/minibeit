@@ -23,7 +23,7 @@ public class BusinessUserReviewValidator {
                 postApplicant.isBusinessFinish() && postApplicant.getPostDoDate().getDoDate().plusDays(7).isAfter(now);
     }
 
-    public void createUserReiviewValidate(PostApplicant postApplicant, List<UserBusinessProfile> userBusinessProfileList, Long businessProfileId, LocalDateTime now) {
+    public void createUserReviewValidate(PostApplicant postApplicant, List<UserBusinessProfile> userBusinessProfileList, Long businessProfileId, LocalDateTime now) {
         if (!postApplicant.writeUserReviewIsPossible(now) || !containBusinessProfile(businessProfileId, userBusinessProfileList)) {
             throw new PermissionException("참여자를 평가할 수 없습니다.");
         }

@@ -12,8 +12,6 @@ import com.minibeit.businessprofile.service.exception.UserBusinessProfileNotFoun
 import com.minibeit.file.domain.Avatar;
 import com.minibeit.file.service.integrate.Avatars;
 import com.minibeit.user.domain.User;
-import com.minibeit.user.domain.repository.UserRepository;
-import com.minibeit.user.service.exception.UserNotFoundException;
 import com.minibeit.user.service.integrate.Users;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,14 +42,12 @@ public class BusinessProfileService {
     }
 
     public BusinessProfileResponse.IdAndName update(Long businessProfileId, BusinessProfileRequest.Update request, User user) {
-        BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
+        BusinessProfile businessProfile = businessProfileRepository.findByIdWithAvatar(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         businessValidator.adminValidate(businessProfile, user);
-        if (request.isAvatarChanged()) {
-            avatars.deleteOne(businessProfile.getAvatar());
-            Avatar file = avatars.upload(request.getAvatar());
-            businessProfile.updateAvatar(file);
-        }
-        businessProfile.update(request.toEntity());
+
+        Avatar avatar = avatars.update(request.isAvatarChanged(), request.getAvatar(), businessProfile.getAvatar());
+        businessProfile.update(request.toEntity(), request.isAvatarChanged(), avatar);
+
         return BusinessProfileResponse.IdAndName.build(businessProfile);
     }
 
@@ -68,6 +64,7 @@ public class BusinessProfileService {
     public void expel(Long businessProfileId, Long userId, User loginUser) {
         BusinessProfile businessProfile = businessProfileRepository.findById(businessProfileId).orElseThrow(BusinessProfileNotFoundException::new);
         businessValidator.expelValidate(businessProfile, userId, loginUser);
+
         UserBusinessProfile userBusinessProfile = userBusinessProfileRepository.findByUserIdAndBusinessProfileId(userId, businessProfileId).orElseThrow(UserBusinessProfileNotFoundException::new);
         userBusinessProfileRepository.deleteById(userBusinessProfile.getId());
     }

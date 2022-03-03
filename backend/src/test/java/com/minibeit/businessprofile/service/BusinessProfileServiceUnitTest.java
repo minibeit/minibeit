@@ -62,20 +62,19 @@ public class BusinessProfileServiceUnitTest {
     @Test
     @DisplayName("비즈니스 프로필 수정 성공")
     public void update() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
+        given(businessProfileRepository.findByIdWithAvatar(ID)).willReturn(Optional.of(BUSINESS_PROFILE));
 
         BusinessProfileResponse.IdAndName response = businessProfileService.update(ID, UPDATE_REQUEST, MockUser1.USER);
 
         verify(businessValidator).adminValidate(any(), any());
-        verify(avatars).deleteOne(any());
-        verify(avatars).upload(any());
+        verify(avatars).update(any(),any(),any());
         assertThat(response.getName()).isEqualTo(UPDATED_NAME);
     }
 
     @Test
     @DisplayName("비즈니스 프로필 수정 실패 (해당 비즈니스 프로필이 없는 경우)")
     public void updateFail() {
-        given(businessProfileRepository.findById(ID)).willReturn(Optional.empty());
+        given(businessProfileRepository.findByIdWithAvatar(ID)).willReturn(Optional.empty());
         assertThrows(BusinessProfileNotFoundException.class, () -> businessProfileService.update(ID, UPDATE_REQUEST, MockUser1.USER));
     }
 

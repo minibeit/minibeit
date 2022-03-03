@@ -79,7 +79,7 @@ public class User extends BaseEntity {
         return this;
     }
 
-    public User update(User user, School school) {
+    public User update(User user, School school, boolean avatarChanged, Avatar avatar) {
         this.name = user.getName();
         this.nickname = user.getNickname();
         this.email = user.getEmail();
@@ -88,10 +88,9 @@ public class User extends BaseEntity {
         this.phoneNum = user.getPhoneNum();
         this.schoolId = school.getId();
         this.birth = user.getBirth();
+        if (avatarChanged) {
+            this.avatar = avatar;
+        }
         return this;
-    }
-
-    public void updateAvatar(Avatar avatar) {
-        this.avatar = avatar;
     }
 }

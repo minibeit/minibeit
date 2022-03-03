@@ -76,7 +76,7 @@ public class UserServiceUnitTest {
         userService.update(UPDATE_REQUEST, USER);
 
         verify(userValidator).updateValidate(any(), any());
-        verify(avatars).updateUserAvatar(any(), any(),any());
+        verify(avatars).update(any(), any(), any());
     }
 
     @Test

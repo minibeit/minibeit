@@ -1,9 +1,9 @@
 package com.minibeit.user.service;
 
+import com.minibeit.file.domain.Avatar;
 import com.minibeit.file.service.integrate.Avatars;
 import com.minibeit.school.domain.School;
 import com.minibeit.school.service.integrate.Schools;
-import com.minibeit.file.domain.Avatar;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.UserValidator;
 import com.minibeit.user.domain.UserVerificationCode;
@@ -49,8 +49,8 @@ public class UserService {
         User findUser = userRepository.findByIdWithAvatar(user.getId()).orElseThrow(UserNotFoundException::new);
         School school = schools.getOne(request.getSchoolId());
 
-        User updatedUser = findUser.update(request.toEntity(), school);
-        avatars.updateUserAvatar(request.isAvatarChanged(), request.getAvatar(), findUser);
+        Avatar avatar = avatars.update(request.isAvatarChanged(), request.getAvatar(), findUser.getAvatar());
+        User updatedUser = findUser.update(request.toEntity(), school, request.isAvatarChanged(), avatar);
 
         return UserResponse.CreateOrUpdate.build(updatedUser, school.getId());
     }

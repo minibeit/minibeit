@@ -82,7 +82,7 @@ test2@test.com
 --boundary
 Content-Disposition: form-data; name="nicknameChanged";
 
-true
+false
 --boundary
 Content-Disposition: form-data; name="gender";
 
@@ -108,10 +108,7 @@ Content-Disposition: form-data; name="schoolId";
 Content-Disposition: form-data; name="avatarChanged";
 
 true
---boundary
-Content-Disposition: form-data; name="avatar"; filename="enjoy.png"
 
-< ./../main/resources/mock/images/enjoy.png
 
 ###
 GET {{apiUrl}}/user/list/business/profile/1

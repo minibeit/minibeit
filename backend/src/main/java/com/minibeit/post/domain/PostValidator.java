@@ -28,5 +28,4 @@ public class PostValidator {
             throw new InvalidOperationException("끝나지 않은 실험에 확정자가 남아있습니다.");
         }
     }
-
 }

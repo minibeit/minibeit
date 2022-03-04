@@ -20,6 +20,4 @@ class UserFinder implements Users{
     public User getOne(Long userId) {
         return userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
-
-
 }

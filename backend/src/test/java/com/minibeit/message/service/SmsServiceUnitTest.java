@@ -1,11 +1,9 @@
 package com.minibeit.message.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.minibeit.message.service.SmsService;
 import com.minibeit.message.service.component.SmsProps;
-import com.minibeit.user.domain.repository.UserRepository;
-import com.minibeit.user.domain.repository.UserVerificationCodeRepository;
-import com.minibeit.user.service.exception.UserNotFoundException;
+import com.minibeit.user.service.integrate.UserVerificationCodes;
+import com.minibeit.user.service.integrate.Users;
 import com.minibeit.user.service.mock.MockUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,9 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
@@ -32,9 +28,9 @@ public class SmsServiceUnitTest {
     @Mock
     SmsProps smsProps;
     @Mock
-    UserRepository userRepository;
+    Users users;
     @Mock
-    UserVerificationCodeRepository userVerificationCodeRepository;
+    UserVerificationCodes userVerificationCodes;
     @Mock
     RestTemplate restTemplate;
     @InjectMocks
@@ -43,40 +39,17 @@ public class SmsServiceUnitTest {
     private static final String TEST = "test";
 
     @Test
-    @DisplayName("인증 문자 재전송 성공")
+    @DisplayName("인증 문자 전송 성공")
     public void sendSmsVerificationCodeSave() throws URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
         given(smsProps.getFrom()).willReturn(TEST);
         given(smsProps.getAccessKey()).willReturn(TEST);
         given(smsProps.getSecretKey()).willReturn(TEST);
-        given(userRepository.findById(any())).willReturn(Optional.of(MockUser.MockUser1.USER));
-        given(userVerificationCodeRepository.findByUserIdAndVerificationKinds(any(), any())).willReturn(Optional.empty());
+        given(users.getOne(any())).willReturn(MockUser.MockUser1.USER);
+        given(userVerificationCodes.create(any(), any())).willReturn(MockUser.MockUser1.USER_VERIFICATION_CODE);
         given(restTemplate.postForObject(any(), any(), any())).willReturn(any());
 
         smsService.sendSmsVerificationCode(MockUser.MockUser1.PHONE_NUM, MockUser.MockUser1.ID);
 
-        verify(userVerificationCodeRepository, times(1)).save(any());
-    }
-
-    @Test
-    @DisplayName("인증 문자 전송 성공")
-    public void sendSmsVerificationCode() throws URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
-        given(smsProps.getFrom()).willReturn(TEST);
-        given(smsProps.getAccessKey()).willReturn(TEST);
-        given(smsProps.getSecretKey()).willReturn(TEST);
-        given(userRepository.findById(any())).willReturn(Optional.of(MockUser.MockUser1.USER));
-        given(userVerificationCodeRepository.findByUserIdAndVerificationKinds(any(), any())).willReturn(Optional.of(MockUser.MockUser1.USER_VERIFICATION_CODE));
-        given(restTemplate.postForObject(any(), any(), any())).willReturn(any());
-
-        smsService.sendSmsVerificationCode(MockUser.MockUser1.PHONE_NUM, MockUser.MockUser1.ID);
-
-        verify(userVerificationCodeRepository, times(0)).save(any());
-    }
-
-    @Test
-    @DisplayName("인증 문자 전송 실패 (해당 유저가 없는 경우)")
-    public void sendSmsVerificationCodeFailUserNotFound() {
-        given(userRepository.findById(any())).willReturn(Optional.empty());
-
-        assertThrows(UserNotFoundException.class, () -> smsService.sendSmsVerificationCode(MockUser.MockUser1.PHONE_NUM, MockUser.MockUser1.ID));
+        verify(userVerificationCodes, times(1)).create(any(), any());
     }
 }

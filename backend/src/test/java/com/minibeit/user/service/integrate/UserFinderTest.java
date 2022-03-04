@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.verify;
 
-@DisplayName("UserFinderTest 단위 테스트")
+@DisplayName("UserFinder 단위 테스트")
 @ExtendWith(MockitoExtension.class)
 class UserFinderTest {
     @Mock

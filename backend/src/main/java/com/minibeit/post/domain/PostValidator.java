@@ -13,11 +13,11 @@ import java.time.LocalDateTime;
 @Component
 @RequiredArgsConstructor
 public class PostValidator {
-        private final UserBusinessProfileRepository userBusinessProfileRepository;
-        private final PostApplicantRepository postApplicantRepository;
+    private final UserBusinessProfileRepository userBusinessProfileRepository;
+    private final PostApplicantRepository postApplicantRepository;
 
-        public void userInBusinessProfileValidate(Long businessProfileId, User user) {
-            if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
+    public void userInBusinessProfileValidate(Long businessProfileId, User user) {
+        if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
             throw new PermissionException("권한이 없습니다.");
         }
     }

@@ -12,11 +12,11 @@ import java.util.Optional;
 
 public interface PostApplicantRepository extends JpaRepository<PostApplicant, Long>, PostApplicantRepositoryCustom {
     @Query("select pa from PostApplicant pa where pa.postDoDate.id=:postDoDateId and pa.applyStatus='APPROVE'")
-    List<PostApplicant> findAllByPostDoDateIdAndStatusIsApprove(@Param("postDoDateId")Long postDoDateId);
+    List<PostApplicant> findAllByPostDoDateIdAndStatusIsApprove(@Param("postDoDateId") Long postDoDateId);
 
     @Modifying
     @Query("update PostApplicant pa set pa.applyStatus=:status where pa.id in :applicantIdList")
-    void updateReject(@Param("applicantIdList") List<Long> applicantIdList,@Param("status") ApplyStatus status);
+    void updateReject(@Param("applicantIdList") List<Long> applicantIdList, @Param("status") ApplyStatus status);
 
     Optional<PostApplicant> findByPostDoDateIdAndUserId(Long postDoDateId, Long userId);
 }

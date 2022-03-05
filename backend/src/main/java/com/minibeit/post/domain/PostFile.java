@@ -45,9 +45,10 @@ public class PostFile extends BaseEntity {
     @Column(name = "del")
     private Boolean del;
 
-    private void setPost(Post post) {
+    public PostFile setPost(Post post) {
         this.post = post;
         post.getPostFileList().add(this);
+        return this;
     }
 
     public void delete() {

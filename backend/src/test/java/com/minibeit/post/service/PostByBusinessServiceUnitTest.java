@@ -1,17 +1,15 @@
 package com.minibeit.post.service;
 
-import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
-import com.minibeit.businessprofile.service.exception.BusinessProfileNotFoundException;
-import com.minibeit.file.mock.MockFile;
-import com.minibeit.file.domain.S3Uploader;
+import com.minibeit.businessprofile.service.integrate.BusinessProfiles;
 import com.minibeit.post.domain.PostValidator;
 import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;
+import com.minibeit.post.service.integrate.PostFiles;
 import com.minibeit.post.service.mock.MockPageDto;
 import com.minibeit.post.service.mock.MockPostApplicant;
-import com.minibeit.school.domain.repository.SchoolRepository;
-import com.minibeit.user.service.exception.SchoolNotFoundException;
+import com.minibeit.post.service.mock.MockPostFile;
+import com.minibeit.school.service.integrate.Schools;
 import com.minibeit.user.service.mock.MockUser;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -31,7 +29,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
 @DisplayName("PostByBusinessService 단위 테스트")
@@ -39,10 +36,6 @@ import static org.mockito.Mockito.verify;
 public class PostByBusinessServiceUnitTest {
     @Mock
     PostRepository postRepository;
-    @Mock
-    SchoolRepository schoolRepository;
-    @Mock
-    BusinessProfileRepository businessProfileRepository;
     @Mock
     PostDoDateRepository postDoDateRepository;
     @Mock
@@ -52,81 +45,31 @@ public class PostByBusinessServiceUnitTest {
     @Mock
     PostValidator postValidator;
     @Mock
-    S3Uploader s3Uploader;
-    @Mock
-    PostFileRepository postFileRepository;
-    @Mock
     PostLikeRepository postLikeRepository;
+    @Mock
+    Schools schools;
+    @Mock
+    BusinessProfiles businessProfiles;
+    @Mock
+    PostFiles postFiles;
     @InjectMocks
     PostByBusinessService postByBusinessService;
 
     @Test
     @DisplayName("게시글 생성 성공(썸네일, 썸네일 이외의 파일 모두 저장)")
     public void create() {
-        given(schoolRepository.findById(any())).willReturn(Optional.of(SCHOOL));
-        given(businessProfileRepository.findById(any())).willReturn(Optional.of(BUSINESS_PROFILE));
+        given(schools.getOne(any())).willReturn(SCHOOL);
+        given(businessProfiles.getOne(any())).willReturn(BUSINESS_PROFILE);
         given(postRepository.save(any())).willReturn(POST);
-        given(s3Uploader.upload(any())).willReturn(MockFile.MockFile1.SAVED_FILE);
-        given(s3Uploader.uploadFileList(any())).willReturn(Collections.singletonList(MockFile.MockFile1.SAVED_FILE));
+        given(postFiles.upload(any(), any())).willReturn(MockPostFile.MockPostFile1.POST_FILE);
+        given(postFiles.uploadFiles(any(), any())).willReturn(MockPostFile.MockPostFile1.POST_FILE_LIST);
 
         postByBusinessService.create(CREATE_INFO_REQUEST, Collections.singletonList(MOCK_FILE), MOCK_FILE, MockUser.MockUser1.USER);
 
         verify(postValidator).userInBusinessProfileValidate(any(), any());
+        verify(postFiles).upload(any(), any());
+        verify(postFiles).uploadFiles(any(), any());
         verify(postRepository).save(any());
-        verify(postDoDateRepository).saveAll(any());
-        verify(postFileRepository).save(any());
-        verify(postFileRepository).saveAll(any());
-    }
-
-    @Test
-    @DisplayName("게시글 생성 성공(썸네일만 저장)")
-    public void createWithoutFile() {
-        given(schoolRepository.findById(any())).willReturn(Optional.of(SCHOOL));
-        given(businessProfileRepository.findById(any())).willReturn(Optional.of(BUSINESS_PROFILE));
-        given(postRepository.save(any())).willReturn(POST);
-        given(s3Uploader.upload(any())).willReturn(MockFile.MockFile1.SAVED_FILE);
-
-        postByBusinessService.create(CREATE_INFO_REQUEST, null, MOCK_FILE, MockUser.MockUser1.USER);
-
-        verify(postValidator).userInBusinessProfileValidate(any(), any());
-        verify(postRepository).save(any());
-        verify(postDoDateRepository).saveAll(any());
-        verify(postFileRepository).save(any());
-        verify(postFileRepository, times(0)).saveAll(any());
-    }
-
-    @Test
-    @DisplayName("게시글 생성 성공(썸네일이 없는 경우)")
-    public void createWithoutThumbnail() {
-        given(schoolRepository.findById(any())).willReturn(Optional.of(SCHOOL));
-        given(businessProfileRepository.findById(any())).willReturn(Optional.of(BUSINESS_PROFILE));
-        given(postRepository.save(any())).willReturn(POST);
-
-        postByBusinessService.create(CREATE_INFO_REQUEST, null, null, MockUser.MockUser1.USER);
-
-        verify(postValidator).userInBusinessProfileValidate(any(), any());
-        verify(postRepository).save(any());
-        verify(postDoDateRepository).saveAll(any());
-        verify(postFileRepository, times(0)).save(any());
-        verify(postFileRepository, times(0)).saveAll(any());
-    }
-
-
-    @Test
-    @DisplayName("게시글 생성 실패 (해당 학교가 없는 경우)")
-    public void createFailSchoolNotFound() {
-        given(schoolRepository.findById(any())).willReturn(Optional.empty());
-
-        assertThrows(SchoolNotFoundException.class, () -> postByBusinessService.create(CREATE_INFO_REQUEST, Collections.singletonList(MOCK_FILE), MOCK_FILE, MockUser.MockUser1.USER));
-    }
-
-    @Test
-    @DisplayName("게시글 생성 실패 (해당 학교가 없는 경우)")
-    public void createFailBusinessProfileNotFound() {
-        given(schoolRepository.findById(any())).willReturn(Optional.of(SCHOOL));
-        given(businessProfileRepository.findById(any())).willReturn(Optional.empty());
-
-        assertThrows(BusinessProfileNotFoundException.class, () -> postByBusinessService.create(CREATE_INFO_REQUEST, Collections.singletonList(MOCK_FILE), MOCK_FILE, MockUser.MockUser1.USER));
     }
 
     @Test
@@ -207,6 +150,6 @@ public class PostByBusinessServiceUnitTest {
     public void deleteOneFail() {
         given(postRepository.findById(any())).willReturn(Optional.empty());
 
-        assertThrows(PostNotFoundException.class, () ->  postByBusinessService.deleteOne(ID, LocalDateTime.of(2022, 2, 13, 0, 0), MockUser.MockUser1.USER));
+        assertThrows(PostNotFoundException.class, () -> postByBusinessService.deleteOne(ID, LocalDateTime.of(2022, 2, 13, 0, 0), MockUser.MockUser1.USER));
     }
 }

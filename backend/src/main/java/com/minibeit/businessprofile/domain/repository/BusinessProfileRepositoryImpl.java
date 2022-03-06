@@ -39,6 +39,16 @@ public class BusinessProfileRepositoryImpl implements BusinessProfileRepositoryC
     }
 
     @Override
+    public Optional<BusinessProfile> findByIdWithAvatar(Long businessProfileId) {
+        return Optional.ofNullable(
+                queryFactory.selectFrom(businessProfile)
+                        .leftJoin(businessProfile.avatar).fetchJoin()
+                        .where(businessProfile.id.eq(businessProfileId))
+                        .fetchOne()
+        );
+    }
+
+    @Override
     public Boolean existsPostByBusinessProfileId(Long businessProfileId) {
         Integer fetchOne = queryFactory.selectOne()
                 .from(post)

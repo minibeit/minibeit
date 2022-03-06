@@ -1,8 +1,8 @@
 package com.minibeit.user.domain;
 
-import com.minibeit.common.utils.CryptoConverter;
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.domain.BaseEntity;
+import com.minibeit.common.utils.CryptoConverter;
 import com.minibeit.file.domain.Avatar;
 import com.minibeit.school.domain.School;
 import lombok.*;
@@ -53,11 +53,9 @@ public class User extends BaseEntity {
     @Column(nullable = false)
     private Role role;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "school_id")
-    private School school;
+    private Long schoolId;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "avatar_id")
     private Avatar avatar;
 
@@ -76,24 +74,23 @@ public class User extends BaseEntity {
         this.phoneNum = user.getPhoneNum();
         this.birth = user.getBirth();
         this.signupCheck = true;
-        this.school = school;
+        this.schoolId = school.getId();
         this.avatar = avatar;
         return this;
     }
 
-    public User update(User user, School school) {
+    public User update(User user, School school, boolean avatarChanged, Avatar avatar) {
         this.name = user.getName();
         this.nickname = user.getNickname();
         this.email = user.getEmail();
         this.gender = user.getGender();
         this.job = user.getJob();
         this.phoneNum = user.getPhoneNum();
-        this.school = school;
+        this.schoolId = school.getId();
         this.birth = user.getBirth();
+        if (avatarChanged) {
+            this.avatar = avatar;
+        }
         return this;
-    }
-
-    public void updateAvatar(Avatar avatar) {
-        this.avatar = avatar;
     }
 }

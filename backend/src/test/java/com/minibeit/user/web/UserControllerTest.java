@@ -56,7 +56,7 @@ class UserControllerTest extends MvcTest {
                 .job("개발자")
                 .phoneNum("010-1234-1234")
                 .avatar(Avatar.builder().id(1L).url("profile image url").build())
-                .school(School.builder().id(1L).name("고려대학교").build())
+                .schoolId(1L)
                 .build();
         user2 = User.builder()
                 .id(2L)
@@ -68,7 +68,7 @@ class UserControllerTest extends MvcTest {
                 .job("대학생")
                 .phoneNum("010-1234-1234")
                 .avatar(Avatar.builder().id(1L).url("profile image url").build())
-                .school(School.builder().id(1L).name("고려대학교").build())
+                .schoolId(1L)
                 .build();
     }
 
@@ -78,7 +78,7 @@ class UserControllerTest extends MvcTest {
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
 
-        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.build(user1, 2L, Avatar.builder().id(1L).url("profile url.").build());
+        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.build(user1, 2L);
 
         given(userService.signup(any(), any())).willReturn(response);
 
@@ -191,7 +191,7 @@ class UserControllerTest extends MvcTest {
     @Test
     @DisplayName("내 정보 조회 문서화")
     public void getMe() throws Exception {
-        UserResponse.GetOne response = UserResponse.GetOne.build(user1);
+        UserResponse.GetOne response = UserResponse.GetOne.build(user1, School.builder().name("고려대학교").build());
 
         given(userService.getMe(any())).willReturn(response);
 
@@ -223,7 +223,7 @@ class UserControllerTest extends MvcTest {
         InputStream is = new ClassPathResource("mock/images/enjoy.png").getInputStream();
         MockMultipartFile avatar = new MockMultipartFile("avatar", "avatar.jpg", "image/jpg", is.readAllBytes());
 
-        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.build(user1, 2L, Avatar.builder().id(1L).url("profile url.").build());
+        UserResponse.CreateOrUpdate response = UserResponse.CreateOrUpdate.build(user1, 2L);
 
         given(userService.update(any(), any())).willReturn(response);
 

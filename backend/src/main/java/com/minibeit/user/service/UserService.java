@@ -1,18 +1,15 @@
 package com.minibeit.user.service;
 
-import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.file.domain.Avatar;
-import com.minibeit.file.service.AvatarService;
+import com.minibeit.file.service.integrate.Avatars;
 import com.minibeit.school.domain.School;
-import com.minibeit.school.domain.SchoolRepository;
+import com.minibeit.school.service.integrate.Schools;
 import com.minibeit.user.domain.User;
-import com.minibeit.user.domain.UserValidator;
 import com.minibeit.user.domain.UserVerificationCode;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.domain.repository.UserVerificationCodeRepository;
 import com.minibeit.user.service.dto.UserRequest;
 import com.minibeit.user.service.dto.UserResponse;
-import com.minibeit.user.service.exception.SchoolNotFoundException;
 import com.minibeit.user.service.exception.UserNotFoundException;
 import com.minibeit.user.service.exception.UserVerificationCodeNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -28,37 +25,33 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final SchoolRepository schoolRepository;
     private final UserVerificationCodeRepository userVerificationCodeRepository;
-    private final AvatarService avatarService;
+    private final Schools schools;
+    private final Avatars avatars;
     private final UserValidator userValidator;
 
     public UserResponse.CreateOrUpdate signup(UserRequest.Signup request, User user) {
-        nickCheck(request.getNickname());
+        userValidator.nicknameValidate(request.getNickname());
 
         User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
-        School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
-        Avatar avatar = avatarService.upload(request.getAvatar());
+        School school = schools.getOne(request.getSchoolId());
+
+        Avatar avatar = avatars.upload(request.getAvatar());
         User updatedUser = findUser.signup(request.toEntity(), school, avatar);
 
-        return UserResponse.CreateOrUpdate.build(updatedUser, request.getSchoolId(), avatar);
+        return UserResponse.CreateOrUpdate.build(updatedUser, request.getSchoolId());
     }
 
     public UserResponse.CreateOrUpdate update(UserRequest.Update request, User user) {
+        userValidator.updateValidate(request.getNickname(), request.isNicknameChanged());
+
         User findUser = userRepository.findByIdWithAvatar(user.getId()).orElseThrow(UserNotFoundException::new);
-        School school = schoolRepository.findById(request.getSchoolId()).orElseThrow(SchoolNotFoundException::new);
+        School school = schools.getOne(request.getSchoolId());
 
-        if (request.isNicknameChanged()) {
-            nickCheck(request.getNickname());
-        }
-        User updatedUser = findUser.update(request.toEntity(), school);
+        Avatar avatar = avatars.update(request.isAvatarChanged(), request.getAvatar(), findUser.getAvatar());
+        User updatedUser = findUser.update(request.toEntity(), school, request.isAvatarChanged(), avatar);
 
-        Avatar avatar = findUser.getAvatar();
-        if (request.isAvatarChanged()) {
-            avatar = updateAvatar(request, findUser);
-        }
-
-        return UserResponse.CreateOrUpdate.build(updatedUser, school.getId(), avatar);
+        return UserResponse.CreateOrUpdate.build(updatedUser, school.getId());
     }
 
     @Transactional(readOnly = true)
@@ -72,13 +65,14 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public void nickNameCheck(UserRequest.Nickname request) {
-        nickCheck(request.getNickname());
+        userValidator.nicknameValidate(request.getNickname());
     }
 
     @Transactional(readOnly = true)
     public UserResponse.GetOne getMe(User user) {
-        User findUser = userRepository.findByIdWithSchool(user.getId()).orElseThrow(UserNotFoundException::new);
-        return UserResponse.GetOne.build(findUser);
+        User findUser = userRepository.findById(user.getId()).orElseThrow(UserNotFoundException::new);
+        School school = schools.getOne(findUser.getSchoolId());
+        return UserResponse.GetOne.build(findUser, school);
     }
 
     @Transactional(readOnly = true)
@@ -94,21 +88,9 @@ public class UserService {
     }
 
     public void deleteOne(User user) {
-        userValidator.deleteValidate(user.getId());
-        avatarService.deleteOne(user.getAvatar());
-        userRepository.delete(user);
-    }
-
-    private Avatar updateAvatar(UserRequest.Update request, User findUser) {
-        avatarService.deleteOne(findUser.getAvatar());
-        Avatar avatar = avatarService.upload(request.getAvatar());
-        findUser.updateAvatar(avatar);
-        return avatar;
-    }
-
-    private void nickCheck(String nickname) {
-        if (userRepository.existsByNickname(nickname)) {
-            throw new DuplicateException("증복된 닉네임입니다.");
-        }
+        User findUser = userRepository.findByIdWithAvatar(user.getId()).orElseThrow(UserNotFoundException::new);
+        userValidator.deleteValidate(findUser.getId());
+        avatars.deleteOne(findUser.getAvatar());
+        userRepository.delete(findUser);
     }
 }

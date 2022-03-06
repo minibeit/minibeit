@@ -28,7 +28,7 @@ public class BusinessProfile extends BaseEntity {
 
     private String contact;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "avatar_id")
     private Avatar avatar;
 
@@ -44,15 +44,14 @@ public class BusinessProfile extends BaseEntity {
         this.admin = changedAdmin;
     }
 
-    public void update(BusinessProfile updatedBusinessProfile) {
+    public void update(BusinessProfile updatedBusinessProfile, Boolean avatarChanged, Avatar avatar) {
         this.name = updatedBusinessProfile.getName();
         this.place = updatedBusinessProfile.getPlace();
         this.placeDetail = updatedBusinessProfile.getPlaceDetail();
         this.contact = updatedBusinessProfile.getContact();
-    }
-
-    public void updateAvatar(Avatar avatar) {
-        this.avatar = avatar;
+        if (avatarChanged) {
+            this.avatar = avatar;
+        }
     }
 
     public boolean isAdminInBusinessProfile(User user) {

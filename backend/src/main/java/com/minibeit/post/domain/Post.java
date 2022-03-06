@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Builder
@@ -64,11 +65,11 @@ public class Post extends BaseEntity {
     private String thumbnail;
 
     @Builder.Default
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostFile> postFileList = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
     private List<PostDoDate> postDoDateList = new ArrayList<>();
 
     @Builder.Default
@@ -106,10 +107,6 @@ public class Post extends BaseEntity {
         this.content = updatedPost.getContent();
     }
 
-    public void updateThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
-    }
-
     public void delete() {
         this.del = true;
         this.deletedAt = LocalDateTime.now();
@@ -117,7 +114,13 @@ public class Post extends BaseEntity {
         this.getPostFileList().forEach(PostFile::delete);
     }
 
-    public void create(School school, BusinessProfile businessProfile) {
+    public void create(School school, BusinessProfile businessProfile, List<PostDoDate> postDoDates, PostFile uploadThumbnail, List<PostFile> uploadPostFileList) {
+        if (uploadThumbnail != null) {
+            this.thumbnail = uploadThumbnail.getUrl();
+            uploadPostFileList.add(uploadThumbnail);
+        }
+        this.postFileList = uploadPostFileList.stream().map(postFile -> postFile.setPost(this)).collect(Collectors.toList());
+        this.postDoDateList = postDoDates.stream().map(postDoDate -> postDoDate.assignPost(this)).collect(Collectors.toList());
         this.school = school;
         this.businessProfile = businessProfile;
         this.del = false;

@@ -68,7 +68,7 @@ class BusinessProfileControllerTest extends MvcTest {
                 .phoneNum("010-1234-4567")
                 .provider(SignupProvider.MINIBEIT)
                 .role(Role.USER)
-                .school(School.builder().id(1L).name("고려대").build())
+                .schoolId(1L)
                 .build();
 
         businessProfile = BusinessProfile.builder()

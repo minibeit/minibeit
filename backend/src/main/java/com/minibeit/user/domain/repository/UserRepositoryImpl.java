@@ -34,14 +34,6 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     }
 
     @Override
-    public Optional<User> findByIdWithSchool(Long userId) {
-        return Optional.ofNullable(queryFactory.selectFrom(user)
-                .join(user.school).fetchJoin()
-                .where(user.id.eq(userId))
-                .fetchOne());
-    }
-
-    @Override
     public Optional<User> findByIdWithAvatar(Long userId) {
         return Optional.ofNullable(
                 queryFactory.selectFrom(user)

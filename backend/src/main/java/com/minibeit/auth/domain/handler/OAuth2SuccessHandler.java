@@ -1,9 +1,8 @@
 package com.minibeit.auth.domain.handler;
 
-import com.minibeit.auth.domain.token.Token;
 import com.minibeit.auth.domain.TokenProvider;
+import com.minibeit.auth.domain.token.Token;
 import com.minibeit.common.utils.CookieUtils;
-import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
@@ -43,11 +42,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
         }
         User user = userRepository.findByOauthIdWithAvatar(oAuthId).orElseThrow(UserNotFoundException::new);
         //관심있는 학교 하나 default로 주기
-        Long schoolId = null;
-        School school = user.getSchool();
-        if (school != null) {
-            schoolId = school.getId();
-        }
+        Long schoolId = user.getSchoolId();
+
         //redirect url 한글깨짐 방지
         String nickname = user.getNickname();
         if (nickname != null) {

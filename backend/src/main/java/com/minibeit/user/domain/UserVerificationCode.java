@@ -30,9 +30,10 @@ public class UserVerificationCode extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public void update(UserVerificationCode userVerificationCode) {
+    public UserVerificationCode update(UserVerificationCode userVerificationCode) {
         this.code = userVerificationCode.getCode();
         this.expirationDate = userVerificationCode.getExpirationDate();
+        return this;
     }
 
     public static UserVerificationCode create(User user, VerificationKinds verificationKinds) {

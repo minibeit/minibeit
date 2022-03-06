@@ -9,9 +9,8 @@ import com.minibeit.message.service.dto.SmsResponse;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.UserVerificationCode;
 import com.minibeit.user.domain.VerificationKinds;
-import com.minibeit.user.domain.repository.UserRepository;
-import com.minibeit.user.domain.repository.UserVerificationCodeRepository;
-import com.minibeit.user.service.exception.UserNotFoundException;
+import com.minibeit.user.service.integrate.UserVerificationCodes;
+import com.minibeit.user.service.integrate.Users;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpEntity;
@@ -30,28 +29,21 @@ import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class SmsService {
     private final SmsProps smsProps;
-    private final UserRepository userRepository;
-    private final UserVerificationCodeRepository userVerificationCodeRepository;
+    private final Users users;
+    private final UserVerificationCodes userVerificationCodes;
     private final RestTemplate restTemplate;
 
     public SmsResponse sendSmsVerificationCode(String receiverPhoneNumber, Long userId) throws JsonProcessingException, URISyntaxException, NoSuchAlgorithmException, InvalidKeyException {
         Long time = System.currentTimeMillis();
-        User user = userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        User user = users.getOne(userId);
         UserVerificationCode userVerificationCode = UserVerificationCode.create(user, VerificationKinds.PHONE);
-        Optional<UserVerificationCode> optionalUserVerificationCode = userVerificationCodeRepository.findByUserIdAndVerificationKinds(user.getId(), VerificationKinds.PHONE);
-
-        if (optionalUserVerificationCode.isPresent()) {
-            optionalUserVerificationCode.get().update(userVerificationCode);
-        } else {
-            userVerificationCodeRepository.save(userVerificationCode);
-        }
+        userVerificationCodes.create(user, VerificationKinds.PHONE);
 
         String content = "[미니바이트] 인증번호 [" + userVerificationCode.getCode() + "] 를 입력해주세요.";
         List<MessageDto> messageDtoList = MessageDto.build(receiverPhoneNumber, content);

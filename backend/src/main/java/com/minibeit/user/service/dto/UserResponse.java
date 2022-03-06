@@ -2,8 +2,8 @@ package com.minibeit.user.service.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.minibeit.file.domain.Avatar;
 import com.minibeit.auth.domain.token.Token;
+import com.minibeit.school.domain.School;
 import com.minibeit.user.domain.User;
 import lombok.*;
 
@@ -20,13 +20,13 @@ public class UserResponse {
         private Long schoolId;
         private String avatar;
 
-        public static CreateOrUpdate build(User user, Long schoolId, Avatar avatar) {
+        public static CreateOrUpdate build(User user, Long schoolId) {
             CreateOrUpdateBuilder createOrUpdateBuilder = CreateOrUpdate.builder()
                     .id(user.getId())
                     .nickname(user.getNickname())
                     .schoolId(schoolId);
-            if (avatar != null) {
-                createOrUpdateBuilder.avatar(avatar.getUrl());
+            if (user.getAvatar() != null) {
+                createOrUpdateBuilder.avatar(user.getAvatar().getUrl());
             }
             return createOrUpdateBuilder.build();
         }
@@ -88,7 +88,7 @@ public class UserResponse {
         private String schoolName;
         private String avatar;
 
-        public static UserResponse.GetOne build(User user) {
+        public static UserResponse.GetOne build(User user, School school) {
             GetOneBuilder getOneBuilder = GetOne.builder()
                     .id(user.getId())
                     .name(user.getName())
@@ -98,7 +98,7 @@ public class UserResponse {
                     .birth(user.getBirth())
                     .job(user.getJob())
                     .phoneNum(user.getPhoneNum())
-                    .schoolName(user.getSchool().getName());
+                    .schoolName(school.getName());
             if (user.getAvatar() != null) {
                 return getOneBuilder.avatar(user.getAvatar().getUrl()).build();
             }

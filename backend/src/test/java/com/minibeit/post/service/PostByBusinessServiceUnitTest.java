@@ -1,7 +1,6 @@
 package com.minibeit.post.service;
 
 import com.minibeit.businessprofile.service.integrate.BusinessProfiles;
-import com.minibeit.post.domain.PostValidator;
 import com.minibeit.post.domain.repository.*;
 import com.minibeit.post.service.dto.PostResponse;
 import com.minibeit.post.service.exception.PostNotFoundException;

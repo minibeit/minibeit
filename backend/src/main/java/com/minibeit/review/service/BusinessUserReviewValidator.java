@@ -1,4 +1,4 @@
-package com.minibeit.review.domain;
+package com.minibeit.review.service;
 
 import com.minibeit.businessprofile.domain.UserBusinessProfile;
 import com.minibeit.common.exception.PermissionException;

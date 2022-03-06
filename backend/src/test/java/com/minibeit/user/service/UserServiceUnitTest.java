@@ -4,7 +4,6 @@ import com.minibeit.businessprofile.service.mock.MockBusinessProfile;
 import com.minibeit.file.service.integrate.Avatars;
 import com.minibeit.school.service.integrate.Schools;
 import com.minibeit.school.service.mock.MockSchool;
-import com.minibeit.user.domain.UserValidator;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.domain.repository.UserVerificationCodeRepository;
 import com.minibeit.user.service.dto.UserResponse;

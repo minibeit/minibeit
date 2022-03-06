@@ -5,7 +5,6 @@ import com.minibeit.businessprofile.service.mock.MockBusinessProfile;
 import com.minibeit.post.service.integrate.PostApplicants;
 import com.minibeit.post.service.mock.MockPostApplicant;
 import com.minibeit.post.service.mock.MockPostDoDate;
-import com.minibeit.review.domain.BusinessUserReviewValidator;
 import com.minibeit.review.domain.repository.BusinessUserReviewDetailRepository;
 import com.minibeit.review.domain.repository.BusinessUserReviewRepository;
 import com.minibeit.review.service.exception.BusinessReviewDetailNotFoundException;

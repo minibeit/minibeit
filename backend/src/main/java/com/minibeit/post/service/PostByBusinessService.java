@@ -67,7 +67,7 @@ public class PostByBusinessService {
         postApplicantRepository.updateReject(applicantIdList, ApplyStatus.REJECT);
 
         List<RejectPost> rejectPostList = rejectedApplicantList.stream()
-                .map(postApplicant -> RejectPost.create(post, postApplicant.getPostDoDate(), businessProfile, user, request.toEntity().getRejectComment())).collect(Collectors.toList());
+                .map(postApplicant -> RejectPost.create(post, postApplicant.getPostDoDate(), businessProfile, postApplicant.getUser(), request.toEntity().getRejectComment())).collect(Collectors.toList());
         rejectPostRepository.saveAll(rejectPostList);
     }
 

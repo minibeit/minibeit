@@ -1,8 +1,9 @@
-package com.minibeit.user.domain;
+package com.minibeit.user.service;
 
 import com.minibeit.common.exception.DuplicateException;
 import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.InvalidValueException;
+import com.minibeit.user.domain.UserVerificationCode;
 import com.minibeit.user.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

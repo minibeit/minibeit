@@ -1,6 +1,5 @@
 package com.minibeit.businessprofile.service;
 
-import com.minibeit.businessprofile.domain.BusinessValidator;
 import com.minibeit.businessprofile.domain.repository.BusinessProfileRepository;
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
 import com.minibeit.businessprofile.service.dto.BusinessProfileResponse;

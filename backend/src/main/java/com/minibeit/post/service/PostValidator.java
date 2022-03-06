@@ -1,6 +1,7 @@
-package com.minibeit.post.domain;
+package com.minibeit.post.service;
 
 import com.minibeit.businessprofile.domain.repository.UserBusinessProfileRepository;
+import com.minibeit.businessprofile.service.integrate.UserBusinessProfiles;
 import com.minibeit.common.exception.InvalidOperationException;
 import com.minibeit.common.exception.PermissionException;
 import com.minibeit.post.domain.repository.PostApplicantRepository;
@@ -13,11 +14,11 @@ import java.time.LocalDateTime;
 @Component
 @RequiredArgsConstructor
 public class PostValidator {
-    private final UserBusinessProfileRepository userBusinessProfileRepository;
+    private final UserBusinessProfiles userBusinessProfiles;
     private final PostApplicantRepository postApplicantRepository;
 
     public void userInBusinessProfileValidate(Long businessProfileId, User user) {
-        if (!userBusinessProfileRepository.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
+        if (!userBusinessProfiles.existsByUserIdAndBusinessProfileId(user.getId(), businessProfileId)) {
             throw new PermissionException("권한이 없습니다.");
         }
     }

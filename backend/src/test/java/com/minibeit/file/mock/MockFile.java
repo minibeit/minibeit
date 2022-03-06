@@ -10,7 +10,7 @@ public class MockFile {
         public static final Long ID = 1L;
         public static final String NAME = "file name";
         public static final String FILE_URL = "file url";
-        public static final MultipartFile MULTIPART_FILE_AVATAR = new MockMultipartFile("filename", "test".getBytes());
+        public static final MultipartFile MULTIPART_FILE = new MockMultipartFile("filename", "test".getBytes());
 
         public static final Avatar AVATAR = Avatar.builder()
                 .id(ID)

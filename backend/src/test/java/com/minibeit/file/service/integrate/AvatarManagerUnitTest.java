@@ -29,7 +29,7 @@ public class AvatarManagerUnitTest {
     public void upload() {
         given(s3Uploader.upload(any())).willReturn(SAVED_FILE);
 
-        avatars.upload(MULTIPART_FILE_AVATAR);
+        avatars.upload(MULTIPART_FILE);
 
         verify(s3Uploader).upload(any());
     }
@@ -39,7 +39,7 @@ public class AvatarManagerUnitTest {
     public void update() {
         given(s3Uploader.upload(any())).willReturn(SAVED_FILE);
 
-        avatars.update(Boolean.TRUE, MULTIPART_FILE_AVATAR, AVATAR);
+        avatars.update(Boolean.TRUE, MULTIPART_FILE, AVATAR);
 
         verify(s3Uploader).delete(any());
         verify(s3Uploader).upload(any());

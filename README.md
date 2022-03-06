@@ -2,11 +2,11 @@
 
 **[:fire: Minibeit](https://minibeit.com/)**
 
-<img src="https://user-images.githubusercontent.com/88070276/156918330-d0567aa9-c33f-457e-adb6-15d6ba6348ad.png" width='150'>
+<p align="center"><img src="https://user-images.githubusercontent.com/88070276/156918330-d0567aa9-c33f-457e-adb6-15d6ba6348ad.png" width='150'></p>
 
 <br/>
 
-**[📓 자세한 내용 더보기 [Notion]](https://www.notion.so/Code-Convention-d5eec96f33f34b1e97984d2088aed444)**
+**[📓 자세한 내용 더보기 [Notion]](https://minibeit.oopy.io/2b3aa7b3-d43d-4c64-8f6a-071b99e17a1a)**
 
 <br/>
 

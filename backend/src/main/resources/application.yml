@@ -38,14 +38,15 @@ kakao:
 logging.level:
   org.hibernate.SQL: debug
 
-oauth2:
-  success:
-    redirect:
-      url: http://localhost:3000/callback/
-
 s3:
   file:
     prefix:
+
+oauth2:
+  success:
+    redirect:
+      local:
+        url: http://localhost:3000/callback/
 ---
 spring.config.activate.on-profile: local
 spring:
@@ -75,6 +76,11 @@ jwt:
 dev:
   server:
     url: test.com
+
+oauth2:
+  success:
+    redirect:
+      url: test
 ---
 spring:
   config:

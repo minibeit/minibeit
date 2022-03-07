@@ -28,12 +28,8 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private final UserRepository userRepository;
     private final static Integer MAX_COOKIE_TIME_S = 7 * 24 * 60 * 60;
     private static final String REFRESH_TOKEN = "refresh_token";
-    private static final String LOCALHOST = "localhost";
-    @Value("${oauth2.success.redirect.local.url}")
-    private String localUrl;
     @Value("${oauth2.success.redirect.url}")
     private String url;
-
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
@@ -61,14 +57,6 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
         CookieUtils.addCookie(response, REFRESH_TOKEN, refreshToken.getToken(), MAX_COOKIE_TIME_S);
 
-        if (request.getServerName().equals(LOCALHOST)) {
-            makeCallbackUrl(response, user, schoolId, nickname, avatar, token, localUrl);
-        } else {
-            makeCallbackUrl(response, user, schoolId, nickname, avatar, token, url);
-        }
-    }
-
-    private void makeCallbackUrl(HttpServletResponse response, User user, Long schoolId, String nickname, String avatar, Token token, String url) throws IOException {
         if (user.getAvatar() != null) {
             response.sendRedirect(url + user.getId() + "/" + nickname + "/" + user.getEmail() + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/" + avatar);
         } else {

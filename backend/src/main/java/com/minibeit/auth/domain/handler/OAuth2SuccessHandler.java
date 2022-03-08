@@ -60,10 +60,10 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private User findUser(OAuth2User oauth2User) {
         if (oauth2User.getAttributes().get("sub") != null) {
             String oAuthId = String.valueOf(oauth2User.getAttributes().get("sub"));
-            return userRepository.findBySocialProviderAndOauthIdWithAvatar(SignupProvider.KAKAO, oAuthId).orElseThrow(UserNotFoundException::new);
+            return userRepository.findBySocialProviderAndOauthIdWithAvatar(SignupProvider.GOOGLE, oAuthId).orElseThrow(UserNotFoundException::new);
         } else {
             String oAuthId = String.valueOf(oauth2User.getAttributes().get("id"));
-            return userRepository.findBySocialProviderAndOauthIdWithAvatar(SignupProvider.GOOGLE, oAuthId).orElseThrow(UserNotFoundException::new);
+            return userRepository.findBySocialProviderAndOauthIdWithAvatar(SignupProvider.KAKAO, oAuthId).orElseThrow(UserNotFoundException::new);
         }
     }
 }

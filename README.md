@@ -20,7 +20,7 @@
     <summary>1. 소셜로그인 (구글, 카카오), 회원가입</summary>
     <br/>
     <div markdown="2">
-<img src="https://user-images.githubusercontent.com/88070276/156913641-feb6faba-5e59-4f77-bbe7-bf7bbf68f773.png" />
+<img src="https://user-images.githubusercontent.com/88070276/157172959-8e46549a-0b22-4286-b100-72ec4f50bc07.png" />
 
 <br/>
 

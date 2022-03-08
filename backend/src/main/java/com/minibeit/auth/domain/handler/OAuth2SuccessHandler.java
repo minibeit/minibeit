@@ -3,6 +3,7 @@ package com.minibeit.auth.domain.handler;
 import com.minibeit.auth.domain.TokenProvider;
 import com.minibeit.auth.domain.token.Token;
 import com.minibeit.common.utils.CookieUtils;
+import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;
 import com.minibeit.user.domain.repository.UserRepository;
 import com.minibeit.user.service.exception.UserNotFoundException;
@@ -30,20 +31,12 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
     private static final String REFRESH_TOKEN = "refresh_token";
     @Value("${oauth2.success.redirect.url}")
     private String url;
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
         OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
-        String oAuthId = null;
-        if (oauth2User.getAttributes().get("sub") != null) {
-            oAuthId = String.valueOf(oauth2User.getAttributes().get("sub"));
-        } else {
-            oAuthId = String.valueOf(oauth2User.getAttributes().get("id"));
-        }
-        User user = userRepository.findByOauthIdWithAvatar(oAuthId).orElseThrow(UserNotFoundException::new);
-        //관심있는 학교 하나 default로 주기
+        User user = findUser(oauth2User);
         Long schoolId = user.getSchoolId();
-
-        //redirect url 한글깨짐 방지
         String nickname = user.getNickname();
         if (nickname != null) {
             nickname = URLEncoder.encode(nickname, StandardCharsets.UTF_8);
@@ -61,6 +54,16 @@ public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
             response.sendRedirect(url + user.getId() + "/" + nickname + "/" + user.getEmail() + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/" + avatar);
         } else {
             response.sendRedirect(url + user.getId() + "/" + nickname + "/" + user.getEmail() + "/" + token.getToken() + "/" + schoolId + "/" + user.isSignupCheck() + "/0/0/0");
+        }
+    }
+
+    private User findUser(OAuth2User oauth2User) {
+        if (oauth2User.getAttributes().get("sub") != null) {
+            String oAuthId = String.valueOf(oauth2User.getAttributes().get("sub"));
+            return userRepository.findBySocialProviderAndOauthIdWithAvatar(SignupProvider.KAKAO, oAuthId).orElseThrow(UserNotFoundException::new);
+        } else {
+            String oAuthId = String.valueOf(oauth2User.getAttributes().get("id"));
+            return userRepository.findBySocialProviderAndOauthIdWithAvatar(SignupProvider.GOOGLE, oAuthId).orElseThrow(UserNotFoundException::new);
         }
     }
 }

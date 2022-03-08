@@ -42,7 +42,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private User signIn(OAuthAttributes attributes) {
         User user = attributes.toEntity();
-        return userRepository.findByOauthIdWithAvatar(user.getOauthId())
+        return userRepository.findBySocialProviderAndOauthIdWithAvatar(attributes.getSignupProvider(), user.getOauthId())
                 .orElseGet(() -> userRepository.save(user));
     }
 }

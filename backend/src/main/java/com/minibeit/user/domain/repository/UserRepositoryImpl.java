@@ -1,5 +1,6 @@
 package com.minibeit.user.domain.repository;
 
+import com.minibeit.user.domain.SignupProvider;
 import com.minibeit.user.domain.User;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -16,11 +17,11 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Optional<User> findByOauthIdWithAvatar(String oauthId) {
+    public Optional<User> findBySocialProviderAndOauthIdWithAvatar(SignupProvider signupProvider, String oauthId) {
         return Optional.ofNullable(
                 queryFactory.selectFrom(user)
                         .leftJoin(user.avatar).fetchJoin()
-                        .where(user.oauthId.eq(oauthId))
+                        .where(user.oauthId.eq(oauthId).and(user.provider.eq(signupProvider)))
                         .fetchOne()
         );
     }

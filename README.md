@@ -107,12 +107,12 @@
  <br/>
  <br/>
 
-# 브랜치 관리 전략
+# 협업을 위해 Git Flow를 사용합니다!
+모든 브랜치는 Pull Request를 통해 코드 리뷰를 진행한 후 merge를 진행합니다.
 
-Git Flow를 사용하여 브랜치를 관리합니다.
-모든 브랜치는 Pull Request에 리뷰를 진행한 후 merge를 진행합니다.
-현재 개발 진행사항을 확인하고 싶다면 PR를 확인해주세요.
+![미니바이트-git-flow](https://user-images.githubusercontent.com/62204492/157360969-b788b578-4926-4223-9d9f-c934c6da347c.JPG)
 
+[Git Flow 자세한 내용 더보기](https://github.com/minibeit/minibeit/wiki/Git-Flow)
 <br/>
 <br/>
 

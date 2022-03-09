@@ -35,7 +35,7 @@
     <br/>
 
 <details>
-    <summary>2. 비즈니스 프로필 만들기 </summary>
+    <summary>2. 비즈니스 프로필 관련 기능 </summary>
     <br/>
     <div markdown="2">
  <img src="https://user-images.githubusercontent.com/88070276/156913917-2ae445db-9ab1-474c-b942-de61ac4f9c31.png" />
@@ -60,7 +60,7 @@
     <br/>
 
 <details>
-    <summary>3. 모집 지원 </summary>
+    <summary>3. 모집 & 지원 관련 기능</summary>
     <br/>
     <div markdown="2">
 <img src="https://user-images.githubusercontent.com/88070276/156914633-e579b817-ae09-4b6f-a9b1-49c1374e0a8f.png" />
@@ -81,7 +81,7 @@
     <br/>
 
  <details>
-    <summary>4. 개인 프로필</summary>
+    <summary>4. 개인 프로필 관련 기능</summary>
     <br/>
     <div markdown="2">
 <img src="https://user-images.githubusercontent.com/88070276/156914888-2574d729-8444-4bd5-a9fc-340fb1896b63.png" />

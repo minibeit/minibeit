@@ -20,7 +20,8 @@
     <summary>1. 소셜로그인 (구글, 카카오), 회원가입</summary>
     <br/>
     <div markdown="2">
-<img src="https://user-images.githubusercontent.com/88070276/157172959-8e46549a-0b22-4286-b100-72ec4f50bc07.png" />
+
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/88070276/158915141-18161890-a18c-4589-bac4-0c70f44d66b4.gif)
 
 <br/>
 
@@ -38,7 +39,8 @@
     <summary>2. 비즈니스 프로필 관련 기능 </summary>
     <br/>
     <div markdown="2">
- <img src="https://user-images.githubusercontent.com/88070276/156913917-2ae445db-9ab1-474c-b942-de61ac4f9c31.png" />
+        
+![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/88070276/158916316-a5ad1426-c412-42d6-999a-5dce17ae8985.gif)
 
 <br/>
 
@@ -63,7 +65,8 @@
     <summary>3. 모집 & 지원 관련 기능</summary>
     <br/>
     <div markdown="2">
-<img src="https://user-images.githubusercontent.com/88070276/156914633-e579b817-ae09-4b6f-a9b1-49c1374e0a8f.png" />
+        
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/88070276/158916711-7aea3915-267d-4d15-a701-c10ca4c30e5b.gif)
 
 <br/>
 
